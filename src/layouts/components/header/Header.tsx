@@ -1,10 +1,51 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @mui icon
+import ListRoundedIcon from '@mui/icons-material/ListRounded';
+// @mui
+import { Box, IconButton, Stack } from '@mui/material';
+//
+import AccountPopover from './AccountPopover';
+import { StyledRoot, StyledToolbar } from './styles';
+import NotificationsPopover from './NotificationsPopover';
+import LanguagePopover from './LanguagePopover';
 
-function Header() {
-  return <div>Header</div>;
+// ----------------------------------------------------------------------
+
+export interface HeaderProps {
+  onOpenNav: () => void;
 }
 
-Header.propTypes = {};
+function Header({ onOpenNav }: HeaderProps) {
+  return (
+    <StyledRoot>
+      <StyledToolbar>
+        <IconButton
+          onClick={onOpenNav}
+          sx={{
+            mr: 1,
+            color: 'text.primary',
+            display: { lg: 'none' },
+          }}
+        >
+          <ListRoundedIcon />
+        </IconButton>
+
+        <Box sx={{ flexGrow: 1 }} />
+
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={{
+            xs: 0.5,
+            sm: 1,
+          }}
+        >
+          <LanguagePopover />
+          <NotificationsPopover />
+          <AccountPopover />
+        </Stack>
+      </StyledToolbar>
+    </StyledRoot>
+  );
+}
 
 export default Header;
