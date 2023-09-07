@@ -36,12 +36,21 @@ function Header({ onOpenNav }: HeaderProps) {
           alignItems="center"
           spacing={{
             xs: 0.5,
-            sm: 1,
+            sm: 1.5,
           }}
         >
           <LanguagePopover />
-          <NotificationsPopover />
-          <AccountPopover />
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={{
+              xs: 0.5,
+              sm: 3.5,
+            }}
+          >
+            <NotificationsPopover />
+            <AccountPopover />
+          </Stack>
         </Stack>
       </StyledToolbar>
     </StyledRoot>

@@ -8,18 +8,13 @@ import { Box, MenuItem, Stack, IconButton, Popover } from '@mui/material';
 const LANGS = [
   {
     value: 'en',
-    label: 'English',
+    label: 'Eng',
     icon: '/assets/icons/ic_flag_en.svg',
   },
   {
-    value: 'de',
-    label: 'German',
-    icon: '/assets/icons/ic_flag_de.svg',
-  },
-  {
-    value: 'fr',
-    label: 'French',
-    icon: '/assets/icons/ic_flag_fr.svg',
+    value: 'vn',
+    label: 'Vie',
+    icon: '/assets/icons/ic_flag_vn.svg',
   },
 ];
 
@@ -67,7 +62,7 @@ function LanguagePopover() {
             p: 1,
             mt: 1.5,
             ml: 0.75,
-            width: 180,
+            width: 120,
             '& .MuiMenuItem-root': {
               px: 1,
               typography: 'body2',

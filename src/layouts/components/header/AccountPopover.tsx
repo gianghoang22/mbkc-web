@@ -1,18 +1,21 @@
-import { Avatar, Box, Divider, IconButton, MenuItem, Popover, Stack, Typography } from '@mui/material';
-import { alpha } from '@mui/material/styles';
-import account from 'mock/account';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// @mui icon
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+// @mui
+import { Avatar, Button, Divider, MenuItem, Popover, Stack, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+//
+import account from 'mock/account';
 
 const MENU_OPTIONS = [
   {
-    label: 'Thông tin tài khoản',
+    label: 'My Profile',
     link: '/dashboard/profile',
+    icon: <AccountCircleIcon sx={{ mr: 1 }} />,
   },
-  // {
-  //   label: 'Cài đặt',
-  //   link: '',
-  // },
 ];
 
 function AccountPopover() {
@@ -36,25 +39,37 @@ function AccountPopover() {
 
   return (
     <>
-      <IconButton
+      <Button
         onClick={handleOpen}
         sx={{
-          p: 0,
+          px: 1,
+          py: 0,
+          color: (theme) => theme.palette.grey[800],
+          bgcolor: (theme) => alpha(theme.palette.grey[300], 0.5),
           ...(open && {
             '&:before': {
               zIndex: 1,
               content: "''",
               width: '100%',
               height: '100%',
-              borderRadius: '50%',
+              borderRadius: '6px',
               position: 'absolute',
               bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
             },
           }),
         }}
+        endIcon={<KeyboardArrowDownIcon />}
       >
         <Avatar src={account.photoURL} alt="PhuSon" />
-      </IconButton>
+        <Stack alignItems="start" sx={{ ml: 1, my: 0.5 }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+            Brand manager
+          </Typography>
+          <Typography variant="subtitle1" noWrap>
+            Tran Phu Son
+          </Typography>
+        </Stack>
+      </Button>
 
       <Popover
         open={Boolean(open)}
@@ -75,17 +90,6 @@ function AccountPopover() {
           },
         }}
       >
-        <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle2" noWrap>
-            Tran Phu Son
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            phuson2809@gmail.com
-          </Typography>
-        </Box>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
             <MenuItem
@@ -95,6 +99,7 @@ function AccountPopover() {
                 navigate(option.link);
               }}
             >
+              {option.icon}
               {option.label}
             </MenuItem>
           ))}
@@ -103,7 +108,8 @@ function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
-          Đăng xuất
+          <LogoutIcon sx={{ mr: 1 }} />
+          Logout
         </MenuItem>
       </Popover>
     </>

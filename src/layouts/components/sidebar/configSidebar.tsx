@@ -1,46 +1,51 @@
 // MUI icons
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import GroupIcon from '@mui/icons-material/Group';
 import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
-import SportsSoccerRoundedIcon from '@mui/icons-material/SportsSoccerRounded';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import BookOnlineIcon from '@mui/icons-material/BookOnline';
+import SportsSoccerRoundedIcon from '@mui/icons-material/SportsSoccerRounded';
+import { NavSection } from 'common/interface/NavItem';
 
-const navConfigBrandManager = [
+const navConfigBrandManager: NavSection[] = [
   {
-    title: 'dashboard',
-    path: '/dashboard/brand-app',
-    icon: <LeaderboardRoundedIcon fontSize="small" />,
     missions: 'overview',
+    listNav: [
+      {
+        title: 'dashboard',
+        path: '/dashboard/brand-app',
+        icon: <LeaderboardRoundedIcon fontSize="small" />,
+      },
+    ],
   },
   {
-    title: 'kitchen staff',
-    path: '/dashboard/bm-kitchen-staff',
-    icon: <GroupIcon fontSize="small" />,
     missions: 'manager',
-  },
-  {
-    title: 'kitchen',
-    path: '/dashboard/bm-kitchen',
-    icon: <ManageAccountsIcon fontSize="small" />,
-    missions: 'manager',
-  },
-  {
-    title: 'product',
-    path: '/dashboard/bm-product',
-    icon: <BookOnlineIcon fontSize="small" />,
-    missions: 'manager',
-  },
-  {
-    title: 'brand menu',
-    path: '/dashboard/bm-brand-menu',
-    icon: <SportsSoccerRoundedIcon fontSize="small" />,
-    missions: 'manager',
-  },
-  {
-    title: 'voucher',
-    path: '/dashboard/bm-voucher',
-    icon: <SportsSoccerRoundedIcon fontSize="small" />,
-    missions: 'manager',
+    listNav: [
+      {
+        title: 'kitchen staff',
+        path: '/dashboard/bm-kitchen-staff',
+        icon: <GroupIcon fontSize="small" />,
+      },
+      {
+        title: 'kitchen',
+        path: '/dashboard/bm-kitchen',
+        icon: <ManageAccountsIcon fontSize="small" />,
+      },
+      {
+        title: 'product',
+        path: '/dashboard/bm-product',
+        icon: <BookOnlineIcon fontSize="small" />,
+      },
+      {
+        title: 'brand menu',
+        path: '/dashboard/bm-brand-menu',
+        icon: <SportsSoccerRoundedIcon fontSize="small" />,
+      },
+      {
+        title: 'voucher',
+        path: '/dashboard/bm-voucher',
+        icon: <SportsSoccerRoundedIcon fontSize="small" />,
+      },
+    ],
   },
 ];
 
@@ -100,4 +105,4 @@ const navConfigKitchenCashier = [
   },
 ];
 
-export { navConfigBrandManager, navConfigKitchenCenter, navConfigKitchenCashier };
+export { navConfigBrandManager, navConfigKitchenCashier, navConfigKitchenCenter };

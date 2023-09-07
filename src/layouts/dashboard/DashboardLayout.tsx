@@ -38,7 +38,7 @@ function DashboardLayout() {
     <StyledRoot>
       <Header onOpenNav={() => setOpen(true)} />
 
-      <Sidebar />
+      <Sidebar openNav={open} onCloseNav={() => setOpen(false)} />
 
       <Main>
         <Outlet />
