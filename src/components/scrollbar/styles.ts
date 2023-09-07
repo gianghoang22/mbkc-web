@@ -14,7 +14,7 @@ export const StyledScrollbar = styled(SimpleBar)(({ theme }) => ({
   maxHeight: '100%',
   '& .simplebar-scrollbar': {
     '&:before': {
-      backgroundColor: alpha(theme.palette.grey[600], 0.48),
+      backgroundColor: alpha(theme.palette.grey[500], 0.48),
     },
     '&.simplebar-visible:before': {
       opacity: 1,
@@ -28,5 +28,8 @@ export const StyledScrollbar = styled(SimpleBar)(({ theme }) => ({
   },
   '& .simplebar-mask': {
     zIndex: 'inherit',
+  },
+  '& .simplebar-placeholder': {
+    height: '10px',
   },
 }));

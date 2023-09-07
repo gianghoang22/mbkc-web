@@ -30,7 +30,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }: LogoProps, ref)
         src="/assets/images/logos/bephoi_logo.jpg"
         sx={{ width: 50, height: 50, borderRadius: 999 }}
       />
-      <Typography sx={{ fontSize: 25, fontWeight: 'bold' }}>Bếp Hội</Typography>
+      <Typography sx={{ fontSize: 24, fontWeight: 'bold' }}>MBKC Food</Typography>
     </Box>
   );
 
