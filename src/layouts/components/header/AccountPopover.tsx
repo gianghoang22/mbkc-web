@@ -9,6 +9,7 @@ import { Avatar, Button, Divider, MenuItem, Popover, Stack, Typography } from '@
 import { alpha } from '@mui/material/styles';
 //
 import account from 'mock/account';
+import { useTranslation } from 'react-i18next';
 
 const MENU_OPTIONS = [
   {
@@ -20,6 +21,7 @@ const MENU_OPTIONS = [
 
 function AccountPopover() {
   const navigate = useNavigate();
+  const { t } = useTranslation('home');
 
   const [open, setOpen] = useState<null | HTMLElement>(null);
 
@@ -63,7 +65,7 @@ function AccountPopover() {
         <Avatar src={account.photoURL} alt="PhuSon" />
         <Stack alignItems="start" sx={{ ml: 1, my: 0.5 }}>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            Brand manager
+            {t('header.brand manager')}
           </Typography>
           <Typography variant="subtitle1" noWrap>
             Tran Phu Son
