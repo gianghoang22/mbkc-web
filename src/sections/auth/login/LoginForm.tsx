@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
-import { Button } from '@mui/material';
-// components
-import Iconify from '../../../components/iconify';
+import { Button, IconButton, InputAdornment, Link, Stack, TextField } from '@mui/material';
+// @mui icon
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+function LoginForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = () => {
-    navigate('/dashboard', { replace: true });
+    navigate('/dashboard/list-kitchen', { replace: true });
   };
 
   return (
@@ -30,7 +30,7 @@ export default function LoginForm() {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} width={24} sx={undefined} />
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
               </InputAdornment>
             ),
@@ -38,7 +38,7 @@ export default function LoginForm() {
         />
       </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="end" sx={{ my: 2 }}>
+      <Stack direction="row" alignItems="center" justifyContent="end" sx={{ mt: 2, mb: 7 }}>
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>
@@ -50,3 +50,5 @@ export default function LoginForm() {
     </>
   );
 }
+
+export default LoginForm;

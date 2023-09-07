@@ -1,14 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
+import { Box, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Container, Typography, Divider } from '@mui/material';
 // theme
 import { customShadows } from 'theme/customShadows';
 // hooks
 import useResponsive from 'hooks/useResponsive';
 // // components
 import { Logo } from 'components';
-
 // sections
 import { LoginForm } from 'sections/auth/login';
 
@@ -65,7 +64,9 @@ export default function LoginPage() {
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               Hi, Welcome Back
             </Typography>
-            <img src="/assets/images/kitchen/kitchen_login.png" alt="login" />
+            <Box sx={{ px: 5 }}>
+              <img src="/assets/images/kitchen/kitchen_login.png" alt="login" />
+            </Box>
           </StyledSection>
         )}
 
@@ -75,11 +76,10 @@ export default function LoginPage() {
               Sign in to MBKC Food
             </Typography>
 
-            <Typography variant="body2" sx={{ mb: 2 }}>
-              MKBK Food will help you manage effectively!
+            <Typography variant="body2" sx={{ mb: 7 }}>
+              MBKC Food will help you manager effectively!
             </Typography>
 
-            <Divider sx={{ my: 3 }} />
             <LoginForm />
           </StyledContent>
         </Container>
