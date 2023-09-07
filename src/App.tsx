@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from 'redux/configStore';
 import AppRouter from 'routes/routes';
 import ThemeProvider from 'theme';
+import './i18n/i18n';
 
 function App() {
   return (
