@@ -1,19 +1,89 @@
-import { Button } from '@mui/material';
-import { Color } from 'common/enum';
+import { Helmet } from 'react-helmet-async';
+// @mui
+import { styled } from '@mui/material/styles';
+import { Container, Typography, Divider } from '@mui/material';
+// theme
+import { customShadows } from 'theme/customShadows';
+// hooks
+import useResponsive from 'hooks/useResponsive';
+// // components
 import { Logo } from 'components';
-import Label from 'components/label/Label';
 
-function LoginPage(props: any) {
+// sections
+import { LoginForm } from 'sections/auth/login';
+
+// ----------------------------------------------------------------------
+
+const StyledRoot = styled('div')(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
+  },
+}));
+
+const StyledSection = styled('div')(({ theme }: { theme: any }) => ({
+  width: '100%',
+  maxWidth: 480,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  boxShadow: customShadows.card,
+  backgroundColor: theme.palette.background.default,
+}));
+
+const StyledContent = styled('div')(({ theme }) => ({
+  maxWidth: 480,
+  margin: 'auto',
+  minHeight: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  padding: theme.spacing(12, 0),
+}));
+
+// ----------------------------------------------------------------------
+
+export default function LoginPage() {
+  const mdUp = useResponsive('up', 'md', 'md');
+
   return (
-    <div>
-      LoginPage
-      <Button variant="contained" color="primary">
-        Button
-      </Button>
-      <Logo />
-      <Label color={Color.SUCCESS}>Active</Label>
-    </div>
+    <>
+      <Helmet>
+        <title> Login | MBKC Food </title>
+      </Helmet>
+
+      <StyledRoot>
+        <Logo
+          sx={{
+            position: 'fixed',
+            top: { xs: 16, sm: 24, md: 40 },
+            left: { xs: 16, sm: 24, md: 40 },
+          }}
+        />
+
+        {mdUp && (
+          <StyledSection>
+            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+              Hi, Welcome Back
+            </Typography>
+            <img src="/assets/images/kitchen/kitchen_login.png" alt="login" />
+          </StyledSection>
+        )}
+
+        <Container maxWidth="sm">
+          <StyledContent>
+            <Typography variant="h4" gutterBottom>
+              Sign in to MBKC Food
+            </Typography>
+
+            <Typography variant="body2" sx={{ mb: 2 }}>
+              MKBK Food will help you manage effectively!
+            </Typography>
+
+            <Divider sx={{ my: 3 }} />
+            <LoginForm />
+          </StyledContent>
+        </Container>
+      </StyledRoot>
+    </>
   );
 }
-
-export default LoginPage;
