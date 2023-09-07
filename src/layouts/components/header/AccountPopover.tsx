@@ -43,7 +43,7 @@ function AccountPopover() {
         onClick={handleOpen}
         sx={{
           px: 1,
-          py: 0,
+          py: 0.2,
           color: (theme) => theme.palette.grey[800],
           bgcolor: (theme) => alpha(theme.palette.grey[300], 0.5),
           ...(open && {
@@ -62,7 +62,7 @@ function AccountPopover() {
       >
         <Avatar src={account.photoURL} alt="PhuSon" />
         <Stack alignItems="start" sx={{ ml: 1, my: 0.5 }}>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          <Typography variant="caption" sx={{ color: 'text.secondary' }} noWrap>
             Brand manager
           </Typography>
           <Typography variant="subtitle1" noWrap>

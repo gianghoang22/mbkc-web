@@ -1,4 +1,2 @@
-export * from './queryKeys';
-export * from './routesApiKeys';
-export * from './routesPageKeys';
-export * from './storageKeys';
+export { default as RoutesPageKeys } from './routesPageKeys';
+export { default as StorageKeys } from './storageKeys';

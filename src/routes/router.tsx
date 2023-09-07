@@ -1,33 +1,15 @@
+import { RoutesPageKey } from 'common/enum';
 import DashboardLayout from 'layouts/dashboard/DashboardLayout';
 import SimpleLayout from 'layouts/simple/SimpleLayout';
-import { ForgotPasswordPage, ListProductPage, LoginPage, Page404, ResetPasswordPage } from 'pages';
+import { Page404 } from 'pages';
 import { Navigate, Route, Routes } from 'react-router-dom';
-
-export const publicRoute = [
-  {
-    key: 'login',
-    path: 'login',
-    component: <LoginPage />,
-    index: true,
-  },
-  {
-    key: 'forgot-password',
-    path: 'forgot-password',
-    component: <ForgotPasswordPage />,
-    index: false,
-  },
-  {
-    key: 'reset-password',
-    path: 'reset-password/:token',
-    component: <ResetPasswordPage />,
-    index: false,
-  },
-];
+import { publicRoutes } from './config';
+import { ListProductPage } from 'pages/brandManager';
 
 export const privateRoute = [
   {
-    key: 'list-kitchen',
-    path: 'list-kitchen',
+    key: RoutesPageKey.LIST_PRODUCTS,
+    path: RoutesPageKey.LIST_PRODUCTS,
     component: <ListProductPage />,
     index: false,
   },
@@ -37,7 +19,7 @@ function AppRouter() {
   return (
     <Routes>
       <Route element={<Navigate to="/login" />} index={true} />
-      {publicRoute.map((route) => (
+      {publicRoutes.map((route) => (
         <Route key={route.path} path={route.path} element={route.component} />
       ))}
 

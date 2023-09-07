@@ -1,4 +1,10 @@
-export const RoutesPageKeys = {
-  GET_WORK_LIST: 'GET_WORK_LIST',
-  GET_TAG_LIST: 'GET_TAG_LIST',
+const RoutesPageKeys = {
+  //auth
+  LOGIN: 'login',
+  FORGOT_PASSWORD: 'forgot-password',
+  RESET_PASSWORD: 'reset-password',
+  //brand
+  LIST_PRODUCTS: 'list-products',
 };
+
+export default RoutesPageKeys;
