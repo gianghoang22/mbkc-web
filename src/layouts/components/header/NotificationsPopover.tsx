@@ -25,8 +25,6 @@ import {
 } from '@mui/material';
 // utils
 import { fToNow } from 'utils';
-// components
-import { Scrollbar } from 'components';
 
 // ----------------------------------------------------------------------
 
@@ -131,6 +129,13 @@ export default function NotificationsPopover() {
             mt: 1.5,
             ml: 0.75,
             width: 360,
+            height: '715px',
+            overflowY: 'scroll',
+            '&::-webkit-scrollbar': { width: 5 },
+            '&::-webkit-scrollbar-thumb': {
+              borderRadius: 2,
+              bgcolor: (theme) => theme.palette.grey[500],
+            },
           },
         }}
       >
@@ -153,7 +158,7 @@ export default function NotificationsPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Scrollbar sx={{ height: { xs: 340, sm: 'auto' } }}>
+        <Box>
           <List
             disablePadding
             subheader={
@@ -175,11 +180,11 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(2, 5).map((notification) => (
+            {notifications.slice(2, 7).map((notification) => (
               <NotificationItem key={notification.id} notification={notification} />
             ))}
           </List>
-        </Scrollbar>
+        </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

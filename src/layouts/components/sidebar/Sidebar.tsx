@@ -43,7 +43,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
       })}
     >
       <Box>
-        <Box sx={{ px: 2.5, py: 2.5, display: 'inline-flex' }}>
+        <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
           <Logo />
         </Box>
 
@@ -53,7 +53,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
               <Typography
                 sx={{
                   ml: 1,
-                  fontSize: '15px',
+                  fontSize: '14px',
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
                   color: (theme) => theme.palette.grey[600],
@@ -70,9 +70,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
       <Stack alignItems="center" spacing={3} sx={{ p: 2.5 }}>
         <Box width={180} component="img" src="/assets/illustrations/illustration_store.svg" />
 
-        <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
-          Brand management
-        </Button>
+        <Button variant="contained">Brand management</Button>
       </Stack>
     </Stack>
   );

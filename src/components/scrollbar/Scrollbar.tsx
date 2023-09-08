@@ -1,37 +1,29 @@
 import { ReactNode, memo } from 'react';
 // @mui
 import { Box } from '@mui/material';
-//
-import { StyledRootScrollbar, StyledScrollbar } from './styles';
 
 // ----------------------------------------------------------------------
 
 export interface ScrollbarProps {
-  sx: object;
+  sx?: object;
   children: ReactNode;
-  timeout?: number;
-  clickOnTrack?: boolean;
 }
 
 function Scrollbar({ children, sx, ...other }: ScrollbarProps) {
-  const userAgent = typeof navigator === 'undefined' ? 'SSR' : navigator.userAgent;
-
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-
-  if (isMobile) {
-    return (
-      <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
-        {children}
-      </Box>
-    );
-  }
-
   return (
-    <StyledRootScrollbar>
-      <StyledScrollbar timeout={500} clickOnTrack={false} sx={sx} {...other}>
-        {children}
-      </StyledScrollbar>
-    </StyledRootScrollbar>
+    <Box
+      sx={(theme) => ({
+        height: '100vh',
+        overflowY: 'scroll',
+        '&::-webkit-scrollbar': { width: 5 },
+        '&::-webkit-scrollbar-thumb': {
+          borderRadius: 2,
+          bgcolor: theme.palette.grey[500],
+        },
+      })}
+    >
+      {children}
+    </Box>
   );
 }
 

@@ -2,9 +2,9 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { store } from 'redux/configStore';
-import AppRouter from 'routes/routes';
+import AppRouter from 'routes/router';
 import ThemeProvider from 'theme';
-import './i18n/i18n';
+import './language/i18n/i18n';
 
 function App() {
   return (

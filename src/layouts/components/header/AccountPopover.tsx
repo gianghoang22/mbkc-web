@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 // @mui icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -9,7 +10,6 @@ import { Avatar, Button, Divider, MenuItem, Popover, Stack, Typography } from '@
 import { alpha } from '@mui/material/styles';
 //
 import account from 'mock/account';
-import { useTranslation } from 'react-i18next';
 
 const MENU_OPTIONS = [
   {
@@ -45,7 +45,7 @@ function AccountPopover() {
         onClick={handleOpen}
         sx={{
           px: 1,
-          py: 0,
+          py: 0.2,
           color: (theme) => theme.palette.grey[800],
           bgcolor: (theme) => alpha(theme.palette.grey[300], 0.5),
           ...(open && {
