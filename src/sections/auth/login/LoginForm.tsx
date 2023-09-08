@@ -14,7 +14,7 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = () => {
-    navigate('/dashboard/list-products', { replace: true });
+    navigate('/brand/dashboard', { replace: true });
   };
 
   return (

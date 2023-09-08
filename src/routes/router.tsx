@@ -1,19 +1,12 @@
-import { RoutesPageKey } from 'common/enum';
+import { Navigate, Route, Routes } from 'react-router-dom';
+//layout
 import DashboardLayout from 'layouts/dashboard/DashboardLayout';
 import SimpleLayout from 'layouts/simple/SimpleLayout';
+//pages
 import { Page404 } from 'pages';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { publicRoutes } from './config';
-import { ListProductPage } from 'pages/brandManager';
-
-export const privateRoute = [
-  {
-    key: RoutesPageKey.LIST_PRODUCTS,
-    path: RoutesPageKey.LIST_PRODUCTS,
-    component: <ListProductPage />,
-    index: false,
-  },
-];
+//routes
+import { brandRoutes, publicRoutes } from './config';
+import BrandRouter from './brandRouter';
 
 function AppRouter() {
   return (
@@ -31,11 +24,13 @@ function AppRouter() {
 
       <Route path="*" element={<Navigate to="/404" replace />} />
 
-      <Route path="/dashboard" element={<DashboardLayout />}>
-        <Route element={<Navigate to="/dashboard/app" />} index={true} />
-        {privateRoute.map((route) => (
-          <Route key={route.path} path={route.path} element={route.component} />
-        ))}
+      <Route element={<DashboardLayout />}>
+        <Route path="/brand" element={<BrandRouter />}>
+          <Route element={<Navigate to="/brand/dashboard" />} index={true} />
+          {brandRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.component} />
+          ))}
+        </Route>
       </Route>
     </Routes>
   );

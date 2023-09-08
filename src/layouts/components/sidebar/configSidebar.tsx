@@ -4,6 +4,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import SportsSoccerRoundedIcon from '@mui/icons-material/SportsSoccerRounded';
+import { RoutesPageKey } from 'common/enum';
 import { NavSection } from 'common/interface/NavItem';
 
 const navConfigBrandManager: NavSection[] = [
@@ -12,7 +13,7 @@ const navConfigBrandManager: NavSection[] = [
     listNav: [
       {
         title: 'dashboard',
-        path: '/dashboard/brand-app',
+        path: RoutesPageKey.DASHBOARD,
         icon: <LeaderboardRoundedIcon fontSize="small" />,
       },
     ],
@@ -22,27 +23,27 @@ const navConfigBrandManager: NavSection[] = [
     listNav: [
       {
         title: 'kitchen staff',
-        path: '/dashboard/bm-kitchen-staff',
+        path: RoutesPageKey.LIST_KITCHEN_STAFFS,
         icon: <GroupIcon fontSize="small" />,
       },
       {
         title: 'kitchen',
-        path: '/dashboard/bm-kitchen',
+        path: RoutesPageKey.LIST_KITCHENS,
         icon: <ManageAccountsIcon fontSize="small" />,
       },
       {
         title: 'product',
-        path: '/dashboard/bm-product',
+        path: RoutesPageKey.LIST_PRODUCTS,
         icon: <BookOnlineIcon fontSize="small" />,
       },
       {
         title: 'brand menu',
-        path: '/dashboard/bm-brand-menu',
+        path: RoutesPageKey.LIST_MENUS,
         icon: <SportsSoccerRoundedIcon fontSize="small" />,
       },
       {
         title: 'voucher',
-        path: '/dashboard/bm-voucher',
+        path: RoutesPageKey.LIST_VOUCHERS,
         icon: <SportsSoccerRoundedIcon fontSize="small" />,
       },
     ],

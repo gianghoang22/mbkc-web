@@ -54,7 +54,7 @@ interface NavSectionProps {
 function NavSection({ data = [], ...other }: NavSectionProps) {
   return (
     <Box {...other}>
-      <List disablePadding sx={{ p: 1 }}>
+      <List disablePadding sx={{ p: 1, pl: 1.4 }}>
         {data.map((item, index) => (
           <NavItem key={index} item={item} />
         ))}
