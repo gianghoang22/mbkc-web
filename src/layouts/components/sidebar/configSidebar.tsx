@@ -11,7 +11,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
 //
 import { RoutesPageKey } from 'common/enum';
-import { NavSection } from 'common/interface/NavItem';
+import { NavSection } from 'common/@types/NavItem';
 
 const navConfigBrandManager: NavSection[] = [
   {
