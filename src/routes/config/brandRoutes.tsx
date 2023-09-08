@@ -17,8 +17,8 @@ import {
 
 export const brandRoutes = [
   {
-    key: RoutesPageKey.DASHBOARD,
-    path: RoutesPageKey.DASHBOARD,
+    key: RoutesPageKey.BRAND_DASHBOARD,
+    path: RoutesPageKey.BRAND_DASHBOARD,
     component: <BrandDashboard />,
     index: true,
   },
@@ -31,6 +31,12 @@ export const brandRoutes = [
   {
     key: RoutesPageKey.CREATE_NEW_KITCHEN_STAFF,
     path: RoutesPageKey.CREATE_NEW_KITCHEN_STAFF,
+    component: <CreateNewStaffPage />,
+    index: false,
+  },
+  {
+    key: RoutesPageKey.UPDATE_KITCHEN_STAFF,
+    path: RoutesPageKey.UPDATE_KITCHEN_STAFF,
     component: <CreateNewStaffPage />,
     index: false,
   },
@@ -65,6 +71,12 @@ export const brandRoutes = [
     index: false,
   },
   {
+    key: RoutesPageKey.UPDATE_PRODUCT,
+    path: RoutesPageKey.UPDATE_PRODUCT,
+    component: <CreateNewProductPage />,
+    index: false,
+  },
+  {
     key: RoutesPageKey.LIST_MENUS,
     path: RoutesPageKey.LIST_MENUS,
     component: <ListMenuPage />,
@@ -78,7 +90,13 @@ export const brandRoutes = [
   },
   {
     key: RoutesPageKey.CREATE_NEW_MENU,
-    path: RoutesPageKey.RESET_PASSWORD,
+    path: RoutesPageKey.CREATE_NEW_MENU,
+    component: <CreateNewMenuPage />,
+    index: false,
+  },
+  {
+    key: RoutesPageKey.UPDATE_MENU,
+    path: RoutesPageKey.UPDATE_MENU,
     component: <CreateNewMenuPage />,
     index: false,
   },
@@ -91,6 +109,12 @@ export const brandRoutes = [
   {
     key: RoutesPageKey.CREATE_NEW_VOUCHER,
     path: RoutesPageKey.CREATE_NEW_VOUCHER,
+    component: <CreateNewVoucherPage />,
+    index: false,
+  },
+  {
+    key: RoutesPageKey.UPDATE_VOUCHER,
+    path: RoutesPageKey.UPDATE_VOUCHER,
     component: <CreateNewVoucherPage />,
     index: false,
   },

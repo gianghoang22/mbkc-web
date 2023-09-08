@@ -4,14 +4,18 @@ import DashboardLayout from 'layouts/dashboard/DashboardLayout';
 import SimpleLayout from 'layouts/simple/SimpleLayout';
 //pages
 import { Page404 } from 'pages';
+//router
+import BrandRouter from './brandRouter';
+import KitchenCashierRouter from './kitchenCashierRouter';
+import KitchenCenterRouter from './kitchenCenterRouter';
 //routes
 import { brandRoutes, publicRoutes } from './config';
-import BrandRouter from './brandRouter';
+import { RoutesPageKey } from 'common/enum';
 
 function AppRouter() {
   return (
     <Routes>
-      <Route element={<Navigate to="/login" />} index={true} />
+      <Route element={<Navigate to={RoutesPageKey.LOGIN} />} index={true} />
       {publicRoutes.map((route) => (
         <Route key={route.path} path={route.path} element={route.component} />
       ))}
@@ -25,8 +29,25 @@ function AppRouter() {
       <Route path="*" element={<Navigate to="/404" replace />} />
 
       <Route element={<DashboardLayout />}>
-        <Route path="/brand" element={<BrandRouter />}>
-          <Route element={<Navigate to="/brand/dashboard" />} index={true} />
+        {/* brand routes */}
+        <Route element={<BrandRouter />}>
+          <Route element={<Navigate to={RoutesPageKey.BRAND_DASHBOARD} />} index={true} />
+          {brandRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.component} />
+          ))}
+        </Route>
+
+        {/* kitchen center routes */}
+        <Route element={<KitchenCenterRouter />}>
+          <Route element={<Navigate to={RoutesPageKey.KITCHEN_CENTER_DASHBOARD} />} index={true} />
+          {brandRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.component} />
+          ))}
+        </Route>
+
+        {/* kitchen center routes */}
+        <Route element={<KitchenCashierRouter />}>
+          <Route element={<Navigate to={RoutesPageKey.KITCHEN_CASHIER_DASHBOARD} />} index={true} />
           {brandRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}

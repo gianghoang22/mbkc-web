@@ -9,8 +9,8 @@ export const publicRoutes = [
     index: true,
   },
   {
-    key: RoutesPageKey.LOGIN,
-    path: RoutesPageKey.LOGIN,
+    key: RoutesPageKey.FORGOT_PASSWORD,
+    path: RoutesPageKey.FORGOT_PASSWORD,
     component: <ForgotPasswordPage />,
     index: false,
   },
