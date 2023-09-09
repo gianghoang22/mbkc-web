@@ -1,10 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { RoutesPageKey } from 'common/enum';
+import { Breadcrumbs, Helmet } from 'components';
+import { useLocation } from 'react-router-dom';
 
-function KitchenDetailPage(props: any) {
-  return <div>KitchenDetailPage</div>;
+function KitchenDetailPage() {
+  const { pathname } = useLocation();
+  return (
+    <>
+      <Helmet title="Dashboard | Kitchen Detail" />
+      <Breadcrumbs model="Kitchen" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+      <p>Kitchen Detail</p>
+    </>
+  );
 }
-
-KitchenDetailPage.propTypes = {};
 
 export default KitchenDetailPage;
