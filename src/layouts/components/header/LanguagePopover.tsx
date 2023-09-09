@@ -57,7 +57,7 @@ function LanguagePopover() {
           ...bgColorStyle,
         }}
       >
-        <img src={currentLanguage.flag} alt={LANGS[0].label} />
+        <img src={currentLanguage.flag} alt={LANGS[0].label} width="28px" height="20px" />
       </IconButton>
 
       <Popover
