@@ -1,10 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Helmet } from 'components';
 
-function EditKitchenPage(props: any) {
-  return <div>EditKitchenPage</div>;
+function EditKitchenPage() {
+  return (
+    <>
+      <Helmet title="Dashboard | Update Kitchen" />
+
+      <p>Update Kitchen</p>
+    </>
+  );
 }
-
-EditKitchenPage.propTypes = {};
 
 export default EditKitchenPage;
