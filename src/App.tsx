@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from 'redux/configStore';
 import AppRouter from 'routes/router';
 import ThemeProvider from 'theme';
-import './language/i18n/i18n';
+import './common/language/i18n/i18n';
 
 function App() {
   return (
