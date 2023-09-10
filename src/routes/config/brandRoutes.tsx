@@ -1,19 +1,13 @@
 import { RoutesPageKey } from 'common/enum';
 import {
   BrandDashboard,
-  CreateNewMenuPage,
   CreateNewProductPage,
-  CreateNewStaffPage,
-  CreateNewVoucherPage,
   EditKitchenPage,
   KitchenDetailPage,
   ListKitchenPage,
-  ListKitchenStaffPage,
-  ListMenuPage,
   ListProductPage,
-  ListVoucherPage,
-  MenuDetailPage,
-} from 'pages/brandManager';
+  ListProductCategoryPage,
+} from 'pages/brand';
 
 export const brandRoutes = [
   {
@@ -21,24 +15,6 @@ export const brandRoutes = [
     path: RoutesPageKey.BRAND_DASHBOARD,
     component: <BrandDashboard />,
     index: true,
-  },
-  {
-    key: RoutesPageKey.LIST_KITCHEN_STAFFS,
-    path: RoutesPageKey.LIST_KITCHEN_STAFFS,
-    component: <ListKitchenStaffPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.CREATE_NEW_KITCHEN_STAFF,
-    path: RoutesPageKey.CREATE_NEW_KITCHEN_STAFF,
-    component: <CreateNewStaffPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.UPDATE_KITCHEN_STAFF,
-    path: RoutesPageKey.UPDATE_KITCHEN_STAFF,
-    component: <CreateNewStaffPage />,
-    index: false,
   },
   {
     key: RoutesPageKey.LIST_KITCHENS,
@@ -65,6 +41,12 @@ export const brandRoutes = [
     index: false,
   },
   {
+    key: RoutesPageKey.LIST_PRODUCT_CATEGORIES,
+    path: RoutesPageKey.LIST_PRODUCT_CATEGORIES,
+    component: <ListProductCategoryPage />,
+    index: false,
+  },
+  {
     key: RoutesPageKey.CREATE_NEW_PRODUCT,
     path: RoutesPageKey.CREATE_NEW_PRODUCT,
     component: <CreateNewProductPage />,
@@ -74,48 +56,6 @@ export const brandRoutes = [
     key: RoutesPageKey.UPDATE_PRODUCT,
     path: RoutesPageKey.UPDATE_PRODUCT,
     component: <CreateNewProductPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.LIST_MENUS,
-    path: RoutesPageKey.LIST_MENUS,
-    component: <ListMenuPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.MENU_DETAIL,
-    path: RoutesPageKey.MENU_DETAIL,
-    component: <MenuDetailPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.CREATE_NEW_MENU,
-    path: RoutesPageKey.CREATE_NEW_MENU,
-    component: <CreateNewMenuPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.UPDATE_MENU,
-    path: RoutesPageKey.UPDATE_MENU,
-    component: <CreateNewMenuPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.LIST_VOUCHERS,
-    path: RoutesPageKey.LIST_VOUCHERS,
-    component: <ListVoucherPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.CREATE_NEW_VOUCHER,
-    path: RoutesPageKey.CREATE_NEW_VOUCHER,
-    component: <CreateNewVoucherPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.UPDATE_VOUCHER,
-    path: RoutesPageKey.UPDATE_VOUCHER,
-    component: <CreateNewVoucherPage />,
     index: false,
   },
 ];

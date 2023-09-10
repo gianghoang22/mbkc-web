@@ -3,6 +3,8 @@
     "brand manager": "Brand Manager"
   },
   "sidebar": {
+    "overview": "Overview",
+    "manage": "Manage",
     "dashboard": "Dashboard",
     "kitchen staff": "Kitchen Staff"
   }

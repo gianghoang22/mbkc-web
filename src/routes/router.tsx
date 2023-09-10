@@ -6,10 +6,10 @@ import SimpleLayout from 'layouts/simple/SimpleLayout';
 import { Page404 } from 'pages';
 //router
 import BrandRouter from './brandRouter';
-import KitchenCashierRouter from './kitchenCashierRouter';
+import CashierRouter from './cashierRouter';
 import KitchenCenterRouter from './kitchenCenterRouter';
 //routes
-import { brandRoutes, publicRoutes } from './config';
+import { brandRoutes, cashierRoutes, kitchenCenterRoutes, publicRoutes } from './config';
 import { RoutesPageKey } from 'common/enum';
 
 function AppRouter() {
@@ -40,15 +40,15 @@ function AppRouter() {
         {/* kitchen center routes */}
         <Route element={<KitchenCenterRouter />}>
           <Route element={<Navigate to={RoutesPageKey.KITCHEN_CENTER_DASHBOARD} />} index={true} />
-          {brandRoutes.map((route) => (
+          {kitchenCenterRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}
         </Route>
 
         {/* kitchen center routes */}
-        <Route element={<KitchenCashierRouter />}>
+        <Route element={<CashierRouter />}>
           <Route element={<Navigate to={RoutesPageKey.KITCHEN_CASHIER_DASHBOARD} />} index={true} />
-          {brandRoutes.map((route) => (
+          {cashierRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}
         </Route>

@@ -7,39 +7,25 @@ export enum RoutesPageKey {
   //brand
   BRAND_DASHBOARD = '/brand/dashboard',
 
-  LIST_KITCHEN_STAFFS = '/brand/list-kitchen-staff',
-  CREATE_NEW_KITCHEN_STAFF = '/brand/create-new-kitchen-staff',
-  UPDATE_KITCHEN_STAFF = '/brand/update-kitchen-staff/:id',
-
   LIST_KITCHENS = '/brand/list-kitchen',
   KITCHEN_DETAIL = '/brand/kitchen-detail/:id',
   UPDATE_KITCHEN = '/brand/update-kitchen/:id',
 
+  LIST_PRODUCT_CATEGORIES = '/brand/list-product-categories',
+
   LIST_PRODUCTS = '/brand/list-product',
-  CREATE_NEW_PRODUCT = '/brand/create-new-product',
+  CREATE_NEW_PRODUCT = '/brand/create-product',
   UPDATE_PRODUCT = '/brand/update-product/:id',
-
-  LIST_MENUS = '/brand/list-menu',
-  MENU_DETAIL = '/brand/menu-detail/:id',
-  CREATE_NEW_MENU = '/brand/create-new-menu',
-  UPDATE_MENU = '/brand/update-menu/:id',
-
-  LIST_VOUCHERS = '/brand/list-voucher',
-  CREATE_NEW_VOUCHER = '/brand/create-new-voucher',
-  UPDATE_VOUCHER = '/brand/update-voucher/:id',
 
   //kitchen center
   KITCHEN_CENTER_DASHBOARD = '/kitchen-center/dashboard',
 
-  LIST_KITCHENS_OF_CENTER = '/kitchen-center/list-kitchens',
-  KITCHENS_OF_CENTER_DETAIL = '/kitchen-center/kitchen-detail/:id',
+  LIST_STORES_OF_CENTER = '/kitchen-center/list-stores',
+  STORE_OF_CENTER_DETAIL = '/kitchen-center/stores-detail/:id',
 
   LIST_CASHIERS = '/kitchen-center/list-cashiers',
-  CREATE_NEW_CASHIER = '/kitchen-center/create-new-cashier',
+  CREATE_NEW_CASHIER = '/kitchen-center/create-cashier',
   UPDATE_CASHIER = '/kitchen-center/update-cashier/:id',
-
-  LIST_MENUS_OF_CENTER = '/kitchen-center/list-menus',
-  LIST_PRODUCTS_OF_MENU = '/kitchen-center/list-products-of-menu',
 
   LIST_ORDERS = '/kitchen-center/list-orders',
   ORDER_DETAIL = '/kitchen-center/order-detail/:id',

@@ -3,6 +3,8 @@
     "brand manager": "Quản lý thương hiệu"
   },
   "sidebar": {
+    "overview": "Tổng quan",
+    "manage": "Quản lý",
     "dashboard": "Bảng điều khiển",
     "kitchen staff": "Nhân viên bếp"
   }

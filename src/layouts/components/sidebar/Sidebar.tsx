@@ -6,7 +6,7 @@ import { Box, Button, Drawer, Stack, Typography } from '@mui/material';
 import useResponsive from 'hooks/useResponsive';
 // components
 import { Logo, NavSection } from 'components';
-import { navConfigBrandManager } from './configSidebar';
+import { useConfigSidebar } from './useConfigSidebar';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +19,7 @@ interface SidebarProps {
 
 function Sidebar({ openNav, onCloseNav }: SidebarProps) {
   const { pathname } = useLocation();
+  const { navBrand } = useConfigSidebar();
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -48,20 +49,20 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
         </Box>
 
         <Box width="100%">
-          {navConfigBrandManager.map((navConfigItem, index) => (
+          {navBrand.map((navItem, index) => (
             <Box key={index} mb={1}>
               <Typography
                 sx={{
                   ml: 1,
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
                   color: (theme) => theme.palette.grey[600],
                 }}
               >
-                {navConfigItem.missions}
+                {navItem.missions}
               </Typography>
-              <NavSection data={navConfigItem.listNav} />
+              <NavSection data={navItem.listNav} />
             </Box>
           ))}
         </Box>
