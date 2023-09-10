@@ -5,14 +5,12 @@ import {
   KitchenDetailPage,
   ListCashierPage,
   ListKitchenPage,
-  ListMenuPage,
   ListOrdersPage,
-  ListProductOfMenuPage,
   ListTransferTransactionsPage,
   ListWalletTransactionsPage,
   OrderDetailPage,
   WalletPage,
-} from 'pages/kitchenCenterManager';
+} from 'pages/kitchenCenter';
 
 export const kitchenCenterRoutes = [
   {
@@ -22,14 +20,14 @@ export const kitchenCenterRoutes = [
     index: true,
   },
   {
-    key: RoutesPageKey.LIST_KITCHENS_OF_CENTER,
-    path: RoutesPageKey.LIST_KITCHENS_OF_CENTER,
+    key: RoutesPageKey.LIST_STORES_OF_CENTER,
+    path: RoutesPageKey.LIST_STORES_OF_CENTER,
     component: <ListKitchenPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.KITCHENS_OF_CENTER_DETAIL,
-    path: RoutesPageKey.KITCHENS_OF_CENTER_DETAIL,
+    key: RoutesPageKey.STORE_OF_CENTER_DETAIL,
+    path: RoutesPageKey.STORE_OF_CENTER_DETAIL,
     component: <KitchenDetailPage />,
     index: false,
   },
@@ -49,18 +47,6 @@ export const kitchenCenterRoutes = [
     key: RoutesPageKey.UPDATE_CASHIER,
     path: RoutesPageKey.UPDATE_CASHIER,
     component: <CreateNewCashierPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.LIST_MENUS_OF_CENTER,
-    path: RoutesPageKey.LIST_MENUS_OF_CENTER,
-    component: <ListMenuPage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.LIST_PRODUCTS_OF_MENU,
-    path: RoutesPageKey.LIST_PRODUCTS_OF_MENU,
-    component: <ListProductOfMenuPage />,
     index: false,
   },
   {
