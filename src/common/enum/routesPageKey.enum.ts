@@ -41,4 +41,10 @@ export enum RoutesPageKey {
   ORDER_DETAIL_OF_CASHIER = '/kitchen-cashier/order-detail/:id',
 
   LIST_TRANSACTIONS = '/kitchen-cashier/list-transactions',
+
+  // admin
+  ADMIN_DASHBOARD = '/MBKCAdmin/dashboard',
+
+  LIST_KITCHEN_CENTERS = '/MBKCAdmin/list-kitchen-centers',
+  LIST_BRAND = '/MBKCAdmin/list-brand',
 }

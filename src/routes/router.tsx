@@ -9,8 +9,9 @@ import BrandRouter from './brandRouter';
 import CashierRouter from './cashierRouter';
 import KitchenCenterRouter from './kitchenCenterRouter';
 //routes
-import { brandRoutes, cashierRoutes, kitchenCenterRoutes, publicRoutes } from './config';
+import { adminRoutes, brandRoutes, cashierRoutes, kitchenCenterRoutes, publicRoutes } from './config';
 import { RoutesPageKey } from 'common/enum';
+import AdminRouter from './adminRouter';
 
 function AppRouter() {
   return (
@@ -49,6 +50,14 @@ function AppRouter() {
         <Route element={<CashierRouter />}>
           <Route element={<Navigate to={RoutesPageKey.KITCHEN_CASHIER_DASHBOARD} />} index={true} />
           {cashierRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.component} />
+          ))}
+        </Route>
+
+        {/* MBKC admin routes */}
+        <Route element={<AdminRouter />}>
+          <Route element={<Navigate to={RoutesPageKey.ADMIN_DASHBOARD} />} index={true} />
+          {adminRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}
         </Route>
