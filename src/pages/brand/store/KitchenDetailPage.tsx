@@ -10,10 +10,10 @@ function KitchenDetailPage() {
 
   return (
     <>
-      <Helmet title="Kitchen Detail | MBKC Food" />
+      <Helmet title="Kitchen Detail | MBKC" />
 
       <Container>
-        <Stack>
+        <Stack mb={5}>
           <Typography variant="h4">Kitchen Detail</Typography>
           <Breadcrumbs model="Kitchen" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
         </Stack>

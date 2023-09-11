@@ -10,10 +10,10 @@ function CreateNewProductPage(props: any) {
 
   return (
     <>
-      <Helmet title="Create Product | MBKC Food" />
+      <Helmet title="Create Product | MBKC" />
 
       <Container>
-        <Stack>
+        <Stack mb={5}>
           <Typography variant="h4">Create Product</Typography>
           <Breadcrumbs model="Product" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
         </Stack>
