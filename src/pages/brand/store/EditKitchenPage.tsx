@@ -10,10 +10,10 @@ function EditKitchenPage() {
 
   return (
     <>
-      <Helmet title="Update Kitchen | MBKC Food" />
+      <Helmet title="Update Kitchen | MBKC" />
 
       <Container>
-        <Stack>
+        <Stack mb={5}>
           <Typography variant="h4">Update Kitchen</Typography>
           <Breadcrumbs model="Kitchen" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
         </Stack>

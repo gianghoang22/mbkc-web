@@ -34,6 +34,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
     <Stack
       justifyContent="space-between"
       sx={(theme) => ({
+        bgcolor: '#fff',
         height: '100vh',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': { width: 5 },
