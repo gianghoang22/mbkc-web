@@ -7,6 +7,8 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
+import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
+import BusinessIcon from '@mui/icons-material/Business';
 //
 import { NavSection } from 'common/@types/NavItem';
 import { RoutesPageKey } from 'common/enum';
@@ -114,7 +116,35 @@ function useConfigSidebar() {
     },
   ];
 
-  return { navBrand, navKitchenCenter, navCashier };
+  const navAdmin: NavSection[] = [
+    {
+      missions: t('sidebar.overview'),
+      listNav: [
+        {
+          title: 'dashboard',
+          path: RoutesPageKey.ADMIN_DASHBOARD,
+          icon: <AssessmentIcon fontSize="medium" />,
+        },
+      ],
+    },
+    {
+      missions: t('sidebar.manage'),
+      listNav: [
+        {
+          title: 'kitchen centers',
+          path: RoutesPageKey.LIST_KITCHEN_CENTERS,
+          icon: <BusinessIcon fontSize="medium" />,
+        },
+        {
+          title: 'brand',
+          path: RoutesPageKey.LIST_BRAND,
+          icon: <BrandingWatermarkOutlinedIcon fontSize="medium" />,
+        },
+      ],
+    },
+  ];
+
+  return { navBrand, navKitchenCenter, navCashier, navAdmin };
 }
 
 export { useConfigSidebar };

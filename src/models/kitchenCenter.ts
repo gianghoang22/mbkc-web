@@ -1,4 +1,7 @@
-export interface KitchenCenter {
-  id: number | string;
-  title: string;
+export interface KitchenCentersData {
+  no: number;
+  kitchenCenter: string;
+  manager: string;
+  status: string;
+  numOfKitchen: number;
 }
