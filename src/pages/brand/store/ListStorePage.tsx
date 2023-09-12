@@ -22,12 +22,10 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 //
-import { HeadCell } from 'common/@types/HeadCell';
-import { OrderSort } from 'common/@types/OrderSort';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
-import { Data } from 'models';
 import { CustomTableHead } from 'sections/table';
+import { Data, HeadCell, OrderSort } from '@types';
 
 // ----------------------------------------------------------------------
 
@@ -67,8 +65,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-// type OrderSort = 'asc' | 'desc';
-
 function getComparator<Key extends keyof any>(
   order: OrderSort,
   orderBy: Key
@@ -78,10 +74,6 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
@@ -166,7 +158,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-function ListKitchenPage() {
+function ListStorePage() {
   const { pathname } = useLocation();
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -206,12 +198,12 @@ function ListKitchenPage() {
 
   return (
     <>
-      <Helmet title="List Kitchen | MBKC" />
+      <Helmet title="List Store | MBKC" />
 
       <Container>
         <Stack mb={5}>
-          <Typography variant="h4">List Kitchen</Typography>
-          <Breadcrumbs model="Kitchen" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+          <Typography variant="h4">List Store</Typography>
+          <Breadcrumbs model="Store" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
         </Stack>
 
         <Card>
@@ -281,4 +273,4 @@ function ListKitchenPage() {
   );
 }
 
-export default ListKitchenPage;
+export default ListStorePage;

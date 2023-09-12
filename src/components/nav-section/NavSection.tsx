@@ -3,7 +3,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { styled } from '@mui/material/styles';
 //
-import { NavItem as NavItemInterface } from 'common/@types/NavItem';
+import { NavItem as NavItemInterface } from '@types';
 
 const StyledNavItemIcon = styled(ListItemIcon)({
   width: 22,

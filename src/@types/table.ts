@@ -1,4 +1,6 @@
-import { Data } from 'models';
+import { Data } from './data';
+
+export type OrderSort = 'asc' | 'desc';
 
 export interface HeadCell {
   disablePadding: boolean;

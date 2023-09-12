@@ -1,9 +1,7 @@
 // @mui
 import { Box, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { HeadCell } from 'common/@types/HeadCell';
-import { OrderSort } from 'common/@types/OrderSort';
-import { Data } from 'models';
+import { Data, HeadCell, OrderSort } from '@types';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +9,7 @@ interface CustomTableHeadProps {
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
   order: OrderSort;
   orderBy: string;
-  headCells: any;
+  headCells: HeadCell[];
 }
 
 function CustomTableHead(props: CustomTableHeadProps) {
@@ -27,7 +25,7 @@ function CustomTableHead(props: CustomTableHeadProps) {
         <TableCell align="center">
           <TableSortLabel hideSortIcon>No</TableSortLabel>
         </TableCell>
-        {headCells.map((headCell: any) => (
+        {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}

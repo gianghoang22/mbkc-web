@@ -1,4 +1,4 @@
-import { Kitchen } from 'models';
+import { Kitchen } from '@types';
 
 export const initialKitchenList: Kitchen[] = [
   {
