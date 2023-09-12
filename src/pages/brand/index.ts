@@ -1,8 +1,8 @@
 import BrandDashboard from './dashboard/BrandDashboard';
 //
-import ListKitchenPage from './store/ListKitchenPage';
-import KitchenDetailPage from './store/KitchenDetailPage';
-import EditKitchenPage from './store/EditKitchenPage';
+import ListStorePage from './store/ListStorePage';
+import StoreDetailPage from './store/StoreDetailPage';
+import EditStorePage from './store/EditStorePage';
 //
 import ListProductPage from './product/ListProductPage';
 import CreateNewProductPage from './product/CreateNewProductPage';
@@ -11,9 +11,9 @@ import ListProductCategoryPage from './productCategory/ListProductCategoryPage';
 
 export {
   BrandDashboard,
-  ListKitchenPage,
-  KitchenDetailPage,
-  EditKitchenPage,
+  ListStorePage,
+  StoreDetailPage,
+  EditStorePage,
   ListProductPage,
   CreateNewProductPage,
   ListProductCategoryPage,

@@ -10,9 +10,9 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
 import BusinessIcon from '@mui/icons-material/Business';
 //
-import { NavSection } from 'common/@types/NavItem';
 import { RoutesPageKey } from 'common/enum';
 import { useTranslation } from 'react-i18next';
+import { NavSection } from '@types';
 
 function useConfigSidebar() {
   const { t } = useTranslation('home');

@@ -20,14 +20,11 @@ import BusinessIcon from '@mui/icons-material/Business';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 //
-import { useMemo, useState } from 'react';
-
-//
 import { Color, RoutesPageKey } from 'common/enum';
 import { Helmet } from 'components';
 import { AppWidgetSummary } from 'sections/dashboard';
-import { BrandData, KitchenCentersData } from 'models';
 import { Link } from 'react-router-dom';
+import { BrandData, KitchenCentersData } from '@types';
 
 // ----------------------------------------------------------------------
 

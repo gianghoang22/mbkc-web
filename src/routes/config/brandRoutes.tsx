@@ -2,9 +2,9 @@ import { RoutesPageKey } from 'common/enum';
 import {
   BrandDashboard,
   CreateNewProductPage,
-  EditKitchenPage,
-  KitchenDetailPage,
-  ListKitchenPage,
+  EditStorePage,
+  StoreDetailPage,
+  ListStorePage,
   ListProductPage,
   ListProductCategoryPage,
 } from 'pages/brand';
@@ -19,19 +19,19 @@ export const brandRoutes = [
   {
     key: RoutesPageKey.LIST_KITCHENS,
     path: RoutesPageKey.LIST_KITCHENS,
-    component: <ListKitchenPage />,
+    component: <ListStorePage />,
     index: false,
   },
   {
     key: RoutesPageKey.KITCHEN_DETAIL,
     path: RoutesPageKey.KITCHEN_DETAIL,
-    component: <KitchenDetailPage />,
+    component: <StoreDetailPage />,
     index: false,
   },
   {
     key: RoutesPageKey.UPDATE_KITCHEN,
     path: RoutesPageKey.UPDATE_KITCHEN,
-    component: <EditKitchenPage />,
+    component: <EditStorePage />,
     index: false,
   },
   {

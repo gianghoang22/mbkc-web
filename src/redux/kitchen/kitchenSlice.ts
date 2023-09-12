@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Kitchen } from '@types';
 import { initialKitchenList } from 'mock/kitchen';
-import { Kitchen } from 'models';
 
 interface KitchenState {
   isLoading: boolean;
