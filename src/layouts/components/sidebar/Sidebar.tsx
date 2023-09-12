@@ -19,7 +19,7 @@ interface SidebarProps {
 
 function Sidebar({ openNav, onCloseNav }: SidebarProps) {
   const { pathname } = useLocation();
-  const { navBrand } = useConfigSidebar();
+  const { navBrand, navAdmin } = useConfigSidebar();
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -49,7 +49,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
         </Box>
 
         <Box width="100%">
-          {navBrand.map((navItem, index) => (
+          {navAdmin.map((navItem, index) => (
             <Box key={index} mb={1}>
               <Typography
                 sx={{
