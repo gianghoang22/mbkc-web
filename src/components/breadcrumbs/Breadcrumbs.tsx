@@ -20,9 +20,7 @@ function Breadcrumbs({ model, pathname, navigateDashboard, sx }: BreadcrumbsProp
     .slice(2)
     .filter((x) => x);
 
-  const pathnameBread = pathnames[1] === ':id' ? pathnames.filter((x) => x !== ':id') : pathnames;
-  console.log('pathnames', pathnames);
-  console.log('pathnameBread', pathnameBread);
+  const pathnameBread = !isNaN(parseInt(pathnames[1])) ? pathnames.filter((x) => isNaN(parseInt(x))) : pathnames;
 
   return (
     <MUIBreadcrumbs separator={<FiberManualRecordIcon sx={{ fontSize: 8 }} />} aria-label="breadcrumb">

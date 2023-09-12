@@ -1,21 +1,22 @@
 // @mui
 import { Box, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { StoreHeadCell, OrderSort, StoreTable } from '@types';
+//
+import { OrderSort, ProductHeadCell, ProductTable } from '@types';
 
 // ----------------------------------------------------------------------
 
-interface CustomTableHeadProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof StoreTable) => void;
+interface ProductTableHeadProps {
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof ProductTable) => void;
   order: OrderSort;
   orderBy: string;
-  headCells: StoreHeadCell[];
+  headCells: ProductHeadCell[];
 }
 
-function CustomTableHead(props: CustomTableHeadProps) {
+function ProductTableHead(props: ProductTableHeadProps) {
   const { headCells, order, orderBy, onRequestSort } = props;
 
-  const createSortHandler = (property: keyof StoreTable) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: keyof ProductTable) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 
@@ -46,12 +47,10 @@ function CustomTableHead(props: CustomTableHeadProps) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell align="center">
-          <TableSortLabel hideSortIcon></TableSortLabel>
-        </TableCell>
+        <TableCell></TableCell>
       </TableRow>
     </TableHead>
   );
 }
 
-export default CustomTableHead;
+export default ProductTableHead;

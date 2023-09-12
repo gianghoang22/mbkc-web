@@ -1,2 +1,2 @@
-export { default as RoutesPageKeys } from './routesPageKeys';
+export * from './RoutesDynamicKeys';
 export { default as StorageKeys } from './storageKeys';
