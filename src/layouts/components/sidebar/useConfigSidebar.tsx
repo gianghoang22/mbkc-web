@@ -1,4 +1,5 @@
 // MUI icons
+import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
@@ -32,14 +33,19 @@ function useConfigSidebar() {
       missions: t('sidebar.manage'),
       listNav: [
         {
-          title: 'kitchen',
-          path: RoutesPageKey.LIST_KITCHENS,
+          title: 'store',
+          path: RoutesPageKey.LIST_STORES,
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },
         {
           title: 'product category',
           path: RoutesPageKey.LIST_PRODUCT_CATEGORIES,
           icon: <SummarizeIcon fontSize="medium" />,
+        },
+        {
+          title: 'extra category',
+          path: RoutesPageKey.LIST_EXTRA_CATEGORIES,
+          icon: <LanOutlinedIcon fontSize="medium" />,
         },
         {
           title: 'product',

@@ -1,4 +1,7 @@
 export interface ProductCategory {
-  id: number | string;
+  categoryId: number;
+  imageUrl: string;
   name: string;
+  code: string;
+  status: string;
 }

@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Kitchen } from '@types';
-import { initialKitchenList } from 'mock/kitchen';
+import { Store } from '@types';
+import stores from 'mock/store';
 
 interface KitchenState {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  kitchenList: Kitchen[];
-  kitchen: Kitchen | null;
+  kitchenList: Store[];
+  kitchen: Store | null;
 }
 
 const initialState: KitchenState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  kitchenList: initialKitchenList,
+  kitchenList: stores,
   kitchen: null,
 };
 

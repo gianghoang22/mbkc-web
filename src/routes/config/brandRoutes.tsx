@@ -3,10 +3,13 @@ import {
   BrandDashboard,
   CreateNewProductPage,
   EditStorePage,
-  StoreDetailPage,
-  ListStorePage,
-  ListProductPage,
+  ExtraCategoryDetailPage,
+  ListExtraCategoryPage,
   ListProductCategoryPage,
+  ListProductPage,
+  ListStorePage,
+  ProductCategoryDetailPage,
+  StoreDetailPage,
 } from 'pages/brand';
 
 export const brandRoutes = [
@@ -17,20 +20,20 @@ export const brandRoutes = [
     index: true,
   },
   {
-    key: RoutesPageKey.LIST_KITCHENS,
-    path: RoutesPageKey.LIST_KITCHENS,
+    key: RoutesPageKey.LIST_STORES,
+    path: RoutesPageKey.LIST_STORES,
     component: <ListStorePage />,
     index: false,
   },
   {
-    key: RoutesPageKey.KITCHEN_DETAIL,
-    path: RoutesPageKey.KITCHEN_DETAIL,
+    key: RoutesPageKey.STORE_DETAIL,
+    path: RoutesPageKey.STORE_DETAIL,
     component: <StoreDetailPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.UPDATE_KITCHEN,
-    path: RoutesPageKey.UPDATE_KITCHEN,
+    key: RoutesPageKey.UPDATE_STORE,
+    path: RoutesPageKey.UPDATE_STORE,
     component: <EditStorePage />,
     index: false,
   },
@@ -44,6 +47,24 @@ export const brandRoutes = [
     key: RoutesPageKey.LIST_PRODUCT_CATEGORIES,
     path: RoutesPageKey.LIST_PRODUCT_CATEGORIES,
     component: <ListProductCategoryPage />,
+    index: false,
+  },
+  {
+    key: RoutesPageKey.PRODUCT_CATEGORY_DETAIL,
+    path: RoutesPageKey.PRODUCT_CATEGORY_DETAIL,
+    component: <ProductCategoryDetailPage />,
+    index: false,
+  },
+  {
+    key: RoutesPageKey.LIST_EXTRA_CATEGORIES,
+    path: RoutesPageKey.LIST_EXTRA_CATEGORIES,
+    component: <ListExtraCategoryPage />,
+    index: false,
+  },
+  {
+    key: RoutesPageKey.EXTRA_CATEGORY_DETAIL,
+    path: RoutesPageKey.EXTRA_CATEGORY_DETAIL,
+    component: <ExtraCategoryDetailPage />,
     index: false,
   },
   {
