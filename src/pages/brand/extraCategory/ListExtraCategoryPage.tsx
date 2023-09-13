@@ -19,15 +19,21 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { OrderSort, ProductHeadCell, ProductTable } from '@types';
+import { OrderSort, ProductCateHeadCell, ProductCategoryTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
+import { useModal } from 'hooks/useModal';
 import { useAppSelector } from 'redux/configStore';
-import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/brand';
+import {
+  CreateProductCategoryModal,
+  ProductCateTableHead,
+  ProductCateTableRow,
+  ProductCateTableToolbar,
+} from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
 
-const headCells: ProductHeadCell[] = [
+const headCells: ProductCateHeadCell[] = [
   {
     id: 'imageUrl',
     numeric: false,
@@ -47,18 +53,6 @@ const headCells: ProductHeadCell[] = [
     label: 'Category code',
   },
   {
-    id: 'price',
-    numeric: false,
-    disablePadding: false,
-    label: 'Price',
-  },
-  {
-    id: 'category',
-    numeric: false,
-    disablePadding: false,
-    label: 'Category',
-  },
-  {
     id: 'status',
     numeric: false,
     disablePadding: false,
@@ -66,27 +60,29 @@ const headCells: ProductHeadCell[] = [
   },
 ];
 
-function ListProductPage() {
+function ListExtraCategoryPage(props: any) {
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
 
-  const { products } = useAppSelector((state) => state.product);
+  const { extraCategories } = useAppSelector((state) => state.extraCategory);
+
+  const { handleOpen, isOpen } = useModal();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof ProductCategoryTable>('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductCategoryTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
   const handleNavigateDetail = (categoryId: number) => {
-    navigate(RoutesDynamicKeys.PRODUCT_CATEGORY_DETAIL + `/${categoryId}`);
+    navigate(RoutesDynamicKeys.EXTRA_CATEGORY_DETAIL + `/${categoryId}`);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -104,54 +100,55 @@ function ListProductPage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - extraCategories.length) : 0;
 
   const visibleRows = useMemo(
     () =>
-      stableSort(products, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, products]
+      stableSort(extraCategories, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
+    [order, orderBy, page, rowsPerPage, extraCategories]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
 
   return (
     <>
-      <Helmet title="List Product | MBKC" />
+      <Helmet title="List Extra Category | MBKC" />
 
       <Container>
         <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
           <Stack>
-            <Typography variant="h4">List Product</Typography>
-            <Breadcrumbs model="Product" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+            <Typography variant="h4">List Extra Category</Typography>
+            <Breadcrumbs model="Extra Category" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
           </Stack>
 
-          <Button
-            variant="contained"
-            startIcon={<AddRoundedIcon />}
-            onClick={() => {
-              navigate(RoutesPageKey.CREATE_NEW_PRODUCT);
-            }}
-          >
-            Create product
+          <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={handleOpen}>
+            Create product category
           </Button>
         </Stack>
 
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <ProductCateTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <ProductTableHead
+                  <ProductCateTableHead
                     headCells={headCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
                   <TableBody>
-                    {visibleRows.map((product, index) => {
+                    {visibleRows.map((productCategory, index) => {
                       return (
-                        <ProductTableRow index={index} product={product} handleNavigateDetail={handleNavigateDetail} />
+                        <ProductCateTableRow
+                          index={index}
+                          productCategory={productCategory}
+                          handleNavigateDetail={handleNavigateDetail}
+                        />
                       );
                     })}
                     {emptyRows > 0 && (
@@ -192,7 +189,7 @@ function ListProductPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={products.length}
+                count={extraCategories.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -202,8 +199,10 @@ function ListProductPage() {
           </Box>
         </Card>
       </Container>
+
+      {isOpen && <CreateProductCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>
   );
 }
 
-export default ListProductPage;
+export default ListExtraCategoryPage;

@@ -7,11 +7,15 @@ export enum RoutesPageKey {
   //brand
   BRAND_DASHBOARD = '/brand/dashboard',
 
-  LIST_KITCHENS = '/brand/list-kitchen',
-  KITCHEN_DETAIL = '/brand/kitchen-detail/:id',
-  UPDATE_KITCHEN = '/brand/update-kitchen/:id',
+  LIST_STORES = '/brand/list-store',
+  STORE_DETAIL = '/brand/store-detail/:id',
+  UPDATE_STORE = '/brand/update-store/:id',
 
-  LIST_PRODUCT_CATEGORIES = '/brand/list-product-categories',
+  LIST_PRODUCT_CATEGORIES = '/brand/list-product-category',
+  PRODUCT_CATEGORY_DETAIL = '/brand/product-category-detail/:id',
+
+  LIST_EXTRA_CATEGORIES = '/brand/list-extra-category',
+  EXTRA_CATEGORY_DETAIL = '/brand/extra-category-detail/:id',
 
   LIST_PRODUCTS = '/brand/list-product',
   CREATE_NEW_PRODUCT = '/brand/create-product',
