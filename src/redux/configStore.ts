@@ -1,10 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import kitchenReducer from './kitchen/kitchenSlice';
+import extraCategoryReducer from './extraCategory/extraCategorySlice';
+import productReducer from './product/productSlice';
+import productCategoryReducer from './productCategory/productCategorySlice';
+import storeReducer from './store/storeSlice';
 
 export const store = configureStore({
   reducer: {
-    kitchen: kitchenReducer,
+    store: storeReducer,
+    product: productReducer,
+    extraCategory: extraCategoryReducer,
+    productCategory: productCategoryReducer,
   },
 });
 

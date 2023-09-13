@@ -20,9 +20,9 @@ import { OrderSort, StoreHeadCell, StoreTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
-import stores from 'mock/store';
 import { StoreTableHead, StoreTableRow, StoreTableToolbar } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
+import { useAppSelector } from 'redux/configStore';
 
 // ----------------------------------------------------------------------
 
@@ -64,6 +64,8 @@ function ListStorePage() {
 
   const { pathname } = useLocation();
 
+  const { stores } = useAppSelector((state) => state.store);
+
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('title');
   const [page, setPage] = useState(0);
@@ -99,7 +101,7 @@ function ListStorePage() {
 
   const visibleRows = useMemo(
     () => stableSort(stores, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, stores]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
