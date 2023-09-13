@@ -21,11 +21,16 @@ const initialState: StoreState = {
 const storeSlice = createSlice({
   name: 'store',
   initialState,
-  reducers: {},
+  reducers: {
+    getStoreDetail: (state, action) => {
+      console.log(action);
+      state.store = action.payload;
+    },
+  },
   extraReducers(builder) {},
 });
 
-// export const {} = storeSlice.actions;
+export const { getStoreDetail } = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 
 export default storeReducer;

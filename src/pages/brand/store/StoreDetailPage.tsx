@@ -4,9 +4,13 @@ import { Typography, Stack, Container } from '@mui/material';
 //
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
+import { useAppSelector } from 'redux/configStore';
 
 function StoreDetailPage() {
   const { pathname } = useLocation();
+
+  const { store } = useAppSelector((state) => state.store);
+  console.log(store);
 
   return (
     <>

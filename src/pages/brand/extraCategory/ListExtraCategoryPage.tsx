@@ -19,12 +19,13 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { OrderSort, ProductCateHeadCell, ProductCategoryTable } from '@types';
+import { OrderSort, ProductCategory, ProductCategoryTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useModal } from 'hooks/useModal';
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
 import {
   CreateProductCategoryModal,
   ProductCateTableHead,
@@ -32,36 +33,11 @@ import {
   ProductCateTableToolbar,
 } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
-
-const headCells: ProductCateHeadCell[] = [
-  {
-    id: 'imageUrl',
-    numeric: false,
-    disablePadding: true,
-    label: 'Image',
-  },
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: false,
-    label: 'Category name',
-  },
-  {
-    id: 'code',
-    numeric: false,
-    disablePadding: false,
-    label: 'Category code',
-  },
-  {
-    id: 'status',
-    numeric: false,
-    disablePadding: false,
-    label: 'Status',
-  },
-];
+import { productCateHeadCells } from '../headCells';
 
 function ListExtraCategoryPage(props: any) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { pathname } = useLocation();
 
@@ -81,8 +57,9 @@ function ListExtraCategoryPage(props: any) {
     setOrderBy(property);
   };
 
-  const handleNavigateDetail = (categoryId: number) => {
+  const handleNavigateDetail = (category: ProductCategory, categoryId: number) => {
     navigate(RoutesDynamicKeys.EXTRA_CATEGORY_DETAIL + `/${categoryId}`);
+    dispatch(getCategoryDetail(category));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -117,7 +94,7 @@ function ListExtraCategoryPage(props: any) {
     <>
       <Helmet title="List Extra Category | MBKC" />
 
-      <Container>
+      <Container maxWidth="xl">
         <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
           <Stack>
             <Typography variant="h4">List Extra Category</Typography>
@@ -136,7 +113,7 @@ function ListExtraCategoryPage(props: any) {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <ProductCateTableHead
-                    headCells={headCells}
+                    headCells={productCateHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
