@@ -2,12 +2,14 @@ import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import DescriptionIcon from '@mui/icons-material/Description';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import {
   Avatar,
   Box,
   Card,
   Container,
   Grid,
+  IconButton,
   Paper,
   Stack,
   Table,
@@ -96,7 +98,7 @@ function ProductCategoryDetailPage() {
           </Stack>
 
           <Stack direction="row" alignItems="center" spacing={5}>
-            <Card sx={{ px: 3, py: 5 }}>
+            <Card sx={{ px: 3, py: 3 }}>
               <Grid container columnSpacing={2}>
                 <Grid item md={3} sm={12}>
                   <Stack width="100%" alignItems="center">
@@ -109,6 +111,11 @@ function ProductCategoryDetailPage() {
                 </Grid>
                 <Grid item md={9} sm={12}>
                   <Stack gap={1}>
+                    <Box textAlign="right" mb={1}>
+                      <IconButton>
+                        <EditRoundedIcon />
+                      </IconButton>
+                    </Box>
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
                       <Stack direction="row" alignItems="center" gap={0.5}>
                         <Typography variant="subtitle1">Code:</Typography>
