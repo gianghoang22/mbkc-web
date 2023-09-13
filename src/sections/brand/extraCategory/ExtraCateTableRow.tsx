@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, { useState } from 'react';
 // @mui
 import {
@@ -44,27 +43,25 @@ function ExtraCateTableRow(props: ExtraCateTableRowProps) {
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={store.title} sx={{ cursor: 'pointer' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store.storeId)}>
+      <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer' }}>
+        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store.accountId)}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={() => handleNavigateDetail(store.storeId)}>
+        <TableCell component="th" scope="row" padding="none" onClick={() => handleNavigateDetail(store.accountId)}>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={store.title} src={store.imageUrl} />
+            <Avatar alt={store.name} src={store.logo} />
             <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
-              {store.title}
+              {store.name}
             </Typography>
           </Stack>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store.storeId)}>
+        <TableCell align="left" onClick={() => handleNavigateDetail(store.accountId)}>
           {store.kitchenCenter}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store.storeId)}>
-          {moment(store.startDay).format('ddd, D MMM YYYY').toString()}
+        <TableCell align="left" onClick={() => handleNavigateDetail(store.accountId)}>
+          {store.partner}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store.storeId)}>
-          {moment(store.endDay).format('ddd, D MMM YYYY').toString()}
-        </TableCell>
+
         <TableCell align="left">
           <FormControlLabel
             control={<Switch size="small" checked={store.status === 'inactive' ? false : true} />}

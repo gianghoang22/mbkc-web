@@ -21,10 +21,12 @@ const StyledRoot = styled('div')(({ theme }) => ({
 
 const StyledSection = styled('div')(({ theme }: { theme: any }) => ({
   width: '100%',
+  margin: 20,
   maxWidth: 480,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
+  borderRadius: 15,
   boxShadow: customShadows.card,
   backgroundColor: theme.palette.background.default,
 }));
@@ -73,11 +75,11 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to MBKC Food
+              Sign in to MBKC
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 7 }}>
-              MBKC Food will help you manager effectively!
+              MBKC will help you manager effectively!
             </Typography>
 
             <LoginForm />

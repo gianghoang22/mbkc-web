@@ -21,11 +21,16 @@ const initialState: ProductCategoryState = {
 const productCategorySlice = createSlice({
   name: 'productCategory',
   initialState,
-  reducers: {},
+  reducers: {
+    getCategoryDetail: (state, action) => {
+      console.log(action);
+      state.productCategory = action.payload;
+    },
+  },
   extraReducers(builder) {},
 });
 
-// export const {} = productCategorySlice.actions;
+export const { getCategoryDetail } = productCategorySlice.actions;
 const productCategoryReducer = productCategorySlice.reducer;
 
 export default productCategoryReducer;

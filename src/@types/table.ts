@@ -8,11 +8,10 @@ export interface StoreHeadCell {
 }
 
 export interface StoreTable {
-  title: string;
-  imageUrl: string;
+  name: string;
+  logo: string;
   kitchenCenter: string;
-  startDay: Date;
-  endDay: Date;
+  partner: number;
   status: string;
 }
 

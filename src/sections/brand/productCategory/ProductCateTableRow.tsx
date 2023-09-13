@@ -22,7 +22,7 @@ import { Color } from 'common/enum';
 import { Label } from 'components';
 
 interface ProductCateTableRowProps {
-  handleNavigateDetail: (storeId: number) => void;
+  handleNavigateDetail: (category: ProductCategory, storeId: number) => void;
   productCategory: ProductCategory;
   index: number;
 }
@@ -43,28 +43,31 @@ function ProductCateTableRow(props: ProductCateTableRowProps) {
   return (
     <>
       <TableRow hover tabIndex={-1} key={productCategory.name} sx={{ cursor: 'pointer' }}>
-        <TableCell width={80} align="center" onClick={() => handleNavigateDetail(productCategory.categoryId)}>
+        <TableCell
+          width={80}
+          align="center"
+          onClick={() => handleNavigateDetail(productCategory, productCategory.categoryId)}
+        >
           {index + 1}
         </TableCell>
         <TableCell
           component="th"
           scope="row"
           padding="none"
-          onClick={() => handleNavigateDetail(productCategory.categoryId)}
+          onClick={() => handleNavigateDetail(productCategory, productCategory.categoryId)}
         >
           <Avatar alt={productCategory.name} src={productCategory.imageUrl} />
         </TableCell>
         <TableCell
           component="th"
           scope="row"
-          // padding="none"
-          onClick={() => handleNavigateDetail(productCategory.categoryId)}
+          onClick={() => handleNavigateDetail(productCategory, productCategory.categoryId)}
         >
           <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
             {productCategory.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(productCategory.categoryId)}>
+        <TableCell align="left" onClick={() => handleNavigateDetail(productCategory, productCategory.categoryId)}>
           {productCategory.code}
         </TableCell>
 
@@ -73,7 +76,7 @@ function ProductCateTableRow(props: ProductCateTableRowProps) {
             control={<Switch size="small" checked={productCategory.status === 'inactive' ? false : true} />}
             label={
               <Label color={(productCategory.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                {sentenceCase(productCategory.status)}
+                {sentenceCase(productCategory?.status)}
               </Label>
             }
           />
