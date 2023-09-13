@@ -14,9 +14,12 @@ export const customShadows = {
   z4: `0 4px 8px 0 ${transparent}`,
   z8: `0 8px 16px 0 ${transparent}`,
   z12: `0 12px 24px -4px ${transparent}`,
-  z16: `0 16px 32px -4px ${transparent}`,
+  // z16: `0 16px 32px -4px ${transparent}`,
+  z16: `0 0 2px 0 ${transparent}, 0 16px 32px -4px ${transparent}`,
   z20: `0 20px 40px -4px ${transparent}`,
   z24: `0 24px 48px 0 ${transparent}`,
+  // z20: `0 0 2px 0 ${transparent}, 0 20px 40px -4px ${transparent}`,
+  // z24: `0 0 4px 0 ${transparent}, 0 24px 48px 0 ${transparent}`,
   //
   primary: `0 8px 16px 0 ${alpha(palette.primary.main, 0.24)}`,
   info: `0 8px 16px 0 ${alpha(palette.info.main, 0.24)}`,
