@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Store } from '@types';
-import stores from 'mock/store';
+import { store, stores } from 'mock/store';
 
 interface StoreState {
   isLoading: boolean;
@@ -15,7 +15,7 @@ const initialState: StoreState = {
   isError: false,
   isSuccess: false,
   stores: stores,
-  store: null,
+  store: store,
 };
 
 const storeSlice = createSlice({
@@ -23,7 +23,6 @@ const storeSlice = createSlice({
   initialState,
   reducers: {
     getStoreDetail: (state, action) => {
-      console.log(action);
       state.store = action.payload;
     },
   },

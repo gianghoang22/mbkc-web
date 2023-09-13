@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // @mui
 import DescriptionIcon from '@mui/icons-material/Description';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import {
   Avatar,
   Box,
   Card,
   Container,
   Grid,
+  IconButton,
   Paper,
   Stack,
   Table,
@@ -22,7 +24,6 @@ import {
 import { OrderSort, ProductTable } from '@types';
 import { Color, RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet, Label } from 'components';
-import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import useResponsive from 'hooks/useResponsive';
 import { useAppSelector } from 'redux/configStore';
 import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/brand';
@@ -30,8 +31,6 @@ import { getComparator, stableSort } from 'utils';
 import { productHeadCells } from '../headCells';
 
 function ProductCategoryDetailPage() {
-  const navigate = useNavigate();
-
   const { pathname } = useLocation();
   const mdUp = useResponsive('up', 'md', 'md');
 
@@ -48,10 +47,6 @@ function ProductCategoryDetailPage() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (categoryId: number) => {
-    navigate(RoutesDynamicKeys.PRODUCT_CATEGORY_DETAIL + `/${categoryId}`);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -89,14 +84,27 @@ function ProductCategoryDetailPage() {
           <Breadcrumbs model="Product Category" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
         </Stack>
 
-        <Stack spacing={1} mb={7}>
-          <Stack direction="row" alignItems="center" gap={0.5}>
-            <Typography variant="h6">General information</Typography>
-            <DescriptionIcon fontSize="small" />
-          </Stack>
-
-          <Stack direction="row" alignItems="center" spacing={5}>
-            <Card sx={{ px: 3, py: 5 }}>
+        <Stack direction="row" alignItems="center" spacing={5} mb={7}>
+          <Card>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={(theme) => ({
+                px: 3,
+                py: 0.5,
+                bgcolor: theme.palette.grey[200],
+              })}
+            >
+              <Stack direction="row" alignItems="center" gap={0.5}>
+                <Typography variant="h6">General information</Typography>
+                <DescriptionIcon fontSize="small" />
+              </Stack>
+              <IconButton>
+                <EditRoundedIcon />
+              </IconButton>
+            </Stack>
+            <Stack sx={{ px: 3, py: 3 }}>
               <Grid container columnSpacing={2}>
                 <Grid item md={3} sm={12}>
                   <Stack width="100%" alignItems="center">
@@ -132,14 +140,14 @@ function ProductCategoryDetailPage() {
                   </Stack>
                 </Grid>
               </Grid>
-            </Card>
+            </Stack>
+          </Card>
 
-            {mdUp && (
-              <Box width={700}>
-                <img src="/assets/illustrations/mbkc_cook.svg" alt="login" />
-              </Box>
-            )}
-          </Stack>
+          {mdUp && (
+            <Box width={700}>
+              <img src="/assets/illustrations/mbkc_cook.svg" alt="login" />
+            </Box>
+          )}
         </Stack>
 
         <Stack spacing={1}>
@@ -162,13 +170,7 @@ function ProductCategoryDetailPage() {
                     />
                     <TableBody>
                       {visibleRows.map((product, index) => {
-                        return (
-                          <ProductTableRow
-                            index={index}
-                            product={product}
-                            handleNavigateDetail={handleNavigateDetail}
-                          />
-                        );
+                        return <ProductTableRow index={index} product={product} />;
                       })}
                       {emptyRows > 0 && (
                         <TableRow

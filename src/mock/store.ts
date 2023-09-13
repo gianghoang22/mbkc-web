@@ -12,4 +12,13 @@ const stores = [...Array(24)].map((_, index) => ({
   status: sample(['active', 'inactive']),
 }));
 
-export default stores;
+const store = {
+  accountId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+  name: faker.company.name(),
+  logo: `/assets/images/kitchen/store.png`,
+  kitchenCenter: faker.company.name(),
+  partner: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
+  status: sample(['active', 'inactive']),
+};
+
+export { stores, store };

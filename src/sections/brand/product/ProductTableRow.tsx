@@ -1,75 +1,58 @@
 import { sentenceCase } from 'change-case';
-import React, { useState } from 'react';
 // @mui
-import {
-  Avatar,
-  FormControlLabel,
-  IconButton,
-  MenuItem,
-  Popover,
-  Switch,
-  TableCell,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Product } from '@types';
 
-import { Color } from 'common/enum';
-import { Label } from 'components';
+import { Color, Status } from 'common/enum';
+import { Label, Popover } from 'components';
+import { useModal } from 'hooks/useModal';
+import { usePopover } from 'hooks/usePopover';
+import ProductDetailModal from './ProductDetailModal';
 
 interface ProductTableRowProps {
-  handleNavigateDetail: (productId: number) => void;
   product: Product;
   index: number;
 }
 
-function ProductTableRow(props: ProductTableRowProps) {
-  const { index, product, handleNavigateDetail } = props;
-
-  const [open, setOpen] = useState<HTMLButtonElement | null>(null);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpen(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
+function ProductTableRow({ index, product }: ProductTableRowProps) {
+  const { handleOpen, isOpen } = useModal();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   return (
     <>
       <TableRow hover tabIndex={-1} key={product.name} sx={{ cursor: 'pointer' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(product.productId)}>
+        <TableCell width={60} align="center" onClick={handleOpen}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={() => handleNavigateDetail(product.productId)}>
-          <Avatar alt={product.name} src={product.imageUrl} />
+        <TableCell component="th" scope="row" padding="none" onClick={handleOpen}>
+          <Avatar alt={product.name} src={product.image} />
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={() => handleNavigateDetail(product.productId)}>
+        <TableCell component="th" scope="row" padding="none" onClick={handleOpen}>
           <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
             {product.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(product.productId)}>
+        <TableCell align="left" onClick={handleOpen}>
           {product.code}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(product.productId)}>
-          {product.price}
+        <TableCell align="left" onClick={handleOpen}>
+          {product.historicalPrice}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(product.productId)}>
-          <Label color={Color.PRIMARY}>{sentenceCase(product.category)}</Label>
+        <TableCell align="left" onClick={handleOpen}>
+          {sentenceCase(product.categoryId)}
+        </TableCell>
+        <TableCell align="left" onClick={handleOpen}>
+          <Label color={Color.PRIMARY}>{sentenceCase(product.type)}</Label>
         </TableCell>
         <TableCell align="left">
           <FormControlLabel
-            control={<Switch size="small" checked={product.status === 'inactive' ? false : true} />}
+            control={<Switch size="small" checked={product.status === 0 ? false : true} />}
             label={
-              <Label color={(product.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                {sentenceCase(product.status)}
+              <Label color={(product.status === 0 && Color.ERROR) || Color.SUCCESS}>
+                {sentenceCase(product.status === 0 ? Status.INACTIVE : Status.ACTIVE)}
               </Label>
             }
           />
@@ -81,34 +64,9 @@ function ProductTableRow(props: ProductTableRowProps) {
         </TableCell>
       </TableRow>
 
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
+      <Popover open={open} handleCloseMenu={handleCloseMenu} />
 
-        <MenuItem sx={{ color: 'error.main' }}>
-          <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
+      {isOpen && <ProductDetailModal isOpen={isOpen} handleOpen={handleOpen} product={product} />}
     </>
   );
 }
