@@ -24,7 +24,7 @@ import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useModal } from 'hooks/useModal';
-import productCategories from 'mock/productCategory';
+import { useAppSelector } from 'redux/configStore';
 import {
   CreateProductCategoryModal,
   ProductCateTableHead,
@@ -65,6 +65,8 @@ function ListExtraCategoryPage(props: any) {
 
   const { pathname } = useLocation();
 
+  const { extraCategories } = useAppSelector((state) => state.extraCategory);
+
   const { handleOpen, isOpen } = useModal();
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -98,15 +100,15 @@ function ListExtraCategoryPage(props: any) {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - productCategories.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - extraCategories.length) : 0;
 
   const visibleRows = useMemo(
     () =>
-      stableSort(productCategories, getComparator(order, orderBy)).slice(
+      stableSort(extraCategories, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, extraCategories]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
@@ -187,7 +189,7 @@ function ListExtraCategoryPage(props: any) {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={productCategories.length}
+                count={extraCategories.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

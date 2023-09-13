@@ -24,7 +24,7 @@ import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useModal } from 'hooks/useModal';
-import productCategories from 'mock/productCategory';
+import { useAppSelector } from 'redux/configStore';
 import {
   CreateProductCategoryModal,
   ProductCateTableHead,
@@ -64,6 +64,8 @@ function ListProductCategoryPage() {
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
+
+  const { productCategories } = useAppSelector((state) => state.productCategory);
 
   const { handleOpen, isOpen } = useModal();
 
@@ -106,7 +108,7 @@ function ListProductCategoryPage() {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, productCategories]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;

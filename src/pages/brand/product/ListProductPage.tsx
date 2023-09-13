@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -22,10 +23,9 @@ import { OrderSort, ProductHeadCell, ProductTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
-import products from 'mock/product';
-import { useMemo, useState } from 'react';
-import { getComparator, stableSort } from 'utils';
+import { useAppSelector } from 'redux/configStore';
 import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/brand';
+import { getComparator, stableSort } from 'utils';
 
 const headCells: ProductHeadCell[] = [
   {
@@ -71,6 +71,8 @@ function ListProductPage() {
 
   const { pathname } = useLocation();
 
+  const { products } = useAppSelector((state) => state.product);
+
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
   const [page, setPage] = useState(0);
@@ -107,7 +109,7 @@ function ListProductPage() {
   const visibleRows = useMemo(
     () =>
       stableSort(products, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, products]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
