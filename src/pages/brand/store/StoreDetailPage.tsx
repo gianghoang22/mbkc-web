@@ -80,7 +80,7 @@ function StoreDetailPage() {
                       })}
                     >
                       <Avatar
-                        src="/assets/images/kitchen/avatar_1.jpg"
+                        src="/assets/images/avatars/avatar_1.jpg"
                         alt="partner"
                         variant="rounded"
                         sx={{ width: 45, height: 45 }}

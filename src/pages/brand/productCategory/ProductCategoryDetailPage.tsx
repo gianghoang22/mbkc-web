@@ -117,6 +117,11 @@ function ProductCategoryDetailPage() {
                 </Grid>
                 <Grid item md={9} sm={12}>
                   <Stack gap={1}>
+                    <Box textAlign="right" mb={1}>
+                      <IconButton>
+                        <EditRoundedIcon />
+                      </IconButton>
+                    </Box>
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
                       <Stack direction="row" alignItems="center" gap={0.5}>
                         <Typography variant="subtitle1">Code:</Typography>
