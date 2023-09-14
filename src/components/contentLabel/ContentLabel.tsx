@@ -1,7 +1,7 @@
 import { Divider, Stack, Typography } from '@mui/material';
 import { sentenceCase } from 'change-case';
 import { Color } from 'common/enum';
-import Label from 'components/label/Label';
+import Label from '../label/Label';
 
 interface ContentLabelProps {
   divider?: boolean;
