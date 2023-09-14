@@ -16,58 +16,28 @@ import {
   Typography,
 } from '@mui/material';
 //
-import { OrderSort, StoreHeadCell, StoreTable } from '@types';
+import { OrderSort, Store, StoreTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { StoreTableHead, StoreTableRow, StoreTableToolbar } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
-import { useAppSelector } from 'redux/configStore';
+import { storeHeadCells } from '../headCells';
+import { getStoreDetail } from 'redux/store/storeSlice';
 
 // ----------------------------------------------------------------------
 
-const headCells: StoreHeadCell[] = [
-  {
-    id: 'title',
-    numeric: false,
-    disablePadding: true,
-    label: 'Title',
-  },
-  {
-    id: 'kitchenCenter',
-    numeric: false,
-    disablePadding: false,
-    label: 'Kitchen center',
-  },
-  {
-    id: 'startDay',
-    numeric: false,
-    disablePadding: false,
-    label: 'Start day',
-  },
-  {
-    id: 'endDay',
-    numeric: false,
-    disablePadding: false,
-    label: 'End day',
-  },
-  {
-    id: 'status',
-    numeric: false,
-    disablePadding: false,
-    label: 'Status',
-  },
-];
-
 function ListStorePage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { pathname } = useLocation();
 
   const { stores } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StoreTable>('title');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
@@ -78,8 +48,9 @@ function ListStorePage() {
     setOrderBy(property);
   };
 
-  const handleNavigateDetail = (storeId: number) => {
-    navigate(RoutesDynamicKeys.STORE_DETAIL + `/${storeId}`);
+  const handleNavigateDetail = (store: Store, accountId: number) => {
+    navigate(RoutesDynamicKeys.STORE_DETAIL + `/${accountId}`);
+    dispatch(getStoreDetail(store));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -110,7 +81,7 @@ function ListStorePage() {
     <>
       <Helmet title="List Store | MBKC" />
 
-      <Container>
+      <Container maxWidth="xl">
         <Stack mb={5}>
           <Typography variant="h4">List Store</Typography>
           <Breadcrumbs model="Store" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
@@ -123,7 +94,7 @@ function ListStorePage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <StoreTableHead
-                    headCells={headCells}
+                    headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}

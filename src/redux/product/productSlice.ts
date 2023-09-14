@@ -21,11 +21,15 @@ const initialState: ProductState = {
 const productSlice = createSlice({
   name: 'product',
   initialState,
-  reducers: {},
+  reducers: {
+    getProductDetail: (state, action) => {
+      state.product = action.payload;
+    },
+  },
   extraReducers(builder) {},
 });
 
-// export const {} = productSlice.actions;
+export const { getProductDetail } = productSlice.actions;
 const productReducer = productSlice.reducer;
 
 export default productReducer;

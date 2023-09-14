@@ -19,52 +19,13 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { OrderSort, ProductHeadCell, ProductTable } from '@types';
+import { OrderSort, ProductTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
-import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useAppSelector } from 'redux/configStore';
 import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
-
-const headCells: ProductHeadCell[] = [
-  {
-    id: 'imageUrl',
-    numeric: false,
-    disablePadding: true,
-    label: 'Image',
-  },
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: false,
-    label: 'Category name',
-  },
-  {
-    id: 'code',
-    numeric: false,
-    disablePadding: false,
-    label: 'Category code',
-  },
-  {
-    id: 'price',
-    numeric: false,
-    disablePadding: false,
-    label: 'Price',
-  },
-  {
-    id: 'category',
-    numeric: false,
-    disablePadding: false,
-    label: 'Category',
-  },
-  {
-    id: 'status',
-    numeric: false,
-    disablePadding: false,
-    label: 'Status',
-  },
-];
+import { productHeadCells } from '../headCells';
 
 function ListProductPage() {
   const navigate = useNavigate();
@@ -83,10 +44,6 @@ function ListProductPage() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (categoryId: number) => {
-    navigate(RoutesDynamicKeys.PRODUCT_CATEGORY_DETAIL + `/${categoryId}`);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -118,7 +75,7 @@ function ListProductPage() {
     <>
       <Helmet title="List Product | MBKC" />
 
-      <Container>
+      <Container maxWidth="xl">
         <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
           <Stack>
             <Typography variant="h4">List Product</Typography>
@@ -143,16 +100,14 @@ function ListProductPage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <ProductTableHead
-                    headCells={headCells}
+                    headCells={productHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
                   <TableBody>
                     {visibleRows.map((product, index) => {
-                      return (
-                        <ProductTableRow index={index} product={product} handleNavigateDetail={handleNavigateDetail} />
-                      );
+                      return <ProductTableRow index={index} product={product} />;
                     })}
                     {emptyRows > 0 && (
                       <TableRow
