@@ -50,5 +50,9 @@ export enum RoutesPageKey {
   ADMIN_DASHBOARD = '/MBKCAdmin/dashboard',
 
   LIST_KITCHEN_CENTERS = '/MBKCAdmin/list-kitchen-centers',
+  CREATE_KITCHEN_CENTERS = '/MBKCAdmin/create-kitchen-centers',
+  KITCHEN_CENTER_DETAIL = '/MBKCAdmin/kitchen-center-detail/:id',
+
   LIST_BRAND = '/MBKCAdmin/list-brand',
+  CREATE_BRAND = '/MBKCAdmin/create-brand',
 }

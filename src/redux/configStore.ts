@@ -4,6 +4,7 @@ import extraCategoryReducer from './extraCategory/extraCategorySlice';
 import productReducer from './product/productSlice';
 import productCategoryReducer from './productCategory/productCategorySlice';
 import storeReducer from './store/storeSlice';
+import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     product: productReducer,
     extraCategory: extraCategoryReducer,
     productCategory: productCategoryReducer,
+    kitchenCenter: kitchenCenterReducer,
   },
 });
 

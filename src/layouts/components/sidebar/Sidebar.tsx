@@ -19,7 +19,7 @@ interface SidebarProps {
 
 function Sidebar({ openNav, onCloseNav }: SidebarProps) {
   const { pathname } = useLocation();
-  const { navBrand } = useConfigSidebar();
+  const { navBrand, navAdmin } = useConfigSidebar();
 
   const isDesktop = useResponsive('up', 'lg');
 
