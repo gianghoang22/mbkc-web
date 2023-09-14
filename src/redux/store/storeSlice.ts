@@ -23,7 +23,6 @@ const storeSlice = createSlice({
   initialState,
   reducers: {
     getStoreDetail: (state, action) => {
-      console.log(action);
       state.store = action.payload;
     },
   },

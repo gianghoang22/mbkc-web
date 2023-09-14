@@ -37,10 +37,11 @@ export interface ProductHeadCell {
 }
 
 export interface ProductTable {
-  imageUrl: string;
+  image: string;
   name: string;
   code: string;
-  price: number;
-  category: string;
+  historicalPrice: number;
+  type: string;
+  categoryId: string;
   status: string;
 }

@@ -2,7 +2,7 @@ import { ProductCateHeadCell, ProductHeadCell, StoreHeadCell } from '@types';
 
 export const productHeadCells: ProductHeadCell[] = [
   {
-    id: 'imageUrl',
+    id: 'image',
     numeric: false,
     disablePadding: true,
     label: 'Image',
@@ -20,16 +20,22 @@ export const productHeadCells: ProductHeadCell[] = [
     label: 'Category code',
   },
   {
-    id: 'price',
+    id: 'historicalPrice',
     numeric: false,
     disablePadding: false,
-    label: 'Price',
+    label: 'Historical Price',
   },
   {
-    id: 'category',
+    id: 'categoryId',
     numeric: false,
     disablePadding: false,
     label: 'Category',
+  },
+  {
+    id: 'type',
+    numeric: false,
+    disablePadding: false,
+    label: 'Type',
   },
   {
     id: 'status',

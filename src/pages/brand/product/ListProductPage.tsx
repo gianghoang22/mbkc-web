@@ -22,7 +22,6 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { OrderSort, ProductTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
-import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useAppSelector } from 'redux/configStore';
 import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
@@ -45,10 +44,6 @@ function ListProductPage() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (categoryId: number) => {
-    navigate(RoutesDynamicKeys.PRODUCT_CATEGORY_DETAIL + `/${categoryId}`);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -112,9 +107,7 @@ function ListProductPage() {
                   />
                   <TableBody>
                     {visibleRows.map((product, index) => {
-                      return (
-                        <ProductTableRow index={index} product={product} handleNavigateDetail={handleNavigateDetail} />
-                      );
+                      return <ProductTableRow index={index} product={product} />;
                     })}
                     {emptyRows > 0 && (
                       <TableRow
