@@ -45,3 +45,18 @@ export interface ProductTable {
   category: string;
   status: string;
 }
+
+export interface KitchenCenterHeadCell {
+  disablePadding: boolean;
+  id: keyof KitchenCentersTable;
+  label: string;
+  numeric: boolean;
+}
+
+export interface KitchenCentersTable {
+  imageUrl: string;
+  title: string;
+  address: string;
+  numberOfKitchens: number;
+  status: string;
+}
