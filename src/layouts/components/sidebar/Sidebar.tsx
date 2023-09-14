@@ -50,7 +50,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
         </Box>
 
         <Box width="100%">
-          {navAdmin.map((navItem, index) => (
+          {navBrand.map((navItem, index) => (
             <Box key={index} mb={1}>
               <Typography
                 sx={{
