@@ -21,10 +21,10 @@ import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getStoreDetail } from 'redux/store/storeSlice';
 import { StoreTableHead, StoreTableRow, StoreTableToolbar } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
 import { storeHeadCells } from '../headCells';
-import { getStoreDetail } from 'redux/store/storeSlice';
 
 // ----------------------------------------------------------------------
 
@@ -101,7 +101,14 @@ function ListStorePage() {
                   />
                   <TableBody>
                     {visibleRows.map((store, index) => {
-                      return <StoreTableRow index={index} store={store} handleNavigateDetail={handleNavigateDetail} />;
+                      return (
+                        <StoreTableRow
+                          key={store.accountId}
+                          index={index}
+                          store={store}
+                          handleNavigateDetail={handleNavigateDetail}
+                        />
+                      );
                     })}
                     {emptyRows > 0 && (
                       <TableRow

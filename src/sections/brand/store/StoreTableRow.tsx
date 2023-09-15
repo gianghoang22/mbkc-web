@@ -1,26 +1,14 @@
-import React, { useState } from 'react';
+import { sentenceCase } from 'change-case';
+import { useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Avatar,
-  FormControlLabel,
-  IconButton,
-  MenuItem,
-  Popover,
-  Stack,
-  Switch,
-  TableCell,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Avatar, FormControlLabel, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Store } from '@types';
-import { sentenceCase } from 'change-case';
 import { Color } from 'common/enum';
 import { Label } from 'components';
+import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 
 interface StoreTableRowProps {
   handleNavigateDetail: (store: Store, accountId: number) => void;
@@ -28,17 +16,11 @@ interface StoreTableRowProps {
   index: number;
 }
 
-function StoreTableRow(props: StoreTableRowProps) {
-  const { index, store, handleNavigateDetail } = props;
+function StoreTableRow({ index, store, handleNavigateDetail }: StoreTableRowProps) {
+  const navigate = useNavigate();
 
-  const [open, setOpen] = useState<HTMLButtonElement | null>(null);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpen(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setOpen(null);
+  const handleNavigateToEdit = () => {
+    navigate(RoutesDynamicKeys.UPDATE_STORE + `/${store.accountId}`);
   };
 
   return (
@@ -78,40 +60,11 @@ function StoreTableRow(props: StoreTableRowProps) {
           />
         </TableCell>
         <TableCell align="right">
-          <IconButton color="inherit" onClick={handleOpenMenu}>
-            <MoreVertIcon />
+          <IconButton color="inherit" onClick={handleNavigateToEdit}>
+            <EditRoundedIcon />
           </IconButton>
         </TableCell>
       </TableRow>
-
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }}>
-          <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
     </>
   );
 }
