@@ -27,16 +27,6 @@ function InputField<T extends FieldValues>({
 
   return (
     <TextField
-      sx={{
-        width: '460px',
-        height: '52px',
-        '.css-n26ql7-MuiInputBase-input-MuiOutlinedInput-input': {
-          padding: '15.5px 14px',
-        },
-        '.css-17t7cud-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#000',
-        },
-      }}
       placeholder={placeholder}
       name={name}
       value={value}
