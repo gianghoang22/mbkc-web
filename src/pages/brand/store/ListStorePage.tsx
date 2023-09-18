@@ -22,7 +22,7 @@ import { Breadcrumbs, Helmet } from 'components';
 import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getStoreDetail } from 'redux/store/storeSlice';
-import { StoreTableHead, StoreTableRow, StoreTableToolbar } from 'sections/brand';
+import { StoreTableHead, StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { storeHeadCells } from '../headCells';
 

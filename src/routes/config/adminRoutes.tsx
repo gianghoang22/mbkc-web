@@ -1,10 +1,12 @@
 import { RoutesPageKey } from 'common/enum';
-import CreateBrandPage from 'pages/MBKCAdmin/brand/CreateBrandPage';
-import ListBrandPage from 'pages/MBKCAdmin/brand/ListBrandPage';
-import MBKCAdminDashboardPage from 'pages/MBKCAdmin/dashboard/MBKCAdminDashboardPage';
-import CreateKitchenCenterPage from 'pages/MBKCAdmin/kitchenCenter/CreateKitchenCenterPage';
-import KitchenCenterDetailPage from 'pages/MBKCAdmin/kitchenCenter/KitchenCenterDetailPage';
-import ListKitchenCenterPage from 'pages/MBKCAdmin/kitchenCenter/ListKitchenCenterPage';
+import {
+  CreateBrandPage,
+  CreateKitchenCenterPage,
+  KitchenCenterDetailPage,
+  ListBrandPage,
+  ListKitchenCenterPage,
+  MBKCAdminDashboardPage,
+} from 'pages/MBKCAdmin';
 
 export const adminRoutes = [
   {

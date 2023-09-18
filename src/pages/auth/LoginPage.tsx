@@ -9,7 +9,7 @@ import useResponsive from 'hooks/useResponsive';
 // // components
 import { Logo } from 'components';
 // sections
-import { LoginForm } from 'sections/auth/login';
+import { LoginForm } from 'sections/auth';
 
 // ----------------------------------------------------------------------
 
