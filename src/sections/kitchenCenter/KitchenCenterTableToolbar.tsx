@@ -1,7 +1,7 @@
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
-import { StyledRoot, StyledSearch } from './styles';
+import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
 

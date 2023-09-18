@@ -1,5 +1,5 @@
 import { RoutesPageKey } from 'common/enum';
-import { ForgotPasswordPage, LoginPage, ResetPasswordPage } from 'pages';
+import { ForgotPasswordPage, LoginPage, ResetPasswordPage } from 'pages/auth';
 
 export const publicRoutes = [
   {

@@ -1,26 +1,14 @@
-import BrandDashboard from './dashboard/BrandDashboard';
+export { default as BrandDashboard } from './dashboard/BrandDashboard';
 //
-import EditStorePage from './store/EditStorePage';
-import ListStorePage from './store/ListStorePage';
-import StoreDetailPage from './store/StoreDetailPage';
+export { default as EditStorePage } from './store/EditStorePage';
+export { default as ListStorePage } from './store/ListStorePage';
+export { default as StoreDetailPage } from './store/StoreDetailPage';
 //
-import CreateNewProductPage from './product/CreateNewProductPage';
-import ListProductPage from './product/ListProductPage';
+export { default as ListProductPage } from './product/ListProductPage';
+export { default as CreateNewProductPage } from './product/CreateNewProductPage';
 //
-import ExtraCategoryDetailPage from './extraCategory/ExtraCategoryDetailPage';
-import ListExtraCategoryPage from './extraCategory/ListExtraCategoryPage';
-import ListProductCategoryPage from './productCategory/ListProductCategoryPage';
-import ProductCategoryDetailPage from './productCategory/ProductCategoryDetailPage';
-
-export {
-  BrandDashboard,
-  CreateNewProductPage,
-  EditStorePage,
-  ExtraCategoryDetailPage,
-  ListExtraCategoryPage,
-  ListProductCategoryPage,
-  ListProductPage,
-  ListStorePage,
-  ProductCategoryDetailPage,
-  StoreDetailPage,
-};
+export { default as ExtraCategoryDetailPage } from './extraCategory/ExtraCategoryDetailPage';
+export { default as ListExtraCategoryPage } from './extraCategory/ListExtraCategoryPage';
+//
+export { default as ListProductCategoryPage } from './productCategory/ListProductCategoryPage';
+export { default as ProductCategoryDetailPage } from './productCategory/ProductCategoryDetailPage';

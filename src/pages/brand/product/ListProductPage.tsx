@@ -23,7 +23,7 @@ import { OrderSort, ProductTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import { useAppSelector } from 'redux/configStore';
-import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/brand';
+import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
 import { productHeadCells } from '../headCells';
 

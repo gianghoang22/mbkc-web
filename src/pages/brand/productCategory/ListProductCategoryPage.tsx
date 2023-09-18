@@ -31,7 +31,7 @@ import {
   ProductCateTableHead,
   ProductCateTableRow,
   ProductCateTableToolbar,
-} from 'sections/brand';
+} from 'sections/productCategory';
 import { getComparator, stableSort } from 'utils';
 import { productCateHeadCells } from '../headCells';
 

@@ -3,15 +3,15 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import DashboardLayout from 'layouts/dashboard/DashboardLayout';
 import SimpleLayout from 'layouts/simple/SimpleLayout';
 //pages
-import { Page404 } from 'pages';
+import { Page404 } from 'pages/error';
 //router
+import AdminRouter from './adminRouter';
 import BrandRouter from './brandRouter';
 import CashierRouter from './cashierRouter';
 import KitchenCenterRouter from './kitchenCenterRouter';
 //routes
-import { adminRoutes, brandRoutes, cashierRoutes, kitchenCenterRoutes, publicRoutes } from './config';
 import { RoutesPageKey } from 'common/enum';
-import AdminRouter from './adminRouter';
+import { adminRoutes, brandRoutes, cashierRoutes, kitchenCenterRoutes, publicRoutes } from './config';
 
 function AppRouter() {
   return (

@@ -26,7 +26,7 @@ import { Color, RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet, Label } from 'components';
 import useResponsive from 'hooks/useResponsive';
 import { useAppSelector } from 'redux/configStore';
-import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/brand';
+import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
 import { productHeadCells } from '../headCells';
 
