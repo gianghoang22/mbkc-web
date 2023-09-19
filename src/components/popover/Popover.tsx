@@ -8,7 +8,7 @@ interface PopoverProps {
   open: HTMLButtonElement | null;
   handleCloseMenu: () => void;
   onEdit?: () => void;
-  onDelete?: () => void;
+  onDelete?: (title: any) => void;
 }
 
 function Popover({ open, handleCloseMenu, onEdit, onDelete, sx, ...other }: PopoverProps) {
@@ -34,12 +34,23 @@ function Popover({ open, handleCloseMenu, onEdit, onDelete, sx, ...other }: Popo
         }}
         {...other}
       >
-        <MenuItem onClick={onEdit}>
+        <MenuItem
+          onClick={() => {
+            onEdit && onEdit();
+            handleCloseMenu();
+          }}
+        >
           <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }} onClick={onDelete}>
+        <MenuItem
+          sx={{ color: 'error.main' }}
+          onClick={() => {
+            onDelete && onDelete('delete');
+            handleCloseMenu();
+          }}
+        >
           <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
           Delete
         </MenuItem>

@@ -10,8 +10,9 @@ import { ProductCategory } from '@types';
 
 import { Color } from 'common/enum';
 import { Label, Popover } from 'components';
-import { usePopover } from 'hooks';
+import { useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
+import ConfirmDialog from 'components/dialog/ConfirmDialog';
 
 interface CategoryTableRowProps {
   handleNavigateDetail: (category: ProductCategory, storeId: number) => void;
@@ -21,6 +22,7 @@ interface CategoryTableRowProps {
 
 function CategoryTableRow({ index, category, handleNavigateDetail }: CategoryTableRowProps) {
   const navigate = useNavigate();
+  const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {
@@ -69,7 +71,15 @@ function CategoryTableRow({ index, category, handleNavigateDetail }: CategoryTab
         </TableCell>
       </TableRow>
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleDelete} />
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+
+      <ConfirmDialog
+        open={isOpen}
+        onClose={handleOpen}
+        onAction={handleDelete}
+        title={'Confirm Delete Category'}
+        description={'You definitely want to delete this category ?'}
+      />
     </>
   );
 }
