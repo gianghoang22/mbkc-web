@@ -1,82 +1,82 @@
-import { RoutesPageKey } from 'common/enum';
 import {
   BrandDashboard,
+  CategoryDetailPage,
+  CreateNewCategoryPage,
   CreateNewProductPage,
-  EditStorePage,
   ExtraCategoryDetailPage,
+  ListCategoryPage,
   ListExtraCategoryPage,
-  ListProductCategoryPage,
   ListProductPage,
   ListStorePage,
-  ProductCategoryDetailPage,
   StoreDetailPage,
 } from 'pages/brand';
+import { ProfilePage } from 'pages/profile';
+import { PATH_BRAND_APP } from 'routes/paths';
 
 export const brandRoutes = [
   {
-    key: RoutesPageKey.BRAND_DASHBOARD,
-    path: RoutesPageKey.BRAND_DASHBOARD,
+    path: PATH_BRAND_APP.root,
     component: <BrandDashboard />,
     index: true,
   },
   {
-    key: RoutesPageKey.LIST_STORES,
-    path: RoutesPageKey.LIST_STORES,
+    path: PATH_BRAND_APP.profile,
+    component: <ProfilePage />,
+    index: true,
+  },
+  {
+    path: PATH_BRAND_APP.store.list,
     component: <ListStorePage />,
     index: false,
   },
   {
-    key: RoutesPageKey.STORE_DETAIL,
-    path: RoutesPageKey.STORE_DETAIL,
+    path: PATH_BRAND_APP.store.detailById,
     component: <StoreDetailPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.UPDATE_STORE,
-    path: RoutesPageKey.UPDATE_STORE,
-    component: <EditStorePage />,
-    index: false,
-  },
-  {
-    key: RoutesPageKey.LIST_PRODUCTS,
-    path: RoutesPageKey.LIST_PRODUCTS,
+    path: PATH_BRAND_APP.product.list,
     component: <ListProductPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.LIST_PRODUCT_CATEGORIES,
-    path: RoutesPageKey.LIST_PRODUCT_CATEGORIES,
-    component: <ListProductCategoryPage />,
+    path: PATH_BRAND_APP.product.newProduct,
+    component: <CreateNewProductPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.PRODUCT_CATEGORY_DETAIL,
-    path: RoutesPageKey.PRODUCT_CATEGORY_DETAIL,
-    component: <ProductCategoryDetailPage />,
+    path: PATH_BRAND_APP.product.editById,
+    component: <CreateNewProductPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.LIST_EXTRA_CATEGORIES,
-    path: RoutesPageKey.LIST_EXTRA_CATEGORIES,
+    path: PATH_BRAND_APP.category.list,
+    component: <ListCategoryPage />,
+    index: false,
+  },
+  {
+    path: PATH_BRAND_APP.category.detailById,
+    component: <CategoryDetailPage />,
+    index: false,
+  },
+  {
+    path: PATH_BRAND_APP.category.extraList,
     component: <ListExtraCategoryPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.EXTRA_CATEGORY_DETAIL,
-    path: RoutesPageKey.EXTRA_CATEGORY_DETAIL,
+    path: PATH_BRAND_APP.category.extraDetailById,
     component: <ExtraCategoryDetailPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.CREATE_NEW_PRODUCT,
-    path: RoutesPageKey.CREATE_NEW_PRODUCT,
-    component: <CreateNewProductPage />,
+    path: PATH_BRAND_APP.category.newCategory,
+    component: <CreateNewCategoryPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.UPDATE_PRODUCT,
-    path: RoutesPageKey.UPDATE_PRODUCT,
-    component: <CreateNewProductPage />,
+    path: PATH_BRAND_APP.category.editById,
+    component: <CreateNewCategoryPage />,
     index: false,
   },
 ];

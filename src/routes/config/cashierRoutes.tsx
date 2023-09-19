@@ -1,28 +1,30 @@
-import { RoutesPageKey } from 'common/enum';
-import { KitchenCashierDashboard, ListOrdersPage, ListTransactionPage, OrderDetailPage } from 'pages/cashier';
+import { CashierDashboard, ListOrdersPage, ListTransactionPage, OrderDetailPage } from 'pages/cashier';
+import { ProfilePage } from 'pages/profile';
+import { PATH_CASHIER_APP } from 'routes/paths';
 
 export const cashierRoutes = [
   {
-    key: RoutesPageKey.KITCHEN_CASHIER_DASHBOARD,
-    path: RoutesPageKey.KITCHEN_CASHIER_DASHBOARD,
-    component: <KitchenCashierDashboard />,
+    path: PATH_CASHIER_APP.root,
+    component: <CashierDashboard />,
     index: true,
   },
   {
-    key: RoutesPageKey.LIST_ORDERS_OF_CASHIER,
-    path: RoutesPageKey.LIST_ORDERS_OF_CASHIER,
+    path: PATH_CASHIER_APP.profile,
+    component: <ProfilePage />,
+    index: true,
+  },
+  {
+    path: PATH_CASHIER_APP.order.list,
     component: <ListOrdersPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.ORDER_DETAIL_OF_CASHIER,
-    path: RoutesPageKey.ORDER_DETAIL_OF_CASHIER,
+    path: PATH_CASHIER_APP.order.detailById,
     component: <OrderDetailPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.LIST_TRANSACTIONS,
-    path: RoutesPageKey.LIST_TRANSACTIONS,
+    path: PATH_CASHIER_APP.transaction.list,
     component: <ListTransactionPage />,
     index: false,
   },

@@ -46,7 +46,6 @@ function StoreTableHead(props: StoreTableHeadProps) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell></TableCell>
       </TableRow>
     </TableHead>
   );

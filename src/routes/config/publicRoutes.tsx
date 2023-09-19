@@ -1,22 +1,19 @@
-import { RoutesPageKey } from 'common/enum';
 import { ForgotPasswordPage, LoginPage, ResetPasswordPage } from 'pages/auth';
+import { PATH_AUTH } from 'routes/paths';
 
 export const publicRoutes = [
   {
-    key: RoutesPageKey.LOGIN,
-    path: RoutesPageKey.LOGIN,
+    path: PATH_AUTH.login,
     component: <LoginPage />,
     index: true,
   },
   {
-    key: RoutesPageKey.FORGOT_PASSWORD,
-    path: RoutesPageKey.FORGOT_PASSWORD,
+    path: PATH_AUTH.forgotPassword,
     component: <ForgotPasswordPage />,
     index: false,
   },
   {
-    key: RoutesPageKey.RESET_PASSWORD,
-    path: RoutesPageKey.RESET_PASSWORD,
+    path: PATH_AUTH.resetPassword,
     component: <ResetPasswordPage />,
     index: false,
   },

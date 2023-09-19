@@ -1,17 +1,14 @@
 export { default as KitchenCenterDashboard } from './dashboard/KitchenCenterDashboard';
 //
-export { default as ListKitchenPage } from './kitchen/ListKitchenPage';
-export { default as KitchenDetailPage } from './kitchen/KitchenDetailPage';
+export { default as ListStorePage } from './store/ListStorePage';
+export { default as StoreDetailPage } from './store/StoreDetailPage';
 //
 export { default as ListCashierPage } from './cashier/ListCashierPage';
 export { default as CreateNewCashierPage } from './cashier/CreateNewCashierPage';
-//
-export { default as ListMenuPage } from './menu/ListMenuPage';
-export { default as ListProductOfMenuPage } from './menu/ListProductOfMenuPage';
 //
 export { default as ListOrdersPage } from './order/ListOrdersPage';
 export { default as OrderDetailPage } from './order/OrderDetailPage';
 //
 export { default as WalletPage } from './wallet/WalletPage';
-export { default as ListWalletTransactionsPage } from './wallet/ListWalletTransactionsPage';
-export { default as ListTransferTransactionsPage } from './wallet/ListTransferTransactionsPage';
+export { default as ListMoneyExchangePage } from './wallet/ListMoneyExchangePage';
+export { default as ListShipperPaymentPage } from './wallet/ListShipperPaymentPage';

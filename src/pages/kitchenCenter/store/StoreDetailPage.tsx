@@ -5,21 +5,21 @@ import { Typography, Stack, Container } from '@mui/material';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 
-function ListMenuPage(props: any) {
+function StoreDetailPage() {
   const { pathname } = useLocation();
 
   return (
     <>
-      <Helmet title="List Menu | MBKC Food" />
+      <Helmet title="Kitchen Detail | MBKC Food" />
 
       <Container>
         <Stack>
-          <Typography variant="h4">List Menu</Typography>
-          <Breadcrumbs model="Menu" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+          <Typography variant="h4">Kitchen Detail</Typography>
+          <Breadcrumbs model="Kitchen" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
         </Stack>
       </Container>
     </>
   );
 }
 
-export default ListMenuPage;
+export default StoreDetailPage;

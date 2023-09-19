@@ -1,33 +1,33 @@
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
-  Typography,
-  Stack,
-  Container,
-  Button,
   Box,
-  TablePagination,
+  Button,
   Card,
+  Container,
   Paper,
-  TableContainer,
+  Stack,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
+  TablePagination,
   TableRow,
+  Typography,
 } from '@mui/material';
 
 //@mui Icons
 import AddIcon from '@mui/icons-material/Add';
 
 //
-import { OrderSort, KitchenCenterHeadCell, KitchenCentersTable } from '@types';
+import { KitchenCenterHeadCell, KitchenCentersTable, OrderSort } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
+import { useAppSelector } from 'redux/configStore';
+import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableHead, KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
-import { useAppSelector } from 'redux/configStore';
-import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 
 const headCells: KitchenCenterHeadCell[] = [
   {
@@ -76,7 +76,7 @@ function ListKitchenCenterPage(props: any) {
   };
 
   const handleNavigateDetail = (kitchenCenterId: number) => {
-    navigate(RoutesDynamicKeys.KITCHEN_CENTER_DETAIL + `/${kitchenCenterId}`);
+    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

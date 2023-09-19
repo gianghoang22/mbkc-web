@@ -5,7 +5,7 @@ import { Typography, Stack, Container } from '@mui/material';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 
-function ListKitchenPage() {
+function ListStorePage() {
   const { pathname } = useLocation();
 
   return (
@@ -22,4 +22,4 @@ function ListKitchenPage() {
   );
 }
 
-export default ListKitchenPage;
+export default ListStorePage;
