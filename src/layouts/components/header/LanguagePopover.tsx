@@ -67,7 +67,7 @@ function LanguagePopover() {
               selected={option.value === currentLang.label}
               onClick={() => handleClose(option.value)}
             >
-              <Box component="img" alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
+              <Box component="img" alt={option.label} src={option.flag} sx={{ width: 28, mr: 2 }} />
 
               {option.label}
             </MenuItem>

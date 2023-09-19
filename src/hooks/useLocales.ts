@@ -6,13 +6,13 @@ import { enUS, viVN } from '@mui/material/locale';
 
 const LANGS = [
   {
-    label: 'eng',
+    label: 'Eng',
     value: 'en',
     systemValue: enUS,
-    icon: '/assets/icons/ic_flag_en.svg',
+    flag: '/assets/icons/ic_flag_en.svg',
   },
   {
-    label: 'vie',
+    label: 'Vie',
     value: 'vi',
     systemValue: viVN,
     flag: '/assets/icons/ic_flag_vn.svg',

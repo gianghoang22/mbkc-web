@@ -1,4 +1,13 @@
 {
+  "header": {
+    "brand manager": "Brand Manager"
+  },
+  "sidebar": {
+    "overview": "Overview",
+    "manage": "Manage",
+    "dashboard": "Dashboard",
+    "kitchen staff": "Kitchen Staff"
+  },
   "common": {
     "required": "Vui lòng nhập {{name}}",
     "navigation": "Điều hướng",
