@@ -1,82 +1,63 @@
-import React, { useState } from 'react';
+import { sentenceCase } from 'change-case';
+import { useNavigate } from 'react-router-dom';
+
 // @mui
-import {
-  Avatar,
-  FormControlLabel,
-  IconButton,
-  MenuItem,
-  Popover,
-  Switch,
-  TableCell,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { ProductCategory } from '@types';
-import { sentenceCase } from 'change-case';
+
 import { Color } from 'common/enum';
-import { Label } from 'components';
+import { Label, Popover } from 'components';
+import { usePopover } from 'hooks';
+import { PATH_BRAND_APP } from 'routes/paths';
 
 interface CategoryTableRowProps {
   handleNavigateDetail: (category: ProductCategory, storeId: number) => void;
-  productCategory: ProductCategory;
+  category: ProductCategory;
   index: number;
 }
 
-function CategoryTableRow(props: CategoryTableRowProps) {
-  const { index, productCategory, handleNavigateDetail } = props;
+function CategoryTableRow({ index, category, handleNavigateDetail }: CategoryTableRowProps) {
+  const navigate = useNavigate();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const [open, setOpen] = useState<HTMLButtonElement | null>(null);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpen(event.currentTarget);
+  const handleEdit = () => {
+    navigate(PATH_BRAND_APP.category.root + `/update/${category.categoryId}`);
   };
 
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
+  const handleDelete = () => {};
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={productCategory.name} sx={{ cursor: 'pointer' }}>
-        <TableCell
-          width={80}
-          align="center"
-          onClick={() => handleNavigateDetail(productCategory, productCategory.categoryId)}
-        >
+      <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer' }}>
+        <TableCell width={80} align="center" onClick={() => handleNavigateDetail(category, category.categoryId)}>
           {index + 1}
         </TableCell>
         <TableCell
           component="th"
           scope="row"
           padding="none"
-          onClick={() => handleNavigateDetail(productCategory, productCategory.categoryId)}
+          onClick={() => handleNavigateDetail(category, category.categoryId)}
         >
-          <Avatar alt={productCategory.name} src={productCategory.imageUrl} />
+          <Avatar alt={category.name} src={category.imageUrl} />
         </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          onClick={() => handleNavigateDetail(productCategory, productCategory.categoryId)}
-        >
+        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail(category, category.categoryId)}>
           <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
-            {productCategory.name}
+            {category.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(productCategory, productCategory.categoryId)}>
-          {productCategory.code}
+        <TableCell align="left" onClick={() => handleNavigateDetail(category, category.categoryId)}>
+          {category.code}
         </TableCell>
 
         <TableCell align="left">
           <FormControlLabel
-            control={<Switch size="small" checked={productCategory.status === 'inactive' ? false : true} />}
+            control={<Switch size="small" checked={category.status === 'inactive' ? false : true} />}
             label={
-              <Label color={(productCategory.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                {sentenceCase(productCategory?.status)}
+              <Label color={(category.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+                {sentenceCase(category?.status)}
               </Label>
             }
           />
@@ -88,34 +69,7 @@ function CategoryTableRow(props: CategoryTableRowProps) {
         </TableCell>
       </TableRow>
 
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }}>
-          <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleDelete} />
     </>
   );
 }

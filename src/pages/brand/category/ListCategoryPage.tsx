@@ -21,7 +21,6 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductCategory, ProductCategoryTable } from '@types';
 import { Breadcrumbs, Helmet } from 'components';
-import { useModal } from 'hooks/useModal';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -29,6 +28,7 @@ import { PATH_BRAND_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
 import { productCateHeadCells } from '../headCells';
 import { CategoryTableHead, CategoryTableRow, CategoryTableToolbar, CreateCategoryModal } from 'sections/category';
+import { useModal } from 'hooks';
 
 function ListCategoryPage() {
   const navigate = useNavigate();
@@ -114,11 +114,11 @@ function ListCategoryPage() {
                     onRequestSort={handleRequestSort}
                   />
                   <TableBody>
-                    {visibleRows.map((productCategory, index) => {
+                    {visibleRows.map((category, index) => {
                       return (
                         <CategoryTableRow
                           index={index}
-                          productCategory={productCategory}
+                          category={category}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );

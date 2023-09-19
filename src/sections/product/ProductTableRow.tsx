@@ -1,15 +1,16 @@
 import { sentenceCase } from 'change-case';
+import { useNavigate } from 'react-router-dom';
+
 // @mui
 import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Product } from '@types';
-
 import { Color, Status } from 'common/enum';
 import { Label, Popover } from 'components';
-import { useModal } from 'hooks/useModal';
-import { usePopover } from 'hooks/usePopover';
+import { useModal, usePopover } from 'hooks';
+import { PATH_BRAND_APP } from 'routes/paths';
 import ProductDetailModal from './ProductDetailModal';
 
 interface ProductTableRowProps {
@@ -18,8 +19,15 @@ interface ProductTableRowProps {
 }
 
 function ProductTableRow({ index, product }: ProductTableRowProps) {
+  const navigate = useNavigate();
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+
+  const handleEdit = () => {
+    navigate(PATH_BRAND_APP.product.root + `/update/${product.productId}`);
+  };
+
+  const handleDelete = () => {};
 
   return (
     <>
@@ -64,7 +72,7 @@ function ProductTableRow({ index, product }: ProductTableRowProps) {
         </TableCell>
       </TableRow>
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} />
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleDelete} />
 
       {isOpen && <ProductDetailModal isOpen={isOpen} handleOpen={handleOpen} product={product} />}
     </>

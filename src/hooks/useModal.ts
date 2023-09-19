@@ -10,4 +10,4 @@ function useModal() {
   return { handleOpen, isOpen };
 }
 
-export { useModal };
+export default useModal;

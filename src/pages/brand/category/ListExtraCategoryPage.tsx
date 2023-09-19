@@ -21,13 +21,13 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductCategory, ProductCategoryTable } from '@types';
 import { Breadcrumbs, Helmet } from 'components';
-import { useModal } from 'hooks/useModal';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CreateCategoryModal, CategoryTableToolbar, CategoryTableRow, CategoryTableHead } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
 import { productCateHeadCells } from '../headCells';
+import { useModal } from 'hooks';
 
 function ListExtraCategoryPage(props: any) {
   const navigate = useNavigate();
@@ -113,11 +113,11 @@ function ListExtraCategoryPage(props: any) {
                     onRequestSort={handleRequestSort}
                   />
                   <TableBody>
-                    {visibleRows.map((productCategory, index) => {
+                    {visibleRows.map((extraCategory, index) => {
                       return (
                         <CategoryTableRow
                           index={index}
-                          productCategory={productCategory}
+                          category={extraCategory}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );

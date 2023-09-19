@@ -14,4 +14,4 @@ function usePopover() {
   return { open, handleOpenMenu, handleCloseMenu };
 }
 
-export { usePopover };
+export default usePopover;
