@@ -1,13 +1,10 @@
+import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common';
 import {
   CreateNewCashierPage,
   KitchenCenterDashboard,
   ListCashierPage,
   ListMoneyExchangePage,
-  ListOrdersPage,
   ListShipperPaymentPage,
-  ListStorePage,
-  OrderDetailPage,
-  StoreDetailPage,
   WalletPage,
 } from 'pages/kitchenCenter';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

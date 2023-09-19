@@ -1,26 +1,20 @@
-import React from 'react';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContentText,
-  DialogActions,
-  DialogContent,
-  Button,
-  Typography,
-} from '@mui/material';
+import React, { FC, ReactElement } from 'react';
+import { Dialog, DialogTitle, DialogContentText, DialogActions, DialogContent, Button } from '@mui/material';
 import LoadingAsyncButton from 'components/LoadingAsyncButton/LoadingAsyncButton';
-import useLocales from 'hooks/useLocales';
+import { useLocales } from 'hooks';
 
 interface Props {
   open: boolean;
   onClose: () => void;
   onDelete?: () => any;
   onUpdate?: () => any;
-  title: String | React.ReactElement;
-  description?: String | React.ReactElement | undefined;
+  title: String | ReactElement;
+  description?: String | ReactElement | undefined;
 }
-const UpdateConfirmDialog: React.FC<Props> = ({ open, onClose, onUpdate, title, description }) => {
+
+const UpdateConfirmDialog: FC<Props> = ({ open, onClose, onUpdate, title, description }) => {
   const { translate } = useLocales();
+
   return (
     <Dialog
       open={open}

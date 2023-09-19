@@ -1,4 +1,5 @@
-import { CashierDashboard, ListOrdersPage, ListTransactionPage, OrderDetailPage } from 'pages/cashier';
+import { CashierDashboard, ListTransactionPage } from 'pages/cashier';
+import { ListOrdersPage, OrderDetailPage } from 'pages/common';
 import { ProfilePage } from 'pages/profile';
 import { PATH_CASHIER_APP } from 'routes/paths';
 

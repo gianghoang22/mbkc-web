@@ -5,9 +5,7 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -20,15 +18,14 @@ import {
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductCategory, ProductCategoryTable } from '@types';
-import { Breadcrumbs, Helmet } from 'components';
-import { useModal } from 'hooks/useModal';
+import { Page } from 'components';
+import { useModal } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-
-import { getComparator, stableSort } from 'utils';
-import { productCateHeadCells } from '../headCells';
 import { CategoryTableHead, CategoryTableRow, CategoryTableToolbar, CreateCategoryModal } from 'sections/category';
+import { getComparator, stableSort } from 'utils';
+import { productCateHeadCells } from '../../common/headCells';
 
 function ListCategoryPage() {
   const navigate = useNavigate();
@@ -87,20 +84,16 @@ function ListCategoryPage() {
 
   return (
     <>
-      <Helmet title="List Product Category | MBKC" />
-
-      <Container>
-        <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
-          <Stack>
-            <Typography variant="h4">List Category</Typography>
-            <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
-          </Stack>
-
+      <Page
+        title="List Category"
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+        actions={() => [
           <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={handleOpen}>
             Create product category
-          </Button>
-        </Stack>
-
+          </Button>,
+        ]}
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -114,11 +107,11 @@ function ListCategoryPage() {
                     onRequestSort={handleRequestSort}
                   />
                   <TableBody>
-                    {visibleRows.map((productCategory, index) => {
+                    {visibleRows.map((category, index) => {
                       return (
                         <CategoryTableRow
                           index={index}
-                          productCategory={productCategory}
+                          category={category}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );
@@ -170,7 +163,7 @@ function ListCategoryPage() {
             </Paper>
           </Box>
         </Card>
-      </Container>
+      </Page>
 
       {isOpen && <CreateCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>

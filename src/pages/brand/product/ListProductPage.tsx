@@ -5,9 +5,7 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -20,12 +18,12 @@ import {
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductTable } from '@types';
-import { Breadcrumbs, Helmet } from 'components';
+import { Page } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
-import { productHeadCells } from '../headCells';
+import { productHeadCells } from '../../common/headCells';
 
 function ListProductPage() {
   const navigate = useNavigate();
@@ -73,15 +71,11 @@ function ListProductPage() {
 
   return (
     <>
-      <Helmet title="List Product | MBKC" />
-
-      <Container maxWidth="xl">
-        <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
-          <Stack>
-            <Typography variant="h4">List Product</Typography>
-            <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
-          </Stack>
-
+      <Page
+        title="List Product"
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+        actions={() => [
           <Button
             variant="contained"
             startIcon={<AddRoundedIcon />}
@@ -90,9 +84,9 @@ function ListProductPage() {
             }}
           >
             Create product
-          </Button>
-        </Stack>
-
+          </Button>,
+        ]}
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -156,7 +150,7 @@ function ListProductPage() {
             </Paper>
           </Box>
         </Card>
-      </Container>
+      </Page>
     </>
   );
 }

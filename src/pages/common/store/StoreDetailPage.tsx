@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Box, Button, Container, Divider, Grid, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 //
 import { Color } from 'common/enum';
-import { Breadcrumbs, Helmet, Label } from 'components';
+import { Label, Page } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 
@@ -17,14 +17,7 @@ function StoreDetailPage() {
 
   return (
     <>
-      <Helmet title="Store Detail | MBKC" />
-
-      <Container>
-        <Stack mb={7}>
-          <Typography variant="h4">Store Detail</Typography>
-          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
-        </Stack>
-
+      <Page title="Store Detail" pathname={pathname} navigateDashboard={PATH_BRAND_APP.root}>
         <Grid container columnSpacing={5}>
           <Grid item md={4}>
             <Box>
@@ -119,7 +112,7 @@ function StoreDetailPage() {
             Back
           </Button>
         </Box>
-      </Container>
+      </Page>
     </>
   );
 }

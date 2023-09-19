@@ -5,9 +5,7 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -20,14 +18,14 @@ import {
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductCategory, ProductCategoryTable } from '@types';
-import { Breadcrumbs, Helmet } from 'components';
-import { useModal } from 'hooks/useModal';
+import { Page } from 'components';
+import { useModal } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { CreateCategoryModal, CategoryTableToolbar, CategoryTableRow, CategoryTableHead } from 'sections/category';
+import { CategoryTableHead, CategoryTableRow, CategoryTableToolbar, CreateCategoryModal } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import { productCateHeadCells } from '../headCells';
+import { productCateHeadCells } from '../../common/headCells';
 
 function ListExtraCategoryPage(props: any) {
   const navigate = useNavigate();
@@ -86,20 +84,16 @@ function ListExtraCategoryPage(props: any) {
 
   return (
     <>
-      <Helmet title="List Extra Category | MBKC" />
-
-      <Container>
-        <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
-          <Stack>
-            <Typography variant="h4">List Extra Category</Typography>
-            <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
-          </Stack>
-
+      <Page
+        title="List Extra Category"
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+        actions={() => [
           <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={handleOpen}>
-            Create product category
-          </Button>
-        </Stack>
-
+            Create extra category
+          </Button>,
+        ]}
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -113,11 +107,11 @@ function ListExtraCategoryPage(props: any) {
                     onRequestSort={handleRequestSort}
                   />
                   <TableBody>
-                    {visibleRows.map((productCategory, index) => {
+                    {visibleRows.map((extraCategory, index) => {
                       return (
                         <CategoryTableRow
                           index={index}
-                          productCategory={productCategory}
+                          category={extraCategory}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );
@@ -169,7 +163,7 @@ function ListExtraCategoryPage(props: any) {
             </Paper>
           </Box>
         </Card>
-      </Container>
+      </Page>
 
       {isOpen && <CreateCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>

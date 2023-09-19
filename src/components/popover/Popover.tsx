@@ -1,14 +1,17 @@
 // @mui
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import { MenuItem, Popover as MUIPopover } from '@mui/material';
+import { MenuItem, Popover as MUIPopover, SxProps } from '@mui/material';
 
 interface PopoverProps {
+  sx?: SxProps;
   open: HTMLButtonElement | null;
   handleCloseMenu: () => void;
+  onEdit?: () => void;
+  onDelete?: (title: any) => void;
 }
 
-function Popover({ open, handleCloseMenu }: PopoverProps) {
+function Popover({ open, handleCloseMenu, onEdit, onDelete, sx, ...other }: PopoverProps) {
   return (
     <>
       <MUIPopover
@@ -26,15 +29,28 @@ function Popover({ open, handleCloseMenu }: PopoverProps) {
               typography: 'body2',
               borderRadius: 0.75,
             },
+            ...sx,
           },
         }}
+        {...other}
       >
-        <MenuItem>
+        <MenuItem
+          onClick={() => {
+            onEdit && onEdit();
+            handleCloseMenu();
+          }}
+        >
           <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
+        <MenuItem
+          sx={{ color: 'error.main' }}
+          onClick={() => {
+            onDelete && onDelete('delete');
+            handleCloseMenu();
+          }}
+        >
           <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
           Delete
         </MenuItem>

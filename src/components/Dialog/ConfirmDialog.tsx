@@ -1,3 +1,5 @@
+import { FC, ReactElement } from 'react';
+// @mui
 import {
   Button,
   ButtonProps,
@@ -8,34 +10,37 @@ import {
   DialogProps,
   DialogTitle,
 } from '@mui/material';
+//
 import LoadingAsyncButton from 'components/LoadingAsyncButton/LoadingAsyncButton';
-import useLocales from 'hooks/useLocales';
-import React from 'react';
-import { JsxElement } from 'typescript';
+import { useLocales } from 'hooks';
 
 type Props = {
   open: boolean;
-  title: String | JsxElement;
-  description?: String | JsxElement | null;
-  onDelete: () => Promise<any> | Function;
-  onClose: () => any;
+  title: String | ReactElement;
+  description?: String | ReactElement | null;
+  // onDelete: () => Promise<any> | Function;
+  onAction: () => void;
+  onClose: (title: any) => void;
   confirmProps?: ButtonProps;
   cancelProps?: ButtonProps;
 };
 
-const ConfirmDialog: React.FC<Props & DialogProps> = ({
+const ConfirmDialog: FC<Props & DialogProps> = ({
   open,
   title,
   description,
   onClose,
-  onDelete,
+  onAction,
   cancelProps,
   confirmProps,
   ...props
 }) => {
   const { translate } = useLocales();
+
   return (
     <Dialog
+      fullWidth
+      maxWidth="xs"
       open={open}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
@@ -44,13 +49,13 @@ const ConfirmDialog: React.FC<Props & DialogProps> = ({
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
-        {/* <DialogContentText id="alert-dialog-description">{description}</DialogContentText> */}
+        <DialogContentText id="alert-dialog-description">{description}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button {...cancelProps} onClick={onClose} variant="text" color="secondary">
           {translate('common.cancel')}
         </Button>
-        <LoadingAsyncButton {...confirmProps} onClick={onDelete} color="error" variant="contained" autoFocus>
+        <LoadingAsyncButton {...confirmProps} onClick={onAction} color="error" variant="contained" autoFocus>
           {translate('common.confirm')}
         </LoadingAsyncButton>
       </DialogActions>
