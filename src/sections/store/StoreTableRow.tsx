@@ -1,14 +1,11 @@
 import { sentenceCase } from 'change-case';
-import { useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, FormControlLabel, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, FormControlLabel, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 //
 import { Store } from '@types';
 import { Color } from 'common/enum';
 import { Label } from 'components';
-import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 
 interface StoreTableRowProps {
   handleNavigateDetail: (store: Store, accountId: number) => void;
@@ -17,12 +14,6 @@ interface StoreTableRowProps {
 }
 
 function StoreTableRow({ index, store, handleNavigateDetail }: StoreTableRowProps) {
-  const navigate = useNavigate();
-
-  const handleNavigateToEdit = () => {
-    navigate(RoutesDynamicKeys.UPDATE_STORE + `/${store.accountId}`);
-  };
-
   return (
     <>
       <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer' }}>
@@ -58,11 +49,6 @@ function StoreTableRow({ index, store, handleNavigateDetail }: StoreTableRowProp
               </Label>
             }
           />
-        </TableCell>
-        <TableCell align="right">
-          <IconButton color="inherit" onClick={handleNavigateToEdit}>
-            <EditRoundedIcon />
-          </IconButton>
         </TableCell>
       </TableRow>
     </>

@@ -5,6 +5,7 @@ import { Button, IconButton, InputAdornment, Link, Stack, TextField } from '@mui
 // @mui icon
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { PATH_BRAND_APP } from 'routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -14,7 +15,7 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = () => {
-    navigate('/brand/dashboard', { replace: true });
+    navigate(PATH_BRAND_APP.root, { replace: true });
   };
 
   return (

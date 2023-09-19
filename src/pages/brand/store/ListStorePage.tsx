@@ -19,9 +19,9 @@ import {
 import { OrderSort, Store, StoreTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
-import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getStoreDetail } from 'redux/store/storeSlice';
+import { PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableHead, StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { storeHeadCells } from '../headCells';
@@ -49,7 +49,7 @@ function ListStorePage() {
   };
 
   const handleNavigateDetail = (store: Store, accountId: number) => {
-    navigate(RoutesDynamicKeys.STORE_DETAIL + `/${accountId}`);
+    navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
     dispatch(getStoreDetail(store));
   };
 
@@ -81,7 +81,7 @@ function ListStorePage() {
     <>
       <Helmet title="List Store | MBKC" />
 
-      <Container maxWidth="xl">
+      <Container>
         <Stack mb={5}>
           <Typography variant="h4">List Store</Typography>
           <Breadcrumbs model="Store" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />

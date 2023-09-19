@@ -30,7 +30,7 @@ import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections
 import { getComparator, stableSort } from 'utils';
 import { productHeadCells } from '../headCells';
 
-function ProductCategoryDetailPage() {
+function CategoryDetailPage() {
   const { pathname } = useLocation();
   const mdUp = useResponsive('up', 'md', 'md');
 
@@ -225,4 +225,4 @@ function ProductCategoryDetailPage() {
   );
 }
 
-export default ProductCategoryDetailPage;
+export default CategoryDetailPage;

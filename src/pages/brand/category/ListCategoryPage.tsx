@@ -22,10 +22,10 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { OrderSort, ProductCategory, ProductCategoryTable } from '@types';
 import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
-import RoutesDynamicKeys from 'constants/RoutesDynamicKeys';
 import { useModal } from 'hooks/useModal';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
+import { PATH_BRAND_APP } from 'routes/paths';
 import {
   CreateProductCategoryModal,
   ProductCateTableHead,
@@ -35,7 +35,7 @@ import {
 import { getComparator, stableSort } from 'utils';
 import { productCateHeadCells } from '../headCells';
 
-function ListProductCategoryPage() {
+function ListCategoryPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -58,7 +58,7 @@ function ListProductCategoryPage() {
   };
 
   const handleNavigateDetail = (category: ProductCategory, categoryId: number) => {
-    navigate(RoutesDynamicKeys.PRODUCT_CATEGORY_DETAIL + `/${categoryId}`);
+    navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
     dispatch(getCategoryDetail(category));
   };
 
@@ -94,7 +94,7 @@ function ListProductCategoryPage() {
     <>
       <Helmet title="List Product Category | MBKC" />
 
-      <Container maxWidth="xl">
+      <Container>
         <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
           <Stack>
             <Typography variant="h4">List Product Category</Typography>
@@ -186,4 +186,4 @@ function ListProductCategoryPage() {
   );
 }
 
-export default ListProductCategoryPage;
+export default ListCategoryPage;

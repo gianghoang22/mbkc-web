@@ -1,4 +1,3 @@
-import { RoutesPageKey } from 'common/enum';
 import {
   CreateBrandPage,
   CreateKitchenCenterPage,
@@ -7,47 +6,41 @@ import {
   ListKitchenCenterPage,
   MBKCAdminDashboardPage,
 } from 'pages/MBKCAdmin';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 export const adminRoutes = [
   {
-    key: RoutesPageKey.ADMIN_DASHBOARD,
-    path: RoutesPageKey.ADMIN_DASHBOARD,
+    path: PATH_ADMIN_APP.root,
     component: <MBKCAdminDashboardPage />,
     index: true,
   },
   {
-    key: RoutesPageKey.LIST_KITCHEN_CENTERS,
-    path: RoutesPageKey.LIST_KITCHEN_CENTERS,
+    path: PATH_ADMIN_APP.kitchenCenter.list,
     component: <ListKitchenCenterPage />,
     index: true,
   },
   {
-    key: RoutesPageKey.KITCHEN_CENTER_DETAIL,
-    path: RoutesPageKey.KITCHEN_CENTER_DETAIL,
+    path: PATH_ADMIN_APP.kitchenCenter.detailById,
     component: <KitchenCenterDetailPage />,
     index: true,
   },
   {
-    key: RoutesPageKey.CREATE_KITCHEN_CENTERS,
-    path: RoutesPageKey.CREATE_KITCHEN_CENTERS,
+    path: PATH_ADMIN_APP.kitchenCenter.newKitchenCenter,
     component: <CreateKitchenCenterPage />,
     index: true,
   },
   {
-    key: RoutesPageKey.LIST_BRAND,
-    path: RoutesPageKey.LIST_BRAND,
+    path: PATH_ADMIN_APP.brand.list,
     component: <ListBrandPage />,
     index: true,
   },
   {
-    key: RoutesPageKey.CREATE_BRAND,
-    path: RoutesPageKey.CREATE_BRAND,
+    path: PATH_ADMIN_APP.brand.newBrand,
     component: <CreateBrandPage />,
     index: true,
   },
   {
-    key: RoutesPageKey.CREATE_BRAND,
-    path: RoutesPageKey.CREATE_BRAND,
+    path: PATH_ADMIN_APP.brand.editById,
     component: <CreateBrandPage />,
     index: true,
   },

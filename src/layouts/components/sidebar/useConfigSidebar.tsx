@@ -1,19 +1,19 @@
+import { useTranslation } from 'react-i18next';
 // MUI icons
-import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
+import BusinessIcon from '@mui/icons-material/Business';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
-import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
-import BusinessIcon from '@mui/icons-material/Business';
 //
-import { RoutesPageKey } from 'common/enum';
-import { useTranslation } from 'react-i18next';
 import { NavSection } from '@types';
+import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function useConfigSidebar() {
   const { t } = useTranslation('home');
@@ -24,7 +24,7 @@ function useConfigSidebar() {
       listNav: [
         {
           title: 'dashboard',
-          path: RoutesPageKey.BRAND_DASHBOARD,
+          path: PATH_BRAND_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
       ],
@@ -34,22 +34,22 @@ function useConfigSidebar() {
       listNav: [
         {
           title: 'store',
-          path: RoutesPageKey.LIST_STORES,
+          path: PATH_BRAND_APP.store.list,
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },
         {
           title: 'product category',
-          path: RoutesPageKey.LIST_PRODUCT_CATEGORIES,
+          path: PATH_BRAND_APP.category.list,
           icon: <SummarizeIcon fontSize="medium" />,
         },
         {
           title: 'extra category',
-          path: RoutesPageKey.LIST_EXTRA_CATEGORIES,
+          path: PATH_BRAND_APP.category.extraList,
           icon: <LanOutlinedIcon fontSize="medium" />,
         },
         {
           title: 'product',
-          path: RoutesPageKey.LIST_PRODUCTS,
+          path: PATH_BRAND_APP.product.list,
           icon: <DinnerDiningIcon fontSize="medium" />,
         },
       ],
@@ -62,7 +62,7 @@ function useConfigSidebar() {
       listNav: [
         {
           title: 'dashboard',
-          path: RoutesPageKey.KITCHEN_CENTER_DASHBOARD,
+          path: PATH_KITCHEN_CENTER_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
       ],
@@ -72,22 +72,22 @@ function useConfigSidebar() {
       listNav: [
         {
           title: 'kitchen',
-          path: RoutesPageKey.LIST_STORES_OF_CENTER,
+          path: PATH_KITCHEN_CENTER_APP.store.list,
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },
         {
           title: 'cashier',
-          path: RoutesPageKey.LIST_CASHIERS,
+          path: PATH_KITCHEN_CENTER_APP.cashier.list,
           icon: <AssignmentIndIcon fontSize="medium" />,
         },
         {
           title: 'order',
-          path: RoutesPageKey.LIST_ORDERS,
+          path: PATH_KITCHEN_CENTER_APP.order.list,
           icon: <ListAltIcon fontSize="medium" />,
         },
         {
           title: 'wallet',
-          path: RoutesPageKey.WALLET,
+          path: PATH_KITCHEN_CENTER_APP.wallet.root,
           icon: <WalletIcon fontSize="medium" />,
         },
       ],
@@ -100,7 +100,7 @@ function useConfigSidebar() {
       listNav: [
         {
           title: 'dashboard',
-          path: RoutesPageKey.KITCHEN_CASHIER_DASHBOARD,
+          path: PATH_CASHIER_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
       ],
@@ -110,12 +110,12 @@ function useConfigSidebar() {
       listNav: [
         {
           title: 'order',
-          path: RoutesPageKey.LIST_ORDERS_OF_CASHIER,
+          path: PATH_CASHIER_APP.order.list,
           icon: <ListAltIcon fontSize="medium" />,
         },
         {
           title: 'transaction',
-          path: RoutesPageKey.LIST_TRANSACTIONS,
+          path: PATH_CASHIER_APP.transaction.list,
           icon: <PointOfSaleIcon fontSize="medium" />,
         },
       ],
@@ -128,7 +128,7 @@ function useConfigSidebar() {
       listNav: [
         {
           title: 'dashboard',
-          path: RoutesPageKey.ADMIN_DASHBOARD,
+          path: PATH_ADMIN_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
       ],
@@ -138,12 +138,12 @@ function useConfigSidebar() {
       listNav: [
         {
           title: 'kitchen centers',
-          path: RoutesPageKey.LIST_KITCHEN_CENTERS,
+          path: PATH_ADMIN_APP.kitchenCenter.list,
           icon: <BusinessIcon fontSize="medium" />,
         },
         {
           title: 'brand',
-          path: RoutesPageKey.LIST_BRAND,
+          path: PATH_ADMIN_APP.brand.list,
           icon: <BrandingWatermarkOutlinedIcon fontSize="medium" />,
         },
       ],
