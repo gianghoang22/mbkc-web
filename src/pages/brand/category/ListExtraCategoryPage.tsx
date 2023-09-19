@@ -25,12 +25,7 @@ import { useModal } from 'hooks/useModal';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import {
-  CreateProductCategoryModal,
-  ProductCateTableHead,
-  ProductCateTableRow,
-  ProductCateTableToolbar,
-} from 'sections/category';
+import { CreateCategoryModal, CategoryTableToolbar, CategoryTableRow, CategoryTableHead } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
 import { productCateHeadCells } from '../headCells';
 
@@ -108,10 +103,10 @@ function ListExtraCategoryPage(props: any) {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <ProductCateTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CategoryTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <ProductCateTableHead
+                  <CategoryTableHead
                     headCells={productCateHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -120,7 +115,7 @@ function ListExtraCategoryPage(props: any) {
                   <TableBody>
                     {visibleRows.map((productCategory, index) => {
                       return (
-                        <ProductCateTableRow
+                        <CategoryTableRow
                           index={index}
                           productCategory={productCategory}
                           handleNavigateDetail={handleNavigateDetail}
@@ -176,7 +171,7 @@ function ListExtraCategoryPage(props: any) {
         </Card>
       </Container>
 
-      {isOpen && <CreateProductCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
+      {isOpen && <CreateCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>
   );
 }
