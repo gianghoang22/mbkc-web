@@ -21,13 +21,13 @@ import { sentenceCase } from 'change-case';
 import { Color } from 'common/enum';
 import { Label } from 'components';
 
-interface ProductCateTableRowProps {
+interface CategoryTableRowProps {
   handleNavigateDetail: (category: ProductCategory, storeId: number) => void;
   productCategory: ProductCategory;
   index: number;
 }
 
-function ProductCateTableRow(props: ProductCateTableRowProps) {
+function CategoryTableRow(props: CategoryTableRowProps) {
   const { index, productCategory, handleNavigateDetail } = props;
 
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
@@ -120,4 +120,4 @@ function ProductCateTableRow(props: ProductCateTableRowProps) {
   );
 }
 
-export default ProductCateTableRow;
+export default CategoryTableRow;
