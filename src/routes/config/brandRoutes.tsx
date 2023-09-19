@@ -7,9 +7,8 @@ import {
   ListCategoryPage,
   ListExtraCategoryPage,
   ListProductPage,
-  ListStorePage,
-  StoreDetailPage,
 } from 'pages/brand';
+import { ListStorePage, StoreDetailPage } from 'pages/common';
 import { ProfilePage } from 'pages/profile';
 import { PATH_BRAND_APP } from 'routes/paths';
 

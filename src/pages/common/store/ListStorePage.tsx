@@ -4,9 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
-  Container,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -14,10 +12,13 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Button,
 } from '@mui/material';
+// @mui icon
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, Store, StoreTable } from '@types';
-import { Breadcrumbs, Helmet } from 'components';
+import { Page } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getStoreDetail } from 'redux/store/storeSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -78,14 +79,16 @@ function ListStorePage() {
 
   return (
     <>
-      <Helmet title="List Store | MBKC" />
-
-      <Container>
-        <Stack mb={5}>
-          <Typography variant="h4">List Store</Typography>
-          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
-        </Stack>
-
+      <Page
+        title="List Store"
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+        actions={() => [
+          <Button variant="contained" startIcon={<AddRoundedIcon />}>
+            Create store
+          </Button>,
+        ]}
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -156,7 +159,7 @@ function ListStorePage() {
             </Paper>
           </Box>
         </Card>
-      </Container>
+      </Page>
     </>
   );
 }
