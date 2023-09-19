@@ -5,12 +5,12 @@ import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
 
-interface ProductCateTableToolbarProps {
+interface CategoryTableToolbarProps {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filterName: string;
 }
 
-function ProductCateTableToolbar(props: ProductCateTableToolbarProps) {
+function CategoryTableToolbar(props: CategoryTableToolbarProps) {
   const { filterName, onFilterName } = props;
 
   return (
@@ -36,4 +36,4 @@ function ProductCateTableToolbar(props: ProductCateTableToolbarProps) {
   );
 }
 
-export default ProductCateTableToolbar;
+export default CategoryTableToolbar;

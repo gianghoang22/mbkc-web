@@ -5,14 +5,14 @@ import { OrderSort, ProductCateHeadCell, ProductCategoryTable } from '@types';
 
 // ----------------------------------------------------------------------
 
-interface ProductCateTableHeadProps {
+interface CategoryTableHeadProps {
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof ProductCategoryTable) => void;
   order: OrderSort;
   orderBy: string;
   headCells: ProductCateHeadCell[];
 }
 
-function ProductCateTableHead(props: ProductCateTableHeadProps) {
+function CategoryTableHead(props: CategoryTableHeadProps) {
   const { headCells, order, orderBy, onRequestSort } = props;
 
   const createSortHandler = (property: keyof ProductCategoryTable) => (event: React.MouseEvent<unknown>) => {
@@ -52,4 +52,4 @@ function ProductCateTableHead(props: ProductCateTableHeadProps) {
   );
 }
 
-export default ProductCateTableHead;
+export default CategoryTableHead;

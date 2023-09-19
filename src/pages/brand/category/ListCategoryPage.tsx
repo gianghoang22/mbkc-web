@@ -28,7 +28,7 @@ import { PATH_BRAND_APP } from 'routes/paths';
 
 import { getComparator, stableSort } from 'utils';
 import { productCateHeadCells } from '../headCells';
-import { CreateCategoryModal, CategoryTableToolbar, CategoryTableRow, CategoryTableHead } from 'sections/category';
+import { CategoryTableHead, CategoryTableRow, CategoryTableToolbar, CreateCategoryModal } from 'sections/category';
 
 function ListCategoryPage() {
   const navigate = useNavigate();
