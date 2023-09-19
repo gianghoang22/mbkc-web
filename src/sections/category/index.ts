@@ -1,4 +1,4 @@
-export { default as CreateProductCategoryModal } from './CreateProductCategoryModal';
-export { default as ProductCateTableHead } from './ProductCateTableHead';
-export { default as ProductCateTableRow } from './ProductCateTableRow';
-export { default as ProductCateTableToolbar } from './ProductCateTableToolbar';
+export { default as CategoryTableHead } from './CategoryTableHead';
+export { default as CategoryTableRow } from './CategoryTableRow';
+export { default as CategoryTableToolbar } from './CategoryTableToolbar';
+export { default as CreateCategoryModal } from './CreateCategoryModal';
