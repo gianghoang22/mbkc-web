@@ -38,7 +38,7 @@ function useConfigSidebar() {
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },
         {
-          title: 'product category',
+          title: 'category',
           path: PATH_BRAND_APP.category.list,
           icon: <SummarizeIcon fontSize="medium" />,
         },

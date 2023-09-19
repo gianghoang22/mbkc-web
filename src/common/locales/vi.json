@@ -1,0 +1,29 @@
+{
+  "common": {
+    "required": "Vui lòng nhập {{name}}",
+    "navigation": "Điều hướng",
+    "addMore": "Thêm",
+    "create": "Tạo",
+    "update": "Cập nhật",
+    "delete": "Xóa",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "all": "Tất cả",
+    "available": "Hoạt động",
+    "notAvailable": "Không Hoạt động",
+    "choosedItem": "Đã chọn",
+    "confirm": "Xác nhận",
+    "confirmDeleteTitle": "Xác nhận xóa",
+    "deleteSuccess": "Xóa thành công",
+    "atLeast": "Ít nhất {{number}} giá trị",
+    "status": "Trạng thái",
+    "filter": "Bộ lọc",
+    "clearFilter": "Xóa bộ lọc",
+    "fromTime": "Từ",
+    "toTime": "Đến",
+    "201": "Tạo thành công",
+    "200": "Thành công",
+    "400": "Lỗi",
+    "error": "Có lỗi xảy ra. Vui lòng thử lại"
+  }
+}

@@ -17,7 +17,6 @@ import {
 } from '@mui/material';
 //
 import { OrderSort, Store, StoreTable } from '@types';
-import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getStoreDetail } from 'redux/store/storeSlice';
@@ -84,7 +83,7 @@ function ListStorePage() {
       <Container>
         <Stack mb={5}>
           <Typography variant="h4">List Store</Typography>
-          <Breadcrumbs model="Store" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
         </Stack>
 
         <Card>

@@ -10,13 +10,13 @@ import BrandRouter from './brandRouter';
 import CashierRouter from './cashierRouter';
 import KitchenCenterRouter from './kitchenCenterRouter';
 //routes
-import { RoutesPageKey } from 'common/enum';
 import { adminRoutes, brandRoutes, cashierRoutes, kitchenCenterRoutes, publicRoutes } from './config';
+import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from './paths';
 
 function AppRouter() {
   return (
     <Routes>
-      <Route element={<Navigate to={RoutesPageKey.LOGIN} />} index={true} />
+      <Route element={<Navigate to={PATH_AUTH.login} />} index={true} />
       {publicRoutes.map((route) => (
         <Route key={route.path} path={route.path} element={route.component} />
       ))}
@@ -32,7 +32,7 @@ function AppRouter() {
       <Route element={<DashboardLayout />}>
         {/* brand routes */}
         <Route element={<BrandRouter />}>
-          <Route element={<Navigate to={RoutesPageKey.BRAND_DASHBOARD} />} index={true} />
+          <Route element={<Navigate to={PATH_BRAND_APP.root} />} index={true} />
           {brandRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}
@@ -40,7 +40,7 @@ function AppRouter() {
 
         {/* kitchen center routes */}
         <Route element={<KitchenCenterRouter />}>
-          <Route element={<Navigate to={RoutesPageKey.KITCHEN_CENTER_DASHBOARD} />} index={true} />
+          <Route element={<Navigate to={PATH_KITCHEN_CENTER_APP.root} />} index={true} />
           {kitchenCenterRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}
@@ -48,7 +48,7 @@ function AppRouter() {
 
         {/* kitchen center routes */}
         <Route element={<CashierRouter />}>
-          <Route element={<Navigate to={RoutesPageKey.KITCHEN_CASHIER_DASHBOARD} />} index={true} />
+          <Route element={<Navigate to={PATH_CASHIER_APP.root} />} index={true} />
           {cashierRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}
@@ -56,7 +56,7 @@ function AppRouter() {
 
         {/* MBKC admin routes */}
         <Route element={<AdminRouter />}>
-          <Route element={<Navigate to={RoutesPageKey.ADMIN_DASHBOARD} />} index={true} />
+          <Route element={<Navigate to={PATH_ADMIN_APP.root} />} index={true} />
           {adminRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}

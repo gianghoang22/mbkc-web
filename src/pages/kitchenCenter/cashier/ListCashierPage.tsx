@@ -1,21 +1,21 @@
 import { useLocation } from 'react-router-dom';
 // @mui
-import { Typography, Stack, Container } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 //
-import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function ListCashierPage(props: any) {
   const { pathname } = useLocation();
 
   return (
     <>
-      <Helmet title="List Kitchen Center Cashier | MBKC Food" />
+      <Helmet title="List Cashier | MBKC" />
 
       <Container>
         <Stack>
-          <Typography variant="h4">List Kitchen Center Cashier</Typography>
-          <Breadcrumbs model="Kitchen Center" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+          <Typography variant="h4">List Cashier</Typography>
+          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_KITCHEN_CENTER_APP.root} />
         </Stack>
       </Container>
     </>

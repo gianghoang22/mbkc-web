@@ -1,17 +1,17 @@
 // @mui
 import {
-  Container,
-  Grid,
-  Typography,
-  Table,
-  TableContainer,
-  Paper,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
   Avatar,
   Box,
+  Container,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from '@mui/material';
 
 // @mui icon
@@ -20,11 +20,12 @@ import BusinessIcon from '@mui/icons-material/Business';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 //
-import { Color, RoutesPageKey } from 'common/enum';
-import { Helmet } from 'components';
-import { AppWidgetSummary } from 'sections/dashboard';
-import { Link } from 'react-router-dom';
 import { BrandData, KitchenCentersData } from '@types';
+import { Color } from 'common/enum';
+import { Helmet } from 'components';
+import { Link } from 'react-router-dom';
+import { PATH_ADMIN_APP } from 'routes/paths';
+import { AppWidgetSummary } from 'sections/dashboard';
 
 // ----------------------------------------------------------------------
 
@@ -216,7 +217,7 @@ function MBKCAdminDashboardPage() {
                   letterSpacing: '0.4px',
                   alignItems: 'center',
                 }}
-                to={RoutesPageKey.LIST_BRAND}
+                to={PATH_ADMIN_APP.brand.list}
               >
                 <Typography>View all</Typography>
                 <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
@@ -303,7 +304,7 @@ function MBKCAdminDashboardPage() {
                   letterSpacing: '0.4px',
                   alignItems: 'center',
                 }}
-                to={RoutesPageKey.LIST_KITCHEN_CENTERS}
+                to={PATH_ADMIN_APP.kitchenCenter.list}
               >
                 <Typography>View all</Typography>
                 <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />

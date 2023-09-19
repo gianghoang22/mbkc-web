@@ -22,7 +22,6 @@ import AddIcon from '@mui/icons-material/Add';
 
 //
 import { KitchenCenterHeadCell, KitchenCentersTable, OrderSort } from '@types';
-import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -116,14 +115,14 @@ function ListKitchenCenterPage(props: any) {
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="h4">List Of Kitchen Centers</Typography>
 
-            <Button variant="contained" onClick={() => navigate(RoutesPageKey.CREATE_KITCHEN_CENTERS)}>
+            <Button variant="contained" onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter)}>
               <AddIcon />
               <Typography marginLeft={1} fontWeight={600}>
                 Create new Kitchen Center
               </Typography>
             </Button>
           </Stack>
-          <Breadcrumbs model="Kitchen Centers" pathname={pathname} navigateDashboard={RoutesPageKey.ADMIN_DASHBOARD} />
+          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_ADMIN_APP.root} />
         </Stack>
 
         <Card sx={{ marginTop: 2 }}>

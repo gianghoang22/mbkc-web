@@ -20,9 +20,9 @@ import {
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductTable } from '@types';
-import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import { useAppSelector } from 'redux/configStore';
+import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
 import { productHeadCells } from '../headCells';
@@ -79,14 +79,14 @@ function ListProductPage() {
         <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
           <Stack>
             <Typography variant="h4">List Product</Typography>
-            <Breadcrumbs model="Product" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+            <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
           </Stack>
 
           <Button
             variant="contained"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
-              navigate(RoutesPageKey.CREATE_NEW_PRODUCT);
+              navigate(PATH_BRAND_APP.product.newProduct);
             }}
           >
             Create product
