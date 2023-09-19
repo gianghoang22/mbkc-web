@@ -1,18 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 // @mui
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { Breadcrumbs as MUIBreadcrumbs, Link, Typography, Stack } from '@mui/material';
-//
-import { RoutesPageKey } from 'common/enum';
+import { Link, Breadcrumbs as MUIBreadcrumbs, Stack, Typography } from '@mui/material';
 
 interface BreadcrumbsProps {
   sx?: object;
-  model: string;
   pathname: string;
-  navigateDashboard: RoutesPageKey;
+  navigateDashboard: string;
 }
 
-function Breadcrumbs({ model, pathname, navigateDashboard, sx }: BreadcrumbsProps) {
+function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
   console.log(pathname);
   const navigate = useNavigate();
   const pathnames = pathname
@@ -20,7 +17,7 @@ function Breadcrumbs({ model, pathname, navigateDashboard, sx }: BreadcrumbsProp
     .slice(2)
     .filter((x) => x);
 
-  const pathnameBread = !isNaN(parseInt(pathnames[1])) ? pathnames.filter((x) => isNaN(parseInt(x))) : pathnames;
+  const pathnameBread = !isNaN(parseInt(pathnames[2])) ? pathnames.filter((x) => isNaN(parseInt(x))) : pathnames;
 
   return (
     <MUIBreadcrumbs separator={<FiberManualRecordIcon sx={{ fontSize: 8 }} />} aria-label="breadcrumb">
@@ -29,8 +26,6 @@ function Breadcrumbs({ model, pathname, navigateDashboard, sx }: BreadcrumbsProp
           <Link onClick={() => navigate(navigateDashboard)} underline="none" sx={{ cursor: 'pointer' }}>
             Dashboard
           </Link>
-          <FiberManualRecordIcon sx={{ fontSize: 8 }} />
-          <Typography color="primary">{model}</Typography>
         </Stack>
       ) : (
         <Typography>Dashboard</Typography>

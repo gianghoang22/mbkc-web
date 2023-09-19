@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom';
 // @mui
-import { Typography, Stack, Container } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 //
-import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function ListOrdersPage(props: any) {
   const { pathname } = useLocation();
@@ -15,7 +15,7 @@ function ListOrdersPage(props: any) {
       <Container>
         <Stack>
           <Typography variant="h4">List Order</Typography>
-          <Breadcrumbs model="Order" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_KITCHEN_CENTER_APP.root} />
         </Stack>
       </Container>
     </>

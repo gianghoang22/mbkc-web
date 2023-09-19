@@ -20,7 +20,6 @@ import {
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductCategory, ProductCategoryTable } from '@types';
-import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
 import { useModal } from 'hooks/useModal';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -31,7 +30,7 @@ import {
   ProductCateTableHead,
   ProductCateTableRow,
   ProductCateTableToolbar,
-} from 'sections/productCategory';
+} from 'sections/category';
 import { getComparator, stableSort } from 'utils';
 import { productCateHeadCells } from '../headCells';
 
@@ -98,7 +97,7 @@ function ListExtraCategoryPage(props: any) {
         <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
           <Stack>
             <Typography variant="h4">List Extra Category</Typography>
-            <Breadcrumbs model="Extra Category" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+            <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
           </Stack>
 
           <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={handleOpen}>

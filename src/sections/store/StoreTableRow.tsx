@@ -1,7 +1,6 @@
 import { sentenceCase } from 'change-case';
 // @mui
 import { Avatar, FormControlLabel, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
-// @mui icon
 //
 import { Store } from '@types';
 import { Color } from 'common/enum';
@@ -16,7 +15,7 @@ interface StoreTableRowProps {
 function StoreTableRow({ index, store, handleNavigateDetail }: StoreTableRowProps) {
   return (
     <>
-      <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer' }}>
+      <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
         <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store, store.accountId)}>
           {index + 1}
         </TableCell>

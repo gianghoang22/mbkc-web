@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Typography, Stack, Container, Grid, Avatar, Divider, Box, Button } from '@mui/material';
+import { Avatar, Box, Button, Container, Divider, Grid, Stack, Typography } from '@mui/material';
 //
-import { Color, RoutesPageKey } from 'common/enum';
+import { Color } from 'common/enum';
 import { Breadcrumbs, Helmet, Label } from 'components';
 import { useAppSelector } from 'redux/configStore';
+import { PATH_BRAND_APP } from 'routes/paths';
 
 function StoreDetailPage() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function StoreDetailPage() {
       <Container>
         <Stack mb={7}>
           <Typography variant="h4">Store Detail</Typography>
-          <Breadcrumbs model="Store" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
         </Stack>
 
         <Grid container columnSpacing={5}>
@@ -114,7 +115,7 @@ function StoreDetailPage() {
         </Grid>
 
         <Box mt={10} textAlign="right">
-          <Button color="inherit" variant="outlined" onClick={() => navigate(RoutesPageKey.LIST_STORES)}>
+          <Button color="inherit" variant="outlined" onClick={() => navigate(PATH_BRAND_APP.store.list)}>
             Back
           </Button>
         </Box>

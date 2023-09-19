@@ -1,9 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Container, Stack, Typography } from '@mui/material';
 import { Breadcrumbs, Helmet } from 'components';
-import { Button, Container, Stack, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import { RoutesPageKey } from 'common/enum';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 function CreateKitchenCenterPage(props: any) {
   const { pathname } = useLocation();
@@ -16,13 +14,11 @@ function CreateKitchenCenterPage(props: any) {
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="h4">Create new Kitchen Center</Typography>
           </Stack>
-          <Breadcrumbs model="Kitchen Centers" pathname={pathname} navigateDashboard={RoutesPageKey.ADMIN_DASHBOARD} />
+          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_ADMIN_APP.root} />
         </Stack>
       </Container>
     </>
   );
 }
-
-CreateKitchenCenterPage.propTypes = {};
 
 export default CreateKitchenCenterPage;

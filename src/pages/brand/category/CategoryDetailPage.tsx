@@ -22,10 +22,11 @@ import {
 } from '@mui/material';
 //
 import { OrderSort, ProductTable } from '@types';
-import { Color, RoutesPageKey } from 'common/enum';
+import { Color } from 'common/enum';
 import { Breadcrumbs, Helmet, Label } from 'components';
 import useResponsive from 'hooks/useResponsive';
 import { useAppSelector } from 'redux/configStore';
+import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
 import { productHeadCells } from '../headCells';
@@ -80,8 +81,8 @@ function CategoryDetailPage() {
 
       <Container>
         <Stack mb={7}>
-          <Typography variant="h4">Product Category Detail</Typography>
-          <Breadcrumbs model="Product Category" pathname={pathname} navigateDashboard={RoutesPageKey.BRAND_DASHBOARD} />
+          <Typography variant="h4">Category Detail</Typography>
+          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
         </Stack>
 
         <Stack direction="row" alignItems="center" spacing={5} mb={7}>

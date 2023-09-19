@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom';
 // @mui
-import { Typography, Stack, Container } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 //
-import { RoutesPageKey } from 'common/enum';
 import { Breadcrumbs, Helmet } from 'components';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 function ListBrandPage(props: any) {
   const { pathname } = useLocation();
@@ -15,7 +15,7 @@ function ListBrandPage(props: any) {
       <Container>
         <Stack>
           <Typography variant="h4">List Of Brand</Typography>
-          <Breadcrumbs model="Brand" pathname={pathname} navigateDashboard={RoutesPageKey.ADMIN_DASHBOARD} />
+          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_ADMIN_APP.root} />
         </Stack>
       </Container>
     </>
