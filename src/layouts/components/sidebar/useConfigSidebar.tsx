@@ -1,5 +1,4 @@
-import { useTranslation } from 'react-i18next';
-// MUI icons
+// @mui icons
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
@@ -13,14 +12,15 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
 //
 import { NavSection } from '@types';
+import useLocales from 'hooks/useLocales';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function useConfigSidebar() {
-  const { t } = useTranslation('home');
+  const { translate } = useLocales();
 
   const navBrand: NavSection[] = [
     {
-      missions: t('sidebar.overview'),
+      missions: translate('sidebar.overview'),
       listNav: [
         {
           title: 'dashboard',
@@ -30,7 +30,7 @@ function useConfigSidebar() {
       ],
     },
     {
-      missions: t('sidebar.manage'),
+      missions: translate('sidebar.manage'),
       listNav: [
         {
           title: 'store',
@@ -58,7 +58,7 @@ function useConfigSidebar() {
 
   const navKitchenCenter: NavSection[] = [
     {
-      missions: t('sidebar.overview'),
+      missions: translate('sidebar.overview'),
       listNav: [
         {
           title: 'dashboard',
@@ -68,7 +68,7 @@ function useConfigSidebar() {
       ],
     },
     {
-      missions: t('sidebar.manage'),
+      missions: translate('sidebar.manage'),
       listNav: [
         {
           title: 'kitchen',
@@ -96,7 +96,7 @@ function useConfigSidebar() {
 
   const navCashier: NavSection[] = [
     {
-      missions: t('sidebar.overview'),
+      missions: translate('sidebar.overview'),
       listNav: [
         {
           title: 'dashboard',
@@ -124,7 +124,7 @@ function useConfigSidebar() {
 
   const navAdmin: NavSection[] = [
     {
-      missions: t('sidebar.overview'),
+      missions: translate('sidebar.overview'),
       listNav: [
         {
           title: 'dashboard',
@@ -134,7 +134,7 @@ function useConfigSidebar() {
       ],
     },
     {
-      missions: t('sidebar.manage'),
+      missions: translate('sidebar.manage'),
       listNav: [
         {
           title: 'kitchen centers',

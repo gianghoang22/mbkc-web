@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 // @mui icon
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutIcon from '@mui/icons-material/Logout';
 // @mui
 import { Avatar, Button, Divider, MenuItem, Popover, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 //
+import useLocales from 'hooks/useLocales';
 import account from 'mock/account';
 
 const MENU_OPTIONS = [
@@ -21,7 +21,7 @@ const MENU_OPTIONS = [
 
 function AccountPopover() {
   const navigate = useNavigate();
-  const { t } = useTranslation('home');
+  const { translate } = useLocales();
 
   const [open, setOpen] = useState<null | HTMLElement>(null);
 
@@ -65,7 +65,7 @@ function AccountPopover() {
         <Avatar src={account.photoURL} alt="PhuSon" />
         <Stack alignItems="start" sx={{ ml: 1, my: 0.5 }}>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {t('header.brand manager')}
+            {translate('header.brand manager')}
           </Typography>
           <Typography variant="subtitle1" noWrap>
             Tran Phu Son
