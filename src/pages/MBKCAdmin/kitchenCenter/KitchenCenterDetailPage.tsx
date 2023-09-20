@@ -17,6 +17,11 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 import { useLocation } from 'react-router';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -27,21 +32,21 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { MenuItem, Popover as MUIPopover } from '@mui/material';
 
 // @mui icon
-import DescriptionIcon from '@mui/icons-material/Description';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { useAppSelector } from 'redux/configStore';
 import { Color } from 'common/enum';
 import { KitchenTableHead, KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
 import { Table } from '@mui/material';
-import { Kitchen, KitchenTable, OrderSort } from '@types';
+import { KitchenTable, OrderSort } from '@types';
 import { getComparator, stableSort } from 'utils';
 import { kitchenHeadCells } from '../headCells';
 
 function KitchenCenterDetailPage(props: any) {
   const { pathname } = useLocation();
-  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
+  const [open, setOpen] = useState(false);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof KitchenTable>('kitchenName');
@@ -87,6 +92,14 @@ function KitchenCenterDetailPage(props: any) {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <Helmet title="Kitchen Center Detail | MBKC" />
@@ -114,8 +127,8 @@ function KitchenCenterDetailPage(props: any) {
               <KeyboardArrowDownIcon />
             </Button>
             <MUIPopover
-              open={Boolean(open)}
-              anchorEl={open}
+              open={Boolean(openPopover)}
+              anchorEl={openPopover}
               onClose={handleCloseMenu}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -131,8 +144,26 @@ function KitchenCenterDetailPage(props: any) {
               }}
             >
               <MenuItem sx={{ color: 'error.main' }}>
-                <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-                Delete
+                <Button onClick={handleClickOpen}>
+                  <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
+                  Delete
+                </Button>
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">Are you sure to delete this kitchen center?</DialogTitle>
+                  <DialogActions>
+                    <Button onClick={handleClose} style={{ color: '#2196F3' }}>
+                      Cancel
+                    </Button>
+                    <Button onClick={handleClose} autoFocus>
+                      Yes
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </MenuItem>
             </MUIPopover>
           </Stack>
