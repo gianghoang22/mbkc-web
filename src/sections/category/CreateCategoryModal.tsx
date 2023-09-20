@@ -1,11 +1,11 @@
 import { Button, Dialog, DialogActions, DialogContent, Stack, Typography } from '@mui/material';
 
-interface CreateProductCategoryModalProps {
+interface CreateCategoryModalProps {
   isOpen: boolean;
   handleOpen: (title: any) => void;
 }
 
-function CreateProductCategoryModal({ isOpen, handleOpen }: CreateProductCategoryModalProps) {
+function CreateCategoryModal({ isOpen, handleOpen }: CreateCategoryModalProps) {
   return (
     <>
       {isOpen && (
@@ -30,4 +30,4 @@ function CreateProductCategoryModal({ isOpen, handleOpen }: CreateProductCategor
   );
 }
 
-export default CreateProductCategoryModal;
+export default CreateCategoryModal;

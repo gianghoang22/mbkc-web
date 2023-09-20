@@ -6,7 +6,7 @@ import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typograph
 import { Product } from '@types';
 import { Color, Status } from 'common/enum';
 import { ContentLabel, ContentSpace, Popover } from 'components';
-import { usePopover } from 'hooks/usePopover';
+import { usePopover } from 'hooks';
 
 interface ProductDetailModalProps {
   isOpen: boolean;

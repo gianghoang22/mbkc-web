@@ -7,7 +7,6 @@ import {
   Avatar,
   Box,
   Card,
-  Container,
   Grid,
   IconButton,
   Paper,
@@ -23,13 +22,13 @@ import {
 //
 import { OrderSort, ProductTable } from '@types';
 import { Color } from 'common/enum';
-import { Breadcrumbs, Helmet, Label } from 'components';
+import { CommonTableHead, Label, Page } from 'components';
 import useResponsive from 'hooks/useResponsive';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/product';
+import { ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
-import { productHeadCells } from '../headCells';
+import { productHeadCells } from '../../common/headCells';
 
 function CategoryDetailPage() {
   const { pathname } = useLocation();
@@ -77,15 +76,8 @@ function CategoryDetailPage() {
 
   return (
     <>
-      <Helmet title="Product Category Detail | MBKC" />
-
-      <Container>
-        <Stack mb={7}>
-          <Typography variant="h4">Category Detail</Typography>
-          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
-        </Stack>
-
-        <Stack direction="row" alignItems="center" spacing={5} mb={7} width="100%">
+      <Page title="Category Detail" pathname={pathname} navigateDashboard={PATH_BRAND_APP.root}>
+        <Stack direction="row" alignItems="center" spacing={5} mb={7}>
           <Card>
             <Stack
               direction="row"
@@ -163,7 +155,7 @@ function CategoryDetailPage() {
                 <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <ProductTableHead
+                    <CommonTableHead<ProductTable>
                       headCells={productHeadCells}
                       order={order}
                       orderBy={orderBy}
@@ -221,7 +213,7 @@ function CategoryDetailPage() {
             </Box>
           </Card>
         </Stack>
-      </Container>
+      </Page>
     </>
   );
 }

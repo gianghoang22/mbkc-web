@@ -25,7 +25,7 @@ import {
 } from '@mui/material';
 import { useLocation } from 'react-router';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { usePopover } from 'hooks/usePopover';
+import usePopover from 'hooks/usePopover';
 
 // @mui
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';

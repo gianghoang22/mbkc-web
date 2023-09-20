@@ -1,24 +1,16 @@
-import { useState } from 'react';
 // @mui
-import { Box, IconButton, MenuItem, Popover, Stack } from '@mui/material';
+import { Box, IconButton, MenuItem, Stack } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+//
+import { MenuPopover } from 'components';
 import useLocales from 'hooks/useLocales';
+import usePopover from 'hooks/usePopover';
 
 // ----------------------------------------------------------------------
 
 function LanguagePopover() {
   const { allLang, currentLang, onChangeLang } = useLocales();
-
-  const [open, setOpen] = useState<null | HTMLElement>(null);
-
-  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setOpen(event.currentTarget);
-  };
-
-  const handleClose = (lng: string) => {
-    onChangeLang(lng);
-    setOpen(null);
-  };
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const bgColorStyle = open
     ? {
@@ -29,7 +21,7 @@ function LanguagePopover() {
   return (
     <>
       <IconButton
-        onClick={handleOpen}
+        onClick={handleOpenMenu}
         sx={{
           padding: 0,
           width: 44,
@@ -40,40 +32,24 @@ function LanguagePopover() {
         <img src={currentLang.flag} alt={currentLang.label} width="28px" height="20px" />
       </IconButton>
 
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            mt: 1.5,
-            ml: 0.75,
-            width: 120,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
+      <MenuPopover open={open} handleCloseMenu={handleCloseMenu}>
         <Stack spacing={0.75}>
           {allLang.map((option) => (
             <MenuItem
               key={option.value}
-              selected={option.value === currentLang.label}
-              onClick={() => handleClose(option.value)}
+              selected={option.value === currentLang.value}
+              onClick={() => {
+                onChangeLang(option.value);
+                handleCloseMenu();
+              }}
             >
-              <Box component="img" alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
+              <Box component="img" alt={option.label} src={option.flag} sx={{ width: 28, mr: 2 }} />
 
               {option.label}
             </MenuItem>
           ))}
         </Stack>
-      </Popover>
+      </MenuPopover>
     </>
   );
 }

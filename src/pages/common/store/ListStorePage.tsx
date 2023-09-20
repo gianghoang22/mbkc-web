@@ -3,10 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Box,
+  Button,
   Card,
-  Container,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -15,13 +14,15 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+// @mui icon
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, Store, StoreTable } from '@types';
-import { Breadcrumbs, Helmet } from 'components';
+import { CommonTableHead, Page } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getStoreDetail } from 'redux/store/storeSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { StoreTableHead, StoreTableRow, StoreTableToolbar } from 'sections/store';
+import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { storeHeadCells } from '../headCells';
 
@@ -78,21 +79,23 @@ function ListStorePage() {
 
   return (
     <>
-      <Helmet title="List Store | MBKC" />
-
-      <Container>
-        <Stack mb={5}>
-          <Typography variant="h4">List Store</Typography>
-          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
-        </Stack>
-
+      <Page
+        title="List Store"
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+        actions={() => [
+          <Button variant="contained" startIcon={<AddRoundedIcon />}>
+            Create store
+          </Button>,
+        ]}
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <StoreTableHead
+                  <CommonTableHead<StoreTable>
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -156,7 +159,7 @@ function ListStorePage() {
             </Paper>
           </Box>
         </Card>
-      </Container>
+      </Page>
     </>
   );
 }

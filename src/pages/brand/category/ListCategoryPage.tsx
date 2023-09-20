@@ -5,34 +5,26 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TablePagination,
   TableRow,
-  Typography,
 } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { OrderSort, ProductCategory, ProductCategoryTable } from '@types';
-import { Breadcrumbs, Helmet } from 'components';
-import { useModal } from 'hooks/useModal';
+import { CategoryTable, OrderSort, ProductCategory } from '@types';
+import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { useModal } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import {
-  CreateProductCategoryModal,
-  ProductCateTableHead,
-  ProductCateTableRow,
-  ProductCateTableToolbar,
-} from 'sections/category';
+import { CategoryTableRow, CategoryTableToolbar, CreateCategoryModal } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import { productCateHeadCells } from '../headCells';
+import { categoryHeadCells } from '../../common/headCells';
 
 function ListCategoryPage() {
   const navigate = useNavigate();
@@ -45,12 +37,12 @@ function ListCategoryPage() {
   const { handleOpen, isOpen } = useModal();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ProductCategoryTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductCategoryTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -91,38 +83,34 @@ function ListCategoryPage() {
 
   return (
     <>
-      <Helmet title="List Product Category | MBKC" />
-
-      <Container>
-        <Stack direction="row" alignItems="start" justifyContent="space-between" mb={5}>
-          <Stack>
-            <Typography variant="h4">List Category</Typography>
-            <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
-          </Stack>
-
+      <Page
+        title="List Category"
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+        actions={() => [
           <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={handleOpen}>
             Create product category
-          </Button>
-        </Stack>
-
+          </Button>,
+        ]}
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <ProductCateTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CategoryTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <ProductCateTableHead
-                    headCells={productCateHeadCells}
+                  <CommonTableHead<CategoryTable>
+                    headCells={categoryHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
                   <TableBody>
-                    {visibleRows.map((productCategory, index) => {
+                    {visibleRows.map((category, index) => {
                       return (
-                        <ProductCateTableRow
+                        <CategoryTableRow
                           index={index}
-                          productCategory={productCategory}
+                          category={category}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );
@@ -133,33 +121,11 @@ function ListCategoryPage() {
                           height: 53 * emptyRows,
                         }}
                       >
-                        <TableCell colSpan={6} />
+                        <TableCell colSpan={categoryHeadCells.length} />
                       </TableRow>
                     )}
                   </TableBody>
-                  {isNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
-                          <Paper
-                            sx={{
-                              textAlign: 'center',
-                            }}
-                          >
-                            <Typography variant="h6" paragraph>
-                              Not found
-                            </Typography>
-
-                            <Typography variant="body2">
-                              No results found for &nbsp;
-                              <strong>&quot;{filterName}&quot;</strong>.
-                              <br /> Try checking for typos or using complete words.
-                            </Typography>
-                          </Paper>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
+                  {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
@@ -174,9 +140,9 @@ function ListCategoryPage() {
             </Paper>
           </Box>
         </Card>
-      </Container>
+      </Page>
 
-      {isOpen && <CreateProductCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
+      {isOpen && <CreateCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>
   );
 }

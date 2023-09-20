@@ -1,15 +1,16 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 // @mui icon
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutIcon from '@mui/icons-material/Logout';
 // @mui
-import { Avatar, Button, Divider, MenuItem, Popover, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Divider, MenuItem, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 //
+import { MenuPopover } from 'components';
+import { useLocales, usePopover } from 'hooks';
 import account from 'mock/account';
+import { PATH_AUTH } from 'routes/paths';
 
 const MENU_OPTIONS = [
   {
@@ -21,28 +22,19 @@ const MENU_OPTIONS = [
 
 function AccountPopover() {
   const navigate = useNavigate();
-  const { t } = useTranslation('home');
-
-  const [open, setOpen] = useState<null | HTMLElement>(null);
-
-  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setOpen(event.currentTarget);
-  };
+  const { translate } = useLocales();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleLogout = () => {
-    navigate('/login');
+    navigate(PATH_AUTH.login);
     // dispatch(logoutAccount(navigate));
-    setOpen(null);
-  };
-
-  const handleClose = () => {
-    setOpen(null);
+    handleCloseMenu();
   };
 
   return (
     <>
       <Button
-        onClick={handleOpen}
+        onClick={handleOpenMenu}
         sx={{
           px: 1,
           py: 0.2,
@@ -65,7 +57,7 @@ function AccountPopover() {
         <Avatar src={account.photoURL} alt="PhuSon" />
         <Stack alignItems="start" sx={{ ml: 1, my: 0.5 }}>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {t('header.brand manager')}
+            {translate('header.brand manager')}
           </Typography>
           <Typography variant="subtitle1" noWrap>
             Tran Phu Son
@@ -73,31 +65,13 @@ function AccountPopover() {
         </Stack>
       </Button>
 
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 0,
-            mt: 1.5,
-            ml: 0.75,
-            width: 180,
-            '& .MuiMenuItem-root': {
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
+      <MenuPopover open={open} handleCloseMenu={handleCloseMenu} sx={{ width: 180 }}>
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
             <MenuItem
               key={option.label}
               onClick={() => {
-                handleClose();
+                handleCloseMenu();
                 navigate(option.link);
               }}
             >
@@ -113,7 +87,7 @@ function AccountPopover() {
           <LogoutIcon sx={{ mr: 1 }} />
           Logout
         </MenuItem>
-      </Popover>
+      </MenuPopover>
     </>
   );
 }
