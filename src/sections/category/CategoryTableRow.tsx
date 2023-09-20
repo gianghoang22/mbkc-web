@@ -1,22 +1,19 @@
 import { sentenceCase } from 'change-case';
 import { useNavigate } from 'react-router-dom';
-
 // @mui
 import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { ProductCategory } from '@types';
-
+import { Category } from '@types';
 import { Color } from 'common/enum';
-import { Label, Popover } from 'components';
+import { ConfirmDialog, Label, Popover } from 'components';
 import { useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import ConfirmDialog from 'components/dialog/ConfirmDialog';
 
 interface CategoryTableRowProps {
-  handleNavigateDetail: (category: ProductCategory, storeId: number) => void;
-  category: ProductCategory;
+  handleNavigateDetail: (category: Category, categoryId: number) => void;
+  category: Category;
   index: number;
 }
 

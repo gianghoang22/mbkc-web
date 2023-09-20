@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ProductCategory } from '@types';
+import { Category } from '@types';
 import productCategories from 'mock/productCategory';
 
 interface ExtraCategoryState {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  extraCategories: ProductCategory[];
-  extraCategory: ProductCategory | null;
+  extraCategories: Category[];
+  extraCategory: Category | null;
 }
 
 const initialState: ExtraCategoryState = {

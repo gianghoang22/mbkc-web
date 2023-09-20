@@ -18,7 +18,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { KitchenCentersTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { kitchenCenterHeadCells } from 'pages/common/headCells';
+import { kitchenCenterHeadCells } from '../../common/headCells';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';

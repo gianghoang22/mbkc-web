@@ -1,21 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ProductCategory } from '@types';
+import { Category } from '@types';
 import productCategories from 'mock/productCategory';
 
 interface ProductCategoryState {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  productCategories: ProductCategory[];
-  productCategory: ProductCategory | null;
+  categories: Category[];
+  category: Category | null;
 }
 
 const initialState: ProductCategoryState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  productCategories: productCategories,
-  productCategory: null,
+  categories: productCategories,
+  category: null,
 };
 
 const productCategorySlice = createSlice({
@@ -24,7 +24,7 @@ const productCategorySlice = createSlice({
   reducers: {
     getCategoryDetail: (state, action) => {
       console.log(action);
-      state.productCategory = action.payload;
+      state.category = action.payload;
     },
   },
   extraReducers(builder) {},

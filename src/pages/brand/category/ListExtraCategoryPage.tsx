@@ -16,13 +16,12 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { CategoryTable, OrderSort, ProductCategory } from '@types';
+import { Category, CategoryTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useModal } from 'hooks';
+import { getCategoryDetail } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { CategoryTableRow, CategoryTableToolbar, CreateCategoryModal } from 'sections/category';
+import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
 import { categoryHeadCells } from '../../common/headCells';
 
@@ -33,8 +32,6 @@ function ListExtraCategoryPage(props: any) {
   const { pathname } = useLocation();
 
   const { extraCategories } = useAppSelector((state) => state.extraCategory);
-
-  const { handleOpen, isOpen } = useModal();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
@@ -48,7 +45,7 @@ function ListExtraCategoryPage(props: any) {
     setOrderBy(property);
   };
 
-  const handleNavigateDetail = (category: ProductCategory, categoryId: number) => {
+  const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.rootExtra + `/detail/${categoryId}`);
     dispatch(getCategoryDetail(category));
   };
@@ -88,7 +85,7 @@ function ListExtraCategoryPage(props: any) {
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
-          <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={handleOpen}>
+          <Button variant="contained" startIcon={<AddRoundedIcon />}>
             Create extra category
           </Button>,
         ]}
@@ -141,8 +138,6 @@ function ListExtraCategoryPage(props: any) {
           </Box>
         </Card>
       </Page>
-
-      {isOpen && <CreateCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>
   );
 }
