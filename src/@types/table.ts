@@ -71,3 +71,20 @@ export interface KitchenHeadCell {
   label: string;
   numeric: boolean;
 }
+
+// Brand
+export interface BrandTable {
+  brandId: number;
+  brandImgUrl: string;
+  brandName: string;
+  address: string;
+  brandManager: string;
+  status: string;
+}
+
+export interface BrandHeadCell {
+  disablePadding: boolean;
+  id: keyof BrandTable;
+  label: string;
+  numeric: boolean;
+}
