@@ -21,12 +21,13 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 
 //
-import { KitchenCenterHeadCell, KitchenCentersTable, OrderSort } from '@types';
+import { KitchenCenter, KitchenCenterHeadCell, KitchenCentersTable, OrderSort } from '@types';
 import { Breadcrumbs, Helmet } from 'components';
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableHead, KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
+import { getKitchenCenterDetail } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 const headCells: KitchenCenterHeadCell[] = [
   {
@@ -59,6 +60,7 @@ const headCells: KitchenCenterHeadCell[] = [
 function ListKitchenCenterPage(props: any) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof KitchenCentersTable>('title');
@@ -74,8 +76,9 @@ function ListKitchenCenterPage(props: any) {
     setOrderBy(property);
   };
 
-  const handleNavigateDetail = (kitchenCenterId: number) => {
+  const handleNavigateDetail = (kitchenCenter: KitchenCenter, kitchenCenterId: number) => {
     navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
+    dispatch(getKitchenCenterDetail(kitchenCenter));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

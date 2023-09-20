@@ -21,11 +21,16 @@ const initialState: KitchenCenterState = {
 const kitchenCenterSlice = createSlice({
   name: 'kitchenCenter',
   initialState,
-  reducers: {},
+  reducers: {
+    getKitchenCenterDetail: (state, action) => {
+      console.log(action);
+      state.kitchenCenter = action.payload;
+    },
+  },
   extraReducers(builder) {},
 });
 
-// export const {} = storeSlice.actions;
+export const { getKitchenCenterDetail } = kitchenCenterSlice.actions;
 const kitchenCenterReducer = kitchenCenterSlice.reducer;
 
 export default kitchenCenterReducer;

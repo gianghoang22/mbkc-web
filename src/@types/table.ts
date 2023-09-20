@@ -1,5 +1,6 @@
 export type OrderSort = 'asc' | 'desc';
 
+// Store
 export interface StoreHeadCell {
   disablePadding: boolean;
   id: keyof StoreTable;
@@ -15,6 +16,7 @@ export interface StoreTable {
   status: string;
 }
 
+// Product categories
 export interface ProductCateHeadCell {
   disablePadding: boolean;
   id: keyof ProductCategoryTable;
@@ -29,6 +31,7 @@ export interface ProductCategoryTable {
   status: string;
 }
 
+// Product
 export interface ProductHeadCell {
   disablePadding: boolean;
   id: keyof ProductTable;
@@ -46,6 +49,15 @@ export interface ProductTable {
   status: string;
 }
 
+// Kitchen Centers
+export interface KitchenCentersTable {
+  imageUrl: string;
+  title: string;
+  address: string;
+  numberOfKitchens: number;
+  status: string;
+}
+
 export interface KitchenCenterHeadCell {
   disablePadding: boolean;
   id: keyof KitchenCentersTable;
@@ -53,10 +65,19 @@ export interface KitchenCenterHeadCell {
   numeric: boolean;
 }
 
-export interface KitchenCentersTable {
-  imageUrl: string;
-  title: string;
-  address: string;
-  numberOfKitchens: number;
+// Kitchen
+export interface KitchenTable {
+  kitchenId: number;
+  kitchenImgUrl: string;
+  kitchenName: string;
+  brandImgUrl: string;
+  brandName: string;
   status: string;
+}
+
+export interface KitchenHeadCell {
+  disablePadding: boolean;
+  id: keyof KitchenTable;
+  label: string;
+  numeric: boolean;
 }

@@ -85,7 +85,7 @@ function CategoryDetailPage() {
           <Breadcrumbs pathname={pathname} navigateDashboard={PATH_BRAND_APP.root} />
         </Stack>
 
-        <Stack direction="row" alignItems="center" spacing={5} mb={7}>
+        <Stack direction="row" alignItems="center" spacing={5} mb={7} width="100%">
           <Card>
             <Stack
               direction="row"

@@ -18,19 +18,19 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { KitchenCenter } from '@types';
+import { Kitchen } from '@types';
 import { sentenceCase } from 'change-case';
 import { Color } from 'common/enum';
 import { Label } from 'components';
 
-interface KitchenCenterTableRowProps {
-  handleNavigateDetail: (kitchenCenter: KitchenCenter, kitchenCenterId: number) => void;
-  kitchenCenter: KitchenCenter;
+interface KitchenTableRowProps {
+  // handleNavigateDetail: (kitchenCenter: KitchenCenter, kitchenCenterId: number) => void;?
+  kitchen: Kitchen;
   index: number;
 }
 
-function StoreTableRow(props: KitchenCenterTableRowProps) {
-  const { index, kitchenCenter, handleNavigateDetail } = props;
+function KitchenTableRow(props: KitchenTableRowProps) {
+  const { index, kitchen } = props;
 
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
 
@@ -44,11 +44,11 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={kitchenCenter.title} sx={{ cursor: 'pointer' }}>
+      <TableRow hover tabIndex={-1} key={kitchen.kitchenId} sx={{ cursor: 'pointer' }}>
         <TableCell
           width={60}
           align="center"
-          onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}
+          // onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}
         >
           {index + 1}
         </TableCell>
@@ -56,27 +56,23 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
           component="th"
           scope="row"
           padding="none"
-          onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}
+          // onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}
         >
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={kitchenCenter.title} src={kitchenCenter.imageUrl} />
-            <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
-              {kitchenCenter.title}
-            </Typography>
+            <Avatar alt={kitchen.kitchenName} src={kitchen.kitchenImgUrl} />
           </Stack>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}>
-          {kitchenCenter.address}
+        <TableCell align="left">{kitchen.kitchenName}</TableCell>
+        <TableCell align="center">
+          <Avatar alt={kitchen.brandName} src={kitchen.brandImgUrl} />
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}>
-          {kitchenCenter.numberOfKitchens}
-        </TableCell>
+        <TableCell align="left">{kitchen.brandName}</TableCell>
         <TableCell align="left">
           <FormControlLabel
-            control={<Switch size="small" checked={kitchenCenter.status === 'inactive' ? false : true} />}
+            control={<Switch size="small" checked={kitchen.status === 'inactive' ? false : true} />}
             label={
-              <Label color={(kitchenCenter.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                {sentenceCase(kitchenCenter.status)}
+              <Label color={(kitchen.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+                {sentenceCase(kitchen.status)}
               </Label>
             }
           />
@@ -120,4 +116,4 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
   );
 }
 
-export default StoreTableRow;
+export default KitchenTableRow;
