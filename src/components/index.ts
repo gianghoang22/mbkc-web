@@ -11,5 +11,6 @@ export { default as MenuPopover } from './popover/MenuPopover';
 export { default as Popover } from './popover/Popover';
 export { default as ScrollToTop } from './scroll-to-top/ScrollToTop';
 export { default as Scrollbar } from './scrollbar/Scrollbar';
+export { default as CommonTableHead } from './table/CommonTableHead';
 export { default as SearchNotFound } from './table/SearchNotFound';
 export { default as UploadAvatar } from './upload/UploadAvatar';

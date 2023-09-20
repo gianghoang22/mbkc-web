@@ -73,13 +73,15 @@ function CategoryTableRow({ index, category, handleNavigateDetail }: CategoryTab
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
 
-      <ConfirmDialog
-        open={isOpen}
-        onClose={handleOpen}
-        onAction={handleDelete}
-        title={'Confirm Delete Category'}
-        description={'You definitely want to delete this category ?'}
-      />
+      {isOpen && (
+        <ConfirmDialog
+          open={isOpen}
+          onClose={handleOpen}
+          onAction={handleDelete}
+          title={'Confirm Delete Category'}
+          description={'You definitely want to delete this category ?'}
+        />
+      )}
     </>
   );
 }

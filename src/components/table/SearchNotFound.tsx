@@ -1,21 +1,38 @@
+import { TableBody, TableCell, TableRow } from '@mui/material';
 import { Paper, PaperProps, Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 interface SearchNotFoundProps extends PaperProps {
   searchQuery?: string;
+  colNumber: number;
 }
 
-export default function SearchNotFound({ searchQuery = '', ...other }: SearchNotFoundProps) {
+function SearchNotFound({ searchQuery = '', colNumber, ...other }: SearchNotFoundProps) {
   return (
-    <Paper {...other}>
-      <Typography gutterBottom align="center" variant="subtitle1">
-        Not found
-      </Typography>
-      <Typography variant="body2" align="center">
-        No results found for &nbsp;
-        <strong>&quot;{searchQuery}&quot;</strong>. Try checking for typos or using complete words.
-      </Typography>
-    </Paper>
+    <TableBody>
+      <TableRow>
+        <TableCell align="center" colSpan={colNumber} sx={{ py: 3 }}>
+          <Paper
+            sx={{
+              textAlign: 'center',
+            }}
+            {...other}
+          >
+            <Typography variant="h6" paragraph>
+              Not found
+            </Typography>
+
+            <Typography variant="body2">
+              No results found for &nbsp;
+              <strong>&quot;{searchQuery}&quot;</strong>.
+              <br /> Try checking for typos or using complete words.
+            </Typography>
+          </Paper>
+        </TableCell>
+      </TableRow>
+    </TableBody>
   );
 }
+
+export default SearchNotFound;

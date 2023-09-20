@@ -1,100 +1,146 @@
-import { ProductCateHeadCell, ProductHeadCell, StoreHeadCell } from '@types';
+import { CategoryTable, HeadCell, KitchenCentersTable, ProductTable, StoreTable } from '@types';
 
-export const productHeadCells: ProductHeadCell[] = [
+export const productHeadCells: HeadCell<ProductTable>[] = [
   {
     id: 'image',
-    numeric: false,
-    disablePadding: true,
     label: 'Image',
+    numeric: false,
+    hideSortIcon: true,
+    disablePadding: true,
   },
   {
     id: 'name',
-    numeric: false,
-    disablePadding: false,
     label: 'Category name',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
   },
   {
     id: 'code',
-    numeric: false,
-    disablePadding: false,
     label: 'Category code',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
   },
   {
     id: 'historicalPrice',
-    numeric: false,
-    disablePadding: false,
     label: 'Historical Price',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
   },
   {
     id: 'categoryId',
-    numeric: false,
-    disablePadding: false,
     label: 'Category',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
   },
   {
     id: 'type',
-    numeric: false,
-    disablePadding: false,
     label: 'Type',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
   },
   {
     id: 'status',
-    numeric: false,
-    disablePadding: false,
     label: 'Status',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
   },
 ];
 
-export const productCateHeadCells: ProductCateHeadCell[] = [
+export const categoryHeadCells: HeadCell<CategoryTable>[] = [
   {
     id: 'imageUrl',
     numeric: false,
+    hideSortIcon: false,
     disablePadding: true,
     label: 'Image',
   },
   {
     id: 'name',
     numeric: false,
+    hideSortIcon: false,
     disablePadding: false,
     label: 'Category name',
   },
   {
     id: 'code',
     numeric: false,
+    hideSortIcon: false,
     disablePadding: false,
     label: 'Category code',
   },
   {
     id: 'status',
     numeric: false,
+    hideSortIcon: false,
     disablePadding: false,
     label: 'Status',
   },
 ];
 
-export const storeHeadCells: StoreHeadCell[] = [
+export const storeHeadCells: HeadCell<StoreTable>[] = [
   {
     id: 'name',
     numeric: false,
+    hideSortIcon: false,
     disablePadding: true,
     label: 'Name',
   },
   {
     id: 'kitchenCenter',
     numeric: false,
+    hideSortIcon: false,
     disablePadding: false,
     label: 'Kitchen center',
   },
   {
     id: 'partner',
     numeric: false,
+    hideSortIcon: false,
     disablePadding: false,
     label: 'Partner',
   },
   {
     id: 'status',
     numeric: false,
+    hideSortIcon: false,
     disablePadding: false,
     label: 'Status',
+  },
+];
+
+export const kitchenCenterHeadCells: HeadCell<KitchenCentersTable>[] = [
+  {
+    id: 'title',
+    label: 'Kitchen Center',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
+  },
+  {
+    id: 'address',
+    label: 'Address',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
+  },
+  {
+    id: 'numberOfKitchens',
+    label: 'Number of Kitchen',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
   },
 ];

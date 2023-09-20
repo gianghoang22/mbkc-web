@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Box,
+  Button,
   Card,
   Paper,
   Table,
@@ -12,17 +13,16 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Button,
 } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, Store, StoreTable } from '@types';
-import { Page } from 'components';
+import { CommonTableHead, Page } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getStoreDetail } from 'redux/store/storeSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { StoreTableHead, StoreTableRow, StoreTableToolbar } from 'sections/store';
+import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { storeHeadCells } from '../headCells';
 
@@ -95,7 +95,7 @@ function ListStorePage() {
               <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <StoreTableHead
+                  <CommonTableHead<StoreTable>
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}

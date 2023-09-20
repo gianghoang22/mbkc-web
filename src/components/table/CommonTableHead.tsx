@@ -1,21 +1,26 @@
-// @mui
+import React from 'react';
 import { Box, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { OrderSort, StoreHeadCell, StoreTable } from '@types';
+import { HeadCell, OrderSort } from '@types';
 
-// ----------------------------------------------------------------------
-
-interface StoreTableHeadProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof StoreTable) => void;
+interface CommonTableHeadProps<T> {
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
   order: OrderSort;
   orderBy: string;
-  headCells: StoreHeadCell[];
+  // headCells: {
+  //   id: keyof T;
+  //   label: string;
+  //   numeric: boolean;
+  //   disablePadding: boolean;
+  //   hideSortIcon: boolean;
+  // }[];
+  headCells: HeadCell<T>[];
 }
 
-function StoreTableHead(props: StoreTableHeadProps) {
+function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
   const { headCells, order, orderBy, onRequestSort } = props;
 
-  const createSortHandler = (property: keyof StoreTable) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 
@@ -27,7 +32,7 @@ function StoreTableHead(props: StoreTableHeadProps) {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
+            key={headCell.id as string}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
@@ -46,9 +51,10 @@ function StoreTableHead(props: StoreTableHeadProps) {
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell></TableCell>
       </TableRow>
     </TableHead>
   );
 }
 
-export default StoreTableHead;
+export default CommonTableHead;

@@ -12,16 +12,15 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
-  Typography,
 } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductTable } from '@types';
-import { Page } from 'components';
+import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/product';
+import { ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
 import { productHeadCells } from '../../common/headCells';
 
@@ -93,7 +92,7 @@ function ListProductPage() {
               <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <ProductTableHead
+                  <CommonTableHead<ProductTable>
                     headCells={productHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -109,33 +108,11 @@ function ListProductPage() {
                           height: 53 * emptyRows,
                         }}
                       >
-                        <TableCell colSpan={6} />
+                        <TableCell colSpan={productHeadCells.length} />
                       </TableRow>
                     )}
                   </TableBody>
-                  {isNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
-                          <Paper
-                            sx={{
-                              textAlign: 'center',
-                            }}
-                          >
-                            <Typography variant="h6" paragraph>
-                              Not found
-                            </Typography>
-
-                            <Typography variant="body2">
-                              No results found for &nbsp;
-                              <strong>&quot;{filterName}&quot;</strong>.
-                              <br /> Try checking for typos or using complete words.
-                            </Typography>
-                          </Paper>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
+                  {isNotFound && <SearchNotFound colNumber={productHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination

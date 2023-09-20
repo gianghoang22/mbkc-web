@@ -1,39 +1,18 @@
 export type OrderSort = 'asc' | 'desc';
 
-export interface StoreHeadCell {
-  disablePadding: boolean;
-  id: keyof StoreTable;
+export interface HeadCell<T> {
+  id: keyof T;
   label: string;
   numeric: boolean;
-}
-
-export interface StoreTable {
-  name: string;
-  logo: string;
-  kitchenCenter: string;
-  partner: number;
-  status: string;
-}
-
-export interface ProductCateHeadCell {
+  hideSortIcon: boolean;
   disablePadding: boolean;
-  id: keyof ProductCategoryTable;
-  label: string;
-  numeric: boolean;
 }
 
-export interface ProductCategoryTable {
+export interface CategoryTable {
   imageUrl: string;
   name: string;
   code: string;
   status: string;
-}
-
-export interface ProductHeadCell {
-  disablePadding: boolean;
-  id: keyof ProductTable;
-  label: string;
-  numeric: boolean;
 }
 
 export interface ProductTable {
@@ -43,6 +22,14 @@ export interface ProductTable {
   historicalPrice: number;
   type: string;
   categoryId: string;
+  status: string;
+}
+
+export interface StoreTable {
+  name: string;
+  logo: string;
+  kitchenCenter: string;
+  partner: number;
   status: string;
 }
 

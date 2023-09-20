@@ -5,56 +5,24 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TablePagination,
   TableRow,
-  Typography,
 } from '@mui/material';
-
 //@mui Icons
-import AddIcon from '@mui/icons-material/Add';
-
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { KitchenCenterHeadCell, KitchenCentersTable, OrderSort } from '@types';
-import { Breadcrumbs, Helmet } from 'components';
+import { KitchenCentersTable, OrderSort } from '@types';
+import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { kitchenCenterHeadCells } from 'pages/common/headCells';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { KitchenCenterTableHead, KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
+import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
-
-const headCells: KitchenCenterHeadCell[] = [
-  {
-    id: 'title',
-    numeric: false,
-    disablePadding: false,
-    label: 'Kitchen Center',
-  },
-  {
-    id: 'address',
-    numeric: false,
-    disablePadding: false,
-    label: 'Address',
-  },
-  {
-    id: 'numberOfKitchens',
-    numeric: false,
-    disablePadding: false,
-    label: 'Number of Kitchen',
-    // align: 'center',
-  },
-  {
-    id: 'status',
-    numeric: false,
-    disablePadding: false,
-    label: 'Status',
-  },
-];
 
 function ListKitchenCenterPage(props: any) {
   const { pathname } = useLocation();
@@ -108,31 +76,28 @@ function ListKitchenCenterPage(props: any) {
 
   return (
     <>
-      <Helmet title="List Brand Page | MBKC Food" />
-
-      <Container>
-        <Stack>
-          <Stack direction="row" justifyContent="space-between">
-            <Typography variant="h4">List Of Kitchen Centers</Typography>
-
-            <Button variant="contained" onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter)}>
-              <AddIcon />
-              <Typography marginLeft={1} fontWeight={600}>
-                Create new Kitchen Center
-              </Typography>
-            </Button>
-          </Stack>
-          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_ADMIN_APP.root} />
-        </Stack>
-
-        <Card sx={{ marginTop: 2 }}>
+      <Page
+        title="List Kitchen Center"
+        pathname={pathname}
+        navigateDashboard={PATH_ADMIN_APP.root}
+        actions={() => [
+          <Button
+            variant="contained"
+            startIcon={<AddRoundedIcon />}
+            onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter)}
+          >
+            Create new Kitchen Center
+          </Button>,
+        ]}
+      >
+        <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <KitchenCenterTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <KitchenCenterTableHead
-                    headCells={headCells}
+                  <CommonTableHead<KitchenCentersTable>
+                    headCells={kitchenCenterHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
@@ -153,33 +118,11 @@ function ListKitchenCenterPage(props: any) {
                           height: 53 * emptyRows,
                         }}
                       >
-                        <TableCell colSpan={6} />
+                        <TableCell colSpan={kitchenCenterHeadCells.length} />
                       </TableRow>
                     )}
                   </TableBody>
-                  {isNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
-                          <Paper
-                            sx={{
-                              textAlign: 'center',
-                            }}
-                          >
-                            <Typography variant="h6" paragraph>
-                              Not found
-                            </Typography>
-
-                            <Typography variant="body2">
-                              No results found for &nbsp;
-                              <strong>&quot;{filterName}&quot;</strong>.
-                              <br /> Try checking for typos or using complete words.
-                            </Typography>
-                          </Paper>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
+                  {isNotFound && <SearchNotFound colNumber={kitchenCenterHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
@@ -194,11 +137,9 @@ function ListKitchenCenterPage(props: any) {
             </Paper>
           </Box>
         </Card>
-      </Container>
+      </Page>
     </>
   );
 }
-
-ListKitchenCenterPage.propTypes = {};
 
 export default ListKitchenCenterPage;

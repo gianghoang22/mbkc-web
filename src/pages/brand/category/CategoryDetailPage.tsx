@@ -22,11 +22,11 @@ import {
 //
 import { OrderSort, ProductTable } from '@types';
 import { Color } from 'common/enum';
-import { Label, Page } from 'components';
+import { CommonTableHead, Label, Page } from 'components';
 import useResponsive from 'hooks/useResponsive';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { ProductTableHead, ProductTableRow, ProductTableToolbar } from 'sections/product';
+import { ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
 import { productHeadCells } from '../../common/headCells';
 
@@ -155,7 +155,7 @@ function CategoryDetailPage() {
                 <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <ProductTableHead
+                    <CommonTableHead<ProductTable>
                       headCells={productHeadCells}
                       order={order}
                       orderBy={orderBy}
