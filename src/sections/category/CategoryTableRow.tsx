@@ -12,7 +12,7 @@ import { Color } from 'common/enum';
 import { Label, Popover } from 'components';
 import { useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import ConfirmDialog from 'components/dialog/ConfirmDialog';
+import ConfirmDialog from 'components/Dialog/ConfirmDialog';
 
 interface CategoryTableRowProps {
   handleNavigateDetail: (category: ProductCategory, storeId: number) => void;

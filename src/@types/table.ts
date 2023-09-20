@@ -47,3 +47,27 @@ export interface KitchenCentersTable {
   numberOfKitchens: number;
   status: string;
 }
+
+export interface KitchenCenterHeadCell {
+  disablePadding: boolean;
+  id: keyof KitchenCentersTable;
+  label: string;
+  numeric: boolean;
+}
+
+// Kitchen
+export interface KitchenTable {
+  kitchenId: number;
+  kitchenImgUrl: string;
+  kitchenName: string;
+  brandImgUrl: string;
+  brandName: string;
+  status: string;
+}
+
+export interface KitchenHeadCell {
+  disablePadding: boolean;
+  id: keyof KitchenTable;
+  label: string;
+  numeric: boolean;
+}
