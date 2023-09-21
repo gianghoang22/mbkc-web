@@ -1,4 +1,12 @@
-import { CategoryTable, HeadCell, KitchenCentersTable, ProductTable, StoreTable } from '@types';
+import {
+  BrandTable,
+  CategoryTable,
+  HeadCell,
+  KitchenCentersTable,
+  KitchenTable,
+  ProductTable,
+  StoreTable,
+} from '@types';
 
 function useConfigHeadTable() {
   const productHeadCells: HeadCell<ProductTable>[] = [
@@ -146,7 +154,91 @@ function useConfigHeadTable() {
     },
   ];
 
-  return { productHeadCells, categoryHeadCells, storeHeadCells, kitchenCenterHeadCells };
+  const brandHeadCells: HeadCell<BrandTable>[] = [
+    {
+      id: 'brandImgUrl',
+      label: 'Brand image',
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: true,
+    },
+    {
+      id: 'brandName',
+      label: 'Brand name',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'address',
+      label: 'Address',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'brandManager',
+      label: 'Brand manager',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const kitchenHeadCells: HeadCell<KitchenTable>[] = [
+    {
+      id: 'kitchenImgUrl',
+      label: 'Kitchen image',
+      numeric: false,
+      disablePadding: true,
+      hideSortIcon: false,
+    },
+    {
+      id: 'kitchenName',
+      label: 'Kitchen name',
+      numeric: false,
+      disablePadding: false,
+      hideSortIcon: false,
+    },
+    {
+      id: 'brandImgUrl',
+      label: 'Brand image',
+      numeric: false,
+      disablePadding: false,
+      hideSortIcon: false,
+    },
+    {
+      id: 'brandName',
+      label: 'Brand name',
+      numeric: false,
+      disablePadding: false,
+      hideSortIcon: false,
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      disablePadding: false,
+      hideSortIcon: false,
+    },
+  ];
+
+  return {
+    productHeadCells,
+    categoryHeadCells,
+    storeHeadCells,
+    kitchenCenterHeadCells,
+    brandHeadCells,
+    kitchenHeadCells,
+  };
 }
 
 export default useConfigHeadTable;

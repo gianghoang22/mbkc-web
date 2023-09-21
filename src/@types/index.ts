@@ -1,5 +1,6 @@
 export * from './models/brand';
 export * from './models/kitchenCenter';
+export * from './models/kitchen';
 export * from './models/product';
 export * from './models/category';
 export * from './models/store';

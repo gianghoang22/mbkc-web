@@ -16,16 +16,18 @@ import {
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { KitchenCentersTable, OrderSort } from '@types';
+import { KitchenCenter, KitchenCentersTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useAppSelector } from 'redux/configStore';
+import { useConfigHeadTable } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getKitchenCenterDetail } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
-import { useConfigHeadTable } from 'hooks';
 
 function ListKitchenCenterPage(props: any) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { kitchenCenterHeadCells } = useConfigHeadTable();
 
@@ -43,8 +45,9 @@ function ListKitchenCenterPage(props: any) {
     setOrderBy(property);
   };
 
-  const handleNavigateDetail = (kitchenCenterId: number) => {
+  const handleNavigateDetail = (kitchenCenter: KitchenCenter, kitchenCenterId: number) => {
     navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
+    dispatch(getKitchenCenterDetail(kitchenCenter));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

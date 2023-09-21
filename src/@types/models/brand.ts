@@ -7,9 +7,9 @@ export interface BrandData {
 
 export interface Brand {
   brandId: number;
-  title: string;
-  imageUrl: string;
-  numberOfKitchens: string;
+  brandImgUrl: string;
+  brandName: string;
   address: string;
+  brandManager: string;
   status: string;
 }

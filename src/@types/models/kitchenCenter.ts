@@ -13,4 +13,5 @@ export interface KitchenCenter {
   numberOfKitchens: number;
   address: string;
   status: string;
+  kitchenCenterManager?: string;
 }
