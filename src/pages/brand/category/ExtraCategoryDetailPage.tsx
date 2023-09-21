@@ -11,6 +11,7 @@ import { useResponsive } from 'hooks';
 import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
+import { ProductTableTab } from 'sections/product';
 
 function ExtraCategoryDetailPage() {
   const navigate = useNavigate();
@@ -91,6 +92,17 @@ function ExtraCategoryDetailPage() {
               <img src="/assets/illustrations/mbkc_cook.svg" alt="login" />
             </Box>
           )}
+        </Stack>
+
+        <Stack spacing={1}>
+          <Stack direction="row" alignItems="center" gap={0.5}>
+            <Typography variant="h6">Products in the category</Typography>
+            <DescriptionIcon fontSize="small" />
+          </Stack>
+
+          <Card>
+            <ProductTableTab />
+          </Card>
         </Stack>
       </Page>
     </>

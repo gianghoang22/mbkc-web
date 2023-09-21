@@ -1,18 +1,26 @@
 import { sentenceCase } from 'change-case';
 // @mui
-import { Avatar, FormControlLabel, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, FormControlLabel, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
+// @mui icon
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Store } from '@types';
 import { Color } from 'common/enum';
-import { Label } from 'components';
+import { Label, Popover } from 'components';
+import { usePopover } from 'hooks';
 
 interface StoreTableRowProps {
   handleNavigateDetail: (store: Store, accountId: number) => void;
   store: Store;
   index: number;
+  justInfo?: boolean;
 }
 
-function StoreTableRow({ index, store, handleNavigateDetail }: StoreTableRowProps) {
+function StoreTableRow({ index, store, justInfo = false, handleNavigateDetail }: StoreTableRowProps) {
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+
+  const handleEdit = () => {};
+
   return (
     <>
       <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
@@ -49,7 +57,16 @@ function StoreTableRow({ index, store, handleNavigateDetail }: StoreTableRowProp
             }
           />
         </TableCell>
+        {!justInfo && (
+          <TableCell align="right">
+            <IconButton color="inherit" onClick={handleOpenMenu}>
+              <MoreVertIcon />
+            </IconButton>
+          </TableCell>
+        )}
       </TableRow>
+
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} />
     </>
   );
 }

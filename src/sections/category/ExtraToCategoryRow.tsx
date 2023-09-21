@@ -1,7 +1,7 @@
 import { sentenceCase } from 'change-case';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Checkbox, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
@@ -13,21 +13,27 @@ import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 
-interface CategoryTableRowProps {
+interface ExtraToCategoryRowProps {
   handleNavigateDetail: (category: Category, categoryId: number) => void;
+  handleClick: (event: React.MouseEvent<unknown>, categoryId: number) => void;
   categoryType: CategoryType;
   category: Category;
   index: number;
   justInfo?: boolean;
+  checkbox?: boolean;
+  isItemSelected?: boolean;
 }
 
-function CategoryTableRow({
+function ExtraToCategoryRow({
   index,
   category,
   categoryType,
   justInfo = false,
+  checkbox = false,
+  isItemSelected = false,
+  handleClick,
   handleNavigateDetail,
-}: CategoryTableRowProps) {
+}: ExtraToCategoryRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { handleOpen, isOpen } = useModal();
@@ -43,10 +49,30 @@ function CategoryTableRow({
 
   return (
     <>
-      <TableRow hover tabIndex={-1} sx={justInfo ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}>
-        <TableCell width={80} align="center">
-          {index + 1}
-        </TableCell>
+      <TableRow
+        hover
+        tabIndex={-1}
+        role={checkbox ? 'checkbox' : ''}
+        selected={isItemSelected}
+        aria-checked={isItemSelected}
+        sx={justInfo ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}
+      >
+        {checkbox ? (
+          <TableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              checked={isItemSelected}
+              inputProps={{
+                'aria-labelledby': `enhanced-table-checkbox-${index}`,
+              }}
+              onClick={(event) => handleClick(event, category.categoryId)}
+            />
+          </TableCell>
+        ) : (
+          <TableCell width={80} align="center">
+            {index + 1}
+          </TableCell>
+        )}
 
         <TableCell
           scope="row"
@@ -106,4 +132,4 @@ function CategoryTableRow({
   );
 }
 
-export default CategoryTableRow;
+export default ExtraToCategoryRow;

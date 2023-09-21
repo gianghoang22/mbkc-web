@@ -95,6 +95,7 @@ function ListStorePage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>
+                    justInfo
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -104,6 +105,7 @@ function ListStorePage() {
                     {visibleRows.map((store, index) => {
                       return (
                         <StoreTableRow
+                          justInfo
                           key={store.accountId}
                           index={index}
                           store={store}
