@@ -80,7 +80,7 @@ function ListKitchenCenterPage(props: any) {
   return (
     <>
       <Page
-        title="List Kitchen Center"
+        title="List Of Kitchen Center"
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [

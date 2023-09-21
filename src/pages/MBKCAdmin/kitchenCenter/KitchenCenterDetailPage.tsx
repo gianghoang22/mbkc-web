@@ -24,6 +24,7 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import usePopover from 'hooks/usePopover';
 
@@ -47,6 +48,7 @@ function KitchenCenterDetailPage(props: any) {
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof KitchenTable>('kitchenName');
@@ -185,7 +187,7 @@ function KitchenCenterDetailPage(props: any) {
               <Stack direction="row" alignItems="center" gap={0.5}>
                 <Typography variant="h6">General information</Typography>
               </Stack>
-              <IconButton>
+              <IconButton onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.editById)}>
                 <EditRoundedIcon />
               </IconButton>
             </Stack>

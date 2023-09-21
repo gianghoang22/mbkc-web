@@ -150,7 +150,7 @@ function BrandDetailPage(props: any) {
             </Stack>
           </Card>
 
-          {/* <Card>
+          <Card>
             <Stack
               direction="row"
               alignItems="center"
@@ -205,7 +205,7 @@ function BrandDetailPage(props: any) {
                 </Grid>
               </Grid>
             </Stack>
-          </Card> */}
+          </Card>
         </Stack>
       </Page>
     </>
