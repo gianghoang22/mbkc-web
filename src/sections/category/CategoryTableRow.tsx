@@ -83,7 +83,7 @@ function CategoryTableRow({ index, category, categoryType, handleNavigateDetail 
           onClose={handleOpen}
           onAction={handleDelete}
           title={'Confirm Delete Category'}
-          description={'You definitely want to delete this category ?'}
+          description={'You definitely want to delete this category?'}
         />
       )}
     </>

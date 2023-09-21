@@ -199,7 +199,7 @@ function useConfigHeadTable() {
       label: 'Kitchen image',
       numeric: false,
       disablePadding: true,
-      hideSortIcon: false,
+      hideSortIcon: true,
     },
     {
       id: 'kitchenName',
@@ -213,7 +213,7 @@ function useConfigHeadTable() {
       label: 'Brand image',
       numeric: false,
       disablePadding: false,
-      hideSortIcon: false,
+      hideSortIcon: true,
     },
     {
       id: 'brandName',
