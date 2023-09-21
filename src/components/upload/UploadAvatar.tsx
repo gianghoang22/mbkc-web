@@ -62,9 +62,10 @@ interface CustomFile extends File {
 }
 
 interface UploadAvatarProps extends DropzoneOptions {
-  error?: any;
-  file: CustomFile | string | null;
-  value?: Blob | MediaSource;
+  isEditing?: boolean;
+  error?: boolean;
+  file?: CustomFile | string | null;
+  value?: any;
   caption?: ReactNode;
   sx?: SxProps<Theme>;
   onChange?: Function;
@@ -72,6 +73,7 @@ interface UploadAvatarProps extends DropzoneOptions {
 
 export default function UploadAvatar({
   onChange: onFormChange,
+  isEditing,
   error,
   file,
   value,
@@ -79,46 +81,18 @@ export default function UploadAvatar({
   sx,
   ...other
 }: UploadAvatarProps) {
-  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>(isEditing ? value : '');
+
   const onDrop = useCallback(
     async (acceptedFiles: any) => {
-      // console.log('acceptedFiles', acceptedFiles);
       const file = acceptedFiles[0];
       setImageUrl(URL.createObjectURL(file));
-      console.log('URL', URL.createObjectURL(file));
-      console.log('file 21', file);
       if (onFormChange) {
         onFormChange(file);
       }
     },
     [onFormChange]
   );
-  //   const file = e.target.files[0];
-  //   const storageRef = ref(storage, `/files/${file.name}`);
-  //   const uploadTask = uploadBytesResumable(storageRef, file);
-  //   uploadTask.on(
-  //     'state_changed',
-  //     (snapshot) => {
-  //       const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-
-  //       // update progress
-  //       // setPercent(percent);
-  //     },
-  //     (err) => {
-  //       enqueueSnackbar(err.message ?? 'Có lỗi', {
-  //         variant: 'error'
-  //       });
-  //       console.log(`err`, err);
-  //     },
-  //     () => {
-  //       // download url
-  //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-  //         console.log(url);
-  //         onFormChange(url);
-  //       });
-  //     }
-  //   );
-  // };
 
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: false,
@@ -154,8 +128,6 @@ export default function UploadAvatar({
       })}
     </Paper>
   );
-
-  console.log('value', value);
 
   return (
     <>

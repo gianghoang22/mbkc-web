@@ -1,5 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,8 +7,7 @@ import { Button, Card, Stack } from '@mui/material';
 //
 import { BrandToAdd } from '@types';
 import { Page } from 'components';
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { CategoryForm } from 'sections/category';
+import { PATH_ADMIN_APP } from 'routes/paths';
 import BrandForm from 'sections/brand/BrandForm';
 
 const schema = yup.object({
@@ -62,7 +59,5 @@ function CreateBrandPage(props: any) {
     </Page>
   );
 }
-
-CreateBrandPage.propTypes = {};
 
 export default CreateBrandPage;

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import DescriptionIcon from '@mui/icons-material/Description';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -17,25 +17,29 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography,
 } from '@mui/material';
 //
-import { OrderSort, ProductTable } from '@types';
+import { CategoryType, OrderSort, ProductTable } from '@types';
 import { Color } from 'common/enum';
-import { CommonTableHead, Label, Page } from 'components';
-import useResponsive from 'hooks/useResponsive';
-import { useAppSelector } from 'redux/configStore';
+import { CommonTableHead, Label, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useResponsive } from 'hooks';
+import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
-import { productHeadCells } from '../../common/headCells';
 
 function CategoryDetailPage() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
+  const { productHeadCells } = useConfigHeadTable();
   const mdUp = useResponsive('up', 'md', 'md');
 
   const { products } = useAppSelector((state) => state.product);
-  const { productCategory } = useAppSelector((state) => state.productCategory);
+  const { category } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
@@ -93,19 +97,23 @@ function CategoryDetailPage() {
                 <Typography variant="h6">General information</Typography>
                 <DescriptionIcon fontSize="small" />
               </Stack>
-              <IconButton>
-                <EditRoundedIcon />
-              </IconButton>
+              <Tooltip title="Edit" placement="top-end" arrow>
+                <IconButton
+                  onClick={() => {
+                    navigate(PATH_BRAND_APP.category.newCategory);
+                    dispatch(setCategoryType(CategoryType.NORMAL));
+                    dispatch(setEditCategory(category));
+                  }}
+                >
+                  <EditRoundedIcon />
+                </IconButton>
+              </Tooltip>
             </Stack>
             <Stack sx={{ px: 3, py: 3 }}>
               <Grid container columnSpacing={2}>
                 <Grid item md={3} sm={12}>
                   <Stack width="100%" alignItems="center">
-                    <Avatar
-                      src={productCategory?.imageUrl}
-                      alt={productCategory?.name}
-                      sx={{ width: 150, height: 150 }}
-                    />
+                    <Avatar src={category?.imageUrl} alt={category?.name} sx={{ width: 150, height: 150 }} />
                   </Stack>
                 </Grid>
                 <Grid item md={9} sm={12}>
@@ -113,21 +121,21 @@ function CategoryDetailPage() {
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
                       <Stack direction="row" alignItems="center" gap={0.5}>
                         <Typography variant="subtitle1">Code:</Typography>
-                        <Typography variant="body1">{productCategory?.code}</Typography>
+                        <Typography variant="body1">{category?.code}</Typography>
                       </Stack>
-                      <Label color={(productCategory?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                        {productCategory?.status}
+                      <Label color={(category?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+                        {category?.status}
                       </Label>
                     </Stack>
 
                     <Stack direction="row" alignItems="center" gap={0.5}>
                       <Typography variant="subtitle1">Name:</Typography>
-                      <Typography variant="body1">{productCategory?.name}</Typography>
+                      <Typography variant="body1">{category?.name}</Typography>
                     </Stack>
                     <Box>
                       <Typography variant="subtitle1">Description:</Typography>
                       <Typography variant="body2" sx={{ textAlign: 'justify' }}>
-                        {productCategory?.description}
+                        {category?.description}
                       </Typography>
                     </Box>
                   </Stack>
@@ -171,33 +179,11 @@ function CategoryDetailPage() {
                             height: 53 * emptyRows,
                           }}
                         >
-                          <TableCell colSpan={6} />
+                          <TableCell colSpan={productHeadCells.length} />
                         </TableRow>
                       )}
                     </TableBody>
-                    {isNotFound && (
-                      <TableBody>
-                        <TableRow>
-                          <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
-                            <Paper
-                              sx={{
-                                textAlign: 'center',
-                              }}
-                            >
-                              <Typography variant="h6" paragraph>
-                                Not found
-                              </Typography>
-
-                              <Typography variant="body2">
-                                No results found for &nbsp;
-                                <strong>&quot;{filterName}&quot;</strong>.
-                                <br /> Try checking for typos or using complete words.
-                              </Typography>
-                            </Paper>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    )}
+                    {isNotFound && <SearchNotFound colNumber={productHeadCells.length} searchQuery={filterName} />}
                   </Table>
                 </TableContainer>
                 <TablePagination

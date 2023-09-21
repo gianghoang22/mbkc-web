@@ -1,5 +1,3 @@
-import { Helmet } from 'react-helmet-async';
-// @mui
 import { Box, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // theme
@@ -7,7 +5,7 @@ import { customShadows } from 'theme/customShadows';
 // hooks
 import useResponsive from 'hooks/useResponsive';
 // // components
-import { Logo } from 'components';
+import { Helmet, Logo } from 'components';
 // sections
 import { LoginForm } from 'sections/auth';
 
@@ -48,9 +46,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <Helmet>
-        <title> Login | MBKC Food </title>
-      </Helmet>
+      <Helmet title="Login" />
 
       <StyledRoot>
         <Logo

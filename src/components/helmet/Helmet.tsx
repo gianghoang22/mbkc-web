@@ -7,7 +7,7 @@ interface HelmetProps {
 function Helmet({ title }: HelmetProps) {
   return (
     <ReactHelmet>
-      <title> {title} </title>
+      <title>{title} | MBKC</title>
     </ReactHelmet>
   );
 }

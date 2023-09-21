@@ -1,20 +1,18 @@
+import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 // @mui
 import { Box, FormHelperText, Typography } from '@mui/material';
 //
 import UploadAvatar from '../upload/UploadAvatar';
 
-const UploadImageField = ({
-  name,
-  label,
-  defaultValue = '',
-  ...others
-}: {
-  [x: string]: any;
-  name: any;
-  label: any;
-  defaultValue?: string | undefined;
-}) => {
+interface UploadImageFieldProps {
+  name: string;
+  label: string;
+  defaultValue?: any;
+  isEditing: boolean;
+}
+
+const UploadImageField: FC<UploadImageFieldProps> = ({ name, label, defaultValue = '', isEditing, ...others }) => {
   const { control } = useFormContext();
 
   return (
@@ -39,9 +37,10 @@ const UploadImageField = ({
                 {label}
               </Typography>
             }
-            error={fieldState.error}
+            error={Boolean(fieldState.error)}
             value={field.value}
             onChange={field.onChange}
+            isEditing={isEditing}
             file={null}
           />
           <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>

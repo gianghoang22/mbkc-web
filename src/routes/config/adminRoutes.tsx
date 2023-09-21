@@ -8,6 +8,7 @@ import {
   MBKCAdminDashboardPage,
   UpdateBrandPage,
 } from 'pages/MBKCAdmin';
+import { CreateNewStorePage } from 'pages/common';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 export const adminRoutes = [
@@ -49,6 +50,11 @@ export const adminRoutes = [
   {
     path: PATH_ADMIN_APP.brand.editById,
     component: <UpdateBrandPage />,
+    index: true,
+  },
+  {
+    path: PATH_ADMIN_APP.brandStore.newBrandStore,
+    component: <CreateNewStorePage />,
     index: true,
   },
 ];

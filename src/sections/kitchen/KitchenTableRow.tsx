@@ -1,27 +1,13 @@
-import moment from 'moment';
-import React, { useState } from 'react';
 // @mui
-import {
-  Avatar,
-  FormControlLabel,
-  IconButton,
-  MenuItem,
-  Popover,
-  Stack,
-  Switch,
-  TableCell,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Avatar, FormControlLabel, IconButton, Stack, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Kitchen } from '@types';
 import { sentenceCase } from 'change-case';
 import { Color } from 'common/enum';
-import { Label } from 'components';
+import { Label, Popover } from 'components';
+import { usePopover } from 'hooks';
 
 interface KitchenTableRowProps {
   // handleNavigateDetail: (kitchenCenter: KitchenCenter, kitchenCenterId: number) => void;?
@@ -31,16 +17,7 @@ interface KitchenTableRowProps {
 
 function KitchenTableRow(props: KitchenTableRowProps) {
   const { index, kitchen } = props;
-
-  const [open, setOpen] = useState<HTMLButtonElement | null>(null);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpen(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   return (
     <>
@@ -84,34 +61,7 @@ function KitchenTableRow(props: KitchenTableRowProps) {
         </TableCell>
       </TableRow>
 
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }}>
-          <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
+      <Popover open={open} handleCloseMenu={handleCloseMenu} />
     </>
   );
 }

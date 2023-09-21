@@ -1,3 +1,15 @@
+export interface Category {
+  categoryId: number;
+  code: string;
+  name: string;
+  type: string;
+  displayOrder: number;
+  description: string;
+  imageUrl: string;
+  status: string;
+  brandId: number;
+}
+
 export interface CategoryToAdd {
   name: string;
   code: string;
@@ -10,6 +22,11 @@ export interface CategoryToAdd {
 export enum CategoryType {
   NORMAL = 'Normal',
   EXTRA = 'Extra',
+}
+
+export enum CategoryStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
 }
 
 export const CREATE_CATEGORY_TYPE_OPTIONS = [

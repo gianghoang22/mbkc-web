@@ -16,25 +16,22 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { CategoryTable, OrderSort, ProductCategory } from '@types';
+import { CategoryTable, OrderSort, Category, CategoryType } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useModal } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getCategoryDetail } from 'redux/productCategory/productCategorySlice';
+import { getCategoryDetail, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { CategoryTableRow, CategoryTableToolbar, CreateCategoryModal } from 'sections/category';
+import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import { categoryHeadCells } from '../../common/headCells';
+import { useConfigHeadTable } from 'hooks';
 
 function ListCategoryPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const { pathname } = useLocation();
+  const { categoryHeadCells } = useConfigHeadTable();
 
-  const { productCategories } = useAppSelector((state) => state.productCategory);
-
-  const { handleOpen, isOpen } = useModal();
+  const { categories } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
@@ -48,7 +45,7 @@ function ListCategoryPage() {
     setOrderBy(property);
   };
 
-  const handleNavigateDetail = (category: ProductCategory, categoryId: number) => {
+  const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
     dispatch(getCategoryDetail(category));
   };
@@ -68,15 +65,12 @@ function ListCategoryPage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - productCategories.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
 
   const visibleRows = useMemo(
     () =>
-      stableSort(productCategories, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, productCategories]
+      stableSort(categories, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [order, orderBy, page, rowsPerPage, categories]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
@@ -88,8 +82,16 @@ function ListCategoryPage() {
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
-          <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={handleOpen}>
-            Create product category
+          <Button
+            variant="contained"
+            startIcon={<AddRoundedIcon />}
+            onClick={() => {
+              navigate(PATH_BRAND_APP.category.newCategory);
+              dispatch(setCategoryType(CategoryType.NORMAL));
+              dispatch(setAddCategory());
+            }}
+          >
+            Add categories
           </Button>,
         ]}
       >
@@ -109,8 +111,10 @@ function ListCategoryPage() {
                     {visibleRows.map((category, index) => {
                       return (
                         <CategoryTableRow
+                          key={category.categoryId}
                           index={index}
                           category={category}
+                          categoryType={CategoryType.NORMAL}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );
@@ -131,7 +135,7 @@ function ListCategoryPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={productCategories.length}
+                count={categories.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -141,8 +145,6 @@ function ListCategoryPage() {
           </Box>
         </Card>
       </Page>
-
-      {isOpen && <CreateCategoryModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>
   );
 }

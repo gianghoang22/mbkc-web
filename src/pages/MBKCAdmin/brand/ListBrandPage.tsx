@@ -1,41 +1,39 @@
 //react
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // @mui
 import {
   Box,
   Card,
-  Container,
   Paper,
-  Stack,
-  Typography,
-  TableContainer,
   Table,
   TableBody,
+  TableCell,
+  TableContainer,
   TablePagination,
   TableRow,
-  TableCell,
 } from '@mui/material';
 
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 //
-import { Breadcrumbs, CommonTableHead, Helmet, Page, SearchNotFound } from 'components';
-import { PATH_ADMIN_APP } from 'routes/paths';
 import { Button } from '@mui/material';
-import { BrandTableRow, BrandTableToolbar } from 'sections/brand';
 import { Brand, BrandTable, OrderSort } from '@types';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable } from 'hooks';
 import { getBrandDetail } from 'redux/brand/brandSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { PATH_ADMIN_APP } from 'routes/paths';
+import { BrandTableRow, BrandTableToolbar } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
-import { brandHeadCells } from 'pages/common/headCells';
 
 function ListBrandPage(props: any) {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
+  const { brandHeadCells } = useConfigHeadTable();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BrandTable>('brandName');
@@ -141,7 +139,5 @@ function ListBrandPage(props: any) {
     </>
   );
 }
-
-ListBrandPage.propTypes = {};
 
 export default ListBrandPage;

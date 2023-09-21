@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, { useState } from 'react';
 // @mui
 import {
@@ -11,14 +10,13 @@ import {
   Switch,
   TableCell,
   TableRow,
-  Typography,
 } from '@mui/material';
 // @mui icon
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { Brand, KitchenCenter } from '@types';
+import { Brand } from '@types';
 import { sentenceCase } from 'change-case';
 import { Color } from 'common/enum';
 import { Label } from 'components';

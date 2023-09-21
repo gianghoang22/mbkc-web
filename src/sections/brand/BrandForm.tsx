@@ -12,7 +12,7 @@ function BrandForm() {
               Select file for brand's logo
             </Typography>
           </Stack>
-          <UploadImageField label="Drag and drop or select files" name="logoUrl" defaultValue="" />
+          <UploadImageField label="Drag and drop or select files" name="logoUrl" defaultValue="" isEditing={false} />
         </Stack>
       </Grid>
       <Grid item md={8} sm={12}>

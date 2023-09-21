@@ -1,32 +1,35 @@
 import { sentenceCase } from 'change-case';
 import { useNavigate } from 'react-router-dom';
-
 // @mui
 import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { ProductCategory } from '@types';
-
+import { Category, CategoryType } from '@types';
 import { Color } from 'common/enum';
-import { Label, Popover } from 'components';
+import { ConfirmDialog, Label, Popover } from 'components';
 import { useModal, usePopover } from 'hooks';
+import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
+import { useAppDispatch } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
-import ConfirmDialog from 'components/Dialog/ConfirmDialog';
 
 interface CategoryTableRowProps {
-  handleNavigateDetail: (category: ProductCategory, storeId: number) => void;
-  category: ProductCategory;
+  handleNavigateDetail: (category: Category, categoryId: number) => void;
+  categoryType: CategoryType;
+  category: Category;
   index: number;
 }
 
-function CategoryTableRow({ index, category, handleNavigateDetail }: CategoryTableRowProps) {
+function CategoryTableRow({ index, category, categoryType, handleNavigateDetail }: CategoryTableRowProps) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {
     navigate(PATH_BRAND_APP.category.root + `/update/${category.categoryId}`);
+    dispatch(setCategoryType(categoryType));
+    dispatch(setEditCategory(category));
   };
 
   const handleDelete = () => {};
@@ -38,9 +41,10 @@ function CategoryTableRow({ index, category, handleNavigateDetail }: CategoryTab
           {index + 1}
         </TableCell>
         <TableCell
-          component="th"
           scope="row"
+          component="th"
           padding="none"
+          width={80}
           onClick={() => handleNavigateDetail(category, category.categoryId)}
         >
           <Avatar alt={category.name} src={category.imageUrl} />

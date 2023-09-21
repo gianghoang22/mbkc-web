@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Breadcrumbs, Helmet, Label } from 'components';
 import {
   Avatar,
   Box,
   Button,
   Card,
   Container,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   Grid,
   IconButton,
   Paper,
@@ -17,33 +17,32 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
 } from '@mui/material';
+import { Breadcrumbs, CommonTableHead, Helmet, Label, SearchNotFound } from 'components';
+import usePopover from 'hooks/usePopover';
+import React, { useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import usePopover from 'hooks/usePopover';
 
 // @mui
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { MenuItem, Popover as MUIPopover } from '@mui/material';
 
 // @mui icon
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import { useAppSelector } from 'redux/configStore';
-import { Color } from 'common/enum';
-import { KitchenTableHead, KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Table } from '@mui/material';
 import { KitchenTable, OrderSort } from '@types';
+import { Color } from 'common/enum';
+import { useConfigHeadTable } from 'hooks';
+import { useAppSelector } from 'redux/configStore';
+import { KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
 import { getComparator, stableSort } from 'utils';
-import { kitchenHeadCells } from '../headCells';
 
 function KitchenCenterDetailPage(props: any) {
   const { pathname } = useLocation();
+  const { kitchenHeadCells } = useConfigHeadTable();
+
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
   const [open, setOpen] = useState(false);
@@ -247,7 +246,7 @@ function KitchenCenterDetailPage(props: any) {
                 <KitchenTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <KitchenTableHead
+                    <CommonTableHead<KitchenTable>
                       headCells={kitchenHeadCells}
                       order={order}
                       orderBy={orderBy}
@@ -269,33 +268,11 @@ function KitchenCenterDetailPage(props: any) {
                             height: 53 * emptyRows,
                           }}
                         >
-                          <TableCell colSpan={6} />
+                          <TableCell colSpan={kitchenHeadCells.length} />
                         </TableRow>
                       )}
                     </TableBody>
-                    {isNotFound && (
-                      <TableBody>
-                        <TableRow>
-                          <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
-                            <Paper
-                              sx={{
-                                textAlign: 'center',
-                              }}
-                            >
-                              <Typography variant="h6" paragraph>
-                                Not found
-                              </Typography>
-
-                              <Typography variant="body2">
-                                No results found for &nbsp;
-                                <strong>&quot;{filterName}&quot;</strong>.
-                                <br /> Try checking for typos or using complete words.
-                              </Typography>
-                            </Paper>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    )}
+                    {isNotFound && <SearchNotFound colNumber={kitchenHeadCells.length} searchQuery={filterName} />}
                   </Table>
                 </TableContainer>
                 <TablePagination
@@ -315,7 +292,5 @@ function KitchenCenterDetailPage(props: any) {
     </>
   );
 }
-
-KitchenCenterDetailPage.propTypes = {};
 
 export default KitchenCenterDetailPage;
