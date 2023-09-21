@@ -14,3 +14,6 @@ export { default as Scrollbar } from './scrollbar/Scrollbar';
 export { default as CommonTableHead } from './table/CommonTableHead';
 export { default as SearchNotFound } from './table/SearchNotFound';
 export { default as UploadAvatar } from './upload/UploadAvatar';
+export { default as InputField } from './form/InputField';
+export { default as SelectField } from './form/SelectField';
+export { default as UploadImageField } from './form/UploadImageField';

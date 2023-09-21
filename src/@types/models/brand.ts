@@ -13,3 +13,9 @@ export interface Brand {
   brandManager: string;
   status: string;
 }
+
+export interface BrandToAdd {
+  name: string;
+  address: string;
+  logoUrl: string;
+}

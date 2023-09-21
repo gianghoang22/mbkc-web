@@ -62,7 +62,7 @@ interface CustomFile extends File {
 }
 
 interface UploadAvatarProps extends DropzoneOptions {
-  error?: boolean;
+  error?: any;
   file: CustomFile | string | null;
   value?: Blob | MediaSource;
   caption?: ReactNode;
