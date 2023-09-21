@@ -8,7 +8,8 @@ function CreateKitchenCenterPage(props: any) {
 
   return (
     <>
-      <Helmet title="Create Kitchen Center Page | MBKC Food" />
+      <Helmet title="Create Kitchen Center Page" />
+
       <Container>
         <Stack>
           <Stack direction="row" justifyContent="space-between">

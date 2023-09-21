@@ -16,20 +16,20 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { Category, CategoryTable, OrderSort } from '@types';
+import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { getCategoryDetail } from 'redux/category/categorySlice';
+import { getCategoryDetail, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import { categoryHeadCells } from '../../common/headCells';
+import { useConfigHeadTable } from 'hooks';
 
 function ListExtraCategoryPage(props: any) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const { pathname } = useLocation();
+  const { categoryHeadCells } = useConfigHeadTable();
 
   const { extraCategories } = useAppSelector((state) => state.extraCategory);
 
@@ -85,8 +85,16 @@ function ListExtraCategoryPage(props: any) {
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
-          <Button variant="contained" startIcon={<AddRoundedIcon />}>
-            Create extra category
+          <Button
+            variant="contained"
+            startIcon={<AddRoundedIcon />}
+            onClick={() => {
+              navigate(PATH_BRAND_APP.category.newCategory);
+              dispatch(setCategoryType(CategoryType.EXTRA));
+              dispatch(setAddCategory());
+            }}
+          >
+            Add extra category
           </Button>,
         ]}
       >
@@ -106,8 +114,10 @@ function ListExtraCategoryPage(props: any) {
                     {visibleRows.map((extraCategory, index) => {
                       return (
                         <CategoryTableRow
+                          key={extraCategory.categoryId}
                           index={index}
                           category={extraCategory}
+                          categoryType={CategoryType.EXTRA}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );

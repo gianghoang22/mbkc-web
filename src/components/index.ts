@@ -26,4 +26,4 @@ export { default as RadioGroupField } from './form/RadioGroupField';
 export { default as SelectField } from './form/SelectField';
 export { default as SwitchField } from './form/SwitchField';
 export { default as TimePickerField } from './form/TimePickerField';
-export { default as UploadImageField } from './form/UploadImageField.jsx';
+export { default as UploadImageField } from './form/UploadImageField';

@@ -62,9 +62,10 @@ interface CustomFile extends File {
 }
 
 interface UploadAvatarProps extends DropzoneOptions {
+  isEditing?: boolean;
   error?: boolean;
-  file: CustomFile | string | null;
-  value?: Blob | MediaSource;
+  file?: CustomFile | string | null;
+  value?: any;
   caption?: ReactNode;
   sx?: SxProps<Theme>;
   onChange?: Function;
@@ -72,6 +73,7 @@ interface UploadAvatarProps extends DropzoneOptions {
 
 export default function UploadAvatar({
   onChange: onFormChange,
+  isEditing,
   error,
   file,
   value,
@@ -79,10 +81,10 @@ export default function UploadAvatar({
   sx,
   ...other
 }: UploadAvatarProps) {
-  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>(isEditing ? value : '');
+
   const onDrop = useCallback(
     async (acceptedFiles: any) => {
-      // console.log('acceptedFiles', acceptedFiles);
       const file = acceptedFiles[0];
       setImageUrl(URL.createObjectURL(file));
       if (onFormChange) {

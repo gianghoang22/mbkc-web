@@ -35,11 +35,11 @@ function ProductTableRow({ index, product }: ProductTableRowProps) {
         <TableCell width={60} align="center" onClick={handleOpen}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={handleOpen}>
+        <TableCell component="th" padding="none" width={70} align="center" onClick={handleOpen}>
           <Avatar alt={product.name} src={product.image} />
         </TableCell>
         <TableCell component="th" scope="row" padding="none" onClick={handleOpen}>
-          <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
+          <Typography variant="subtitle2" sx={{ width: 170 }} noWrap>
             {product.name}
           </Typography>
         </TableCell>

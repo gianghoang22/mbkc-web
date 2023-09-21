@@ -7,13 +7,6 @@ interface CommonTableHeadProps<T> {
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
   order: OrderSort;
   orderBy: string;
-  // headCells: {
-  //   id: keyof T;
-  //   label: string;
-  //   numeric: boolean;
-  //   disablePadding: boolean;
-  //   hideSortIcon: boolean;
-  // }[];
   headCells: HeadCell<T>[];
 }
 
@@ -37,18 +30,23 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {!headCell.hideSortIcon ? (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+                hideSortIcon={headCell.hideSortIcon ? true : false}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            ) : (
+              <TableSortLabel hideSortIcon>{headCell.label}</TableSortLabel>
+            )}
           </TableCell>
         ))}
         <TableCell></TableCell>

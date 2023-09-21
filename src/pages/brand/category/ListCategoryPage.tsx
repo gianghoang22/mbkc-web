@@ -16,20 +16,20 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { CategoryTable, OrderSort, Category } from '@types';
+import { CategoryTable, OrderSort, Category, CategoryType } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getCategoryDetail } from 'redux/category/categorySlice';
+import { getCategoryDetail, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import { categoryHeadCells } from '../../common/headCells';
+import { useConfigHeadTable } from 'hooks';
 
 function ListCategoryPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const { pathname } = useLocation();
+  const { categoryHeadCells } = useConfigHeadTable();
 
   const { categories } = useAppSelector((state) => state.category);
 
@@ -85,7 +85,11 @@ function ListCategoryPage() {
           <Button
             variant="contained"
             startIcon={<AddRoundedIcon />}
-            onClick={() => navigate(PATH_BRAND_APP.category.newCategory)}
+            onClick={() => {
+              navigate(PATH_BRAND_APP.category.newCategory);
+              dispatch(setCategoryType(CategoryType.NORMAL));
+              dispatch(setAddCategory());
+            }}
           >
             Add categories
           </Button>,
@@ -107,8 +111,10 @@ function ListCategoryPage() {
                     {visibleRows.map((category, index) => {
                       return (
                         <CategoryTableRow
+                          key={category.categoryId}
                           index={index}
                           category={category}
+                          categoryType={CategoryType.NORMAL}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );

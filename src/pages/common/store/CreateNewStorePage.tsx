@@ -42,7 +42,12 @@ function CreateNewStorePage() {
                     Select file for product's image
                   </Typography>
                 </Stack>
-                <UploadImageField label="Drag and drop or select files" name="image" defaultValue="" />
+                <UploadImageField
+                  label="Drag and drop or select files"
+                  name="image"
+                  defaultValue=""
+                  isEditing={false}
+                />
               </Stack>
             </Grid>
             <Grid item md={8} sm={12}>

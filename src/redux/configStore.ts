@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import productCategoryReducer from './category/categorySlice';
+import categoryReducer from './category/categorySlice';
 import extraCategoryReducer from './extraCategory/extraCategorySlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
 import productReducer from './product/productSlice';
@@ -10,7 +10,7 @@ export const store = configureStore({
   reducer: {
     store: storeReducer,
     product: productReducer,
-    category: productCategoryReducer,
+    category: categoryReducer,
     extraCategory: extraCategoryReducer,
     kitchenCenter: kitchenCenterReducer,
   },

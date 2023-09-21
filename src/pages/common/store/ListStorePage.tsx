@@ -23,15 +23,15 @@ import { getStoreDetail } from 'redux/store/storeSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { storeHeadCells } from '../headCells';
+import { useConfigHeadTable } from 'hooks';
 
 // ----------------------------------------------------------------------
 
 function ListStorePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const { pathname } = useLocation();
+  const { storeHeadCells } = useConfigHeadTable();
 
   const { stores } = useAppSelector((state) => state.store);
 

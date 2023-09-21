@@ -2,6 +2,8 @@ export interface Category {
   categoryId: number;
   code: string;
   name: string;
+  type: string;
+  displayOrder: number;
   description: string;
   imageUrl: string;
   status: string;
@@ -23,8 +25,8 @@ export enum CategoryType {
 }
 
 export enum CategoryStatus {
-  ACTIVE = 'Active',
-  DEACTIVE = 'Deactive',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
 }
 
 export const CREATE_CATEGORY_TYPE_OPTIONS = [

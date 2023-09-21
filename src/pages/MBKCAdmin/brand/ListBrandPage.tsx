@@ -10,7 +10,7 @@ function ListBrandPage(props: any) {
 
   return (
     <>
-      <Helmet title="List Brand Page | MBKC Food" />
+      <Helmet title="List Brand Page" />
 
       <Container>
         <Stack>

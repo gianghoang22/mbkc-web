@@ -18,15 +18,16 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { KitchenCentersTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { kitchenCenterHeadCells } from '../../common/headCells';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
+import { useConfigHeadTable } from 'hooks';
 
 function ListKitchenCenterPage(props: any) {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { kitchenCenterHeadCells } = useConfigHeadTable();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof KitchenCentersTable>('title');

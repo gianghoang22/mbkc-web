@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import DescriptionIcon from '@mui/icons-material/Description';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -17,21 +17,25 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography,
 } from '@mui/material';
 //
-import { OrderSort, ProductTable } from '@types';
+import { CategoryType, OrderSort, ProductTable } from '@types';
 import { Color } from 'common/enum';
 import { CommonTableHead, Label, Page, SearchNotFound } from 'components';
-import useResponsive from 'hooks/useResponsive';
-import { useAppSelector } from 'redux/configStore';
+import { useConfigHeadTable, useResponsive } from 'hooks';
+import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
-import { productHeadCells } from '../../common/headCells';
 
 function CategoryDetailPage() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
+  const { productHeadCells } = useConfigHeadTable();
   const mdUp = useResponsive('up', 'md', 'md');
 
   const { products } = useAppSelector((state) => state.product);
@@ -93,9 +97,17 @@ function CategoryDetailPage() {
                 <Typography variant="h6">General information</Typography>
                 <DescriptionIcon fontSize="small" />
               </Stack>
-              <IconButton>
-                <EditRoundedIcon />
-              </IconButton>
+              <Tooltip title="Edit" placement="top-end" arrow>
+                <IconButton
+                  onClick={() => {
+                    navigate(PATH_BRAND_APP.category.newCategory);
+                    dispatch(setCategoryType(CategoryType.NORMAL));
+                    dispatch(setEditCategory(category));
+                  }}
+                >
+                  <EditRoundedIcon />
+                </IconButton>
+              </Tooltip>
             </Stack>
             <Stack sx={{ px: 3, py: 3 }}>
               <Grid container columnSpacing={2}>

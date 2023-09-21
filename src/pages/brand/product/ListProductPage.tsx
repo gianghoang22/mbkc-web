@@ -22,12 +22,12 @@ import { useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
-import { productHeadCells } from '../../common/headCells';
+import { useConfigHeadTable } from 'hooks';
 
 function ListProductPage() {
   const navigate = useNavigate();
-
   const { pathname } = useLocation();
+  const { productHeadCells } = useConfigHeadTable();
 
   const { products } = useAppSelector((state) => state.product);
 
