@@ -1,7 +1,7 @@
 import { Label, Page } from 'components';
 import useResponsive from 'hooks/useResponsive';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 //mui
@@ -20,6 +20,8 @@ function BrandDetailPage(props: any) {
   const { pathname } = useLocation();
   const { brand } = useAppSelector((state) => state.brand);
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -116,7 +118,7 @@ function BrandDetailPage(props: any) {
               <Stack direction="row" alignItems="center" gap={0.5}>
                 <Typography variant="h6">Brand information</Typography>
               </Stack>
-              <IconButton>
+              <IconButton onClick={() => navigate(PATH_ADMIN_APP.brand.editById)}>
                 <EditRoundedIcon />
               </IconButton>
             </Stack>
@@ -148,7 +150,7 @@ function BrandDetailPage(props: any) {
             </Stack>
           </Card>
 
-          <Card>
+          {/* <Card>
             <Stack
               direction="row"
               alignItems="center"
@@ -203,7 +205,7 @@ function BrandDetailPage(props: any) {
                 </Grid>
               </Grid>
             </Stack>
-          </Card>
+          </Card> */}
         </Stack>
       </Page>
     </>

@@ -41,6 +41,7 @@ const UploadImageField: FC<UploadImageFieldProps> = ({ name, label, defaultValue
             value={field.value}
             onChange={field.onChange}
             isEditing={isEditing}
+            file={null}
           />
           <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
             {fieldState.error && fieldState.error.message}

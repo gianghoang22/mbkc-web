@@ -140,6 +140,4 @@ function ListBrandPage(props: any) {
   );
 }
 
-ListBrandPage.propTypes = {};
-
 export default ListBrandPage;
