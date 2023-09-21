@@ -13,6 +13,7 @@ import BrandForm from 'sections/brand/BrandForm';
 const schema = yup.object({
   name: yup.string().required('Please enter brand name'),
   address: yup.string().required('Please enter brand address'),
+  email: yup.string().required('Please enter brand manager email'),
   logoUrl: yup.string().required('Please select brand logo'),
 });
 function UpdateBrandPage(props: any) {
@@ -24,6 +25,7 @@ function UpdateBrandPage(props: any) {
       name: '',
       address: '',
       logoUrl: '',
+      email: '',
     },
     resolver: yupResolver(schema),
   });

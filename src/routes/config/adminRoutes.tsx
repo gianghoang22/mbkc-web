@@ -7,6 +7,7 @@ import {
   ListKitchenCenterPage,
   MBKCAdminDashboardPage,
   UpdateBrandPage,
+  UpdateKitchenCenterPage,
 } from 'pages/MBKCAdmin';
 import { CreateNewStorePage } from 'pages/common';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -30,6 +31,11 @@ export const adminRoutes = [
   {
     path: PATH_ADMIN_APP.kitchenCenter.newKitchenCenter,
     component: <CreateKitchenCenterPage />,
+    index: true,
+  },
+  {
+    path: PATH_ADMIN_APP.kitchenCenter.editById,
+    component: <UpdateKitchenCenterPage />,
     index: true,
   },
   {

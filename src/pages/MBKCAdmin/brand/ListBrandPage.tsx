@@ -81,7 +81,7 @@ function ListBrandPage(props: any) {
   return (
     <>
       <Page
-        title="List Brand"
+        title="List Of Brand"
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [

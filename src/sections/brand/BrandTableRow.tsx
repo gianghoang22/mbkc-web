@@ -20,6 +20,8 @@ import { Brand } from '@types';
 import { sentenceCase } from 'change-case';
 import { Color } from 'common/enum';
 import { Label } from 'components';
+import { useNavigate } from 'react-router-dom';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface BrandTableRowProps {
   handleNavigateDetail: (brand: Brand, brandId: number) => void;
@@ -27,8 +29,9 @@ interface BrandTableRowProps {
   index: number;
 }
 
-function StoreTableRow(props: BrandTableRowProps) {
+function BrandTableRow(props: BrandTableRowProps) {
   const { index, brand, handleNavigateDetail } = props;
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
 
@@ -95,7 +98,7 @@ function StoreTableRow(props: BrandTableRowProps) {
           },
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={() => navigate(PATH_ADMIN_APP.brand.editById)}>
           <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
@@ -109,4 +112,4 @@ function StoreTableRow(props: BrandTableRowProps) {
   );
 }
 
-export default StoreTableRow;
+export default BrandTableRow;

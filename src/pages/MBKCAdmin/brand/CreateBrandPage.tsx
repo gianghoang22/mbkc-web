@@ -10,8 +10,9 @@ import { Page } from 'components';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import BrandForm from 'sections/brand/BrandForm';
 
-const schema = yup.object({
+const BrandSchema = yup.object({
   name: yup.string().required('Please enter brand name'),
+  email: yup.string().required('Please enter brand manager email'),
   address: yup.string().required('Please enter brand address'),
   logoUrl: yup.string().required('Please select brand logo'),
 });
@@ -24,16 +25,17 @@ function CreateBrandPage(props: any) {
     defaultValues: {
       name: '',
       address: '',
+      email: '',
       logoUrl: '',
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(BrandSchema),
   });
 
   const { handleSubmit } = createBrandForm;
 
   const onSubmit = async (values: BrandToAdd) => {
     const data = { ...values };
-    console.log('CategoryToAdd', data);
+    console.log('BrandToAdd', data);
   };
 
   return (

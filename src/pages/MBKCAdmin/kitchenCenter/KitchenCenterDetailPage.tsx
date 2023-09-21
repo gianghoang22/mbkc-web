@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 //
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {
   Avatar,
   Box,
@@ -20,13 +18,22 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-//
+import { useNavigate } from 'react-router-dom';
+import { PATH_ADMIN_APP } from 'routes/paths';
+
+// @mui
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import { MenuItem, Popover as MUIPopover } from '@mui/material';
+
+// @mui icon
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
+import { useAppSelector } from 'redux/configStore';
 import { KitchenTable, OrderSort } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
 import { useConfigHeadTable, useModal, usePopover } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
-import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
 import { getComparator, stableSort } from 'utils';
 
@@ -37,6 +44,8 @@ function KitchenCenterDetailPage(props: any) {
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof KitchenTable>('kitchenName');
@@ -128,7 +137,7 @@ function KitchenCenterDetailPage(props: any) {
               <Stack direction="row" alignItems="center" gap={0.5}>
                 <Typography variant="h6">General information</Typography>
               </Stack>
-              <IconButton>
+              <IconButton onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.editById)}>
                 <EditRoundedIcon />
               </IconButton>
             </Stack>

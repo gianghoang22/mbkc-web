@@ -1,7 +1,7 @@
 import { Grid, Stack, Typography } from '@mui/material';
 import { InputField, UploadImageField } from 'components';
 
-function BrandForm() {
+function KitchenCenterForm() {
   return (
     <Grid container columnSpacing={3}>
       <Grid item md={4} sm={12}>
@@ -9,10 +9,10 @@ function BrandForm() {
           <Stack width="100%">
             <Typography variant="subtitle1">Logo</Typography>
             <Typography variant="body2" color="grey.600">
-              Select file for brand's logo
+              Select file for kitchen center's logo
             </Typography>
           </Stack>
-          <UploadImageField label="Drag and drop or select files" name="logoUrl" defaultValue="" isEditing={false} />
+          <UploadImageField label="Drag and drop or select files" name="logoUrl" defaultValue="" isEditing />
         </Stack>
       </Grid>
       <Grid item md={8} sm={12}>
@@ -25,9 +25,13 @@ function BrandForm() {
           </Stack>
 
           <Stack spacing={2}>
-            <InputField fullWidth name="name" label="Brand name" />
-            <InputField fullWidth name="email" label="Brand manager email" />
-            <InputField fullWidth name="address" label="Brand address" />
+            <InputField fullWidth name="name" label="Name" />
+            <InputField fullWidth name="numberOfKitchens" label="Number of kitchens" />
+            <Stack direction="row" spacing={2}>
+              <InputField fullWidth name="cityProvince" label="City/Province" />
+              <InputField fullWidth name="district" label="District" />
+            </Stack>
+            <InputField fullWidth name="address" label="Address" />
           </Stack>
         </Stack>
       </Grid>
@@ -35,4 +39,4 @@ function BrandForm() {
   );
 }
 
-export default BrandForm;
+export default KitchenCenterForm;

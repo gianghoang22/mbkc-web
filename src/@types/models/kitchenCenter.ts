@@ -15,3 +15,12 @@ export interface KitchenCenter {
   status: string;
   kitchenCenterManager?: string;
 }
+
+export interface KitchenCenterToAdd {
+  name: string;
+  numberOfKitchens: number;
+  cityProvince: string;
+  district: string;
+  address: string;
+  logoUrl: string;
+}
