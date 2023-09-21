@@ -1,4 +1,5 @@
 import {
+  BrandDetailPage,
   CreateBrandPage,
   CreateKitchenCenterPage,
   KitchenCenterDetailPage,
@@ -32,6 +33,11 @@ export const adminRoutes = [
   {
     path: PATH_ADMIN_APP.brand.list,
     component: <ListBrandPage />,
+    index: true,
+  },
+  {
+    path: PATH_ADMIN_APP.brand.detailById,
+    component: <BrandDetailPage />,
     index: true,
   },
   {

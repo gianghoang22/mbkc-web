@@ -1,4 +1,4 @@
-import { CategoryTable, HeadCell, KitchenCentersTable, ProductTable, StoreTable } from '@types';
+import { BrandTable, CategoryTable, HeadCell, KitchenCentersTable, ProductTable, StoreTable } from '@types';
 
 export const productHeadCells: HeadCell<ProductTable>[] = [
   {
@@ -136,6 +136,45 @@ export const kitchenCenterHeadCells: HeadCell<KitchenCentersTable>[] = [
     hideSortIcon: false,
     disablePadding: false,
   },
+  {
+    id: 'status',
+    label: 'Status',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
+  },
+];
+
+export const brandHeadCells: HeadCell<BrandTable>[] = [
+  {
+    id: 'brandImgUrl',
+    label: 'Brand image',
+    numeric: false,
+    hideSortIcon: true,
+    disablePadding: true,
+  },
+  {
+    id: 'brandName',
+    label: 'Brand name',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
+  },
+  {
+    id: 'address',
+    label: 'Address',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
+  },
+  {
+    id: 'brandManager',
+    label: 'Brand manager',
+    numeric: false,
+    hideSortIcon: false,
+    disablePadding: false,
+  },
+
   {
     id: 'status',
     label: 'Status',

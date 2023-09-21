@@ -6,6 +6,7 @@ import productCategoryReducer from './productCategory/productCategorySlice';
 import storeReducer from './store/storeSlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
 import kitchenReducer from './kitchen/kitchenSlice';
+import brandReducer from './brand/brandSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     productCategory: productCategoryReducer,
     kitchenCenter: kitchenCenterReducer,
     kitchen: kitchenReducer,
+    brand: brandReducer,
   },
 });
 
