@@ -12,7 +12,7 @@ function KitchenCenterForm() {
               Select file for kitchen center's logo
             </Typography>
           </Stack>
-          <UploadImageField label="Drag and drop or select files" name="logoUrl" defaultValue="" />
+          <UploadImageField label="Drag and drop or select files" name="logoUrl" defaultValue="" isEditing />
         </Stack>
       </Grid>
       <Grid item md={8} sm={12}>

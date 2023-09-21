@@ -10,7 +10,6 @@ interface BreadcrumbsProps {
 }
 
 function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
-  console.log(pathname);
   const navigate = useNavigate();
   const pathnames = pathname
     .split('/')

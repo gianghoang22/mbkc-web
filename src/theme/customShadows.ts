@@ -7,7 +7,7 @@ import palette from './palette';
 // ----------------------------------------------------------------------
 
 const color = palette.grey[500];
-const transparent = alpha(color, 0.16);
+const transparent = alpha(color, 0.24);
 
 export const customShadows = {
   z1: `0 1px 2px 0 ${transparent}`,

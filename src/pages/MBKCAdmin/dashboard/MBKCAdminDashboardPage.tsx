@@ -103,7 +103,7 @@ const KitchenCenters: KitchenCentersData[] = [
 function MBKCAdminDashboardPage() {
   return (
     <>
-      <Helmet title="Brand Management | MBKC Food" />
+      <Helmet title="Admin Management" />
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>

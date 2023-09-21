@@ -13,7 +13,7 @@ import { AppWidgetSummary } from 'sections/dashboard';
 function BrandDashboard() {
   return (
     <>
-      <Helmet title="Brand Management | MBKC" />
+      <Helmet title="Brand Management" />
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>

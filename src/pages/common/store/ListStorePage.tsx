@@ -12,27 +12,26 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
-  Typography,
 } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, Store, StoreTable } from '@types';
-import { CommonTableHead, Page } from 'components';
+import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getStoreDetail } from 'redux/store/storeSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { storeHeadCells } from '../headCells';
+import { useConfigHeadTable } from 'hooks';
 
 // ----------------------------------------------------------------------
 
 function ListStorePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const { pathname } = useLocation();
+  const { storeHeadCells } = useConfigHeadTable();
 
   const { stores } = useAppSelector((state) => state.store);
 
@@ -118,33 +117,11 @@ function ListStorePage() {
                           height: 53 * emptyRows,
                         }}
                       >
-                        <TableCell colSpan={6} />
+                        <TableCell colSpan={storeHeadCells.length} />
                       </TableRow>
                     )}
                   </TableBody>
-                  {isNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
-                          <Paper
-                            sx={{
-                              textAlign: 'center',
-                            }}
-                          >
-                            <Typography variant="h6" paragraph>
-                              Not found
-                            </Typography>
-
-                            <Typography variant="body2">
-                              No results found for &nbsp;
-                              <strong>&quot;{filterName}&quot;</strong>.
-                              <br /> Try checking for typos or using complete words.
-                            </Typography>
-                          </Paper>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination

@@ -68,6 +68,4 @@ function UpdateKitchenCenterPage(props: any) {
   );
 }
 
-UpdateKitchenCenterPage.propTypes = {};
-
 export default UpdateKitchenCenterPage;

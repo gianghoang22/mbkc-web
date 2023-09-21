@@ -15,7 +15,7 @@ import { AppWidgetSummary } from 'sections/dashboard';
 function KitchenCenterDashboard() {
   return (
     <>
-      <Helmet title="Kitchen Center Management | MBKC Food" />
+      <Helmet title="Kitchen Center Management" />
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>

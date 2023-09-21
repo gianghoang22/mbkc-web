@@ -1,51 +1,48 @@
 import React, { useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Breadcrumbs, Helmet, Label } from 'components';
+import { useLocation } from 'react-router';
+//
 import {
   Avatar,
   Box,
   Button,
   Card,
-  Container,
   Grid,
   IconButton,
   Paper,
   Stack,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
   TablePagination,
   TableRow,
   Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
 } from '@mui/material';
-import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import usePopover from 'hooks/usePopover';
 
 // @mui
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { MenuItem, Popover as MUIPopover } from '@mui/material';
 
 // @mui icon
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 import { useAppSelector } from 'redux/configStore';
-import { Color } from 'common/enum';
-import { KitchenTableHead, KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
-import { Table } from '@mui/material';
 import { KitchenTable, OrderSort } from '@types';
+import { Color, PopoverType } from 'common/enum';
+import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
+import { useConfigHeadTable, useModal, usePopover } from 'hooks';
+import { KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
 import { getComparator, stableSort } from 'utils';
-import { kitchenHeadCells } from '../headCells';
 
 function KitchenCenterDetailPage(props: any) {
   const { pathname } = useLocation();
+  const { kitchenHeadCells } = useConfigHeadTable();
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+
   const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -94,84 +91,37 @@ function KitchenCenterDetailPage(props: any) {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleDelete = () => {
+    console.log('Handel delete clicked');
   };
 
   return (
     <>
-      <Helmet title="Kitchen Center Detail | MBKC" />
-
-      <Container>
-        <Stack mb={7}>
-          <Stack direction="row" justifyContent="space-between">
-            <Typography variant="h4">Kitchen Center Detail</Typography>
-            <Button
-              color="inherit"
-              onClick={handleOpenMenu}
-              style={{
-                backgroundColor: '#000',
-                color: '#fff',
-                width: 140,
-                height: 32,
-              }}
-              sx={{
-                '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
-                  backgroundColor: 'rgba(145, 158, 171, 0.08)',
-                },
-              }}
-            >
-              <Typography>Menu Actions</Typography>
-              <KeyboardArrowDownIcon />
-            </Button>
-            <MUIPopover
-              open={Boolean(openPopover)}
-              anchorEl={openPopover}
-              onClose={handleCloseMenu}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-              PaperProps={{
-                sx: {
-                  p: 1,
-                  width: 140,
-                  '& .MuiMenuItem-root': {
-                    px: 1,
-                    typography: 'body2',
-                  },
-                },
-              }}
-            >
-              <MenuItem sx={{ color: 'error.main' }}>
-                <Button onClick={handleClickOpen}>
-                  <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-                  Delete
-                </Button>
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                >
-                  <DialogTitle id="alert-dialog-title">Are you sure to delete this kitchen center?</DialogTitle>
-                  <DialogActions>
-                    <Button onClick={handleClose} style={{ color: '#2196F3' }}>
-                      Cancel
-                    </Button>
-                    <Button onClick={handleClose} autoFocus>
-                      Yes
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              </MenuItem>
-            </MUIPopover>
-          </Stack>
-          <Breadcrumbs pathname={pathname} navigateDashboard={PATH_ADMIN_APP.root} />
-        </Stack>
-
+      <Page
+        title="Kitchen Center Detail"
+        pathname={pathname}
+        navigateDashboard={PATH_ADMIN_APP.root}
+        actions={() => [
+          <Button
+            color="inherit"
+            onClick={handleOpenMenu}
+            endIcon={<KeyboardArrowDownIcon />}
+            style={{
+              backgroundColor: '#000',
+              color: '#fff',
+              width: 140,
+              height: 32,
+            }}
+            sx={{
+              '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
+                backgroundColor: 'rgba(145, 158, 171, 0.08)',
+              },
+            }}
+          >
+            <Typography>Menu Actions</Typography>
+          </Button>,
+        ]}
+      >
         <Stack spacing={5} mb={7} width="100%">
           <Card>
             <Stack
@@ -233,14 +183,7 @@ function KitchenCenterDetailPage(props: any) {
 
         <Stack spacing={1}>
           <Stack direction="row" alignItems="center" gap={0.5}>
-            <Typography
-              variant="h6"
-              style={{
-                paddingLeft: '24px',
-              }}
-            >
-              Kitchens in Kitchen Center
-            </Typography>
+            <Typography variant="h6">Kitchens in Kitchen Center</Typography>
           </Stack>
 
           <Card sx={{ marginTop: 2 }}>
@@ -249,7 +192,7 @@ function KitchenCenterDetailPage(props: any) {
                 <KitchenTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <KitchenTableHead
+                    <CommonTableHead<KitchenTable>
                       headCells={kitchenHeadCells}
                       order={order}
                       orderBy={orderBy}
@@ -271,33 +214,11 @@ function KitchenCenterDetailPage(props: any) {
                             height: 53 * emptyRows,
                           }}
                         >
-                          <TableCell colSpan={6} />
+                          <TableCell colSpan={kitchenHeadCells.length} />
                         </TableRow>
                       )}
                     </TableBody>
-                    {isNotFound && (
-                      <TableBody>
-                        <TableRow>
-                          <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
-                            <Paper
-                              sx={{
-                                textAlign: 'center',
-                              }}
-                            >
-                              <Typography variant="h6" paragraph>
-                                Not found
-                              </Typography>
-
-                              <Typography variant="body2">
-                                No results found for &nbsp;
-                                <strong>&quot;{filterName}&quot;</strong>.
-                                <br /> Try checking for typos or using complete words.
-                              </Typography>
-                            </Paper>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    )}
+                    {isNotFound && <SearchNotFound colNumber={kitchenHeadCells.length} searchQuery={filterName} />}
                   </Table>
                 </TableContainer>
                 <TablePagination
@@ -313,11 +234,26 @@ function KitchenCenterDetailPage(props: any) {
             </Box>
           </Card>
         </Stack>
-      </Container>
+      </Page>
+
+      <Popover
+        type={PopoverType.DELETE}
+        open={openPopover}
+        handleCloseMenu={handleCloseMenu}
+        onDelete={handleOpenModal}
+      />
+
+      {isOpenModal && (
+        <ConfirmDialog
+          open={isOpenModal}
+          onClose={handleOpenModal}
+          onAction={handleDelete}
+          title={'Confirm Delete Kitchen Center'}
+          description={'Are you sure to delete this kitchen center?'}
+        />
+      )}
     </>
   );
 }
-
-KitchenCenterDetailPage.propTypes = {};
 
 export default KitchenCenterDetailPage;

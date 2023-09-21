@@ -1,5 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -63,7 +61,5 @@ function CreateBrandPage(props: any) {
     </Page>
   );
 }
-
-CreateBrandPage.propTypes = {};
 
 export default CreateBrandPage;
