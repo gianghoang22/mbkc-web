@@ -24,7 +24,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>(
         </Helmet>
 
         <Container maxWidth="lg">
-          <Box pb={5}>
+          <Box pb={6}>
             <Stack direction="row" alignItems="start" justifyContent="space-between">
               <Stack>
                 <Typography variant="h4">{title}</Typography>

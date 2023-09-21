@@ -1,6 +1,6 @@
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { IconButton, InputAdornment, Tooltip } from '@mui/material';
+import { IconButton, InputAdornment, Tooltip, Stack, Button } from '@mui/material';
 import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
@@ -8,10 +8,13 @@ import { StyledRoot, StyledSearch } from '../styles';
 interface CategoryTableToolbarProps {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filterName: string;
+  numSelected?: number;
+  addAction?: boolean;
+  onAction?: (title: any) => void;
 }
 
 function CategoryTableToolbar(props: CategoryTableToolbarProps) {
-  const { filterName, onFilterName } = props;
+  const { filterName, onFilterName, onAction, addAction = false } = props;
 
   return (
     <StyledRoot>
@@ -27,11 +30,19 @@ function CategoryTableToolbar(props: CategoryTableToolbarProps) {
         }
       />
 
-      <Tooltip title="Filter list">
-        <IconButton>
-          <ReplayIcon />
-        </IconButton>
-      </Tooltip>
+      <Stack direction="row" alignItems="center" gap={2}>
+        <Tooltip title="Reload">
+          <IconButton>
+            <ReplayIcon />
+          </IconButton>
+        </Tooltip>
+
+        {addAction && (
+          <Button variant="outlined" onClick={onAction}>
+            Add categories
+          </Button>
+        )}
+      </Stack>
     </StyledRoot>
   );
 }
