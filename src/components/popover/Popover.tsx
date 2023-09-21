@@ -2,27 +2,30 @@
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { MenuItem, Popover as MUIPopover, SxProps } from '@mui/material';
+import { PopoverType } from 'common/enum';
 
 interface PopoverProps {
   sx?: SxProps;
+  type?: PopoverType;
   open: HTMLButtonElement | null;
   handleCloseMenu: () => void;
   onEdit?: () => void;
   onDelete?: (title: any) => void;
 }
 
-function Popover({ open, handleCloseMenu, onEdit, onDelete, sx, ...other }: PopoverProps) {
+function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDelete, sx, ...other }: PopoverProps) {
   return (
     <>
       <MUIPopover
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
           sx: {
             p: 1,
+            mt: 0.5,
             width: 140,
             '& .MuiMenuItem-root': {
               px: 1,
@@ -34,26 +37,51 @@ function Popover({ open, handleCloseMenu, onEdit, onDelete, sx, ...other }: Popo
         }}
         {...other}
       >
-        <MenuItem
-          onClick={() => {
-            onEdit && onEdit();
-            handleCloseMenu();
-          }}
-        >
-          <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
+        {type === PopoverType.ALL ? (
+          <>
+            <MenuItem
+              onClick={() => {
+                onEdit && onEdit();
+                handleCloseMenu();
+              }}
+            >
+              <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
+              Edit
+            </MenuItem>
 
-        <MenuItem
-          sx={{ color: 'error.main' }}
-          onClick={() => {
-            onDelete && onDelete('delete');
-            handleCloseMenu();
-          }}
-        >
-          <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
+            <MenuItem
+              sx={{ color: 'error.main' }}
+              onClick={() => {
+                onDelete && onDelete('delete');
+                handleCloseMenu();
+              }}
+            >
+              <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
+              Delete
+            </MenuItem>
+          </>
+        ) : type === PopoverType.EDIT ? (
+          <MenuItem
+            onClick={() => {
+              onEdit && onEdit();
+              handleCloseMenu();
+            }}
+          >
+            <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
+            Edit
+          </MenuItem>
+        ) : (
+          <MenuItem
+            sx={{ color: 'error.main' }}
+            onClick={() => {
+              onDelete && onDelete('delete');
+              handleCloseMenu();
+            }}
+          >
+            <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
+            Delete
+          </MenuItem>
+        )}
       </MUIPopover>
     </>
   );

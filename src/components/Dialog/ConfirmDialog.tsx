@@ -55,7 +55,16 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
         <Button {...cancelProps} onClick={onClose} variant="text" color="secondary">
           {translate('common.cancel')}
         </Button>
-        <LoadingAsyncButton {...confirmProps} onClick={onAction} color="error" variant="contained" autoFocus>
+        <LoadingAsyncButton
+          {...confirmProps}
+          onClick={() => {
+            onAction();
+            onClose('Close');
+          }}
+          color="error"
+          variant="contained"
+          autoFocus
+        >
           {translate('common.confirm')}
         </LoadingAsyncButton>
       </DialogActions>
