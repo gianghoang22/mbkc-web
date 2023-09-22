@@ -16,7 +16,9 @@ const products = [...Array(24)].map((_, index) => ({
   type: sample(['father product', 'child product', 'single product', 'extra product']),
   status: sample([0, 1]),
   image: `/assets/images/avatars/avatar_${index + 1}.jpg`,
+  parentProductId: sample(['Chicken', 'Noodle', 'Water']),
   categoryId: sample(['Chicken', 'Noodle', 'Water']),
+  brandId: sample(['Chicken', 'Noodle', 'Water']),
 }));
 
 export default products;
