@@ -57,6 +57,7 @@ const InputField = ({
             id={name}
             label={label}
             disabled={disabled}
+            helperText={helperText}
             placeholder={placeholder}
             defaultValue={defaultValue}
             multiline={multiline}

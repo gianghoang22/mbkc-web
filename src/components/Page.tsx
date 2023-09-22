@@ -1,13 +1,14 @@
 import { forwardRef, ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 // material
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Breakpoint, Container, Stack, Typography } from '@mui/material';
 import Breadcrumbs from './breadcrumbs/Breadcrumbs';
 
 // ----------------------------------------------------------------------
 
 interface PageProps {
   children: ReactNode;
+  containerWidth?: false | Breakpoint;
   title: string;
   pathname: string;
   navigateDashboard: string;
@@ -16,14 +17,14 @@ interface PageProps {
 }
 
 const Page = forwardRef<HTMLDivElement, PageProps>(
-  ({ children, title = '', pathname, navigateDashboard, content, actions, ...other }, ref) => {
+  ({ containerWidth = 'lg', children, title = '', pathname, navigateDashboard, content, actions, ...other }, ref) => {
     return (
       <Box ref={ref} {...other}>
         <Helmet>
           <title>{title} | MBKC</title>
         </Helmet>
 
-        <Container maxWidth="lg">
+        <Container maxWidth={containerWidth}>
           <Box pb={6}>
             <Stack direction="row" alignItems="start" justifyContent="space-between">
               <Stack>

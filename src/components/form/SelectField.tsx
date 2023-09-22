@@ -1,19 +1,17 @@
 /* eslint-disable react/prop-types */
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
-import { CategoryType } from '@types';
-import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-interface Option {
+interface Option<T> {
   label: string;
-  value: CategoryType;
+  value: T;
   id: string;
 }
 
-interface SelectFieldProps {
+interface SelectFieldProps<T> {
   name: string;
   label: string;
-  options?: Option[];
+  options?: Option<T>[];
   children?: React.ReactNode;
   size?: 'small' | 'medium' | 'large';
   fullWidth?: boolean;
@@ -25,7 +23,7 @@ interface SelectFieldProps {
   helperText?: string;
 }
 
-const SelectField: FC<SelectFieldProps> = ({
+function SelectField<T extends string | number>({
   name,
   label,
   options = [],
@@ -38,7 +36,7 @@ const SelectField: FC<SelectFieldProps> = ({
   multiple = false,
   helperText,
   ...props
-}) => {
+}: SelectFieldProps<T>) {
   const { control } = useFormContext();
 
   return (
@@ -52,7 +50,15 @@ const SelectField: FC<SelectFieldProps> = ({
           required={props.required}
         >
           <InputLabel htmlFor={name}>{label}</InputLabel>
-          <Select multiple={multiple} id={name} label={label} {...field} {...props} value={field.value || []}>
+          <Select
+            multiple={multiple}
+            id={name}
+            label={label}
+            labelId=""
+            {...field}
+            {...props}
+            value={field.value || []}
+          >
             {children ??
               options?.map(({ label, value, id }) => (
                 <MenuItem value={value} key={`${id}`}>
@@ -74,6 +80,6 @@ const SelectField: FC<SelectFieldProps> = ({
       rules={rules}
     />
   );
-};
+}
 
 export default SelectField;

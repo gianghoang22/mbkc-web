@@ -18,14 +18,16 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductTable } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
 import { useConfigHeadTable } from 'hooks';
+import { setAddProduct } from 'redux/product/productSlice';
 
 function ListProductPage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { productHeadCells } = useConfigHeadTable();
 
@@ -71,6 +73,7 @@ function ListProductPage() {
   return (
     <>
       <Page
+        containerWidth="xl"
         title="List Product"
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
@@ -80,6 +83,7 @@ function ListProductPage() {
             startIcon={<AddRoundedIcon />}
             onClick={() => {
               navigate(PATH_BRAND_APP.product.newProduct);
+              dispatch(setAddProduct());
             }}
           >
             Create product
