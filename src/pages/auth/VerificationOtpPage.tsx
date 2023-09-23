@@ -4,7 +4,8 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 // @mui
 import { Box, Button, Card, Link as MuiLink, Stack, Typography } from '@mui/material';
-import { UserEmail } from '@types';
+//
+import { UserVerification } from '@types';
 import { Helmet, InputField, Logo } from 'components';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
@@ -12,20 +13,21 @@ import { StyledRoot } from './styles';
 
 const schema = yup.object({
   email: yup.string().required('Please enter Email').email('Email format is not correct'),
+  otpCode: yup.string().required('Please enter OTP code'),
 });
 
-function ForgotPasswordPage() {
+function VerificationOtpPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const forgotPasswordForm = useForm<UserEmail>({
+  const verificationForm = useForm<UserVerification>({
     defaultValues: {},
     resolver: yupResolver(schema),
   });
 
-  const { handleSubmit } = forgotPasswordForm;
+  const { handleSubmit } = verificationForm;
 
-  const handleForgotPassword = (values: UserEmail) => {
+  const handleVerification = (values: UserVerification) => {
     const params = {
       user: { ...values },
       navigate,
@@ -33,7 +35,6 @@ function ForgotPasswordPage() {
     console.log(params);
     // dispatch(login(params));
   };
-
   return (
     <>
       <Helmet title="Forgot password" />
@@ -48,25 +49,26 @@ function ForgotPasswordPage() {
         />
 
         <Card sx={{ p: 3.5, width: 500 }}>
-          <FormProvider {...forgotPasswordForm}>
+          <FormProvider {...verificationForm}>
             <Stack direction="column" alignItems="center" justifyContent="center" gap={5}>
               <Stack direction="column" alignItems="center" textAlign="center" gap={2} px={5}>
-                <Box px={6}>
-                  <img src="/assets/illustrations/illustration_email.svg" alt="email" />
+                <Box px={10}>
+                  <img src="/assets/illustrations/illustration_otp.svg" alt="email" />
                 </Box>
                 <Typography variant="body2">
-                  Enter your email and we will send you an OTP code for confirmation. <strong>Check your email!</strong>
+                  Enter the OTP code received from email to confirm. <strong>Check your email!</strong>
                 </Typography>
               </Stack>
 
-              <Stack width="100%" alignItems="center" gap={4}>
+              <Stack width="100%" alignItems="center" gap={2}>
                 <InputField fullWidth size="large" name="email" label="Email address" />
+                <InputField fullWidth size="large" name="otpCode" label="OTP Code" />
+              </Stack>
 
-                <Stack width="100%" px={3} direction="row" alignItems="center" gap={2}>
-                  <Button fullWidth variant="contained" type="submit" onClick={handleSubmit(handleForgotPassword)}>
-                    Send email
-                  </Button>
-                </Stack>
+              <Stack width="100%" alignItems="center" gap={4} px={3}>
+                <Button fullWidth variant="contained" type="submit" onClick={handleSubmit(handleVerification)}>
+                  Confirmation
+                </Button>
 
                 <Typography variant="body2">
                   Back {''}
@@ -83,4 +85,4 @@ function ForgotPasswordPage() {
   );
 }
 
-export default ForgotPasswordPage;
+export default VerificationOtpPage;

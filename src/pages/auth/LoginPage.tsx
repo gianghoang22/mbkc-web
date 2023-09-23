@@ -1,43 +1,12 @@
 import { Box, Container, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-// theme
-import { customShadows } from 'theme/customShadows';
 // hooks
 import useResponsive from 'hooks/useResponsive';
 // // components
 import { Helmet, Logo } from 'components';
 // sections
 import { LoginForm } from 'sections/auth';
-
-// ----------------------------------------------------------------------
-
-const StyledRoot = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  },
-}));
-
-const StyledSection = styled('div')(({ theme }: { theme: any }) => ({
-  width: '100%',
-  margin: 20,
-  maxWidth: 480,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  borderRadius: 15,
-  boxShadow: customShadows.card,
-  backgroundColor: theme.palette.background.default,
-}));
-
-const StyledContent = styled('div')(({ theme }) => ({
-  maxWidth: 480,
-  margin: 'auto',
-  minHeight: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  padding: theme.spacing(12, 0),
-}));
+//style
+import { StyledContent, StyledRootLogin, StyledSection } from './styles';
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +17,7 @@ export default function LoginPage() {
     <>
       <Helmet title="Login" />
 
-      <StyledRoot>
+      <StyledRootLogin>
         <Logo
           sx={{
             position: 'fixed',
@@ -81,7 +50,7 @@ export default function LoginPage() {
             <LoginForm />
           </StyledContent>
         </Container>
-      </StyledRoot>
+      </StyledRootLogin>
     </>
   );
 }
