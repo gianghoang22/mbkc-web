@@ -1,11 +1,29 @@
-import { ConfirmDialog, Label, Page, Popover } from 'components';
+import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
 import useResponsive from 'hooks/useResponsive';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PATH_ADMIN_APP } from 'routes/paths';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 //mui
-import { Avatar, Card, Grid, IconButton, Stack, Typography, Button, Dialog, DialogTitle } from '@mui/material';
+import {
+  Avatar,
+  Card,
+  Grid,
+  IconButton,
+  Stack,
+  Typography,
+  Button,
+  Dialog,
+  DialogTitle,
+  Box,
+  Paper,
+  TableContainer,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TablePagination,
+} from '@mui/material';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { MenuItem, Popover as MUIPopover } from '@mui/material';
@@ -13,10 +31,14 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
 import { useAppSelector } from 'redux/configStore';
 import { Color, PopoverType } from 'common/enum';
-import { useModal, usePopover } from 'hooks';
+import { useConfigHeadTable, useModal, usePopover } from 'hooks';
 import { DialogActions } from '@mui/material';
 import { setEditBrand } from 'redux/brand/brandSlice';
 import { useDispatch } from 'react-redux';
+import { StoreTableRow, StoreTableToolbar } from 'sections/store';
+import { OrderSort, Store, StoreTable } from '@types';
+import { getStoreDetail } from 'redux/store/storeSlice';
+import { getComparator, stableSort } from 'utils';
 
 function BrandDetailPage(props: any) {
   const { pathname } = useLocation();
@@ -29,6 +51,50 @@ function BrandDetailPage(props: any) {
   const handleDelete = () => {
     console.log('Deleting');
   };
+
+  const { stores } = useAppSelector((state) => state.store);
+  const { storeHeadCells } = useConfigHeadTable();
+
+  const [order, setOrder] = useState<OrderSort>('asc');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [filterName, setFilterName] = useState<string>('');
+
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const handleNavigateDetail = (store: Store, accountId: number) => {
+    navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
+    dispatch(getStoreDetail(store));
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(0);
+    setFilterName(event.target.value);
+  };
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
+
+  const visibleRows = useMemo(
+    () => stableSort(stores, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [order, orderBy, page, rowsPerPage, stores]
+  );
+
+  const isNotFound = !visibleRows.length && !!filterName;
 
   return (
     <>
@@ -87,62 +153,57 @@ function BrandDetailPage(props: any) {
             </Stack>
           </Card>
 
-          {/* <Card>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              sx={(theme) => ({
-                px: 3,
-                py: 0.5,
-                bgcolor: theme.palette.grey[200],
-              })}
-            >
-              <Stack direction="row" alignItems="center" gap={0.5}>
-                <Typography variant="h6">Brand manager information</Typography>
-              </Stack>
-              <IconButton>
-                <EditRoundedIcon />
-              </IconButton>
-            </Stack>
-            <Stack sx={{ px: 3, py: 3 }}>
-              <Grid container columnSpacing={2}>
-                <Grid item md={3} sm={12}>
-                  <Stack width="100%" alignItems="center">
-                    <Avatar src={brand?.brandImgUrl} alt={brand?.brandName} sx={{ width: 150, height: 150 }} />
-                  </Stack>
-                </Grid>
-                <Grid item md={9} sm={12}>
-                  <Stack gap={1}>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">Email</Typography>
-                      <Typography variant="body1">khaihung@gmail.com</Typography>
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                      <Typography variant="subtitle1">Phone</Typography>
-                      <Typography variant="body1">0123456789</Typography>
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                      <Typography variant="subtitle1">Date of birth</Typography>
-                      <Typography variant="body1">07 Jul 2022</Typography>
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                      <Typography variant="subtitle1">Citizen number</Typography>
-                      <Typography variant="body1">0123456789987456</Typography>
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                      <Typography variant="subtitle1">Sex</Typography>
-                      <Typography variant="body1">Male</Typography>
-                    </Stack>
-                  </Stack>
-                </Grid>
-              </Grid>
-            </Stack>
-          </Card> */}
+          <Card>
+            <Box sx={{ width: '100%' }}>
+              <Paper sx={{ width: '100%', mb: 2 }}>
+                <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+                <TableContainer>
+                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                    <CommonTableHead<StoreTable>
+                      justInfo
+                      headCells={storeHeadCells}
+                      order={order}
+                      orderBy={orderBy}
+                      onRequestSort={handleRequestSort}
+                    />
+                    <TableBody>
+                      {visibleRows.map((store, index) => {
+                        return (
+                          <StoreTableRow
+                            justInfo={false}
+                            key={store.storeId}
+                            index={index}
+                            store={store}
+                            haveBrand={false}
+                            handleNavigateDetail={handleNavigateDetail}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 && (
+                        <TableRow
+                          style={{
+                            height: 53 * emptyRows,
+                          }}
+                        >
+                          <TableCell colSpan={storeHeadCells.length} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                    {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={stores.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>
+            </Box>
+          </Card>
         </Stack>
       </Page>
 

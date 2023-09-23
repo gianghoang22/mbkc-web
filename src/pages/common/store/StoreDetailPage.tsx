@@ -93,6 +93,24 @@ function StoreDetailPage() {
 
               <Divider />
 
+              {/* Role = 'MBKC Admin' */}
+              <Stack direction="row" alignItems="start" gap={2}>
+                <Typography variant="subtitle1" width="150px">
+                  Brand
+                </Typography>
+                <Stack direction="column" alignItems="start" gap={1}>
+                  <img src="/assets/images/brands/starbucks.png" alt={store?.name} height={120} />
+                  <Stack gap={0.5}>
+                    <Stack direction="row" gap={0.7}>
+                      <Typography variant="subtitle1">Name:</Typography>
+                      <Typography variant="body1">Starbucks</Typography>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Stack>
+
+              <Divider />
+
               <Stack direction="row" alignItems="start">
                 <Typography variant="subtitle1" width="150px">
                   Partner

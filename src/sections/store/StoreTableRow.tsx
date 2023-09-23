@@ -14,9 +14,18 @@ interface StoreTableRowProps {
   store: Store;
   index: number;
   justInfo?: boolean;
+  haveKitchenCenter?: boolean;
+  haveBrand?: boolean;
 }
 
-function StoreTableRow({ index, store, justInfo = false, handleNavigateDetail }: StoreTableRowProps) {
+function StoreTableRow({
+  index,
+  store,
+  justInfo = false,
+  handleNavigateDetail,
+  haveKitchenCenter = true,
+  haveBrand = false,
+}: StoreTableRowProps) {
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {};
@@ -33,9 +42,16 @@ function StoreTableRow({ index, store, justInfo = false, handleNavigateDetail }:
         <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.name}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
-          {store.kitchenCenter}
-        </TableCell>
+        {haveKitchenCenter && (
+          <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+            {store.kitchenCenter}
+          </TableCell>
+        )}
+        {haveBrand && (
+          <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+            {store.brand}
+          </TableCell>
+        )}
         <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.partner}
         </TableCell>

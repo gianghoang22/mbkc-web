@@ -1,13 +1,27 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 //
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { useAppSelector } from 'redux/configStore';
+import { OrderSort, Store, StoreTable } from '@types';
+import { Color, PopoverType } from 'common/enum';
+import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
+import { useConfigHeadTable, useModal, usePopover } from 'hooks';
+import { getComparator, stableSort } from 'utils';
+import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { getStoreDetail } from 'redux/store/storeSlice';
+import { StoreTableRow, StoreTableToolbar } from 'sections/store';
+
+// @mui
 import {
   Avatar,
   Box,
   Button,
   Card,
   Grid,
-  IconButton,
   Paper,
   Stack,
   Table,
@@ -18,49 +32,37 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { PATH_ADMIN_APP } from 'routes/paths';
-
-// @mui
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { MenuItem, Popover as MUIPopover } from '@mui/material';
 
 // @mui icon
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-import { useAppSelector } from 'redux/configStore';
-import { KitchenTable, OrderSort } from '@types';
-import { Color, PopoverType } from 'common/enum';
-import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useModal, usePopover } from 'hooks';
-import { KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
-import { getComparator, stableSort } from 'utils';
-import { useDispatch } from 'react-redux';
-import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 function KitchenCenterDetailPage(props: any) {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
-  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-
-  const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
-
   const navigate = useNavigate();
 
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { storeHeadCellsWithoutKitchenCenter } = useConfigHeadTable();
+
+  const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
+  const { stores } = useAppSelector((state) => state.store);
+
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof KitchenTable>('kitchenName');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
-  const { kitchens } = useAppSelector((state) => state.kitchen);
-
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+  };
+
+  const handleNavigateDetail = (store: Store, accountId: number) => {
+    navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
+    dispatch(getStoreDetail(store));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -78,12 +80,11 @@ function KitchenCenterDetailPage(props: any) {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - kitchens.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(kitchens, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, kitchens]
+    () => stableSort(stores, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [order, orderBy, page, rowsPerPage, stores]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
@@ -148,6 +149,61 @@ function KitchenCenterDetailPage(props: any) {
                 </Grid>
               </Grid>
             </Stack>
+          </Card>
+
+          <Card>
+            <Box sx={{ width: '100%' }}>
+              <Paper sx={{ width: '100%', mb: 2 }}>
+                <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+                <TableContainer>
+                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                    <CommonTableHead<StoreTable>
+                      justInfo
+                      headCells={storeHeadCellsWithoutKitchenCenter}
+                      order={order}
+                      orderBy={orderBy}
+                      onRequestSort={handleRequestSort}
+                    />
+                    <TableBody>
+                      {visibleRows.map((store, index) => {
+                        return (
+                          <StoreTableRow
+                            justInfo={false}
+                            key={store.storeId}
+                            index={index}
+                            haveKitchenCenter={false}
+                            haveBrand={true}
+                            store={store}
+                            handleNavigateDetail={handleNavigateDetail}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 && (
+                        <TableRow
+                          style={{
+                            height: 53 * emptyRows,
+                          }}
+                        >
+                          <TableCell colSpan={storeHeadCellsWithoutKitchenCenter.length} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                    {isNotFound && (
+                      <SearchNotFound colNumber={storeHeadCellsWithoutKitchenCenter.length} searchQuery={filterName} />
+                    )}
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={stores.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>
+            </Box>
           </Card>
         </Stack>
       </Page>
