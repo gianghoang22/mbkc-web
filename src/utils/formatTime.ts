@@ -1,5 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns';
 import viLocale from 'date-fns/locale/vi';
+import moment from 'moment';
 
 // ----------------------------------------------------------------------
 
@@ -29,15 +30,25 @@ export function fToNow(date: string | number | Date) {
     addSuffix: true,
   });
 }
+
 export function fToNowVN(date: string | number | Date) {
   return formatDistanceToNow(new Date(date), {
     addSuffix: true,
     locale: viLocale,
   });
 }
+
 export function fTime(date: string | number | Date) {
   return format(new Date(date), 'hh:mm:ss');
 }
+
 export function fmdatetime(date: string | number | Date) {
   return format(new Date(date), 'yyyy/mm/dd hh:mm:ss');
 }
+
+export const DATE_FORMAT = 'DD/MM/YYYY';
+
+export const convertStrToDate = (string: string, format = DATE_FORMAT) => moment(string, format);
+
+export const convertDateToStr = (date: any, format = DATE_FORMAT) =>
+  moment(date).isValid() ? moment(date).format(format).toString() : '-';

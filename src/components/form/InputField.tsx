@@ -1,4 +1,4 @@
-import { FormControl, TextField, FormHelperText } from '@mui/material';
+import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface InputFieldProps {
@@ -17,6 +17,7 @@ interface InputFieldProps {
   helperText?: string;
   multiline?: boolean;
   minRows?: number;
+  InputProps?: { endAdornment: React.ReactNode };
 }
 
 const InputField = ({
@@ -35,6 +36,7 @@ const InputField = ({
   multiline = false,
   minRows,
   helperText,
+  InputProps,
   ...props
 }: InputFieldProps) => {
   const { control } = useFormContext();
@@ -62,6 +64,7 @@ const InputField = ({
             defaultValue={defaultValue}
             multiline={multiline}
             minRows={minRows}
+            InputProps={InputProps}
           />
           <FormHelperText variant="filled">{fieldState.error && fieldState.error.message}</FormHelperText>
         </FormControl>

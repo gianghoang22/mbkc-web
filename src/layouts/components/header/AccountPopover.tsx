@@ -10,7 +10,8 @@ import { alpha } from '@mui/material/styles';
 import { MenuPopover } from 'components';
 import { useLocales, usePopover } from 'hooks';
 import account from 'mock/account';
-import { PATH_AUTH } from 'routes/paths';
+import { logout } from 'redux/auth/authSlice';
+import { useAppDispatch } from 'redux/configStore';
 
 const MENU_OPTIONS = [
   {
@@ -22,12 +23,12 @@ const MENU_OPTIONS = [
 
 function AccountPopover() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleLogout = () => {
-    navigate(PATH_AUTH.login);
-    // dispatch(logoutAccount(navigate));
+    dispatch(logout(navigate));
     handleCloseMenu();
   };
 
