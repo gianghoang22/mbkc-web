@@ -130,6 +130,89 @@ function useConfigHeadTable() {
     },
   ];
 
+  const storeHeadCellsHaveBrand: HeadCell<StoreTable>[] = [
+    {
+      id: 'logoUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'kitchenCenter',
+      label: 'Kitchen center',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'brand',
+      label: 'Brand',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'partner',
+      label: 'Partner',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const storeHeadCellsWithoutKitchenCenter: HeadCell<StoreTable>[] = [
+    {
+      id: 'logoUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'brand',
+      label: 'Brand',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'partner',
+      label: 'Partner',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
   const kitchenCenterHeadCells: HeadCell<KitchenCentersTable>[] = [
     {
       id: 'imageUrl',
@@ -183,14 +266,6 @@ function useConfigHeadTable() {
       hideSortIcon: false,
       disablePadding: false,
     },
-    // {
-    //   id: 'brandManager',
-    //   label: 'Manager',
-    //   numeric: false,
-    //   hideSortIcon: false,
-    //   disablePadding: false,
-    // },
-
     {
       id: 'status',
       label: 'Status',
@@ -241,10 +316,12 @@ function useConfigHeadTable() {
   return {
     productHeadCells,
     categoryHeadCells,
-    storeHeadCells,
     kitchenCenterHeadCells,
     brandHeadCells,
     kitchenHeadCells,
+    storeHeadCells,
+    storeHeadCellsHaveBrand,
+    storeHeadCellsWithoutKitchenCenter,
   };
 }
 

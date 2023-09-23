@@ -31,7 +31,7 @@ function ListStorePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
-  const { storeHeadCells } = useConfigHeadTable();
+  const { storeHeadCellsHaveBrand } = useConfigHeadTable();
 
   const { stores } = useAppSelector((state) => state.store);
 
@@ -103,7 +103,7 @@ function ListStorePage() {
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>
                     justInfo
-                    headCells={storeHeadCells}
+                    headCells={storeHeadCellsHaveBrand}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
@@ -112,10 +112,11 @@ function ListStorePage() {
                     {visibleRows.map((store, index) => {
                       return (
                         <StoreTableRow
-                          justInfo
+                          justInfo={false}
                           key={store.storeId}
                           index={index}
                           store={store}
+                          haveBrand={true}
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );
@@ -126,11 +127,11 @@ function ListStorePage() {
                           height: 53 * emptyRows,
                         }}
                       >
-                        <TableCell colSpan={storeHeadCells.length} />
+                        <TableCell colSpan={storeHeadCellsHaveBrand.length} />
                       </TableRow>
                     )}
                   </TableBody>
-                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCellsHaveBrand.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
