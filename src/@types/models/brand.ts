@@ -11,6 +11,7 @@ export interface Brand {
   brandName: string;
   address: string;
   brandManager: string;
+  brandManagerEmail: string;
   status: string;
 }
 

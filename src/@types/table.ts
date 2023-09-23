@@ -45,7 +45,6 @@ export interface KitchenCentersTable {
   imageUrl: string;
   title: string;
   address: string;
-  numberOfKitchens: number;
   status: string;
 }
 
@@ -66,5 +65,6 @@ export interface BrandTable {
   brandName: string;
   address: string;
   brandManager: string;
+  brandManagerEmail: string;
   status: string;
 }

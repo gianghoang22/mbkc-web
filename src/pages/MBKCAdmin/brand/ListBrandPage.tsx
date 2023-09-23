@@ -23,7 +23,7 @@ import { Button } from '@mui/material';
 import { Brand, BrandTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable } from 'hooks';
-import { getBrandDetail } from 'redux/brand/brandSlice';
+import { getBrandDetail, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { BrandTableRow, BrandTableToolbar } from 'sections/brand';
@@ -88,7 +88,10 @@ function ListBrandPage(props: any) {
           <Button
             variant="contained"
             startIcon={<AddRoundedIcon />}
-            onClick={() => navigate(PATH_ADMIN_APP.brand.newBrand)}
+            onClick={() => {
+              navigate(PATH_ADMIN_APP.brand.newBrand);
+              dispatch(setAddBrand());
+            }}
           >
             Create new Brand
           </Button>,

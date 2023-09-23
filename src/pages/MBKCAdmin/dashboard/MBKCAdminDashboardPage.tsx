@@ -67,36 +67,26 @@ const KitchenCenters: KitchenCentersData[] = [
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
 ];
