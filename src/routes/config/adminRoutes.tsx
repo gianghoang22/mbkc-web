@@ -1,3 +1,4 @@
+import { Route } from '@types';
 import {
   BrandDetailPage,
   CreateBrandPage,
@@ -9,10 +10,10 @@ import {
   UpdateBrandPage,
   UpdateKitchenCenterPage,
 } from 'pages/MBKCAdmin';
-import { CreateNewStorePage } from 'pages/common';
+import { CreateNewStorePage, ListStorePage, StoreDetailPage } from 'pages/common';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
-export const adminRoutes = [
+export const adminRoutes: Route[] = [
   {
     path: PATH_ADMIN_APP.root,
     component: <MBKCAdminDashboardPage />,
@@ -56,6 +57,26 @@ export const adminRoutes = [
   {
     path: PATH_ADMIN_APP.brand.editById,
     component: <UpdateBrandPage />,
+    index: true,
+  },
+  {
+    path: PATH_ADMIN_APP.brandStore.newBrandStore,
+    component: <CreateNewStorePage />,
+    index: true,
+  },
+  {
+    path: PATH_ADMIN_APP.brandStore.list,
+    component: <ListStorePage />,
+    index: true,
+  },
+  {
+    path: PATH_ADMIN_APP.brandStore.detailById,
+    component: <StoreDetailPage />,
+    index: true,
+  },
+  {
+    path: PATH_ADMIN_APP.brandStore.editById,
+    component: <CreateNewStorePage />,
     index: true,
   },
   {

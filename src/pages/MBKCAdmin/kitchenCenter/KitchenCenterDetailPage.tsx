@@ -44,7 +44,7 @@ function KitchenCenterDetailPage(props: any) {
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
-  const [open, setOpen] = useState(false);
+
   const navigate = useNavigate();
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -142,7 +142,7 @@ function KitchenCenterDetailPage(props: any) {
               </IconButton>
             </Stack>
             <Stack sx={{ px: 3, py: 3 }}>
-              <Grid container columnSpacing={2}>
+              <Grid container columnSpacing={2} alignItems="center">
                 <Grid item md={3} sm={12}>
                   <Stack width="100%" alignItems="center">
                     <Avatar src={kitchenCenter?.imageUrl} alt={kitchenCenter?.title} sx={{ width: 150, height: 150 }} />
@@ -163,16 +163,6 @@ function KitchenCenterDetailPage(props: any) {
                     <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
                       <Typography variant="subtitle1">Address:</Typography>
                       <Typography variant="body1">{kitchenCenter?.address}</Typography>
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">Number of Kitchens:</Typography>
-                      <Typography variant="body1">{kitchenCenter?.numberOfKitchens}</Typography>
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">Manager:</Typography>
-                      <Typography variant="body1">Vo Khai Hung</Typography>
                     </Stack>
                   </Stack>
                 </Grid>

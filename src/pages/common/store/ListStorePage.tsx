@@ -19,8 +19,8 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { OrderSort, Store, StoreTable } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getStoreDetail } from 'redux/store/storeSlice';
-import { PATH_BRAND_APP } from 'routes/paths';
+import { getStoreDetail, setAddStore } from 'redux/store/storeSlice';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { useConfigHeadTable } from 'hooks';
@@ -79,11 +79,18 @@ function ListStorePage() {
   return (
     <>
       <Page
-        title="List Store"
+        title="List Of Store"
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
-          <Button variant="contained" startIcon={<AddRoundedIcon />}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              navigate(PATH_ADMIN_APP.brandStore.newBrandStore);
+              dispatch(setAddStore());
+            }}
+            startIcon={<AddRoundedIcon />}
+          >
             Create store
           </Button>,
         ]}
@@ -106,7 +113,7 @@ function ListStorePage() {
                       return (
                         <StoreTableRow
                           justInfo
-                          key={store.accountId}
+                          key={store.storeId}
                           index={index}
                           store={store}
                           handleNavigateDetail={handleNavigateDetail}
