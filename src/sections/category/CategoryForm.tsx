@@ -1,5 +1,5 @@
 import { Grid, Stack, Typography } from '@mui/material';
-import { CREATE_CATEGORY_TYPE_OPTIONS } from '@types';
+import { CATEGORY_TYPE_OPTIONS, CategoryType } from '@types';
 import { InputField, SelectField, UploadImageField } from 'components';
 import { useAppSelector } from 'redux/configStore';
 
@@ -13,7 +13,7 @@ function CategoryForm() {
           <Stack width="100%">
             <Typography variant="subtitle1">Image</Typography>
             <Typography variant="body2" color="grey.600">
-              Select file for product's image
+              Select file for category's image
             </Typography>
           </Stack>
           <UploadImageField
@@ -33,14 +33,14 @@ function CategoryForm() {
             </Typography>
           </Stack>
 
-          <Stack spacing={2}>
+          <Stack spacing={3}>
             <InputField fullWidth name="name" label="Category name" />
             <InputField fullWidth name="code" label="Category code" />
             <Stack direction="row" alignItems="start" gap={2}>
-              <SelectField
+              <SelectField<CategoryType>
                 disabled
                 fullWidth
-                options={CREATE_CATEGORY_TYPE_OPTIONS}
+                options={CATEGORY_TYPE_OPTIONS}
                 name="type"
                 label="Category type"
               />

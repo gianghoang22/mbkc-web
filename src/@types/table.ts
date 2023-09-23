@@ -49,13 +49,6 @@ export interface KitchenCentersTable {
   status: string;
 }
 
-export interface KitchenCenterHeadCell {
-  disablePadding: boolean;
-  id: keyof KitchenCentersTable;
-  label: string;
-  numeric: boolean;
-}
-
 // Kitchen
 export interface KitchenTable {
   kitchenId: number;
@@ -66,13 +59,6 @@ export interface KitchenTable {
   status: string;
 }
 
-export interface KitchenHeadCell {
-  disablePadding: boolean;
-  id: keyof KitchenTable;
-  label: string;
-  numeric: boolean;
-}
-
 // Brand
 export interface BrandTable {
   brandId: number;
@@ -81,11 +67,4 @@ export interface BrandTable {
   address: string;
   brandManager: string;
   status: string;
-}
-
-export interface BrandHeadCell {
-  disablePadding: boolean;
-  id: keyof BrandTable;
-  label: string;
-  numeric: boolean;
 }

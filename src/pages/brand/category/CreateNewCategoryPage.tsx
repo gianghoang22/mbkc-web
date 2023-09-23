@@ -5,7 +5,7 @@ import * as yup from 'yup';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { CategoryToAdd, CategoryType } from '@types';
+import { CategoryToCreate, CategoryType } from '@types';
 import { Page } from 'components';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryForm } from 'sections/category';
@@ -27,7 +27,7 @@ function CreateNewCategoryPage() {
 
   const { isEditing, categoryType, category } = useAppSelector((state) => state.category);
 
-  const createCategoryForm = useForm<CategoryToAdd>({
+  const createCategoryForm = useForm<CategoryToCreate>({
     defaultValues: {
       name: isEditing ? category?.name : '',
       code: isEditing ? category?.code : '',
@@ -44,7 +44,7 @@ function CreateNewCategoryPage() {
   const image = watch('imageUrl');
   console.log('image', image);
 
-  const onSubmit = async (values: CategoryToAdd) => {
+  const onSubmit = async (values: CategoryToCreate) => {
     const data = { ...values, imageUrl: image };
     console.log('CategoryToAdd', data);
   };

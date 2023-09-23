@@ -12,6 +12,8 @@ import { Label, Popover } from 'components';
 import { useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import ProductDetailModal from './ProductDetailModal';
+import { useAppDispatch } from 'redux/configStore';
+import { setEditProduct } from 'redux/product/productSlice';
 
 interface ProductTableRowProps {
   product: Product;
@@ -20,11 +22,13 @@ interface ProductTableRowProps {
 
 function ProductTableRow({ index, product }: ProductTableRowProps) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {
     navigate(PATH_BRAND_APP.product.root + `/update/${product.productId}`);
+    dispatch(setEditProduct(product));
   };
 
   const handleDelete = () => {};
