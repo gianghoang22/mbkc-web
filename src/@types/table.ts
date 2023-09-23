@@ -45,7 +45,6 @@ export interface KitchenCentersTable {
   imageUrl: string;
   title: string;
   address: string;
-  numberOfKitchens: number;
   status: string;
 }
 

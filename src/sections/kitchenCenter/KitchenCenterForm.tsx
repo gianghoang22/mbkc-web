@@ -1,7 +1,10 @@
 import { Grid, Stack, Typography } from '@mui/material';
 import { InputField, UploadImageField } from 'components';
+import { useAppSelector } from 'redux/configStore';
 
 function KitchenCenterForm() {
+  const { isEditing } = useAppSelector((state) => state.kitchenCenter);
+
   return (
     <Grid container columnSpacing={3}>
       <Grid item md={4} sm={12}>
@@ -12,7 +15,12 @@ function KitchenCenterForm() {
               Select file for kitchen center's logo
             </Typography>
           </Stack>
-          <UploadImageField label="Drag and drop or select files" name="logoUrl" defaultValue="" isEditing />
+          <UploadImageField
+            label="Drag and drop or select files"
+            name="logoUrl"
+            defaultValue=""
+            isEditing={isEditing}
+          />
         </Stack>
       </Grid>
       <Grid item md={8} sm={12}>
@@ -26,11 +34,6 @@ function KitchenCenterForm() {
 
           <Stack spacing={2}>
             <InputField fullWidth name="name" label="Name" />
-            <InputField fullWidth name="numberOfKitchens" label="Number of kitchens" />
-            <Stack direction="row" spacing={2}>
-              <InputField fullWidth name="cityProvince" label="City/Province" />
-              <InputField fullWidth name="district" label="District" />
-            </Stack>
             <InputField fullWidth name="address" label="Address" />
           </Stack>
         </Stack>

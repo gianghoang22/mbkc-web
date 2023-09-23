@@ -49,7 +49,7 @@ function BrandTableRow(props: BrandTableRowProps) {
         <TableCell width={60} align="center" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
+        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
           <Stack direction="row" alignItems="center" spacing={2}>
             <Avatar alt={brand.brandName} src={brand.brandImgUrl} />
           </Stack>

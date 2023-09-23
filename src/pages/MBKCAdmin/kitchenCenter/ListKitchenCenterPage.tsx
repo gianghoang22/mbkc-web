@@ -20,7 +20,7 @@ import { KitchenCenter, KitchenCentersTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getKitchenCenterDetail } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { getKitchenCenterDetail, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
@@ -88,7 +88,10 @@ function ListKitchenCenterPage(props: any) {
           <Button
             variant="contained"
             startIcon={<AddRoundedIcon />}
-            onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter)}
+            onClick={() => {
+              navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter);
+              dispatch(setAddKitchenCenter());
+            }}
           >
             Create new Kitchen Center
           </Button>,

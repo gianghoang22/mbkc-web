@@ -36,10 +36,12 @@ import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } 
 import { useConfigHeadTable, useModal, usePopover } from 'hooks';
 import { KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
 import { getComparator, stableSort } from 'utils';
+import { useDispatch } from 'react-redux';
+import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 function KitchenCenterDetailPage(props: any) {
   const { pathname } = useLocation();
-  const { kitchenHeadCells } = useConfigHeadTable();
+  const dispatch = useDispatch();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
@@ -60,11 +62,6 @@ function KitchenCenterDetailPage(props: any) {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
-  // const handleNavigateDetail = (kitchen: Kitchen, kitchenCenterId: number) => {
-  //   navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
-  //   dispatch(getKitchenCenterDetail(kitchenCenter));
-  // };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -124,23 +121,6 @@ function KitchenCenterDetailPage(props: any) {
       >
         <Stack spacing={5} mb={7} width="100%">
           <Card>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              sx={(theme) => ({
-                px: 3,
-                py: 0.5,
-                bgcolor: theme.palette.grey[200],
-              })}
-            >
-              <Stack direction="row" alignItems="center" gap={0.5}>
-                <Typography variant="h6">General information</Typography>
-              </Stack>
-              <IconButton onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.editById)}>
-                <EditRoundedIcon />
-              </IconButton>
-            </Stack>
             <Stack sx={{ px: 3, py: 3 }}>
               <Grid container columnSpacing={2} alignItems="center">
                 <Grid item md={3} sm={12}>
@@ -170,67 +150,17 @@ function KitchenCenterDetailPage(props: any) {
             </Stack>
           </Card>
         </Stack>
-
-        <Stack spacing={1}>
-          <Stack direction="row" alignItems="center" gap={0.5}>
-            <Typography variant="h6">Kitchens in Kitchen Center</Typography>
-          </Stack>
-
-          <Card sx={{ marginTop: 2 }}>
-            <Box sx={{ width: '100%' }}>
-              <Paper sx={{ width: '100%', mb: 2 }}>
-                <KitchenTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
-                <TableContainer>
-                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<KitchenTable>
-                      headCells={kitchenHeadCells}
-                      order={order}
-                      orderBy={orderBy}
-                      onRequestSort={handleRequestSort}
-                    />
-                    <TableBody>
-                      {visibleRows.map((kitchen, index) => {
-                        return (
-                          <KitchenTableRow
-                            index={index}
-                            kitchen={kitchen}
-                            // handleNavigateDetail={handleNavigateDetail}
-                          />
-                        );
-                      })}
-                      {emptyRows > 0 && (
-                        <TableRow
-                          style={{
-                            height: 53 * emptyRows,
-                          }}
-                        >
-                          <TableCell colSpan={kitchenHeadCells.length} />
-                        </TableRow>
-                      )}
-                    </TableBody>
-                    {isNotFound && <SearchNotFound colNumber={kitchenHeadCells.length} searchQuery={filterName} />}
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  component="div"
-                  count={kitchens.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </Paper>
-            </Box>
-          </Card>
-        </Stack>
       </Page>
 
       <Popover
-        type={PopoverType.DELETE}
+        type={PopoverType.ALL}
         open={openPopover}
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
+        onEdit={() => {
+          navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter);
+          dispatch(setEditKitchenCenter(kitchenCenter));
+        }}
       />
 
       {isOpenModal && (

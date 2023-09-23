@@ -25,9 +25,9 @@ function BrandForm() {
           </Stack>
 
           <Stack spacing={2}>
-            <InputField fullWidth name="name" label="Brand name" />
-            <InputField fullWidth name="email" label="Brand manager email" />
-            <InputField fullWidth name="address" label="Brand address" />
+            <InputField fullWidth name="name" label="Name" />
+            <InputField fullWidth name="email" label="Manager email" />
+            <InputField fullWidth name="address" label="Address" />
           </Stack>
         </Stack>
       </Grid>

@@ -132,8 +132,15 @@ function useConfigHeadTable() {
 
   const kitchenCenterHeadCells: HeadCell<KitchenCentersTable>[] = [
     {
+      id: 'imageUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
       id: 'title',
-      label: 'Kitchen Center',
+      label: 'Name',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -141,13 +148,6 @@ function useConfigHeadTable() {
     {
       id: 'address',
       label: 'Address',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'numberOfKitchens',
-      label: 'Number of Kitchen',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -164,14 +164,14 @@ function useConfigHeadTable() {
   const brandHeadCells: HeadCell<BrandTable>[] = [
     {
       id: 'brandImgUrl',
-      label: 'Brand image',
+      label: 'Logo',
       numeric: false,
       hideSortIcon: true,
-      disablePadding: true,
+      disablePadding: false,
     },
     {
       id: 'brandName',
-      label: 'Brand name',
+      label: 'Name',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -185,7 +185,7 @@ function useConfigHeadTable() {
     },
     {
       id: 'brandManager',
-      label: 'Brand manager',
+      label: 'Manager',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
