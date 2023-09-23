@@ -3,6 +3,7 @@ import { Store } from '@types';
 import { store, stores } from 'mock/store';
 
 interface StoreState {
+  isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -11,6 +12,7 @@ interface StoreState {
 }
 
 const initialState: StoreState = {
+  isEditing: false,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -25,11 +27,18 @@ const storeSlice = createSlice({
     getStoreDetail: (state, action) => {
       state.store = action.payload;
     },
+    setAddStore: (state) => {
+      state.isEditing = false;
+    },
+    setEditStore: (state, action) => {
+      state.isEditing = true;
+      state.store = action.payload;
+    },
   },
   extraReducers(builder) {},
 });
 
-export const { getStoreDetail } = storeSlice.actions;
+export const { getStoreDetail, setAddStore, setEditStore } = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 
 export default storeReducer;

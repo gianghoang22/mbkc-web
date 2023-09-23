@@ -24,26 +24,19 @@ function StoreTableRow({ index, store, justInfo = false, handleNavigateDetail }:
   return (
     <>
       <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store, store.accountId)}>
+        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {index + 1}
         </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          padding="none"
-          onClick={() => handleNavigateDetail(store, store.accountId)}
-        >
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={store.name} src={store.logo} />
-            <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
-              {store.name}
-            </Typography>
-          </Stack>
+        <TableCell component="th" scope="row" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+          <Avatar alt={store.name} src={store.logoUrl} />
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.accountId)}>
+        <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+          {store.name}
+        </TableCell>
+        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.kitchenCenter}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.accountId)}>
+        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.partner}
         </TableCell>
 

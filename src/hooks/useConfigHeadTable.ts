@@ -94,6 +94,13 @@ function useConfigHeadTable() {
 
   const storeHeadCells: HeadCell<StoreTable>[] = [
     {
+      id: 'logoUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
       id: 'name',
       label: 'Name',
       numeric: false,

@@ -6,7 +6,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 interface Option {
   label: string;
-  value: CategoryType;
+  value: string;
   id: string;
 }
 

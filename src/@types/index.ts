@@ -8,3 +8,4 @@ export * from './data';
 export * from './table';
 export * from './sidebar';
 export * from './models/category';
+export * from './models/route';
