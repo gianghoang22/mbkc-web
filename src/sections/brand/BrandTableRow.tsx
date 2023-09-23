@@ -60,9 +60,9 @@ function BrandTableRow(props: BrandTableRowProps) {
         <TableCell align="left" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
           {brand.address}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
+        {/* <TableCell align="left" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
           {brand.brandManager}
-        </TableCell>
+        </TableCell> */}
         <TableCell align="left">
           <FormControlLabel
             control={<Switch size="small" checked={brand.status === 'inactive' ? false : true} />}

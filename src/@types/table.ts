@@ -65,5 +65,6 @@ export interface BrandTable {
   brandName: string;
   address: string;
   brandManager: string;
+  brandManagerEmail: string;
   status: string;
 }

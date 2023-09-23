@@ -183,13 +183,13 @@ function useConfigHeadTable() {
       hideSortIcon: false,
       disablePadding: false,
     },
-    {
-      id: 'brandManager',
-      label: 'Manager',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
+    // {
+    //   id: 'brandManager',
+    //   label: 'Manager',
+    //   numeric: false,
+    //   hideSortIcon: false,
+    //   disablePadding: false,
+    // },
 
     {
       id: 'status',

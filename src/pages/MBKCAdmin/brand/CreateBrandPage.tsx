@@ -9,6 +9,8 @@ import { BrandToAdd } from '@types';
 import { Page } from 'components';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import BrandForm from 'sections/brand/BrandForm';
+import { useAppSelector } from 'redux/configStore';
+import { Color } from 'common/enum';
 
 const BrandSchema = yup.object({
   name: yup.string().required('Please enter brand name'),
@@ -20,13 +22,14 @@ const BrandSchema = yup.object({
 function CreateBrandPage(props: any) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { isEditing, brand } = useAppSelector((state) => state.brand);
 
   const createBrandForm = useForm<BrandToAdd>({
     defaultValues: {
-      name: '',
-      address: '',
-      email: '',
-      logoUrl: '',
+      name: isEditing ? brand?.brandName : '',
+      address: isEditing ? brand?.address : '',
+      email: isEditing ? brand?.brandManagerEmail : '',
+      logoUrl: isEditing ? brand?.brandImgUrl : '',
     },
     resolver: yupResolver(BrandSchema),
   });
@@ -39,7 +42,11 @@ function CreateBrandPage(props: any) {
   };
 
   return (
-    <Page title="Create New Brand" pathname={pathname} navigateDashboard={PATH_ADMIN_APP.root}>
+    <Page
+      title={isEditing ? 'Update Brand' : 'Create New Brand'}
+      pathname={pathname}
+      navigateDashboard={PATH_ADMIN_APP.root}
+    >
       <FormProvider {...createBrandForm}>
         <Card sx={{ p: 3 }}>
           <BrandForm />
@@ -52,8 +59,13 @@ function CreateBrandPage(props: any) {
             <Button variant="contained" color="inherit">
               Reset
             </Button>
-            <Button variant="contained" type="submit" onClick={handleSubmit(onSubmit)}>
-              Create
+            <Button
+              variant="contained"
+              type="submit"
+              color={isEditing ? Color.WARNING : Color.PRIMARY}
+              onClick={handleSubmit(onSubmit)}
+            >
+              {isEditing ? 'Update' : ' Create'}
             </Button>
           </Stack>
         </Stack>

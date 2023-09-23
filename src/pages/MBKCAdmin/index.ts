@@ -3,7 +3,6 @@ export { default as MBKCAdminDashboardPage } from './dashboard/MBKCAdminDashboar
 export { default as CreateBrandPage } from './brand/CreateBrandPage';
 export { default as ListBrandPage } from './brand/ListBrandPage';
 export { default as BrandDetailPage } from './brand/BrandDetailPage';
-export { default as UpdateBrandPage } from './brand/UpdateBrandPage';
 //
 export { default as CreateKitchenCenterPage } from './kitchenCenter/CreateKitchenCenterPage';
 export { default as ListKitchenCenterPage } from './kitchenCenter/ListKitchenCenterPage';

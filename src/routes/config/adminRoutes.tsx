@@ -7,7 +7,6 @@ import {
   ListBrandPage,
   ListKitchenCenterPage,
   MBKCAdminDashboardPage,
-  UpdateBrandPage,
 } from 'pages/MBKCAdmin';
 import { CreateNewStorePage, ListStorePage, StoreDetailPage } from 'pages/common';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -46,11 +45,6 @@ export const adminRoutes: Route[] = [
   {
     path: PATH_ADMIN_APP.brand.newBrand,
     component: <CreateBrandPage />,
-    index: true,
-  },
-  {
-    path: PATH_ADMIN_APP.brand.editById,
-    component: <UpdateBrandPage />,
     index: true,
   },
   {
