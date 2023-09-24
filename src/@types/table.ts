@@ -27,8 +27,9 @@ export interface ProductTable {
 
 export interface StoreTable {
   name: string;
-  logo: string;
-  kitchenCenter: string;
+  logoUrl: string;
+  kitchenCenter?: string;
+  brand: string;
   partner: number;
   status: string;
 }
@@ -44,7 +45,6 @@ export interface KitchenCentersTable {
   imageUrl: string;
   title: string;
   address: string;
-  numberOfKitchens: number;
   status: string;
 }
 
@@ -65,5 +65,6 @@ export interface BrandTable {
   brandName: string;
   address: string;
   brandManager: string;
+  brandManagerEmail: string;
   status: string;
 }

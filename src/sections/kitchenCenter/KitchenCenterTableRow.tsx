@@ -54,21 +54,16 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
         <TableCell
           component="th"
           scope="row"
-          padding="none"
           onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}
         >
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={kitchenCenter.title} src={kitchenCenter.imageUrl} />
-            <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
-              {kitchenCenter.title}
-            </Typography>
-          </Stack>
+          <Avatar alt={kitchenCenter.title} src={kitchenCenter.imageUrl} />
         </TableCell>
+        <TableCell align="left" onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}>
+          {kitchenCenter.title}
+        </TableCell>
+
         <TableCell align="left" onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}>
           {kitchenCenter.address}
-        </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}>
-          {kitchenCenter.numberOfKitchens}
         </TableCell>
         <TableCell align="left">
           <FormControlLabel

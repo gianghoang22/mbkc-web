@@ -14,9 +14,18 @@ interface StoreTableRowProps {
   store: Store;
   index: number;
   justInfo?: boolean;
+  haveKitchenCenter?: boolean;
+  haveBrand?: boolean;
 }
 
-function StoreTableRow({ index, store, justInfo = false, handleNavigateDetail }: StoreTableRowProps) {
+function StoreTableRow({
+  index,
+  store,
+  justInfo = false,
+  handleNavigateDetail,
+  haveKitchenCenter = true,
+  haveBrand = false,
+}: StoreTableRowProps) {
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {};
@@ -24,26 +33,26 @@ function StoreTableRow({ index, store, justInfo = false, handleNavigateDetail }:
   return (
     <>
       <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store, store.accountId)}>
+        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {index + 1}
         </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          padding="none"
-          onClick={() => handleNavigateDetail(store, store.accountId)}
-        >
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={store.name} src={store.logo} />
-            <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
-              {store.name}
-            </Typography>
-          </Stack>
+        <TableCell component="th" scope="row" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+          <Avatar alt={store.name} src={store.logoUrl} />
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.accountId)}>
-          {store.kitchenCenter}
+        <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+          {store.name}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.accountId)}>
+        {haveKitchenCenter && (
+          <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+            {store.kitchenCenter}
+          </TableCell>
+        )}
+        {haveBrand && (
+          <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+            {store.brand}
+          </TableCell>
+        )}
+        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.partner}
         </TableCell>
 

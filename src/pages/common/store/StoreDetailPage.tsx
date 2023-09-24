@@ -1,27 +1,62 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 //
-import { Color } from 'common/enum';
-import { Label, Page } from 'components';
+import { Color, PopoverType } from 'common/enum';
+import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useAppSelector } from 'redux/configStore';
-import { PATH_BRAND_APP } from 'routes/paths';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { useModal, usePopover } from 'hooks';
+import { useDispatch } from 'react-redux';
+import { setEditStore } from 'redux/store/storeSlice';
 
 function StoreDetailPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { pathname } = useLocation();
 
   const { store } = useAppSelector((state) => state.store);
-  console.log(store);
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
+
+  const handleDelete = () => {
+    console.log('Handel delete clicked');
+  };
 
   return (
     <>
-      <Page title="Store Detail" pathname={pathname} navigateDashboard={PATH_BRAND_APP.root}>
+      <Page
+        title="Store Detail"
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+        actions={() => [
+          <Button
+            color="inherit"
+            onClick={handleOpenMenu}
+            endIcon={<KeyboardArrowDownIcon />}
+            style={{
+              backgroundColor: '#000',
+              color: '#fff',
+              width: 140,
+              height: 32,
+            }}
+            sx={{
+              '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
+                backgroundColor: 'rgba(145, 158, 171, 0.08)',
+              },
+            }}
+          >
+            <Typography>Menu Actions</Typography>
+          </Button>,
+        ]}
+      >
         <Grid container columnSpacing={5}>
           <Grid item md={4}>
             <Box>
-              <img src={store?.logo} alt={store?.name} width="100%" style={{ borderRadius: 16 }} />
+              <img src={store?.logoUrl} alt={store?.name} width="100%" style={{ borderRadius: 16 }} />
             </Box>
           </Grid>
           <Grid item md={8}>
@@ -51,6 +86,24 @@ function StoreDetailPage() {
                       <Typography variant="body1">
                         428 Nguyễn Văn, Long Thạnh Mỹ, Thủ Đức, Thành phố Hồ Chí Minh
                       </Typography>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Stack>
+
+              <Divider />
+
+              {/* Role = 'MBKC Admin' */}
+              <Stack direction="row" alignItems="start" gap={2}>
+                <Typography variant="subtitle1" width="150px">
+                  Brand
+                </Typography>
+                <Stack direction="column" alignItems="start" gap={1}>
+                  <img src="/assets/images/brands/starbucks.png" alt={store?.name} height={120} />
+                  <Stack gap={0.5}>
+                    <Stack direction="row" gap={0.7}>
+                      <Typography variant="subtitle1">Name:</Typography>
+                      <Typography variant="body1">Starbucks</Typography>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -113,6 +166,27 @@ function StoreDetailPage() {
           </Button>
         </Box>
       </Page>
+
+      <Popover
+        type={PopoverType.ALL}
+        open={openPopover}
+        handleCloseMenu={handleCloseMenu}
+        onDelete={handleOpenModal}
+        onEdit={() => {
+          navigate(PATH_ADMIN_APP.brandStore.newBrandStore);
+          dispatch(setEditStore(store));
+        }}
+      />
+
+      {isOpenModal && (
+        <ConfirmDialog
+          open={isOpenModal}
+          onClose={handleOpenModal}
+          onAction={handleDelete}
+          title={'Confirm Delete Store'}
+          description={'Are you sure to delete this store?'}
+        />
+      )}
     </>
   );
 }

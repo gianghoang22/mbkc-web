@@ -1,13 +1,27 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 //
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { useAppSelector } from 'redux/configStore';
+import { OrderSort, Store, StoreTable } from '@types';
+import { Color, PopoverType } from 'common/enum';
+import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
+import { useConfigHeadTable, useModal, usePopover } from 'hooks';
+import { getComparator, stableSort } from 'utils';
+import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { getStoreDetail } from 'redux/store/storeSlice';
+import { StoreTableRow, StoreTableToolbar } from 'sections/store';
+
+// @mui
 import {
   Avatar,
   Box,
   Button,
   Card,
   Grid,
-  IconButton,
   Paper,
   Stack,
   Table,
@@ -18,53 +32,38 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { PATH_ADMIN_APP } from 'routes/paths';
-
-// @mui
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { MenuItem, Popover as MUIPopover } from '@mui/material';
 
 // @mui icon
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-import { useAppSelector } from 'redux/configStore';
-import { KitchenTable, OrderSort } from '@types';
-import { Color, PopoverType } from 'common/enum';
-import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useModal, usePopover } from 'hooks';
-import { KitchenTableRow, KitchenTableToolbar } from 'sections/kitchen';
-import { getComparator, stableSort } from 'utils';
 
 function KitchenCenterDetailPage(props: any) {
   const { pathname } = useLocation();
-  const { kitchenHeadCells } = useConfigHeadTable();
-  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
-  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-
-  const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
-  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { storeHeadCellsWithoutKitchenCenter } = useConfigHeadTable();
+
+  const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
+  const { stores } = useAppSelector((state) => state.store);
+
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof KitchenTable>('kitchenName');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
-  const { kitchens } = useAppSelector((state) => state.kitchen);
-
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  // const handleNavigateDetail = (kitchen: Kitchen, kitchenCenterId: number) => {
-  //   navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
-  //   dispatch(getKitchenCenterDetail(kitchenCenter));
-  // };
+  const handleNavigateDetail = (store: Store, accountId: number) => {
+    navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
+    dispatch(getStoreDetail(store));
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -81,12 +80,11 @@ function KitchenCenterDetailPage(props: any) {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - kitchens.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(kitchens, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, kitchens]
+    () => stableSort(stores, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [order, orderBy, page, rowsPerPage, stores]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
@@ -124,25 +122,8 @@ function KitchenCenterDetailPage(props: any) {
       >
         <Stack spacing={5} mb={7} width="100%">
           <Card>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              sx={(theme) => ({
-                px: 3,
-                py: 0.5,
-                bgcolor: theme.palette.grey[200],
-              })}
-            >
-              <Stack direction="row" alignItems="center" gap={0.5}>
-                <Typography variant="h6">General information</Typography>
-              </Stack>
-              <IconButton onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.editById)}>
-                <EditRoundedIcon />
-              </IconButton>
-            </Stack>
             <Stack sx={{ px: 3, py: 3 }}>
-              <Grid container columnSpacing={2}>
+              <Grid container columnSpacing={2} alignItems="center">
                 <Grid item md={3} sm={12}>
                   <Stack width="100%" alignItems="center">
                     <Avatar src={kitchenCenter?.imageUrl} alt={kitchenCenter?.title} sx={{ width: 150, height: 150 }} />
@@ -164,47 +145,36 @@ function KitchenCenterDetailPage(props: any) {
                       <Typography variant="subtitle1">Address:</Typography>
                       <Typography variant="body1">{kitchenCenter?.address}</Typography>
                     </Stack>
-
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">Number of Kitchens:</Typography>
-                      <Typography variant="body1">{kitchenCenter?.numberOfKitchens}</Typography>
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">Manager:</Typography>
-                      <Typography variant="body1">Vo Khai Hung</Typography>
-                    </Stack>
                   </Stack>
                 </Grid>
               </Grid>
             </Stack>
           </Card>
-        </Stack>
 
-        <Stack spacing={1}>
-          <Stack direction="row" alignItems="center" gap={0.5}>
-            <Typography variant="h6">Kitchens in Kitchen Center</Typography>
-          </Stack>
-
-          <Card sx={{ marginTop: 2 }}>
+          <Card>
             <Box sx={{ width: '100%' }}>
               <Paper sx={{ width: '100%', mb: 2 }}>
-                <KitchenTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+                <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<KitchenTable>
-                      headCells={kitchenHeadCells}
+                    <CommonTableHead<StoreTable>
+                      justInfo
+                      headCells={storeHeadCellsWithoutKitchenCenter}
                       order={order}
                       orderBy={orderBy}
                       onRequestSort={handleRequestSort}
                     />
                     <TableBody>
-                      {visibleRows.map((kitchen, index) => {
+                      {visibleRows.map((store, index) => {
                         return (
-                          <KitchenTableRow
+                          <StoreTableRow
+                            justInfo={false}
+                            key={store.storeId}
                             index={index}
-                            kitchen={kitchen}
-                            // handleNavigateDetail={handleNavigateDetail}
+                            haveKitchenCenter={false}
+                            haveBrand={true}
+                            store={store}
+                            handleNavigateDetail={handleNavigateDetail}
                           />
                         );
                       })}
@@ -214,17 +184,19 @@ function KitchenCenterDetailPage(props: any) {
                             height: 53 * emptyRows,
                           }}
                         >
-                          <TableCell colSpan={kitchenHeadCells.length} />
+                          <TableCell colSpan={storeHeadCellsWithoutKitchenCenter.length} />
                         </TableRow>
                       )}
                     </TableBody>
-                    {isNotFound && <SearchNotFound colNumber={kitchenHeadCells.length} searchQuery={filterName} />}
+                    {isNotFound && (
+                      <SearchNotFound colNumber={storeHeadCellsWithoutKitchenCenter.length} searchQuery={filterName} />
+                    )}
                   </Table>
                 </TableContainer>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   component="div"
-                  count={kitchens.length}
+                  count={stores.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
@@ -237,10 +209,14 @@ function KitchenCenterDetailPage(props: any) {
       </Page>
 
       <Popover
-        type={PopoverType.DELETE}
+        type={PopoverType.ALL}
         open={openPopover}
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
+        onEdit={() => {
+          navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter);
+          dispatch(setEditKitchenCenter(kitchenCenter));
+        }}
       />
 
       {isOpenModal && (

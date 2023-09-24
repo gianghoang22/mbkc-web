@@ -10,6 +10,8 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
+import StoreIcon from '@mui/icons-material/Store';
+
 //
 import { NavSection } from '@types';
 import useLocales from 'hooks/useLocales';
@@ -145,6 +147,11 @@ function useConfigSidebar() {
           title: 'brand',
           path: PATH_ADMIN_APP.brand.list,
           icon: <BrandingWatermarkOutlinedIcon fontSize="medium" />,
+        },
+        {
+          title: 'store',
+          path: PATH_ADMIN_APP.brandStore.list,
+          icon: <StoreIcon fontSize="medium" />,
         },
       ],
     },

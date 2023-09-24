@@ -18,6 +18,7 @@ import {
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
 import BusinessIcon from '@mui/icons-material/Business';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import StoreIcon from '@mui/icons-material/Store';
 
 //
 import { BrandData, KitchenCentersData } from '@types';
@@ -66,36 +67,26 @@ const KitchenCenters: KitchenCentersData[] = [
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
   {
     no: 1,
     kitchenCenter: 'Vincom Dong Khoi',
-    manager: 'Thai Quoc Toan',
-    numOfKitchen: 12,
     status: 'Active',
   },
 ];
@@ -130,10 +121,10 @@ function MBKCAdminDashboardPage() {
 
           <Grid item xs={12} sm={6} md={4}>
             <AppWidgetSummary
-              title="Total kitchen centers"
+              title="Total stores"
               total={20}
-              color={Color.SECONDARY}
-              icon={<BusinessIcon fontSize="large" />}
+              color={Color.SUCCESS}
+              icon={<StoreIcon fontSize="large" />}
             />
           </Grid>
         </Grid>
@@ -243,8 +234,6 @@ function MBKCAdminDashboardPage() {
                   <TableRow>
                     <TableCell>No.</TableCell>
                     <TableCell>Kitchen Center</TableCell>
-                    <TableCell>Manager</TableCell>
-                    <TableCell>Num of Kitchen</TableCell>
                     <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
@@ -262,8 +251,6 @@ function MBKCAdminDashboardPage() {
                           </Typography>
                         </Box>
                       </TableCell>
-                      <TableCell>{row.manager}</TableCell>
-                      <TableCell align="center">{row.numOfKitchen}</TableCell>
                       <TableCell>
                         <Box
                           style={{

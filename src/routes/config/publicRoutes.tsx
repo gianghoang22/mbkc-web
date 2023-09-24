@@ -1,7 +1,8 @@
+import { Route } from '@types';
 import { ForgotPasswordPage, LoginPage, ResetPasswordPage, VerificationOtpPage } from 'pages/auth';
 import { PATH_AUTH } from 'routes/paths';
 
-export const publicRoutes = [
+export const publicRoutes: Route[] = [
   {
     path: PATH_AUTH.login,
     component: <LoginPage />,

@@ -18,7 +18,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-function Page404() {
+function Page403() {
   return (
     <>
       <Helmet title="404 Page Not Found" />
@@ -60,4 +60,4 @@ function Page404() {
   );
 }
 
-export default Page404;
+export default Page403;

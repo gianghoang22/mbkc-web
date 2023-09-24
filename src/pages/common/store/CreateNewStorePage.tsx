@@ -1,70 +1,60 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
+import * as yup from 'yup';
+
 // @mui
 import { Button, Card, Grid, Stack, TextField, Typography } from '@mui/material';
 //
-import { Product } from '@types';
+import { Product, StoreToAdd } from '@types';
 import { Page, UploadImageField } from 'components';
-import { PATH_BRAND_APP } from 'routes/paths';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { useAppSelector } from 'redux/configStore';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Color } from 'common/enum';
+import { StoreForm } from 'sections/store';
+
+const schema = yup.object({
+  name: yup.string().required('Please enter store name'),
+  logoUrl: yup.string().required('Please choose store logo'),
+  kitchenCenter: yup.string().required('Please select kitchen center'),
+  brand: yup.string().required('Please select brand'),
+});
 
 function CreateNewStorePage() {
   const { pathname } = useLocation();
+  const { isEditing, store } = useAppSelector((state) => state.store);
 
-  const methods = useForm<Product>({
-    // resolver: yupResolver(validationSchema),
+  const createStoreForm = useForm<StoreToAdd>({
     defaultValues: {
-      description: '',
-      sellingPrice: 0,
-      discountPrice: 0,
-      historicalPrice: 0,
+      name: isEditing ? store?.name : '',
+      logoUrl: isEditing ? store?.logoUrl : '',
+      kitchenCenter: isEditing ? store?.kitchenCenter : '',
+      brand: isEditing ? store?.brand : '',
     },
+    resolver: yupResolver(schema),
   });
-  const { handleSubmit, watch } = methods;
 
-  const image = watch('image');
+  const { handleSubmit, watch } = createStoreForm;
+
+  const image = watch('logoUrl');
   console.log('image edit', image);
 
-  const onSubmit = async (values: Product) => {
-    const data = { ...values };
-    console.log(data);
+  const onSubmit = async (values: StoreToAdd) => {
+    const data = { ...values, logoUrl: image };
+    console.log('StoreToAdd', data);
   };
 
   return (
     <>
-      <Page title="Create New Store" pathname={pathname} navigateDashboard={PATH_BRAND_APP.root}>
-        <FormProvider {...methods}>
-          <Grid container>
-            <Grid item md={4} sm={12}>
-              <Stack alignItems="center" gap={3}>
-                <Stack width="100%">
-                  <Typography variant="subtitle1">Image</Typography>
-                  <Typography variant="body2" color="grey.600">
-                    Select file for product's image
-                  </Typography>
-                </Stack>
-                <UploadImageField
-                  label="Drag and drop or select files"
-                  name="image"
-                  defaultValue=""
-                  isEditing={false}
-                />
-              </Stack>
-            </Grid>
-            <Grid item md={8} sm={12}>
-              <Stack gap={3}>
-                <Stack width="100%">
-                  <Typography variant="subtitle1">Detail</Typography>
-                  <Typography variant="body2" color="grey.600">
-                    Name, status,...
-                  </Typography>
-                </Stack>
-                <Card sx={{ p: 3 }}>
-                  <TextField name="email" label="Email address" fullWidth />
-                </Card>
-              </Stack>
-            </Grid>
-          </Grid>
-
+      <Page
+        title={isEditing ? 'Update Store' : 'Create New Store'}
+        pathname={pathname}
+        navigateDashboard={PATH_ADMIN_APP.root}
+      >
+        <FormProvider {...createStoreForm}>
+          <Card sx={{ p: 3 }}>
+            <StoreForm />
+          </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
             <Button variant="outlined" color="inherit">
               Back
@@ -73,8 +63,13 @@ function CreateNewStorePage() {
               <Button variant="contained" color="inherit">
                 Reset
               </Button>
-              <Button variant="contained" type="submit" onClick={handleSubmit(onSubmit)}>
-                Create
+              <Button
+                variant="contained"
+                color={isEditing ? Color.WARNING : Color.PRIMARY}
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                {isEditing ? 'Update' : 'Create'}
               </Button>
             </Stack>
           </Stack>

@@ -94,6 +94,13 @@ function useConfigHeadTable() {
 
   const storeHeadCells: HeadCell<StoreTable>[] = [
     {
+      id: 'logoUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
       id: 'name',
       label: 'Name',
       numeric: false,
@@ -123,10 +130,100 @@ function useConfigHeadTable() {
     },
   ];
 
+  const storeHeadCellsHaveBrand: HeadCell<StoreTable>[] = [
+    {
+      id: 'logoUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'kitchenCenter',
+      label: 'Kitchen center',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'brand',
+      label: 'Brand',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'partner',
+      label: 'Partner',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const storeHeadCellsWithoutKitchenCenter: HeadCell<StoreTable>[] = [
+    {
+      id: 'logoUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'brand',
+      label: 'Brand',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'partner',
+      label: 'Partner',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
   const kitchenCenterHeadCells: HeadCell<KitchenCentersTable>[] = [
     {
+      id: 'imageUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
       id: 'title',
-      label: 'Kitchen Center',
+      label: 'Name',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -134,13 +231,6 @@ function useConfigHeadTable() {
     {
       id: 'address',
       label: 'Address',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'numberOfKitchens',
-      label: 'Number of Kitchen',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -157,14 +247,14 @@ function useConfigHeadTable() {
   const brandHeadCells: HeadCell<BrandTable>[] = [
     {
       id: 'brandImgUrl',
-      label: 'Brand image',
+      label: 'Logo',
       numeric: false,
       hideSortIcon: true,
-      disablePadding: true,
+      disablePadding: false,
     },
     {
       id: 'brandName',
-      label: 'Brand name',
+      label: 'Name',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -176,14 +266,6 @@ function useConfigHeadTable() {
       hideSortIcon: false,
       disablePadding: false,
     },
-    {
-      id: 'brandManager',
-      label: 'Brand manager',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-
     {
       id: 'status',
       label: 'Status',
@@ -234,10 +316,12 @@ function useConfigHeadTable() {
   return {
     productHeadCells,
     categoryHeadCells,
-    storeHeadCells,
     kitchenCenterHeadCells,
     brandHeadCells,
     kitchenHeadCells,
+    storeHeadCells,
+    storeHeadCellsHaveBrand,
+    storeHeadCellsWithoutKitchenCenter,
   };
 }
 

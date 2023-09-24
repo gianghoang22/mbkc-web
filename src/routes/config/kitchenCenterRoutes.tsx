@@ -1,3 +1,4 @@
+import { Route } from '@types';
 import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common';
 import {
   CreateNewCashierPage,
@@ -9,7 +10,7 @@ import {
 } from 'pages/kitchenCenter';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
-export const kitchenCenterRoutes = [
+export const kitchenCenterRoutes: Route[] = [
   {
     path: PATH_KITCHEN_CENTER_APP.root,
     component: <KitchenCenterDashboard />,

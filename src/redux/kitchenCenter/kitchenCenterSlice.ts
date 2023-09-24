@@ -3,6 +3,7 @@ import { KitchenCenter } from '@types';
 import kitchenCenters from 'mock/kitchenCenter';
 
 interface KitchenCenterState {
+  isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -11,6 +12,7 @@ interface KitchenCenterState {
 }
 
 const initialState: KitchenCenterState = {
+  isEditing: false,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -26,11 +28,18 @@ const kitchenCenterSlice = createSlice({
       console.log(action);
       state.kitchenCenter = action.payload;
     },
+    setAddKitchenCenter: (state) => {
+      state.isEditing = false;
+    },
+    setEditKitchenCenter: (state, action) => {
+      state.isEditing = true;
+      state.kitchenCenter = action.payload;
+    },
   },
   extraReducers(builder) {},
 });
 
-export const { getKitchenCenterDetail } = kitchenCenterSlice.actions;
+export const { getKitchenCenterDetail, setAddKitchenCenter, setEditKitchenCenter } = kitchenCenterSlice.actions;
 const kitchenCenterReducer = kitchenCenterSlice.reducer;
 
 export default kitchenCenterReducer;

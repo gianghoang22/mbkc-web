@@ -9,6 +9,7 @@ const brand = [...Array(24)].map((_, index) => ({
   brandName: faker.company.name(),
   address: '123 Le Dai Hanh',
   brandManager: faker.company.name(),
+  brandManagerEmail: faker.company.name(),
   status: sample(['active', 'inactive']),
 }));
 

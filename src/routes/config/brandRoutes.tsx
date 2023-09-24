@@ -1,3 +1,4 @@
+import { Route } from '@types';
 import {
   BrandDashboard,
   CategoryDetailPage,
@@ -12,7 +13,7 @@ import { ListStorePage, StoreDetailPage } from 'pages/common';
 import { ProfilePage } from 'pages/profile';
 import { PATH_BRAND_APP } from 'routes/paths';
 
-export const brandRoutes = [
+export const brandRoutes: Route[] = [
   {
     path: PATH_BRAND_APP.root,
     component: <BrandDashboard />,

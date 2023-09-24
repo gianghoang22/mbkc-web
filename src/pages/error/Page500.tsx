@@ -18,10 +18,10 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-function Page404() {
+function Page500() {
   return (
     <>
-      <Helmet title="404 Page Not Found" />
+      <Helmet title="500 Page Not Found" />
 
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
@@ -60,4 +60,4 @@ function Page404() {
   );
 }
 
-export default Page404;
+export default Page500;

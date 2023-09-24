@@ -3,6 +3,7 @@ import { Brand } from '@types';
 import brands from 'mock/brand';
 
 interface BrandState {
+  isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -11,6 +12,7 @@ interface BrandState {
 }
 
 const initialState: BrandState = {
+  isEditing: false,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -26,11 +28,18 @@ const brandSlice = createSlice({
       console.log(action);
       state.brand = action.payload;
     },
+    setAddBrand: (state) => {
+      state.isEditing = false;
+    },
+    setEditBrand: (state, action) => {
+      state.isEditing = true;
+      state.brand = action.payload;
+    },
   },
   extraReducers(builder) {},
 });
 
-export const { getBrandDetail } = brandSlice.actions;
+export const { getBrandDetail, setAddBrand, setEditBrand } = brandSlice.actions;
 const brandReducer = brandSlice.reducer;
 
 export default brandReducer;
