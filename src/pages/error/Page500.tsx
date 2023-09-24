@@ -18,10 +18,10 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-function Page404() {
+function Page500() {
   return (
     <>
-      <Helmet title="404 Page Not Found" />
+      <Helmet title="500 Page Not Found" />
 
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
@@ -36,11 +36,22 @@ function Page404() {
 
           <Box
             component="img"
-            src="/assets/illustrations/illustration_500.svg"
+            src="/assets/illustrations/illustration_403.svg"
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 
-          <Button to="/" size="large" variant="contained" component={RouterLink}>
+          <Button
+            to="/"
+            size="large"
+            variant="contained"
+            component={RouterLink}
+            sx={{
+              backgroundColor: '#00C187',
+              '&:hover': {
+                backgroundColor: '#30ca9c',
+              },
+            }}
+          >
             Về trang chủ
           </Button>
         </StyledContent>
@@ -49,4 +60,4 @@ function Page404() {
   );
 }
 
-export default Page404;
+export default Page500;

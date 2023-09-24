@@ -1,4 +1,6 @@
 export const RoutesApiKeys = {
-  GET_WORK_LIST: 'GET_WORK_LIST',
-  GET_TAG_LIST: 'GET_TAG_LIST',
+  LOGIN: '/authentications/login',
+  RESET_PASSWORD: '/authentications/reset-password',
+  FORGOT_PASSWORD: '/verifications/email-verification',
+  VERIFY_OTP: '/verifications/otp-verification',
 };

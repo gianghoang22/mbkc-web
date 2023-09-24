@@ -1,15 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import authReducer from './auth/authSlice';
+import brandReducer from './brand/brandSlice';
 import categoryReducer from './category/categorySlice';
 import extraCategoryReducer from './extraCategory/extraCategorySlice';
+import kitchenReducer from './kitchen/kitchenSlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
 import productReducer from './product/productSlice';
 import storeReducer from './store/storeSlice';
-import kitchenReducer from './kitchen/kitchenSlice';
-import brandReducer from './brand/brandSlice';
 
 export const store = configureStore({
   reducer: {
+    auth: authReducer,
     store: storeReducer,
     product: productReducer,
     category: categoryReducer,

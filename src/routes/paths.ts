@@ -9,6 +9,7 @@ const ROOTS_ADMIN_DASHBOARD = '/mbkc-admin';
 export const PATH_AUTH = {
   login: path(ROOTS_AUTH, '/login'),
   forgotPassword: path(ROOTS_AUTH, '/forgot-password'),
+  verificationOTP: path(ROOTS_AUTH, '/verification-otp'),
   resetPassword: path(ROOTS_AUTH, '/reset-password'),
 };
 

@@ -1,12 +1,13 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
+import { getLanguage } from 'utils';
 //
-import viLocales from './vi.json';
 import enLocales from './en.json';
+import viLocales from './vi.json';
 
-import vi from './vi/index';
 import en from './en/index';
+import vi from './vi/index';
 
 export const resources = {
   en: { translations: { ...enLocales, ...en } },
@@ -14,13 +15,14 @@ export const resources = {
 };
 
 export const defaultNS = 'translations';
+const langStorage = getLanguage();
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem('i18nextLng') || 'en',
+    lng: langStorage || 'en',
     fallbackLng: 'en',
     debug: false,
     ns: ['translations'],

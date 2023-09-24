@@ -1,9 +1,10 @@
+import { Route } from '@types';
 import { CashierDashboard, ListTransactionPage } from 'pages/cashier';
 import { ListOrdersPage, OrderDetailPage } from 'pages/common';
 import { ProfilePage } from 'pages/profile';
 import { PATH_CASHIER_APP } from 'routes/paths';
 
-export const cashierRoutes = [
+export const cashierRoutes: Route[] = [
   {
     path: PATH_CASHIER_APP.root,
     component: <CashierDashboard />,
