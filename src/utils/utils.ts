@@ -21,6 +21,16 @@ export const getUserAuth = () => {
 };
 export const removeUserAuth = () => removeLocalStorage(StorageKeys.USER_AUTH);
 
+export const setEmailVerify = (email: string) => setLocalStorage(StorageKeys.EMAIL_VERIFY, email);
+export const getEmailVerify = () => {
+  const emailStorage = getLocalStorage(StorageKeys.EMAIL_VERIFY);
+  if (emailStorage === null || emailStorage === undefined) {
+    return '';
+  }
+  return emailStorage;
+};
+export const removeEmailVerify = () => removeLocalStorage(StorageKeys.EMAIL_VERIFY);
+
 export const getLanguage = () => getLocalStorage(StorageKeys.I18_LANGUAGE);
 export const removeLanguage = () => removeLocalStorage(StorageKeys.I18_LANGUAGE);
 

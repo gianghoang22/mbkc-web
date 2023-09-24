@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Link } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -25,12 +25,8 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }: LogoProps, ref)
       }}
       {...other}
     >
-      <Box
-        component="img"
-        src="/assets/images/logos/bephoi_logo.jpg"
-        sx={{ width: 50, height: 50, borderRadius: 999 }}
-      />
-      <Typography sx={{ fontSize: 24, fontWeight: 'bold' }}>MBKC</Typography>
+      <Box component="img" src="/assets/images/logos/logo_mbkc.png" sx={{ width: 70, height: 70 }} />
+      <Box component="img" src="/assets/images/logos/text_mbkc_1.png" sx={{ height: 45, mt: 1.5 }} />
     </Box>
   );
 

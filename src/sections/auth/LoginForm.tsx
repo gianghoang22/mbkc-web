@@ -11,12 +11,13 @@ import { Box, IconButton, InputAdornment, Link as MuiLink, Stack } from '@mui/ma
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 //
-import { UserLogin } from '@types';
+import { LoginForm as LoginFormType } from '@types';
 import { InputField } from 'components';
 import { login } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { hashPasswordMD5 } from 'utils';
+import { Button } from '@mui/material';
 
 const schema = yup.object({
   email: yup.string().required('Please enter Email').email('Email format is not correct'),
@@ -31,17 +32,17 @@ function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const loginForm = useForm<UserLogin>({
+  const loginForm = useForm<LoginFormType>({
     defaultValues: {},
     resolver: yupResolver(schema),
   });
 
   const { handleSubmit } = loginForm;
 
-  const handleLogin = (values: UserLogin) => {
+  const handleLogin = (values: LoginFormType) => {
     const hashPassword = hashPasswordMD5(values.password);
     const params = {
-      user: { ...values, password: hashPassword },
+      data: { ...values, password: hashPassword },
       navigate,
     };
     dispatch(login(params));
@@ -51,7 +52,7 @@ function LoginForm() {
     <>
       <FormProvider {...loginForm}>
         <Stack spacing={3}>
-          <InputField fullWidth size="large" name="email" label="Email address" />
+          <InputField fullWidth size="large" name="email" label="Email" />
 
           <InputField
             fullWidth
@@ -79,16 +80,16 @@ function LoginForm() {
           </Box>
         </Stack>
 
-        <LoadingButton
+        <Button
           fullWidth
           size="large"
           type="submit"
           variant="contained"
-          loading={isLoading}
+          // loading={isLoading}
           onClick={handleSubmit(handleLogin)}
         >
           Login
-        </LoadingButton>
+        </Button>
       </FormProvider>
     </>
   );

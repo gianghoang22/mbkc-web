@@ -8,3 +8,4 @@ export * from './models/store';
 export * from './models/user';
 export * from './sidebar';
 export * from './table';
+export * from './form';

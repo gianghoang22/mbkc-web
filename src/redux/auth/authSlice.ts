@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 import { UserAuth } from '@types';
-import { getUserAuth } from 'utils';
-import { loginThunk, logoutThunk } from './authThunk';
+import { toast } from 'react-toastify';
+import { getEmailVerify, getUserAuth, setEmailVerify } from 'utils';
+import { forgotPasswordThunk, loginThunk, logoutThunk, resetPasswordThunk, verifyOtpThunk } from './authThunk';
 
 interface AuthState {
   isLoading: boolean;
@@ -10,21 +10,27 @@ interface AuthState {
   isSuccess: boolean;
   isAuthenticated: boolean;
   message: string;
+  email: string;
   userAuth: UserAuth;
 }
 
 const getUserInStorage = getUserAuth() ? getUserAuth() : null;
+const getEmailInStorage = getEmailVerify() ? getEmailVerify() : '';
 
 const initialState: AuthState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  message: '',
   isAuthenticated: false,
+  message: '',
+  email: getEmailInStorage,
   userAuth: getUserInStorage,
 };
 
 export const login = createAsyncThunk('auth/login', loginThunk);
+export const forgotPassword = createAsyncThunk('auth/forgot-password', forgotPasswordThunk);
+export const verifyOtp = createAsyncThunk('auth/verify-otp', verifyOtpThunk);
+export const resetPassword = createAsyncThunk('auth/reset-password', resetPasswordThunk);
 export const logout = createAsyncThunk('auth/logout', logoutThunk);
 
 const authSlice = createSlice({
@@ -42,6 +48,10 @@ const authSlice = createSlice({
     setMessageError: (state, action) => {
       state.message = action.payload;
       toast.error(state.message);
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload?.email;
+      setEmailVerify(action.payload?.email);
     },
   },
   extraReducers(builder) {
@@ -62,6 +72,48 @@ const authSlice = createSlice({
         state.isSuccess = false;
         state.isAuthenticated = false;
       })
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(verifyOtp.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
       .addCase(logout.pending, (state) => {
         state.isLoading = true;
       })
@@ -78,7 +130,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setMessageSuccess, setMessageInfo, setMessageError } = authSlice.actions;
+export const { setMessageSuccess, setMessageInfo, setMessageError, setEmail } = authSlice.actions;
 const authReducer = authSlice.reducer;
 
 export default authReducer;

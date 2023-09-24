@@ -2,6 +2,7 @@ import { styled } from '@mui/material';
 import { customShadows } from 'theme/customShadows';
 
 export const StyledRootLogin = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
@@ -15,8 +16,8 @@ export const StyledSection = styled('div')(({ theme }: { theme: any }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   borderRadius: 15,
-  boxShadow: customShadows.card,
-  backgroundColor: theme.palette.background.default,
+  boxShadow: customShadows.z16,
+  backgroundColor: theme.palette.background.paper,
 }));
 
 export const StyledContent = styled('div')(({ theme }) => ({
@@ -30,6 +31,7 @@ export const StyledContent = styled('div')(({ theme }) => ({
 }));
 
 export const StyledRoot = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },

@@ -36,7 +36,7 @@ function Page404() {
 
           <Box
             component="img"
-            src="/assets/illustrations/illustration_500.svg"
+            src="/assets/illustrations/illustration_403.svg"
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 

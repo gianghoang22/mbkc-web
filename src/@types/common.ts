@@ -1,3 +1,7 @@
+export interface Params<T> {
+  data: T;
+  navigate: any;
+}
 export interface LoginResponse {
   accountId: number;
   email: string;

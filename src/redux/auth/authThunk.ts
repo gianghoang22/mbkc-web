@@ -1,4 +1,4 @@
-import { LoginResponse, ParamsLogin } from '@types';
+import { EmailForm, LoginForm, LoginResponse, Params, ResetFormApi, VerificationForm } from '@types';
 import { axiosClient } from 'api/axiosClient';
 import { Role } from 'common/enum';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
@@ -14,10 +14,10 @@ import {
 } from 'utils';
 import { setMessageError, setMessageSuccess } from './authSlice';
 
-export const loginThunk = async (params: ParamsLogin, thunkAPI: any) => {
-  const { user, navigate } = params;
+export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
+  const { data, navigate } = params;
   try {
-    const response: LoginResponse = await axiosClient.post(RoutesApiKeys.LOGIN, user);
+    const response: LoginResponse = await axiosClient.post(RoutesApiKeys.LOGIN, data);
     const userStorage = {
       accountId: response?.accountId,
       email: response?.email,
@@ -40,7 +40,58 @@ export const loginThunk = async (params: ParamsLogin, thunkAPI: any) => {
     return userStorage;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error);
-    console.log(errorMessage);
+    thunkAPI.dispatch(setMessageError(errorMessage));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const forgotPasswordThunk = async (params: Params<EmailForm>, thunkAPI: any) => {
+  const { data, navigate } = params;
+  try {
+    const response = await axiosClient.post(RoutesApiKeys.FORGOT_PASSWORD, data);
+    console.log(response);
+    if (response) {
+      navigate(PATH_AUTH.verificationOTP);
+      thunkAPI.dispatch(setMessageSuccess('Sent email confirmation successfully'));
+    }
+    return response;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    thunkAPI.dispatch(setMessageError(errorMessage));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const verifyOtpThunk = async (params: Params<VerificationForm>, thunkAPI: any) => {
+  const { data, navigate } = params;
+  try {
+    const response = await axiosClient.post(RoutesApiKeys.VERIFY_OTP, data);
+    if (response) {
+      navigate(PATH_AUTH.resetPassword);
+      thunkAPI.dispatch(setMessageSuccess('Sent email confirmation successfully'));
+    }
+    return response;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    thunkAPI.dispatch(setMessageError(errorMessage));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI: any) => {
+  const { data, navigate } = params;
+  try {
+    const response = await axiosClient.put(RoutesApiKeys.RESET_PASSWORD, data);
+    if (response) {
+      console.log(response);
+      if (response.status === 200) {
+        navigate('/login');
+        thunkAPI.dispatch(setMessageSuccess('Reset Password Successfully! Login again.'));
+      }
+    }
+    return response;
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
     thunkAPI.dispatch(setMessageError(errorMessage));
     return thunkAPI.rejectWithValue(error);
   }
@@ -54,7 +105,6 @@ export const logoutThunk = async (navigate: any, thunkAPI: any) => {
 
     navigate(PATH_AUTH.login);
   } catch (error) {
-    console.log('logout error thunk: ', error);
     return thunkAPI.rejectWithValue(error);
   }
 };

@@ -4,6 +4,7 @@ const StorageKeys = {
   USER_AUTH: 'user_auth',
   USER_INFO: 'user_info',
   I18_LANGUAGE: 'i18nextLng',
+  EMAIL_VERIFY: 'email_verify',
 };
 
 export { StorageKeys };
