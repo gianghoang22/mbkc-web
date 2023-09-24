@@ -3,15 +3,7 @@ import { axiosClient } from 'api/axiosClient';
 import { Role } from 'common/enum';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import {
-  getErrorMessage,
-  removeAccessToken,
-  removeRefreshToken,
-  removeUserAuth,
-  setAccessToken,
-  setRefreshToken,
-  setUserAuth,
-} from 'utils';
+import { getErrorMessage, removeSession, removeUserAuth, setSession, setUserAuth } from 'utils';
 import { setMessageError, setMessageSuccess } from './authSlice';
 
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
@@ -23,8 +15,7 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
       email: response?.email,
       roleName: response?.roleName,
     };
-    setAccessToken(response.tokens.accessToken);
-    setRefreshToken(response.tokens.refreshToken);
+    setSession(response.tokens.accessToken, response.tokens.refreshToken);
     setUserAuth(userStorage);
 
     if (response.roleName === Role.MBKC_ADMIN) {
@@ -99,8 +90,7 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
 
 export const logoutThunk = async (navigate: any, thunkAPI: any) => {
   try {
-    removeAccessToken();
-    removeRefreshToken();
+    removeSession();
     removeUserAuth();
 
     navigate(PATH_AUTH.login);
