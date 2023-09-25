@@ -173,7 +173,7 @@ function StoreDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.brandStore.newBrandStore);
+          navigate(PATH_ADMIN_APP.store.newStore);
           dispatch(setEditStore(store));
         }}
       />
