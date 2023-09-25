@@ -35,9 +35,12 @@ function ListCategoryPage() {
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
+
+  console.log('page', page);
+  console.log('rowsPerPage', rowsPerPage);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -102,6 +105,7 @@ function ListCategoryPage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<CategoryTable>
+                    showAction
                     headCells={categoryHeadCells}
                     order={order}
                     orderBy={orderBy}

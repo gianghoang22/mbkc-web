@@ -59,6 +59,7 @@ function ProductTableTab() {
         <TableContainer>
           <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
             <CommonTableHead<ProductTable>
+              showAction
               headCells={productHeadCells}
               order={order}
               orderBy={orderBy}

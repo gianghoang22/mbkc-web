@@ -26,6 +26,10 @@
     "wallet": "wallet",
     "transaction": "transaction"
   },
+  "action": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
   "button": {
     "login": "Login",
     "sendEmail": "Send email",

@@ -162,7 +162,7 @@ function BrandDetailPage(props: any) {
                       {visibleRows.map((store, index) => {
                         return (
                           <StoreTableRow
-                            justInfo={false}
+                            showAction={false}
                             key={store.storeId}
                             index={index}
                             store={store}

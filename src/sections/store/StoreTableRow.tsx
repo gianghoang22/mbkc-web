@@ -13,7 +13,7 @@ interface StoreTableRowProps {
   handleNavigateDetail: (store: Store, accountId: number) => void;
   store: Store;
   index: number;
-  justInfo?: boolean;
+  showAction?: boolean;
   haveKitchenCenter?: boolean;
   haveBrand?: boolean;
 }
@@ -21,7 +21,7 @@ interface StoreTableRowProps {
 function StoreTableRow({
   index,
   store,
-  justInfo = false,
+  showAction = false,
   handleNavigateDetail,
   haveKitchenCenter = false,
   haveBrand = false,
@@ -72,7 +72,7 @@ function StoreTableRow({
             }
           />
         </TableCell>
-        {!justInfo && (
+        {showAction && (
           <TableCell align="right">
             <IconButton color="inherit" onClick={handleOpenMenu}>
               <MoreVertIcon />

@@ -19,7 +19,7 @@ interface ExtraToCategoryRowProps {
   categoryType: CategoryType;
   category: Category;
   index: number;
-  justInfo?: boolean;
+  showAction?: boolean;
   checkbox?: boolean;
   isItemSelected?: boolean;
 }
@@ -28,7 +28,7 @@ function ExtraToCategoryRow({
   index,
   category,
   categoryType,
-  justInfo = false,
+  showAction = false,
   checkbox = false,
   isItemSelected = false,
   handleClick,
@@ -55,7 +55,7 @@ function ExtraToCategoryRow({
         role={checkbox ? 'checkbox' : ''}
         selected={isItemSelected}
         aria-checked={isItemSelected}
-        sx={justInfo ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}
+        sx={showAction ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}
       >
         {checkbox ? (
           <TableCell padding="checkbox">
@@ -93,7 +93,7 @@ function ExtraToCategoryRow({
         </TableCell>
 
         <TableCell align="left">
-          {justInfo ? (
+          {showAction ? (
             <Label color={(category.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
               {sentenceCase(category?.status)}
             </Label>
@@ -108,7 +108,7 @@ function ExtraToCategoryRow({
             />
           )}
         </TableCell>
-        {!justInfo && (
+        {!showAction && (
           <TableCell align="right">
             <IconButton color="inherit" onClick={handleOpenMenu}>
               <MoreVertIcon />

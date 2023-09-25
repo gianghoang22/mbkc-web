@@ -135,7 +135,6 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                     <CommonTableHead<CategoryTable>
-                      justInfo
                       checkbox
                       numSelected={selected.length}
                       rowCount={categories.length}
@@ -152,7 +151,7 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
                         return (
                           <ExtraToCategoryRow
                             key={category.categoryId}
-                            justInfo
+                            showAction
                             checkbox
                             index={index}
                             category={category}

@@ -76,6 +76,7 @@ function CategoryTableTab() {
         <TableContainer>
           <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
             <CommonTableHead<CategoryTable>
+              showAction
               headCells={categoryHeadCells}
               order={order}
               orderBy={orderBy}

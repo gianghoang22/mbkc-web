@@ -26,6 +26,10 @@
     "wallet": "ví",
     "transaction": "giao dịch"
   },
+  "action": {
+    "edit": "Chỉnh sửa",
+    "delete": "Xóa"
+  },
   "button": {
     "login": "Đăng nhập",
     "sendEmail": "Gửi email",

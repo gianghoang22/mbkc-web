@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -85,21 +85,27 @@ function ListStorePage() {
   return (
     <>
       <Page
-        title="List Of Store"
+        title="List Store"
         pathname={pathname}
-        navigateDashboard={PATH_BRAND_APP.root}
-        actions={() => [
-          <Button
-            variant="contained"
-            onClick={() => {
-              navigate(PATH_ADMIN_APP.store.newStore);
-              dispatch(setAddStore());
-            }}
-            startIcon={<AddRoundedIcon />}
-          >
-            Create store
-          </Button>,
-        ]}
+        navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
+        actions={() => {
+          const listAction: ReactNode[] =
+            userAuth?.roleName === Role.MBKC_ADMIN
+              ? [
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      navigate(PATH_ADMIN_APP.store.newStore);
+                      dispatch(setAddStore());
+                    }}
+                    startIcon={<AddRoundedIcon />}
+                  >
+                    Create store
+                  </Button>,
+                ]
+              : [];
+          return listAction;
+        }}
       >
         <Card>
           <Box sx={{ width: '100%' }}>
@@ -108,7 +114,7 @@ function ListStorePage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>
-                    justInfo={userAuth?.roleName === Role.BRAND_MANAGER}
+                    showAction={userAuth?.roleName === Role.MBKC_ADMIN}
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -118,7 +124,7 @@ function ListStorePage() {
                     {visibleRows.map((store, index) => {
                       return (
                         <StoreTableRow
-                          justInfo={false}
+                          showAction={userAuth?.roleName === Role.MBKC_ADMIN}
                           key={store.storeId}
                           index={index}
                           store={store}

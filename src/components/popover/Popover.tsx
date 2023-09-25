@@ -3,6 +3,7 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { MenuItem, Popover as MUIPopover, SxProps } from '@mui/material';
 import { PopoverType } from 'common/enum';
+import { useLocales } from 'hooks';
 
 interface PopoverProps {
   sx?: SxProps;
@@ -14,6 +15,8 @@ interface PopoverProps {
 }
 
 function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDelete, sx, ...other }: PopoverProps) {
+  const { translate } = useLocales();
+
   return (
     <>
       <MUIPopover
@@ -46,7 +49,7 @@ function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDele
               }}
             >
               <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-              Edit
+              {translate('action.edit')}
             </MenuItem>
 
             <MenuItem
@@ -57,7 +60,7 @@ function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDele
               }}
             >
               <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-              Delete
+              {translate('action.delete')}
             </MenuItem>
           </>
         ) : type === PopoverType.EDIT ? (
