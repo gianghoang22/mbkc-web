@@ -8,9 +8,11 @@
     "dashboard": "Bảng điều khiển",
     "kitchen staff": "Nhân viên bếp"
   },
-  "common": {
-    "required": "Vui lòng nhập {{name}}",
-    "navigation": "Điều hướng",
+  "button": {
+    "login": "Đăng nhập",
+    "sendEmail": "Gửi email",
+    "verify": "Xác minh",
+    "updatePassword": "Cập nhật mật khẩu",
     "addMore": "Thêm",
     "create": "Tạo",
     "update": "Cập nhật",
@@ -18,18 +20,44 @@
     "save": "Lưu",
     "cancel": "Hủy",
     "all": "Tất cả",
+    "goHome": "Về trang chủ"
+  },
+  "common": {
+    "welcome": "Xin chào, Chào mừng trở lại",
+    "navigation": "Điều hướng",
     "available": "Hoạt động",
     "notAvailable": "Không Hoạt động",
     "choosedItem": "Đã chọn",
     "confirm": "Xác nhận",
     "confirmDeleteTitle": "Xác nhận xóa",
     "deleteSuccess": "Xóa thành công",
-    "atLeast": "Ít nhất {{number}} giá trị",
     "status": "Trạng thái",
     "filter": "Bộ lọc",
     "clearFilter": "Xóa bộ lọc",
     "fromTime": "Từ",
-    "toTime": "Đến",
+    "toTime": "Đến"
+  },
+  "form": {
+    "email": "Email",
+    "password": "Mật khẩu",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "otpCode": "Mã OTP"
+  },
+  "validation": {
+    "required": "Vui lòng nhập {{name}}",
+    "emailFormat": "Định dạng email không đúng",
+    "otpAlLeast": "Mã OTP bắt buộc phải có 6 chữ số",
+    "matchPassword": "Xác nhận mật khẩu không khớp với mật khẩu mới",
+    "atLeast": "Ít nhất {{number}} giá trị"
+  },
+  "error": {
+    "serverTitle": "500 Lỗi Máy Chủ Nội Bộ",
+    "serverContent": "Đã xảy ra lỗi, xin thử lại sau.",
+    "permissionTitle": "Không có sự cho phép",
+    "permissionContent": "Trang bạn đang cố truy cập có quyền truy cập bị hạn chế. Vui lòng tham khảo quản trị viên hệ thống của bạn.",
+    "notFoundTitle": "Xin lỗi, không tìm thấy trang!",
+    "notFoundContent": "Xin lỗi, chúng tôi không thể tìm thấy trang bạn đang tìm kiếm. Có lẽ bạn đã gõ nhầm URL? Hãy chắc chắn để kiểm tra chính tả.",
     "201": "Tạo thành công",
     "200": "Thành công",
     "400": "Lỗi",

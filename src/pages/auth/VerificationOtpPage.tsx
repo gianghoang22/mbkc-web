@@ -12,15 +12,12 @@ import { forgotPassword, verifyOtp } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { StyledContent, StyledRoot } from './styles';
-
-const schema = yup.object({
-  email: yup.string().required('Please enter Email').email('Email format is not correct'),
-  otpCode: yup.string().required('Please enter OTP code').min(6, 'OTP Code is required 6 digits'),
-});
+import { useLocales } from 'hooks';
 
 function VerificationOtpPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
 
   const { email } = useAppSelector((state) => state.auth);
 
@@ -28,7 +25,18 @@ function VerificationOtpPage() {
     defaultValues: {
       email: email ? email : '',
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(
+      yup.object({
+        email: yup
+          .string()
+          .required(translate('validation.required', { name: 'Email' }))
+          .email(translate('validation.emailFormat')),
+        otpCode: yup
+          .number()
+          .required(translate('validation.required', { name: translate('form.otpCode') }))
+          .min(6, translate('validation.otpAlLeast')),
+      })
+    ),
   });
 
   const { handleSubmit } = verificationForm;
@@ -70,29 +78,26 @@ function VerificationOtpPage() {
                   <Box px={18}>
                     <img src="/assets/illustrations/illustration_otp.svg" alt="email" />
                   </Box>
-                  <Typography variant="h3">Please check your email!</Typography>
-                  <Typography variant="body2">
-                    We have emailed a 6-digit confirmation code to {email}, please enter the code in below box to verify
-                    your email.
-                  </Typography>
+                  <Typography variant="h3">{translate('auth.verify.title')}</Typography>
+                  <Typography variant="body2">{translate('auth.verify.content', { email })}</Typography>
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={2}>
-                  <InputField fullWidth size="large" name="email" label="Email" />
-                  <InputField fullWidth size="large" name="otpCode" label="OTP Code" />
+                  <InputField fullWidth size="large" name="email" label={translate('form.email')} />
+                  <InputField fullWidth size="large" type="number" name="otpCode" label={translate('form.otpCode')} />
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={4} px={3}>
                   <Stack alignItems="center" width="100%" gap={1.5}>
                     <Button fullWidth variant="contained" type="submit" onClick={handleSubmit(handleVerify)}>
-                      Verify
+                      {translate('button.verify')}
                     </Button>
 
                     <Typography variant="body2">
-                      Don’t have a code?{' '}
+                      {translate('auth.verify.noAccount')}{' '}
                       <Link to="" style={{ textDecoration: 'none' }} onClick={handleResentCode}>
                         <MuiLink variant="subtitle2" underline="hover" sx={{ cursor: 'pointer' }}>
-                          Resend code
+                          {translate('auth.verify.resend')}
                         </MuiLink>
                       </Link>
                     </Typography>
@@ -102,7 +107,7 @@ function VerificationOtpPage() {
                     <Stack direction="row" alignItems="center">
                       <KeyboardArrowLeftIcon fontSize="small" />
                       <MuiLink variant="subtitle2" underline="hover">
-                        Return to login
+                        {translate('auth.backLogin')}
                       </MuiLink>
                     </Stack>
                   </Box>

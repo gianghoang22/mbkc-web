@@ -8,10 +8,12 @@ import { LoginForm } from 'sections/auth';
 //style
 import { StyledContent, StyledRootLogin, StyledSection } from './styles';
 import { useAppSelector } from 'redux/configStore';
+import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
+  const { translate } = useLocales();
   const mdUp = useResponsive('up', 'md', 'md');
 
   const { isLoading } = useAppSelector((state) => state.auth);
@@ -38,9 +40,9 @@ export default function LoginPage() {
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+              {translate('common.welcome')}
             </Typography>
-            <Box sx={{ px: 5 }}>
+            <Box sx={{ px: 7 }}>
               <img src="/assets/images/kitchen/kitchen_login.png" alt="login" />
             </Box>
           </StyledSection>
@@ -49,11 +51,11 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to MBKC
+              {translate('auth.login.title')}
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 7 }}>
-              MBKC will help you manager effectively!
+              {translate('auth.login.content')}
             </Typography>
 
             <LoginForm />

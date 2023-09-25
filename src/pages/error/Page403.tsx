@@ -1,8 +1,9 @@
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
+import { Box, Button, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Button, Typography, Container, Box } from '@mui/material';
 import { Helmet } from 'components';
+import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +20,8 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 function Page403() {
+  const { translate } = useLocales();
+
   return (
     <>
       <Helmet title="404 Page Not Found" />
@@ -26,12 +29,10 @@ function Page403() {
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
           <Typography variant="h3" paragraph>
-            No permission
+            {translate('error.permissionTitle')}
           </Typography>
 
-          <Typography sx={{ color: 'text.secondary' }}>
-            The page you're trying access has restricted access. Please refer to your system administrator
-          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}> {translate('error.permissionContent')}</Typography>
 
           <Box
             component="img"
@@ -40,7 +41,7 @@ function Page403() {
           />
 
           <Button to="/" size="large" color="inherit" variant="contained" component={RouterLink}>
-            Go to home
+            {translate('button.goHome')}
           </Button>
         </StyledContent>
       </Container>

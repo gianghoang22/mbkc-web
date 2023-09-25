@@ -1,8 +1,9 @@
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
+import { Box, Button, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Button, Typography, Container, Box } from '@mui/material';
 import { Helmet } from 'components';
+import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +20,8 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 function Page404() {
+  const { translate } = useLocales();
+
   return (
     <>
       <Helmet title="404 Page Not Found" />
@@ -26,13 +29,10 @@ function Page404() {
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
           <Typography variant="h3" paragraph>
-            Sorry, Page Not Found!
+            {translate('error.notFoundTitle')}
           </Typography>
 
-          <Typography sx={{ color: 'text.secondary' }}>
-            Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be sure to check your
-            spelling.
-          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>{translate('error.notFoundContent')}</Typography>
 
           <Box
             component="img"
@@ -41,7 +41,7 @@ function Page404() {
           />
 
           <Button to="/" size="large" color="inherit" variant="contained" component={RouterLink}>
-            Go to Home
+            {translate('button.goHome')}
           </Button>
         </StyledContent>
       </Container>

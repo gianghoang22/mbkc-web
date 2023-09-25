@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Button, Typography, Container, Box } from '@mui/material';
 import { Helmet } from 'components';
+import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +20,8 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 function Page500() {
+  const { translate } = useLocales();
+
   return (
     <>
       <Helmet title="500 Page Not Found" />
@@ -26,10 +29,10 @@ function Page500() {
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
           <Typography variant="h3" paragraph>
-            500 Internal Server Error
+            {translate('error.serverTitle')}
           </Typography>
 
-          <Typography sx={{ color: 'text.secondary' }}>There was an error, please try again later.</Typography>
+          <Typography sx={{ color: 'text.secondary' }}>{translate('error.serverContent')}</Typography>
 
           <Box
             component="img"
@@ -38,7 +41,7 @@ function Page500() {
           />
 
           <Button to="/" size="large" color="inherit" variant="contained" component={RouterLink}>
-            Go to home
+            {translate('button.goHome')}
           </Button>
         </StyledContent>
       </Container>
