@@ -26,12 +26,11 @@ function Page403() {
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
           <Typography variant="h3" paragraph>
-            Xin lỗi, không tìm thấy trang!
+            No permission
           </Typography>
 
           <Typography sx={{ color: 'text.secondary' }}>
-            Xin lỗi, chúng tôi không thể tìm thấy trang bạn đang tìm kiếm. Có lẽ bạn đã nhập sai URL? Hãy chắc chắn để
-            kiểm tra chính tả của bạn .
+            The page you're trying access has restricted access. Please refer to your system administrator
           </Typography>
 
           <Box
@@ -40,19 +39,8 @@ function Page403() {
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 
-          <Button
-            to="/"
-            size="large"
-            variant="contained"
-            component={RouterLink}
-            sx={{
-              backgroundColor: '#00C187',
-              '&:hover': {
-                backgroundColor: '#30ca9c',
-              },
-            }}
-          >
-            Về trang chủ
+          <Button to="/" size="large" color="inherit" variant="contained" component={RouterLink}>
+            Go to home
           </Button>
         </StyledContent>
       </Container>

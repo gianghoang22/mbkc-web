@@ -2,18 +2,16 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 //layout
 import DashboardLayout from 'layouts/dashboard/DashboardLayout';
 import SimpleLayout from 'layouts/simple/SimpleLayout';
-//pages
-import { Page404 } from 'pages/error';
 //router
 import AdminRouter from './adminRouter';
 import BrandRouter from './brandRouter';
 import CashierRouter from './cashierRouter';
 import KitchenCenterRouter from './kitchenCenterRouter';
 //routes
-import { adminRoutes, brandRoutes, cashierRoutes, kitchenCenterRoutes, publicRoutes } from './config';
-import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from './paths';
-import { useAppSelector } from 'redux/configStore';
 import { Role } from 'common/enum';
+import { useAppSelector } from 'redux/configStore';
+import { adminRoutes, brandRoutes, cashierRoutes, errorRoutes, kitchenCenterRoutes, publicRoutes } from './config';
+import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from './paths';
 
 function AppRouter() {
   const { userAuth } = useAppSelector((state) => state.auth);
@@ -38,7 +36,9 @@ function AppRouter() {
           <></>
         )}
         <Route path="*" element={<Navigate to="/404" />} />
-        <Route path="/404" element={<Page404 />} />
+        {errorRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.component} />
+        ))}
       </Route>
 
       <Route path="*" element={<Navigate to="/404" replace />} />

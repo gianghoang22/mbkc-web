@@ -1,10 +1,17 @@
 import { path } from 'utils';
 
+const ROOTS_ERROR = '/error';
 const ROOTS_AUTH = '/auth';
 const ROOTS_BRAND_DASHBOARD = '/brand';
 const ROOTS_KITCHEN_CENTER_DASHBOARD = '/kitchen-center';
 const ROOTS_CASHIER_DASHBOARD = '/cashier';
 const ROOTS_ADMIN_DASHBOARD = '/mbkc-admin';
+
+export const PATH_ERROR = {
+  noPermission: path(ROOTS_ERROR, '/403'),
+  notFound: path(ROOTS_ERROR, '/404'),
+  serverError: path(ROOTS_ERROR, '/500'),
+};
 
 export const PATH_AUTH = {
   login: path(ROOTS_AUTH, '/login'),

@@ -26,33 +26,19 @@ function Page500() {
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
           <Typography variant="h3" paragraph>
-            Xin lỗi, không tìm thấy trang!
+            500 Internal Server Error
           </Typography>
 
-          <Typography sx={{ color: 'text.secondary' }}>
-            Xin lỗi, chúng tôi không thể tìm thấy trang bạn đang tìm kiếm. Có lẽ bạn đã nhập sai URL? Hãy chắc chắn để
-            kiểm tra chính tả của bạn .
-          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>There was an error, please try again later.</Typography>
 
           <Box
             component="img"
-            src="/assets/illustrations/illustration_403.svg"
+            src="/assets/illustrations/illustration_500.svg"
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 
-          <Button
-            to="/"
-            size="large"
-            variant="contained"
-            component={RouterLink}
-            sx={{
-              backgroundColor: '#00C187',
-              '&:hover': {
-                backgroundColor: '#30ca9c',
-              },
-            }}
-          >
-            Về trang chủ
+          <Button to="/" size="large" color="inherit" variant="contained" component={RouterLink}>
+            Go to home
           </Button>
         </StyledContent>
       </Container>
