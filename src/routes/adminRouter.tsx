@@ -10,6 +10,8 @@ function AdminRouter() {
 
   const { isAuthenticated, userAuth } = useAppSelector((state) => state.auth);
 
+  console.log('admin', isAuthenticated);
+
   return isAuthenticated && accessToken && userAuth?.roleName === Role.MBKC_ADMIN ? (
     <Outlet />
   ) : (

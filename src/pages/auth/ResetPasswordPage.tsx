@@ -9,13 +9,15 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Box, Button, Card, IconButton, InputAdornment, Link as MuiLink, Stack, Typography } from '@mui/material';
 //
+import { LinearProgress } from '@mui/material';
 import { ResetForm } from '@types';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales } from 'hooks';
 import { useState } from 'react';
 import { resetPassword } from 'redux/auth/authSlice';
-import { useAppDispatch } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
+import { hashPasswordMD5 } from 'utils';
 import { StyledContent, StyledRoot } from './styles';
 
 function ResetPasswordPage() {
@@ -23,10 +25,15 @@ function ResetPasswordPage() {
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
 
+  const { isLoading, email } = useAppSelector((state) => state.auth);
+
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   const resetPasswordForm = useForm<ResetForm>({
-    defaultValues: {},
+    defaultValues: {
+      email: email ? email : '',
+    },
     resolver: yupResolver(
       yup.object({
         email: yup
@@ -45,8 +52,9 @@ function ResetPasswordPage() {
   const { handleSubmit } = resetPasswordForm;
 
   const handleResetPassword = (values: ResetForm) => {
+    const hashPassword = hashPasswordMD5(values.newPassword);
     const params = {
-      data: { email: values.email, newPassword: values.newPassword },
+      data: { email: values.email, newPassword: hashPassword },
       navigate,
     };
     console.log(params);
@@ -56,6 +64,12 @@ function ResetPasswordPage() {
   return (
     <>
       <Helmet title="Reset Password" />
+
+      {isLoading && (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>
+      )}
 
       <StyledRoot>
         <Logo
@@ -79,7 +93,7 @@ function ResetPasswordPage() {
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={2}>
-                  <InputField fullWidth size="large" name="email" label="Email" />
+                  <InputField fullWidth size="large" name="email" label="Email" disabled={email ? true : false} />
                   <InputField
                     fullWidth
                     size="large"
@@ -105,8 +119,8 @@ function ResetPasswordPage() {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                            {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                          <IconButton onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} edge="end">
+                            {showPasswordConfirm ? <VisibilityIcon /> : <VisibilityOffIcon />}
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -115,8 +129,14 @@ function ResetPasswordPage() {
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={4} px={3}>
-                  <Button fullWidth variant="contained" type="submit" onClick={handleSubmit(handleResetPassword)}>
-                    {translate('button.sendEmail')}
+                  <Button
+                    fullWidth
+                    type="submit"
+                    variant="contained"
+                    disabled={isLoading}
+                    onClick={handleSubmit(handleResetPassword)}
+                  >
+                    {translate('button.updatePassword')}
                   </Button>
 
                   <Box onClick={() => navigate(PATH_AUTH.login)} sx={{ cursor: 'pointer' }}>

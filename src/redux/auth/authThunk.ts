@@ -3,7 +3,15 @@ import { axiosClient } from 'api/axiosClient';
 import { Role } from 'common/enum';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getErrorMessage, removeSession, removeUserAuth, setSession, setUserAuth } from 'utils';
+import {
+  getErrorMessage,
+  removeAuthenticated,
+  removeSession,
+  removeUserAuth,
+  setAuthenticated,
+  setSession,
+  setUserAuth,
+} from 'utils';
 import { setMessageError, setMessageSuccess } from './authSlice';
 
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
@@ -17,6 +25,7 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
     };
     setSession(response.tokens.accessToken, response.tokens.refreshToken);
     setUserAuth(userStorage);
+    setAuthenticated();
 
     if (response.roleName === Role.MBKC_ADMIN) {
       navigate(PATH_ADMIN_APP.root);
@@ -40,7 +49,6 @@ export const forgotPasswordThunk = async (params: Params<EmailForm>, thunkAPI: a
   const { data, navigate } = params;
   try {
     const response = await axiosClient.post(RoutesApiKeys.FORGOT_PASSWORD, data);
-    console.log(response);
     if (response) {
       navigate(PATH_AUTH.verificationOTP);
       thunkAPI.dispatch(setMessageSuccess('Sent email confirmation successfully'));
@@ -55,11 +63,12 @@ export const forgotPasswordThunk = async (params: Params<EmailForm>, thunkAPI: a
 
 export const verifyOtpThunk = async (params: Params<VerificationForm>, thunkAPI: any) => {
   const { data, navigate } = params;
+  console.log(data);
   try {
     const response = await axiosClient.post(RoutesApiKeys.VERIFY_OTP, data);
     if (response) {
       navigate(PATH_AUTH.resetPassword);
-      thunkAPI.dispatch(setMessageSuccess('Sent email confirmation successfully'));
+      thunkAPI.dispatch(setMessageSuccess('Confirmed OTP Code Successfully.'));
     }
     return response;
   } catch (error) {
@@ -74,10 +83,9 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
   try {
     const response = await axiosClient.put(RoutesApiKeys.RESET_PASSWORD, data);
     if (response) {
-      console.log(response);
-      if (response.status === 200) {
-        navigate('/login');
-        thunkAPI.dispatch(setMessageSuccess('Reset Password Successfully! Login again.'));
+      if (response) {
+        navigate(PATH_AUTH.login);
+        thunkAPI.dispatch(setMessageSuccess('Reset Password Successfully.'));
       }
     }
     return response;
@@ -92,6 +100,7 @@ export const logoutThunk = async (navigate: any, thunkAPI: any) => {
   try {
     removeSession();
     removeUserAuth();
+    removeAuthenticated();
 
     navigate(PATH_AUTH.login);
   } catch (error) {

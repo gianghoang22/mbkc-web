@@ -48,6 +48,8 @@
     "required": "Vui lòng nhập {{name}}",
     "emailFormat": "Định dạng email không đúng",
     "otpAlLeast": "Mã OTP bắt buộc phải có 6 chữ số",
+    "otpMax": "Mã OTP không được vượt quá 6 chữ số",
+    "otpMatches": "OTP chỉ bao gồm chứa số",
     "matchPassword": "Xác nhận mật khẩu không khớp với mật khẩu mới",
     "atLeast": "Ít nhất {{number}} giá trị"
   },

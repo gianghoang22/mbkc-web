@@ -1,21 +1,9 @@
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { styled } from '@mui/material/styles';
 import { Button, Typography, Container, Box } from '@mui/material';
 import { Helmet } from 'components';
 import { useLocales } from 'hooks';
-
-// ----------------------------------------------------------------------
-
-const StyledContent = styled('div')(({ theme }) => ({
-  maxWidth: 480,
-  margin: 'auto',
-  minHeight: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  padding: theme.spacing(12, 0),
-}));
+import { StyledContent } from './styles';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +12,7 @@ function Page500() {
 
   return (
     <>
-      <Helmet title="500 Page Not Found" />
+      <Helmet title="500 Internal Server Error" />
 
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>

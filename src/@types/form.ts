@@ -9,7 +9,7 @@ export interface EmailForm {
 
 export interface VerificationForm {
   email: string;
-  otpCode: number;
+  otpCode: string;
 }
 
 export interface ResetForm {

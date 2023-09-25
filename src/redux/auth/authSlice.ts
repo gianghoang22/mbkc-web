@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UserAuth } from '@types';
 import { toast } from 'react-toastify';
-import { getEmailVerify, getUserAuth, setEmailVerify } from 'utils';
+import { getAuthenticated, getEmailVerify, getUserAuth, setEmailVerify } from 'utils';
 import { forgotPasswordThunk, loginThunk, logoutThunk, resetPasswordThunk, verifyOtpThunk } from './authThunk';
 
 interface AuthState {
@@ -15,13 +15,14 @@ interface AuthState {
 }
 
 const getUserInStorage = getUserAuth() ? getUserAuth() : null;
+const getIsAuthenticated = getAuthenticated() ? getAuthenticated() : false;
 const getEmailInStorage = getEmailVerify() ? getEmailVerify() : '';
 
 const initialState: AuthState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  isAuthenticated: false,
+  isAuthenticated: getIsAuthenticated,
   message: '',
   email: getEmailInStorage,
   userAuth: getUserInStorage,
@@ -61,10 +62,12 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         console.log(action.payload);
+        console.log(getIsAuthenticated);
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
         state.isAuthenticated = true;
+        state.userAuth = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;

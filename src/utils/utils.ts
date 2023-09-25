@@ -8,7 +8,7 @@ export const setLocalStorage = (name: string, value: any) => {
   localStorage.setItem(name, value);
 };
 export const getLocalStorage = (name: string) => localStorage.getItem(name);
-export const removeLocalStorage = (key: string) => localStorage.removeItem(key);
+export const removeLocalStorage = (key: any) => localStorage.removeItem(key);
 
 export const setUserAuth = (userAuth: UserAuth) => setLocalStorage(StorageKeys.USER_AUTH, JSON.stringify(userAuth));
 export const getUserAuth = () => {
@@ -20,6 +20,16 @@ export const getUserAuth = () => {
   return userRaw;
 };
 export const removeUserAuth = () => removeLocalStorage(StorageKeys.USER_AUTH);
+
+export const setAuthenticated = () => setLocalStorage(StorageKeys.AUTHENTICATE, true);
+export const getAuthenticated = () => {
+  const isAuthenticated = getLocalStorage(StorageKeys.AUTHENTICATE);
+  if (isAuthenticated === null || isAuthenticated === undefined) {
+    return false;
+  }
+  return Boolean(isAuthenticated);
+};
+export const removeAuthenticated = () => removeLocalStorage(StorageKeys.AUTHENTICATE);
 
 export const setEmailVerify = (email: string) => setLocalStorage(StorageKeys.EMAIL_VERIFY, email);
 export const getEmailVerify = () => {

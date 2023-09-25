@@ -1,30 +1,27 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Button, Container, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+//
 import { Helmet } from 'components';
 import { useLocales } from 'hooks';
-
-// ----------------------------------------------------------------------
-
-const StyledContent = styled('div')(({ theme }) => ({
-  maxWidth: 480,
-  margin: 'auto',
-  minHeight: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  padding: theme.spacing(12, 0),
-}));
+import { logout } from 'redux/auth/authSlice';
+import { useAppDispatch } from 'redux/configStore';
+import { StyledContent } from './styles';
 
 // ----------------------------------------------------------------------
 
 function Page403() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate } = useLocales();
+
+  const handleLogout = () => {
+    dispatch(logout(navigate));
+  };
 
   return (
     <>
-      <Helmet title="404 Page Not Found" />
+      <Helmet title="403 Page No Permission" />
 
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
@@ -40,7 +37,7 @@ function Page403() {
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 
-          <Button to="/" size="large" color="inherit" variant="contained" component={RouterLink}>
+          <Button size="large" color="inherit" variant="contained" onClick={handleLogout}>
             {translate('button.goHome')}
           </Button>
         </StyledContent>

@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 // @mui
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { Box, Button, Card, Link as MuiLink, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, LinearProgress, Link as MuiLink, Stack, Typography } from '@mui/material';
 //
 import { EmailForm } from '@types';
 import { Helmet, InputField, Logo } from 'components';
 import { forgotPassword, setEmail } from 'redux/auth/authSlice';
-import { useAppDispatch } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { StyledContent, StyledRoot } from './styles';
 import { useLocales } from 'hooks';
@@ -18,6 +18,8 @@ function ForgotPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
+
+  const { isLoading } = useAppSelector((state) => state.auth);
 
   const forgotPasswordForm = useForm<EmailForm>({
     defaultValues: {},
@@ -47,6 +49,12 @@ function ForgotPasswordPage() {
     <>
       <Helmet title="Forgot password" />
 
+      {isLoading && (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>
+      )}
+
       <StyledRoot>
         <Logo
           sx={{
@@ -74,7 +82,13 @@ function ForgotPasswordPage() {
                   <InputField fullWidth size="large" name="email" label={translate('form.email')} />
 
                   <Stack width="100%" px={3}>
-                    <Button fullWidth variant="contained" type="submit" onClick={handleSubmit(handleForgotPassword)}>
+                    <Button
+                      fullWidth
+                      type="submit"
+                      variant="contained"
+                      disabled={isLoading}
+                      onClick={handleSubmit(handleForgotPassword)}
+                    >
                       {translate('button.sendEmail')}
                     </Button>
                   </Stack>

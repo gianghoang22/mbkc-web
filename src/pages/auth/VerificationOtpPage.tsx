@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 // @mui
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { Box, Button, Card, Link as MuiLink, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, LinearProgress, Link as MuiLink, Stack, Typography } from '@mui/material';
 //
 import { VerificationForm } from '@types';
 import { Helmet, InputField, Logo } from 'components';
@@ -19,7 +19,7 @@ function VerificationOtpPage() {
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
 
-  const { email } = useAppSelector((state) => state.auth);
+  const { isLoading, email } = useAppSelector((state) => state.auth);
 
   const verificationForm = useForm<VerificationForm>({
     defaultValues: {
@@ -32,9 +32,11 @@ function VerificationOtpPage() {
           .required(translate('validation.required', { name: 'Email' }))
           .email(translate('validation.emailFormat')),
         otpCode: yup
-          .number()
+          .string()
           .required(translate('validation.required', { name: translate('form.otpCode') }))
-          .min(6, translate('validation.otpAlLeast')),
+          .min(6, translate('validation.otpAlLeast'))
+          .max(6, translate('validation.otpMax'))
+          .matches(/^[0-9]+$/, translate('validation.otpMatches')),
       })
     ),
   });
@@ -46,6 +48,7 @@ function VerificationOtpPage() {
       data: { ...values },
       navigate,
     };
+    console.log(params);
     dispatch(verifyOtp(params));
   };
 
@@ -60,6 +63,12 @@ function VerificationOtpPage() {
   return (
     <>
       <Helmet title="Verification OTP" />
+
+      {isLoading && (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>
+      )}
 
       <StyledRoot>
         <Logo
@@ -83,13 +92,25 @@ function VerificationOtpPage() {
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={2}>
-                  <InputField fullWidth size="large" name="email" label={translate('form.email')} />
-                  <InputField fullWidth size="large" type="number" name="otpCode" label={translate('form.otpCode')} />
+                  <InputField
+                    fullWidth
+                    size="large"
+                    name="email"
+                    disabled={email ? true : false}
+                    label={translate('form.email')}
+                  />
+                  <InputField fullWidth size="large" name="otpCode" label={translate('form.otpCode')} />
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={4} px={3}>
                   <Stack alignItems="center" width="100%" gap={1.5}>
-                    <Button fullWidth variant="contained" type="submit" onClick={handleSubmit(handleVerify)}>
+                    <Button
+                      fullWidth
+                      type="submit"
+                      variant="contained"
+                      disabled={isLoading}
+                      onClick={handleSubmit(handleVerify)}
+                    >
                       {translate('button.verify')}
                     </Button>
 

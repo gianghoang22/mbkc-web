@@ -15,7 +15,7 @@ import { LoginForm as LoginFormType } from '@types';
 import { InputField } from 'components';
 import { useLocales } from 'hooks';
 import { login } from 'redux/auth/authSlice';
-import { useAppDispatch } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { hashPasswordMD5 } from 'utils';
 
@@ -23,6 +23,8 @@ function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
+
+  const { isLoading } = useAppSelector((state) => state.auth);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -87,7 +89,7 @@ function LoginForm() {
           size="large"
           type="submit"
           variant="contained"
-          // loading={isLoading}
+          disabled={isLoading}
           onClick={handleSubmit(handleLogin)}
         >
           {translate('button.login')}
