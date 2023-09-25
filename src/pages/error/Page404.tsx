@@ -1,37 +1,15 @@
-import { useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Button, Container, Typography } from '@mui/material';
 //
-import { Role } from 'common/enum';
 import { Helmet } from 'components';
-import { useLocales } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
-import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { useLocales, useNavigate } from 'hooks';
 import { StyledContent } from './styles';
 
 // ----------------------------------------------------------------------
 
 function Page404() {
-  const navigate = useNavigate();
   const { translate } = useLocales();
-
-  const { userAuth, isAuthenticated } = useAppSelector((state) => state.auth);
-
-  const handleNavigate = () => {
-    if (isAuthenticated) {
-      if (userAuth?.roleName === Role.MBKC_ADMIN) {
-        navigate(PATH_ADMIN_APP.root);
-      } else if (userAuth?.roleName === Role.BRAND_MANAGER) {
-        navigate(PATH_BRAND_APP.root);
-      } else if (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) {
-        navigate(PATH_KITCHEN_CENTER_APP.root);
-      } else if (userAuth?.roleName === Role.CASHIER) {
-        navigate(PATH_CASHIER_APP.root);
-      } else {
-        navigate(PATH_AUTH.login);
-      }
-    }
-  };
+  const { handleNavigateDashboard } = useNavigate();
 
   return (
     <>
@@ -51,7 +29,7 @@ function Page404() {
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 
-          <Button size="large" color="inherit" variant="contained" onClick={handleNavigate}>
+          <Button size="large" color="inherit" variant="contained" onClick={handleNavigateDashboard}>
             {translate('button.goHome')}
           </Button>
         </StyledContent>

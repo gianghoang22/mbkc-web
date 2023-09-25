@@ -1,12 +1,30 @@
 {
+  "role": {
+    "mbkcAdmin": "MBKC Admin",
+    "brandManager": "Brand Manager",
+    "kitchenCenterManager": "Kitchen Center Manager",
+    "cashier": "Cashier"
+  },
   "header": {
-    "brand manager": "Brand Manager"
+    "account": "Account",
+    "profile": "My profile",
+    "logout": "Logout"
   },
   "sidebar": {
-    "overview": "Overview",
-    "manage": "Manage",
-    "dashboard": "Dashboard",
-    "kitchen staff": "Kitchen Staff"
+    "overview": "overview",
+    "manage": "manage",
+    "dashboard": "dashboard",
+    "information": "information",
+    "kitchenCenter": "kitchen center",
+    "store": "store",
+    "brand": "brand",
+    "category": "category",
+    "extraCategory": "extra category",
+    "product": "product",
+    "cashier": "cashier",
+    "order": "order",
+    "wallet": "wallet",
+    "transaction": "transaction"
   },
   "button": {
     "login": "Login",

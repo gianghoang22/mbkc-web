@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 // @mui icon
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -7,25 +6,27 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar, Button, Divider, MenuItem, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 //
+import { Role } from 'common/enum';
 import { MenuPopover } from 'components';
-import { useLocales, usePopover } from 'hooks';
+import { useLocales, useNavigate, usePopover } from 'hooks';
 import account from 'mock/account';
 import { logout } from 'redux/auth/authSlice';
-import { useAppDispatch } from 'redux/configStore';
-
-const MENU_OPTIONS = [
-  {
-    label: 'My Profile',
-    link: '/dashboard/profile',
-    icon: <AccountCircleIcon sx={{ mr: 1 }} />,
-  },
-];
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 
 function AccountPopover() {
-  const navigate = useNavigate();
+  const { navigate, handleNavigateProfile } = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+
+  const { userAuth } = useAppSelector((state) => state.auth);
+
+  const MENU_OPTIONS = [
+    {
+      label: translate('header.account'),
+      icon: <AccountCircleIcon sx={{ mr: 1 }} />,
+    },
+  ];
 
   const handleLogout = () => {
     dispatch(logout(navigate));
@@ -58,7 +59,15 @@ function AccountPopover() {
         <Avatar src={account.photoURL} alt="PhuSon" />
         <Stack alignItems="start" sx={{ ml: 1, my: 0.5 }}>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {translate('header.brand manager')}
+            {userAuth?.roleName === Role.MBKC_ADMIN
+              ? translate('role.mbkcAdmin')
+              : userAuth?.roleName === Role.BRAND_MANAGER
+              ? translate('role.brandManager')
+              : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+              ? translate('role.kitchenCenterManager')
+              : userAuth?.roleName === Role.CASHIER
+              ? translate('role.cashier')
+              : translate('header.account')}
           </Typography>
           <Typography variant="subtitle1" noWrap>
             Tran Phu Son
@@ -73,7 +82,7 @@ function AccountPopover() {
               key={option.label}
               onClick={() => {
                 handleCloseMenu();
-                navigate(option.link);
+                handleNavigateProfile();
               }}
             >
               {option.icon}
@@ -86,7 +95,7 @@ function AccountPopover() {
 
         <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           <LogoutIcon sx={{ mr: 1 }} />
-          Logout
+          {translate('header.logout')}
         </MenuItem>
       </MenuPopover>
     </>

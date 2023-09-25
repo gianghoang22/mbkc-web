@@ -138,8 +138,17 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
 
       <Stack alignItems="center" spacing={3} sx={{ p: 2.5 }}>
         <Box width={180} component="img" src="/assets/illustrations/illustration_store.svg" />
-
-        <Button variant="contained">Brand management</Button>
+        <Box width="100%" px={3.4}>
+          <Button fullWidth variant="contained">
+            {userAuth?.roleName === Role.BRAND_MANAGER
+              ? 'BRAND'
+              : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+              ? 'KITCHEN CENTER'
+              : userAuth?.roleName === Role.CASHIER
+              ? 'CASHIER'
+              : 'MBKC'}
+          </Button>
+        </Box>
       </Stack>
     </Stack>
   );

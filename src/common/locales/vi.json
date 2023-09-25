@@ -1,12 +1,30 @@
 {
+  "role": {
+    "mbkcAdmin": "Quản trị MBKC",
+    "brandManager": "Quản lý thương hiệu",
+    "kitchenCenterManager": "Quản lý bếp trung tâm",
+    "cashier": "Nhân viên thu ngân"
+  },
   "header": {
-    "brand manager": "Quản lý thương hiệu"
+    "account": "Tài khoản",
+    "profile": "Thông tin",
+    "logout": "Đăng xuất"
   },
   "sidebar": {
-    "overview": "Tổng quan",
-    "manage": "Quản lý",
+    "overview": "tổng quan",
+    "manage": "quản lý",
     "dashboard": "Bảng điều khiển",
-    "kitchen staff": "Nhân viên bếp"
+    "information": "Thông tin",
+    "kitchenCenter": "Bếp trung tâm",
+    "store": "cửa hàng",
+    "brand": "thương hiệu",
+    "category": "danh mục thường",
+    "extraCategory": "danh mục extra",
+    "product": "sản phẩm",
+    "cashier": "nhân viên thu ngân",
+    "order": "đơn hàng",
+    "wallet": "ví",
+    "transaction": "giao dịch"
   },
   "button": {
     "login": "Đăng nhập",
