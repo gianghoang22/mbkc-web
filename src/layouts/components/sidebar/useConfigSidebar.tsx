@@ -155,7 +155,7 @@ function useConfigSidebar() {
         },
         {
           title: translate('sidebar.store'),
-          path: PATH_ADMIN_APP.brandStore.list,
+          path: PATH_ADMIN_APP.store.list,
           icon: <StoreIcon fontSize="medium" />,
         },
       ],

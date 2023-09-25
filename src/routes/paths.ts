@@ -120,11 +120,11 @@ export const PATH_ADMIN_APP = {
     editById: path(ROOTS_ADMIN_DASHBOARD, '/partner/update/:id'),
     newPartner: path(ROOTS_ADMIN_DASHBOARD, '/partner/create-new'),
   },
-  brandStore: {
-    root: path(ROOTS_ADMIN_DASHBOARD, '/brand-store'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/brand-store/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/brand-store/detail/:id'),
-    editById: path(ROOTS_ADMIN_DASHBOARD, '/brand-store/update/:id'),
-    newBrandStore: path(ROOTS_ADMIN_DASHBOARD, '/brand-store/create-new'),
+  store: {
+    root: path(ROOTS_ADMIN_DASHBOARD, '/store'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/store/list'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/store/detail/:id'),
+    editById: path(ROOTS_ADMIN_DASHBOARD, '/store/update/:id'),
+    newStore: path(ROOTS_ADMIN_DASHBOARD, '/store/create-new'),
   },
 };

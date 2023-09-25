@@ -49,8 +49,12 @@ function ListStorePage() {
     setOrderBy(property);
   };
 
-  const handleNavigateDetail = (store: Store, accountId: number) => {
-    navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
+  const handleNavigateDetail = (store: Store, storeId: number) => {
+    navigate(
+      userAuth?.roleName === Role.BRAND_MANAGER
+        ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
+        : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
+    );
     dispatch(getStoreDetail(store));
   };
 
@@ -88,7 +92,7 @@ function ListStorePage() {
           <Button
             variant="contained"
             onClick={() => {
-              navigate(PATH_ADMIN_APP.brandStore.newBrandStore);
+              navigate(PATH_ADMIN_APP.store.newStore);
               dispatch(setAddStore());
             }}
             startIcon={<AddRoundedIcon />}
