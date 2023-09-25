@@ -25,12 +25,12 @@ function useConfigSidebar() {
       missions: translate('sidebar.overview'),
       listNav: [
         {
-          title: 'dashboard',
+          title: translate('sidebar.dashboard'),
           path: PATH_BRAND_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
         {
-          title: 'information',
+          title: translate('sidebar.information'),
           path: PATH_BRAND_APP.information,
           icon: <ContactsIcon fontSize="medium" />,
         },
@@ -40,22 +40,22 @@ function useConfigSidebar() {
       missions: translate('sidebar.manage'),
       listNav: [
         {
-          title: 'store',
+          title: translate('sidebar.store'),
           path: PATH_BRAND_APP.store.list,
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },
         {
-          title: 'category',
+          title: translate('sidebar.category'),
           path: PATH_BRAND_APP.category.list,
           icon: <SummarizeIcon fontSize="medium" />,
         },
         {
-          title: 'extra category',
+          title: translate('sidebar.extraCategory'),
           path: PATH_BRAND_APP.category.extraList,
           icon: <LanOutlinedIcon fontSize="medium" />,
         },
         {
-          title: 'product',
+          title: translate('sidebar.product'),
           path: PATH_BRAND_APP.product.list,
           icon: <DinnerDiningIcon fontSize="medium" />,
         },
@@ -68,7 +68,7 @@ function useConfigSidebar() {
       missions: translate('sidebar.overview'),
       listNav: [
         {
-          title: 'dashboard',
+          title: translate('sidebar.dashboard'),
           path: PATH_KITCHEN_CENTER_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
@@ -78,22 +78,22 @@ function useConfigSidebar() {
       missions: translate('sidebar.manage'),
       listNav: [
         {
-          title: 'store',
+          title: translate('sidebar.store'),
           path: PATH_KITCHEN_CENTER_APP.store.list,
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },
         {
-          title: 'cashier',
+          title: translate('sidebar.store'),
           path: PATH_KITCHEN_CENTER_APP.cashier.list,
           icon: <AssignmentIndIcon fontSize="medium" />,
         },
         {
-          title: 'order',
+          title: translate('sidebar.order'),
           path: PATH_KITCHEN_CENTER_APP.order.list,
           icon: <ListAltIcon fontSize="medium" />,
         },
         {
-          title: 'wallet',
+          title: translate('sidebar.wallet'),
           path: PATH_KITCHEN_CENTER_APP.wallet.root,
           icon: <WalletIcon fontSize="medium" />,
         },
@@ -106,22 +106,22 @@ function useConfigSidebar() {
       missions: translate('sidebar.overview'),
       listNav: [
         {
-          title: 'dashboard',
+          title: translate('sidebar.dashboard'),
           path: PATH_CASHIER_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
       ],
     },
     {
-      missions: 'manager',
+      missions: translate('sidebar.manage'),
       listNav: [
         {
-          title: 'order',
+          title: translate('sidebar.order'),
           path: PATH_CASHIER_APP.order.list,
           icon: <ListAltIcon fontSize="medium" />,
         },
         {
-          title: 'transaction',
+          title: translate('sidebar.transaction'),
           path: PATH_CASHIER_APP.transaction.list,
           icon: <PointOfSaleIcon fontSize="medium" />,
         },
@@ -134,7 +134,7 @@ function useConfigSidebar() {
       missions: translate('sidebar.overview'),
       listNav: [
         {
-          title: 'dashboard',
+          title: translate('sidebar.dashboard'),
           path: PATH_ADMIN_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
@@ -144,17 +144,17 @@ function useConfigSidebar() {
       missions: translate('sidebar.manage'),
       listNav: [
         {
-          title: 'kitchen centers',
+          title: translate('sidebar.kitchenCenter'),
           path: PATH_ADMIN_APP.kitchenCenter.list,
           icon: <BusinessIcon fontSize="medium" />,
         },
         {
-          title: 'brand',
+          title: translate('sidebar.brand'),
           path: PATH_ADMIN_APP.brand.list,
           icon: <BrandingWatermarkOutlinedIcon fontSize="medium" />,
         },
         {
-          title: 'store',
+          title: translate('sidebar.store'),
           path: PATH_ADMIN_APP.brandStore.list,
           icon: <StoreIcon fontSize="medium" />,
         },

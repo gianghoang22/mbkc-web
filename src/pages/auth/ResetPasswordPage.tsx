@@ -5,38 +5,56 @@ import * as yup from 'yup';
 import { ref } from 'yup';
 // @mui
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { Box, Button, Card, Link as MuiLink, Stack, Typography } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Box, Button, Card, IconButton, InputAdornment, Link as MuiLink, Stack, Typography } from '@mui/material';
 //
+import { LinearProgress } from '@mui/material';
 import { ResetForm } from '@types';
 import { Helmet, InputField, Logo } from 'components';
-import { useAppDispatch } from 'redux/configStore';
-import { PATH_AUTH } from 'routes/paths';
-import { StyledContent, StyledRoot } from './styles';
+import { useLocales } from 'hooks';
+import { useState } from 'react';
 import { resetPassword } from 'redux/auth/authSlice';
-
-const schema = yup.object({
-  email: yup.string().required('Please enter Email').email('Email format is not correct'),
-  newPassword: yup.string().required('Please enter new password'),
-  confirmPassword: yup
-    .string()
-    .required('Please enter confirm password')
-    .oneOf([ref('newPassword')], 'Passwords does not match'),
-});
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { PATH_AUTH } from 'routes/paths';
+import { hashPasswordMD5 } from 'utils';
+import { StyledContent, StyledRoot } from './styles';
 
 function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
+
+  const { isLoading, email } = useAppSelector((state) => state.auth);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   const resetPasswordForm = useForm<ResetForm>({
-    defaultValues: {},
-    resolver: yupResolver(schema),
+    defaultValues: {
+      email: email ? email : '',
+    },
+    resolver: yupResolver(
+      yup.object({
+        email: yup
+          .string()
+          .required(translate('validation.required', { name: 'Email' }))
+          .email(translate('validation.emailFormat')),
+        newPassword: yup.string().required(translate('validation.required', { name: translate('form.newPassword') })),
+        confirmPassword: yup
+          .string()
+          .required(translate('validation.required', { name: translate('form.confirmPassword') }))
+          .oneOf([ref('newPassword')], translate('validation.matchPassword')),
+      })
+    ),
   });
 
   const { handleSubmit } = resetPasswordForm;
 
   const handleResetPassword = (values: ResetForm) => {
+    const hashPassword = hashPasswordMD5(values.newPassword);
     const params = {
-      data: { email: values.email, newPassword: values.newPassword },
+      data: { email: values.email, newPassword: hashPassword },
       navigate,
     };
     console.log(params);
@@ -46,6 +64,12 @@ function ResetPasswordPage() {
   return (
     <>
       <Helmet title="Reset Password" />
+
+      {isLoading && (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>
+      )}
 
       <StyledRoot>
         <Logo
@@ -57,33 +81,69 @@ function ResetPasswordPage() {
         />
 
         <StyledContent>
-          <Card sx={{ p: 3.5, width: 500 }}>
+          <Card sx={{ p: 3.5, width: 520 }}>
             <FormProvider {...resetPasswordForm}>
               <Stack direction="column" alignItems="center" justifyContent="center" gap={5}>
                 <Stack direction="column" alignItems="center" textAlign="center" gap={1} px={5}>
                   <Box px={14}>
                     <img src="/assets/illustrations/illustration_otp.svg" alt="email" />
                   </Box>
-                  <Typography variant="h3">Update password</Typography>
-                  <Typography variant="body2">Enter your new password to reset.</Typography>
+                  <Typography variant="h3">{translate('auth.resetPassword.title')}</Typography>
+                  <Typography variant="body2">{translate('auth.resetPassword.content')}</Typography>
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={2}>
-                  <InputField fullWidth size="large" name="email" label="Email" />
-                  <InputField fullWidth size="large" name="newPassword" label="New password" />
-                  <InputField fullWidth size="large" name="confirmPassword" label="Confirm password" />
+                  <InputField fullWidth size="large" name="email" label="Email" disabled={email ? true : false} />
+                  <InputField
+                    fullWidth
+                    size="large"
+                    name="newPassword"
+                    label="New password"
+                    type={showPassword ? 'text' : 'password'}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                            {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <InputField
+                    fullWidth
+                    size="large"
+                    name="confirmPassword"
+                    label="Confirm password"
+                    type={showPassword ? 'text' : 'password'}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} edge="end">
+                            {showPasswordConfirm ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={4} px={3}>
-                  <Button fullWidth variant="contained" type="submit" onClick={handleSubmit(handleResetPassword)}>
-                    Update password
+                  <Button
+                    fullWidth
+                    type="submit"
+                    variant="contained"
+                    disabled={isLoading}
+                    onClick={handleSubmit(handleResetPassword)}
+                  >
+                    {translate('button.updatePassword')}
                   </Button>
 
                   <Box onClick={() => navigate(PATH_AUTH.login)} sx={{ cursor: 'pointer' }}>
                     <Stack direction="row" alignItems="center">
                       <KeyboardArrowLeftIcon fontSize="small" />
                       <MuiLink variant="subtitle2" underline="hover">
-                        Return to login
+                        {translate('auth.backLogin')}
                       </MuiLink>
                     </Stack>
                   </Box>

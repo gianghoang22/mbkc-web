@@ -11,7 +11,14 @@ import KitchenCenterRouter from './kitchenCenterRouter';
 import { Role } from 'common/enum';
 import { useAppSelector } from 'redux/configStore';
 import { adminRoutes, brandRoutes, cashierRoutes, errorRoutes, kitchenCenterRoutes, publicRoutes } from './config';
-import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from './paths';
+import {
+  PATH_ADMIN_APP,
+  PATH_AUTH,
+  PATH_BRAND_APP,
+  PATH_CASHIER_APP,
+  PATH_ERROR,
+  PATH_KITCHEN_CENTER_APP,
+} from './paths';
 
 function AppRouter() {
   const { userAuth } = useAppSelector((state) => state.auth);
@@ -35,13 +42,13 @@ function AppRouter() {
         ) : (
           <></>
         )}
-        <Route path="*" element={<Navigate to="/404" />} />
+        <Route path="*" element={<Navigate to={PATH_ERROR.notFound} />} />
         {errorRoutes.map((route) => (
           <Route key={route.path} path={route.path} element={route.component} />
         ))}
       </Route>
 
-      <Route path="*" element={<Navigate to="/404" replace />} />
+      <Route path="*" element={<Navigate to={PATH_ERROR.notFound} replace />} />
 
       {/* brand routes */}
       <Route element={<BrandRouter />}>

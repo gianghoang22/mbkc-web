@@ -1,16 +1,36 @@
 {
+  "role": {
+    "mbkcAdmin": "Quản trị MBKC",
+    "brandManager": "Quản lý thương hiệu",
+    "kitchenCenterManager": "Quản lý bếp trung tâm",
+    "cashier": "Nhân viên thu ngân"
+  },
   "header": {
-    "brand manager": "Quản lý thương hiệu"
+    "account": "Tài khoản",
+    "profile": "Thông tin",
+    "logout": "Đăng xuất"
   },
   "sidebar": {
-    "overview": "Tổng quan",
-    "manage": "Quản lý",
+    "overview": "tổng quan",
+    "manage": "quản lý",
     "dashboard": "Bảng điều khiển",
-    "kitchen staff": "Nhân viên bếp"
+    "information": "Thông tin",
+    "kitchenCenter": "Bếp trung tâm",
+    "store": "cửa hàng",
+    "brand": "thương hiệu",
+    "category": "danh mục thường",
+    "extraCategory": "danh mục extra",
+    "product": "sản phẩm",
+    "cashier": "nhân viên thu ngân",
+    "order": "đơn hàng",
+    "wallet": "ví",
+    "transaction": "giao dịch"
   },
-  "common": {
-    "required": "Vui lòng nhập {{name}}",
-    "navigation": "Điều hướng",
+  "button": {
+    "login": "Đăng nhập",
+    "sendEmail": "Gửi email",
+    "verify": "Xác minh",
+    "updatePassword": "Cập nhật mật khẩu",
     "addMore": "Thêm",
     "create": "Tạo",
     "update": "Cập nhật",
@@ -18,18 +38,46 @@
     "save": "Lưu",
     "cancel": "Hủy",
     "all": "Tất cả",
+    "goHome": "Về trang chủ"
+  },
+  "common": {
+    "welcome": "Xin chào, Chào mừng trở lại",
+    "navigation": "Điều hướng",
     "available": "Hoạt động",
     "notAvailable": "Không Hoạt động",
     "choosedItem": "Đã chọn",
     "confirm": "Xác nhận",
     "confirmDeleteTitle": "Xác nhận xóa",
     "deleteSuccess": "Xóa thành công",
-    "atLeast": "Ít nhất {{number}} giá trị",
     "status": "Trạng thái",
     "filter": "Bộ lọc",
     "clearFilter": "Xóa bộ lọc",
     "fromTime": "Từ",
-    "toTime": "Đến",
+    "toTime": "Đến"
+  },
+  "form": {
+    "email": "Email",
+    "password": "Mật khẩu",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "otpCode": "Mã OTP"
+  },
+  "validation": {
+    "required": "Vui lòng nhập {{name}}",
+    "emailFormat": "Định dạng email không đúng",
+    "otpAlLeast": "Mã OTP bắt buộc phải có 6 chữ số",
+    "otpMax": "Mã OTP không được vượt quá 6 chữ số",
+    "otpMatches": "OTP chỉ bao gồm chứa số",
+    "matchPassword": "Xác nhận mật khẩu không khớp với mật khẩu mới",
+    "atLeast": "Ít nhất {{number}} giá trị"
+  },
+  "error": {
+    "serverTitle": "500 Lỗi Máy Chủ Nội Bộ",
+    "serverContent": "Đã xảy ra lỗi, xin thử lại sau.",
+    "permissionTitle": "Không có sự cho phép",
+    "permissionContent": "Trang bạn đang cố truy cập có quyền truy cập bị hạn chế. Vui lòng tham khảo quản trị viên hệ thống của bạn.",
+    "notFoundTitle": "Xin lỗi, không tìm thấy trang!",
+    "notFoundContent": "Xin lỗi, chúng tôi không thể tìm thấy trang bạn đang tìm kiếm. Có lẽ bạn đã gõ nhầm URL? Hãy chắc chắn để kiểm tra chính tả.",
     "201": "Tạo thành công",
     "200": "Thành công",
     "400": "Lỗi",

@@ -22,8 +22,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: langStorage || 'en',
-    fallbackLng: 'en',
+    lng: langStorage || 'vi',
+    fallbackLng: 'vi',
     debug: false,
     ns: ['translations'],
     defaultNS,

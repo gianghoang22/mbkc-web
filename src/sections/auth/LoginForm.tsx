@@ -4,29 +4,25 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 // @mui
-import { LoadingButton } from '@mui/lab';
 import { Box, IconButton, InputAdornment, Link as MuiLink, Stack } from '@mui/material';
 
 // @mui icon
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 //
+import { Button } from '@mui/material';
 import { LoginForm as LoginFormType } from '@types';
 import { InputField } from 'components';
+import { useLocales } from 'hooks';
 import { login } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { hashPasswordMD5 } from 'utils';
-import { Button } from '@mui/material';
-
-const schema = yup.object({
-  email: yup.string().required('Please enter Email').email('Email format is not correct'),
-  password: yup.string().required('Please enter Password'),
-});
 
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
 
   const { isLoading } = useAppSelector((state) => state.auth);
 
@@ -34,7 +30,15 @@ function LoginForm() {
 
   const loginForm = useForm<LoginFormType>({
     defaultValues: {},
-    resolver: yupResolver(schema),
+    resolver: yupResolver(
+      yup.object({
+        email: yup
+          .string()
+          .required(translate('validation.required', { name: 'Email' }))
+          .email(translate('validation.emailFormat')),
+        password: yup.string().required(translate('validation.required', { name: translate('form.password') })),
+      })
+    ),
   });
 
   const { handleSubmit } = loginForm;
@@ -52,13 +56,13 @@ function LoginForm() {
     <>
       <FormProvider {...loginForm}>
         <Stack spacing={3}>
-          <InputField fullWidth size="large" name="email" label="Email" />
+          <InputField fullWidth size="large" name="email" label={translate('form.email')} />
 
           <InputField
             fullWidth
             size="large"
             name="password"
-            label="Password"
+            label={translate('form.password')}
             type={showPassword ? 'text' : 'password'}
             InputProps={{
               endAdornment: (
@@ -75,7 +79,7 @@ function LoginForm() {
         <Stack direction="row" alignItems="center" justifyContent="end" sx={{ mt: 2, mb: 7 }}>
           <Box onClick={() => navigate(PATH_AUTH.forgotPassword)} sx={{ cursor: 'pointer' }}>
             <MuiLink variant="subtitle2" underline="hover">
-              Forgot password?
+              {translate('auth.login.forgot')}
             </MuiLink>
           </Box>
         </Stack>
@@ -85,10 +89,10 @@ function LoginForm() {
           size="large"
           type="submit"
           variant="contained"
-          // loading={isLoading}
+          disabled={isLoading}
           onClick={handleSubmit(handleLogin)}
         >
-          Login
+          {translate('button.login')}
         </Button>
       </FormProvider>
     </>

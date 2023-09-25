@@ -8,12 +8,18 @@ import {
   ListShipperPaymentPage,
   WalletPage,
 } from 'pages/kitchenCenter';
+import { ProfilePage } from 'pages/profile';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 export const kitchenCenterRoutes: Route[] = [
   {
     path: PATH_KITCHEN_CENTER_APP.root,
     component: <KitchenCenterDashboard />,
+    index: true,
+  },
+  {
+    path: PATH_KITCHEN_CENTER_APP.profile,
+    component: <ProfilePage />,
     index: true,
   },
   {

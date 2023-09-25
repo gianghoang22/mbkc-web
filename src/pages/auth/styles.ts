@@ -11,7 +11,7 @@ export const StyledRootLogin = styled('div')(({ theme }) => ({
 export const StyledSection = styled('div')(({ theme }: { theme: any }) => ({
   width: '100%',
   margin: 20,
-  maxWidth: 480,
+  maxWidth: 550,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
