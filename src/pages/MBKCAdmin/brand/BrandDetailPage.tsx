@@ -1,43 +1,35 @@
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
-import useResponsive from 'hooks/useResponsive';
 import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 //mui
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {
   Avatar,
+  Box,
+  Button,
   Card,
   Grid,
-  IconButton,
-  Stack,
-  Typography,
-  Button,
-  Dialog,
-  DialogTitle,
-  Box,
   Paper,
-  TableContainer,
+  Stack,
   Table,
   TableBody,
-  TableRow,
   TableCell,
+  TableContainer,
   TablePagination,
+  TableRow,
+  Typography,
 } from '@mui/material';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { MenuItem, Popover as MUIPopover } from '@mui/material';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
-import { useAppSelector } from 'redux/configStore';
+import { OrderSort, Store, StoreTable } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { useConfigHeadTable, useModal, usePopover } from 'hooks';
-import { DialogActions } from '@mui/material';
-import { setEditBrand } from 'redux/brand/brandSlice';
 import { useDispatch } from 'react-redux';
-import { StoreTableRow, StoreTableToolbar } from 'sections/store';
-import { OrderSort, Store, StoreTable } from '@types';
+import { setEditBrand } from 'redux/brand/brandSlice';
+import { useAppSelector } from 'redux/configStore';
 import { getStoreDetail } from 'redux/store/storeSlice';
+import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 
 function BrandDetailPage(props: any) {
@@ -160,7 +152,7 @@ function BrandDetailPage(props: any) {
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                     <CommonTableHead<StoreTable>
-                      justInfo
+                      hideBrand
                       headCells={storeHeadCells}
                       order={order}
                       orderBy={orderBy}
@@ -174,7 +166,7 @@ function BrandDetailPage(props: any) {
                             key={store.storeId}
                             index={index}
                             store={store}
-                            haveBrand={false}
+                            haveKitchenCenter
                             handleNavigateDetail={handleNavigateDetail}
                           />
                         );

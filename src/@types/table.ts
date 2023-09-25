@@ -34,27 +34,10 @@ export interface StoreTable {
   status: string;
 }
 
-export interface KitchenCenterHeadCell {
-  disablePadding: boolean;
-  id: keyof KitchenCentersTable;
-  label: string;
-  numeric: boolean;
-}
-
 export interface KitchenCentersTable {
   imageUrl: string;
   title: string;
   address: string;
-  status: string;
-}
-
-// Kitchen
-export interface KitchenTable {
-  kitchenId: number;
-  kitchenImgUrl: string;
-  kitchenName: string;
-  brandImgUrl: string;
-  brandName: string;
   status: string;
 }
 

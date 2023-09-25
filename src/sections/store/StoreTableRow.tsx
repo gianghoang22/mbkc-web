@@ -1,6 +1,6 @@
 import { sentenceCase } from 'change-case';
 // @mui
-import { Avatar, FormControlLabel, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
@@ -23,7 +23,7 @@ function StoreTableRow({
   store,
   justInfo = false,
   handleNavigateDetail,
-  haveKitchenCenter = true,
+  haveKitchenCenter = false,
   haveBrand = false,
 }: StoreTableRowProps) {
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
@@ -36,7 +36,13 @@ function StoreTableRow({
         <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+        <TableCell
+          component="th"
+          scope="row"
+          padding="none"
+          sx={{ width: 80 }}
+          onClick={() => handleNavigateDetail(store, store.storeId)}
+        >
           <Avatar alt={store.name} src={store.logoUrl} />
         </TableCell>
         <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>

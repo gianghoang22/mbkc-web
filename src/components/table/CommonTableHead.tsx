@@ -8,6 +8,8 @@ interface CommonTableHeadProps<T> {
   rowCount?: number;
   checkbox?: boolean;
   justInfo?: boolean;
+  hideKitchenCenter?: boolean;
+  hideBrand?: boolean;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
   onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: OrderSort;
@@ -21,12 +23,24 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     rowCount = 0,
     checkbox = false,
     justInfo = false,
+    hideKitchenCenter = false,
+    hideBrand = false,
     onSelectAllClick,
     headCells,
     order,
     orderBy,
     onRequestSort,
   } = props;
+
+  const filterHeadCells = hideKitchenCenter
+    ? headCells.filter((col) => col.id !== 'kitchenCenter')
+    : hideBrand
+    ? headCells.filter((col) => col.id !== 'brand')
+    : headCells;
+
+  console.log('showKitchenCenter', hideKitchenCenter);
+  console.log('showBrand', hideBrand);
+  console.log('filterHeadCells', filterHeadCells);
 
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
@@ -53,7 +67,7 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
           </TableCell>
         )}
 
-        {headCells.map((headCell) => (
+        {filterHeadCells.map((headCell) => (
           <TableCell
             key={headCell.id as string}
             align={headCell.numeric ? 'right' : 'left'}
