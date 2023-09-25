@@ -10,7 +10,7 @@ import {
   ListProductPage,
 } from 'pages/brand';
 import { ListStorePage, StoreDetailPage } from 'pages/common';
-import { ProfilePage } from 'pages/profile';
+import { InformationPage, ProfilePage } from 'pages/profile';
 import { PATH_BRAND_APP } from 'routes/paths';
 
 export const brandRoutes: Route[] = [
@@ -22,6 +22,11 @@ export const brandRoutes: Route[] = [
   {
     path: PATH_BRAND_APP.profile,
     component: <ProfilePage />,
+    index: true,
+  },
+  {
+    path: PATH_BRAND_APP.information,
+    component: <InformationPage />,
     index: true,
   },
   {

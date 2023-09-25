@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Typography, LinearProgress } from '@mui/material';
 // hooks
 import useResponsive from 'hooks/useResponsive';
 // // components
@@ -7,15 +7,24 @@ import { Helmet, Logo } from 'components';
 import { LoginForm } from 'sections/auth';
 //style
 import { StyledContent, StyledRootLogin, StyledSection } from './styles';
+import { useAppSelector } from 'redux/configStore';
 
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md', 'md');
 
+  const { isLoading } = useAppSelector((state) => state.auth);
+
   return (
     <>
       <Helmet title="Login" />
+
+      {isLoading && (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>
+      )}
 
       <StyledRootLogin>
         <Logo

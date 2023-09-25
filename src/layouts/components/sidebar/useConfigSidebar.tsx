@@ -11,7 +11,7 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
 import StoreIcon from '@mui/icons-material/Store';
-
+import ContactsIcon from '@mui/icons-material/Contacts';
 //
 import { NavSection } from '@types';
 import useLocales from 'hooks/useLocales';
@@ -28,6 +28,11 @@ function useConfigSidebar() {
           title: 'dashboard',
           path: PATH_BRAND_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
+        },
+        {
+          title: 'information',
+          path: PATH_BRAND_APP.information,
+          icon: <ContactsIcon fontSize="medium" />,
         },
       ],
     },
@@ -73,7 +78,7 @@ function useConfigSidebar() {
       missions: translate('sidebar.manage'),
       listNav: [
         {
-          title: 'kitchen',
+          title: 'store',
           path: PATH_KITCHEN_CENTER_APP.store.list,
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },

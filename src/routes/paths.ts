@@ -23,6 +23,7 @@ export const PATH_AUTH = {
 export const PATH_BRAND_APP = {
   root: path(ROOTS_BRAND_DASHBOARD, '/dashboard'),
   profile: path(ROOTS_BRAND_DASHBOARD, '/profile'),
+  information: path(ROOTS_BRAND_DASHBOARD, '/information'),
   store: {
     root: path(ROOTS_BRAND_DASHBOARD, '/store'),
     list: path(ROOTS_BRAND_DASHBOARD, '/store/list'),
@@ -48,6 +49,8 @@ export const PATH_BRAND_APP = {
 
 export const PATH_KITCHEN_CENTER_APP = {
   root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/dashboard'),
+  profile: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/profile'),
+  information: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/information'),
   store: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store'),
     list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store/list'),
@@ -81,6 +84,7 @@ export const PATH_KITCHEN_CENTER_APP = {
 export const PATH_CASHIER_APP = {
   root: path(ROOTS_CASHIER_DASHBOARD, '/dashboard'),
   profile: path(ROOTS_CASHIER_DASHBOARD, '/profile'),
+  information: path(ROOTS_CASHIER_DASHBOARD, '/information'),
   order: {
     root: path(ROOTS_CASHIER_DASHBOARD, '/order'),
     list: path(ROOTS_CASHIER_DASHBOARD, '/order/list'),
@@ -94,6 +98,8 @@ export const PATH_CASHIER_APP = {
 
 export const PATH_ADMIN_APP = {
   root: path(ROOTS_ADMIN_DASHBOARD, '/dashboard'),
+  profile: path(ROOTS_ADMIN_DASHBOARD, '/profile'),
+  information: path(ROOTS_ADMIN_DASHBOARD, '/information'),
   kitchenCenter: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center'),
     list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/list'),

@@ -3,9 +3,12 @@ import { useLocation } from 'react-router-dom';
 // @mui
 import { Box, Button, Drawer, Stack, Typography } from '@mui/material';
 // hooks
-import useResponsive from 'hooks/useResponsive';
+import { useResponsive } from 'hooks';
 // components
 import { Logo, NavSection } from 'components';
+//
+import { Role } from 'common/enum';
+import { useAppSelector } from 'redux/configStore';
 import { useConfigSidebar } from './useConfigSidebar';
 
 // ----------------------------------------------------------------------
@@ -19,7 +22,9 @@ interface SidebarProps {
 
 function Sidebar({ openNav, onCloseNav }: SidebarProps) {
   const { pathname } = useLocation();
-  const { navBrand, navAdmin } = useConfigSidebar();
+  const { navAdmin, navBrand, navKitchenCenter, navCashier } = useConfigSidebar();
+
+  const { userAuth } = useAppSelector((state) => state.auth);
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -49,24 +54,86 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
           <Logo />
         </Box>
 
-        <Box width="100%">
-          {navAdmin.map((navItem, index) => (
-            <Box key={index} mb={1}>
-              <Typography
-                sx={{
-                  ml: 1,
-                  fontSize: '12px',
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                  color: (theme) => theme.palette.grey[600],
-                }}
-              >
-                {navItem.missions}
-              </Typography>
-              <NavSection data={navItem.listNav} />
-            </Box>
-          ))}
-        </Box>
+        {userAuth.roleName === Role.MBKC_ADMIN && (
+          <Box width="100%">
+            {navAdmin.map((navItem, index) => (
+              <Box key={index} mb={1}>
+                <Typography
+                  sx={{
+                    ml: 1,
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    color: (theme) => theme.palette.grey[600],
+                  }}
+                >
+                  {navItem.missions}
+                </Typography>
+                <NavSection data={navItem.listNav} />
+              </Box>
+            ))}
+          </Box>
+        )}
+        {userAuth.roleName === Role.BRAND_MANAGER && (
+          <Box width="100%">
+            {navBrand.map((navItem, index) => (
+              <Box key={index} mb={1}>
+                <Typography
+                  sx={{
+                    ml: 1,
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    color: (theme) => theme.palette.grey[600],
+                  }}
+                >
+                  {navItem.missions}
+                </Typography>
+                <NavSection data={navItem.listNav} />
+              </Box>
+            ))}
+          </Box>
+        )}
+        {userAuth.roleName === Role.KITCHEN_CENTER_MANAGER && (
+          <Box width="100%">
+            {navKitchenCenter.map((navItem, index) => (
+              <Box key={index} mb={1}>
+                <Typography
+                  sx={{
+                    ml: 1,
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    color: (theme) => theme.palette.grey[600],
+                  }}
+                >
+                  {navItem.missions}
+                </Typography>
+                <NavSection data={navItem.listNav} />
+              </Box>
+            ))}
+          </Box>
+        )}
+        {userAuth.roleName === Role.CASHIER && (
+          <Box width="100%">
+            {navCashier.map((navItem, index) => (
+              <Box key={index} mb={1}>
+                <Typography
+                  sx={{
+                    ml: 1,
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    color: (theme) => theme.palette.grey[600],
+                  }}
+                >
+                  {navItem.missions}
+                </Typography>
+                <NavSection data={navItem.listNav} />
+              </Box>
+            ))}
+          </Box>
+        )}
       </Box>
 
       <Stack alignItems="center" spacing={3} sx={{ p: 2.5 }}>
