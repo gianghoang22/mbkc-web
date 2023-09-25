@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
-import { Box, Button, Drawer, Stack, Typography } from '@mui/material';
+import { Box, Drawer, Stack, Typography } from '@mui/material';
 // hooks
 import { useResponsive } from 'hooks';
 // components
@@ -54,7 +54,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
           <Logo />
         </Box>
 
-        {userAuth.roleName === Role.MBKC_ADMIN && (
+        {userAuth?.roleName === Role.MBKC_ADMIN && (
           <Box width="100%">
             {navAdmin.map((navItem, index) => (
               <Box key={index} mb={1}>
@@ -74,7 +74,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
             ))}
           </Box>
         )}
-        {userAuth.roleName === Role.BRAND_MANAGER && (
+        {userAuth?.roleName === Role.BRAND_MANAGER && (
           <Box width="100%">
             {navBrand.map((navItem, index) => (
               <Box key={index} mb={1}>
@@ -94,7 +94,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
             ))}
           </Box>
         )}
-        {userAuth.roleName === Role.KITCHEN_CENTER_MANAGER && (
+        {userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER && (
           <Box width="100%">
             {navKitchenCenter.map((navItem, index) => (
               <Box key={index} mb={1}>
@@ -114,7 +114,7 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
             ))}
           </Box>
         )}
-        {userAuth.roleName === Role.CASHIER && (
+        {userAuth?.roleName === Role.CASHIER && (
           <Box width="100%">
             {navCashier.map((navItem, index) => (
               <Box key={index} mb={1}>
@@ -136,19 +136,8 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
         )}
       </Box>
 
-      <Stack alignItems="center" spacing={3} sx={{ p: 2.5 }}>
-        <Box width={180} component="img" src="/assets/illustrations/illustration_store.svg" />
-        <Box width="100%" px={3.4}>
-          <Button fullWidth variant="contained">
-            {userAuth?.roleName === Role.BRAND_MANAGER
-              ? 'BRAND'
-              : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-              ? 'KITCHEN CENTER'
-              : userAuth?.roleName === Role.CASHIER
-              ? 'CASHIER'
-              : 'MBKC'}
-          </Button>
-        </Box>
+      <Stack alignItems="center" sx={{ py: 3 }}>
+        <Box width={200} component="img" src="/assets/illustrations/illustration_store.svg" />
       </Stack>
     </Stack>
   );

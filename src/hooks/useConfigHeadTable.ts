@@ -1,12 +1,4 @@
-import {
-  BrandTable,
-  CategoryTable,
-  HeadCell,
-  KitchenCentersTable,
-  KitchenTable,
-  ProductTable,
-  StoreTable,
-} from '@types';
+import { BrandTable, CategoryTable, HeadCell, KitchenCentersTable, ProductTable, StoreTable } from '@types';
 
 function useConfigHeadTable() {
   const productHeadCells: HeadCell<ProductTable>[] = [
@@ -97,7 +89,7 @@ function useConfigHeadTable() {
       id: 'logoUrl',
       label: 'Logo',
       numeric: false,
-      hideSortIcon: false,
+      hideSortIcon: true,
       disablePadding: true,
     },
     {
@@ -113,82 +105,6 @@ function useConfigHeadTable() {
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
-    },
-    {
-      id: 'partner',
-      label: 'Partner',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'status',
-      label: 'Status',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-  ];
-
-  const storeHeadCellsHaveBrand: HeadCell<StoreTable>[] = [
-    {
-      id: 'logoUrl',
-      label: 'Logo',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: true,
-    },
-    {
-      id: 'name',
-      label: 'Name',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: true,
-    },
-    {
-      id: 'kitchenCenter',
-      label: 'Kitchen center',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'brand',
-      label: 'Brand',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'partner',
-      label: 'Partner',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'status',
-      label: 'Status',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-  ];
-
-  const storeHeadCellsWithoutKitchenCenter: HeadCell<StoreTable>[] = [
-    {
-      id: 'logoUrl',
-      label: 'Logo',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: true,
-    },
-    {
-      id: 'name',
-      label: 'Name',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: true,
     },
     {
       id: 'brand',
@@ -275,53 +191,12 @@ function useConfigHeadTable() {
     },
   ];
 
-  const kitchenHeadCells: HeadCell<KitchenTable>[] = [
-    {
-      id: 'kitchenImgUrl',
-      label: 'Kitchen image',
-      numeric: false,
-      disablePadding: true,
-      hideSortIcon: true,
-    },
-    {
-      id: 'kitchenName',
-      label: 'Kitchen name',
-      numeric: false,
-      disablePadding: false,
-      hideSortIcon: false,
-    },
-    {
-      id: 'brandImgUrl',
-      label: 'Brand image',
-      numeric: false,
-      disablePadding: false,
-      hideSortIcon: true,
-    },
-    {
-      id: 'brandName',
-      label: 'Brand name',
-      numeric: false,
-      disablePadding: false,
-      hideSortIcon: false,
-    },
-    {
-      id: 'status',
-      label: 'Status',
-      numeric: false,
-      disablePadding: false,
-      hideSortIcon: false,
-    },
-  ];
-
   return {
     productHeadCells,
     categoryHeadCells,
     kitchenCenterHeadCells,
     brandHeadCells,
-    kitchenHeadCells,
     storeHeadCells,
-    storeHeadCellsHaveBrand,
-    storeHeadCellsWithoutKitchenCenter,
   };
 }
 

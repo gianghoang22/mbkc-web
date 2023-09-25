@@ -43,7 +43,7 @@ function KitchenCenterDetailPage(props: any) {
 
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-  const { storeHeadCellsWithoutKitchenCenter } = useConfigHeadTable();
+  const { storeHeadCells } = useConfigHeadTable();
 
   const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
   const { stores } = useAppSelector((state) => state.store);
@@ -158,8 +158,8 @@ function KitchenCenterDetailPage(props: any) {
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                     <CommonTableHead<StoreTable>
-                      justInfo
-                      headCells={storeHeadCellsWithoutKitchenCenter}
+                      hideKitchenCenter
+                      headCells={storeHeadCells}
                       order={order}
                       orderBy={orderBy}
                       onRequestSort={handleRequestSort}
@@ -184,13 +184,11 @@ function KitchenCenterDetailPage(props: any) {
                             height: 53 * emptyRows,
                           }}
                         >
-                          <TableCell colSpan={storeHeadCellsWithoutKitchenCenter.length} />
+                          <TableCell colSpan={storeHeadCells.length} />
                         </TableRow>
                       )}
                     </TableBody>
-                    {isNotFound && (
-                      <SearchNotFound colNumber={storeHeadCellsWithoutKitchenCenter.length} searchQuery={filterName} />
-                    )}
+                    {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
                   </Table>
                 </TableContainer>
                 <TablePagination

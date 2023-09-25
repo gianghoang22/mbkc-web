@@ -24,6 +24,7 @@ import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { useConfigHeadTable } from 'hooks';
+import { Role } from 'common/enum';
 
 // ----------------------------------------------------------------------
 
@@ -31,8 +32,9 @@ function ListStorePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
-  const { storeHeadCellsHaveBrand } = useConfigHeadTable();
+  const { storeHeadCells } = useConfigHeadTable();
 
+  const { userAuth } = useAppSelector((state) => state.auth);
   const { stores } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -102,8 +104,8 @@ function ListStorePage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>
-                    justInfo
-                    headCells={storeHeadCellsHaveBrand}
+                    justInfo={userAuth?.roleName === Role.BRAND_MANAGER}
+                    headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
@@ -116,7 +118,8 @@ function ListStorePage() {
                           key={store.storeId}
                           index={index}
                           store={store}
-                          haveBrand={true}
+                          haveBrand
+                          haveKitchenCenter
                           handleNavigateDetail={handleNavigateDetail}
                         />
                       );
@@ -127,11 +130,11 @@ function ListStorePage() {
                           height: 53 * emptyRows,
                         }}
                       >
-                        <TableCell colSpan={storeHeadCellsHaveBrand.length} />
+                        <TableCell colSpan={storeHeadCells.length} />
                       </TableRow>
                     )}
                   </TableBody>
-                  {isNotFound && <SearchNotFound colNumber={storeHeadCellsHaveBrand.length} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
