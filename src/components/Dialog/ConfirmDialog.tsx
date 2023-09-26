@@ -53,7 +53,7 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button {...cancelProps} onClick={onClose} variant="text" color="secondary">
-          {translate('common.cancel')}
+          {translate('button.cancel')}
         </Button>
         <LoadingAsyncButton
           {...confirmProps}
@@ -65,7 +65,7 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
           variant="contained"
           autoFocus
         >
-          {translate('common.confirm')}
+          {translate('button.confirm')}
         </LoadingAsyncButton>
       </DialogActions>
     </Dialog>

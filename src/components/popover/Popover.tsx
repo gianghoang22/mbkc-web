@@ -71,7 +71,7 @@ function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDele
             }}
           >
             <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-            Edit
+            {translate('action.edit')}
           </MenuItem>
         ) : (
           <MenuItem
@@ -82,7 +82,7 @@ function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDele
             }}
           >
             <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-            Delete
+            {translate('action.delete')}
           </MenuItem>
         )}
       </MUIPopover>

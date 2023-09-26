@@ -24,7 +24,7 @@ import {
 
 import { OrderSort, Store, StoreTable } from '@types';
 import { Color, PopoverType, Status } from 'common/enum';
-import { useConfigHeadTable, useModal, usePagination, usePopover } from 'hooks';
+import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { useDispatch } from 'react-redux';
 import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppSelector } from 'redux/configStore';
@@ -35,19 +35,15 @@ import { getComparator, stableSort } from 'utils';
 function BrandDetailPage(props: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { translate } = useLocales();
   const { pathname } = useLocation();
+  const { storeHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { brand } = useAppSelector((state) => state.brand);
-
-  const handleDelete = () => {
-    console.log('Deleting');
-  };
-
   const { stores } = useAppSelector((state) => state.store);
-  const { storeHeadCells } = useConfigHeadTable();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
@@ -78,6 +74,10 @@ function BrandDetailPage(props: any) {
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const handleDelete = () => {
+    console.log('Deleting');
+  };
 
   return (
     <>
@@ -206,8 +206,8 @@ function BrandDetailPage(props: any) {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
-          title={'Confirm Delete Brand'}
-          description={'Are you sure to delete this brand?'}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.brand') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.brand') })}
         />
       )}
     </>

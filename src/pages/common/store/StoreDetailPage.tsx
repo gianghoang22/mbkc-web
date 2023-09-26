@@ -8,19 +8,19 @@ import { Color, PopoverType } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { useModal, usePopover } from 'hooks';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { useDispatch } from 'react-redux';
 import { setEditStore } from 'redux/store/storeSlice';
 
 function StoreDetailPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { translate } = useLocales();
   const { pathname } = useLocation();
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const { store } = useAppSelector((state) => state.store);
-  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
 
   const handleDelete = () => {
     console.log('Handel delete clicked');
@@ -183,8 +183,8 @@ function StoreDetailPage() {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
-          title={'Confirm Delete Store'}
-          description={'Are you sure to delete this store?'}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.store') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.store') })}
         />
       )}
     </>

@@ -7,7 +7,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { BankingAccount } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
-import { useModal, usePopover } from 'hooks';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { getBankingAccountDetail_local, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch } from 'redux/configStore';
 
@@ -18,6 +18,7 @@ interface BankingAccountTableRowProps {
 
 function BankingAccountTableRow({ index, bankingAccount }: BankingAccountTableRowProps) {
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { handleOpen: handleOpenCreate, isOpen: isOpenCreate } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
@@ -75,8 +76,8 @@ function BankingAccountTableRow({ index, bankingAccount }: BankingAccountTableRo
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          title={'Confirm Delete Category'}
-          description={'You definitely want to delete this category?'}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.bankingAccount') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.bankingAccount') })}
         />
       )}
     </>
