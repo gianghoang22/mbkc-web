@@ -2,7 +2,8 @@ import { axiosClient } from 'api/axiosClient';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
-export const getAllKitchenCentersThunk = async (_: any, thunkAPI: any) => {
+export const getAllKitchenCentersThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -10,14 +11,15 @@ export const getAllKitchenCentersThunk = async (_: any, thunkAPI: any) => {
       console.log(response);
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
   }
 };
 
-export const getKitchenCenterDetailThunk = async (kitchenCenterId: number, thunkAPI: any) => {
+export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) => {
+  const { kitchenCenterId, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -25,7 +27,7 @@ export const getKitchenCenterDetailThunk = async (kitchenCenterId: number, thunk
       console.log(response);
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -33,6 +35,7 @@ export const getKitchenCenterDetailThunk = async (kitchenCenterId: number, thunk
 };
 
 export const createNewKitchenCenterThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -44,7 +47,7 @@ export const createNewKitchenCenterThunk = async (params: any, thunkAPI: any) =>
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -52,6 +55,7 @@ export const createNewKitchenCenterThunk = async (params: any, thunkAPI: any) =>
 };
 
 export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -62,7 +66,7 @@ export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -70,6 +74,7 @@ export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -80,7 +85,7 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }

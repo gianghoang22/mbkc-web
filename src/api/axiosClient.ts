@@ -7,6 +7,10 @@ const axiosClient = axios.create({
   },
 });
 
+const setHeaderAuth = (accessToken: string) => {
+  axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+};
+
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
@@ -33,4 +37,4 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export { axiosClient };
+export { axiosClient, setHeaderAuth };
