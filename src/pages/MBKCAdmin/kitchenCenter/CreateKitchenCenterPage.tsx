@@ -17,7 +17,7 @@ import { Color } from 'common/enum';
 const schema = yup.object({
   name: yup.string().required('Please enter brand name'),
   address: yup.string().required('Please enter kitchen center address'),
-  logoUrl: yup.string().required('Please select kitchen center logo'),
+  logo: yup.string().required('Please select kitchen center logo'),
 });
 
 function CreateKitchenCenterPage(props: any) {
@@ -27,9 +27,9 @@ function CreateKitchenCenterPage(props: any) {
 
   const createBrandForm = useForm<KitchenCenterToAdd>({
     defaultValues: {
-      name: isEditing ? kitchenCenter?.title : '',
+      name: isEditing ? kitchenCenter?.name : '',
       address: isEditing ? kitchenCenter?.address : '',
-      logoUrl: isEditing ? kitchenCenter?.imageUrl : '',
+      logo: isEditing ? kitchenCenter?.logo : '',
     },
     resolver: yupResolver(schema),
   });

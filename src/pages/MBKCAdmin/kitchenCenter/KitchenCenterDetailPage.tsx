@@ -112,7 +112,7 @@ function KitchenCenterDetailPage(props: any) {
               <Grid container columnSpacing={2} alignItems="center">
                 <Grid item md={3} sm={12}>
                   <Stack width="100%" alignItems="center">
-                    <Avatar src={kitchenCenter?.imageUrl} alt={kitchenCenter?.title} sx={{ width: 150, height: 150 }} />
+                    <Avatar src={kitchenCenter?.logo} alt={kitchenCenter?.name} sx={{ width: 150, height: 150 }} />
                   </Stack>
                 </Grid>
                 <Grid item md={9} sm={12}>

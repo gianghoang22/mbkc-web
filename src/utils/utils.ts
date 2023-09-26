@@ -51,6 +51,7 @@ export const getAccessToken = () =>
     .split('; ')
     .find((row) => row.startsWith(StorageKeys.ACCESS_TOKEN))
     ?.split('=')[1];
+
 export const removeAccessToken = () => Cookie.remove(StorageKeys.ACCESS_TOKEN);
 
 export const setRefreshToken = (refreshToken: string) => Cookie.set(StorageKeys.REFRESH_TOKEN, refreshToken);

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -16,11 +16,15 @@ import {
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { KitchenCenter, KitchenCenterTable, OrderSort } from '@types';
+import { KitchenCenter, KitchenCenterOptions, KitchenCenterTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getKitchenCenterDetail_local, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import {
+  getAllKitchenCenters,
+  getKitchenCenterDetail_local,
+  setAddKitchenCenter,
+} from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
@@ -33,7 +37,7 @@ function ListKitchenCenterPage(props: any) {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>('title');
+  const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>('name');
   const [filterName, setFilterName] = useState<string>('');
 
   const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
@@ -67,6 +71,19 @@ function ListKitchenCenterPage(props: any) {
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const options: KitchenCenterOptions = {
+    currentPage: page + 1,
+    itemsPerPage: rowsPerPage,
+    searchValue: filterName,
+  };
+
+  useEffect(() => {
+    dispatch(getAllKitchenCenters(options));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, rowsPerPage, filterName]);
+
+  console.log(options);
 
   return (
     <>

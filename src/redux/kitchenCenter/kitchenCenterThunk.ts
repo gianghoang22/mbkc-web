@@ -1,13 +1,17 @@
+import { KitchenCenterOptions } from '@types';
 import { axiosClient } from 'api/axiosClient';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
-export const getAllKitchenCentersThunk = async (_: any, thunkAPI: any) => {
+export const getAllKitchenCentersThunk = async (options: KitchenCenterOptions, thunkAPI: any) => {
   const accessToken = getAccessToken();
+  const { itemsPerPage, currentPage, searchValue } = options;
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
-      const response = await axiosClient.get('/user/sport-center-of-owner');
-      console.log(response);
+      const response = await axiosClient.get(
+        `/kitchencenters?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}`
+      );
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error);

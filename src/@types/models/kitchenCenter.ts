@@ -6,8 +6,8 @@ export interface KitchenCentersData {
 
 export interface KitchenCenter {
   kitchenCenterId: number;
-  title: string;
-  imageUrl: string;
+  name: string;
+  logo: string;
   address: string;
   status: string;
 }
@@ -15,5 +15,11 @@ export interface KitchenCenter {
 export interface KitchenCenterToAdd {
   name: string;
   address: string;
-  logoUrl: string;
+  logo: string;
+}
+
+export interface KitchenCenterOptions {
+  itemsPerPage: number;
+  currentPage: number;
+  searchValue?: string;
 }

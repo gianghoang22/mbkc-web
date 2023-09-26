@@ -43,7 +43,7 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={kitchenCenter.title} sx={{ cursor: 'pointer' }}>
+      <TableRow hover tabIndex={-1} key={kitchenCenter.name} sx={{ cursor: 'pointer' }}>
         <TableCell
           width={60}
           align="center"
@@ -56,10 +56,10 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
           scope="row"
           onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}
         >
-          <Avatar alt={kitchenCenter.title} src={kitchenCenter.imageUrl} />
+          <Avatar alt={kitchenCenter.name} src={kitchenCenter.logo} />
         </TableCell>
         <TableCell align="left" onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}>
-          {kitchenCenter.title}
+          {kitchenCenter.name}
         </TableCell>
 
         <TableCell align="left" onClick={() => handleNavigateDetail(kitchenCenter, kitchenCenter.kitchenCenterId)}>

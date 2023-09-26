@@ -35,8 +35,8 @@ export interface StoreTable {
 }
 
 export interface KitchenCenterTable {
-  imageUrl: string;
-  title: string;
+  logo: string;
+  name: string;
   address: string;
   status: string;
 }

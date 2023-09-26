@@ -14,8 +14,11 @@ interface KitchenCenterState {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
+  errorMessage: string[];
   kitchenCenters: KitchenCenter[];
   kitchenCenter: KitchenCenter | null;
+  totalPage: number;
+  numberItems: number;
 }
 
 const initialState: KitchenCenterState = {
@@ -23,7 +26,10 @@ const initialState: KitchenCenterState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  kitchenCenters: kitchenCenters,
+  errorMessage: [''],
+  kitchenCenters: [],
+  totalPage: 0,
+  numberItems: 0,
   kitchenCenter: null,
 };
 
@@ -31,7 +37,10 @@ export const createNewKitchenCenter = createAsyncThunk(
   'kitchenCenter/create-kitchen-center',
   createNewKitchenCenterThunk
 );
-export const getAllCategories = createAsyncThunk('kitchenCenter/get-all-kitchen-centers', getAllKitchenCentersThunk);
+export const getAllKitchenCenters = createAsyncThunk(
+  'kitchenCenter/get-all-kitchen-centers',
+  getAllKitchenCentersThunk
+);
 export const getKitchenCenterDetail = createAsyncThunk(
   'kitchenCenter/get-kitchen-center-detail',
   getKitchenCenterDetailThunk
@@ -70,15 +79,18 @@ const kitchenCenterSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(getAllCategories.pending, (state) => {
+      .addCase(getAllKitchenCenters.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAllCategories.fulfilled, (state, action) => {
+      .addCase(getAllKitchenCenters.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.kitchenCenters = [...action.payload?.kitchenCenters];
+        state.numberItems = action.payload?.numberItems;
+        state.totalPage = action.payload?.totalPage;
       })
-      .addCase(getAllCategories.rejected, (state, action) => {
+      .addCase(getAllKitchenCenters.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
