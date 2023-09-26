@@ -1,8 +1,15 @@
 import { EmailForm, LoginForm, LoginResponse, Params, ResetFormApi, VerificationForm } from '@types';
 import { axiosClient } from 'api/axiosClient';
-import { Role } from 'common/enum';
+import { Error, Role } from 'common/enum';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
-import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import {
+  PATH_ADMIN_APP,
+  PATH_AUTH,
+  PATH_BRAND_APP,
+  PATH_CASHIER_APP,
+  PATH_ERROR,
+  PATH_KITCHEN_CENTER_APP,
+} from 'routes/paths';
 import {
   getErrorMessage,
   removeAuthenticated,
@@ -39,6 +46,10 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
     thunkAPI.dispatch(setMessageSuccess('Login successfully'));
     return userStorage;
   } catch (error: any) {
+    if (error?.code === Error.SERVER_ERROR) {
+      console.log(error);
+      navigate(PATH_ERROR.serverError);
+    }
     const errorMessage = getErrorMessage(error);
     thunkAPI.dispatch(setMessageError(errorMessage));
     return thunkAPI.rejectWithValue(error);
