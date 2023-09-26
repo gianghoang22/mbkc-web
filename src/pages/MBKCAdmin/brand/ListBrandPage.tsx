@@ -14,15 +14,13 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-
 //
 import { Button } from '@mui/material';
 import { Brand, BrandTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable } from 'hooks';
+import { useConfigHeadTable, usePagination } from 'hooks';
 import { getBrandDetail, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -34,11 +32,10 @@ function ListBrandPage(props: any) {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { brandHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BrandTable>('brandName');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
   const { brands } = useAppSelector((state) => state.brand);
@@ -52,15 +49,6 @@ function ListBrandPage(props: any) {
   const handleNavigateDetail = (brand: Brand, brandId: number) => {
     navigate(PATH_ADMIN_APP.brand.root + `/detail/${brandId}`);
     dispatch(getBrandDetail(brand));
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

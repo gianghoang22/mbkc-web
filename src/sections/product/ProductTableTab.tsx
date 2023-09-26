@@ -4,7 +4,7 @@ import { Box, Paper, Table, TableBody, TableCell, TableContainer, TablePaginatio
 //
 import { OrderSort, ProductTable } from '@types';
 import { CommonTableHead, SearchNotFound } from 'components';
-import { useConfigHeadTable } from 'hooks';
+import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { getComparator, stableSort } from 'utils';
 import ProductTableRow from './ProductTableRow';
@@ -12,28 +12,19 @@ import ProductTableToolbar from './ProductTableToolbar';
 
 function ProductTableTab() {
   const { productHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { products } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

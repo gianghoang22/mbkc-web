@@ -23,8 +23,8 @@ import {
 } from '@mui/material';
 
 import { OrderSort, Store, StoreTable } from '@types';
-import { Color, PopoverType } from 'common/enum';
-import { useConfigHeadTable, useModal, usePopover } from 'hooks';
+import { Color, PopoverType, Status } from 'common/enum';
+import { useConfigHeadTable, useModal, usePagination, usePopover } from 'hooks';
 import { useDispatch } from 'react-redux';
 import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppSelector } from 'redux/configStore';
@@ -33,12 +33,14 @@ import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 
 function BrandDetailPage(props: any) {
-  const { pathname } = useLocation();
-  const { brand } = useAppSelector((state) => state.brand);
-  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+
+  const { brand } = useAppSelector((state) => state.brand);
 
   const handleDelete = () => {
     console.log('Deleting');
@@ -49,8 +51,6 @@ function BrandDetailPage(props: any) {
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
@@ -62,15 +62,6 @@ function BrandDetailPage(props: any) {
   const handleNavigateDetail = (store: Store, accountId: number) => {
     navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
     dispatch(getStoreDetail_local(store));
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +87,7 @@ function BrandDetailPage(props: any) {
           <Button
             color="inherit"
             onClick={handleOpenMenu}
+            endIcon={<KeyboardArrowDownIcon />}
             style={{
               backgroundColor: '#000',
               color: '#fff',
@@ -109,7 +101,6 @@ function BrandDetailPage(props: any) {
             }}
           >
             <Typography>Menu Actions</Typography>
-            <KeyboardArrowDownIcon />
           </Button>,
         ]}
         pathname={pathname}
@@ -130,7 +121,7 @@ function BrandDetailPage(props: any) {
                       <Stack direction="row" alignItems="center" gap={0.5}>
                         <Typography variant="h5">{brand?.brandName}</Typography>
                       </Stack>
-                      <Label color={(brand?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+                      <Label color={(brand?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
                         {brand?.status}
                       </Label>
                     </Stack>

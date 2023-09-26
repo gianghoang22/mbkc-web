@@ -23,7 +23,7 @@ import { getStoreDetail_local, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { useConfigHeadTable } from 'hooks';
+import { useConfigHeadTable, usePagination } from 'hooks';
 import { Role } from 'common/enum';
 
 // ----------------------------------------------------------------------
@@ -33,14 +33,13 @@ function ListStorePage() {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { storeHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { stores } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
@@ -56,15 +55,6 @@ function ListStorePage() {
         : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
     );
     dispatch(getStoreDetail_local(store));
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
