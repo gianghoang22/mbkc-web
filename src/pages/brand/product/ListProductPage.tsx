@@ -18,40 +18,30 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductTable } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setAddProduct } from 'redux/product/productSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableRow, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
-import { useConfigHeadTable } from 'hooks';
-import { setAddProduct } from 'redux/product/productSlice';
 
 function ListProductPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { productHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { products } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

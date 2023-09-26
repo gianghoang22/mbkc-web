@@ -51,24 +51,24 @@ function AppRouter() {
       <Route path="*" element={<Navigate to={PATH_ERROR.notFound} replace />} />
 
       {/* brand routes */}
-      {/* <Route element={<BrandRouter />}> */}
-      <Route element={<DashboardLayout />}>
-        <Route element={<Navigate to={PATH_BRAND_APP.root} />} index={true} />
-        {brandRoutes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.component} />
-        ))}
-      </Route>
-      {/* </Route> */}
-
-      {/* kitchen center routes */}
-      <Route element={<KitchenCenterRouter />}>
+      <Route element={<BrandRouter />}>
         <Route element={<DashboardLayout />}>
-          <Route element={<Navigate to={PATH_KITCHEN_CENTER_APP.root} />} index={true} />
-          {kitchenCenterRoutes.map((route) => (
+          <Route element={<Navigate to={PATH_BRAND_APP.root} />} index={true} />
+          {brandRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}
         </Route>
       </Route>
+
+      {/* kitchen center routes */}
+      {/* <Route element={<KitchenCenterRouter />}> */}
+      <Route element={<DashboardLayout />}>
+        <Route element={<Navigate to={PATH_KITCHEN_CENTER_APP.root} />} index={true} />
+        {kitchenCenterRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.component} />
+        ))}
+      </Route>
+      {/* </Route> */}
 
       {/* kitchen center routes */}
       <Route element={<CashierRouter />}>

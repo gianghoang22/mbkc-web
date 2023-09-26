@@ -83,8 +83,13 @@ function useConfigSidebar() {
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },
         {
-          title: translate('sidebar.store'),
+          title: translate('sidebar.cashier'),
           path: PATH_KITCHEN_CENTER_APP.cashier.list,
+          icon: <AssignmentIndIcon fontSize="medium" />,
+        },
+        {
+          title: translate('sidebar.banking'),
+          path: PATH_KITCHEN_CENTER_APP.bankingAccount.list,
           icon: <AssignmentIndIcon fontSize="medium" />,
         },
         {

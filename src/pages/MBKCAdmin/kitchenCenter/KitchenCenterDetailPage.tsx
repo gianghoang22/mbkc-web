@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { OrderSort, Store, StoreTable } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useModal, usePopover } from 'hooks';
+import { useConfigHeadTable, useModal, usePagination, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { getStoreDetail_local } from 'redux/store/storeSlice';
@@ -34,21 +34,19 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function KitchenCenterDetailPage(props: any) {
-  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const { pathname } = useLocation();
+  const { storeHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-  const { storeHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
   const { stores } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
@@ -60,15 +58,6 @@ function KitchenCenterDetailPage(props: any) {
   const handleNavigateDetail = (store: Store, accountId: number) => {
     navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
     dispatch(getStoreDetail_local(store));
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

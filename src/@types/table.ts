@@ -34,14 +34,28 @@ export interface StoreTable {
   status: string;
 }
 
-export interface KitchenCentersTable {
+export interface KitchenCenterTable {
   imageUrl: string;
   title: string;
   address: string;
   status: string;
 }
 
-// Brand
+export interface CashierTable {
+  avatar: string;
+  fullName: string;
+  email: string;
+  gender: string;
+  status: string;
+}
+
+export interface BankingAccountTable {
+  logoUrl: string;
+  name: string;
+  numberAccount: string;
+  status: string;
+}
+
 export interface BrandTable {
   brandId: number;
   brandImgUrl: string;

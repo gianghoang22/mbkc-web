@@ -119,6 +119,6 @@ const CashierSlice = createSlice({
 });
 
 export const { setAddCashier, setEditCashier, getCashierDetail_local } = CashierSlice.actions;
-const CashierReducer = CashierSlice.reducer;
+const cashierReducer = CashierSlice.reducer;
 
-export default CashierReducer;
+export default cashierReducer;

@@ -16,31 +16,27 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { CategoryTable, OrderSort, Category, CategoryType } from '@types';
+import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { useConfigHeadTable, usePagination } from 'hooks';
 import { getCategoryDetail_local, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import { useConfigHeadTable } from 'hooks';
 
 function ListCategoryPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { categoryHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { categories } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
-
-  console.log('page', page);
-  console.log('rowsPerPage', rowsPerPage);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -51,15 +47,6 @@ function ListCategoryPage() {
   const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
     dispatch(getCategoryDetail_local(category));
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

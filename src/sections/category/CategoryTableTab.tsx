@@ -5,7 +5,7 @@ import { Box, Paper, Table, TableBody, TableCell, TableContainer, TablePaginatio
 //
 import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
 import { CommonTableHead, SearchNotFound } from 'components';
-import { useConfigHeadTable, useModal } from 'hooks';
+import { useConfigHeadTable, useModal, usePagination } from 'hooks';
 import { getCategoryDetail_local } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -16,15 +16,15 @@ import AddExtraToCategory from './AddExtraToCategory';
 function CategoryTableTab() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { categoryHeadCells } = useConfigHeadTable();
   const { handleOpen, isOpen } = useModal();
+  const { categoryHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { categories } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
@@ -36,15 +36,6 @@ function CategoryTableTab() {
   const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
     dispatch(getCategoryDetail_local(category));
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

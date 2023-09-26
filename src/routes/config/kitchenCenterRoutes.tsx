@@ -3,6 +3,7 @@ import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 
 import {
   CreateNewCashierPage,
   KitchenCenterDashboard,
+  ListBankingAccountPage,
   ListCashierPage,
   ListMoneyExchangePage,
   ListShipperPaymentPage,
@@ -45,6 +46,11 @@ export const kitchenCenterRoutes: Route[] = [
   {
     path: PATH_KITCHEN_CENTER_APP.cashier.editById,
     component: <CreateNewCashierPage />,
+    index: false,
+  },
+  {
+    path: PATH_KITCHEN_CENTER_APP.bankingAccount.list,
+    component: <ListBankingAccountPage />,
     index: false,
   },
   {

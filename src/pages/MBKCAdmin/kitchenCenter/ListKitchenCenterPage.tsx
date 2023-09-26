@@ -16,11 +16,11 @@ import {
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { KitchenCenter, KitchenCentersTable, OrderSort } from '@types';
+import { KitchenCenter, KitchenCenterTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable } from 'hooks';
+import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getKitchenCenterDetail, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { getKitchenCenterDetail_local, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
@@ -30,16 +30,15 @@ function ListKitchenCenterPage(props: any) {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { kitchenCenterHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof KitchenCentersTable>('title');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>('title');
   const [filterName, setFilterName] = useState<string>('');
 
   const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenCentersTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenCenterTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -47,16 +46,7 @@ function ListKitchenCenterPage(props: any) {
 
   const handleNavigateDetail = (kitchenCenter: KitchenCenter, kitchenCenterId: number) => {
     navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
-    dispatch(getKitchenCenterDetail(kitchenCenter));
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    dispatch(getKitchenCenterDetail_local(kitchenCenter));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +93,7 @@ function ListKitchenCenterPage(props: any) {
               <KitchenCenterTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<KitchenCentersTable>
+                  <CommonTableHead<KitchenCenterTable>
                     headCells={kitchenCenterHeadCells}
                     order={order}
                     orderBy={orderBy}
