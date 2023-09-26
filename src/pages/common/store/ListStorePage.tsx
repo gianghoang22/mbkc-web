@@ -19,7 +19,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { OrderSort, Store, StoreTable } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getStoreDetail, setAddStore } from 'redux/store/storeSlice';
+import { getStoreDetail_local, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
@@ -55,7 +55,7 @@ function ListStorePage() {
         ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
         : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
     );
-    dispatch(getStoreDetail(store));
+    dispatch(getStoreDetail_local(store));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

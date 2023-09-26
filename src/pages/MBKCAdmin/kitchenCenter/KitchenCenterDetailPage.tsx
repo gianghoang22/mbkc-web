@@ -8,7 +8,7 @@ import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } 
 import { useConfigHeadTable, useModal, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { getStoreDetail } from 'redux/store/storeSlice';
+import { getStoreDetail_local } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
@@ -59,7 +59,7 @@ function KitchenCenterDetailPage(props: any) {
 
   const handleNavigateDetail = (store: Store, accountId: number) => {
     navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
-    dispatch(getStoreDetail(store));
+    dispatch(getStoreDetail_local(store));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

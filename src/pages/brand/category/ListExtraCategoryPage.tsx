@@ -18,7 +18,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { getCategoryDetail, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
+import { getCategoryDetail_local, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
@@ -47,7 +47,7 @@ function ListExtraCategoryPage(props: any) {
 
   const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.rootExtra + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail(category));
+    dispatch(getCategoryDetail_local(category));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

@@ -27,6 +27,7 @@ import { Helmet } from 'components';
 import { Link } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { AppWidgetSummary } from 'sections/dashboard';
+import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -92,13 +93,15 @@ const KitchenCenters: KitchenCentersData[] = [
 ];
 
 function MBKCAdminDashboardPage() {
+  const { translate } = useLocales();
+
   return (
     <>
-      <Helmet title="Admin Management" />
+      <Helmet title="MBKC Admin" />
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          {translate('common.welcome')}
         </Typography>
 
         <Grid container spacing={3}>

@@ -6,7 +6,7 @@ import { Box, Paper, Table, TableBody, TableCell, TableContainer, TablePaginatio
 import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
 import { CommonTableHead, SearchNotFound } from 'components';
 import { useConfigHeadTable, useModal } from 'hooks';
-import { getCategoryDetail } from 'redux/category/categorySlice';
+import { getCategoryDetail_local } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
@@ -35,7 +35,7 @@ function CategoryTableTab() {
 
   const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail(category));
+    dispatch(getCategoryDetail_local(category));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

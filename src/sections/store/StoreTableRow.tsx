@@ -5,9 +5,9 @@ import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow } fro
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Store } from '@types';
-import { Color } from 'common/enum';
 import { Label, Popover } from 'components';
 import { usePopover } from 'hooks';
+import { Color } from 'common/enum';
 
 interface StoreTableRowProps {
   handleNavigateDetail: (store: Store, accountId: number) => void;

@@ -19,7 +19,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { CategoryTable, OrderSort, Category, CategoryType } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getCategoryDetail, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
+import { getCategoryDetail_local, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
@@ -50,7 +50,7 @@ function ListCategoryPage() {
 
   const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail(category));
+    dispatch(getCategoryDetail_local(category));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
