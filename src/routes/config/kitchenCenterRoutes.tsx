@@ -1,7 +1,7 @@
 import { Route } from '@types';
 import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common';
 import {
-  CreateNewCashierPage,
+  CreateCashierPage,
   KitchenCenterDashboard,
   ListBankingAccountPage,
   ListCashierPage,
@@ -40,12 +40,12 @@ export const kitchenCenterRoutes: Route[] = [
   },
   {
     path: PATH_KITCHEN_CENTER_APP.cashier.newCashier,
-    component: <CreateNewCashierPage />,
+    component: <CreateCashierPage />,
     index: false,
   },
   {
     path: PATH_KITCHEN_CENTER_APP.cashier.editById,
-    component: <CreateNewCashierPage />,
+    component: <CreateCashierPage />,
     index: false,
   },
   {

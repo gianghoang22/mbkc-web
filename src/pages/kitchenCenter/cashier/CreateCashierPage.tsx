@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Page } from 'components';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
-function CreateNewCashierPage() {
+function CreateCashierPage() {
   const { pathname } = useLocation();
 
   return (
@@ -15,4 +15,4 @@ function CreateNewCashierPage() {
   );
 }
 
-export default CreateNewCashierPage;
+export default CreateCashierPage;
