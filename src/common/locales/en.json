@@ -25,7 +25,8 @@
     "banking": "banking account",
     "order": "order",
     "wallet": "wallet",
-    "transaction": "transaction"
+    "transaction": "transaction",
+    "bankingAccount": "banking account"
   },
   "action": {
     "edit": "Edit",
@@ -43,7 +44,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "all": "All",
-    "goHome": "Go to Home"
+    "goHome": "Go to Home",
+    "confirm": "Confirm"
   },
   "common": {
     "welcome": "Hi, Welcome Back",
@@ -51,7 +53,6 @@
     "available": "Available",
     "notAvailable": "Not available",
     "choosedItem": "Choosed",
-    "confirm": "Confirm",
     "confirmDeleteTitle": "Confirm delete",
     "deleteSuccess": "Deleted successfully",
     "status": "Status",
@@ -59,6 +60,25 @@
     "clearFilter": "CLear filters",
     "fromTime": "From",
     "toTime": "To"
+  },
+  "breadcrumb": {
+    "dashboard": "Dashboard",
+    "category": "Category",
+    "brand": "Brand",
+    "kitchen-center": "Kitchen center",
+    "store": "Store",
+    "extra-category": "Extra category",
+    "product": "Product",
+    "cashier": "Cashier",
+    "order": "Order",
+    "banking-account": "Banking account",
+    "transaction": "Transaction",
+    "partner": "Partner",
+    "wallet": "Wallet",
+    "list": "List",
+    "detail": "Detail",
+    "update": "Update",
+    "create-new": "Create new"
   },
   "form": {
     "email": "Email",

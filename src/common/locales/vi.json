@@ -25,7 +25,8 @@
     "banking": "tài khoản ngân hàng",
     "order": "đơn hàng",
     "wallet": "ví",
-    "transaction": "giao dịch"
+    "transaction": "giao dịch",
+    "bankingAccount": "tài khoản ngân hàng"
   },
   "action": {
     "edit": "Chỉnh sửa",
@@ -43,7 +44,8 @@
     "save": "Lưu",
     "cancel": "Hủy",
     "all": "Tất cả",
-    "goHome": "Về trang chủ"
+    "goHome": "Về trang chủ",
+    "confirm": "Xác nhận"
   },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",
@@ -51,7 +53,6 @@
     "available": "Hoạt động",
     "notAvailable": "Không Hoạt động",
     "choosedItem": "Đã chọn",
-    "confirm": "Xác nhận",
     "confirmDeleteTitle": "Xác nhận xóa",
     "deleteSuccess": "Xóa thành công",
     "status": "Trạng thái",
@@ -59,6 +60,25 @@
     "clearFilter": "Xóa bộ lọc",
     "fromTime": "Từ",
     "toTime": "Đến"
+  },
+  "breadcrumb": {
+    "dashboard": "Bảng điều khiển",
+    "category": "Danh mục",
+    "brand": "Thương hiệu",
+    "kitchen-center": "Bếp trung tâm",
+    "store": "Cửa hàng",
+    "extra-category": "Danh mục Extra",
+    "product": "Sản phẩm",
+    "cashier": "Nhân viên thu ngân",
+    "order": "Đơn đặt hàng",
+    "banking-account": "Tài khoản ngân hàng",
+    "transaction": "Giao dịch",
+    "partner": "Đối tác",
+    "wallet": "Ví",
+    "list": "Danh sách",
+    "detail": "Chi tiết",
+    "update": "Cập nhật",
+    "create-new": "Tạo mới"
   },
   "form": {
     "email": "Email",

@@ -19,11 +19,6 @@ export interface CategoryToCreate {
   imageUrl: string;
 }
 
-export enum CategoryStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-}
-
 export enum CategoryType {
   NORMAL = 'Normal',
   EXTRA = 'Extra',

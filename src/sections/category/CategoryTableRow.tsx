@@ -8,7 +8,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Category, CategoryType } from '@types';
 import { Color } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
-import { useModal, usePopover } from 'hooks';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -30,6 +30,7 @@ function CategoryTableRow({
 }: CategoryTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
@@ -98,8 +99,8 @@ function CategoryTableRow({
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          title={'Confirm Delete Category'}
-          description={'You definitely want to delete this category?'}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.category') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.category') })}
         />
       )}
     </>

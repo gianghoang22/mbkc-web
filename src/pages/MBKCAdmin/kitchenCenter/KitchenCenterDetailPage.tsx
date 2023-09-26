@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { OrderSort, Store, StoreTable } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useModal, usePagination, usePopover } from 'hooks';
+import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { getStoreDetail_local } from 'redux/store/storeSlice';
@@ -37,6 +37,7 @@ function KitchenCenterDetailPage(props: any) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { translate } = useLocales();
   const { storeHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
@@ -208,8 +209,8 @@ function KitchenCenterDetailPage(props: any) {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
-          title={'Confirm Delete Kitchen Center'}
-          description={'Are you sure to delete this kitchen center?'}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.kitchenCenter') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.kitchenCenter') })}
         />
       )}
     </>

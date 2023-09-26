@@ -9,9 +9,9 @@ const cashiers = [...Array(24)].map((_, index) => ({
   email: faker.company.name(),
   fullName: faker.company.name(),
   gender: sample([Gender.MALE, Gender.FEMALE]),
-  dateOfBirth: faker.company.name(),
+  dateOfBirth: new Date(),
   avatar: `/assets/images/avatars/avatar_${index + 1}.jpg`,
-  citizenNumber: Math.floor(Math.random() * (100000000000000 - 1 + 1)) + 1,
+  citizenNumber: faker.company.name(),
   status: sample([Status.ACTIVE, Status.INACTIVE]),
 }));
 
