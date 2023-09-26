@@ -16,7 +16,7 @@ import {
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { KitchenCenter, KitchenCentersTable, OrderSort } from '@types';
+import { KitchenCenter, KitchenCenterTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -33,12 +33,12 @@ function ListKitchenCenterPage(props: any) {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof KitchenCentersTable>('title');
+  const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>('title');
   const [filterName, setFilterName] = useState<string>('');
 
   const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenCentersTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenCenterTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -93,7 +93,7 @@ function ListKitchenCenterPage(props: any) {
               <KitchenCenterTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<KitchenCentersTable>
+                  <CommonTableHead<KitchenCenterTable>
                     headCells={kitchenCenterHeadCells}
                     order={order}
                     orderBy={orderBy}

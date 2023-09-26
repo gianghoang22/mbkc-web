@@ -22,6 +22,7 @@
     "extraCategory": "extra category",
     "product": "product",
     "cashier": "cashier",
+    "banking": "banking account",
     "order": "order",
     "wallet": "wallet",
     "transaction": "transaction"

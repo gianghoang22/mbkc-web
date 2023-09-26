@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import authReducer from './auth/authSlice';
+import BankingAccountReducer from './bankingAccount/bankingAccountSlice';
 import brandReducer from './brand/brandSlice';
+import cashierReducer from './cashier/cashierSlice';
 import categoryReducer from './category/categorySlice';
 import extraCategoryReducer from './extraCategory/extraCategorySlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
@@ -17,6 +19,8 @@ export const store = configureStore({
     category: categoryReducer,
     extraCategory: extraCategoryReducer,
     product: productReducer,
+    cashier: cashierReducer,
+    bankingAccount: BankingAccountReducer,
   },
 });
 

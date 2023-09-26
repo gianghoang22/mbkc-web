@@ -1,4 +1,13 @@
-import { BrandTable, CategoryTable, HeadCell, KitchenCentersTable, ProductTable, StoreTable } from '@types';
+import {
+  BankingAccountTable,
+  BrandTable,
+  CashierTable,
+  CategoryTable,
+  HeadCell,
+  KitchenCenterTable,
+  ProductTable,
+  StoreTable,
+} from '@types';
 
 function useConfigHeadTable() {
   const productHeadCells: HeadCell<ProductTable>[] = [
@@ -129,7 +138,76 @@ function useConfigHeadTable() {
     },
   ];
 
-  const kitchenCenterHeadCells: HeadCell<KitchenCentersTable>[] = [
+  const cashierHeadCells: HeadCell<CashierTable>[] = [
+    {
+      id: 'avatar',
+      label: 'Avatar',
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: true,
+    },
+    {
+      id: 'fullName',
+      label: 'Name',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'email',
+      label: 'Email',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'gender',
+      label: 'Gender',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const bankingAccountHeadCells: HeadCell<BankingAccountTable>[] = [
+    {
+      id: 'logoUrl',
+      label: 'Logo',
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: true,
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'numberAccount',
+      label: 'Number Account',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const kitchenCenterHeadCells: HeadCell<KitchenCenterTable>[] = [
     {
       id: 'imageUrl',
       label: 'Logo',
@@ -192,11 +270,13 @@ function useConfigHeadTable() {
   ];
 
   return {
-    productHeadCells,
-    categoryHeadCells,
-    kitchenCenterHeadCells,
     brandHeadCells,
+    kitchenCenterHeadCells,
     storeHeadCells,
+    cashierHeadCells,
+    bankingAccountHeadCells,
+    categoryHeadCells,
+    productHeadCells,
   };
 }
 
