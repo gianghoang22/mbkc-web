@@ -19,16 +19,19 @@ import {
   PATH_ERROR,
   PATH_KITCHEN_CENTER_APP,
 } from './paths';
+import PublicRouter from './PublicRouter';
 
 function AppRouter() {
   const { userAuth } = useAppSelector((state) => state.auth);
 
   return (
     <Routes>
-      <Route element={<Navigate to={PATH_AUTH.login} />} index={true} />
-      {publicRoutes.map((route) => (
-        <Route key={route.path} path={route.path} element={route.component} />
-      ))}
+      <Route path="/" element={<PublicRouter />}>
+        <Route element={<Navigate to={PATH_AUTH.login} />} index={true} />
+        {publicRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.component} />
+        ))}
+      </Route>
 
       <Route element={<SimpleLayout />}>
         {userAuth?.roleName === Role.MBKC_ADMIN ? (
@@ -51,27 +54,27 @@ function AppRouter() {
       <Route path="*" element={<Navigate to={PATH_ERROR.notFound} replace />} />
 
       {/* brand routes */}
-      {/* <Route element={<BrandRouter />}> */}
-      <Route element={<DashboardLayout />}>
-        <Route element={<Navigate to={PATH_BRAND_APP.root} />} index={true} />
-        {brandRoutes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.component} />
-        ))}
+      <Route path="/" element={<BrandRouter />}>
+        <Route element={<DashboardLayout />}>
+          <Route element={<Navigate to={PATH_BRAND_APP.root} />} index={true} />
+          {brandRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.component} />
+          ))}
+        </Route>
       </Route>
-      {/* </Route> */}
 
       {/* kitchen center routes */}
-      {/* <Route element={<KitchenCenterRouter />}> */}
-      <Route element={<DashboardLayout />}>
-        <Route element={<Navigate to={PATH_KITCHEN_CENTER_APP.root} />} index={true} />
-        {kitchenCenterRoutes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.component} />
-        ))}
+      <Route path="/" element={<KitchenCenterRouter />}>
+        <Route element={<DashboardLayout />}>
+          <Route element={<Navigate to={PATH_KITCHEN_CENTER_APP.root} />} index={true} />
+          {kitchenCenterRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.component} />
+          ))}
+        </Route>
       </Route>
-      {/* </Route> */}
 
       {/* kitchen center routes */}
-      <Route element={<CashierRouter />}>
+      <Route path="/" element={<CashierRouter />}>
         <Route element={<DashboardLayout />}>
           <Route element={<Navigate to={PATH_CASHIER_APP.root} />} index={true} />
           {cashierRoutes.map((route) => (
@@ -81,7 +84,7 @@ function AppRouter() {
       </Route>
 
       {/* MBKC admin routes */}
-      <Route element={<AdminRouter />}>
+      <Route path="/" element={<AdminRouter />}>
         <Route element={<DashboardLayout />}>
           <Route element={<Navigate to={PATH_ADMIN_APP.root} />} index={true} />
           {adminRoutes.map((route) => (

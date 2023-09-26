@@ -12,6 +12,7 @@ export const removeLocalStorage = (key: any) => localStorage.removeItem(key);
 
 export const setUserAuth = (userAuth: UserAuth) => setLocalStorage(StorageKeys.USER_AUTH, JSON.stringify(userAuth));
 export const getUserAuth = () => {
+  console.log('Run start getUserAuth');
   const userAuth = getLocalStorage(StorageKeys.USER_AUTH);
   if (userAuth === null) {
     return;
@@ -23,6 +24,7 @@ export const removeUserAuth = () => removeLocalStorage(StorageKeys.USER_AUTH);
 
 export const setAuthenticated = () => setLocalStorage(StorageKeys.AUTHENTICATE, true);
 export const getAuthenticated = () => {
+  console.log('Run start isAuthenticated');
   const isAuthenticated = getLocalStorage(StorageKeys.AUTHENTICATE);
   if (isAuthenticated === null || isAuthenticated === undefined) {
     return false;
