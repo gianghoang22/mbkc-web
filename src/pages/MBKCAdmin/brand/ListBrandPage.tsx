@@ -21,7 +21,7 @@ import { Button } from '@mui/material';
 import { Brand, BrandTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, usePagination } from 'hooks';
-import { getBrandDetail, setAddBrand } from 'redux/brand/brandSlice';
+import { getBrandDetail_local, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { BrandTableRow, BrandTableToolbar } from 'sections/brand';
@@ -48,7 +48,7 @@ function ListBrandPage(props: any) {
 
   const handleNavigateDetail = (brand: Brand, brandId: number) => {
     navigate(PATH_ADMIN_APP.brand.root + `/detail/${brandId}`);
-    dispatch(getBrandDetail(brand));
+    dispatch(getBrandDetail_local(brand));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

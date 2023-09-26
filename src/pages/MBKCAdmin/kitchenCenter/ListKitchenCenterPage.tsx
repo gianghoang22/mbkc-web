@@ -20,7 +20,7 @@ import { KitchenCenter, KitchenCenterTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getKitchenCenterDetail, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { getKitchenCenterDetail_local, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
@@ -46,7 +46,7 @@ function ListKitchenCenterPage(props: any) {
 
   const handleNavigateDetail = (kitchenCenter: KitchenCenter, kitchenCenterId: number) => {
     navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
-    dispatch(getKitchenCenterDetail(kitchenCenter));
+    dispatch(getKitchenCenterDetail_local(kitchenCenter));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
