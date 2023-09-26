@@ -209,8 +209,8 @@ function KitchenCenterDetailPage(props: any) {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.kitchenCenter') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.kitchenCenter') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.kitchenCenter') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.kitchenCenter') })}
         />
       )}
     </>

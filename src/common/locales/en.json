@@ -10,7 +10,7 @@
     "profile": "My profile",
     "logout": "Logout"
   },
-  "sidebar": {
+  "model": {
     "overview": "overview",
     "manage": "manage",
     "dashboard": "dashboard",

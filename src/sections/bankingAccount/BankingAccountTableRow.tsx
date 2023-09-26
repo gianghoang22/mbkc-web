@@ -76,8 +76,8 @@ function BankingAccountTableRow({ index, bankingAccount }: BankingAccountTableRo
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.bankingAccount') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.bankingAccount') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.bankingAccount') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.bankingAccount') })}
         />
       )}
     </>

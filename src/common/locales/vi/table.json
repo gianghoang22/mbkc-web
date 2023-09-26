@@ -1,22 +1,11 @@
 {
-  "login": {
-    "title": "Sign in to MBKC",
-    "content": "MBKC will help you manager effectively!",
-    "forgot": "Forgot password?"
-  },
-  "forgotPassword": {
-    "title": "Forgot your password?",
-    "content": "Please enter the email address associated with your account and We will email you an OTP code to reset your password."
-  },
-  "verify": {
-    "title": "Please check your email!",
-    "content": "We have emailed a 6-digit confirmation code to {{email}}, please enter the code in below box to verify your email.",
-    "noAccount": "Don’t have a code?",
-    "resend": "Resend code"
-  },
-  "resetPassword": {
-    "title": "Update password",
-    "content": "Enter your new password to reset."
-  },
-  "backLogin": "Return to login"
+  "no": "STT",
+  "logo": "Logo",
+  "image": "Hình ảnh",
+  "name": "Tên",
+  "status": "Trạng thái",
+  "brand": "Thương hiệu",
+  "kitchenCenter": "Bếp trung tâm",
+  "store": "Cửa hàng",
+  "partner": "Đối tác"
 }

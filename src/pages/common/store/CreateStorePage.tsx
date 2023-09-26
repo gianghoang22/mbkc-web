@@ -1,17 +1,17 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import * as yup from 'yup';
-
 // @mui
-import { Button, Card, Grid, Stack, TextField, Typography } from '@mui/material';
+import { Button, Card, Stack } from '@mui/material';
 //
-import { Product, StoreToAdd } from '@types';
-import { Page, UploadImageField } from 'components';
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { useAppSelector } from 'redux/configStore';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { StoreToAdd } from '@types';
 import { Color } from 'common/enum';
+import { Page } from 'components';
+import { useAppSelector } from 'redux/configStore';
+import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreForm } from 'sections/store';
+import { useLocales } from 'hooks';
 
 const schema = yup.object({
   name: yup.string().required('Please enter store name'),
@@ -22,6 +22,7 @@ const schema = yup.object({
 
 function CreateStorePage() {
   const { pathname } = useLocation();
+  const { translate } = useLocales();
   const { isEditing, store } = useAppSelector((state) => state.store);
 
   const createStoreForm = useForm<StoreToAdd>({
@@ -47,7 +48,11 @@ function CreateStorePage() {
   return (
     <>
       <Page
-        title={isEditing ? 'Update Store' : 'Create New Store'}
+        title={
+          isEditing
+            ? translate('page.title.update', { model: translate('model.store') })
+            : translate('page.title.create', { model: translate('model.store') })
+        }
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
       >
@@ -57,19 +62,21 @@ function CreateStorePage() {
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
             <Button variant="outlined" color="inherit">
-              Back
+              {translate('page.action.back')}
             </Button>
             <Stack direction="row" gap={1.5}>
-              <Button variant="contained" color="inherit">
-                Reset
-              </Button>
+              {isEditing && (
+                <Button variant="contained" color="inherit">
+                  {translate('page.action.reset')}
+                </Button>
+              )}
               <Button
                 variant="contained"
                 color={isEditing ? Color.WARNING : Color.PRIMARY}
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
               >
-                {isEditing ? 'Update' : 'Create'}
+                {isEditing ? translate('page.action.update') : translate('page.action.create')}
               </Button>
             </Stack>
           </Stack>

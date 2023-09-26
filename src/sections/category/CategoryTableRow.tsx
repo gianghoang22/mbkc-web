@@ -6,7 +6,7 @@ import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typo
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Category, CategoryType } from '@types';
-import { Color } from 'common/enum';
+import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
@@ -69,14 +69,14 @@ function CategoryTableRow({
 
         <TableCell align="left">
           {showAction ? (
-            <Label color={(category.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+            <Label color={(category.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
               {sentenceCase(category?.status)}
             </Label>
           ) : (
             <FormControlLabel
-              control={<Switch size="small" checked={category.status === 'inactive' ? false : true} />}
+              control={<Switch size="small" checked={category.status === Status.INACTIVE ? false : true} />}
               label={
-                <Label color={(category.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+                <Label color={(category.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
                   {sentenceCase(category?.status)}
                 </Label>
               }
@@ -99,8 +99,8 @@ function CategoryTableRow({
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.category') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.category') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.category') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.category') })}
         />
       )}
     </>

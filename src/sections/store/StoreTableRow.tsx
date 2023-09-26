@@ -1,13 +1,17 @@
 import { sentenceCase } from 'change-case';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Store } from '@types';
-import { Label, Popover } from 'components';
-import { usePopover } from 'hooks';
+import { ConfirmDialog, Label, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { Color } from 'common/enum';
+import { PATH_ADMIN_APP } from 'routes/paths';
+import { setEditStore } from 'redux/store/storeSlice';
+import { useAppDispatch } from 'redux/configStore';
 
 interface StoreTableRowProps {
   handleNavigateDetail: (store: Store, accountId: number) => void;
@@ -26,14 +30,23 @@ function StoreTableRow({
   haveKitchenCenter = false,
   haveBrand = false,
 }: StoreTableRowProps) {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { translate } = useLocales();
+  const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    navigate(PATH_ADMIN_APP.store.root + `/update/${store.storeId}`);
+    dispatch(setEditStore(store));
+  };
+
+  const handleDelete = () => {};
 
   return (
     <>
       <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
+        <TableCell width={80} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {index + 1}
         </TableCell>
         <TableCell
@@ -58,7 +71,7 @@ function StoreTableRow({
             {store.brand}
           </TableCell>
         )}
-        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+        <TableCell align="left" width={120} onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.partner}
         </TableCell>
 
@@ -81,7 +94,17 @@ function StoreTableRow({
         )}
       </TableRow>
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} />
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+
+      {isOpen && (
+        <ConfirmDialog
+          open={isOpen}
+          onClose={handleOpen}
+          onAction={handleDelete}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.store') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.store') })}
+        />
+      )}
     </>
   );
 }

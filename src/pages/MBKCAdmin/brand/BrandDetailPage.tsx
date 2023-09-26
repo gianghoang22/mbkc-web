@@ -206,8 +206,8 @@ function BrandDetailPage(props: any) {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.brand') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.brand') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.brand') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.brand') })}
         />
       )}
     </>

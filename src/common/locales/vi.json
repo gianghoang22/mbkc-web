@@ -10,7 +10,7 @@
     "profile": "Thông tin",
     "logout": "Đăng xuất"
   },
-  "sidebar": {
+  "model": {
     "overview": "tổng quan",
     "manage": "quản lý",
     "dashboard": "Bảng điều khiển",

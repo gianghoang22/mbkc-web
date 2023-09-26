@@ -1,0 +1,16 @@
+{
+  "title": {
+    "list": "Danh sách {{model}}",
+    "create": "Tạo mới {{model}}",
+    "update": "Cập nhật {{model}}",
+    "search": "Tìm kiếm {{model}}..."
+  },
+  "action": {
+    "add": "Thêm {{model}}",
+    "create": "Tạo mới",
+    "update": "Cập nhật",
+    "reset": "Đặt lại",
+    "back": "Trở lại",
+    "reload": "Tải lại"
+  }
+}

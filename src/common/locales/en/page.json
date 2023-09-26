@@ -1,0 +1,20 @@
+{
+  "title": {
+    "list": "List {{model}}",
+    "create": "Create New {{model}}",
+    "update": "Update {{model}}",
+    "detail": "{{model}} Detail",
+    "search": "Search {{model}}..."
+  },
+  "content": {
+    "detail": "Detail"
+  },
+  "action": {
+    "add": "Add {{model}}",
+    "create": "Create",
+    "update": "Update",
+    "reset": "Reset",
+    "back": "Back",
+    "reload": "Reload"
+  }
+}

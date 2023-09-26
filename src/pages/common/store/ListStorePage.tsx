@@ -23,7 +23,7 @@ import { getStoreDetail_local, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { useConfigHeadTable, usePagination } from 'hooks';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { Role } from 'common/enum';
 
 // ----------------------------------------------------------------------
@@ -31,6 +31,7 @@ import { Role } from 'common/enum';
 function ListStorePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { pathname } = useLocation();
   const { storeHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -75,7 +76,7 @@ function ListStorePage() {
   return (
     <>
       <Page
-        title="List Store"
+        title={translate('page.title.list', { model: translate('model.store') })}
         pathname={pathname}
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
         actions={() => {
@@ -90,7 +91,7 @@ function ListStorePage() {
                     }}
                     startIcon={<AddRoundedIcon />}
                   >
-                    Create store
+                    {translate('page.action.add', { model: translate('model.store') })}
                   </Button>,
                 ]
               : [];

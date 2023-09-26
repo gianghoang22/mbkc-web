@@ -183,8 +183,8 @@ function StoreDetailPage() {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('sidebar.store') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('sidebar.store') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.store') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.store') })}
         />
       )}
     </>
