@@ -18,14 +18,14 @@ interface CategoryTableRowProps {
   categoryType: CategoryType;
   category: Category;
   index: number;
-  justInfo?: boolean;
+  showAction?: boolean;
 }
 
 function CategoryTableRow({
   index,
   category,
   categoryType,
-  justInfo = false,
+  showAction = false,
   handleNavigateDetail,
 }: CategoryTableRowProps) {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ function CategoryTableRow({
 
   return (
     <>
-      <TableRow hover tabIndex={-1} sx={justInfo ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}>
+      <TableRow hover tabIndex={-1} sx={showAction ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}>
         <TableCell width={80} align="center">
           {index + 1}
         </TableCell>
@@ -67,7 +67,7 @@ function CategoryTableRow({
         </TableCell>
 
         <TableCell align="left">
-          {justInfo ? (
+          {showAction ? (
             <Label color={(category.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
               {sentenceCase(category?.status)}
             </Label>
@@ -82,7 +82,7 @@ function CategoryTableRow({
             />
           )}
         </TableCell>
-        {!justInfo && (
+        {!showAction && (
           <TableCell align="right">
             <IconButton color="inherit" onClick={handleOpenMenu}>
               <MoreVertIcon />

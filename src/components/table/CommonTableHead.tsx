@@ -7,7 +7,7 @@ interface CommonTableHeadProps<T> {
   numSelected?: number;
   rowCount?: number;
   checkbox?: boolean;
-  justInfo?: boolean;
+  showAction?: boolean;
   hideKitchenCenter?: boolean;
   hideBrand?: boolean;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
@@ -22,7 +22,7 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     numSelected = 0,
     rowCount = 0,
     checkbox = false,
-    justInfo = false,
+    showAction = false,
     hideKitchenCenter = false,
     hideBrand = false,
     onSelectAllClick,
@@ -37,10 +37,6 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     : hideBrand
     ? headCells.filter((col) => col.id !== 'brand')
     : headCells;
-
-  console.log('showKitchenCenter', hideKitchenCenter);
-  console.log('showBrand', hideBrand);
-  console.log('filterHeadCells', filterHeadCells);
 
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
@@ -93,7 +89,7 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
             )}
           </TableCell>
         ))}
-        {!justInfo && <TableCell></TableCell>}
+        {showAction && <TableCell></TableCell>}
       </TableRow>
     </TableHead>
   );

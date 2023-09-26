@@ -2,6 +2,7 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Box } from '@mui/material';
 // @mui
 import { Avatar, Button, Divider, MenuItem, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
@@ -76,6 +77,16 @@ function AccountPopover() {
       </Button>
 
       <MenuPopover open={open} handleCloseMenu={handleCloseMenu} sx={{ width: 180 }}>
+        <Box sx={{ my: 1.5, px: 2.5 }}>
+          <Typography variant="subtitle2" noWrap>
+            Tran Phu Son
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+            {userAuth?.email}
+          </Typography>
+        </Box>
+
+        <Divider sx={{ borderStyle: 'dashed' }} />
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
             <MenuItem

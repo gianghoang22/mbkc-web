@@ -1,20 +1,17 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-
 //
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { useAppSelector } from 'redux/configStore';
 import { OrderSort, Store, StoreTable } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
 import { useConfigHeadTable, useModal, usePopover } from 'hooks';
-import { getComparator, stableSort } from 'utils';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { getStoreDetail } from 'redux/store/storeSlice';
+import { getStoreDetail_local } from 'redux/store/storeSlice';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
-
+import { getComparator, stableSort } from 'utils';
 // @mui
 import {
   Avatar,
@@ -38,7 +35,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function KitchenCenterDetailPage(props: any) {
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
@@ -62,7 +59,7 @@ function KitchenCenterDetailPage(props: any) {
 
   const handleNavigateDetail = (store: Store, accountId: number) => {
     navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
-    dispatch(getStoreDetail(store));
+    dispatch(getStoreDetail_local(store));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -168,7 +165,7 @@ function KitchenCenterDetailPage(props: any) {
                       {visibleRows.map((store, index) => {
                         return (
                           <StoreTableRow
-                            justInfo={false}
+                            showAction={false}
                             key={store.storeId}
                             index={index}
                             haveKitchenCenter={false}

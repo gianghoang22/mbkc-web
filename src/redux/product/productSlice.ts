@@ -1,6 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Product, ProductTypeEnum } from '@types';
 import products from 'mock/product';
+import {
+  createNewProductThunk,
+  deleteProductThunk,
+  getAllProductsThunk,
+  getProductDetailThunk,
+  updateProductThunk,
+} from './productThunk';
 
 interface ProductState {
   isEditing: boolean;
@@ -22,6 +29,12 @@ const initialState: ProductState = {
   product: null,
 };
 
+export const createNewProduct = createAsyncThunk('product/create-product', createNewProductThunk);
+export const getAllProducts = createAsyncThunk('product/get-all-products', getAllProductsThunk);
+export const getProductDetail = createAsyncThunk('product/get-product-detail', getProductDetailThunk);
+export const updateProduct = createAsyncThunk('product/update-product', updateProductThunk);
+export const deleteProduct = createAsyncThunk('product/delete-product', deleteProductThunk);
+
 const productSlice = createSlice({
   name: 'product',
   initialState,
@@ -33,14 +46,81 @@ const productSlice = createSlice({
       state.isEditing = true;
       state.product = action.payload;
     },
-    getProductDetail: (state, action) => {
+    getProductDetail_local: (state, action) => {
       state.product = action.payload;
     },
   },
-  extraReducers(builder) {},
+  extraReducers(builder) {
+    builder
+      .addCase(createNewProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createNewProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(createNewProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getAllProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(getAllProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getProductDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProductDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(getProductDetail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(updateProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      });
+  },
 });
 
-export const { setAddProduct, setEditProduct, getProductDetail } = productSlice.actions;
+export const { setAddProduct, setEditProduct, getProductDetail_local } = productSlice.actions;
 const productReducer = productSlice.reducer;
 
 export default productReducer;

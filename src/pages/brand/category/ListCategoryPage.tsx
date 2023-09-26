@@ -19,7 +19,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { CategoryTable, OrderSort, Category, CategoryType } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getCategoryDetail, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
+import { getCategoryDetail_local, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
@@ -35,9 +35,12 @@ function ListCategoryPage() {
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterName, setFilterName] = useState<string>('');
+
+  console.log('page', page);
+  console.log('rowsPerPage', rowsPerPage);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -47,7 +50,7 @@ function ListCategoryPage() {
 
   const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail(category));
+    dispatch(getCategoryDetail_local(category));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -102,6 +105,7 @@ function ListCategoryPage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<CategoryTable>
+                    showAction
                     headCells={categoryHeadCells}
                     order={order}
                     orderBy={orderBy}

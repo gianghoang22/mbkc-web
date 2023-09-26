@@ -2,7 +2,7 @@ export { default as Page } from './Page';
 export { default as Breadcrumbs } from './breadcrumbs/Breadcrumbs';
 export { default as ContentLabel } from './content/ContentLabel';
 export { default as ContentSpace } from './content/ContentSpace';
-export { default as ConfirmDialog } from './dialog/ConfirmDialog';
+export { default as ConfirmDialog } from './Dialog/ConfirmDialog';
 export { default as Helmet } from './helmet/Helmet';
 export { default as Label } from './label/Label';
 export { default as Logo } from './logo/Logo';

@@ -28,7 +28,7 @@ import { useConfigHeadTable, useModal, usePopover } from 'hooks';
 import { useDispatch } from 'react-redux';
 import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppSelector } from 'redux/configStore';
-import { getStoreDetail } from 'redux/store/storeSlice';
+import { getStoreDetail_local } from 'redux/store/storeSlice';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 
@@ -61,7 +61,7 @@ function BrandDetailPage(props: any) {
 
   const handleNavigateDetail = (store: Store, accountId: number) => {
     navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
-    dispatch(getStoreDetail(store));
+    dispatch(getStoreDetail_local(store));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -162,7 +162,7 @@ function BrandDetailPage(props: any) {
                       {visibleRows.map((store, index) => {
                         return (
                           <StoreTableRow
-                            justInfo={false}
+                            showAction={false}
                             key={store.storeId}
                             index={index}
                             store={store}

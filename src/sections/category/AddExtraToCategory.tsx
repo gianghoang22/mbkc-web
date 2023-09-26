@@ -24,7 +24,7 @@ import {
 import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
 import { CommonTableHead, SearchNotFound } from 'components';
 import { useConfigHeadTable } from 'hooks';
-import { getCategoryDetail } from 'redux/category/categorySlice';
+import { getCategoryDetail_local } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableToolbar } from 'sections/category';
@@ -58,7 +58,7 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
 
   const handleNavigateDetail = (category: Category, categoryId: number) => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail(category));
+    dispatch(getCategoryDetail_local(category));
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -135,7 +135,6 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                     <CommonTableHead<CategoryTable>
-                      justInfo
                       checkbox
                       numSelected={selected.length}
                       rowCount={categories.length}
@@ -152,7 +151,7 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
                         return (
                           <ExtraToCategoryRow
                             key={category.categoryId}
-                            justInfo
+                            showAction
                             checkbox
                             index={index}
                             category={category}
