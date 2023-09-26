@@ -12,6 +12,10 @@ export interface LoginResponse {
   };
 }
 
+export interface MessageResponse {
+  message: string;
+}
+
 export interface PaginationParams {
   _limit: number;
   _page: number;

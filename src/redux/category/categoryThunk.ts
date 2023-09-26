@@ -2,7 +2,8 @@ import { axiosClient } from 'api/axiosClient';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
-export const getAllCategoriesThunk = async (_: any, thunkAPI: any) => {
+export const getAllCategoriesThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -10,14 +11,15 @@ export const getAllCategoriesThunk = async (_: any, thunkAPI: any) => {
       console.log(response);
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
   }
 };
 
-export const getCategoryDetailThunk = async (categoryId: number, thunkAPI: any) => {
+export const getCategoryDetailThunk = async (params: any, thunkAPI: any) => {
+  const { categoryId, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -25,7 +27,7 @@ export const getCategoryDetailThunk = async (categoryId: number, thunkAPI: any) 
       console.log(response);
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -33,6 +35,7 @@ export const getCategoryDetailThunk = async (categoryId: number, thunkAPI: any) 
 };
 
 export const createNewCategoryThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -44,7 +47,7 @@ export const createNewCategoryThunk = async (params: any, thunkAPI: any) => {
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -52,6 +55,7 @@ export const createNewCategoryThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const updateCategoryThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -62,7 +66,7 @@ export const updateCategoryThunk = async (params: any, thunkAPI: any) => {
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -70,6 +74,7 @@ export const updateCategoryThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const deleteCategoryThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -80,7 +85,7 @@ export const deleteCategoryThunk = async (params: any, thunkAPI: any) => {
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }

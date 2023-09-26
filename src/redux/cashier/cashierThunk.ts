@@ -2,7 +2,8 @@ import { axiosClient } from 'api/axiosClient';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
-export const getAllCashiersThunk = async (_: any, thunkAPI: any) => {
+export const getAllCashiersThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -10,14 +11,15 @@ export const getAllCashiersThunk = async (_: any, thunkAPI: any) => {
       console.log(response);
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
   }
 };
 
-export const getCashierDetailThunk = async (cashierId: number, thunkAPI: any) => {
+export const getCashierDetailThunk = async (params: any, thunkAPI: any) => {
+  const { cashierId, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -25,7 +27,7 @@ export const getCashierDetailThunk = async (cashierId: number, thunkAPI: any) =>
       console.log(response);
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -33,6 +35,7 @@ export const getCashierDetailThunk = async (cashierId: number, thunkAPI: any) =>
 };
 
 export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -44,7 +47,7 @@ export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -52,6 +55,7 @@ export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const updateCashierThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -62,7 +66,7 @@ export const updateCashierThunk = async (params: any, thunkAPI: any) => {
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -70,6 +74,7 @@ export const updateCashierThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const deleteCashierThunk = async (params: any, thunkAPI: any) => {
+  const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -80,7 +85,7 @@ export const deleteCashierThunk = async (params: any, thunkAPI: any) => {
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
