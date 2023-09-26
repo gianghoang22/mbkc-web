@@ -1,6 +1,6 @@
 export { default as BrandDashboard } from './dashboard/BrandDashboard';
 //
-export { default as CreateNewProductPage } from './product/CreateNewProductPage';
+export { default as CreateProductPage } from './product/CreateProductPage';
 export { default as ListProductPage } from './product/ListProductPage';
 //
 export { default as CreateNewCategoryPage } from './category/CreateNewCategoryPage';

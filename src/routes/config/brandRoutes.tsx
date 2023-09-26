@@ -3,7 +3,7 @@ import {
   BrandDashboard,
   CategoryDetailPage,
   CreateNewCategoryPage,
-  CreateNewProductPage,
+  CreateProductPage,
   ExtraCategoryDetailPage,
   ListCategoryPage,
   ListExtraCategoryPage,
@@ -46,12 +46,12 @@ export const brandRoutes: Route[] = [
   },
   {
     path: PATH_BRAND_APP.product.newProduct,
-    component: <CreateNewProductPage />,
+    component: <CreateProductPage />,
     index: false,
   },
   {
     path: PATH_BRAND_APP.product.editById,
-    component: <CreateNewProductPage />,
+    component: <CreateProductPage />,
     index: false,
   },
   {

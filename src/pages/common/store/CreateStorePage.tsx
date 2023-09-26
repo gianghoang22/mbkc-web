@@ -20,7 +20,7 @@ const schema = yup.object({
   brand: yup.string().required('Please select brand'),
 });
 
-function CreateNewStorePage() {
+function CreateStorePage() {
   const { pathname } = useLocation();
   const { isEditing, store } = useAppSelector((state) => state.store);
 
@@ -79,4 +79,4 @@ function CreateNewStorePage() {
   );
 }
 
-export default CreateNewStorePage;
+export default CreateStorePage;

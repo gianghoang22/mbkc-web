@@ -27,11 +27,11 @@ const initialState: BrandState = {
   brand: null,
 };
 
-export const createNewBrand = createAsyncThunk('Brand/create-Brand', createNewBrandThunk);
-export const getAllBrands = createAsyncThunk('Brand/get-all-Brands', getAllBrandsThunk);
-export const getBrandDetail = createAsyncThunk('Brand/get-Brand-detail', getBrandDetailThunk);
-export const updateBrand = createAsyncThunk('Brand/update-Brand', updateBrandThunk);
-export const deleteBrand = createAsyncThunk('Brand/delete-Brand', deleteBrandThunk);
+export const createNewBrand = createAsyncThunk('Brand/create-brand', createNewBrandThunk);
+export const getAllBrands = createAsyncThunk('Brand/get-all-brands', getAllBrandsThunk);
+export const getBrandDetail = createAsyncThunk('Brand/get-brand-detail', getBrandDetailThunk);
+export const updateBrand = createAsyncThunk('Brand/update-brand', updateBrandThunk);
+export const deleteBrand = createAsyncThunk('Brand/delete-brand', deleteBrandThunk);
 
 const brandSlice = createSlice({
   name: 'brand',

@@ -67,7 +67,7 @@ enum ProductTypeEnum {
 //   brandId: yup.string().required('Please select Product Photo'),
 // });
 
-function CreateNewProductPage(props: any) {
+function CreateProductPage(props: any) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -139,4 +139,4 @@ function CreateNewProductPage(props: any) {
   );
 }
 
-export default CreateNewProductPage;
+export default CreateProductPage;
