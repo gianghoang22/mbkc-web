@@ -19,6 +19,8 @@ interface StoreState {
   isSuccess: boolean;
   stores: Store[];
   store: Store | null;
+  totalPage: number;
+  numberItems: number;
 }
 
 const getPathnameInStorage = getPathname(StorageKeys.PATH_STORE_TO_BACK)
@@ -33,6 +35,8 @@ const initialState: StoreState = {
   isSuccess: false,
   stores: stores,
   store: store,
+  totalPage: 0,
+  numberItems: 5,
 };
 
 export const createNewStore = createAsyncThunk('Store/create-Store', createNewStoreThunk);
