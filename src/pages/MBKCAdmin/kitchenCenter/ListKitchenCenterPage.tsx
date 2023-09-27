@@ -22,6 +22,7 @@ import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import {
   getAllKitchenCenters,
+  getKitchenCenterDetail,
   getKitchenCenterDetail_local,
   setAddKitchenCenter,
 } from 'redux/kitchenCenter/kitchenCenterSlice';
@@ -50,7 +51,7 @@ function ListKitchenCenterPage(props: any) {
 
   const handleNavigateDetail = (kitchenCenter: KitchenCenter, kitchenCenterId: number) => {
     navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
-    dispatch(getKitchenCenterDetail_local(kitchenCenter));
+    dispatch(getKitchenCenterDetail(kitchenCenterId));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

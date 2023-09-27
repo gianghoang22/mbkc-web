@@ -120,7 +120,7 @@ function KitchenCenterDetailPage(props: any) {
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
                       <Stack direction="row" alignItems="center" gap={0.5}>
                         {/* <Typography variant="body1">{kitchenCenter?.title}</Typography> */}
-                        <Typography variant="h6">Kitchen Center DK #1</Typography>
+                        <Typography variant="h6">{kitchenCenter?.name}</Typography>
                       </Stack>
                       <Label color={(kitchenCenter?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
                         {kitchenCenter?.status}

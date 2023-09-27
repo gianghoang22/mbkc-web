@@ -86,6 +86,7 @@ export default function UploadAvatar({
   const onDrop = useCallback(
     async (acceptedFiles: any) => {
       const file = acceptedFiles[0];
+      console.log(file);
       setImageUrl(URL.createObjectURL(file));
       if (onFormChange) {
         onFormChange(file);
@@ -144,11 +145,9 @@ export default function UploadAvatar({
           }}
         >
           <input {...getInputProps()} />
-
           {value && (
             <Box component="img" alt="avatar" src={value ? imageUrl : ''} sx={{ zIndex: 8, objectFit: 'cover' }} />
           )}
-
           <PlaceholderStyle
             className="placeholder"
             sx={{

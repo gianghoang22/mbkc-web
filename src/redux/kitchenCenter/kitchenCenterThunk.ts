@@ -1,7 +1,9 @@
-import { KitchenCenterOptions } from '@types';
+import { CreateKitchenCenterParams, KitchenCenterOptions } from '@types';
 import { axiosClient } from 'api/axiosClient';
-import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
+import { setMessageError } from 'redux/auth/authSlice';
+import { PATH_ADMIN_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
+import { setMessageSuccess } from './kitchenCenterSlice';
 
 export const getAllKitchenCentersThunk = async (options: KitchenCenterOptions, thunkAPI: any) => {
   const accessToken = getAccessToken();
@@ -24,8 +26,9 @@ export const getAllKitchenCentersThunk = async (options: KitchenCenterOptions, t
 export const getKitchenCenterDetailThunk = async (kitchenCenterId: number, thunkAPI: any) => {
   const accessToken = getAccessToken();
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
-      const response = await axiosClient.get(`/sport-center/${kitchenCenterId}`);
+      const response = await axiosClient.get(`/kitchencenters/${kitchenCenterId}`);
       console.log(response);
       return response;
     } catch (error) {
@@ -36,15 +39,16 @@ export const getKitchenCenterDetailThunk = async (kitchenCenterId: number, thunk
   }
 };
 
-export const createNewKitchenCenterThunk = async (params: any, thunkAPI: any) => {
+export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterParams, thunkAPI: any) => {
   const accessToken = getAccessToken();
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
-      const response = await axiosClient.post('/sport-center/', params.newSportCenter);
+      const response = await axiosClient.post('/kitchencenters', params.newKitchenCenter);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        console.log(response);
+        thunkAPI.dispatch(setMessageSuccess(response));
+        params.navigate(PATH_ADMIN_APP.kitchenCenter.list);
       }
       return response;
     } catch (error) {

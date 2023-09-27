@@ -15,12 +15,7 @@ function KitchenCenterForm() {
               Select file for kitchen center's logo
             </Typography>
           </Stack>
-          <UploadImageField
-            label="Drag and drop or select files"
-            name="logoUrl"
-            defaultValue=""
-            isEditing={isEditing}
-          />
+          <UploadImageField label="Drag and drop or select files" name="Logo" defaultValue="" isEditing={isEditing} />
         </Stack>
       </Grid>
       <Grid item md={8} sm={12}>
@@ -33,8 +28,9 @@ function KitchenCenterForm() {
           </Stack>
 
           <Stack spacing={2}>
-            <InputField fullWidth name="name" label="Name" />
-            <InputField fullWidth name="address" label="Address" />
+            <InputField fullWidth name="Name" label="Name" />
+            <InputField fullWidth name="Address" label="Address" />
+            <InputField fullWidth name="ManagerEmail" label="Manager Email" />
           </Stack>
         </Stack>
       </Grid>
