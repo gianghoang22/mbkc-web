@@ -58,10 +58,9 @@ export interface BankingAccountTable {
 
 export interface BrandTable {
   brandId: number;
-  brandImgUrl: string;
-  brandName: string;
+  name: string;
   address: string;
-  brandManager: string;
-  brandManagerEmail: string;
+  logo: string;
   status: string;
+  brandManagerEmail: string;
 }

@@ -1,14 +1,19 @@
 import { axiosClient } from 'api/axiosClient';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
+import { getAllBrands } from './brandSlice';
 
 export const getAllBrandsThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const {
+    navigate,
+    options: { searchKey, status, pageNumber, pageSize },
+  } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
-      const response = await axiosClient.get('/user/sport-center-of-owner');
-      console.log(response);
+      const response = await axiosClient.get(
+        `brands?keySearchName=${searchKey}&keyStatusFilter=${status}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+      );
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -23,7 +28,7 @@ export const getBrandDetailThunk = async (params: any, thunkAPI: any) => {
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
-      const response = await axiosClient.get(`/sport-center/${brandId}`);
+      const response = await axiosClient.get(`/brands/${brandId}`);
       console.log(response);
       return response;
     } catch (error) {
@@ -38,6 +43,7 @@ export const createNewBrandThunk = async (params: any, thunkAPI: any) => {
   const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
       const response = await axiosClient.post('/sport-center/', params.newSportCenter);
       if (response) {
@@ -74,14 +80,26 @@ export const updateBrandThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const deleteBrandThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { navigate, brandId, page, rowsPerPage } = params;
+  const options = {
+    searchKey: '',
+    status: 'Active',
+    pageNumber: page,
+    pageSize: rowsPerPage,
+  };
+  const params_callback = {
+    options,
+    navigate,
+  };
   const accessToken = getAccessToken();
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
     try {
-      const response = await axiosClient.delete(`/sport-center/${params.brandId}/${params.sportId}`);
+      const response = await axiosClient.delete(`/brands/${brandId}`);
       if (response) {
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
+        thunkAPI.dispatch(getAllBrands(params_callback));
+        thunkAPI.dispatch(setMessageSuccess('Deleted Brand Successfully'));
       }
       return response;
     } catch (error) {

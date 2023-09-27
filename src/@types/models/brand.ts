@@ -7,12 +7,11 @@ export interface BrandData {
 
 export interface Brand {
   brandId: number;
-  brandImgUrl: string;
-  brandName: string;
+  name: string;
   address: string;
-  brandManager: string;
-  brandManagerEmail: string;
+  logo: string;
   status: string;
+  brandManagerEmail: string;
 }
 
 export interface BrandToCreate {

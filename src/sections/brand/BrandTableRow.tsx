@@ -8,16 +8,24 @@ import { Brand } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { getBrandDetail_local, setEditBrand, setPathToBackBrand } from 'redux/brand/brandSlice';
+import {
+  deleteBrand,
+  getBrandDetail,
+  getBrandDetail_local,
+  setEditBrand,
+  setPathToBackBrand,
+} from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface BrandTableRowProps {
   index: number;
   brand: Brand;
+  page?: number;
+  rowsPerPage?: number;
 }
 
-function BrandTableRow({ index, brand }: BrandTableRowProps) {
+function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -26,8 +34,12 @@ function BrandTableRow({ index, brand }: BrandTableRowProps) {
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = (brand: Brand, brandId: number) => {
+    const params = {
+      brandId,
+      navigate,
+    };
     navigate(PATH_ADMIN_APP.brand.root + `/detail/${brandId}`);
-    dispatch(getBrandDetail_local(brand));
+    dispatch(getBrandDetail(params));
   };
 
   const handleEdit = () => {
@@ -36,11 +48,18 @@ function BrandTableRow({ index, brand }: BrandTableRowProps) {
     dispatch(setEditBrand(brand));
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    const brandId = brand.brandId;
+    const params = {
+      brandId,
+      navigate,
+    };
+    dispatch(deleteBrand(params));
+  };
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={brand.brandName} sx={{ cursor: 'pointer' }}>
+      <TableRow hover tabIndex={-1} key={brand.name} sx={{ cursor: 'pointer' }}>
         <TableCell width={60} align="center" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
           {index + 1}
         </TableCell>
@@ -50,23 +69,20 @@ function BrandTableRow({ index, brand }: BrandTableRowProps) {
           sx={{ width: 80 }}
           onClick={() => handleNavigateDetail(brand, brand.brandId)}
         >
-          <Avatar alt={brand.brandName} src={brand.brandImgUrl} />
+          <Avatar alt={brand.name} src={brand.logo} />
         </TableCell>
         <TableCell align="left" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
-          {brand.brandName}
+          {brand.name}
         </TableCell>
         <TableCell align="left" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
           {brand.address}
         </TableCell>
-        {/* <TableCell align="left" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
-          {brand.brandManager}
-        </TableCell> */}
         <TableCell align="left">
           <FormControlLabel
-            control={<Switch size="small" checked={brand.status === Status.INACTIVE ? false : true} />}
+            control={<Switch size="small" checked={brand.status === Status.DEACTIVE ? false : true} />}
             label={
-              <Label color={(brand.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                {brand?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
+              <Label color={(brand.status === Status.DEACTIVE && Color.ERROR) || Color.SUCCESS}>
+                {brand?.status === Status.DEACTIVE ? translate('status.inactive') : translate('status.active')}
               </Label>
             }
           />

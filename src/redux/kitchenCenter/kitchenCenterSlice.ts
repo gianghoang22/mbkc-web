@@ -99,7 +99,7 @@ const kitchenCenterSlice = createSlice({
         state.isSuccess = true;
         state.kitchenCenters = [...action.payload?.kitchenCenters];
         state.numberItems = action.payload?.numberItems;
-        state.totalPage = action.payload?.totalPage;
+        state.totalPage = action.payload?.totalPages;
       })
       .addCase(getAllKitchenCenters.rejected, (state, action) => {
         state.isLoading = false;
