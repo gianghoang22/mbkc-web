@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -19,7 +19,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { BrandTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { setAddBrand } from 'redux/brand/brandSlice';
+import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { BrandTableRow, BrandTableToolbar } from 'sections/brand';
@@ -38,6 +38,10 @@ function ListBrandPage(props: any) {
   const [filterName, setFilterName] = useState<string>('');
 
   const { brands } = useAppSelector((state) => state.brand);
+
+  useEffect(() => {
+    dispatch(getAllBrands(navigate));
+  }, [dispatch, navigate]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BrandTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -94,7 +98,7 @@ function ListBrandPage(props: any) {
                   />
                   <TableBody>
                     {visibleRows.map((brand, index) => {
-                      return <BrandTableRow index={index} brand={brand} />;
+                      return <BrandTableRow key={brand.brandId} index={index} brand={brand} />;
                     })}
                     {emptyRows > 0 && (
                       <TableRow
