@@ -1,5 +1,16 @@
+export interface PaginationParams {
+  totalPage: number;
+  numberItems: number;
+  searchValue: string;
+}
+
 export interface Params<T> {
   data: T;
+  navigate: any;
+}
+
+export interface ListParams {
+  pagination: PaginationParams;
   navigate: any;
 }
 export interface LoginResponse {
@@ -16,22 +27,8 @@ export interface MessageResponse {
   message: string;
 }
 
-export interface PaginationParams {
-  _limit: number;
-  _page: number;
-  _total: number;
-}
-
 export interface ListResponse<T> {
+  totalPage: number;
+  numberItems: number;
   data: T[];
-  pagination: PaginationParams;
-}
-
-export interface ListParams {
-  _limit: number;
-  _page: number;
-  _sort: number;
-  _order: 'asc' | 'desc';
-
-  [key: string]: any;
 }

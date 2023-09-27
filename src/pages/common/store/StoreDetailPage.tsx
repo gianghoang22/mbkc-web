@@ -1,4 +1,5 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { ReactNode, useEffect, useMemo } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Avatar, Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
@@ -6,12 +7,12 @@ import { Avatar, Box, Button, Divider, Grid, Stack, Typography } from '@mui/mate
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { ReactNode } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setEditStore, setPathToBack } from 'redux/store/storeSlice';
+import { deleteStore, getStoreDetail, setEditStore, setPathToBack } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 function StoreDetailPage() {
+  const { id: storeId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -22,8 +23,19 @@ function StoreDetailPage() {
   const { userAuth } = useAppSelector((state) => state.auth);
   const { store, pathnameBack } = useAppSelector((state) => state.store);
 
+  const params = useMemo(() => {
+    return {
+      storeId,
+      navigate,
+    };
+  }, [storeId, navigate]);
+
+  useEffect(() => {
+    dispatch(getStoreDetail(params));
+  }, [dispatch, navigate, params]);
+
   const handleDelete = () => {
-    console.log('Handel delete clicked');
+    dispatch(deleteStore(params));
   };
 
   return (
