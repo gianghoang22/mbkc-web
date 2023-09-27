@@ -32,6 +32,7 @@ import {
 
 // @mui icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { KitchenCenterDetailPageSkeleton } from '..';
 
 function KitchenCenterDetailPage(props: any) {
   const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ function KitchenCenterDetailPage(props: any) {
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
+  const { kitchenCenter, isLoading = true } = useAppSelector((state) => state.kitchenCenter);
   const { stores } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -81,136 +82,142 @@ function KitchenCenterDetailPage(props: any) {
 
   return (
     <>
-      <Page
-        title="Kitchen Center Detail"
-        pathname={pathname}
-        navigateDashboard={PATH_ADMIN_APP.root}
-        actions={() => [
-          <Button
-            color="inherit"
-            onClick={handleOpenMenu}
-            endIcon={<KeyboardArrowDownIcon />}
-            style={{
-              backgroundColor: '#000',
-              color: '#fff',
-              width: 140,
-              height: 32,
-            }}
-            sx={{
-              '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
-                backgroundColor: 'rgba(145, 158, 171, 0.08)',
-              },
-            }}
+      {isLoading ? (
+        <KitchenCenterDetailPageSkeleton />
+      ) : (
+        <>
+          <Page
+            title="Kitchen Center Detail"
+            pathname={pathname}
+            navigateDashboard={PATH_ADMIN_APP.root}
+            actions={() => [
+              <Button
+                color="inherit"
+                onClick={handleOpenMenu}
+                endIcon={<KeyboardArrowDownIcon />}
+                style={{
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  width: 140,
+                  height: 32,
+                }}
+                sx={{
+                  '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
+                    backgroundColor: 'rgba(145, 158, 171, 0.08)',
+                  },
+                }}
+              >
+                <Typography>Menu Actions</Typography>
+              </Button>,
+            ]}
           >
-            <Typography>Menu Actions</Typography>
-          </Button>,
-        ]}
-      >
-        <Stack spacing={5} mb={7} width="100%">
-          <Card>
-            <Stack sx={{ px: 3, py: 3 }}>
-              <Grid container columnSpacing={2} alignItems="center">
-                <Grid item md={3} sm={12}>
-                  <Stack width="100%" alignItems="center">
-                    <Avatar src={kitchenCenter?.logo} alt={kitchenCenter?.name} sx={{ width: 150, height: 150 }} />
-                  </Stack>
-                </Grid>
-                <Grid item md={9} sm={12}>
-                  <Stack gap={1}>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                      <Stack direction="row" alignItems="center" gap={0.5}>
-                        {/* <Typography variant="body1">{kitchenCenter?.title}</Typography> */}
-                        <Typography variant="h6">{kitchenCenter?.name}</Typography>
+            <Stack spacing={5} mb={7} width="100%">
+              <Card>
+                <Stack sx={{ px: 3, py: 3 }}>
+                  <Grid container columnSpacing={2} alignItems="center">
+                    <Grid item md={3} sm={12}>
+                      <Stack width="100%" alignItems="center">
+                        <Avatar src={kitchenCenter?.logo} alt={kitchenCenter?.name} sx={{ width: 150, height: 150 }} />
                       </Stack>
-                      <Label color={(kitchenCenter?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                        {kitchenCenter?.status}
-                      </Label>
-                    </Stack>
+                    </Grid>
+                    <Grid item md={9} sm={12}>
+                      <Stack gap={1}>
+                        <Stack direction="row" alignItems="center" justifyContent="space-between">
+                          <Stack direction="row" alignItems="center" gap={0.5}>
+                            {/* <Typography variant="body1">{kitchenCenter?.title}</Typography> */}
+                            <Typography variant="h6">{kitchenCenter?.name}</Typography>
+                          </Stack>
+                          <Label color={(kitchenCenter?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+                            {kitchenCenter?.status}
+                          </Label>
+                        </Stack>
 
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">Address:</Typography>
-                      <Typography variant="body1">{kitchenCenter?.address}</Typography>
-                    </Stack>
-                  </Stack>
-                </Grid>
-              </Grid>
-            </Stack>
-          </Card>
+                        <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
+                          <Typography variant="subtitle1">Address:</Typography>
+                          <Typography variant="body1">{kitchenCenter?.address}</Typography>
+                        </Stack>
+                      </Stack>
+                    </Grid>
+                  </Grid>
+                </Stack>
+              </Card>
 
-          <Card>
-            <Box sx={{ width: '100%' }}>
-              <Paper sx={{ width: '100%', mb: 2 }}>
-                <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
-                <TableContainer>
-                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<StoreTable>
-                      hideKitchenCenter
-                      headCells={storeHeadCells}
-                      order={order}
-                      orderBy={orderBy}
-                      onRequestSort={handleRequestSort}
+              <Card>
+                <Box sx={{ width: '100%' }}>
+                  <Paper sx={{ width: '100%', mb: 2 }}>
+                    <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+                    <TableContainer>
+                      <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                        <CommonTableHead<StoreTable>
+                          hideKitchenCenter
+                          headCells={storeHeadCells}
+                          order={order}
+                          orderBy={orderBy}
+                          onRequestSort={handleRequestSort}
+                        />
+                        <TableBody>
+                          {visibleRows.map((store, index) => {
+                            return (
+                              <StoreTableRow
+                                showAction={false}
+                                key={store.storeId}
+                                index={index}
+                                haveKitchenCenter={false}
+                                haveBrand={true}
+                                store={store}
+                                handleNavigateDetail={handleNavigateDetail}
+                              />
+                            );
+                          })}
+                          {emptyRows > 0 && (
+                            <TableRow
+                              style={{
+                                height: 53 * emptyRows,
+                              }}
+                            >
+                              <TableCell colSpan={storeHeadCells.length} />
+                            </TableRow>
+                          )}
+                        </TableBody>
+                        {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+                      </Table>
+                    </TableContainer>
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      component="div"
+                      count={stores.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
                     />
-                    <TableBody>
-                      {visibleRows.map((store, index) => {
-                        return (
-                          <StoreTableRow
-                            showAction={false}
-                            key={store.storeId}
-                            index={index}
-                            haveKitchenCenter={false}
-                            haveBrand={true}
-                            store={store}
-                            handleNavigateDetail={handleNavigateDetail}
-                          />
-                        );
-                      })}
-                      {emptyRows > 0 && (
-                        <TableRow
-                          style={{
-                            height: 53 * emptyRows,
-                          }}
-                        >
-                          <TableCell colSpan={storeHeadCells.length} />
-                        </TableRow>
-                      )}
-                    </TableBody>
-                    {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  component="div"
-                  count={stores.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </Paper>
-            </Box>
-          </Card>
-        </Stack>
-      </Page>
+                  </Paper>
+                </Box>
+              </Card>
+            </Stack>
+          </Page>
 
-      <Popover
-        type={PopoverType.ALL}
-        open={openPopover}
-        handleCloseMenu={handleCloseMenu}
-        onDelete={handleOpenModal}
-        onEdit={() => {
-          navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter);
-          dispatch(setEditKitchenCenter(kitchenCenter));
-        }}
-      />
+          <Popover
+            type={PopoverType.ALL}
+            open={openPopover}
+            handleCloseMenu={handleCloseMenu}
+            onDelete={handleOpenModal}
+            onEdit={() => {
+              navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter);
+              dispatch(setEditKitchenCenter(kitchenCenter));
+            }}
+          />
 
-      {isOpenModal && (
-        <ConfirmDialog
-          open={isOpenModal}
-          onClose={handleOpenModal}
-          onAction={handleDelete}
-          title={'Confirm Delete Kitchen Center'}
-          description={'Are you sure to delete this kitchen center?'}
-        />
+          {isOpenModal && (
+            <ConfirmDialog
+              open={isOpenModal}
+              onClose={handleOpenModal}
+              onAction={handleDelete}
+              title={'Confirm Delete Kitchen Center'}
+              description={'Are you sure to delete this kitchen center?'}
+            />
+          )}
+        </>
       )}
     </>
   );

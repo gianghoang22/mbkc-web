@@ -23,11 +23,14 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import {
   getAllKitchenCenters,
   getKitchenCenterDetail,
-  getKitchenCenterDetail_local,
   setAddKitchenCenter,
 } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { KitchenCenterTableRow, KitchenCenterTableToolbar } from 'sections/kitchenCenter';
+import {
+  KitchenCenterTableRow,
+  KitchenCenterTableRowSkeleton,
+  KitchenCenterTableToolbar,
+} from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
 
 function ListKitchenCenterPage(props: any) {
@@ -41,7 +44,7 @@ function ListKitchenCenterPage(props: any) {
   const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>('name');
   const [filterName, setFilterName] = useState<string>('');
 
-  const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
+  const { kitchenCenters, isLoading } = useAppSelector((state) => state.kitchenCenter);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenCenterTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -117,26 +120,30 @@ function ListKitchenCenterPage(props: any) {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((kitchenCenter, index) => {
-                      return (
-                        <KitchenCenterTableRow
-                          index={index}
-                          kitchenCenter={kitchenCenter}
-                          handleNavigateDetail={handleNavigateDetail}
-                        />
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={kitchenCenterHeadCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
+                  {isLoading ? (
+                    <KitchenCenterTableRowSkeleton length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((kitchenCenter, index) => {
+                        return (
+                          <KitchenCenterTableRow
+                            index={index}
+                            kitchenCenter={kitchenCenter}
+                            handleNavigateDetail={handleNavigateDetail}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 && (
+                        <TableRow
+                          style={{
+                            height: 53 * emptyRows,
+                          }}
+                        >
+                          <TableCell colSpan={kitchenCenterHeadCells.length} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  )}
                   {isNotFound && <SearchNotFound colNumber={kitchenCenterHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
