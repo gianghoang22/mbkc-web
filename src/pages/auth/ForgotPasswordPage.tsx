@@ -27,8 +27,8 @@ function ForgotPasswordPage() {
       yup.object({
         email: yup
           .string()
-          .required(translate('validation.required', { name: 'Email' }))
-          .email(translate('validation.emailFormat')),
+          .required(translate('page.validation.required', { name: 'Email' }))
+          .email(translate('page.validation.emailFormat')),
       })
     ),
   });
@@ -79,7 +79,7 @@ function ForgotPasswordPage() {
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={4} px={2}>
-                  <InputField fullWidth size="large" name="email" label={translate('form.email')} />
+                  <InputField fullWidth size="large" name="email" label={translate('page.form.email')} />
 
                   <Stack width="100%" px={3}>
                     <Button

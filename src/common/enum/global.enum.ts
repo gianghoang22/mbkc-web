@@ -21,6 +21,11 @@ export const GENDER_OPTIONS = [
   },
 ];
 
+export enum Language {
+  ENGLISH = 'en',
+  VIETNAMESE = 'vi',
+}
+
 export enum Error {
   SERVER_ERROR = 'ERR_NETWORK',
 }

@@ -3,14 +3,33 @@
     "list": "Danh sách {{model}}",
     "create": "Tạo mới {{model}}",
     "update": "Cập nhật {{model}}",
+    "detail": "Chi tiết {{model}}",
     "search": "Tìm kiếm {{model}}..."
   },
-  "action": {
-    "add": "Thêm {{model}}",
-    "create": "Tạo mới",
-    "update": "Cập nhật",
-    "reset": "Đặt lại",
-    "back": "Trở lại",
-    "reload": "Tải lại"
+  "content": {
+    "logo": "Logo",
+    "detail": "Chi tiết",
+    "contentLogo": "Chọn file logo của {{model}}",
+    "dragDrop": "Kéo và thả hoặc chọn tập tin"
+  },
+  "form": {
+    "email": "Email",
+    "password": "Mật khẩu",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "otpCode": "Mã OTP",
+    "name": "Tên",
+    "nameLower": "tên",
+    "nameExchange": "{{model}} {{name}}"
+  },
+  "validation": {
+    "required": "Vui lòng nhập {{name}}",
+    "select": "Vui lòng chọn {{name}}",
+    "emailFormat": "Định dạng email không đúng",
+    "otpAlLeast": "Mã OTP bắt buộc phải có 6 chữ số",
+    "otpMax": "Mã OTP không được vượt quá 6 chữ số",
+    "otpMatches": "OTP chỉ bao gồm chứa số",
+    "matchPassword": "Xác nhận mật khẩu không khớp với mật khẩu mới",
+    "atLeast": "Ít nhất {{number}} giá trị"
   }
 }

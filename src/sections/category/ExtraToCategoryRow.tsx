@@ -125,8 +125,8 @@ function ExtraToCategoryRow({
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('model.extraCategory') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('model.extraCategory') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.extraCategory') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.extraCategory') })}
         />
       )}
     </>

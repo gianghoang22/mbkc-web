@@ -21,7 +21,7 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
         size="small"
         value={filterName}
         onChange={onFilterName}
-        placeholder={translate('page.title.search', { model: translate('model.store') })}
+        placeholder={translate('page.title.search', { model: translate('model.lowercase.store') })}
         startAdornment={
           <InputAdornment position="start">
             <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
@@ -29,7 +29,7 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
         }
       />
 
-      <Tooltip title={translate('page.action.reload')}>
+      <Tooltip title={translate('button.reload')}>
         <IconButton>
           <ReplayIcon />
         </IconButton>

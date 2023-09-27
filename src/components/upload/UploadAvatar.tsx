@@ -7,6 +7,7 @@ import { Theme, alpha, styled } from '@mui/material/styles';
 import { SxProps } from '@mui/system';
 // utils
 import { fData } from 'utils/formatNumber';
+import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -81,6 +82,8 @@ export default function UploadAvatar({
   sx,
   ...other
 }: UploadAvatarProps) {
+  const { translate } = useLocales();
+
   const [imageUrl, setImageUrl] = useState<string>(isEditing ? value : '');
 
   const onDrop = useCallback(
@@ -161,7 +164,9 @@ export default function UploadAvatar({
             }}
           >
             <AddAPhotoIcon sx={{ mb: 1 }} />
-            <Typography variant="caption">{value ? 'Update photo' : 'Upload photo'}</Typography>
+            <Typography variant="caption">
+              {value ? translate('button.updatePhoto') : translate('button.uploadPhoto')}
+            </Typography>
           </PlaceholderStyle>
         </DropZoneStyle>
       </RootStyle>

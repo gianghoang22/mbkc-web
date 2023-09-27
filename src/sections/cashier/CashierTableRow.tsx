@@ -83,8 +83,8 @@ function CashierTableRow({ cashier, index }: CashierTableRowProps) {
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('model.cashier') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('model.cashier') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.cashier') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.cashier') })}
         />
       )}
     </>
