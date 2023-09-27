@@ -8,7 +8,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Cashier } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
-import { useModal, usePopover } from 'hooks';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { getCashierDetail_local, setEditCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
@@ -21,6 +21,7 @@ interface CashierTableRowProps {
 function CashierTableRow({ cashier, index }: CashierTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { handleOpen: handleOpenDetail, isOpen: isOpenDetail } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
@@ -82,8 +83,8 @@ function CashierTableRow({ cashier, index }: CashierTableRowProps) {
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          title={'Confirm Delete Category'}
-          description={'You definitely want to delete this category?'}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.cashier') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.cashier') })}
         />
       )}
     </>

@@ -5,14 +5,16 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 const DatePickerField = ({ name, label, defaultValue = '', transform, ...props }: any) => {
   const { control } = useFormContext();
+
   return (
     <Controller
       control={control}
       defaultValue={defaultValue}
       render={({ field, fieldState }) => (
         <DatePicker
+          fullWidth
           label={label}
-          renderInput={(params: any) => <TextField {...params} {...props} error={false} />}
+          // renderInput={(params: any) => <TextField {...params} {...props} error={false} />}
           {...field}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => field.onChange(transform ? transform.output(e) : e)}
         />

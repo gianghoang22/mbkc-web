@@ -2,10 +2,14 @@
 import { Grid, Stack, Typography } from '@mui/material';
 //
 import { CREATE_STORE_BRANDS_OPTIONS, CREATE_STORE_KITCHEN_CENTERS_OPTIONS } from '@types';
+import { Language } from 'common/enum';
 import { InputField, SelectField, UploadImageField } from 'components';
+import { useLocales } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 
 function CategoryForm() {
+  const { translate, currentLang } = useLocales();
+
   const { isEditing } = useAppSelector((state) => state.store);
 
   return (
@@ -13,13 +17,13 @@ function CategoryForm() {
       <Grid item md={4} sm={12}>
         <Stack alignItems="center" gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Logo</Typography>
+            <Typography variant="subtitle1">{translate('page.content.logo')}</Typography>
             <Typography variant="body2" color="grey.600">
-              Select file for store's logo
+              {translate('page.content.contentLogo', { model: translate('model.lowercase.store') })}
             </Typography>
           </Stack>
           <UploadImageField
-            label="Drag and drop or select files"
+            label={translate('page.content.dragDrop')}
             name="logoUrl"
             defaultValue=""
             isEditing={isEditing}
@@ -29,25 +33,47 @@ function CategoryForm() {
       <Grid item md={8} sm={12}>
         <Stack gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Detail</Typography>
+            <Typography variant="subtitle1">{translate('page.content.detail')}</Typography>
             <Typography variant="body2" color="grey.600">
-              Name, kitchen center, brand,...
+              {translate('table.name')}, {translate('model.lowercase.kitchenCenter')},{' '}
+              {translate('model.lowercase.brand')},...
             </Typography>
           </Stack>
 
           <Stack spacing={2}>
-            <InputField fullWidth name="name" label="Store name" />
+            {/* store name */}
+            <InputField
+              fullWidth
+              name="name"
+              label={translate(
+                'page.form.nameExchange',
+                currentLang.value === Language.ENGLISH
+                  ? {
+                      model: translate('model.capitalizeOne.store'),
+                      name: translate('page.form.name'),
+                    }
+                  : {
+                      model: translate('page.form.name'),
+                      name: translate('model.lowercase.store'),
+                    }
+              )}
+            />
             <Stack direction="row" spacing={3}>
               <Stack direction="row" alignItems="start" gap={2} width="100%">
                 <SelectField
                   fullWidth
-                  options={CREATE_STORE_KITCHEN_CENTERS_OPTIONS}
                   name="kitchenCenter"
-                  label="Kitchen centers"
+                  options={CREATE_STORE_KITCHEN_CENTERS_OPTIONS}
+                  label={translate('model.capitalizeOne.kitchenCenter')}
                 />
               </Stack>
               <Stack direction="row" alignItems="start" gap={2} width="100%">
-                <SelectField fullWidth options={CREATE_STORE_BRANDS_OPTIONS} name="brand" label="Brands" />
+                <SelectField
+                  fullWidth
+                  name="brand"
+                  options={CREATE_STORE_BRANDS_OPTIONS}
+                  label={translate('model.capitalizeOne.brand')}
+                />
               </Stack>
             </Stack>
           </Stack>

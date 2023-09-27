@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, TableCell, TableHead, TableRow, TableSortLabel, Checkbox } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { HeadCell, OrderSort } from '@types';
+import { useLocales } from 'hooks';
 
 interface CommonTableHeadProps<T> {
   numSelected?: number;
@@ -32,6 +33,8 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     onRequestSort,
   } = props;
 
+  const { translate } = useLocales();
+
   const filterHeadCells = hideKitchenCenter
     ? headCells.filter((col) => col.id !== 'kitchenCenter')
     : hideBrand
@@ -59,7 +62,7 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
           </TableCell>
         ) : (
           <TableCell align="center">
-            <TableSortLabel hideSortIcon>No</TableSortLabel>
+            <TableSortLabel hideSortIcon>{translate('table.no')}</TableSortLabel>
           </TableCell>
         )}
 

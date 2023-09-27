@@ -4,8 +4,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { Avatar, Box, Card, Grid, IconButton, Stack, Typography, Tooltip } from '@mui/material';
 //
-import { CategoryStatus, CategoryType } from '@types';
-import { Color } from 'common/enum';
+import { CategoryType } from '@types';
+import { Color, Status } from 'common/enum';
 import { Label, Page } from 'components';
 import { useResponsive } from 'hooks';
 import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
@@ -66,7 +66,7 @@ function ExtraCategoryDetailPage() {
                         <Typography variant="subtitle1">Code:</Typography>
                         <Typography variant="body1">{category?.code}</Typography>
                       </Stack>
-                      <Label color={(category?.status === CategoryStatus.INACTIVE && Color.ERROR) || Color.SUCCESS}>
+                      <Label color={(category?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
                         {category?.status}
                       </Label>
                     </Stack>

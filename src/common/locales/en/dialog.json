@@ -1,0 +1,4 @@
+{
+  "confirmDeleteTitle": "Confirm Delete {{model}}",
+  "confirmDeleteContent": "You definitely want to delete this {{model}}?"
+}

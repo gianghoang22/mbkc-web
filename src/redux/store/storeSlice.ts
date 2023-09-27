@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Store } from '@types';
+import { StorageKeys } from 'constants/storageKeys';
 import { store, stores } from 'mock/store';
+import { getPathname, setLocalStorage } from 'utils';
 import {
   createNewStoreThunk,
   deleteStoreThunk,
@@ -10,21 +12,31 @@ import {
 } from './storeThunk';
 
 interface StoreState {
+  pathnameBack: string;
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
   stores: Store[];
   store: Store | null;
+  totalPage: number;
+  numberItems: number;
 }
 
+const getPathnameInStorage = getPathname(StorageKeys.PATH_STORE_TO_BACK)
+  ? getPathname(StorageKeys.PATH_STORE_TO_BACK)
+  : '';
+
 const initialState: StoreState = {
+  pathnameBack: getPathnameInStorage,
   isEditing: false,
   isLoading: false,
   isError: false,
   isSuccess: false,
   stores: stores,
   store: store,
+  totalPage: 0,
+  numberItems: 5,
 };
 
 export const createNewStore = createAsyncThunk('Store/create-Store', createNewStoreThunk);
@@ -42,6 +54,10 @@ const storeSlice = createSlice({
     },
     setAddStore: (state) => {
       state.isEditing = false;
+    },
+    setPathToBack: (state, action) => {
+      state.pathnameBack = action.payload;
+      setLocalStorage(StorageKeys.PATH_STORE_TO_BACK, action.payload);
     },
     setEditStore: (state, action) => {
       state.isEditing = true;
@@ -118,7 +134,7 @@ const storeSlice = createSlice({
   },
 });
 
-export const { getStoreDetail_local, setAddStore, setEditStore } = storeSlice.actions;
+export const { getStoreDetail_local, setAddStore, setEditStore, setPathToBack } = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 
 export default storeReducer;

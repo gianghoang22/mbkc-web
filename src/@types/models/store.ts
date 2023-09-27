@@ -8,9 +8,9 @@ export interface Store {
   status: string;
 }
 
-export interface StoreToAdd {
+export interface StoreToCreate {
   name: string;
-  logoUrl: string;
+  logoUrl?: string;
   kitchenCenter: string;
   brand: string;
 }

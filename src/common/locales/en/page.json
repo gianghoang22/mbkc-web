@@ -1,0 +1,35 @@
+{
+  "title": {
+    "list": "List {{model}}",
+    "create": "Create new {{model}}",
+    "update": "Update {{model}}",
+    "detail": "{{model}} detail",
+    "search": "Search {{model}}..."
+  },
+  "content": {
+    "logo": "Logo",
+    "detail": "Detail",
+    "contentLogo": "Select the file of the {{model}}'s logo",
+    "dragDrop": "Drag and drop or select files"
+  },
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "otpCode": "OTP Code",
+    "name": "Name",
+    "nameLower": "name",
+    "nameExchange": "{{model}} {{name}}"
+  },
+  "validation": {
+    "required": "Please enter {{name}}",
+    "select": "Please select {{name}}",
+    "emailFormat": "Email format is not correct",
+    "otpAlLeast": "OTP Code is required 6 digits",
+    "otpMax": "OTP code must not exceed 6 digits",
+    "otpMatches": "OTP must contain only numbers",
+    "matchPassword": "Confirm password not match with new password",
+    "atLeast": "At least {{number}} value(s)"
+  }
+}

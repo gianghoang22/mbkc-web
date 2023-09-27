@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
 // @mui
-import {
-  Avatar,
-  FormControlLabel,
-  IconButton,
-  MenuItem,
-  Popover,
-  Stack,
-  Switch,
-  TableCell,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Avatar, FormControlLabel, IconButton, MenuItem, Popover, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';

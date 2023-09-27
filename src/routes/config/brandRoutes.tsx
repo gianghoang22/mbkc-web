@@ -2,7 +2,7 @@ import { Route } from '@types';
 import {
   BrandDashboard,
   CategoryDetailPage,
-  CreateNewCategoryPage,
+  CreateCategoryPage,
   CreateProductPage,
   ExtraCategoryDetailPage,
   ListCategoryPage,
@@ -76,12 +76,12 @@ export const brandRoutes: Route[] = [
   },
   {
     path: PATH_BRAND_APP.category.newCategory,
-    component: <CreateNewCategoryPage />,
+    component: <CreateCategoryPage />,
     index: false,
   },
   {
     path: PATH_BRAND_APP.category.editById,
-    component: <CreateNewCategoryPage />,
+    component: <CreateCategoryPage />,
     index: false,
   },
 ];

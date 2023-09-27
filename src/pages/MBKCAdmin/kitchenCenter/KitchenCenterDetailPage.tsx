@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { OrderSort, Store, StoreTable } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useModal, usePagination, usePopover } from 'hooks';
+import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { getStoreDetail_local } from 'redux/store/storeSlice';
@@ -39,6 +39,7 @@ function KitchenCenterDetailPage(props: any) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { storeHeadCells } = useConfigHeadTable();
+  const { translate } = useLocales();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -165,7 +166,6 @@ function KitchenCenterDetailPage(props: any) {
                                 haveKitchenCenter={false}
                                 haveBrand={true}
                                 store={store}
-                                handleNavigateDetail={handleNavigateDetail}
                               />
                             );
                           })}
@@ -213,8 +213,10 @@ function KitchenCenterDetailPage(props: any) {
               open={isOpenModal}
               onClose={handleOpenModal}
               onAction={handleDelete}
-              title={'Confirm Delete Kitchen Center'}
-              description={'Are you sure to delete this kitchen center?'}
+              title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.kitchenCenter') })}
+              description={translate('dialog.confirmDeleteContent', {
+                model: translate('model.lowercase.kitchenCenter'),
+              })}
             />
           )}
         </>

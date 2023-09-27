@@ -1,6 +1,8 @@
 import { UserAuth } from '@types';
+import { Error } from 'common/enum';
 import { StorageKeys } from 'constants/storageKeys';
 import Cookie from 'js-cookie';
+import { PATH_ERROR } from 'routes/paths';
 import { Md5 } from 'ts-md5';
 
 // localstorage
@@ -44,6 +46,14 @@ export const removeEmailVerify = () => removeLocalStorage(StorageKeys.EMAIL_VERI
 export const getLanguage = () => getLocalStorage(StorageKeys.I18_LANGUAGE);
 export const removeLanguage = () => removeLocalStorage(StorageKeys.I18_LANGUAGE);
 
+export const getPathname = (name: string) => {
+  const pathname = getLocalStorage(name);
+  if (pathname === null || pathname === undefined) {
+    return '';
+  }
+  return pathname;
+};
+
 // cookie
 export const setAccessToken = (accessToken: string) => Cookie.set(StorageKeys.ACCESS_TOKEN, accessToken);
 export const getAccessToken = () =>
@@ -66,4 +76,11 @@ export const removeRefreshToken = () => Cookie.remove(StorageKeys.REFRESH_TOKEN)
 export const hashPasswordMD5 = (password: string) => Md5.hashStr(password);
 
 // get API error message
-export const getErrorMessage = (error: any) => error?.response.data.Message[0].DescriptionError[0];
+export const getErrorMessage = (error: any, navigate: any) => {
+  if (error?.code === Error.SERVER_ERROR) {
+    console.log(error);
+    navigate(PATH_ERROR.serverError);
+    return;
+  }
+  return error?.response.data.Message[0].DescriptionError[0];
+};

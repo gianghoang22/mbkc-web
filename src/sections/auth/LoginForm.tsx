@@ -33,9 +33,11 @@ function LoginForm() {
       yup.object({
         email: yup
           .string()
-          .required(translate('validation.required', { name: 'Email' }))
-          .email(translate('validation.emailFormat')),
-        password: yup.string().required(translate('validation.required', { name: translate('form.password') })),
+          .required(translate('page.validation.required', { name: 'Email' }))
+          .email(translate('page.validation.emailFormat')),
+        password: yup
+          .string()
+          .required(translate('page.validation.required', { name: translate('page.form.password') })),
       })
     ),
   });
@@ -55,13 +57,13 @@ function LoginForm() {
     <>
       <FormProvider {...loginForm}>
         <Stack spacing={3}>
-          <InputField fullWidth size="large" name="email" label={translate('form.email')} />
+          <InputField fullWidth size="large" name="email" label={translate('page.form.email')} />
 
           <InputField
             fullWidth
             size="large"
             name="password"
-            label={translate('form.password')}
+            label={translate('page.form.password')}
             type={showPassword ? 'text' : 'password'}
             InputProps={{
               endAdornment: (

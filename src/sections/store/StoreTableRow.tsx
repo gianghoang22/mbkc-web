@@ -1,39 +1,63 @@
-import { sentenceCase } from 'change-case';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Store } from '@types';
-import { Label, Popover } from 'components';
-import { usePopover } from 'hooks';
-import { Color } from 'common/enum';
+import { Color, Role, Status } from 'common/enum';
+import { ConfirmDialog, Label, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getStoreDetail_local, setEditStore, setPathToBack } from 'redux/store/storeSlice';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 interface StoreTableRowProps {
-  handleNavigateDetail: (store: Store, accountId: number) => void;
   store: Store;
   index: number;
   showAction?: boolean;
-  haveKitchenCenter?: boolean;
   haveBrand?: boolean;
+  haveKitchenCenter?: boolean;
 }
 
 function StoreTableRow({
   index,
   store,
   showAction = false,
-  handleNavigateDetail,
-  haveKitchenCenter = false,
   haveBrand = false,
+  haveKitchenCenter = false,
 }: StoreTableRowProps) {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
+  const { translate } = useLocales();
+  const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleEdit = () => {};
+  const { userAuth } = useAppSelector((state) => state.auth);
+
+  const handleNavigateDetail = (store: Store, storeId: number) => {
+    navigate(
+      userAuth?.roleName === Role.BRAND_MANAGER
+        ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
+        : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
+    );
+    dispatch(setPathToBack(pathname));
+    dispatch(getStoreDetail_local(store));
+  };
+
+  const handleEdit = () => {
+    navigate(PATH_ADMIN_APP.store.root + `/update/${store.storeId}`);
+    dispatch(setPathToBack(pathname));
+    dispatch(setEditStore(store));
+  };
+
+  const handleDelete = () => {};
 
   return (
     <>
       <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
+        <TableCell width={80} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {index + 1}
         </TableCell>
         <TableCell
@@ -58,16 +82,16 @@ function StoreTableRow({
             {store.brand}
           </TableCell>
         )}
-        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+        <TableCell align="left" width={120} onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.partner}
         </TableCell>
 
         <TableCell align="left">
           <FormControlLabel
-            control={<Switch size="small" checked={store.status === 'inactive' ? false : true} />}
+            control={<Switch size="small" checked={store.status === Status.INACTIVE ? false : true} />}
             label={
-              <Label color={(store.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                {sentenceCase(store.status)}
+              <Label color={(store.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
+                {store?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
               </Label>
             }
           />
@@ -81,7 +105,17 @@ function StoreTableRow({
         )}
       </TableRow>
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} />
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+
+      {isOpen && (
+        <ConfirmDialog
+          open={isOpen}
+          onClose={handleOpen}
+          onAction={handleDelete}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.store') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.store') })}
+        />
+      )}
     </>
   );
 }

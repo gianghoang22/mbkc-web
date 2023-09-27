@@ -160,7 +160,6 @@ function KitchenCenterDetailPage(props: any) {
                             haveKitchenCenter={false}
                             haveBrand={true}
                             store={store}
-                            handleNavigateDetail={handleNavigateDetail}
                           />
                         );
                       })}

@@ -1,8 +1,7 @@
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
 import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-
+import { PATH_ADMIN_APP } from 'routes/paths';
 //mui
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {
@@ -21,33 +20,28 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-
-import { OrderSort, Store, StoreTable } from '@types';
+//
+import { OrderSort, StoreTable } from '@types';
 import { Color, PopoverType, Status } from 'common/enum';
-import { useConfigHeadTable, useModal, usePagination, usePopover } from 'hooks';
+import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { useDispatch } from 'react-redux';
 import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppSelector } from 'redux/configStore';
-import { getStoreDetail_local } from 'redux/store/storeSlice';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 
 function BrandDetailPage(props: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { translate } = useLocales();
   const { pathname } = useLocation();
+  const { storeHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { brand } = useAppSelector((state) => state.brand);
-
-  const handleDelete = () => {
-    console.log('Deleting');
-  };
-
   const { stores } = useAppSelector((state) => state.store);
-  const { storeHeadCells } = useConfigHeadTable();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
@@ -57,11 +51,6 @@ function BrandDetailPage(props: any) {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (store: Store, accountId: number) => {
-    navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
-    dispatch(getStoreDetail_local(store));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +68,10 @@ function BrandDetailPage(props: any) {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const handleDelete = () => {
+    console.log('Deleting');
+  };
+
   return (
     <>
       <Page
@@ -91,8 +84,6 @@ function BrandDetailPage(props: any) {
             style={{
               backgroundColor: '#000',
               color: '#fff',
-              width: 140,
-              height: 32,
             }}
             sx={{
               '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
@@ -158,7 +149,6 @@ function BrandDetailPage(props: any) {
                             index={index}
                             store={store}
                             haveKitchenCenter
-                            handleNavigateDetail={handleNavigateDetail}
                           />
                         );
                       })}
@@ -206,8 +196,8 @@ function BrandDetailPage(props: any) {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
-          title={'Confirm Delete Brand'}
-          description={'Are you sure to delete this brand?'}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.brand') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.brand') })}
         />
       )}
     </>

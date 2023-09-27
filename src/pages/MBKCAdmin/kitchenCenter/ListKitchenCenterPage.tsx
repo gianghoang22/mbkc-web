@@ -53,8 +53,12 @@ function ListKitchenCenterPage(props: any) {
   };
 
   const handleNavigateDetail = (kitchenCenter: KitchenCenter, kitchenCenterId: number) => {
+    const params = {
+      navigate,
+      kitchenCenterId,
+    };
     navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
-    dispatch(getKitchenCenterDetail(kitchenCenterId));
+    dispatch(getKitchenCenterDetail(params));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +87,11 @@ function ListKitchenCenterPage(props: any) {
   };
 
   useEffect(() => {
-    dispatch(getAllKitchenCenters(options));
+    const params = {
+      options,
+      navigate,
+    };
+    dispatch(getAllKitchenCenters(params));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage, filterName]);
 

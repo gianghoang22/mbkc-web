@@ -16,12 +16,22 @@ const schema = yup.object({
   name: yup.string().required('Please enter Category Name'),
   code: yup.string().required('Please enter Category Code'),
   type: yup.string().required('Please select Category Type'),
-  displayOrder: yup.number().required('Please enter the category display order'),
+  displayOrder: yup
+    .number()
+    .typeError('Please enter the category display order')
+    // .transform((value, originalValue) => {
+    //   // Xử lý giá trị trước khi kiểm tra kiểu dữ liệu
+    //   if (originalValue === '') {
+    //     return NaN; // Chuyển giá trị "" thành NaN
+    //   }
+    //   return value;
+    // })
+    .required('Please enter the category display order'),
   description: yup.string().required('Please enter Category Name'),
   imageUrl: yup.string().required('Please select Category Photo'),
 });
 
-function CreateNewCategoryPage() {
+function CreateCategoryPage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -96,4 +106,4 @@ function CreateNewCategoryPage() {
   );
 }
 
-export default CreateNewCategoryPage;
+export default CreateCategoryPage;

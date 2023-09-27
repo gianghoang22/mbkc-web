@@ -1,0 +1,18 @@
+export enum Breadcrumb {
+  BRAND = 'brand',
+  KITCHEN_CENTER = 'kitchen center',
+  STORE = 'store',
+  CATEGORY = 'category',
+  EXTRA_CATEGORY = 'extra category',
+  PRODUCT = 'category',
+  CASHIER = 'cashier',
+  ORDER = 'order',
+  BANKING_ACCOUNT = 'banking account',
+  TRANSACTION = 'transaction',
+  PARTNER = 'partner',
+  WALLET = 'wallet',
+  LIST = 'list',
+  DETAIL = 'detail',
+  UPDATE = 'update',
+  CREATE = 'create new',
+}

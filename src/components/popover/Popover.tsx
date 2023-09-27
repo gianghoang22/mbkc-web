@@ -49,7 +49,7 @@ function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDele
               }}
             >
               <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-              {translate('action.edit')}
+              {translate('button.edit')}
             </MenuItem>
 
             <MenuItem
@@ -60,7 +60,7 @@ function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDele
               }}
             >
               <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-              {translate('action.delete')}
+              {translate('button.delete')}
             </MenuItem>
           </>
         ) : type === PopoverType.EDIT ? (
@@ -71,7 +71,7 @@ function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDele
             }}
           >
             <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-            Edit
+            {translate('button.edit')}
           </MenuItem>
         ) : (
           <MenuItem
@@ -82,7 +82,7 @@ function Popover({ type = PopoverType.ALL, open, handleCloseMenu, onEdit, onDele
             }}
           >
             <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-            Delete
+            {translate('button.delete')}
           </MenuItem>
         )}
       </MUIPopover>

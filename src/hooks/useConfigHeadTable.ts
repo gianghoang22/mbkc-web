@@ -8,8 +8,10 @@ import {
   ProductTable,
   StoreTable,
 } from '@types';
+import useLocales from './useLocales';
 
 function useConfigHeadTable() {
+  const { translate } = useLocales();
   const productHeadCells: HeadCell<ProductTable>[] = [
     {
       id: 'image',
@@ -96,42 +98,42 @@ function useConfigHeadTable() {
   const storeHeadCells: HeadCell<StoreTable>[] = [
     {
       id: 'logoUrl',
-      label: 'Logo',
+      label: translate('table.logo'),
       numeric: false,
       hideSortIcon: true,
       disablePadding: true,
     },
     {
       id: 'name',
-      label: 'Name',
+      label: translate('table.name'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: true,
     },
     {
       id: 'kitchenCenter',
-      label: 'Kitchen center',
+      label: translate('table.kitchenCenter'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
       id: 'brand',
-      label: 'Brand',
+      label: translate('table.brand'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
       id: 'partner',
-      label: 'Partner',
+      label: translate('table.partner'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
       id: 'status',
-      label: 'Status',
+      label: translate('table.status'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -179,14 +181,14 @@ function useConfigHeadTable() {
   const bankingAccountHeadCells: HeadCell<BankingAccountTable>[] = [
     {
       id: 'logoUrl',
-      label: 'Logo',
+      label: translate('table.logo'),
       numeric: false,
       hideSortIcon: true,
       disablePadding: true,
     },
     {
       id: 'name',
-      label: 'Name',
+      label: translate('table.name'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: true,
@@ -210,14 +212,14 @@ function useConfigHeadTable() {
   const kitchenCenterHeadCells: HeadCell<KitchenCenterTable>[] = [
     {
       id: 'logo',
-      label: 'Logo',
+      label: translate('table.logo'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
       id: 'name',
-      label: 'Name',
+      label: translate('table.name'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -241,7 +243,7 @@ function useConfigHeadTable() {
   const brandHeadCells: HeadCell<BrandTable>[] = [
     {
       id: 'brandImgUrl',
-      label: 'Logo',
+      label: translate('table.logo'),
       numeric: false,
       hideSortIcon: true,
       disablePadding: false,

@@ -5,8 +5,17 @@ export interface Cashier {
   email: string;
   fullName: string;
   gender: Gender;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   avatar: string;
-  citizenNumber: number;
+  citizenNumber: string;
   status: Status;
+}
+
+export interface CashierToCreate {
+  email: string;
+  fullName: string;
+  gender: string;
+  dateOfBirth: Date;
+  avatar?: string;
+  citizenNumber: string;
 }

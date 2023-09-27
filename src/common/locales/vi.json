@@ -5,31 +5,14 @@
     "kitchenCenterManager": "Quản lý bếp trung tâm",
     "cashier": "Nhân viên thu ngân"
   },
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động"
+  },
   "header": {
     "account": "Tài khoản",
     "profile": "Thông tin",
     "logout": "Đăng xuất"
-  },
-  "sidebar": {
-    "overview": "tổng quan",
-    "manage": "quản lý",
-    "dashboard": "Bảng điều khiển",
-    "information": "Thông tin",
-    "kitchenCenter": "Bếp trung tâm",
-    "store": "cửa hàng",
-    "brand": "thương hiệu",
-    "category": "danh mục thường",
-    "extraCategory": "danh mục extra",
-    "product": "sản phẩm",
-    "cashier": "nhân viên thu ngân",
-    "banking": "tài khoản ngân hàng",
-    "order": "đơn hàng",
-    "wallet": "ví",
-    "transaction": "giao dịch"
-  },
-  "action": {
-    "edit": "Chỉnh sửa",
-    "delete": "Xóa"
   },
   "button": {
     "login": "Đăng nhập",
@@ -37,13 +20,22 @@
     "verify": "Xác minh",
     "updatePassword": "Cập nhật mật khẩu",
     "addMore": "Thêm",
-    "create": "Tạo",
+    "add": "Thêm {{model}}",
+    "create": "Tạo mới",
     "update": "Cập nhật",
+    "edit": "Chỉnh sửa",
     "delete": "Xóa",
     "save": "Lưu",
     "cancel": "Hủy",
     "all": "Tất cả",
-    "goHome": "Về trang chủ"
+    "goHome": "Về trang chủ",
+    "confirm": "Xác nhận",
+    "reset": "Đặt lại",
+    "back": "Trở lại",
+    "reload": "Tải lại",
+    "menuAction": "Thao tác",
+    "uploadPhoto": "Tải hình ảnh",
+    "updatePhoto": "Cập nhật hình ảnh"
   },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",
@@ -51,7 +43,6 @@
     "available": "Hoạt động",
     "notAvailable": "Không Hoạt động",
     "choosedItem": "Đã chọn",
-    "confirm": "Xác nhận",
     "confirmDeleteTitle": "Xác nhận xóa",
     "deleteSuccess": "Xóa thành công",
     "status": "Trạng thái",
@@ -60,21 +51,24 @@
     "fromTime": "Từ",
     "toTime": "Đến"
   },
-  "form": {
-    "email": "Email",
-    "password": "Mật khẩu",
-    "newPassword": "Mật khẩu mới",
-    "confirmPassword": "Xác nhận mật khẩu",
-    "otpCode": "Mã OTP"
-  },
-  "validation": {
-    "required": "Vui lòng nhập {{name}}",
-    "emailFormat": "Định dạng email không đúng",
-    "otpAlLeast": "Mã OTP bắt buộc phải có 6 chữ số",
-    "otpMax": "Mã OTP không được vượt quá 6 chữ số",
-    "otpMatches": "OTP chỉ bao gồm chứa số",
-    "matchPassword": "Xác nhận mật khẩu không khớp với mật khẩu mới",
-    "atLeast": "Ít nhất {{number}} giá trị"
+  "breadcrumb": {
+    "dashboard": "Bảng điều khiển",
+    "category": "Danh mục",
+    "brand": "Thương hiệu",
+    "kitchen-center": "Bếp trung tâm",
+    "store": "Cửa hàng",
+    "extra-category": "Danh mục Extra",
+    "product": "Sản phẩm",
+    "cashier": "Nhân viên thu ngân",
+    "order": "Đơn đặt hàng",
+    "banking-account": "Tài khoản ngân hàng",
+    "transaction": "Giao dịch",
+    "partner": "Đối tác",
+    "wallet": "Ví",
+    "list": "Danh sách",
+    "detail": "Chi tiết",
+    "update": "Cập nhật",
+    "create-new": "Tạo mới"
   },
   "error": {
     "serverTitle": "500 Lỗi Máy Chủ Nội Bộ",

@@ -38,13 +38,15 @@ function ResetPasswordPage() {
       yup.object({
         email: yup
           .string()
-          .required(translate('validation.required', { name: 'Email' }))
-          .email(translate('validation.emailFormat')),
-        newPassword: yup.string().required(translate('validation.required', { name: translate('form.newPassword') })),
+          .required(translate('page.validation.required', { name: 'Email' }))
+          .email(translate('page.validation.emailFormat')),
+        newPassword: yup
+          .string()
+          .required(translate('page.validation.required', { name: translate('page.form.newPassword') })),
         confirmPassword: yup
           .string()
-          .required(translate('validation.required', { name: translate('form.confirmPassword') }))
-          .oneOf([ref('newPassword')], translate('validation.matchPassword')),
+          .required(translate('page.validation.required', { name: translate('page.form.confirmPassword') }))
+          .oneOf([ref('newPassword')], translate('page.validation.matchPassword')),
       })
     ),
   });

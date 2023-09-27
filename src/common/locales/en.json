@@ -5,31 +5,14 @@
     "kitchenCenterManager": "Kitchen Center Manager",
     "cashier": "Cashier"
   },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
   "header": {
     "account": "Account",
     "profile": "My profile",
     "logout": "Logout"
-  },
-  "sidebar": {
-    "overview": "overview",
-    "manage": "manage",
-    "dashboard": "dashboard",
-    "information": "information",
-    "kitchenCenter": "kitchen center",
-    "store": "store",
-    "brand": "brand",
-    "category": "category",
-    "extraCategory": "extra category",
-    "product": "product",
-    "cashier": "cashier",
-    "banking": "banking account",
-    "order": "order",
-    "wallet": "wallet",
-    "transaction": "transaction"
-  },
-  "action": {
-    "edit": "Edit",
-    "delete": "Delete"
   },
   "button": {
     "login": "Login",
@@ -38,12 +21,21 @@
     "updatePassword": "Update password",
     "create": "Create",
     "addMore": "Add",
+    "add": "Add {{model}}",
     "delete": "Delete",
     "update": "Update",
+    "edit": "Edit",
     "save": "Save",
     "cancel": "Cancel",
     "all": "All",
-    "goHome": "Go to Home"
+    "goHome": "Go to Home",
+    "confirm": "Confirm",
+    "reset": "Reset",
+    "back": "Back",
+    "reload": "Reload",
+    "menuAction": "Menu actions",
+    "uploadPhoto": "Upload photo",
+    "updatePhoto": "Update photo"
   },
   "common": {
     "welcome": "Hi, Welcome Back",
@@ -51,7 +43,6 @@
     "available": "Available",
     "notAvailable": "Not available",
     "choosedItem": "Choosed",
-    "confirm": "Confirm",
     "confirmDeleteTitle": "Confirm delete",
     "deleteSuccess": "Deleted successfully",
     "status": "Status",
@@ -60,21 +51,24 @@
     "fromTime": "From",
     "toTime": "To"
   },
-  "form": {
-    "email": "Email",
-    "password": "Password",
-    "newPassword": "New password",
-    "confirmPassword": "Confirm password",
-    "otpCode": "OTP Code"
-  },
-  "validation": {
-    "required": "Please enter {{name}}",
-    "emailFormat": "Email format is not correct",
-    "otpAlLeast": "OTP Code is required 6 digits",
-    "otpMax": "OTP code must not exceed 6 digits",
-    "otpMatches": "OTP must contain only numbers",
-    "matchPassword": "Confirm password not match with new password",
-    "atLeast": "At least {{number}} value(s)"
+  "breadcrumb": {
+    "dashboard": "Dashboard",
+    "category": "Category",
+    "brand": "Brand",
+    "kitchen-center": "Kitchen center",
+    "store": "Store",
+    "extra-category": "Extra category",
+    "product": "Product",
+    "cashier": "Cashier",
+    "order": "Order",
+    "banking-account": "Banking account",
+    "transaction": "Transaction",
+    "partner": "Partner",
+    "wallet": "Wallet",
+    "list": "List",
+    "detail": "Detail",
+    "update": "Update",
+    "create-new": "Create new"
   },
   "error": {
     "serverTitle": "500 Internal Server Error",
