@@ -1,48 +1,41 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
-import * as yup from 'yup';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { yupResolver } from '@hookform/resolvers/yup';
-import { StoreToAdd } from '@types';
+import { StoreToCreate } from '@types';
 import { Color } from 'common/enum';
 import { Page } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreForm } from 'sections/store';
-import { useLocales } from 'hooks';
-
-const schema = yup.object({
-  name: yup.string().required('Please enter store name'),
-  logoUrl: yup.string().required('Please choose store logo'),
-  kitchenCenter: yup.string().required('Please select kitchen center'),
-  brand: yup.string().required('Please select brand'),
-});
+import { useLocales, useValidationForm } from 'hooks';
 
 function CreateStorePage() {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const { isEditing, store } = useAppSelector((state) => state.store);
+  const { schemaStore } = useValidationForm();
+  const { store, isEditing, pathnameBack } = useAppSelector((state) => state.store);
 
-  const createStoreForm = useForm<StoreToAdd>({
+  const createStoreForm = useForm<StoreToCreate>({
     defaultValues: {
       name: isEditing ? store?.name : '',
       logoUrl: isEditing ? store?.logoUrl : '',
       kitchenCenter: isEditing ? store?.kitchenCenter : '',
       brand: isEditing ? store?.brand : '',
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaStore),
   });
 
   const { handleSubmit, watch } = createStoreForm;
 
   const image = watch('logoUrl');
-  console.log('image edit', image);
 
-  const onSubmit = async (values: StoreToAdd) => {
+  const onSubmit = async (values: StoreToCreate) => {
     const data = { ...values, logoUrl: image };
-    console.log('StoreToAdd', data);
+    console.log('StoreToCreate', data);
   };
 
   return (
@@ -50,8 +43,8 @@ function CreateStorePage() {
       <Page
         title={
           isEditing
-            ? translate('page.title.update', { model: translate('model.store') })
-            : translate('page.title.create', { model: translate('model.store') })
+            ? translate('page.title.update', { model: translate('model.lowercase.store') })
+            : translate('page.title.create', { model: translate('model.lowercase.store') })
         }
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
@@ -61,13 +54,13 @@ function CreateStorePage() {
             <StoreForm />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
-            <Button variant="outlined" color="inherit">
-              {translate('page.action.back')}
+            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameBack)}>
+              {translate('button.back')}
             </Button>
             <Stack direction="row" gap={1.5}>
               {isEditing && (
                 <Button variant="contained" color="inherit">
-                  {translate('page.action.reset')}
+                  {translate('button.reset')}
                 </Button>
               )}
               <Button
@@ -76,7 +69,7 @@ function CreateStorePage() {
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
               >
-                {isEditing ? translate('page.action.update') : translate('page.action.create')}
+                {isEditing ? translate('button.update') : translate('button.create')}
               </Button>
             </Stack>
           </Stack>

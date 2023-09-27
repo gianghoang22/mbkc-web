@@ -1,26 +1,26 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
+import { Avatar, Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 //
-import { Color, PopoverType } from 'common/enum';
+import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
-import { useAppSelector } from 'redux/configStore';
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { useDispatch } from 'react-redux';
-import { setEditStore } from 'redux/store/storeSlice';
+import { ReactNode } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setEditStore, setPathToBack } from 'redux/store/storeSlice';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 function StoreDetailPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { translate } = useLocales();
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
+  const { translate, currentLang } = useLocales();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const { store } = useAppSelector((state) => state.store);
+  const { userAuth } = useAppSelector((state) => state.auth);
+  const { store, pathnameBack } = useAppSelector((state) => state.store);
 
   const handleDelete = () => {
     console.log('Handel delete clicked');
@@ -29,29 +29,38 @@ function StoreDetailPage() {
   return (
     <>
       <Page
-        title="Store Detail"
+        title={translate('page.title.detail', {
+          model:
+            currentLang.value === Language.ENGLISH
+              ? translate('model.capitalize.store')
+              : translate('model.lowercase.store'),
+        })}
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
-        actions={() => [
-          <Button
-            color="inherit"
-            onClick={handleOpenMenu}
-            endIcon={<KeyboardArrowDownIcon />}
-            style={{
-              backgroundColor: '#000',
-              color: '#fff',
-              width: 140,
-              height: 32,
-            }}
-            sx={{
-              '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
-                backgroundColor: 'rgba(145, 158, 171, 0.08)',
-              },
-            }}
-          >
-            <Typography>Menu Actions</Typography>
-          </Button>,
-        ]}
+        actions={() => {
+          const listAction: ReactNode[] =
+            userAuth?.roleName === Role.MBKC_ADMIN
+              ? [
+                  <Button
+                    color="inherit"
+                    onClick={handleOpenMenu}
+                    endIcon={<KeyboardArrowDownIcon />}
+                    style={{
+                      backgroundColor: '#000',
+                      color: '#fff',
+                    }}
+                    sx={{
+                      '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
+                        backgroundColor: 'rgba(145, 158, 171, 0.08)',
+                      },
+                    }}
+                  >
+                    {translate('button.menuAction')}
+                  </Button>,
+                ]
+              : [];
+          return listAction;
+        }}
       >
         <Grid container columnSpacing={5}>
           <Grid item md={4}>
@@ -64,25 +73,27 @@ function StoreDetailPage() {
               <Typography variant="h3">{store?.name}</Typography>
 
               <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <Typography variant="subtitle1">Status</Typography>
-                <Label color={(store?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>{store?.status}</Label>
+                <Typography variant="subtitle1">{translate('table.status')}</Typography>
+                <Label color={(store?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
+                  {store?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
+                </Label>
               </Stack>
 
               <Divider />
 
               <Stack direction="row" alignItems="start" gap={2}>
                 <Typography variant="subtitle1" width="150px">
-                  Kitchen Center
+                  {translate('table.kitchenCenter')}
                 </Typography>
                 <Stack direction="column" alignItems="start" gap={1}>
                   <img src="/assets/images/kitchen/kitchenCenter.png" alt={store?.name} height={120} />
                   <Stack gap={0.5}>
                     <Stack direction="row" gap={0.7}>
-                      <Typography variant="subtitle1">Name:</Typography>
+                      <Typography variant="subtitle1">{translate('table.name')}:</Typography>
                       <Typography variant="body1">Center Đồng Khởi</Typography>
                     </Stack>
                     <Stack direction="row" gap={0.7}>
-                      <Typography variant="subtitle1">Address:</Typography>
+                      <Typography variant="subtitle1">{translate('table.address')}:</Typography>
                       <Typography variant="body1">
                         428 Nguyễn Văn, Long Thạnh Mỹ, Thủ Đức, Thành phố Hồ Chí Minh
                       </Typography>
@@ -96,13 +107,13 @@ function StoreDetailPage() {
               {/* Role = 'MBKC Admin' */}
               <Stack direction="row" alignItems="start" gap={2}>
                 <Typography variant="subtitle1" width="150px">
-                  Brand
+                  {translate('table.brand')}
                 </Typography>
                 <Stack direction="column" alignItems="start" gap={1}>
                   <img src="/assets/images/brands/starbucks.png" alt={store?.name} height={120} />
                   <Stack gap={0.5}>
                     <Stack direction="row" gap={0.7}>
-                      <Typography variant="subtitle1">Name:</Typography>
+                      <Typography variant="subtitle1">{translate('table.name')}:</Typography>
                       <Typography variant="body1">Starbucks</Typography>
                     </Stack>
                   </Stack>
@@ -113,7 +124,7 @@ function StoreDetailPage() {
 
               <Stack direction="row" alignItems="start">
                 <Typography variant="subtitle1" width="150px">
-                  Partner
+                  {translate('table.partner')}
                 </Typography>
                 <Stack direction="row" gap={2.5}>
                   <Stack direction="row" gap={3}>
@@ -161,8 +172,8 @@ function StoreDetailPage() {
         </Grid>
 
         <Box mt={10} textAlign="right">
-          <Button color="inherit" variant="outlined" onClick={() => navigate(PATH_BRAND_APP.store.list)}>
-            Back
+          <Button color="inherit" variant="outlined" onClick={() => navigate(pathnameBack)}>
+            {translate('button.back')}
           </Button>
         </Box>
       </Page>
@@ -174,6 +185,7 @@ function StoreDetailPage() {
         onDelete={handleOpenModal}
         onEdit={() => {
           navigate(PATH_ADMIN_APP.store.newStore);
+          dispatch(setPathToBack(pathname));
           dispatch(setEditStore(store));
         }}
       />
@@ -183,8 +195,8 @@ function StoreDetailPage() {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('model.store') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('model.store') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.store') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.store') })}
         />
       )}
     </>

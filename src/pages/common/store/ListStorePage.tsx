@@ -16,15 +16,15 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { OrderSort, Store, StoreTable } from '@types';
+import { OrderSort, StoreTable } from '@types';
+import { Role } from 'common/enum';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getStoreDetail_local, setAddStore } from 'redux/store/storeSlice';
+import { setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { Role } from 'common/enum';
 
 // ----------------------------------------------------------------------
 
@@ -49,15 +49,6 @@ function ListStorePage() {
     setOrderBy(property);
   };
 
-  const handleNavigateDetail = (store: Store, storeId: number) => {
-    navigate(
-      userAuth?.roleName === Role.BRAND_MANAGER
-        ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
-        : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
-    );
-    dispatch(getStoreDetail_local(store));
-  };
-
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setFilterName(event.target.value);
@@ -76,7 +67,7 @@ function ListStorePage() {
   return (
     <>
       <Page
-        title={translate('page.title.list', { model: translate('model.store') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.store') })}
         pathname={pathname}
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
         actions={() => {
@@ -91,7 +82,7 @@ function ListStorePage() {
                     }}
                     startIcon={<AddRoundedIcon />}
                   >
-                    {translate('page.action.add', { model: translate('model.store') })}
+                    {translate('button.add', { model: translate('model.lowercase.store') })}
                   </Button>,
                 ]
               : [];
@@ -121,7 +112,6 @@ function ListStorePage() {
                           store={store}
                           haveBrand
                           haveKitchenCenter
-                          handleNavigateDetail={handleNavigateDetail}
                         />
                       );
                     })}

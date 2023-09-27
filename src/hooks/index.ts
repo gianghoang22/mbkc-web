@@ -7,3 +7,4 @@ export { default as usePagination } from './usePagination';
 export { default as usePopover } from './usePopover';
 export { default as useResponsive } from './useResponsive';
 export { default as useSortTable } from './useSortTable';
+export { default as useValidationForm } from './useValidationForm';

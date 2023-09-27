@@ -99,8 +99,8 @@ function CategoryTableRow({
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('model.category') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('model.category') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.category') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.category') })}
         />
       )}
     </>

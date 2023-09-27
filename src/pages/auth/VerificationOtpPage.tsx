@@ -29,14 +29,14 @@ function VerificationOtpPage() {
       yup.object({
         email: yup
           .string()
-          .required(translate('validation.required', { name: 'Email' }))
-          .email(translate('validation.emailFormat')),
+          .required(translate('page.validation.required', { name: 'Email' }))
+          .email(translate('page.validation.emailFormat')),
         otpCode: yup
           .string()
-          .required(translate('validation.required', { name: translate('form.otpCode') }))
-          .min(6, translate('validation.otpAlLeast'))
-          .max(6, translate('validation.otpMax'))
-          .matches(/^[0-9]+$/, translate('validation.otpMatches')),
+          .required(translate('page.validation.required', { name: translate('page.form.otpCode') }))
+          .min(6, translate('page.validation.otpAlLeast'))
+          .max(6, translate('page.validation.otpMax'))
+          .matches(/^[0-9]+$/, translate('page.validation.otpMatches')),
       })
     ),
   });
@@ -97,9 +97,9 @@ function VerificationOtpPage() {
                     size="large"
                     name="email"
                     disabled={email ? true : false}
-                    label={translate('form.email')}
+                    label={translate('page.form.email')}
                   />
-                  <InputField fullWidth size="large" name="otpCode" label={translate('form.otpCode')} />
+                  <InputField fullWidth size="large" name="otpCode" label={translate('page.form.otpCode')} />
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={4} px={3}>

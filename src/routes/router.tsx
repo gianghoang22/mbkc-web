@@ -10,6 +10,7 @@ import KitchenCenterRouter from './kitchenCenterRouter';
 //routes
 import { Role } from 'common/enum';
 import { useAppSelector } from 'redux/configStore';
+import PublicRouter from './PublicRouter';
 import { adminRoutes, brandRoutes, cashierRoutes, errorRoutes, kitchenCenterRoutes, publicRoutes } from './config';
 import {
   PATH_ADMIN_APP,
@@ -19,7 +20,6 @@ import {
   PATH_ERROR,
   PATH_KITCHEN_CENTER_APP,
 } from './paths';
-import PublicRouter from './PublicRouter';
 
 function AppRouter() {
   const { userAuth } = useAppSelector((state) => state.auth);
