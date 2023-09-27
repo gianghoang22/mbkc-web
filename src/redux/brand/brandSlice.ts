@@ -31,15 +31,15 @@ const initialState: BrandState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  brands: brands,
+  brands: [],
   brand: null,
 };
 
-export const createNewBrand = createAsyncThunk('Brand/create-brand', createNewBrandThunk);
-export const getAllBrands = createAsyncThunk('Brand/get-all-brands', getAllBrandsThunk);
-export const getBrandDetail = createAsyncThunk('Brand/get-brand-detail', getBrandDetailThunk);
-export const updateBrand = createAsyncThunk('Brand/update-brand', updateBrandThunk);
-export const deleteBrand = createAsyncThunk('Brand/delete-brand', deleteBrandThunk);
+export const createNewBrand = createAsyncThunk('brand/create-brand', createNewBrandThunk);
+export const getAllBrands = createAsyncThunk('brand/get-all-brands', getAllBrandsThunk);
+export const getBrandDetail = createAsyncThunk('brand/get-brand-detail', getBrandDetailThunk);
+export const updateBrand = createAsyncThunk('brand/update-brand', updateBrandThunk);
+export const deleteBrand = createAsyncThunk('brand/delete-brand', deleteBrandThunk);
 
 const brandSlice = createSlice({
   name: 'brand',
@@ -83,6 +83,7 @@ const brandSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.brands = [...action.payload?.brands];
       })
       .addCase(getAllBrands.rejected, (state, action) => {
         state.isLoading = false;
@@ -96,6 +97,7 @@ const brandSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.brand = action.payload;
       })
       .addCase(getBrandDetail.rejected, (state, action) => {
         state.isLoading = false;

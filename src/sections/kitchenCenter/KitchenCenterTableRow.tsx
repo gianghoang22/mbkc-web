@@ -8,8 +8,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { KitchenCenter } from '@types';
 import { sentenceCase } from 'change-case';
-import { Color } from 'common/enum';
+import { Color, Status } from 'common/enum';
 import { Label } from 'components';
+import { useDispatch } from 'react-redux';
+import { deleteKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface KitchenCenterTableRowProps {
   handleNavigateDetail: (kitchenCenter: KitchenCenter, kitchenCenterId: number) => void;
@@ -19,6 +22,8 @@ interface KitchenCenterTableRowProps {
 
 function StoreTableRow(props: KitchenCenterTableRowProps) {
   const { index, kitchenCenter, handleNavigateDetail } = props;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
 
@@ -28,6 +33,15 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
 
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+
+  const handleDeleteKitchenCenter = (kitchenCenterId: number) => {
+    const params = {
+      kitchenCenterId,
+      navigate,
+    };
+
+    dispatch<any>(deleteKitchenCenter(params));
   };
 
   return (
@@ -56,9 +70,9 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
         </TableCell>
         <TableCell align="left">
           <FormControlLabel
-            control={<Switch size="small" checked={kitchenCenter.status === 'inactive' ? false : true} />}
+            control={<Switch size="small" checked={kitchenCenter.status === Status.DEACTIVE ? false : true} />}
             label={
-              <Label color={(kitchenCenter.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+              <Label color={(kitchenCenter.status === Status.DEACTIVE && Color.ERROR) || Color.SUCCESS}>
                 {sentenceCase(kitchenCenter.status)}
               </Label>
             }
@@ -94,7 +108,7 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
           Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
+        <MenuItem sx={{ color: 'error.main' }} onClick={() => handleDeleteKitchenCenter(kitchenCenter.kitchenCenterId)}>
           <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
           Delete
         </MenuItem>

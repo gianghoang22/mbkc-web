@@ -242,14 +242,14 @@ function useConfigHeadTable() {
 
   const brandHeadCells: HeadCell<BrandTable>[] = [
     {
-      id: 'brandImgUrl',
+      id: 'logo',
       label: translate('table.logo'),
       numeric: false,
       hideSortIcon: true,
       disablePadding: false,
     },
     {
-      id: 'brandName',
+      id: 'name',
       label: 'Name',
       numeric: false,
       hideSortIcon: false,

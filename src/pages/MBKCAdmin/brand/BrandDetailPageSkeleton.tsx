@@ -12,6 +12,7 @@ import {
   Card,
   Grid,
   Paper,
+  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -125,22 +126,20 @@ function BrandDetailPage() {
               <Grid container columnSpacing={2}>
                 <Grid item md={3} sm={12}>
                   <Stack width="100%" alignItems="center">
-                    <Avatar src={brand?.logo} alt={brand?.name} sx={{ width: 150, height: 150 }} />
+                    <Skeleton variant="circular" width={150} height={150} />
                   </Stack>
                 </Grid>
                 <Grid item md={9} sm={12}>
                   <Stack width="100%" alignItems="start" gap={1}>
-                    <Typography variant="h5">{brand?.name}</Typography>
+                    <Skeleton />
 
                     <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
                       <Typography variant="subtitle1">{translate('table.status')}:</Typography>
-                      <Label color={(brand?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                        {brand?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
-                      </Label>
+                      <Skeleton />
                     </Stack>
                     <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
                       <Typography variant="subtitle1">{translate('table.address')}:</Typography>
-                      <Typography variant="body1">{brand?.address}</Typography>
+                      <Skeleton />
                     </Stack>
                   </Stack>
                 </Grid>

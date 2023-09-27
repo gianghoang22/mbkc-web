@@ -22,7 +22,7 @@ import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { BrandTableRow, BrandTableToolbar } from 'sections/brand';
+import { BrandTableRow, BrandTableRowSkeleton, BrandTableToolbar } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
 
 function ListBrandPage(props: any) {
@@ -34,10 +34,10 @@ function ListBrandPage(props: any) {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof BrandTable>('brandName');
+  const [orderBy, setOrderBy] = useState<keyof BrandTable>('name');
   const [filterName, setFilterName] = useState<string>('');
 
-  const { brands } = useAppSelector((state) => state.brand);
+  const { brands, isLoading } = useAppSelector((state) => state.brand);
 
   useEffect(() => {
     dispatch(getAllBrands(navigate));
@@ -63,6 +63,24 @@ function ListBrandPage(props: any) {
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const options = {
+    searchKey: filterName,
+    status: 'active',
+    pageNumber: page + 1,
+    pageSize: rowsPerPage,
+  };
+
+  const params = {
+    options,
+    navigate,
+  };
+
+  useEffect(() => {
+    dispatch(getAllBrands(params));
+  }, [filterName, page, rowsPerPage]);
+
+  console.log(brands);
 
   return (
     <>
@@ -96,20 +114,24 @@ function ListBrandPage(props: any) {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((brand, index) => {
-                      return <BrandTableRow key={brand.brandId} index={index} brand={brand} />;
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={brandHeadCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
+                  {isLoading ? (
+                    <BrandTableRowSkeleton length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((brand, index) => {
+                        return <BrandTableRow index={index} brand={brand} page={page} rowsPerPage={rowsPerPage} />;
+                      })}
+                      {emptyRows > 0 && (
+                        <TableRow
+                          style={{
+                            height: 53 * emptyRows,
+                          }}
+                        >
+                          <TableCell colSpan={brandHeadCells.length} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  )}
                   {isNotFound && <SearchNotFound colNumber={brands.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>

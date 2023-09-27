@@ -21,10 +21,10 @@ function CreateBrandPage() {
 
   const createBrandForm = useForm<BrandToCreate>({
     defaultValues: {
-      name: isEditing ? brand?.brandName : '',
+      name: isEditing ? brand?.name : '',
       address: isEditing ? brand?.address : '',
       email: isEditing ? brand?.brandManagerEmail : '',
-      logoUrl: isEditing ? brand?.brandImgUrl : '',
+      logoUrl: isEditing ? brand?.logo : '',
     },
     resolver: yupResolver(schemaBrand),
   });

@@ -3,7 +3,7 @@ import { axiosClient } from 'api/axiosClient';
 import { setMessageError } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
-import { setMessageSuccess } from './kitchenCenterSlice';
+import { getAllKitchenCenters, setMessageSuccess } from './kitchenCenterSlice';
 import { NavigateFunction } from 'react-router-dom';
 
 export const getAllKitchenCentersThunk = async (
@@ -22,6 +22,7 @@ export const getAllKitchenCentersThunk = async (
       const response = await axiosClient.get(
         `/kitchencenters?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}`
       );
+      console.log(response);
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, params.navigate);
@@ -89,15 +90,28 @@ export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { navigate, kitchenCenterId } = params;
+  const options = {
+    itemsPerPage: 5,
+    currentPage: 1,
+    searchValue: '',
+  };
+  const params_callback = {
+    options: options,
+    navigate,
+  };
   const accessToken = getAccessToken();
+  console.log(kitchenCenterId);
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
     try {
-      const response = await axiosClient.delete(`/sport-center/${params.kitchenCenterId}/${params.sportId}`);
+      const response = await axiosClient.delete(`/kitchencenters/${kitchenCenterId}`);
       if (response) {
-        // thunkAPI.dispatch(getSportCentersOfOwner());
+        thunkAPI.dispatch(getAllKitchenCenters(params_callback));
         thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
       }
+      console.log(response);
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);

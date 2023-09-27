@@ -7,7 +7,8 @@
   },
   "status": {
     "active": "Hoạt động",
-    "inactive": "Không hoạt động"
+    "inactive": "Không hoạt động",
+    "deactive": "Vô hiệu hóa"
   },
   "header": {
     "account": "Tài khoản",
