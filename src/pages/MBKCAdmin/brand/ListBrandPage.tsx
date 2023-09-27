@@ -1,10 +1,9 @@
-//react
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 // @mui
 import {
   Box,
+  Button,
   Card,
   Paper,
   Table,
@@ -17,11 +16,10 @@ import {
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { Button } from '@mui/material';
-import { Brand, BrandTable, OrderSort } from '@types';
+import { BrandTable, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
-import { getBrandDetail_local, setAddBrand } from 'redux/brand/brandSlice';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { BrandTableRow, BrandTableToolbar } from 'sections/brand';
@@ -30,6 +28,7 @@ import { getComparator, stableSort } from 'utils';
 function ListBrandPage(props: any) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { pathname } = useLocation();
   const { brandHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -44,11 +43,6 @@ function ListBrandPage(props: any) {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (brand: Brand, brandId: number) => {
-    navigate(PATH_ADMIN_APP.brand.root + `/detail/${brandId}`);
-    dispatch(getBrandDetail_local(brand));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,8 +63,8 @@ function ListBrandPage(props: any) {
   return (
     <>
       <Page
-        title="List Of Brand"
         pathname={pathname}
+        title={translate('page.title.list', { model: translate('model.lowercase.brand') })}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [
           <Button
@@ -81,7 +75,7 @@ function ListBrandPage(props: any) {
               dispatch(setAddBrand());
             }}
           >
-            Create new Brand
+            {translate('button.add', { model: translate('model.lowercase.brand') })}
           </Button>,
         ]}
       >
@@ -92,6 +86,7 @@ function ListBrandPage(props: any) {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<BrandTable>
+                    showAction
                     headCells={brandHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -99,7 +94,7 @@ function ListBrandPage(props: any) {
                   />
                   <TableBody>
                     {visibleRows.map((brand, index) => {
-                      return <BrandTableRow index={index} brand={brand} handleNavigateDetail={handleNavigateDetail} />;
+                      return <BrandTableRow index={index} brand={brand} />;
                     })}
                     {emptyRows > 0 && (
                       <TableRow

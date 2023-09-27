@@ -8,5 +8,9 @@
   "kitchenCenter": "Kitchen center",
   "store": "Store",
   "partner": "Partner",
-  "address": "Address"
+  "address": "Address",
+  "lowercase": {
+    "address": "address",
+    "email": "email"
+  }
 }

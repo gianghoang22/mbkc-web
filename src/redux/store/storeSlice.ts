@@ -55,13 +55,13 @@ const storeSlice = createSlice({
     setAddStore: (state) => {
       state.isEditing = false;
     },
-    setPathToBack: (state, action) => {
-      state.pathnameBack = action.payload;
-      setLocalStorage(StorageKeys.PATH_STORE_TO_BACK, action.payload);
-    },
     setEditStore: (state, action) => {
       state.isEditing = true;
       state.store = action.payload;
+    },
+    setPathToBackStore: (state, action) => {
+      state.pathnameBack = action.payload;
+      setLocalStorage(StorageKeys.PATH_STORE_TO_BACK, action.payload);
     },
   },
   extraReducers(builder) {
@@ -134,7 +134,7 @@ const storeSlice = createSlice({
   },
 });
 
-export const { getStoreDetail_local, setAddStore, setEditStore, setPathToBack } = storeSlice.actions;
+export const { getStoreDetail_local, setAddStore, setEditStore, setPathToBackStore } = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 
 export default storeReducer;
