@@ -15,9 +15,9 @@ export interface Brand {
   status: string;
 }
 
-export interface BrandToAdd {
+export interface BrandToCreate {
   name: string;
   address: string;
   email: string;
-  logoUrl: string;
+  logoUrl?: string;
 }

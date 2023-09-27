@@ -71,8 +71,8 @@ function ListStorePage() {
   return (
     <>
       <Page
-        title={translate('page.title.list', { model: translate('model.lowercase.store') })}
         pathname={pathname}
+        title={translate('page.title.list', { model: translate('model.lowercase.store') })}
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
         actions={() => {
           const listAction: ReactNode[] =

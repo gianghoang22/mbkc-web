@@ -7,6 +7,7 @@ const StorageKeys = {
   I18_LANGUAGE: 'i18nextLng',
   EMAIL_VERIFY: 'email_verify',
   PATH_STORE_TO_BACK: 'pathStoreToBack',
+  PATH_BRAND_TO_BACK: 'pathBrandToBack',
 };
 
 export { StorageKeys };

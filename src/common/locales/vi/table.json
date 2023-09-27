@@ -8,5 +8,9 @@
   "kitchenCenter": "Bếp trung tâm",
   "store": "Cửa hàng",
   "partner": "Đối tác",
-  "address": "Địa chỉ"
+  "address": "Địa chỉ",
+  "lowercase": {
+    "address": "địa chỉ",
+    "email": "email"
+  }
 }

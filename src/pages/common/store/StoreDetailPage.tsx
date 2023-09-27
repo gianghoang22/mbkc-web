@@ -8,7 +8,7 @@ import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { deleteStore, getStoreDetail, setEditStore, setPathToBack } from 'redux/store/storeSlice';
+import { deleteStore, getStoreDetail, setEditStore, setPathToBackStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 function StoreDetailPage() {
@@ -197,7 +197,7 @@ function StoreDetailPage() {
         onDelete={handleOpenModal}
         onEdit={() => {
           navigate(PATH_ADMIN_APP.store.newStore);
-          dispatch(setPathToBack(pathname));
+          dispatch(setPathToBackStore(pathname));
           dispatch(setEditStore(store));
         }}
       />
