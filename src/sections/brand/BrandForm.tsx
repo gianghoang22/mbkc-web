@@ -1,22 +1,28 @@
+// @mui
 import { Grid, Stack, Typography } from '@mui/material';
+import { Language } from 'common/enum';
+//
 import { InputField, UploadImageField } from 'components';
+import { useLocales } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 
 function BrandForm() {
+  const { translate, currentLang } = useLocales();
+
   const { isEditing } = useAppSelector((state) => state.brand);
 
   return (
     <Grid container columnSpacing={3}>
       <Grid item md={4} sm={12}>
-        <Stack alignItems="start" gap={3}>
+        <Stack alignItems="center" gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Logo</Typography>
+            <Typography variant="subtitle1">{translate('page.content.logo')}</Typography>
             <Typography variant="body2" color="grey.600">
-              Select file for brand's logo
+              {translate('page.content.contentLogo', { model: translate('model.lowercase.brand') })}
             </Typography>
           </Stack>
           <UploadImageField
-            label="Drag and drop or select files"
+            label={translate('page.content.dragDrop')}
             name="logoUrl"
             defaultValue=""
             isEditing={isEditing}
@@ -26,16 +32,31 @@ function BrandForm() {
       <Grid item md={8} sm={12}>
         <Stack gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Detail</Typography>
+            <Typography variant="subtitle1">{translate('page.content.detail')}</Typography>
             <Typography variant="body2" color="grey.600">
-              Name, address,...
+              {translate('table.name')}, {translate('table.lowercase.address')},{translate('table.lowercase.email')},...
             </Typography>
           </Stack>
 
           <Stack spacing={2}>
-            <InputField fullWidth name="name" label="Name" />
-            <InputField fullWidth name="email" label="Manager email" />
-            <InputField fullWidth name="address" label="Address" />
+            <InputField
+              fullWidth
+              name="name"
+              label={translate(
+                'page.form.nameExchange',
+                currentLang.value === Language.ENGLISH
+                  ? {
+                      model: translate('model.capitalizeOne.brand'),
+                      name: translate('page.form.nameLower'),
+                    }
+                  : {
+                      model: translate('page.form.name'),
+                      name: translate('model.lowercase.brand'),
+                    }
+              )}
+            />
+            <InputField fullWidth name="email" label={translate('page.form.managerEmail')} />
+            <InputField fullWidth name="address" label={translate('page.form.address')} />
           </Stack>
         </Stack>
       </Grid>

@@ -54,6 +54,11 @@ export const adminRoutes: Route[] = [
     index: true,
   },
   {
+    path: PATH_ADMIN_APP.brand.editById,
+    component: <CreateBrandPage />,
+    index: true,
+  },
+  {
     path: PATH_ADMIN_APP.store.list,
     component: <ListStorePage />,
     index: true,

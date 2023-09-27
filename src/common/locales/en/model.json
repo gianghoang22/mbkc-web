@@ -15,7 +15,8 @@
     "order": "Order",
     "wallet": "Wallet",
     "transaction": "Transaction",
-    "bankingAccount": "Banking account"
+    "bankingAccount": "Banking account",
+    "managerEmail": "Manager email"
   },
   "capitalize": {
     "overview": "Overview",
@@ -33,7 +34,8 @@
     "order": "Order",
     "wallet": "Wallet",
     "transaction": "Transaction",
-    "bankingAccount": "Banking Account"
+    "bankingAccount": "Banking Account",
+    "managerEmail": "Manager Email"
   },
   "lowercase": {
     "overview": "overview",
@@ -51,6 +53,7 @@
     "order": "order",
     "wallet": "wallet",
     "transaction": "transaction",
-    "bankingAccount": "banking account"
+    "bankingAccount": "banking account",
+    "managerEmail": "manager email"
   }
 }

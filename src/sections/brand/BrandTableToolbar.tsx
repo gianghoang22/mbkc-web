@@ -1,6 +1,8 @@
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ReplayIcon from '@mui/icons-material/Replay';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
+//
+import { useLocales } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
@@ -10,8 +12,8 @@ interface StoreTableToolbarProps {
   filterName: string;
 }
 
-function StoreTableToolbar(props: StoreTableToolbarProps) {
-  const { filterName, onFilterName } = props;
+function StoreTableToolbar({ filterName, onFilterName }: StoreTableToolbarProps) {
+  const { translate } = useLocales();
 
   return (
     <StyledRoot>
@@ -19,7 +21,7 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
         size="small"
         value={filterName}
         onChange={onFilterName}
-        placeholder="Search user..."
+        placeholder={translate('page.title.search', { model: translate('model.lowercase.brand') })}
         startAdornment={
           <InputAdornment position="start">
             <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
@@ -27,7 +29,7 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
         }
       />
 
-      <Tooltip title="Filter list">
+      <Tooltip title={translate('button.reload')}>
         <IconButton>
           <ReplayIcon />
         </IconButton>

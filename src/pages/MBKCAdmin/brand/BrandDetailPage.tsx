@@ -1,9 +1,10 @@
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
 import React, { useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 //mui
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import DescriptionIcon from '@mui/icons-material/Description';
 import {
   Avatar,
   Box,
@@ -22,18 +23,18 @@ import {
 } from '@mui/material';
 //
 import { OrderSort, StoreTable } from '@types';
-import { Color, PopoverType, Status } from 'common/enum';
+import { Color, Language, PopoverType, Status } from 'common/enum';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { useDispatch } from 'react-redux';
-import { setEditBrand } from 'redux/brand/brandSlice';
-import { useAppSelector } from 'redux/configStore';
+import { setEditBrand, setPathToBackBrand } from 'redux/brand/brandSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 
-function BrandDetailPage(props: any) {
+function BrandDetailPage() {
+  const { id: brandId } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { translate } = useLocales();
+  const dispatch = useAppDispatch();
+  const { translate, currentLang } = useLocales();
   const { pathname } = useLocation();
   const { storeHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
@@ -75,7 +76,12 @@ function BrandDetailPage(props: any) {
   return (
     <>
       <Page
-        title="Brand Detail"
+        title={translate('page.title.detail', {
+          model:
+            currentLang.value === Language.ENGLISH
+              ? translate('model.capitalize.brand')
+              : translate('model.lowercase.brand'),
+        })}
         actions={() => [
           <Button
             color="inherit"
@@ -91,34 +97,49 @@ function BrandDetailPage(props: any) {
               },
             }}
           >
-            <Typography>Menu Actions</Typography>
+            {translate('button.menuAction')}
           </Button>,
         ]}
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
       >
-        <Stack spacing={5} mb={7} width="100%">
+        <Stack spacing={5} mb={10} width="65%">
           <Card>
-            <Stack sx={{ px: 3, py: 3 }}>
-              <Grid container columnSpacing={2} alignItems="center">
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{
+                px: 3,
+                py: 1.5,
+                borderBottom: 1,
+                borderColor: 'divider',
+              }}
+            >
+              <Stack direction="row" alignItems="center" gap={0.5}>
+                <Typography variant="h6">{translate('page.content.generalInformation')}</Typography>
+                <DescriptionIcon fontSize="small" />
+              </Stack>
+            </Stack>
+            <Stack sx={{ px: 3.5, py: 3 }}>
+              <Grid container columnSpacing={2}>
                 <Grid item md={3} sm={12}>
                   <Stack width="100%" alignItems="center">
                     <Avatar src={brand?.brandImgUrl} alt={brand?.brandName} sx={{ width: 150, height: 150 }} />
                   </Stack>
                 </Grid>
                 <Grid item md={9} sm={12}>
-                  <Stack gap={1}>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                      <Stack direction="row" alignItems="center" gap={0.5}>
-                        <Typography variant="h5">{brand?.brandName}</Typography>
-                      </Stack>
+                  <Stack width="100%" alignItems="start" gap={1}>
+                    <Typography variant="h5">{brand?.brandName}</Typography>
+
+                    <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
+                      <Typography variant="subtitle1">{translate('table.status')}:</Typography>
                       <Label color={(brand?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                        {brand?.status}
+                        {brand?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
                       </Label>
                     </Stack>
-
                     <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">Address:</Typography>
+                      <Typography variant="subtitle1">{translate('table.address')}:</Typography>
                       <Typography variant="body1">{brand?.address}</Typography>
                     </Stack>
                   </Stack>
@@ -126,58 +147,76 @@ function BrandDetailPage(props: any) {
               </Grid>
             </Stack>
           </Card>
-
-          <Card>
-            <Box sx={{ width: '100%' }}>
-              <Paper sx={{ width: '100%', mb: 2 }}>
-                <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
-                <TableContainer>
-                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<StoreTable>
-                      hideBrand
-                      headCells={storeHeadCells}
-                      order={order}
-                      orderBy={orderBy}
-                      onRequestSort={handleRequestSort}
-                    />
-                    <TableBody>
-                      {visibleRows.map((store, index) => {
-                        return (
-                          <StoreTableRow
-                            showAction={false}
-                            key={store.storeId}
-                            index={index}
-                            store={store}
-                            haveKitchenCenter
-                          />
-                        );
-                      })}
-                      {emptyRows > 0 && (
-                        <TableRow
-                          style={{
-                            height: 53 * emptyRows,
-                          }}
-                        >
-                          <TableCell colSpan={storeHeadCells.length} />
-                        </TableRow>
-                      )}
-                    </TableBody>
-                    {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  component="div"
-                  count={stores.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </Paper>
-            </Box>
-          </Card>
         </Stack>
+
+        <Card>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{
+              px: 3,
+              py: 1.5,
+              borderBottom: 1,
+              borderColor: 'divider',
+            }}
+          >
+            <Typography variant="h6">
+              {translate('page.content.storeOfBrand', {
+                model: translate('model.lowercase.store'),
+                name: translate('model.lowercase.brand'),
+              })}
+            </Typography>
+          </Stack>
+          <Box sx={{ width: '100%' }}>
+            <Paper sx={{ width: '100%', mb: 2 }}>
+              <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <TableContainer>
+                <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                  <CommonTableHead<StoreTable>
+                    hideBrand
+                    headCells={storeHeadCells}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                  />
+                  <TableBody>
+                    {visibleRows.map((store, index) => {
+                      return (
+                        <StoreTableRow
+                          showAction={false}
+                          key={store.storeId}
+                          index={index}
+                          store={store}
+                          haveKitchenCenter
+                        />
+                      );
+                    })}
+                    {emptyRows > 0 && (
+                      <TableRow
+                        style={{
+                          height: 53 * emptyRows,
+                        }}
+                      >
+                        <TableCell colSpan={storeHeadCells.length} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={stores.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+          </Box>
+        </Card>
       </Page>
 
       <Popover
@@ -187,6 +226,7 @@ function BrandDetailPage(props: any) {
         onDelete={handleOpenModal}
         onEdit={() => {
           navigate(PATH_ADMIN_APP.brand.newBrand);
+          dispatch(setPathToBackBrand(pathname));
           dispatch(setEditBrand(brand));
         }}
       />

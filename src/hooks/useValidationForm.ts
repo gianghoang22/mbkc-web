@@ -28,7 +28,32 @@ function useValidationForm() {
     brand: yup.string().required(translate('page.validation.select', { name: translate('model.lowercase.brand') })),
   });
 
-  return { schemaStore };
+  const schemaBrand = yup.object({
+    name: yup.string().required(
+      translate('page.validation.required', {
+        name: translate(
+          'page.form.nameExchange',
+          currentLang.value === Language.ENGLISH
+            ? {
+                model: translate('model.lowercase.brand'),
+                name: translate('page.form.nameLower'),
+              }
+            : {
+                model: translate('page.form.nameLower'),
+                name: translate('model.lowercase.brand'),
+              }
+        ),
+      })
+    ),
+    email: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('model.lowercase.managerEmail') })),
+    address: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
+  });
+
+  return { schemaStore, schemaBrand };
 }
 
 export default useValidationForm;

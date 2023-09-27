@@ -10,17 +10,21 @@
     "logo": "Logo",
     "detail": "Detail",
     "contentLogo": "Select the file of the {{model}}'s logo",
-    "dragDrop": "Drag and drop or select files"
+    "dragDrop": "Drag and drop or select files",
+    "generalInformation": "General information",
+    "storeOfBrand": "List {{model}} of {{name}}"
   },
   "form": {
     "email": "Email",
+    "managerEmail": "Manager email",
     "password": "Password",
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
     "otpCode": "OTP Code",
     "name": "Name",
     "nameLower": "name",
-    "nameExchange": "{{model}} {{name}}"
+    "nameExchange": "{{model}} {{name}}",
+    "address": "Address"
   },
   "validation": {
     "required": "Please enter {{name}}",

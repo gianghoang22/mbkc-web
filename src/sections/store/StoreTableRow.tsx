@@ -9,7 +9,7 @@ import { Color, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getStoreDetail_local, setEditStore, setPathToBack } from 'redux/store/storeSlice';
+import { getStoreDetail_local, setEditStore, setPathToBackStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 interface StoreTableRowProps {
@@ -42,13 +42,13 @@ function StoreTableRow({
         ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
         : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
     );
-    dispatch(setPathToBack(pathname));
+    dispatch(setPathToBackStore(pathname));
     dispatch(getStoreDetail_local(store));
   };
 
   const handleEdit = () => {
     navigate(PATH_ADMIN_APP.store.root + `/update/${store.storeId}`);
-    dispatch(setPathToBack(pathname));
+    dispatch(setPathToBackStore(pathname));
     dispatch(setEditStore(store));
   };
 

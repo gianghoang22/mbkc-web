@@ -15,7 +15,8 @@
     "order": "Đơn hàng",
     "wallet": "Ví",
     "transaction": "Giao dịch",
-    "bankingAccount": "Tài khoản ngân hàng"
+    "bankingAccount": "Tài khoản ngân hàng",
+    "managerEmail": "Email người quản lý"
   },
   "capitalize": {
     "overview": "Tổng Quan",
@@ -33,7 +34,8 @@
     "order": "Đơn Hàng",
     "wallet": "Ví",
     "transaction": "Giao Dịch",
-    "bankingAccount": "Tài Khoản Ngân Hàng"
+    "bankingAccount": "Tài Khoản Ngân Hàng",
+    "managerEmail": "Email Người Quản Lý"
   },
   "lowercase": {
     "overview": "tổng quan",
@@ -51,6 +53,7 @@
     "order": "đơn hàng",
     "wallet": "ví",
     "transaction": "giao dịch",
-    "bankingAccount": "tài khoản ngân hàng"
+    "bankingAccount": "tài khoản ngân hàng",
+    "managerEmail": "email người quản lý"
   }
 }
