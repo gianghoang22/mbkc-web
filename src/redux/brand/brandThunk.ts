@@ -1,4 +1,5 @@
-import { axiosClient } from 'api/axiosClient';
+import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 import { getAllBrands } from './brandSlice';
@@ -10,6 +11,7 @@ export const getAllBrandsThunk = async (params: any, thunkAPI: any) => {
   } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
+    setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(
         `brands?keySearchName=${searchKey}&keyStatusFilter=${status}&pageNumber=${pageNumber}&pageSize=${pageSize}`

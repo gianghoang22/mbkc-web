@@ -1,5 +1,6 @@
 import { path, pathRoot } from 'utils';
 
+const ROOTS_BRAND = '/brands';
 const ROOTS_STORE = '/stores';
 const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCT = '/products';
@@ -14,6 +15,13 @@ export const RoutesApiKeys = {
   RESET_PASSWORD: '/authentications/reset-password',
   FORGOT_PASSWORD: '/verifications/email-verification',
   VERIFY_OTP: '/verifications/otp-verification',
+
+  // category
+  CREATE_BRAND: pathRoot(ROOTS_BRAND),
+  GET_ALL_BRAND: pathRoot(ROOTS_BRAND),
+  GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
+  UPDATE_BRAND: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
+  DELETE_BRAND: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
 
   // category
   CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),

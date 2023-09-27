@@ -7,8 +7,16 @@ const axiosClient = axios.create({
   },
 });
 
+const axiosFormData = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
+
 const setHeaderAuth = (accessToken: string) => {
   axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  axiosFormData.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 };
 
 // Add a request interceptor
@@ -37,4 +45,4 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export { axiosClient, setHeaderAuth };
+export { axiosClient, axiosFormData, setHeaderAuth };
