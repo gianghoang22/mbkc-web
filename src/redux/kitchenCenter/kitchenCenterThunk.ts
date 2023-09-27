@@ -1,17 +1,30 @@
+import { CreateKitchenCenterParams, KitchenCenterOptions } from '@types';
 import { axiosClient } from 'api/axiosClient';
-import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
+import { setMessageError } from 'redux/auth/authSlice';
+import { PATH_ADMIN_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
+import { setMessageSuccess } from './kitchenCenterSlice';
+import { NavigateFunction } from 'react-router-dom';
 
-export const getAllKitchenCentersThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const getAllKitchenCentersThunk = async (
+  params: {
+    options: KitchenCenterOptions;
+    navigate: NavigateFunction;
+  },
+  thunkAPI: any
+) => {
+  console.log(params);
   const accessToken = getAccessToken();
+  const { itemsPerPage, currentPage, searchValue } = params.options;
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
-      const response = await axiosClient.get('/user/sport-center-of-owner');
-      console.log(response);
+      const response = await axiosClient.get(
+        `/kitchencenters?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}`
+      );
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error, navigate);
+      const errorMessage = getErrorMessage(error, params.navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -20,10 +33,12 @@ export const getAllKitchenCentersThunk = async (params: any, thunkAPI: any) => {
 
 export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) => {
   const { kitchenCenterId, navigate } = params;
+  console.log(params);
   const accessToken = getAccessToken();
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
-      const response = await axiosClient.get(`/sport-center/${kitchenCenterId}`);
+      const response = await axiosClient.get(`/kitchencenters/${kitchenCenterId}`);
       console.log(response);
       return response;
     } catch (error) {
@@ -34,20 +49,20 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
   }
 };
 
-export const createNewKitchenCenterThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterParams, thunkAPI: any) => {
   const accessToken = getAccessToken();
   if (accessToken) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
-      const response = await axiosClient.post('/sport-center/', params.newSportCenter);
+      const response = await axiosClient.post('/kitchencenters', params.newKitchenCenter);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        console.log(response);
+        thunkAPI.dispatch(setMessageSuccess(response));
+        params.navigate(PATH_ADMIN_APP.kitchenCenter.list);
       }
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error, navigate);
+      const errorMessage = getErrorMessage(error, params.navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }

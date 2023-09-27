@@ -211,14 +211,14 @@ function useConfigHeadTable() {
 
   const kitchenCenterHeadCells: HeadCell<KitchenCenterTable>[] = [
     {
-      id: 'imageUrl',
+      id: 'logo',
       label: translate('table.logo'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
-      id: 'title',
+      id: 'name',
       label: translate('table.name'),
       numeric: false,
       hideSortIcon: false,
