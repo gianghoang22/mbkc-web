@@ -1,4 +1,5 @@
-import { axiosClient } from 'api/axiosClient';
+import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
@@ -6,8 +7,9 @@ export const getAllStoresThunk = async (params: any, thunkAPI: any) => {
   const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get('/user/sport-center-of-owner');
+      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_STORE);
       console.log(response);
       return response;
     } catch (error) {
@@ -22,8 +24,9 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
   const { storeId, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(`/sport-center/${storeId}`);
+      const response = await axiosClient.get(RoutesApiKeys.GET_STORE_DETAIL(storeId));
       console.log(response);
       return response;
     } catch (error) {
@@ -38,10 +41,12 @@ export const createNewStoreThunk = async (params: any, thunkAPI: any) => {
   const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post('/sport-center/', params.newSportCenter);
+      const response = await axiosClient.post(RoutesApiKeys.CREATE_STORE);
       if (response) {
-        params.navigate('/dashboard/sport-center');
+        console.log(response);
+        // navigate('/dashboard/sport-center');
         // thunkAPI.dispatch(getSportCentersOfOwner());
         thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
       }
@@ -55,13 +60,14 @@ export const createNewStoreThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const updateStoreThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { storeId, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(`/sport-center/${params.storeId}`, params.upadateSportCenter);
+      const response = await axiosClient.post(RoutesApiKeys.GET_STORE_DETAIL(storeId));
       if (response) {
-        params.navigate('/dashboard/sport-center');
+        navigate('/dashboard/sport-center');
         thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
       }
       return response;
@@ -74,11 +80,12 @@ export const updateStoreThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const deleteStoreThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { storeId, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.delete(`/sport-center/${params.storeId}/${params.sportId}`);
+      const response = await axiosClient.delete(RoutesApiKeys.GET_STORE_DETAIL(storeId));
       if (response) {
         // thunkAPI.dispatch(getSportCentersOfOwner());
         thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
