@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Brand, Store } from '@types';
+import { Brand } from '@types';
 
 import {
   createNewBrandThunk,
   deleteBrandThunk,
   getAllBrandsThunk,
   getBrandDetailThunk,
-  getStoresByBrandThunk,
   updateBrandThunk,
 } from './brandThunk';
 import { StorageKeys } from 'constants/storageKeys';
@@ -20,7 +19,6 @@ interface BrandState {
   isSuccess: boolean;
   brands: Brand[];
   brand: Brand | null;
-  stores: Store[];
 }
 
 const getPathnameInStorage = getPathname(StorageKeys.PATH_BRAND_TO_BACK)
@@ -35,12 +33,10 @@ const initialState: BrandState = {
   isSuccess: false,
   brands: [],
   brand: null,
-  stores: [],
 };
 
 export const createNewBrand = createAsyncThunk('brand/create-brand', createNewBrandThunk);
 export const getAllBrands = createAsyncThunk('brand/get-all-brands', getAllBrandsThunk);
-export const getStoresByBrand = createAsyncThunk('brand/get-stores-by-brands', getStoresByBrandThunk);
 export const getBrandDetail = createAsyncThunk('brand/get-brand-detail', getBrandDetailThunk);
 export const updateBrand = createAsyncThunk('brand/update-brand', updateBrandThunk);
 export const deleteBrand = createAsyncThunk('brand/delete-brand', deleteBrandThunk);
@@ -94,20 +90,7 @@ const brandSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(getStoresByBrand.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getStoresByBrand.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-        state.stores = [...action.payload?.stores];
-      })
-      .addCase(getStoresByBrand.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-      })
+
       .addCase(getBrandDetail.pending, (state) => {
         state.isLoading = true;
       })

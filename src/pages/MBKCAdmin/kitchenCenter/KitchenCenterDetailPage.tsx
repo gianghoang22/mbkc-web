@@ -163,6 +163,8 @@ function KitchenCenterDetailPage(props: any) {
                                 showAction={false}
                                 key={store.storeId}
                                 index={index}
+                                length={visibleRows.length}
+                                isLoading={isLoading}
                                 haveKitchenCenter={false}
                                 haveBrand={true}
                                 store={store}

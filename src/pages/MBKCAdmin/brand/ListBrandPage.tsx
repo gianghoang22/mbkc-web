@@ -78,6 +78,7 @@ function ListBrandPage(props: any) {
 
   useEffect(() => {
     dispatch(getAllBrands(params));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterName, page, rowsPerPage]);
 
   console.log(brands);
