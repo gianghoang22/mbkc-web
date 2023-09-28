@@ -41,8 +41,9 @@ function BrandDetailPage() {
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { brand, stores } = useAppSelector((state) => state.brand);
-  // const { stores } = useAppSelector((state) => state.store);
+  const { brand } = useAppSelector((state) => state.brand);
+  const { stores } = useAppSelector((state) => state.store);
+  console.log(stores);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');

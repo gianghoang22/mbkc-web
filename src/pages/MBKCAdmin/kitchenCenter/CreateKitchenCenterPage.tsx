@@ -33,7 +33,7 @@ function CreateKitchenCenterPage(props: any) {
     defaultValues: {
       Name: isEditing ? kitchenCenter?.name : '',
       Address: isEditing ? kitchenCenter?.address : '',
-      Logo: isEditing ? kitchenCenter?.logo : '',
+      // Logo: isEditing ? kitchenCenter?.logo : '',
       ManagerEmail: isEditing ? kitchenCenter?.managerEmail : '',
     },
     resolver: yupResolver(schema),

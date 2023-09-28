@@ -8,6 +8,8 @@ import {
   deleteStoreThunk,
   getAllStoresThunk,
   getStoreDetailThunk,
+  getStoresByKitchenCenterThunk,
+  getStoresByBrandThunk,
   updateStoreThunk,
 } from './storeThunk';
 
@@ -33,7 +35,7 @@ const initialState: StoreState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  stores: stores,
+  stores: [],
   store: store,
   totalPage: 0,
   numberItems: 5,
@@ -41,6 +43,11 @@ const initialState: StoreState = {
 
 export const createNewStore = createAsyncThunk('Store/create-Store', createNewStoreThunk);
 export const getAllStores = createAsyncThunk('Store/get-all-Stores', getAllStoresThunk);
+export const getStoresByKitchenCenter = createAsyncThunk(
+  'Store/get-stores-by-kitchen-center',
+  getStoresByKitchenCenterThunk
+);
+export const getStoresByBrand = createAsyncThunk('brand/get-stores-by-brands', getStoresByBrandThunk);
 export const getStoreDetail = createAsyncThunk('Store/get-Store-detail', getStoreDetailThunk);
 export const updateStore = createAsyncThunk('Store/update-Store', updateStoreThunk);
 export const deleteStore = createAsyncThunk('Store/delete-Store', deleteStoreThunk);
@@ -88,6 +95,34 @@ const storeSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(getAllStores.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getStoresByKitchenCenter.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getStoresByKitchenCenter.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.stores = [...action.payload?.stores];
+      })
+      .addCase(getStoresByKitchenCenter.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getStoresByBrand.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getStoresByBrand.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.stores = [...action.payload?.stores];
+      })
+      .addCase(getStoresByBrand.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
