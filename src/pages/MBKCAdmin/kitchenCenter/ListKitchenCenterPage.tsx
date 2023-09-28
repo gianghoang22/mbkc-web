@@ -32,6 +32,7 @@ import {
   KitchenCenterTableToolbar,
 } from 'sections/kitchenCenter';
 import { getComparator, stableSort } from 'utils';
+import { getStoresByKitchenCenter } from 'redux/store/storeSlice';
 
 function ListKitchenCenterPage(props: any) {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ function ListKitchenCenterPage(props: any) {
     };
     navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
     dispatch(getKitchenCenterDetail(params));
+    dispatch(getStoresByKitchenCenter(params));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

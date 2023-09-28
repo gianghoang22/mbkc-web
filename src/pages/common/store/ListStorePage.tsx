@@ -38,7 +38,7 @@ function ListStorePage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { stores } = useAppSelector((state) => state.store);
+  const { stores, isLoading } = useAppSelector((state) => state.store);
 
   console.log(stores);
 
@@ -134,6 +134,8 @@ function ListStorePage() {
                           key={store.storeId}
                           index={index}
                           store={store}
+                          length={visibleRows.length}
+                          isLoading={isLoading}
                           haveBrand
                           haveKitchenCenter
                         />

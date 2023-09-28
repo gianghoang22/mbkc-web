@@ -14,7 +14,7 @@ export interface Store {
 export interface StoreToCreate {
   name: string;
   logo?: File | string;
+  storeManagerEmail: string;
   kitchenCenterId: number;
   brandId: number;
-  storeManagerEmail: string;
 }

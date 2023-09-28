@@ -70,7 +70,7 @@ function CategoryForm() {
           </Stack>
           <UploadImageField
             label={translate('page.content.dragDrop')}
-            name="logoUrl"
+            name="logo"
             defaultValue=""
             isEditing={isEditing}
           />
@@ -116,7 +116,7 @@ function CategoryForm() {
                     return option.value === getOpObjKitchenCenter(value)?.value;
                   }}
                   transformValue={(opt: any) => opt.value}
-                  name="kitchenCenter"
+                  name="kitchenCenterId"
                   type="text"
                   label={translate('model.capitalizeOne.kitchenCenter')}
                 />
@@ -132,7 +132,7 @@ function CategoryForm() {
                     return option.value === getOpObjBrand(value)?.value;
                   }}
                   transformValue={(opt: any) => opt.value}
-                  name="brand"
+                  name="brandId"
                   type="text"
                   label={translate('model.capitalizeOne.brand')}
                 />

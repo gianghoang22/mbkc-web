@@ -22,6 +22,42 @@ export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
   }
 };
 
+export const getStoresByKitchenCenterThunk = async (params: any, thunkAPI: any) => {
+  const { navigate, kitchenCenterId } = params;
+  console.log('kitchenCenterId', kitchenCenterId);
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosClient.get(`/kitchencenter/${kitchenCenterId}/stores`);
+      console.log(response);
+      return response;
+    } catch (error) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const getStoresByBrandThunk = async (params: any, thunkAPI: any) => {
+  const { navigate, brandId } = params;
+  console.log('brandId', brandId);
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosClient.get(`/brand/${brandId}/stores`);
+      console.log(response);
+      return response;
+    } catch (error) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
 export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
   const { storeId, navigate } = params;
   const accessToken = getAccessToken();

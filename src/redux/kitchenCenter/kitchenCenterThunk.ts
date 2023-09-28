@@ -1,10 +1,10 @@
 import { CreateKitchenCenterParams, ListParams } from '@types';
-import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
+import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
 import { getAllKitchenCenters, setMessageSuccess } from './kitchenCenterSlice';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
 
 export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -25,7 +25,6 @@ export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: an
 
 export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) => {
   const { kitchenCenterId, navigate } = params;
-  console.log(params);
   const accessToken = getAccessToken();
   if (accessToken) {
     axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -44,9 +43,10 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
 export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterParams, thunkAPI: any) => {
   const accessToken = getAccessToken();
   if (accessToken) {
-    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post('/kitchencenters', params.newKitchenCenter);
+      console.log('Logo: ', params.newKitchenCenter);
+      const response = await axiosFormData.post('/kitchencenters', params.newKitchenCenter);
       if (response) {
         console.log(response);
         thunkAPI.dispatch(setMessageSuccess(response));

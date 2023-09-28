@@ -1,4 +1,4 @@
-import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
@@ -41,9 +41,9 @@ export const createNewBrandThunk = async (params: any, thunkAPI: any) => {
   const { navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
-    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post('/sport-center/', params.newSportCenter);
+      const response = await axiosFormData.post('/sport-center/', params.newSportCenter);
       if (response) {
         params.navigate('/dashboard/sport-center');
         // thunkAPI.dispatch(getSportCentersOfOwner());

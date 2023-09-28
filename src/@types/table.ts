@@ -1,3 +1,6 @@
+import { Brand } from './models/brand';
+import { KitchenCenter } from './models/kitchenCenter';
+
 export type OrderSort = 'asc' | 'desc';
 
 export interface HeadCell<T> {
@@ -30,8 +33,8 @@ export interface StoreTable {
   status: string;
   logo: string;
   storeManagerEmail: string;
-  kitchenCenter?: string;
-  brand: string;
+  kitchenCenter: KitchenCenter;
+  brand: Brand;
 }
 
 export interface KitchenCenterTable {

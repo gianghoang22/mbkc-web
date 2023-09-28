@@ -25,17 +25,15 @@ function CreateStorePage() {
   const createStoreForm = useForm<StoreToCreate>({
     defaultValues: {
       name: isEditing ? store?.name : '',
-      storeManagerEmail: isEditing ? store?.storeManagerEmail : '',
       logo: isEditing ? store?.logo : '',
+      storeManagerEmail: isEditing ? store?.storeManagerEmail : '',
       kitchenCenterId: isEditing ? store?.kitchenCenter.kitchenCenterId : 0,
       brandId: isEditing ? store?.brand.brandId : 0,
     },
     resolver: yupResolver(schemaStore),
   });
 
-  const { handleSubmit, watch } = createStoreForm;
-
-  const image = watch('logo');
+  const { handleSubmit } = createStoreForm;
 
   const onSubmit = async (values: StoreToCreate) => {
     const data = { ...values };

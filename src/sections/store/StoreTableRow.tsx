@@ -11,6 +11,7 @@ import { useLocales, useModal, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getStoreDetail_local, setEditStore, setPathToBackStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { StoreTableRowSkeleton } from '.';
 
 interface StoreTableRowProps {
   store: Store;
@@ -18,6 +19,8 @@ interface StoreTableRowProps {
   showAction?: boolean;
   haveBrand?: boolean;
   haveKitchenCenter?: boolean;
+  length?: number;
+  isLoading?: boolean;
 }
 
 function StoreTableRow({
@@ -25,6 +28,8 @@ function StoreTableRow({
   store,
   showAction = false,
   haveBrand = false,
+  length = 1,
+  isLoading = false,
   haveKitchenCenter = false,
 }: StoreTableRowProps) {
   const navigate = useNavigate();
@@ -56,54 +61,58 @@ function StoreTableRow({
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={80} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
-          {index + 1}
-        </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          padding="none"
-          sx={{ width: 80 }}
-          onClick={() => handleNavigateDetail(store, store.storeId)}
-        >
-          <Avatar alt={store.name} src={store.logo} />
-        </TableCell>
-        <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
-          {store.name}
-        </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
-          {store.storeManagerEmail}
-        </TableCell>
-        {haveKitchenCenter && (
-          <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
-            {store.kitchenCenter.address}
+      {isLoading ? (
+        <StoreTableRowSkeleton length={length} />
+      ) : (
+        <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
+          <TableCell width={80} align="center" onClick={() => handleNavigateDetail(store, store.storeId)}>
+            {index + 1}
           </TableCell>
-        )}
-        {haveBrand && (
-          <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
-            {store.brand.name}
+          <TableCell
+            component="th"
+            scope="row"
+            padding="none"
+            sx={{ width: 80 }}
+            onClick={() => handleNavigateDetail(store, store.storeId)}
+          >
+            <Avatar alt={store.name} src={store.logo} />
           </TableCell>
-        )}
+          <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+            {store.name}
+          </TableCell>
+          <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+            {store.storeManagerEmail}
+          </TableCell>
+          {haveKitchenCenter && (
+            <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+              {store.kitchenCenter.name}
+            </TableCell>
+          )}
+          {haveBrand && (
+            <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+              {store.brand.name}
+            </TableCell>
+          )}
 
-        <TableCell align="left">
-          <FormControlLabel
-            control={<Switch size="small" checked={store.status === Status.INACTIVE ? false : true} />}
-            label={
-              <Label color={(store.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                {store?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
-              </Label>
-            }
-          />
-        </TableCell>
-        {showAction && (
-          <TableCell align="right">
-            <IconButton color="inherit" onClick={handleOpenMenu}>
-              <MoreVertIcon />
-            </IconButton>
+          <TableCell align="left">
+            <FormControlLabel
+              control={<Switch size="small" checked={store.status === Status.INACTIVE ? false : true} />}
+              label={
+                <Label color={(store.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
+                  {store?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
+                </Label>
+              }
+            />
           </TableCell>
-        )}
-      </TableRow>
+          {showAction && (
+            <TableCell align="right">
+              <IconButton color="inherit" onClick={handleOpenMenu}>
+                <MoreVertIcon />
+              </IconButton>
+            </TableCell>
+          )}
+        </TableRow>
+      )}
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
 

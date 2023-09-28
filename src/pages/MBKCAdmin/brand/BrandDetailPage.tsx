@@ -43,6 +43,7 @@ function BrandDetailPage() {
 
   const { brand } = useAppSelector((state) => state.brand);
   const { stores } = useAppSelector((state) => state.store);
+  console.log(stores);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');

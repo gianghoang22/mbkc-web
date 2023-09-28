@@ -89,6 +89,7 @@ const brandSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
+
       .addCase(getBrandDetail.pending, (state) => {
         state.isLoading = true;
       })
