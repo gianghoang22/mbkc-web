@@ -67,24 +67,24 @@ function StoreTableRow({
           sx={{ width: 80 }}
           onClick={() => handleNavigateDetail(store, store.storeId)}
         >
-          <Avatar alt={store.name} src={store.logoUrl} />
+          <Avatar alt={store.name} src={store.logo} />
         </TableCell>
         <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.name}
         </TableCell>
         {haveKitchenCenter && (
           <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
-            {store.kitchenCenter}
+            {store.kitchenCenter.name}
           </TableCell>
         )}
         {haveBrand && (
           <TableCell align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
-            {store.brand}
+            {store.brand.name}
           </TableCell>
         )}
-        <TableCell align="left" width={120} onClick={() => handleNavigateDetail(store, store.storeId)}>
+        {/* <TableCell align="left" width={120} onClick={() => handleNavigateDetail(store, store.storeId)}>
           {store.partner}
-        </TableCell>
+        </TableCell> */}
 
         <TableCell align="left">
           <FormControlLabel

@@ -77,7 +77,7 @@ function StoreDetailPage() {
         <Grid container columnSpacing={5}>
           <Grid item md={4}>
             <Box>
-              <img src={store?.logoUrl} alt={store?.name} width="100%" style={{ borderRadius: 16 }} />
+              <img src={store?.logo} alt={store?.name} width="100%" style={{ borderRadius: 16 }} />
             </Box>
           </Grid>
           <Grid item md={8}>

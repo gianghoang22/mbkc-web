@@ -26,12 +26,33 @@ export interface ProductTable {
 }
 
 export interface StoreTable {
+  // name: string;
+  // logoUrl: string;
+  // kitchenCenter?: string;
+  // brand: string;
+  // partner: number;
+  // status: string;
+  // storeId: number;
   name: string;
-  logoUrl: string;
-  kitchenCenter?: string;
-  brand: string;
-  partner: number;
   status: string;
+  logo: string;
+  storeManagerEmail: string;
+  kitchenCenter: {
+    kitchenCenterId: number;
+    name: string;
+    address: string;
+    status: string;
+    logo: string;
+    kitchenCenterManagerEmail: string;
+  };
+  brand: {
+    brandId: number;
+    name: string;
+    address: string;
+    logo: string;
+    status: string;
+    brandManagerEmail: string;
+  };
 }
 
 export interface KitchenCenterTable {

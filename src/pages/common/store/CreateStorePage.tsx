@@ -21,17 +21,18 @@ function CreateStorePage() {
 
   const createStoreForm = useForm<StoreToCreate>({
     defaultValues: {
-      name: isEditing ? store?.name : '',
-      logoUrl: isEditing ? store?.logoUrl : '',
-      kitchenCenter: isEditing ? store?.kitchenCenter : '',
-      brand: isEditing ? store?.brand : '',
+      Name: isEditing ? store?.name : '',
+      Logo: isEditing ? store?.logo : '',
+      KitchenCenterId: isEditing ? store?.kitchenCenter.kitchenCenterId : 1,
+      BrandId: isEditing ? store?.brand.brandId : 1,
+      StoreManagerEmail: isEditing ? store?.storeManagerEmail : '',
     },
     resolver: yupResolver(schemaStore),
   });
 
   const { handleSubmit, watch } = createStoreForm;
 
-  const image = watch('logoUrl');
+  const image = watch('Logo');
 
   const onSubmit = async (values: StoreToCreate) => {
     const data = { ...values, logoUrl: image };

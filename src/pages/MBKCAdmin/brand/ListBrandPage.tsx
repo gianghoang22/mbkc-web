@@ -39,9 +39,9 @@ function ListBrandPage(props: any) {
 
   const { brands, isLoading } = useAppSelector((state) => state.brand);
 
-  useEffect(() => {
-    dispatch(getAllBrands(navigate));
-  }, [dispatch, navigate]);
+  // useEffect(() => {
+  //   dispatch(getAllBrands(navigate));
+  // }, [dispatch, navigate]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BrandTable) => {
     const isAsc = orderBy === property && order === 'asc';
