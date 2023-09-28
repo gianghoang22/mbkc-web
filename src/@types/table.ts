@@ -27,11 +27,11 @@ export interface ProductTable {
 
 export interface StoreTable {
   name: string;
-  logoUrl: string;
+  status: string;
+  logo: string;
+  storeManagerEmail: string;
   kitchenCenter?: string;
   brand: string;
-  partner: number;
-  status: string;
 }
 
 export interface KitchenCenterTable {

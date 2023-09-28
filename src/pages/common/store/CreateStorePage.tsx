@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,35 +8,38 @@ import { Button, Card, Stack } from '@mui/material';
 import { StoreToCreate } from '@types';
 import { Color } from 'common/enum';
 import { Page } from 'components';
+import { useLocales, useValidationForm } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreForm } from 'sections/store';
-import { useLocales, useValidationForm } from 'hooks';
 
 function CreateStorePage() {
   const navigate = useNavigate();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { schemaStore } = useValidationForm();
+
   const { store, isEditing, pathnameBack } = useAppSelector((state) => state.store);
 
   const createStoreForm = useForm<StoreToCreate>({
     defaultValues: {
       name: isEditing ? store?.name : '',
-      logoUrl: isEditing ? store?.logoUrl : '',
-      kitchenCenter: isEditing ? store?.kitchenCenter : '',
-      brand: isEditing ? store?.brand : '',
+      storeManagerEmail: isEditing ? store?.storeManagerEmail : '',
+      logo: isEditing ? store?.logo : '',
+      kitchenCenterId: isEditing ? store?.kitchenCenter.kitchenCenterId : 0,
+      brandId: isEditing ? store?.brand.brandId : 0,
     },
     resolver: yupResolver(schemaStore),
   });
 
   const { handleSubmit, watch } = createStoreForm;
 
-  const image = watch('logoUrl');
+  const image = watch('logo');
 
   const onSubmit = async (values: StoreToCreate) => {
-    const data = { ...values, logoUrl: image };
-    console.log('StoreToCreate', data);
+    const data = { ...values };
+    console.log(data);
   };
 
   return (

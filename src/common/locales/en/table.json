@@ -9,6 +9,7 @@
   "store": "Store",
   "partner": "Partner",
   "address": "Address",
+  "email": "Manager email",
   "lowercase": {
     "address": "address",
     "email": "email"

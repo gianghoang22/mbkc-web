@@ -9,10 +9,10 @@ export interface KitchenCentersData {
 export interface KitchenCenter {
   kitchenCenterId: number;
   name: string;
-  logo: string;
   address: string;
-  managerEmail: string;
   status: string;
+  logo: string;
+  kitchenCenterManagerEmail: string;
 }
 
 export interface KitchenCenterToAdd {
@@ -28,14 +28,7 @@ export interface KitchenCenterOptions {
   searchValue?: string;
 }
 
-export interface newKitchenCenter {
-  Name: string;
-  Address: string;
-  Logo: any;
-  ManagerEmail: string;
-}
-
 export interface CreateKitchenCenterParams {
-  newKitchenCenter: newKitchenCenter;
+  newKitchenCenter: KitchenCenterToAdd;
   navigate: NavigateFunction;
 }

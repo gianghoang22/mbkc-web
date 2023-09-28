@@ -8,13 +8,7 @@ import { Brand } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import {
-  deleteBrand,
-  getBrandDetail,
-  getBrandDetail_local,
-  setEditBrand,
-  setPathToBackBrand,
-} from 'redux/brand/brandSlice';
+import { deleteBrand, getBrandDetail, setEditBrand, setPathToBackBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 

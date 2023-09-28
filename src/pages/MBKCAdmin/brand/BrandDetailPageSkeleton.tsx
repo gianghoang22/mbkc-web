@@ -1,12 +1,11 @@
-import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
+import { CommonTableHead, ConfirmDialog, Page, Popover, SearchNotFound } from 'components';
 import React, { useMemo, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 //mui
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DescriptionIcon from '@mui/icons-material/Description';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -24,7 +23,7 @@ import {
 } from '@mui/material';
 //
 import { OrderSort, StoreTable } from '@types';
-import { Color, Language, PopoverType, Status } from 'common/enum';
+import { Language, PopoverType } from 'common/enum';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { setEditBrand, setPathToBackBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -32,7 +31,6 @@ import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 
 function BrandDetailPage() {
-  const { id: brandId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();

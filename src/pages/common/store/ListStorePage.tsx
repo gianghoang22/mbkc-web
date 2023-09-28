@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -16,7 +17,7 @@ import {
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { OrderSort, StoreTable } from '@types';
+import { ListParams, OrderSort, Store, StoreTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
@@ -39,13 +40,11 @@ function ListStorePage() {
   const { userAuth } = useAppSelector((state) => state.auth);
   const { stores } = useAppSelector((state) => state.store);
 
+  console.log(stores);
+
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
-
-  useEffect(() => {
-    dispatch(getAllStores(navigate));
-  }, [dispatch, navigate]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -62,11 +61,32 @@ function ListStorePage() {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
 
   const visibleRows = useMemo(
-    () => stableSort(stores, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    () =>
+      stableSort<Store>(stores, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
     [order, orderBy, page, rowsPerPage, stores]
   );
 
+  console.log(visibleRows);
+
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: filterName,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, filterName]);
+
+  useEffect(() => {
+    dispatch(getAllStores(params));
+  }, [params]);
 
   return (
     <>

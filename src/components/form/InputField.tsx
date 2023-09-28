@@ -61,7 +61,6 @@ const InputField = ({
             disabled={disabled}
             helperText={helperText}
             placeholder={placeholder}
-            defaultValue={defaultValue}
             multiline={multiline}
             minRows={minRows}
             InputProps={InputProps}

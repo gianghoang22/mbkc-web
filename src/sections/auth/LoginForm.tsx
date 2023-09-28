@@ -57,12 +57,13 @@ function LoginForm() {
     <>
       <FormProvider {...loginForm}>
         <Stack spacing={3}>
-          <InputField fullWidth size="large" name="email" label={translate('page.form.email')} />
+          <InputField fullWidth size="large" name="email" defaultValue="" label={translate('page.form.email')} />
 
           <InputField
             fullWidth
             size="large"
             name="password"
+            defaultValue=""
             label={translate('page.form.password')}
             type={showPassword ? 'text' : 'password'}
             InputProps={{

@@ -1,31 +1,22 @@
-import { CreateKitchenCenterParams, KitchenCenterOptions } from '@types';
-import { axiosClient } from 'api/axiosClient';
+import { CreateKitchenCenterParams, ListParams } from '@types';
+import { axiosClient, setHeaderAuth } from 'api/axiosClient';
 import { setMessageError } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
 import { getAllKitchenCenters, setMessageSuccess } from './kitchenCenterSlice';
-import { NavigateFunction } from 'react-router-dom';
+import { RoutesApiKeys } from 'constants/routesApiKeys';
 
-export const getAllKitchenCentersThunk = async (
-  params: {
-    options: KitchenCenterOptions;
-    navigate: NavigateFunction;
-  },
-  thunkAPI: any
-) => {
-  console.log(params);
+export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: any) => {
+  const { optionParams, navigate } = params;
   const accessToken = getAccessToken();
-  const { itemsPerPage, currentPage, searchValue } = params.options;
   if (accessToken) {
-    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(
-        `/kitchencenters?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}`
-      );
+      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_KITCHEN_CENTER(optionParams));
       console.log(response);
       return response;
     } catch (error) {
-      const errorMessage = getErrorMessage(error, params.navigate);
+      const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
     }
@@ -94,10 +85,10 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
   const options = {
     itemsPerPage: 5,
     currentPage: 1,
-    searchValue: '',
+    keySearchName: '',
   };
   const params_callback = {
-    options: options,
+    optionParams: options,
     navigate,
   };
   const accessToken = getAccessToken();

@@ -1,16 +1,18 @@
+import { ListParams, ListResponse, Store } from '@types';
 import { axiosClient, setHeaderAuth } from 'api/axiosClient';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
-export const getAllStoresThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
+  const { optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_STORE);
-      console.log(response);
+      const response: ListResponse<Store> = await axiosClient.get(
+        optionParams === undefined ? RoutesApiKeys.GET_ALL_STORE : RoutesApiKeys.GET_ALL_STORE_PARAMS(optionParams)
+      );
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);

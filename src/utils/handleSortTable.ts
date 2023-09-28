@@ -1,4 +1,4 @@
-import { OrderSort } from '@types';
+import { Brand, KitchenCenter, OrderSort } from '@types';
 
 export function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -13,7 +13,10 @@ export function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 export function getComparator<Key extends keyof any>(
   order: OrderSort,
   orderBy: Key
-): (a: { [key in Key]: Date | string | number }, b: { [key in Key]: Date | string | number }) => number {
+): (
+  a: { [key in Key]: Date | string | number | Brand | KitchenCenter },
+  b: { [key in Key]: Date | string | number | Brand | KitchenCenter }
+) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);

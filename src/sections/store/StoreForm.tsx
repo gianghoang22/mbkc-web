@@ -1,16 +1,62 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { Grid, Stack, Typography } from '@mui/material';
 //
-import { CREATE_STORE_BRANDS_OPTIONS, CREATE_STORE_KITCHEN_CENTERS_OPTIONS } from '@types';
+import { ListParams } from '@types';
 import { Language } from 'common/enum';
-import { InputField, SelectField, UploadImageField } from 'components';
+import { AutoCompleteField, InputField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
+import { getAllBrands } from 'redux/brand/brandSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 function CategoryForm() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
 
+  const { brands } = useAppSelector((state) => state.brand);
   const { isEditing } = useAppSelector((state) => state.store);
+  const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
+
+  console.log(brands);
+
+  const kitchenCenterOptions = kitchenCenters.map((kitchenCenter) => ({
+    label: kitchenCenter.name,
+    value: kitchenCenter.kitchenCenterId,
+  }));
+
+  const brandOptions = brands.map((brand) => ({
+    label: brand.name,
+    value: brand.brandId,
+  }));
+
+  const getOpObjBrand = (option: any) => {
+    if (!option) return option;
+    if (!option.value) return brandOptions.find((opt) => opt.value === option);
+    return option;
+  };
+  const getOpObjKitchenCenter = (option: any) => {
+    if (!option) return option;
+    if (!option.value) return brandOptions.find((opt) => opt.value === option);
+    return option;
+  };
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        isGetAll: true,
+      },
+      navigate,
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllKitchenCenters(params));
+    dispatch(getAllBrands(params));
+  }, [params]);
 
   return (
     <Grid container columnSpacing={3}>
@@ -60,18 +106,34 @@ function CategoryForm() {
             />
             <Stack direction="row" spacing={3}>
               <Stack direction="row" alignItems="start" gap={2} width="100%">
-                <SelectField
-                  fullWidth
+                <AutoCompleteField
+                  options={kitchenCenterOptions}
+                  getOptionLabel={(value: any) => {
+                    return getOpObjKitchenCenter(value)?.label;
+                  }}
+                  isOptionEqualToValue={(option: any, value: any) => {
+                    if (!option) return option;
+                    return option.value === getOpObjKitchenCenter(value)?.value;
+                  }}
+                  transformValue={(opt: any) => opt.value}
                   name="kitchenCenter"
-                  options={CREATE_STORE_KITCHEN_CENTERS_OPTIONS}
+                  type="text"
                   label={translate('model.capitalizeOne.kitchenCenter')}
                 />
               </Stack>
               <Stack direction="row" alignItems="start" gap={2} width="100%">
-                <SelectField
-                  fullWidth
+                <AutoCompleteField
+                  options={brandOptions}
+                  getOptionLabel={(value: any) => {
+                    return getOpObjBrand(value)?.label;
+                  }}
+                  isOptionEqualToValue={(option: any, value: any) => {
+                    if (!option) return option;
+                    return option.value === getOpObjBrand(value)?.value;
+                  }}
+                  transformValue={(opt: any) => opt.value}
                   name="brand"
-                  options={CREATE_STORE_BRANDS_OPTIONS}
+                  type="text"
                   label={translate('model.capitalizeOne.brand')}
                 />
               </Stack>

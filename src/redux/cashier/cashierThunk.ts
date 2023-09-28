@@ -9,7 +9,7 @@ export const getAllCashiersThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_STORE);
+      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_CASHIER);
       console.log(response);
       return response;
     } catch (error) {

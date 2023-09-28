@@ -16,7 +16,7 @@ import {
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { KitchenCenter, KitchenCenterOptions, KitchenCenterTable, OrderSort } from '@types';
+import { KitchenCenter, KitchenCenterTable, ListParams, OrderSort } from '@types';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -80,22 +80,20 @@ function ListKitchenCenterPage(props: any) {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
-  const options: KitchenCenterOptions = {
-    currentPage: page + 1,
-    itemsPerPage: rowsPerPage,
-    searchValue: filterName,
-  };
-
-  useEffect(() => {
-    const params = {
-      options,
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: filterName,
+      },
       navigate,
     };
-    dispatch(getAllKitchenCenters(params));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage, filterName]);
+  }, [page, rowsPerPage, filterName, navigate]);
 
-  console.log(options);
+  useEffect(() => {
+    dispatch(getAllKitchenCenters(params));
+  }, [dispatch, navigate, params]);
 
   return (
     <>

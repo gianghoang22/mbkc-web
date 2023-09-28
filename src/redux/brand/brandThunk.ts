@@ -3,19 +3,15 @@ import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 import { getAllBrands } from './brandSlice';
+import { ListParams } from '@types';
 
-export const getAllBrandsThunk = async (params: any, thunkAPI: any) => {
-  const {
-    navigate,
-    options: { searchKey, status, pageNumber, pageSize },
-  } = params;
+export const getAllBrandsThunk = async (params: ListParams, thunkAPI: any) => {
+  const { navigate, optionParams } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(
-        `brands?keySearchName=${searchKey}&keyStatusFilter=${status}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-      );
+      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_BRAND(optionParams));
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -84,13 +80,13 @@ export const updateBrandThunk = async (params: any, thunkAPI: any) => {
 export const deleteBrandThunk = async (params: any, thunkAPI: any) => {
   const { navigate, brandId, page, rowsPerPage } = params;
   const options = {
-    searchKey: '',
-    status: 'Active',
-    pageNumber: page,
-    pageSize: rowsPerPage,
+    keySearchName: '',
+    keyStatusFilter: 'Active',
+    currentPage: page,
+    itemsPerPage: rowsPerPage,
   };
   const params_callback = {
-    options,
+    optionsParams: options,
     navigate,
   };
   const accessToken = getAccessToken();
@@ -100,7 +96,7 @@ export const deleteBrandThunk = async (params: any, thunkAPI: any) => {
     try {
       const response = await axiosClient.delete(`/brands/${brandId}`);
       if (response) {
-        thunkAPI.dispatch(getAllBrands(params_callback));
+        // thunkAPI.dispatch(getAllBrands(params_callback));
         thunkAPI.dispatch(setMessageSuccess('Deleted Brand Successfully'));
       }
       return response;

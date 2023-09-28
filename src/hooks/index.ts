@@ -8,3 +8,4 @@ export { default as usePopover } from './usePopover';
 export { default as useResponsive } from './useResponsive';
 export { default as useSortTable } from './useSortTable';
 export { default as useValidationForm } from './useValidationForm';
+export { default as useDebounce } from './useDebounce';

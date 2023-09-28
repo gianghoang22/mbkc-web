@@ -156,8 +156,8 @@ function MBKCAdminDashboardPage() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Brandrows.map((row) => (
-                    <TableRow key={row.no} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  {Brandrows.map((row, index) => (
+                    <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
                         {row.no}
                       </TableCell>
@@ -241,8 +241,8 @@ function MBKCAdminDashboardPage() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {KitchenCenters.map((row) => (
-                    <TableRow key={row.no} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  {KitchenCenters.map((row, index) => (
+                    <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
                         {row.no}
                       </TableCell>

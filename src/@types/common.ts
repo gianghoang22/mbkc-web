@@ -1,18 +1,23 @@
-export interface PaginationParams {
-  totalPage: number;
-  numberItems: number;
-  searchValue: string;
+import { NavigateFunction } from 'react-router-dom';
+
+export interface OptionParams {
+  keySearchName?: string | null;
+  keyStatusFilter?: string | null;
+  itemsPerPage?: number | null | string;
+  currentPage?: number | null | string;
+  isGetAll?: boolean | null | string;
+}
+
+export interface ListParams {
+  optionParams: OptionParams;
+  navigate: NavigateFunction;
 }
 
 export interface Params<T> {
   data: T;
-  navigate: any;
+  navigate: NavigateFunction;
 }
 
-export interface ListParams {
-  pagination: PaginationParams;
-  navigate: any;
-}
 export interface LoginResponse {
   accountId: number;
   email: string;

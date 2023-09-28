@@ -1,5 +1,7 @@
+import { OptionParams } from '@types';
 import { path, pathRoot } from 'utils';
 
+const ROOTS_KITCHEN_CENTER = '/kitchencenters';
 const ROOTS_BRAND = '/brands';
 const ROOTS_STORE = '/stores';
 const ROOTS_CATEGORY = '/categories';
@@ -18,7 +20,28 @@ export const RoutesApiKeys = {
 
   // category
   CREATE_BRAND: pathRoot(ROOTS_BRAND),
-  GET_ALL_BRAND: pathRoot(ROOTS_BRAND),
+  GET_ALL_BRAND: ({ keySearchName, keyStatusFilter, currentPage, itemsPerPage, isGetAll }: OptionParams) => {
+    if (itemsPerPage === undefined) {
+      itemsPerPage = '';
+    }
+    if (keySearchName === undefined) {
+      keySearchName = '';
+    }
+    if (keyStatusFilter === undefined) {
+      keyStatusFilter = '';
+    }
+    if (currentPage === undefined) {
+      currentPage = '';
+    }
+    if (isGetAll === undefined) {
+      isGetAll = '';
+    }
+    return path(
+      ROOTS_BRAND,
+      `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+    );
+  },
+
   GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
   UPDATE_BRAND: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
   DELETE_BRAND: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
@@ -37,9 +60,36 @@ export const RoutesApiKeys = {
   UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
   DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
 
+  // kitchen center
+  GET_ALL_KITCHEN_CENTER: ({ itemsPerPage, currentPage, keySearchName, isGetAll }: OptionParams) => {
+    if (
+      itemsPerPage === undefined ||
+      currentPage === undefined ||
+      keySearchName === undefined ||
+      isGetAll === undefined
+    ) {
+      itemsPerPage = '';
+      currentPage = '';
+      keySearchName = '';
+      isGetAll = '';
+    }
+    return path(
+      ROOTS_KITCHEN_CENTER,
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}&isGetAll=${isGetAll}`
+    );
+  },
+
   // store
   CREATE_STORE: pathRoot(ROOTS_STORE),
   GET_ALL_STORE: pathRoot(ROOTS_STORE),
+  GET_ALL_STORE_PARAMS: ({ itemsPerPage, currentPage, keySearchName }: OptionParams) => {
+    if (itemsPerPage === undefined || currentPage === undefined || keySearchName === undefined) {
+      itemsPerPage = '';
+      currentPage = '';
+      keySearchName = '';
+    }
+    return path(ROOTS_STORE, `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}`);
+  },
   GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
   UPDATE_STORE: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
   DELETE_STORE: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),

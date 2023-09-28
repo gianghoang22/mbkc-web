@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,13 +6,13 @@ import * as yup from 'yup';
 import { Button, Card, Stack } from '@mui/material';
 //
 import { CreateKitchenCenterParams, KitchenCenterToAdd } from '@types';
+import { Color } from 'common/enum';
 import { Page } from 'components';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from 'redux/configStore';
+import { createNewKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
-import { useAppSelector } from 'redux/configStore';
-import { Color } from 'common/enum';
-import { useDispatch } from 'react-redux';
-import { createNewKitchenCenter, getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 const schema = yup.object({
   Name: yup.string().required('Please enter brand name'),
@@ -34,7 +32,7 @@ function CreateKitchenCenterPage(props: any) {
       Name: isEditing ? kitchenCenter?.name : '',
       Address: isEditing ? kitchenCenter?.address : '',
       Logo: isEditing ? kitchenCenter?.logo : '',
-      ManagerEmail: isEditing ? kitchenCenter?.managerEmail : '',
+      ManagerEmail: isEditing ? kitchenCenter?.kitchenCenterManagerEmail : '',
     },
     resolver: yupResolver(schema),
   });

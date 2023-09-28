@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Store } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
-import { store, stores } from 'mock/store';
 import { getPathname, setLocalStorage } from 'utils';
 import {
   createNewStoreThunk,
@@ -33,8 +32,8 @@ const initialState: StoreState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  stores: stores,
-  store: store,
+  stores: [],
+  store: null,
   totalPage: 0,
   numberItems: 5,
 };
@@ -83,9 +82,13 @@ const storeSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getAllStores.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.stores = action.payload?.stores;
+        state.totalPage = action.payload?.totalPage;
+        state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllStores.rejected, (state, action) => {
         state.isLoading = false;

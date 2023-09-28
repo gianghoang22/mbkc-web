@@ -22,6 +22,10 @@ export const store = configureStore({
     cashier: cashierReducer,
     bankingAccount: BankingAccountReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

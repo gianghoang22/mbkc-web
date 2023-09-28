@@ -32,7 +32,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>(
                 <Breadcrumbs pathname={pathname} navigateDashboard={navigateDashboard} />
               </Stack>
               <Stack direction="row" alignItems="center" spacing={2}>
-                {actions && actions()}
+                {actions && actions().map((action, index) => <div key={index}>{action}</div>)}
               </Stack>
             </Stack>
             {content}

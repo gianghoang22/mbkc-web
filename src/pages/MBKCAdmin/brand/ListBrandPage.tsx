@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -25,7 +26,7 @@ import { PATH_ADMIN_APP } from 'routes/paths';
 import { BrandTableRow, BrandTableRowSkeleton, BrandTableToolbar } from 'sections/brand';
 import { getComparator, stableSort } from 'utils';
 
-function ListBrandPage(props: any) {
+function ListBrandPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
@@ -38,10 +39,6 @@ function ListBrandPage(props: any) {
   const [filterName, setFilterName] = useState<string>('');
 
   const { brands, isLoading } = useAppSelector((state) => state.brand);
-
-  useEffect(() => {
-    dispatch(getAllBrands(navigate));
-  }, [dispatch, navigate]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BrandTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -65,14 +62,14 @@ function ListBrandPage(props: any) {
   const isNotFound = !visibleRows.length && !!filterName;
 
   const options = {
-    searchKey: filterName,
-    status: 'active',
-    pageNumber: page + 1,
-    pageSize: rowsPerPage,
+    keySearchName: filterName,
+    keyStatusFilter: 'active',
+    currentPage: page + 1,
+    itemsPerPage: rowsPerPage,
   };
 
   const params = {
-    options,
+    optionParams: options,
     navigate,
   };
 

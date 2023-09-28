@@ -5,7 +5,6 @@ import { Controller, useFormContext } from 'react-hook-form';
 interface Option<T> {
   label: string;
   value: T;
-  id: string;
 }
 
 interface SelectFieldProps<T> {
@@ -60,8 +59,8 @@ function SelectField<T extends string | number>({
             value={field.value || []}
           >
             {children ??
-              options?.map(({ label, value, id }) => (
-                <MenuItem value={value} key={`${id}`}>
+              options?.map(({ label, value }) => (
+                <MenuItem value={value} key={`${value}`}>
                   {label}
                 </MenuItem>
               ))}

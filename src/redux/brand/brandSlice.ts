@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Brand } from '@types';
-import brands from 'mock/brand';
+import { StorageKeys } from 'constants/storageKeys';
+import { getPathname, setLocalStorage } from 'utils';
 import {
   createNewBrandThunk,
   deleteBrandThunk,
@@ -8,8 +9,6 @@ import {
   getBrandDetailThunk,
   updateBrandThunk,
 } from './brandThunk';
-import { StorageKeys } from 'constants/storageKeys';
-import { getPathname, setLocalStorage } from 'utils';
 
 interface BrandState {
   pathnameBack: string;

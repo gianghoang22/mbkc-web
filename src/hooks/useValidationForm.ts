@@ -22,10 +22,19 @@ function useValidationForm() {
         ),
       })
     ),
-    kitchenCenter: yup
-      .string()
+    storeManagerEmail: yup.string().required(
+      translate('page.validation.required', {
+        name: translate('table.lowercase.email'),
+      })
+    ),
+    kitchenCenterId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
       .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
-    brand: yup.string().required(translate('page.validation.select', { name: translate('model.lowercase.brand') })),
+    brandId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.brand') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.brand') })),
   });
 
   const schemaBrand = yup.object({
