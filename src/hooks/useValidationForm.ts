@@ -6,7 +6,7 @@ function useValidationForm() {
   const { translate, currentLang } = useLocales();
 
   const schemaStore = yup.object({
-    name: yup.string().required(
+    Name: yup.string().required(
       translate('page.validation.required', {
         name: translate(
           'page.form.nameExchange',
@@ -22,10 +22,11 @@ function useValidationForm() {
         ),
       })
     ),
-    kitchenCenter: yup
-      .string()
-      .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
-    brand: yup.string().required(translate('page.validation.select', { name: translate('model.lowercase.brand') })),
+    StoreManagerEmail: yup.string().email().required(),
+    // kitchenCenter: yup
+    //   .string()
+    //   .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
+    // brand: yup.string().required(translate('page.validation.select', { name: translate('model.lowercase.brand') })),
   });
 
   const schemaBrand = yup.object({

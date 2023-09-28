@@ -97,7 +97,7 @@ function useConfigHeadTable() {
 
   const storeHeadCells: HeadCell<StoreTable>[] = [
     {
-      id: 'logoUrl',
+      id: 'logo',
       label: translate('table.logo'),
       numeric: false,
       hideSortIcon: true,
@@ -124,13 +124,13 @@ function useConfigHeadTable() {
       hideSortIcon: false,
       disablePadding: false,
     },
-    {
-      id: 'partner',
-      label: translate('table.partner'),
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
+    // {
+    //   id: 'partner',
+    //   label: translate('table.partner'),
+    //   numeric: false,
+    //   hideSortIcon: false,
+    //   disablePadding: false,
+    // },
     {
       id: 'status',
       label: translate('table.status'),

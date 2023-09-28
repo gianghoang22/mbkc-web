@@ -1,18 +1,43 @@
+// export interface Store {
+//   storeId: number;
+//   name: string;
+//   logoUrl: string;
+//   kitchenCenter: string;
+//   brand: string;
+//   partner: number;
+//   status: string;
+// }
+
 export interface Store {
   storeId: number;
   name: string;
-  logoUrl: string;
-  kitchenCenter: string;
-  brand: string;
-  partner: number;
   status: string;
+  logo: string;
+  storeManagerEmail: string;
+  kitchenCenter: {
+    kitchenCenterId: number;
+    name: string;
+    address: string;
+    status: string;
+    logo: string;
+    kitchenCenterManagerEmail: string;
+  };
+  brand: {
+    brandId: number;
+    name: string;
+    address: string;
+    logo: string;
+    status: string;
+    brandManagerEmail: string;
+  };
 }
 
 export interface StoreToCreate {
-  name: string;
-  logoUrl?: string;
-  kitchenCenter: string;
-  brand: string;
+  Name: string;
+  Logo?: string;
+  KitchenCenterId?: number;
+  BrandId?: number;
+  StoreManagerEmail: string;
 }
 
 export const CREATE_STORE_KITCHEN_CENTERS_OPTIONS = [

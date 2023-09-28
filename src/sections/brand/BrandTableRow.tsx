@@ -12,6 +12,7 @@ import {
   deleteBrand,
   getBrandDetail,
   getBrandDetail_local,
+  getStoresByBrand,
   setEditBrand,
   setPathToBackBrand,
 } from 'redux/brand/brandSlice';
@@ -40,6 +41,8 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
     };
     navigate(PATH_ADMIN_APP.brand.root + `/detail/${brandId}`);
     dispatch(getBrandDetail(params));
+    console.log('id', brandId);
+    dispatch(getStoresByBrand(params));
   };
 
   const handleEdit = () => {

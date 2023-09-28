@@ -6,21 +6,49 @@ import { sample } from 'lodash'; // random in array
 const stores = [...Array(24)].map((_, index) => ({
   storeId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
   name: faker.company.name(),
-  logoUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
-  kitchenCenter: faker.company.name(),
-  brand: faker.company.name(),
-  partner: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
+  logo: `/assets/images/avatars/avatar_${index + 1}.jpg`,
   status: sample(['active', 'inactive']),
+  storeManagerEmail: faker.company.name(),
+  kitchenCenter: {
+    kitchenCenterId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+    name: faker.company.name(),
+    address: faker.company.name(),
+    status: sample(['active', 'inactive']),
+    logo: `/assets/images/avatars/avatar_${index + 1}.jpg`,
+    kitchenCenterManagerEmail: faker.company.name(),
+  },
+  brand: {
+    brandId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+    name: faker.company.name(),
+    address: faker.company.name(),
+    logo: faker.company.name(),
+    status: sample(['active', 'inactive']),
+    brandManagerEmail: faker.company.name(),
+  },
 }));
 
 const store = {
   storeId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
   name: faker.company.name(),
-  logoUrl: `/assets/images/kitchen/store.png`,
-  kitchenCenter: faker.company.name(),
-  brand: faker.company.name(),
-  partner: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
+  logo: `/assets/images/kitchen/store.png`,
   status: sample(['active', 'inactive']),
+  storeManagerEmail: faker.company.name(),
+  kitchenCenter: {
+    kitchenCenterId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+    name: faker.company.name(),
+    address: faker.company.name(),
+    status: sample(['active', 'inactive']),
+    logo: `/assets/images/kitchen/store.png`,
+    kitchenCenterManagerEmail: faker.company.name(),
+  },
+  brand: {
+    brandId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+    name: faker.company.name(),
+    address: faker.company.name(),
+    logo: faker.company.name(),
+    status: sample(['active', 'inactive']),
+    brandManagerEmail: faker.company.name(),
+  },
 };
 
 export { stores, store };
