@@ -96,7 +96,7 @@ function ListStorePage() {
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
         actions={() => {
           const listAction: ReactNode[] =
-            userAuth?.roleName === Role.MBKC_ADMIN
+            userAuth?.roleName === Role.BRAND_MANAGER
               ? [
                   <Button
                     variant="contained"
@@ -120,7 +120,7 @@ function ListStorePage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>
-                    showAction={userAuth?.roleName === Role.MBKC_ADMIN}
+                    showAction={userAuth?.roleName === Role.BRAND_MANAGER}
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -130,7 +130,7 @@ function ListStorePage() {
                     {visibleRows.map((store, index) => {
                       return (
                         <StoreTableRow
-                          showAction={userAuth?.roleName === Role.MBKC_ADMIN}
+                          showAction={userAuth?.roleName === Role.BRAND_MANAGER}
                           key={store.storeId}
                           index={index}
                           store={store}

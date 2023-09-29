@@ -63,6 +63,7 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
 
 export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
   const { navigate, updateKitchenCenterOptions, kitchenCenterId } = params;
+  console.log(updateKitchenCenterOptions);
   const accessToken = getAccessToken();
   if (accessToken) {
     try {

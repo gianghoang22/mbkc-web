@@ -112,7 +112,7 @@ function ListKitchenCenterPage(props: any) {
               dispatch(setAddKitchenCenter());
             }}
           >
-            Create new Kitchen Center
+            Add Kitchen Center
           </Button>,
         ]}
       >
