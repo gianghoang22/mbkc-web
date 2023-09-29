@@ -104,6 +104,7 @@ export const PATH_ADMIN_APP = {
     root: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center'),
     list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/list'),
     detailById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/detail/:id'),
+    editById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/update/:id'),
     newKitchenCenter: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/create-new'),
   },
   brand: {

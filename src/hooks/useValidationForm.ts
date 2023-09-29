@@ -38,7 +38,7 @@ function useValidationForm() {
   });
 
   const schemaBrand = yup.object({
-    name: yup.string().required(
+    Name: yup.string().required(
       translate('page.validation.required', {
         name: translate(
           'page.form.nameExchange',
@@ -54,10 +54,10 @@ function useValidationForm() {
         ),
       })
     ),
-    email: yup
+    ManagerEmail: yup
       .string()
       .required(translate('page.validation.required', { name: translate('model.lowercase.managerEmail') })),
-    address: yup
+    Address: yup
       .string()
       .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
   });

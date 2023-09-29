@@ -98,7 +98,7 @@ function ListStorePage() {
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
         actions={() => {
           const listAction: ReactNode[] =
-            userAuth?.roleName === Role.MBKC_ADMIN
+            userAuth?.roleName === Role.BRAND_MANAGER
               ? [
                   <Button
                     variant="contained"

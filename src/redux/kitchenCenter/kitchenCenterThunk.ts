@@ -1,14 +1,15 @@
 import { CreateKitchenCenterParams, ListParams } from '@types';
 import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
-import { setMessageError } from 'redux/auth/authSlice';
+import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
-import { getAllKitchenCenters, setMessageSuccess } from './kitchenCenterSlice';
+import { getAllKitchenCenters } from './kitchenCenterSlice';
 
 export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
   const accessToken = getAccessToken();
+  console.log(optionParams.keySearchName);
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
@@ -48,7 +49,7 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
       const response = await axiosFormData.post('/kitchencenters', params.newKitchenCenter);
       if (response) {
         console.log(response);
-        thunkAPI.dispatch(setMessageSuccess(response));
+        thunkAPI.dispatch(setMessageSuccess('Create kitchen center successfully'));
         params.navigate(PATH_ADMIN_APP.kitchenCenter.list);
       }
       return response;
@@ -61,14 +62,14 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
 };
 
 export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { navigate, updateKitchenCenterOptions, kitchenCenterId } = params;
+  console.log(updateKitchenCenterOptions);
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
-      const response = await axiosClient.post(`/sport-center/${params.kitchenCenterId}`, params.upadateSportCenter);
+      const response = await axiosFormData.put(`/kitchencenters/${kitchenCenterId}`, updateKitchenCenterOptions);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+        thunkAPI.dispatch(setMessageSuccess('Update kitchen center successfully'));
       }
       return response;
     } catch (error) {

@@ -4,6 +4,7 @@ import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 import { getAllBrands } from './brandSlice';
 import { ListParams } from '@types';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 export const getAllBrandsThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -38,16 +39,15 @@ export const getBrandDetailThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const createNewBrandThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { navigate, newBrand } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosFormData.post('/sport-center/', params.newSportCenter);
+      const response = await axiosFormData.post('/brands', newBrand);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        params.navigate(PATH_ADMIN_APP.brand.list);
+        thunkAPI.dispatch(setMessageSuccess('Created new brand successfully'));
       }
       return response;
     } catch (error) {
@@ -59,14 +59,15 @@ export const createNewBrandThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const updateBrandThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { navigate, brandId, updateBrandOptions } = params;
   const accessToken = getAccessToken();
+  // console.log(updateBrandOptions);
   if (accessToken) {
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(`/sport-center/${params.brandId}`, params.upadateSportCenter);
+      const response = await axiosFormData.put(`/brands/${brandId}`, updateBrandOptions);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+        thunkAPI.dispatch(setMessageSuccess('Update brand successfully'));
       }
       return response;
     } catch (error) {
@@ -85,19 +86,18 @@ export const deleteBrandThunk = async (params: any, thunkAPI: any) => {
     currentPage: page,
     itemsPerPage: rowsPerPage,
   };
-  const params_callback = {
-    optionsParams: options,
+  const params_callback: ListParams = {
+    optionParams: options,
     navigate,
   };
   const accessToken = getAccessToken();
   if (accessToken) {
     axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
     try {
       const response = await axiosClient.delete(`/brands/${brandId}`);
       if (response) {
-        // thunkAPI.dispatch(getAllBrands(params_callback));
         thunkAPI.dispatch(setMessageSuccess('Deleted Brand Successfully'));
+        thunkAPI.dispatch(getAllBrands(params_callback));
       }
       return response;
     } catch (error) {

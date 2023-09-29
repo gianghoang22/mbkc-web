@@ -87,7 +87,7 @@ function ListKitchenCenterPage(props: any) {
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        searchValue: filterName,
+        keySearchName: filterName,
       },
       navigate,
     };
@@ -112,7 +112,7 @@ function ListKitchenCenterPage(props: any) {
               dispatch(setAddKitchenCenter());
             }}
           >
-            Create new Kitchen Center
+            Add Kitchen Center
           </Button>,
         ]}
       >

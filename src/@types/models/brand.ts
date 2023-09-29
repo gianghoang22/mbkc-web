@@ -15,8 +15,16 @@ export interface Brand {
 }
 
 export interface BrandToCreate {
-  name: string;
-  address: string;
-  email: string;
-  logoUrl?: string;
+  Name: string;
+  Address: string;
+  ManagerEmail: string;
+  Logo?: string;
+}
+
+export interface BrandToUpdate {
+  Name: string;
+  Address: string;
+  BrandManagerEmail: string;
+  Logo?: string;
+  Status: string;
 }

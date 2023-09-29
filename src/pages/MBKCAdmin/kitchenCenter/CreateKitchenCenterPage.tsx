@@ -5,19 +5,18 @@ import * as yup from 'yup';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { CreateKitchenCenterParams, KitchenCenterToAdd } from '@types';
+import { CreateKitchenCenterParams, KitchenCenterToAdd, KitchenCenterToUpdate } from '@types';
 import { Color } from 'common/enum';
 import { Page } from 'components';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'redux/configStore';
-import { createNewKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { createNewKitchenCenter, updateKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
 
 const schema = yup.object({
   Name: yup.string().required('Please enter brand name'),
   Address: yup.string().required('Please enter kitchen center address'),
-  Logo: yup.string().required('Please select kitchen center logo'),
   ManagerEmail: yup.string().email('Email is not valid').required(),
 });
 
@@ -40,14 +39,34 @@ function CreateKitchenCenterPage(props: any) {
   const { handleSubmit } = createKitchenCenterForm;
 
   const onSubmit = async (values: KitchenCenterToAdd) => {
+    // Create a kitchen center
     const data = { ...values };
-
-    console.log('data: ', data);
     const params: CreateKitchenCenterParams = {
       newKitchenCenter: data,
       navigate,
     };
-    dispatch<any>(createNewKitchenCenter(params));
+
+    // Update a kitchen center
+    const updateKitchenCenterOptions: KitchenCenterToUpdate = {
+      Name: values.Name,
+      Address: values.Address,
+      Status: 'ACTIVE',
+      NewLogo: values.Logo,
+      DeletedLogo: '/assets/images/logos/user_default.png',
+      ManagerEmail: values.ManagerEmail,
+    };
+
+    const paramsUpdate = {
+      updateKitchenCenterOptions: updateKitchenCenterOptions,
+      kitchenCenterId: kitchenCenter?.kitchenCenterId,
+      navigate,
+    };
+
+    if (isEditing) {
+      dispatch<any>(updateKitchenCenter(paramsUpdate));
+    } else {
+      dispatch<any>(createNewKitchenCenter(params));
+    }
   };
 
   return (

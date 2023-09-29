@@ -39,6 +39,11 @@ export const adminRoutes: Route[] = [
     index: true,
   },
   {
+    path: PATH_ADMIN_APP.kitchenCenter.editById,
+    component: <CreateKitchenCenterPage />,
+    index: true,
+  },
+  {
     path: PATH_ADMIN_APP.brand.list,
     component: <ListBrandPage />,
     index: true,

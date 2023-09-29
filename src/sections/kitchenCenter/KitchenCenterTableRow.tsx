@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
 // @mui
-import { Avatar, FormControlLabel, IconButton, MenuItem, Popover, Switch, TableCell, TableRow } from '@mui/material';
+import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { KitchenCenter } from '@types';
 import { sentenceCase } from 'change-case';
 import { Color, Status } from 'common/enum';
-import { Label } from 'components';
+import { ConfirmDialog, Label, Popover } from 'components';
 import { useDispatch } from 'react-redux';
-import { deleteKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { deleteKitchenCenter, setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { useNavigate } from 'react-router-dom';
+import { PATH_ADMIN_APP } from 'routes/paths';
+import { useLocales, useModal, usePopover } from 'hooks';
 
 interface KitchenCenterTableRowProps {
   handleNavigateDetail: (kitchenCenter: KitchenCenter, kitchenCenterId: number) => void;
@@ -24,24 +23,23 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
   const { index, kitchenCenter, handleNavigateDetail } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { translate } = useLocales();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { handleOpen, isOpen } = useModal();
 
-  const [open, setOpen] = useState<HTMLButtonElement | null>(null);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpen(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
-
-  const handleDeleteKitchenCenter = (kitchenCenterId: number) => {
+  const handleDelete = () => {
+    const kitchenCenterId = kitchenCenter.kitchenCenterId;
     const params = {
       kitchenCenterId,
       navigate,
     };
 
     dispatch<any>(deleteKitchenCenter(params));
+  };
+
+  const handleEdit = () => {
+    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenter.kitchenCenterId}`);
+    dispatch(setEditKitchenCenter(kitchenCenter));
   };
 
   return (
@@ -85,34 +83,17 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
         </TableCell>
       </TableRow>
 
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
 
-        <MenuItem sx={{ color: 'error.main' }} onClick={() => handleDeleteKitchenCenter(kitchenCenter.kitchenCenterId)}>
-          <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
+      {isOpen && (
+        <ConfirmDialog
+          open={isOpen}
+          onClose={handleOpen}
+          onAction={handleDelete}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.brand') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.brand') })}
+        />
+      )}
     </>
   );
 }
