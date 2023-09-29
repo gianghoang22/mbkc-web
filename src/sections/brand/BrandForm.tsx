@@ -23,7 +23,7 @@ function BrandForm() {
           </Stack>
           <UploadImageField
             label={translate('page.content.dragDrop')}
-            name="logoUrl"
+            name="Logo"
             defaultValue=""
             isEditing={isEditing}
           />
@@ -41,7 +41,7 @@ function BrandForm() {
           <Stack spacing={2}>
             <InputField
               fullWidth
-              name="name"
+              name="Name"
               label={translate(
                 'page.form.nameExchange',
                 currentLang.value === Language.ENGLISH
@@ -55,8 +55,8 @@ function BrandForm() {
                     }
               )}
             />
-            <InputField fullWidth name="email" label={translate('page.form.managerEmail')} />
-            <InputField fullWidth name="address" label={translate('page.form.address')} />
+            <InputField fullWidth name="ManagerEmail" label={translate('page.form.managerEmail')} />
+            <InputField fullWidth name="Address" label={translate('page.form.address')} />
           </Stack>
         </Stack>
       </Grid>

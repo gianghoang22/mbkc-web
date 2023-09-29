@@ -87,7 +87,7 @@ function ListKitchenCenterPage(props: any) {
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        searchValue: filterName,
+        keySearchName: filterName,
       },
       navigate,
     };

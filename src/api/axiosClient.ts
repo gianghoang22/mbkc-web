@@ -19,6 +19,7 @@ const axiosFormData = axios.create({
 
 const setHeaderAuth = (accessToken: string) => {
   axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  axiosFormData.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 };
 
 // Add a request interceptor

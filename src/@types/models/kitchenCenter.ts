@@ -18,8 +18,17 @@ export interface KitchenCenter {
 export interface KitchenCenterToAdd {
   Name: string;
   Address: string;
-  Logo: string;
+  Logo?: string;
   ManagerEmail: string;
+}
+
+export interface KitchenCenterToUpdate {
+  Name: string;
+  Address: string;
+  NewLogo?: string;
+  DeletedLogo?: string;
+  ManagerEmail: string;
+  Status: string;
 }
 
 export interface KitchenCenterOptions {
