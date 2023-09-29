@@ -9,6 +9,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
+  Typography,
 } from '@mui/material';
 //
 import LoadingAsyncButton from 'components/LoadingAsyncButton/LoadingAsyncButton';
@@ -16,6 +17,7 @@ import { useLocales } from 'hooks';
 
 type Props = {
   open: boolean;
+  model?: String;
   title: String | ReactElement;
   description?: String | ReactElement | null;
   // onDelete: () => Promise<any> | Function;
@@ -28,6 +30,7 @@ type Props = {
 const ConfirmDialog: FC<Props & DialogProps> = ({
   open,
   title,
+  model,
   description,
   onClose,
   onAction,
@@ -47,9 +50,19 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
       aria-describedby="alert-dialog-description"
       {...props}
     >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+        <Typography variant="h5">{title}</Typography>
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">{description}</DialogContentText>
+        <DialogContentText id="alert-dialog-description">
+          <Typography>
+            {description}{' '}
+            <Typography component="span" variant="subtitle1">
+              {model}
+            </Typography>
+            ?
+          </Typography>
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button {...cancelProps} onClick={onClose} variant="text" color="secondary">

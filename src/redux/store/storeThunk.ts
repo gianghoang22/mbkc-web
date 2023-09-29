@@ -1,18 +1,19 @@
-import { ListParams, ListResponse, Store } from '@types';
-import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { DeleteParams, ListParams, ListResponse, Params, Store, StoreToCreate } from '@types';
+import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { getAccessToken, getErrorMessage } from 'utils';
+import { PATH_ADMIN_APP } from 'routes/paths';
+import { appendData, getAccessToken, getErrorMessage } from 'utils';
+import { getAllStores } from './storeSlice';
 
 export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
+  console.log(optionParams);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response: ListResponse<Store> = await axiosClient.get(
-        optionParams === undefined ? RoutesApiKeys.GET_ALL_STORE : RoutesApiKeys.GET_ALL_STORE_PARAMS(optionParams)
-      );
+      const response: ListResponse<Store> = await axiosClient.get(RoutesApiKeys.GET_ALL_STORE_PARAMS(optionParams));
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -30,7 +31,6 @@ export const getStoresByKitchenCenterThunk = async (params: any, thunkAPI: any) 
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(`/kitchencenter/${kitchenCenterId}/stores`);
-      console.log(response);
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -42,13 +42,11 @@ export const getStoresByKitchenCenterThunk = async (params: any, thunkAPI: any) 
 
 export const getStoresByBrandThunk = async (params: any, thunkAPI: any) => {
   const { navigate, brandId } = params;
-  console.log('brandId', brandId);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(`/brand/${brandId}/stores`);
-      console.log(response);
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -65,7 +63,6 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_STORE_DETAIL(storeId));
-      console.log(response);
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -75,17 +72,25 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const createNewStoreThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAPI: any) => {
+  console.log('create');
+  const { data, navigate } = params;
+  const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.CREATE_STORE);
+      const response = await axiosFormData.post(RoutesApiKeys.CREATE_STORE, formData);
       if (response) {
-        console.log(response);
-        // navigate('/dashboard/sport-center');
-        // thunkAPI.dispatch(getSportCentersOfOwner());
+        const params = {
+          optionParams: {
+            itemsPerPage: 5,
+            currentPage: 1,
+          },
+          navigate,
+        };
+        thunkAPI.dispatch(getAllStores(params));
+        navigate(PATH_ADMIN_APP.store.list);
         thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
       }
       return response;
@@ -98,35 +103,45 @@ export const createNewStoreThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const updateStoreThunk = async (params: any, thunkAPI: any) => {
-  const { storeId, navigate } = params;
+  console.log(params);
+  // const { storeId, navigate } = params;
   const accessToken = getAccessToken();
-  if (accessToken) {
-    setHeaderAuth(accessToken);
-    try {
-      const response = await axiosClient.post(RoutesApiKeys.GET_STORE_DETAIL(storeId));
-      if (response) {
-        navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
-      }
-      return response;
-    } catch (error) {
-      const errorMessage = getErrorMessage(error, navigate);
-      thunkAPI.dispatch(setMessageError(errorMessage));
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
+  // if (accessToken) {
+  //   setHeaderAuth(accessToken);
+  //   try {
+  //     const response = await axiosClient.post(RoutesApiKeys.GET_STORE_DETAIL(storeId));
+  //     if (response) {
+  //       navigate('/dashboard/sport-center');
+  //       thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+  //     }
+  //     return response;
+  //   } catch (error) {
+  //     const errorMessage = getErrorMessage(error, navigate);
+  //     thunkAPI.dispatch(setMessageError(errorMessage));
+  //     return thunkAPI.rejectWithValue(error);
+  //   }
+  // }
 };
 
-export const deleteStoreThunk = async (params: any, thunkAPI: any) => {
-  const { storeId, navigate } = params;
+export const deleteStoreThunk = async (params: DeleteParams, thunkAPI: any) => {
+  const { brandId, storeId, navigate } = params;
+  console.log(params);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.delete(RoutesApiKeys.GET_STORE_DETAIL(storeId));
+      const response = await axiosClient.delete(`/brand/${brandId}/stores/${storeId}`);
       if (response) {
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
+        const params = {
+          optionParams: {
+            itemsPerPage: 5,
+            currentPage: 1,
+          },
+          navigate,
+        };
+        navigate(PATH_ADMIN_APP.store.list);
+        thunkAPI.dispatch(getAllStores(params));
+        thunkAPI.dispatch(setMessageSuccess('Deleted store successfully'));
       }
       return response;
     } catch (error) {

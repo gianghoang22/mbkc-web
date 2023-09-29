@@ -2,14 +2,13 @@ import React, { useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 //
-import { OrderSort, Store, StoreTable } from '@types';
+import { OrderSort, StoreTable } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { getStoreDetail_local } from 'redux/store/storeSlice';
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 // @mui
@@ -55,11 +54,6 @@ function KitchenCenterDetailPage(props: any) {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (store: Store, accountId: number) => {
-    navigate(PATH_BRAND_APP.store.root + `/detail/${accountId}`);
-    dispatch(getStoreDetail_local(store));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,14 +154,12 @@ function KitchenCenterDetailPage(props: any) {
                           {visibleRows.map((store, index) => {
                             return (
                               <StoreTableRow
-                                showAction={false}
                                 key={store.storeId}
+                                store={store}
+                                showAction={false}
                                 index={index}
                                 length={visibleRows.length}
-                                isLoading={isLoading}
-                                haveKitchenCenter={false}
                                 haveBrand={true}
-                                store={store}
                               />
                             );
                           })}

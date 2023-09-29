@@ -45,7 +45,7 @@ function LoginForm() {
   const { handleSubmit } = loginForm;
 
   const handleLogin = (values: LoginFormType) => {
-    const hashPassword = hashPasswordMD5(values.password);
+    const hashPassword = hashPasswordMD5(values.password).toLocaleLowerCase();
     const params = {
       data: { ...values, password: hashPassword },
       navigate,

@@ -1,8 +1,9 @@
-import { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
 // @mui
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import { Box, Paper, Typography } from '@mui/material';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { Box, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { Theme, alpha, styled } from '@mui/material/styles';
 import { SxProps } from '@mui/system';
 // utils
@@ -84,7 +85,13 @@ export default function UploadAvatar({
 }: UploadAvatarProps) {
   const { translate } = useLocales();
 
-  const [imageUrl, setImageUrl] = useState<string>(isEditing ? value : '');
+  const [imageUrl, setImageUrl] = useState<string>(isEditing || typeof value === 'string' ? value : '');
+
+  useEffect(() => {
+    if (typeof value === 'string') {
+      setImageUrl(value);
+    }
+  }, [value]);
 
   const onDrop = useCallback(
     async (acceptedFiles: any) => {
@@ -170,7 +177,21 @@ export default function UploadAvatar({
         </DropZoneStyle>
       </RootStyle>
 
-      {caption}
+      <Stack direction="row" alignItems="center" justifyContent="center" gap={0.5} mt={value ? 0 : 1}>
+        {value && (
+          <IconButton
+            onClick={() => {
+              setImageUrl('');
+              if (onFormChange) {
+                onFormChange('');
+              }
+            }}
+          >
+            <HighlightOffIcon />
+          </IconButton>
+        )}
+        {caption}
+      </Stack>
 
       {fileRejections.length > 0 && <ShowRejectionItems />}
     </>

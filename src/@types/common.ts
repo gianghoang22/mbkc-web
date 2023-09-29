@@ -2,6 +2,7 @@ import { NavigateFunction } from 'react-router-dom';
 
 export interface OptionParams {
   keySearchName?: string | null;
+  searchValue?: string | null;
   keyStatusFilter?: string | null;
   itemsPerPage?: number | null | string;
   currentPage?: number | null | string;
@@ -10,6 +11,12 @@ export interface OptionParams {
 
 export interface ListParams {
   optionParams: OptionParams;
+  navigate: NavigateFunction;
+}
+
+export interface DeleteParams {
+  brandId?: number;
+  storeId?: number;
   navigate: NavigateFunction;
 }
 

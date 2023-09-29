@@ -12,6 +12,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
 import StoreIcon from '@mui/icons-material/Store';
 import ContactsIcon from '@mui/icons-material/Contacts';
+import HandshakeIcon from '@mui/icons-material/Handshake';
 //
 import { NavSection } from '@types';
 import useLocales from 'hooks/useLocales';
@@ -162,6 +163,11 @@ function useConfigSidebar() {
           title: translate('model.lowercase.store'),
           path: PATH_ADMIN_APP.store.list,
           icon: <StoreIcon fontSize="medium" />,
+        },
+        {
+          title: translate('model.lowercase.partner'),
+          path: PATH_ADMIN_APP.partner.list,
+          icon: <HandshakeIcon fontSize="medium" />,
         },
       ],
     },

@@ -27,10 +27,7 @@ const UploadImageField: FC<UploadImageFieldProps> = ({ name, label, defaultValue
               <Typography
                 variant="caption"
                 sx={{
-                  mt: 2,
-                  mx: 'auto',
-                  display: 'block',
-                  textAlign: 'center',
+                  mt: 0.5,
                   color: 'text.secondary',
                 }}
               >

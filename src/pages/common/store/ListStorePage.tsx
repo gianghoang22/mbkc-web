@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -20,12 +21,13 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { ListParams, OrderSort, Store, StoreTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { StoreTableRow, StoreTableToolbar } from 'sections/store';
+import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
+import { Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -37,8 +39,8 @@ function ListStorePage() {
   const { storeHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { stores, numberItems, isLoading } = useAppSelector((state) => state.store);
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { stores, isLoading } = useAppSelector((state) => state.store);
 
   console.log(stores);
 
@@ -69,20 +71,20 @@ function ListStorePage() {
     [order, orderBy, page, rowsPerPage, stores]
   );
 
-  console.log(visibleRows);
-
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const debounceValue = useDebounce(filterName, 500);
 
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        searchValue: filterName,
+        searchValue: debounceValue,
       },
       navigate,
     };
-  }, [page, rowsPerPage, filterName]);
+  }, [page, rowsPerPage, debounceValue]);
 
   useEffect(() => {
     dispatch(getAllStores(params));
@@ -126,40 +128,45 @@ function ListStorePage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((store, index) => {
-                      return (
-                        <StoreTableRow
-                          showAction={userAuth?.roleName === Role.MBKC_ADMIN}
-                          key={store.storeId}
-                          index={index}
-                          store={store}
-                          length={visibleRows.length}
-                          isLoading={isLoading}
-                          haveBrand
-                          haveKitchenCenter
-                        />
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={storeHeadCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+                  {isLoading ? (
+                    <StoreTableRowSkeleton haveBrand haveKitchenCenter length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((store, index) => {
+                        return (
+                          <StoreTableRow
+                            key={store.storeId}
+                            index={index}
+                            store={store}
+                            haveBrand
+                            haveKitchenCenter
+                            length={visibleRows.length}
+                            showAction={userAuth?.roleName === Role.MBKC_ADMIN}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 && (
+                        <TableRow>
+                          <TableCell colSpan={storeHeadCells.length + 2} height={365}>
+                            <Stack direction="column" alignItems="center" gap={2}>
+                              <img src="/assets/illustrations/illustration_empty_content.svg" alt="empty" />
+                              <Typography variant="h6">{translate('page.content.empty')}</Typography>
+                            </Stack>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  )}
+
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={stores.length}
-                rowsPerPage={rowsPerPage}
+                count={numberItems}
                 page={page}
+                rowsPerPage={rowsPerPage}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

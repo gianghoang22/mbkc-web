@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Store } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
-import { getPathname, setLocalStorage } from 'utils';
+import { getIsEditingStore, getPathname, setLocalStorage } from 'utils';
 import {
   createNewStoreThunk,
   deleteStoreThunk,
@@ -27,10 +27,11 @@ interface StoreState {
 const getPathnameInStorage = getPathname(StorageKeys.PATH_STORE_TO_BACK)
   ? getPathname(StorageKeys.PATH_STORE_TO_BACK)
   : '';
+const getIsEditingInStorage = getIsEditingStore() ? getIsEditingStore() : false;
 
 const initialState: StoreState = {
   pathnameBack: getPathnameInStorage,
-  isEditing: false,
+  isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -60,10 +61,12 @@ const storeSlice = createSlice({
     },
     setAddStore: (state) => {
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_STORE, false);
     },
     setEditStore: (state, action) => {
       state.isEditing = true;
       state.store = action.payload;
+      setLocalStorage(StorageKeys.IS_EDIT_STORE, true);
     },
     setPathToBackStore: (state, action) => {
       state.pathnameBack = action.payload;
@@ -75,12 +78,12 @@ const storeSlice = createSlice({
       .addCase(createNewStore.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createNewStore.fulfilled, (state, action) => {
+      .addCase(createNewStore.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(createNewStore.rejected, (state, action) => {
+      .addCase(createNewStore.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -89,15 +92,14 @@ const storeSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getAllStores.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.stores = action.payload?.stores;
+        state.stores = [...action.payload?.stores];
         state.totalPage = action.payload?.totalPage;
         state.numberItems = action.payload?.numberItems;
       })
-      .addCase(getAllStores.rejected, (state, action) => {
+      .addCase(getAllStores.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -111,7 +113,7 @@ const storeSlice = createSlice({
         state.isSuccess = true;
         state.stores = [...action.payload?.stores];
       })
-      .addCase(getStoresByKitchenCenter.rejected, (state, action) => {
+      .addCase(getStoresByKitchenCenter.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -125,7 +127,7 @@ const storeSlice = createSlice({
         state.isSuccess = true;
         state.stores = [...action.payload?.stores];
       })
-      .addCase(getStoresByBrand.rejected, (state, action) => {
+      .addCase(getStoresByBrand.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -137,8 +139,9 @@ const storeSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.store = { ...action.payload };
       })
-      .addCase(getStoreDetail.rejected, (state, action) => {
+      .addCase(getStoreDetail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -146,12 +149,12 @@ const storeSlice = createSlice({
       .addCase(updateStore.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateStore.fulfilled, (state, action) => {
+      .addCase(updateStore.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(updateStore.rejected, (state, action) => {
+      .addCase(updateStore.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -159,12 +162,12 @@ const storeSlice = createSlice({
       .addCase(deleteStore.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteStore.fulfilled, (state, action) => {
+      .addCase(deleteStore.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(deleteStore.rejected, (state, action) => {
+      .addCase(deleteStore.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

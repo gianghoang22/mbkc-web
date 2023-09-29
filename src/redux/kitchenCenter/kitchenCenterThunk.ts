@@ -13,7 +13,6 @@ export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: an
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_ALL_KITCHEN_CENTER(optionParams));
-      console.log(response);
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);

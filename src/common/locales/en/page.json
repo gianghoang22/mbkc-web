@@ -12,7 +12,11 @@
     "contentLogo": "Select the file of the {{model}}'s logo",
     "dragDrop": "Drag and drop or select files",
     "generalInformation": "General information",
-    "storeOfBrand": "List {{model}} of {{name}}"
+    "storeOfBrand": "List {{model}} of {{name}}",
+    "empty": "Empty",
+    "notFound": "Not found",
+    "noResult": "No results found for",
+    "tryAgain": "Try checking for typos or using complete words."
   },
   "form": {
     "email": "Email",
