@@ -51,7 +51,7 @@ function StoreDetailPage() {
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => {
           const listAction: ReactNode[] =
-            userAuth?.roleName === Role.MBKC_ADMIN
+            userAuth?.roleName === Role.BRAND_MANAGER
               ? [
                   <Button
                     color="inherit"

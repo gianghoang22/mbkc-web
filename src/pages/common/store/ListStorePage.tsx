@@ -120,7 +120,7 @@ function ListStorePage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>
-                    showAction={userAuth?.roleName === Role.BRAND_MANAGER}
+                    showAction={userAuth?.roleName === Role.MBKC_ADMIN}
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -130,7 +130,7 @@ function ListStorePage() {
                     {visibleRows.map((store, index) => {
                       return (
                         <StoreTableRow
-                          showAction={userAuth?.roleName === Role.BRAND_MANAGER}
+                          showAction={userAuth?.roleName === Role.MBKC_ADMIN}
                           key={store.storeId}
                           index={index}
                           store={store}
