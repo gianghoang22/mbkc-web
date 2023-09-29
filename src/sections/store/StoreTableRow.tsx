@@ -95,16 +95,34 @@ function StoreTableRow({
           )}
 
           <TableCell align="left">
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Switch size="small" checked={store.status === Status.INACTIVE ? false : true} />}
               label={
                 <Label color={(store.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
                   {store?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
                 </Label>
               }
-            />
+            /> */}
+            <Label color={(store.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
+              {store?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
+            </Label>
           </TableCell>
-          {showAction && (
+          {showAction ? (
+            <TableCell align="right">
+              <IconButton color="inherit">
+                <FormControlLabel
+                  control={
+                    <Switch
+                      color={Color.SUCCESS}
+                      size="small"
+                      checked={store.status === Status.INACTIVE ? false : true}
+                    />
+                  }
+                  label=""
+                />
+              </IconButton>
+            </TableCell>
+          ) : (
             <TableCell align="right">
               <IconButton color="inherit" onClick={handleOpenMenu}>
                 <MoreVertIcon />
