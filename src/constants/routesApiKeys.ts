@@ -20,22 +20,13 @@ export const RoutesApiKeys = {
 
   // category
   CREATE_BRAND: pathRoot(ROOTS_BRAND),
-  GET_ALL_BRAND: ({ keySearchName, keyStatusFilter, currentPage, itemsPerPage, isGetAll }: OptionParams) => {
-    if (itemsPerPage === undefined) {
-      itemsPerPage = '';
-    }
-    if (keySearchName === undefined) {
-      keySearchName = '';
-    }
-    if (keyStatusFilter === undefined) {
-      keyStatusFilter = '';
-    }
-    if (currentPage === undefined) {
-      currentPage = '';
-    }
-    if (isGetAll === undefined) {
-      isGetAll = '';
-    }
+  GET_ALL_BRAND: ({
+    keySearchName = '',
+    keyStatusFilter = '',
+    currentPage = '',
+    itemsPerPage = '',
+    isGetAll = '',
+  }: OptionParams) => {
     return path(
       ROOTS_BRAND,
       `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
@@ -61,18 +52,12 @@ export const RoutesApiKeys = {
   DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
 
   // kitchen center
-  GET_ALL_KITCHEN_CENTER: ({ itemsPerPage, currentPage, keySearchName, isGetAll }: OptionParams) => {
-    if (
-      itemsPerPage === undefined ||
-      currentPage === undefined ||
-      keySearchName === undefined ||
-      isGetAll === undefined
-    ) {
-      itemsPerPage = '';
-      currentPage = '';
-      keySearchName = '';
-      isGetAll = '';
-    }
+  GET_ALL_KITCHEN_CENTER: ({
+    itemsPerPage = '',
+    currentPage = '',
+    keySearchName = '',
+    isGetAll = '',
+  }: OptionParams) => {
     return path(
       ROOTS_KITCHEN_CENTER,
       `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}&isGetAll=${isGetAll}`

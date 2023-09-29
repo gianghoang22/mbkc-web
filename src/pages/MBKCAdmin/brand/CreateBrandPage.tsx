@@ -4,27 +4,30 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { BrandToCreate } from '@types';
+import { BrandToCreate, BrandToUpdate } from '@types';
 import { Color } from 'common/enum';
 import { Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import BrandForm from 'sections/brand/BrandForm';
+import { useDispatch } from 'react-redux';
+import { createNewBrand, updateBrand } from 'redux/brand/brandSlice';
 
 function CreateBrandPage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
   const { translate } = useLocales();
   const { schemaBrand } = useValidationForm();
   const { isEditing, brand, pathnameBack } = useAppSelector((state) => state.brand);
 
   const createBrandForm = useForm<BrandToCreate>({
     defaultValues: {
-      name: isEditing ? brand?.name : '',
-      address: isEditing ? brand?.address : '',
-      email: isEditing ? brand?.brandManagerEmail : '',
-      logoUrl: isEditing ? brand?.logo : '',
+      Name: isEditing ? brand?.name : '',
+      Address: isEditing ? brand?.address : '',
+      ManagerEmail: isEditing ? brand?.brandManagerEmail : '',
+      Logo: isEditing ? brand?.logo : '',
     },
     resolver: yupResolver(schemaBrand),
   });
@@ -32,8 +35,34 @@ function CreateBrandPage() {
   const { handleSubmit } = createBrandForm;
 
   const onSubmit = async (values: BrandToCreate) => {
+    // Create a brand
     const data = { ...values };
-    console.log('BrandToCreate', data);
+    const params = {
+      newBrand: data,
+      navigate,
+    };
+
+    // Update a brand
+    const BrandToUpdate: BrandToUpdate = {
+      Name: values.Name,
+      Status: 'ACTIVE',
+      Address: values.Address,
+      Logo: values.Logo,
+      BrandManagerEmail: values.ManagerEmail,
+    };
+
+    const updateBrandParams = {
+      updateBrandOptions: BrandToUpdate,
+      brandId: brand?.brandId,
+      navigate,
+    };
+
+    // Actions
+    if (isEditing) {
+      dispatch<any>(updateBrand(updateBrandParams));
+    } else {
+      dispatch<any>(createNewBrand(params));
+    }
   };
 
   return (
