@@ -9,6 +9,7 @@
   "store": "Cửa hàng",
   "partner": "Đối tác",
   "address": "Địa chỉ",
+  "email": "Email người quản lý",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email"

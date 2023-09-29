@@ -2,7 +2,7 @@
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Grid, Stack, Typography } from '@mui/material';
+import { Grid, Skeleton, Stack, Typography } from '@mui/material';
 //
 import { ListParams } from '@types';
 import { Language } from 'common/enum';
@@ -12,16 +12,14 @@ import { getAllBrands } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 
-function CategoryForm() {
+function StoreForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
 
-  const { brands } = useAppSelector((state) => state.brand);
   const { isEditing } = useAppSelector((state) => state.store);
-  const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
-
-  console.log(brands);
+  const { isLoading: isLoadingBrand, brands } = useAppSelector((state) => state.brand);
+  const { isLoading: isLoadingKitchenCenter, kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
 
   const kitchenCenterOptions = kitchenCenters.map((kitchenCenter) => ({
     label: kitchenCenter.name,
@@ -38,9 +36,10 @@ function CategoryForm() {
     if (!option.value) return brandOptions.find((opt) => opt.value === option);
     return option;
   };
+
   const getOpObjKitchenCenter = (option: any) => {
     if (!option) return option;
-    if (!option.value) return brandOptions.find((opt) => opt.value === option);
+    if (!option.value) return kitchenCenterOptions.find((opt) => opt.value === option);
     return option;
   };
 
@@ -104,38 +103,47 @@ function CategoryForm() {
                     }
               )}
             />
+            <InputField fullWidth name="storeManagerEmail" label={translate('page.form.managerEmail')} />
             <Stack direction="row" spacing={3}>
               <Stack direction="row" alignItems="start" gap={2} width="100%">
-                <AutoCompleteField
-                  options={kitchenCenterOptions}
-                  getOptionLabel={(value: any) => {
-                    return getOpObjKitchenCenter(value)?.label;
-                  }}
-                  isOptionEqualToValue={(option: any, value: any) => {
-                    if (!option) return option;
-                    return option.value === getOpObjKitchenCenter(value)?.value;
-                  }}
-                  transformValue={(opt: any) => opt.value}
-                  name="kitchenCenterId"
-                  type="text"
-                  label={translate('model.capitalizeOne.kitchenCenter')}
-                />
+                {isLoadingBrand && isLoadingKitchenCenter ? (
+                  <Skeleton variant="rounded" width={352} sx={{ height: 40 }} />
+                ) : (
+                  <AutoCompleteField
+                    options={kitchenCenterOptions}
+                    getOptionLabel={(value: any) => {
+                      return getOpObjKitchenCenter(value)?.label;
+                    }}
+                    isOptionEqualToValue={(option: any, value: any) => {
+                      if (!option) return option;
+                      return option.value === getOpObjKitchenCenter(value)?.value;
+                    }}
+                    transformValue={(opt: any) => opt.value}
+                    name="kitchenCenterId"
+                    type="text"
+                    label={translate('model.capitalizeOne.kitchenCenter')}
+                  />
+                )}
               </Stack>
               <Stack direction="row" alignItems="start" gap={2} width="100%">
-                <AutoCompleteField
-                  options={brandOptions}
-                  getOptionLabel={(value: any) => {
-                    return getOpObjBrand(value)?.label;
-                  }}
-                  isOptionEqualToValue={(option: any, value: any) => {
-                    if (!option) return option;
-                    return option.value === getOpObjBrand(value)?.value;
-                  }}
-                  transformValue={(opt: any) => opt.value}
-                  name="brandId"
-                  type="text"
-                  label={translate('model.capitalizeOne.brand')}
-                />
+                {isLoadingBrand && isLoadingKitchenCenter ? (
+                  <Skeleton variant="rounded" width={352} sx={{ height: 40 }} />
+                ) : (
+                  <AutoCompleteField
+                    options={brandOptions}
+                    getOptionLabel={(value: any) => {
+                      return getOpObjBrand(value)?.label;
+                    }}
+                    isOptionEqualToValue={(option: any, value: any) => {
+                      if (!option) return option;
+                      return option.value === getOpObjBrand(value)?.value;
+                    }}
+                    transformValue={(opt: any) => opt.value}
+                    name="brandId"
+                    type="text"
+                    label={translate('model.capitalizeOne.brand')}
+                  />
+                )}
               </Stack>
             </Stack>
           </Stack>
@@ -145,4 +153,4 @@ function CategoryForm() {
   );
 }
 
-export default CategoryForm;
+export default StoreForm;

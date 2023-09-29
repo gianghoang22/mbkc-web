@@ -1,5 +1,6 @@
 import { TableBody, TableCell, TableRow } from '@mui/material';
 import { Paper, PaperProps, Typography } from '@mui/material';
+import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -9,10 +10,12 @@ interface SearchNotFoundProps extends PaperProps {
 }
 
 function SearchNotFound({ searchQuery = '', colNumber, ...other }: SearchNotFoundProps) {
+  const { translate } = useLocales();
+
   return (
     <TableBody>
       <TableRow>
-        <TableCell align="center" colSpan={colNumber} sx={{ py: 3 }}>
+        <TableCell align="center" colSpan={colNumber} height={365}>
           <Paper
             sx={{
               textAlign: 'center',
@@ -20,13 +23,13 @@ function SearchNotFound({ searchQuery = '', colNumber, ...other }: SearchNotFoun
             {...other}
           >
             <Typography variant="h6" paragraph>
-              Not found
+              {translate('page.content.notFound')}
             </Typography>
 
             <Typography variant="body2">
-              No results found for &nbsp;
+              {translate('page.content.noResult')} &nbsp;
               <strong>&quot;{searchQuery}&quot;</strong>.
-              <br /> Try checking for typos or using complete words.
+              <br /> {translate('page.content.tryAgain')}
             </Typography>
           </Paper>
         </TableCell>

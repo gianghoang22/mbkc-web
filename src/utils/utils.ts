@@ -54,6 +54,14 @@ export const getPathname = (name: string) => {
   return pathname;
 };
 
+export const getIsEditingStore = () => {
+  const isEditing = getLocalStorage(StorageKeys.IS_EDIT_STORE);
+  if (isEditing === null || isEditing === undefined) {
+    return false;
+  }
+  return Boolean(isEditing);
+};
+
 // cookie
 export const setAccessToken = (accessToken: string) => Cookie.set(StorageKeys.ACCESS_TOKEN, accessToken);
 export const getAccessToken = () =>
@@ -83,4 +91,13 @@ export const getErrorMessage = (error: any, navigate: any) => {
     return;
   }
   return error?.response.data.Message[0].DescriptionError[0];
+};
+
+// appendData
+export const appendData = (data: any) => {
+  const formData = new FormData();
+  for (var key in data) {
+    formData.append(key, data[key]);
+  }
+  return formData;
 };

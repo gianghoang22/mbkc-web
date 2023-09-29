@@ -16,7 +16,8 @@
     "wallet": "Ví",
     "transaction": "Giao dịch",
     "bankingAccount": "Tài khoản ngân hàng",
-    "managerEmail": "Email người quản lý"
+    "managerEmail": "Email người quản lý",
+    "partner": "Đối tác"
   },
   "capitalize": {
     "overview": "Tổng Quan",
@@ -35,7 +36,8 @@
     "wallet": "Ví",
     "transaction": "Giao Dịch",
     "bankingAccount": "Tài Khoản Ngân Hàng",
-    "managerEmail": "Email Người Quản Lý"
+    "managerEmail": "Email Người Quản Lý",
+    "partner": "Đối Tác"
   },
   "lowercase": {
     "overview": "tổng quan",
@@ -54,6 +56,7 @@
     "wallet": "ví",
     "transaction": "giao dịch",
     "bankingAccount": "tài khoản ngân hàng",
-    "managerEmail": "email người quản lý"
+    "managerEmail": "email người quản lý",
+    "partner": "đối tác"
   }
 }

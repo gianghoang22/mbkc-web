@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
@@ -9,35 +10,84 @@ import { StoreToCreate } from '@types';
 import { Color } from 'common/enum';
 import { Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { createNewStore, getStoreDetail, updateStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreForm } from 'sections/store';
 
 function CreateStorePage() {
+  const { id: storeId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { schemaStore } = useValidationForm();
 
-  const { store, isEditing, pathnameBack } = useAppSelector((state) => state.store);
+  const { store, isEditing, isLoading, pathnameBack } = useAppSelector((state) => state.store);
 
   const createStoreForm = useForm<StoreToCreate>({
     defaultValues: {
-      name: isEditing ? store?.name : '',
-      logo: isEditing ? store?.logo : '',
-      storeManagerEmail: isEditing ? store?.storeManagerEmail : '',
-      kitchenCenterId: isEditing ? store?.kitchenCenter.kitchenCenterId : 0,
-      brandId: isEditing ? store?.brand.brandId : 0,
+      name: isEditing && store ? store?.name : '',
+      logo: isEditing && store ? store?.logo : '',
+      storeManagerEmail: isEditing && store ? store?.storeManagerEmail : '',
+      kitchenCenterId: isEditing && store ? store?.kitchenCenter.kitchenCenterId : 0,
+      brandId: isEditing && store ? store?.brand.brandId : 0,
     },
     resolver: yupResolver(schemaStore),
   });
 
-  const { handleSubmit } = createStoreForm;
+  const { handleSubmit, reset } = createStoreForm;
+
+  const params = useMemo(() => {
+    return {
+      storeId,
+      navigate,
+    };
+  }, [storeId, navigate]);
+
+  useEffect(() => {
+    if (store !== null) {
+      reset({
+        name: store?.name,
+        logo: store?.logo,
+        storeManagerEmail: store?.storeManagerEmail,
+        kitchenCenterId: store?.kitchenCenter.kitchenCenterId,
+        brandId: store?.brand.brandId,
+      });
+    }
+  }, [store]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch(getStoreDetail(params));
+    }
+  }, [dispatch, navigate, params]);
 
   const onSubmit = async (values: StoreToCreate) => {
     const data = { ...values };
-    console.log(data);
+
+    if (isEditing) {
+      if (typeof values.logo === 'string') {
+        const paramUpdate = {
+          data: { ...data, logo: '' },
+          navigate,
+        };
+        dispatch(updateStore(paramUpdate));
+      } else {
+        const paramUpdate = {
+          data: data,
+          navigate,
+        };
+        dispatch(updateStore(paramUpdate));
+      }
+    } else {
+      const paramCreate = {
+        data: data,
+        navigate,
+      };
+      dispatch(createNewStore(paramCreate));
+    }
   };
 
   return (
@@ -61,14 +111,27 @@ function CreateStorePage() {
             </Button>
             <Stack direction="row" gap={1.5}>
               {isEditing && (
-                <Button variant="contained" color="inherit">
+                <Button
+                  variant="contained"
+                  color="inherit"
+                  onClick={() => {
+                    reset({
+                      name: store?.name,
+                      logo: store?.logo,
+                      storeManagerEmail: store?.storeManagerEmail,
+                      kitchenCenterId: store?.kitchenCenter.kitchenCenterId,
+                      brandId: store?.brand.brandId,
+                    });
+                  }}
+                >
                   {translate('button.reset')}
                 </Button>
               )}
               <Button
-                variant="contained"
-                color={isEditing ? Color.WARNING : Color.PRIMARY}
                 type="submit"
+                variant="contained"
+                disabled={isLoading}
+                color={isEditing ? Color.WARNING : Color.PRIMARY}
                 onClick={handleSubmit(onSubmit)}
               >
                 {isEditing ? translate('button.update') : translate('button.create')}

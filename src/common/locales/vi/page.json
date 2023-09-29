@@ -12,7 +12,11 @@
     "contentLogo": "Chọn file logo của {{model}}",
     "dragDrop": "Kéo và thả hoặc chọn tập tin",
     "generalInformation": "Thông tin chung",
-    "storeOfBrand": "Danh sách {{model}} của {{name}}"
+    "storeOfBrand": "Danh sách {{model}} của {{name}}",
+    "empty": "Trống",
+    "notFound": "Không tìm thấy",
+    "noResult": "Không tìm thấy kết quả nào cho",
+    "tryAgain": "Hãy thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh."
   },
   "form": {
     "email": "Email",

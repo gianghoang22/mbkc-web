@@ -67,13 +67,13 @@ export const RoutesApiKeys = {
   // store
   CREATE_STORE: pathRoot(ROOTS_STORE),
   GET_ALL_STORE: pathRoot(ROOTS_STORE),
-  GET_ALL_STORE_PARAMS: ({ itemsPerPage, currentPage, keySearchName }: OptionParams) => {
-    if (itemsPerPage === undefined || currentPage === undefined || keySearchName === undefined) {
+  GET_ALL_STORE_PARAMS: ({ itemsPerPage, currentPage, searchValue }: OptionParams) => {
+    if (itemsPerPage === undefined || currentPage === undefined || searchValue === undefined) {
       itemsPerPage = '';
       currentPage = '';
-      keySearchName = '';
+      searchValue = '';
     }
-    return path(ROOTS_STORE, `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}`);
+    return path(ROOTS_STORE, `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}`);
   },
   GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
   UPDATE_STORE: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
