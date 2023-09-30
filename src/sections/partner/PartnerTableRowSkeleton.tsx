@@ -1,7 +1,7 @@
 // @mui
 import { IconButton, Skeleton, TableCell, TableRow } from '@mui/material';
 
-function StoreTableRow({ length }: { length: number }) {
+function PartnerTableRowSkeleton({ length }: { length: number }) {
   return (
     <>
       {Array.from({ length }).map((_, index: any) => (
@@ -37,4 +37,4 @@ function StoreTableRow({ length }: { length: number }) {
   );
 }
 
-export default StoreTableRow;
+export default PartnerTableRowSkeleton;

@@ -11,6 +11,30 @@ export interface HeadCell<T> {
   disablePadding: boolean;
 }
 
+export interface KitchenCenterTable {
+  logo: string;
+  name: string;
+  address: string;
+  status: string;
+}
+
+export interface BrandTable {
+  brandId: number;
+  name: string;
+  address: string;
+  logo: string;
+  status: string;
+  brandManagerEmail: string;
+}
+export interface StoreTable {
+  name: string;
+  status: string;
+  logo: string;
+  storeManagerEmail: string;
+  kitchenCenter: KitchenCenter;
+  brand: Brand;
+}
+
 export interface CategoryTable {
   imageUrl: string;
   name: string;
@@ -24,26 +48,9 @@ export interface ProductTable {
   code: string;
   historicalPrice: number;
   type: string;
-  categoryId: string;
+  category: string;
   status: string;
 }
-
-export interface StoreTable {
-  name: string;
-  status: string;
-  logo: string;
-  storeManagerEmail: string;
-  kitchenCenter: KitchenCenter;
-  brand: Brand;
-}
-
-export interface KitchenCenterTable {
-  logo: string;
-  name: string;
-  address: string;
-  status: string;
-}
-
 export interface CashierTable {
   avatar: string;
   fullName: string;
@@ -59,11 +66,8 @@ export interface BankingAccountTable {
   status: string;
 }
 
-export interface BrandTable {
-  brandId: number;
-  name: string;
-  address: string;
+export interface PartnerTable {
   logo: string;
+  name: string;
   status: string;
-  brandManagerEmail: string;
 }

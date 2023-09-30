@@ -13,18 +13,20 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
+  Typography,
 } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { ListParams, OrderSort, Store, StoreTable } from '@types';
+import { Stack } from '@mui/material';
+import { ListParams, OrderSort, PartnerTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { StoreTableRow, StoreTableToolbar } from 'sections/store';
+import { PartnerTableRow, PartnerTableToolbar } from 'sections/partner';
 import { getComparator, stableSort } from 'utils';
 
 // ----------------------------------------------------------------------
@@ -34,19 +36,17 @@ function ListPartnerPage() {
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { pathname } = useLocation();
-  const { storeHeadCells } = useConfigHeadTable();
+  const { partnerHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { stores } = useAppSelector((state) => state.store);
-
-  console.log(stores);
+  const { partners } = useAppSelector((state) => state.partner);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof PartnerTable>('name');
   const [filterName, setFilterName] = useState<string>('');
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof PartnerTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -58,15 +58,12 @@ function ListPartnerPage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - partners.length) : 0;
 
   const visibleRows = useMemo(
     () =>
-      stableSort<Store>(stores, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, stores]
+      stableSort(partners, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [order, orderBy, page, rowsPerPage, partners]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
@@ -99,7 +96,6 @@ function ListPartnerPage() {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      navigate(PATH_ADMIN_APP.store.newStore);
                       dispatch(setAddStore());
                     }}
                     startIcon={<AddRoundedIcon />}
@@ -114,47 +110,45 @@ function ListPartnerPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <PartnerTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<StoreTable>
+                  <CommonTableHead<PartnerTable>
                     showAction={userAuth?.roleName === Role.MBKC_ADMIN}
-                    headCells={storeHeadCells}
+                    headCells={partnerHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
                   <TableBody>
-                    {visibleRows.map((store, index) => {
+                    {visibleRows.map((partner, index) => {
                       return (
-                        <StoreTableRow
+                        <PartnerTableRow
                           showAction={userAuth?.roleName === Role.MBKC_ADMIN}
-                          key={store.storeId}
+                          key={partner.partnerId}
                           index={index}
-                          store={store}
-                          length={visibleRows.length}
-                          haveBrand
-                          haveKitchenCenter
+                          partner={partner}
                         />
                       );
                     })}
                     {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={storeHeadCells.length} />
+                      <TableRow>
+                        <TableCell colSpan={partnerHeadCells.length + 2} height={365}>
+                          <Stack direction="column" alignItems="center" gap={2}>
+                            <img src="/assets/illustrations/illustration_empty_content.svg" alt="empty" />
+                            <Typography variant="h6">{translate('page.content.empty')}</Typography>
+                          </Stack>
+                        </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
-                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={partnerHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={stores.length}
+                count={partners.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

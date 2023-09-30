@@ -97,7 +97,7 @@ function StoreForm() {
                 currentLang.value === Language.ENGLISH
                   ? {
                       model: translate('model.capitalizeOne.store'),
-                      name: translate('page.form.name'),
+                      name: translate('page.form.nameLower'),
                     }
                   : {
                       model: translate('page.form.name'),

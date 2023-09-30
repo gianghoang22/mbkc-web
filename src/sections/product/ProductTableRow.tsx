@@ -54,7 +54,7 @@ function ProductTableRow({ index, product }: ProductTableRowProps) {
           {product.historicalPrice}
         </TableCell>
         <TableCell align="left" onClick={handleOpen}>
-          {sentenceCase(product.categoryId)}
+          {sentenceCase(product.category)}
         </TableCell>
         <TableCell align="left" onClick={handleOpen}>
           <Label color={Color.PRIMARY}>{sentenceCase(product.type)}</Label>

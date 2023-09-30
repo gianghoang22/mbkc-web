@@ -9,9 +9,18 @@
   "store": "Cửa hàng",
   "partner": "Đối tác",
   "address": "Địa chỉ",
-  "email": "Email người quản lý",
+  "manageEmail": "Email người quản lý",
+  "email": "Email",
+  "numberAccount": "Số tài khoản",
+  "fullName": "Họ và Tên",
+  "gender": "Giới tính",
+  "avatar": "Ảnh đại diệm",
+  "type": "Loại",
+  "historicalPrice": "Giá gốc",
+  "code": "Mã",
   "lowercase": {
     "address": "địa chỉ",
-    "email": "email"
+    "email": "email",
+    "code": "mã"
   }
 }

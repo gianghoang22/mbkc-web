@@ -5,6 +5,7 @@ export * from './models/brand';
 export * from './models/cashier';
 export * from './models/category';
 export * from './models/kitchenCenter';
+export * from './models/partner';
 export * from './models/product';
 export * from './models/store';
 export * from './models/user';
