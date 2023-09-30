@@ -1,8 +1,10 @@
 import { OptionParams } from '@types';
 import { path, pathRoot } from 'utils';
 
-const ROOTS_KITCHEN_CENTER = '/kitchencenters';
-const ROOTS_BRAND = '/brands';
+const ROOTS_KITCHEN_CENTERS = '/kitchencenters';
+const ROOTS_KITCHEN_CENTER = '/kitchencenter';
+const ROOTS_BRANDS = '/brands';
+const ROOTS_BRAND = '/brand';
 const ROOTS_STORE = '/stores';
 const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCT = '/products';
@@ -18,8 +20,21 @@ export const RoutesApiKeys = {
   FORGOT_PASSWORD: '/verifications/email-verification',
   VERIFY_OTP: '/verifications/otp-verification',
 
+  // kitchen center
+  GET_ALL_KITCHEN_CENTER: ({
+    itemsPerPage = '',
+    currentPage = '',
+    keySearchName = '',
+    isGetAll = '',
+  }: OptionParams) => {
+    return path(
+      ROOTS_KITCHEN_CENTERS,
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}&isGetAll=${isGetAll}`
+    );
+  },
+
   // category
-  CREATE_BRAND: pathRoot(ROOTS_BRAND),
+  CREATE_BRAND: pathRoot(ROOTS_BRANDS),
   GET_ALL_BRAND: ({
     keySearchName = '',
     keyStatusFilter = '',
@@ -28,14 +43,25 @@ export const RoutesApiKeys = {
     isGetAll = '',
   }: OptionParams) => {
     return path(
-      ROOTS_BRAND,
+      ROOTS_BRANDS,
       `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
     );
   },
 
-  GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
-  UPDATE_BRAND: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
-  DELETE_BRAND: (brandId: number) => path(ROOTS_BRAND, `/${brandId}`),
+  GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
+  UPDATE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
+  DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
+
+  // store
+  CREATE_STORE: pathRoot(ROOTS_STORE),
+  GET_ALL_STORE: ({ itemsPerPage = '', currentPage = '', searchValue = '' }: OptionParams) => {
+    return path(ROOTS_STORE, `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}`);
+  },
+  GET_STORE_OF_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTER, `/${kitchenCenterId}/stores`),
+  GET_STORE_OF_BRAND: (brandId: number) => path(ROOTS_BRAND, `/${brandId}/stores`),
+  GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
+  UPDATE_STORE: (brandId: number, storeId: number) => path(ROOTS_BRAND, `/${brandId}/stores/${storeId}`),
+  DELETE_STORE: (brandId: number, storeId: number) => path(ROOTS_BRAND, `/${brandId}/stores/${storeId}`),
 
   // category
   CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
@@ -50,29 +76,6 @@ export const RoutesApiKeys = {
   GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
   UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
   DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
-
-  // kitchen center
-  GET_ALL_KITCHEN_CENTER: ({
-    itemsPerPage = '',
-    currentPage = '',
-    keySearchName = '',
-    isGetAll = '',
-  }: OptionParams) => {
-    return path(
-      ROOTS_KITCHEN_CENTER,
-      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}&isGetAll=${isGetAll}`
-    );
-  },
-
-  // store
-  CREATE_STORE: pathRoot(ROOTS_STORE),
-  GET_ALL_STORE: pathRoot(ROOTS_STORE),
-  GET_ALL_STORE_PARAMS: ({ itemsPerPage = '', currentPage = '', searchValue = '' }: OptionParams) => {
-    return path(ROOTS_STORE, `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}`);
-  },
-  GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
-  UPDATE_STORE: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
-  DELETE_STORE: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
 
   // cashier
   CREATE_CASHIER: pathRoot(ROOTS_CASHIER),

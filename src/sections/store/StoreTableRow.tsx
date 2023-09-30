@@ -58,7 +58,17 @@ function StoreTableRow({
 
   const handleDelete = () => {
     handleOpen(store.name);
-    dispatch(deleteStore({ brandId: store.brand.brandId, storeId: store.storeId, navigate }));
+    dispatch(
+      deleteStore({
+        idParams: { brandId: store.brand.brandId, storeId: store.storeId },
+        optionParams: {
+          itemsPerPage: rowsPerPage,
+          currentPage: page,
+        },
+        pathname: pathname,
+        navigate,
+      })
+    );
   };
 
   const handleUpdateStatus = () => {
