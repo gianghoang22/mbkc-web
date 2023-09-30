@@ -1,3 +1,3 @@
-export { default as StoreTableRow } from './StoreTableRow';
-export { default as StoreTableRowSkeleton } from './StoreTableRowSkeleton';
-export { default as StoreTableToolbar } from './StoreTableToolbar';
+export { default as PartnerTableRow } from './PartnerTableRow';
+export { default as PartnerTableRowSkeleton } from './PartnerTableRowSkeleton';
+export { default as PartnerTableToolbar } from './PartnerTableToolbar';

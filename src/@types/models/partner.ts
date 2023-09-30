@@ -2,6 +2,7 @@ export interface Partner {
   partnerId: number;
   name: string;
   logo: string;
+  status: string;
 }
 
 export interface PartnerToCreate {

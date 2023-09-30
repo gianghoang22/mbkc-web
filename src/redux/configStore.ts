@@ -7,6 +7,7 @@ import cashierReducer from './cashier/cashierSlice';
 import categoryReducer from './category/categorySlice';
 import extraCategoryReducer from './extraCategory/extraCategorySlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
+import partnerReducer from './partner/partnerSlice';
 import productReducer from './product/productSlice';
 import storeReducer from './store/storeSlice';
 
@@ -21,6 +22,7 @@ export const store = configureStore({
     product: productReducer,
     cashier: cashierReducer,
     bankingAccount: BankingAccountReducer,
+    partner: partnerReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

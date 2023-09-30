@@ -6,12 +6,12 @@ import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
-interface StoreTableToolbarProps {
+interface PartnerTableToolbarProps {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filterName: string;
 }
 
-function StoreTableToolbar(props: StoreTableToolbarProps) {
+function PartnerTableToolbar(props: PartnerTableToolbarProps) {
   const { filterName, onFilterName } = props;
   const { translate } = useLocales();
 
@@ -21,7 +21,7 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
         size="small"
         value={filterName}
         onChange={onFilterName}
-        placeholder={translate('page.title.search', { model: translate('model.lowercase.store') })}
+        placeholder={translate('page.title.search', { model: translate('model.lowercase.partner') })}
         startAdornment={
           <InputAdornment position="start">
             <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
@@ -38,4 +38,4 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
   );
 }
 
-export default StoreTableToolbar;
+export default PartnerTableToolbar;
