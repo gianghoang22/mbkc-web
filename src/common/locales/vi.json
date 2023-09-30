@@ -36,7 +36,8 @@
     "reload": "Tải lại",
     "menuAction": "Thao tác",
     "uploadPhoto": "Tải hình ảnh",
-    "updatePhoto": "Cập nhật hình ảnh"
+    "updatePhoto": "Cập nhật hình ảnh",
+    "close": "Đóng"
   },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",

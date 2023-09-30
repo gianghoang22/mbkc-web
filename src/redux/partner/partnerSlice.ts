@@ -34,7 +34,7 @@ export const updatePartner = createAsyncThunk('partner/update-Partner', updatePa
 export const deletePartner = createAsyncThunk('partner/delete-Partner', deletePartnerThunk);
 
 const partnerSlice = createSlice({
-  name: 'Partner',
+  name: 'partner',
   initialState,
   reducers: {
     setAddPartner: (state) => {

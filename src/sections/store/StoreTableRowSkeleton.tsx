@@ -13,7 +13,7 @@ function StoreTableRowSkeleton({ length, haveBrand = false, haveKitchenCenter = 
         <TableRow key={index}>
           <TableCell width={80} align="center">
             <Stack direction="row" alignItems="center" justifyContent="center">
-              <Skeleton width={15} />
+              <Skeleton width={20} />
             </Stack>
           </TableCell>
           <TableCell component="th" scope="row" padding="none" sx={{ width: 80 }}>

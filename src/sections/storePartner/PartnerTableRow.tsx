@@ -8,7 +8,8 @@ import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { useAppDispatch } from 'redux/configStore';
-import { getPartnerDetail_local, setEditPartner } from 'redux/partner/partnerSlice';
+import { setEditPartner } from 'redux/partner/partnerSlice';
+import CreatePartnerModal from './CreatePartnerModal';
 
 interface PartnerTableRowProps {
   partner: Partner;
@@ -20,13 +21,11 @@ function PartnerTableRow({ index, partner, showAction = false }: PartnerTableRow
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
+  const { handleOpen: handleOpenCreate, isOpen: isOpenCreate } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleNavigateDetail = (partner: Partner, partnerId: number) => {
-    dispatch(getPartnerDetail_local(partner));
-  };
-
   const handleEdit = () => {
+    handleOpenCreate(partner.name);
     dispatch(setEditPartner(partner));
   };
 
@@ -35,19 +34,13 @@ function PartnerTableRow({ index, partner, showAction = false }: PartnerTableRow
   return (
     <>
       <TableRow hover tabIndex={-1} key={partner.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={100} align="center" onClick={() => handleNavigateDetail(partner, partner.partnerId)}>
+        <TableCell width={100} align="center">
           {index + 1}
         </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          padding="none"
-          sx={{ width: 120 }}
-          onClick={() => handleNavigateDetail(partner, partner.partnerId)}
-        >
+        <TableCell component="th" scope="row" padding="none" width={120}>
           <Avatar alt={partner.name} src={partner.logo} />
         </TableCell>
-        <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(partner, partner.partnerId)}>
+        <TableCell align="left" padding="none">
           {partner.name}
         </TableCell>
 
@@ -85,6 +78,8 @@ function PartnerTableRow({ index, partner, showAction = false }: PartnerTableRow
       </TableRow>
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+
+      {isOpenCreate && <CreatePartnerModal isOpen={isOpenCreate} handleOpen={handleOpenCreate} />}
 
       {isOpen && (
         <ConfirmDialog
