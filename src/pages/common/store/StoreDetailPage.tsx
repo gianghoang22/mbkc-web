@@ -17,14 +17,15 @@ function StoreDetailPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
-  const mdSm = useResponsive('up', 'sm', 'sm');
+  const mdSm = useResponsive('up', 'md', 'md');
+  const mdXs = useResponsive('up', 'xs', 'xs');
   const { translate, currentLang } = useLocales();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { isLoading, store, pathnameBack } = useAppSelector((state) => state.store);
-
+  console.log(store);
   const params = useMemo(() => {
     return {
       storeId,
@@ -38,7 +39,13 @@ function StoreDetailPage() {
 
   const handleDelete = () => {
     handleOpenModal(store?.name);
-    dispatch(deleteStore({ brandId: store?.brand.brandId, storeId: store?.storeId, navigate }));
+    dispatch(
+      deleteStore({
+        idParams: { brandId: store?.brand.brandId, storeId: store?.storeId },
+        pathname: pathname,
+        navigate,
+      })
+    );
   };
 
   return (
@@ -87,7 +94,7 @@ function StoreDetailPage() {
                   <img
                     src={store?.logo}
                     alt={store?.name}
-                    style={{ borderRadius: 16, width: mdSm ? 241 : '100%', objectFit: 'fill' }}
+                    style={{ borderRadius: 16, width: mdSm ? '100%' : mdXs ? 300 : 241, objectFit: 'fill' }}
                   />
                 </Stack>
               </Grid>
@@ -144,11 +151,13 @@ function StoreDetailPage() {
 
                   {/* Role = 'MBKC Admin' */}
                   <Stack direction="row" alignItems="start" gap={2}>
-                    <Typography variant="subtitle1" width={mdSm ? 120.9 : 150}>
+                    <Typography variant="subtitle1" width={mdSm ? 150 : 120.9}>
                       {translate('table.brand')}
                     </Typography>
                     <Stack direction="row" alignItems="start" gap={1}>
-                      <img src={store?.brand.logo} alt={store?.brand.name} height={120} width={120} />
+                      <Box sx={{ border: 1, borderColor: (theme) => theme.palette.primary.main }}>
+                        <img src={store?.brand.logo} alt={store?.brand.name} height={120} width={120} />
+                      </Box>
                       <Stack gap={0.5}>
                         <Typography variant="subtitle1">
                           {translate('table.name')}:{' '}

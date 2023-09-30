@@ -14,19 +14,19 @@ export interface ListParams {
   navigate: NavigateFunction;
 }
 
-export interface DeleteParams {
-  brandId?: number;
-  storeId?: number;
+export interface OneModelParams {
+  idParams: IdParams;
   navigate: NavigateFunction;
 }
 
 export interface IdParams {
   brandId?: number;
   storeId?: number;
+  kitchenCenterId?: number;
 }
 
 export interface Params<T> {
-  data: T;
+  data?: T;
   pathname?: string;
   idParams?: IdParams;
   optionParams?: OptionParams;
