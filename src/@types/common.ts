@@ -6,7 +6,10 @@ export interface OptionParams {
   keyStatusFilter?: string | null;
   itemsPerPage?: number | null | string;
   currentPage?: number | null | string;
+  pageSize?: number | null | string;
+  pageNumber?: number | null | string;
   isGetAll?: boolean | null | string;
+  type?: boolean | null | string;
 }
 
 export interface ListParams {

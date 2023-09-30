@@ -36,7 +36,8 @@
     "reload": "Reload",
     "menuAction": "Menu actions",
     "uploadPhoto": "Upload photo",
-    "updatePhoto": "Update photo"
+    "updatePhoto": "Update photo",
+    "close": "Close"
   },
   "common": {
     "welcome": "Hi, Welcome Back",

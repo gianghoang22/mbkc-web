@@ -1,12 +1,10 @@
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
-interface StoreTableRowSkeletonProps {
-  length?: number;
-  haveBrand?: boolean;
-  haveKitchenCenter?: boolean;
+interface CategoryTableRowSkeletonProps {
+  length: number;
 }
 
-function StoreTableRowSkeleton({ length, haveBrand = false, haveKitchenCenter = false }: StoreTableRowSkeletonProps) {
+function CategoryTableRowSkeleton({ length }: CategoryTableRowSkeletonProps) {
   return (
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
@@ -25,16 +23,12 @@ function StoreTableRowSkeleton({ length, haveBrand = false, haveKitchenCenter = 
           <TableCell width={180} align="left" padding="none">
             <Skeleton />
           </TableCell>
-          {haveKitchenCenter && (
-            <TableCell width={200} align="left">
-              <Skeleton />
-            </TableCell>
-          )}
-          {haveBrand && (
-            <TableCell width={160} align="left">
-              <Skeleton />
-            </TableCell>
-          )}
+          <TableCell width={200} align="left">
+            <Skeleton />
+          </TableCell>
+          <TableCell width={160} align="left">
+            <Skeleton />
+          </TableCell>
           <TableCell align="left">
             <Skeleton variant="rounded" width={100} height={24} />
           </TableCell>
@@ -52,4 +46,4 @@ function StoreTableRowSkeleton({ length, haveBrand = false, haveKitchenCenter = 
   );
 }
 
-export default StoreTableRowSkeleton;
+export default CategoryTableRowSkeleton;

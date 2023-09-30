@@ -2,31 +2,23 @@
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { Stack } from '@mui/material';
 import { ListParams, OrderSort, PartnerTable } from '@types';
 import { Role } from 'common/enum';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { PartnerTableRow, PartnerTableToolbar } from 'sections/partner';
+import {
+  CreatePartnerModal,
+  PartnerTableRow,
+  PartnerTableRowSkeleton,
+  PartnerTableToolbar,
+} from 'sections/storePartner';
 import { getComparator, stableSort } from 'utils';
 
 // ----------------------------------------------------------------------
@@ -36,11 +28,12 @@ function ListPartnerPage() {
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { pathname } = useLocation();
+  const { handleOpen, isOpen } = useModal();
   const { partnerHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { partners } = useAppSelector((state) => state.partner);
+  const { partners, isLoading } = useAppSelector((state) => state.partner);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof PartnerTable>('name');
@@ -96,6 +89,7 @@ function ListPartnerPage() {
                   <Button
                     variant="contained"
                     onClick={() => {
+                      handleOpen('create partner');
                       dispatch(setAddStore());
                     }}
                     startIcon={<AddRoundedIcon />}
@@ -120,28 +114,23 @@ function ListPartnerPage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((partner, index) => {
-                      return (
-                        <PartnerTableRow
-                          showAction={userAuth?.roleName === Role.MBKC_ADMIN}
-                          key={partner.partnerId}
-                          index={index}
-                          partner={partner}
-                        />
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow>
-                        <TableCell colSpan={partnerHeadCells.length + 2} height={365}>
-                          <Stack direction="column" alignItems="center" gap={2}>
-                            <img src="/assets/illustrations/illustration_empty_content.svg" alt="empty" />
-                            <Typography variant="h6">{translate('page.content.empty')}</Typography>
-                          </Stack>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
+                  {isLoading ? (
+                    <PartnerTableRowSkeleton length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((partner, index) => {
+                        return (
+                          <PartnerTableRow
+                            showAction={userAuth?.roleName === Role.MBKC_ADMIN}
+                            key={partner.partnerId}
+                            index={index}
+                            partner={partner}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 && <EmptyTable colNumber={partnerHeadCells.length} />}
+                    </TableBody>
+                  )}
                   {isNotFound && <SearchNotFound colNumber={partnerHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
@@ -158,6 +147,8 @@ function ListPartnerPage() {
           </Box>
         </Card>
       </Page>
+
+      {isOpen && <CreatePartnerModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>
   );
 }

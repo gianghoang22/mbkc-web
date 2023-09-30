@@ -1,25 +1,20 @@
-import { useMemo, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
-import { getCategoryDetail_local, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
+import { Category, CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, usePagination } from 'hooks';
+import {
+  getAllCategories,
+  getCategoryDetail_local,
+  setAddCategory,
+  setCategoryType,
+} from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
@@ -64,6 +59,24 @@ function ListCategoryPage() {
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        type: CategoryType.NORMAL,
+        pageSize: rowsPerPage,
+        pageNumber: page + 1,
+        keySearchName: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllCategories(params));
+  }, [params]);
 
   return (
     <>
@@ -110,15 +123,7 @@ function ListCategoryPage() {
                         />
                       );
                     })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={categoryHeadCells.length} />
-                      </TableRow>
-                    )}
+                    {emptyRows > 0 && <EmptyTable colNumber={categoryHeadCells.length} />}
                   </TableBody>
                   {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
                 </Table>
