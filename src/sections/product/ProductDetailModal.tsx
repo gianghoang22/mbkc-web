@@ -61,7 +61,7 @@ function ProductDetailModal({ isOpen, handleOpen, product }: ProductDetailModalP
                     </Box>
 
                     <ContentSpace divider={false} title="Size" content={product.size} />
-                    <ContentSpace title="Category" content={product.categoryId} />
+                    <ContentSpace title="Category" content={product.category} />
                     <ContentSpace title="Historical Price" content={product.historicalPrice} />
                     <ContentSpace title="Selling Price" content={product.sellingPrice} />
                     <ContentSpace title="Discount Price" content={product.discountPrice} />

@@ -28,7 +28,9 @@
     "name": "Name",
     "nameLower": "name",
     "nameExchange": "{{model}} {{name}}",
-    "address": "Address"
+    "address": "Address",
+    "code": "Code",
+    "codeLower": "code"
   },
   "validation": {
     "required": "Please enter {{name}}",

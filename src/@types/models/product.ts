@@ -11,7 +11,7 @@ export interface Product {
   status: number;
   image: string;
   parentProductId: string;
-  categoryId: string;
+  category: string;
   brandId: string;
 }
 

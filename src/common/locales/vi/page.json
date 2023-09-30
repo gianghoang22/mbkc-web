@@ -28,7 +28,9 @@
     "name": "Tên",
     "nameLower": "tên",
     "nameExchange": "{{model}} {{name}}",
-    "address": "Địa chỉ"
+    "address": "Địa chỉ",
+    "code": "Mã",
+    "codeLower": "mã"
   },
   "validation": {
     "required": "Vui lòng nhập {{name}}",

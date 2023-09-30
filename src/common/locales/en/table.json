@@ -9,9 +9,18 @@
   "store": "Store",
   "partner": "Partner",
   "address": "Address",
-  "email": "Manager email",
+  "manageEmail": "Manager email",
+  "email": "Email",
+  "numberAccount": "Number Account",
+  "fullName": "Full name",
+  "gender": "Gender",
+  "avatar": "Avatar",
+  "type": "Type",
+  "historicalPrice": "Historical price",
+  "code": "Code",
   "lowercase": {
     "address": "address",
-    "email": "email"
+    "email": "email",
+    "code": "code"
   }
 }
