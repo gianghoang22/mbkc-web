@@ -1,13 +1,21 @@
 // @mui
 import { Divider, Grid, Skeleton, Stack } from '@mui/material';
+import { useResponsive } from 'hooks';
 
 function StoreDetailPageSkeleton() {
+  const mdSm = useResponsive('up', 'sm', 'sm');
+
   return (
     <>
       <Grid container columnSpacing={5} rowSpacing={5}>
         <Grid item xs={12} sm={4} md={4}>
           <Stack width="100%" alignItems="center" justifyContent="center">
-            <Skeleton variant="rounded" width={358} height={358} sx={{ borderRadius: '16px' }} />
+            <Skeleton
+              variant="rounded"
+              width={mdSm ? 241 : 358}
+              height={mdSm ? 241 : 358}
+              sx={{ borderRadius: '16px' }}
+            />
           </Stack>
         </Grid>
         <Grid item xs={12} sm={8} md={8}>
@@ -26,8 +34,9 @@ function StoreDetailPageSkeleton() {
               <Stack direction="row" alignItems="start" gap={1}>
                 <Skeleton variant="rectangular" width={120} height={120} />
                 <Stack gap={0.5}>
-                  <Skeleton width="480px" />
-                  <Skeleton width="480px" />
+                  <Skeleton width={mdSm ? 290 : 480} />
+                  <Skeleton width={mdSm ? 290 : 480} />
+                  {mdSm && <Skeleton width={290} />}
                 </Stack>
               </Stack>
             </Stack>
@@ -40,7 +49,7 @@ function StoreDetailPageSkeleton() {
               <Stack direction="row" alignItems="start" gap={1}>
                 <Skeleton variant="rectangular" width={120} height={120} />
                 <Stack gap={0.5}>
-                  <Skeleton width="480px" />
+                  <Skeleton width={mdSm ? 290 : 480} />
                 </Stack>
               </Stack>
             </Stack>

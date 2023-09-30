@@ -42,8 +42,6 @@ function ListStorePage() {
   const { stores, numberItems, isLoading } = useAppSelector((state) => state.store);
   const { userAuth } = useAppSelector((state) => state.auth);
 
-  console.log(stores);
-
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
@@ -87,7 +85,7 @@ function ListStorePage() {
   }, [page, rowsPerPage, debounceValue]);
 
   useEffect(() => {
-    dispatch(getAllStores(params));
+    dispatch<any>(getAllStores(params));
   }, [params]);
 
   return (
@@ -98,7 +96,7 @@ function ListStorePage() {
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
         actions={() => {
           const listAction: ReactNode[] =
-            userAuth?.roleName === Role.BRAND_MANAGER
+            userAuth?.roleName === Role.MBKC_ADMIN
               ? [
                   <Button
                     variant="contained"
@@ -135,11 +133,13 @@ function ListStorePage() {
                       {visibleRows.map((store, index) => {
                         return (
                           <StoreTableRow
+                            haveBrand
+                            haveKitchenCenter
                             key={store.storeId}
                             index={index}
                             store={store}
-                            haveBrand
-                            haveKitchenCenter
+                            page={page + 1}
+                            rowsPerPage={rowsPerPage}
                             length={visibleRows.length}
                             showAction={userAuth?.roleName === Role.MBKC_ADMIN}
                           />

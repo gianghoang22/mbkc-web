@@ -20,8 +20,16 @@ export interface DeleteParams {
   navigate: NavigateFunction;
 }
 
+export interface IdParams {
+  brandId?: number;
+  storeId?: number;
+}
+
 export interface Params<T> {
   data: T;
+  pathname?: string;
+  idParams?: IdParams;
+  optionParams?: OptionParams;
   navigate: NavigateFunction;
 }
 

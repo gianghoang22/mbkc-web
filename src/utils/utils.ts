@@ -62,6 +62,18 @@ export const getIsEditingStore = () => {
   return Boolean(isEditing);
 };
 
+export const getNumberInStorage = (name: string) => {
+  const number = getLocalStorage(name);
+  if (number === null || number === undefined) {
+    if (name === StorageKeys.PAGE) {
+      return 0;
+    } else if (name === StorageKeys.ROW_PER_PAGE) {
+      return 5;
+    }
+  }
+  return Number(number);
+};
+
 // cookie
 export const setAccessToken = (accessToken: string) => Cookie.set(StorageKeys.ACCESS_TOKEN, accessToken);
 export const getAccessToken = () =>

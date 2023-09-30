@@ -18,3 +18,10 @@ export interface StoreToCreate {
   kitchenCenterId: number;
   brandId: number;
 }
+
+export interface StoreToUpdate {
+  name: string;
+  status: string;
+  logo?: File | string;
+  storeManagerEmail: string;
+}

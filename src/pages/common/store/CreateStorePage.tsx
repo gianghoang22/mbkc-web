@@ -6,8 +6,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { StoreToCreate } from '@types';
-import { Color } from 'common/enum';
+import { Params, StoreToCreate, StoreToUpdate } from '@types';
+import { Color, Status } from 'common/enum';
 import { Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -69,20 +69,30 @@ function CreateStorePage() {
 
     if (isEditing) {
       if (typeof values.logo === 'string') {
-        const paramUpdate = {
-          data: { ...data, logo: '' },
+        const paramUpdate: Params<StoreToUpdate> = {
+          data: { name: data.name, status: Status.ACTIVE, logo: '', storeManagerEmail: data.storeManagerEmail },
+          idParams: {
+            brandId: store?.brand.brandId,
+            storeId: store?.storeId,
+          },
+          pathname: pathnameBack,
           navigate,
         };
         dispatch(updateStore(paramUpdate));
       } else {
-        const paramUpdate = {
-          data: data,
+        const paramUpdate: Params<StoreToUpdate> = {
+          data: { name: data.name, status: Status.ACTIVE, logo: data.logo, storeManagerEmail: data.storeManagerEmail },
+          idParams: {
+            brandId: store?.brand.brandId,
+            storeId: store?.storeId,
+          },
+          pathname: pathnameBack,
           navigate,
         };
         dispatch(updateStore(paramUpdate));
       }
     } else {
-      const paramCreate = {
+      const paramCreate: Params<StoreToCreate> = {
         data: data,
         navigate,
       };

@@ -6,7 +6,7 @@ import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 //
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
+import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { deleteStore, getStoreDetail, setEditStore, setPathToBackStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
@@ -17,6 +17,7 @@ function StoreDetailPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
+  const mdSm = useResponsive('up', 'sm', 'sm');
   const { translate, currentLang } = useLocales();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
@@ -32,7 +33,6 @@ function StoreDetailPage() {
   }, [storeId, navigate]);
 
   useEffect(() => {
-    console.log('fetch');
     dispatch(getStoreDetail(params));
   }, [dispatch, navigate, params]);
 
@@ -84,7 +84,11 @@ function StoreDetailPage() {
             <Grid container columnSpacing={5} rowSpacing={5}>
               <Grid item xs={12} sm={4} md={4}>
                 <Stack width="100%" alignItems="center" justifyContent="center">
-                  <img src={store?.logo} alt={store?.name} width="100%" style={{ borderRadius: 16 }} />
+                  <img
+                    src={store?.logo}
+                    alt={store?.name}
+                    style={{ borderRadius: 16, width: mdSm ? 241 : '100%', objectFit: 'fill' }}
+                  />
                 </Stack>
               </Grid>
               <Grid item xs={12} sm={8} md={8}>
@@ -113,7 +117,7 @@ function StoreDetailPage() {
                   <Divider />
 
                   <Stack direction="row" alignItems="start" gap={2}>
-                    <Typography variant="subtitle1" width="150px">
+                    <Typography variant="subtitle1" width={150}>
                       {translate('table.kitchenCenter')}
                     </Typography>
                     <Stack direction="row" alignItems="start" gap={1}>
@@ -140,7 +144,7 @@ function StoreDetailPage() {
 
                   {/* Role = 'MBKC Admin' */}
                   <Stack direction="row" alignItems="start" gap={2}>
-                    <Typography variant="subtitle1" width="150px">
+                    <Typography variant="subtitle1" width={mdSm ? 120.9 : 150}>
                       {translate('table.brand')}
                     </Typography>
                     <Stack direction="row" alignItems="start" gap={1}>
@@ -222,7 +226,7 @@ function StoreDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.store.newStore);
+          navigate(PATH_ADMIN_APP.store.root + `/update/${storeId}`);
           dispatch(setPathToBackStore(pathname));
           dispatch(setEditStore(store));
         }}

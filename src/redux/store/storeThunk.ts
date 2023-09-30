@@ -1,4 +1,4 @@
-import { DeleteParams, ListParams, ListResponse, Params, Store, StoreToCreate } from '@types';
+import { DeleteParams, ListParams, ListResponse, Params, Store, StoreToCreate, StoreToUpdate } from '@types';
 import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -14,6 +14,7 @@ export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
     setHeaderAuth(accessToken);
     try {
       const response: ListResponse<Store> = await axiosClient.get(RoutesApiKeys.GET_ALL_STORE_PARAMS(optionParams));
+      console.log(response);
       return response;
     } catch (error) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -73,7 +74,6 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAPI: any) => {
-  console.log('create');
   const { data, navigate } = params;
   const formData = appendData(data);
   const accessToken = getAccessToken();
@@ -102,25 +102,34 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
   }
 };
 
-export const updateStoreThunk = async (params: any, thunkAPI: any) => {
-  console.log(params);
-  // const { storeId, navigate } = params;
+export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: any) => {
+  const { data, idParams, pathname, optionParams, navigate } = params;
+  console.log(optionParams);
+  const formData = appendData(data);
   const accessToken = getAccessToken();
-  // if (accessToken) {
-  //   setHeaderAuth(accessToken);
-  //   try {
-  //     const response = await axiosClient.post(RoutesApiKeys.GET_STORE_DETAIL(storeId));
-  //     if (response) {
-  //       navigate('/dashboard/sport-center');
-  //       thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
-  //     }
-  //     return response;
-  //   } catch (error) {
-  //     const errorMessage = getErrorMessage(error, navigate);
-  //     thunkAPI.dispatch(setMessageError(errorMessage));
-  //     return thunkAPI.rejectWithValue(error);
-  //   }
-  // }
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosFormData.put(`/brand/${idParams?.brandId}/stores/${idParams?.storeId}`, formData);
+      if (response) {
+        const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage,
+            currentPage: optionParams?.currentPage,
+          },
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllStores(paramsCallback));
+        navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
+        thunkAPI.dispatch(setMessageSuccess('Update store successfully'));
+      }
+      return response;
+    } catch (error) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
 };
 
 export const deleteStoreThunk = async (params: DeleteParams, thunkAPI: any) => {
@@ -132,7 +141,7 @@ export const deleteStoreThunk = async (params: DeleteParams, thunkAPI: any) => {
     try {
       const response = await axiosClient.delete(`/brand/${brandId}/stores/${storeId}`);
       if (response) {
-        const params = {
+        const paramsCallback = {
           optionParams: {
             itemsPerPage: 5,
             currentPage: 1,
@@ -140,7 +149,7 @@ export const deleteStoreThunk = async (params: DeleteParams, thunkAPI: any) => {
           navigate,
         };
         navigate(PATH_ADMIN_APP.store.list);
-        thunkAPI.dispatch(getAllStores(params));
+        thunkAPI.dispatch(getAllStores(paramsCallback));
         thunkAPI.dispatch(setMessageSuccess('Deleted store successfully'));
       }
       return response;

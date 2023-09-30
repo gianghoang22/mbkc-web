@@ -1,21 +1,23 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { Store } from '@types';
+import { Params, Store, StoreToUpdate } from '@types';
 import { Color, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { deleteStore, setEditStore, setPathToBackStore } from 'redux/store/storeSlice';
+import { deleteStore, setEditStore, setPathToBackStore, updateStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 interface StoreTableRowProps {
   store: Store;
   index: number;
   length?: number;
+  page?: number;
+  rowsPerPage?: number;
   showAction?: boolean;
   haveBrand?: boolean;
   haveKitchenCenter?: boolean;
@@ -24,6 +26,8 @@ interface StoreTableRowProps {
 function StoreTableRow({
   index,
   store,
+  page = 1,
+  rowsPerPage = 5,
   showAction = false,
   haveBrand = false,
   haveKitchenCenter = false,
@@ -57,6 +61,28 @@ function StoreTableRow({
     dispatch(deleteStore({ brandId: store.brand.brandId, storeId: store.storeId, navigate }));
   };
 
+  const handleUpdateStatus = () => {
+    const paramUpdate: Params<StoreToUpdate> = {
+      data: {
+        name: store?.name,
+        status: store.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
+        logo: '',
+        storeManagerEmail: store?.storeManagerEmail,
+      },
+      idParams: {
+        brandId: store?.brand.brandId,
+        storeId: store?.storeId,
+      },
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page,
+      },
+      pathname: pathname,
+      navigate,
+    };
+    dispatch(updateStore(paramUpdate));
+  };
+
   return (
     <>
       <TableRow hover tabIndex={-1} key={store.name} sx={{ cursor: 'pointer', height: '72.89px' }}>
@@ -67,59 +93,73 @@ function StoreTableRow({
           component="th"
           scope="row"
           padding="none"
-          sx={{ width: 80 }}
+          sx={{ width: !haveKitchenCenter || !haveBrand ? 100 : 80 }}
           onClick={() => handleNavigateDetail(store, store.storeId)}
         >
           <Avatar alt={store.name} src={store.logo} />
         </TableCell>
-        <TableCell width={180} align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+        <TableCell
+          width={!haveKitchenCenter || !haveBrand ? 220 : 180}
+          align="left"
+          padding="none"
+          onClick={() => handleNavigateDetail(store, store.storeId)}
+        >
           {store.name}
         </TableCell>
-        <TableCell width={180} align="left" padding="none" onClick={() => handleNavigateDetail(store, store.storeId)}>
+        <TableCell
+          width={!haveKitchenCenter || !haveBrand ? 250 : 180}
+          align="left"
+          padding="none"
+          onClick={() => handleNavigateDetail(store, store.storeId)}
+        >
           {store.storeManagerEmail}
         </TableCell>
         {haveKitchenCenter && (
-          <TableCell width={200} align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+          <TableCell
+            width={!haveBrand ? 280 : 200}
+            align="left"
+            onClick={() => handleNavigateDetail(store, store.storeId)}
+          >
             {store.kitchenCenter.name}
           </TableCell>
         )}
         {haveBrand && (
-          <TableCell width={160} align="left" onClick={() => handleNavigateDetail(store, store.storeId)}>
+          <TableCell
+            width={!haveKitchenCenter ? 240 : 160}
+            align="left"
+            onClick={() => handleNavigateDetail(store, store.storeId)}
+          >
             {store.brand.name}
           </TableCell>
         )}
         <TableCell align="left">
-          <FormControlLabel
-            control={
-              <Switch
-                size="small"
-                disabled={store.status === Status.DEACTIVE}
-                checked={store.status === Status.INACTIVE || store.status === Status.DEACTIVE ? false : true}
-                color={store?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
-              />
+          <Label
+            color={
+              store?.status === Status.ACTIVE
+                ? Color.SUCCESS
+                : store?.status === Status.INACTIVE
+                ? Color.WARNING
+                : Color.ERROR
             }
-            label={
-              <Label
-                color={
-                  store?.status === Status.ACTIVE
-                    ? Color.SUCCESS
-                    : store?.status === Status.INACTIVE
-                    ? Color.WARNING
-                    : Color.ERROR
-                }
-              >
-                {store?.status === Status.INACTIVE
-                  ? translate('status.inactive')
-                  : store?.status === Status.ACTIVE
-                  ? translate('status.active')
-                  : translate('status.deactive')}
-              </Label>
-            }
-          />
+          >
+            {store?.status === Status.INACTIVE
+              ? translate('status.inactive')
+              : store?.status === Status.ACTIVE
+              ? translate('status.active')
+              : translate('status.deactive')}
+          </Label>
         </TableCell>
 
         {showAction && (
           <TableCell align="right">
+            <Switch
+              size="small"
+              onClick={handleUpdateStatus}
+              inputProps={{ 'aria-label': 'controlled' }}
+              disabled={store.status === Status.DEACTIVE}
+              checked={store.status === Status.INACTIVE || store.status === Status.DEACTIVE ? false : true}
+              color={store?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+            />
             <IconButton color="inherit" disabled={store?.status === Status.DEACTIVE} onClick={handleOpenMenu}>
               <MoreVertIcon />
             </IconButton>

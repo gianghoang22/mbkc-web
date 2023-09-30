@@ -36,12 +36,15 @@ function StoreTableRowSkeleton({ length, haveBrand = false, haveKitchenCenter = 
             </TableCell>
           )}
           <TableCell align="left">
-            <Skeleton variant="rounded" width={120} height={24} />
+            <Skeleton variant="rounded" width={100} height={24} />
           </TableCell>
           <TableCell align="right">
-            <IconButton color="inherit">
-              <Skeleton variant="circular" width={28} height={28} />
-            </IconButton>
+            <Stack direction="row" alignItems="center" justifyContent="right">
+              <Skeleton variant="rounded" width={30} height={14} />
+              <IconButton color="inherit">
+                <Skeleton variant="circular" width={28} height={28} />
+              </IconButton>
+            </Stack>
           </TableCell>
         </TableRow>
       ))}

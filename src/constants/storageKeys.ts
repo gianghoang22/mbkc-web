@@ -9,6 +9,8 @@ const StorageKeys = {
   PATH_STORE_TO_BACK: 'pathStoreToBack',
   PATH_BRAND_TO_BACK: 'pathBrandToBack',
   IS_EDIT_STORE: 'isEditingStore',
+  PAGE: 'page',
+  ROW_PER_PAGE: 'rowsPerPage',
 };
 
 export { StorageKeys };
