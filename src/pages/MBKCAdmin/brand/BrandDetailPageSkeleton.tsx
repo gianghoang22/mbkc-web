@@ -25,10 +25,11 @@ import {
 import { OrderSort, StoreTable } from '@types';
 import { Language, PopoverType } from 'common/enum';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { setEditBrand, setPathToBackBrand } from 'redux/brand/brandSlice';
+import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function BrandDetailPage() {
   const navigate = useNavigate();
@@ -223,7 +224,7 @@ function BrandDetailPage() {
         onDelete={handleOpenModal}
         onEdit={() => {
           navigate(PATH_ADMIN_APP.brand.newBrand);
-          dispatch(setPathToBackBrand(pathname));
+          dispatch(setRoutesToBack(pathname));
           dispatch(setEditBrand(brand));
         }}
       />

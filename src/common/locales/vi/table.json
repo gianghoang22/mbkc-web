@@ -18,9 +18,14 @@
   "type": "Loại",
   "historicalPrice": "Giá gốc",
   "code": "Mã",
+  "description": "Mô tả",
+  "displayOrder": "Thứ tự hiển thị",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",
-    "code": "mã"
+    "code": "mã",
+    "type": "loại",
+    "description": "mô tả",
+    "displayOrder": "thứ tự hiển thị"
   }
 }

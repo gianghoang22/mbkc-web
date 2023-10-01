@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Category, CategoryType } from '@types';
+import { StorageKeys } from 'constants/storageKeys';
 import productCategories from 'mock/productCategory';
+import { getCategoryType, getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewCategoryThunk,
   deleteCategoryThunk,
@@ -19,12 +21,15 @@ interface CategoryState {
   category: Category | null;
 }
 
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_STORE) ? getIsEditing(StorageKeys.IS_EDIT_STORE) : false;
+const getCategoryTypeInStorage = getCategoryType() ? getCategoryType() : CategoryType.NORMAL;
+
 const initialState: CategoryState = {
-  isEditing: false,
+  isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
-  categoryType: CategoryType.NORMAL,
+  categoryType: getCategoryTypeInStorage,
   categories: productCategories,
   category: null,
 };
@@ -48,6 +53,7 @@ const categorySlice = createSlice({
     },
     setCategoryType: (state, action) => {
       state.categoryType = action.payload;
+      setLocalStorage(StorageKeys.CATEGORY_TYPE, action.payload);
     },
     getCategoryDetail_local: (state, action) => {
       console.log(action);

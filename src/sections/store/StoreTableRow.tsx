@@ -9,8 +9,9 @@ import { Color, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { deleteStore, setEditStore, setPathToBackStore, updateStore } from 'redux/store/storeSlice';
+import { deleteStore, setEditStore, updateStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 interface StoreTableRowProps {
   store: Store;
@@ -47,12 +48,12 @@ function StoreTableRow({
         ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
         : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
     );
-    dispatch(setPathToBackStore(pathname));
+    dispatch(setRoutesToBack(pathname));
   };
 
   const handleEdit = () => {
     navigate(PATH_ADMIN_APP.store.root + `/update/${store.storeId}`);
-    dispatch(setPathToBackStore(pathname));
+    dispatch(setRoutesToBack(pathname));
     dispatch(setEditStore(store));
   };
 

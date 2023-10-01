@@ -6,23 +6,20 @@ import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagina
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { Category, CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
+import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, usePagination } from 'hooks';
-import {
-  getAllCategories,
-  getCategoryDetail_local,
-  setAddCategory,
-  setCategoryType,
-} from 'redux/category/categorySlice';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { getAllCategories, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function ListExtraCategoryPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { pathname } = useLocation();
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -37,11 +34,6 @@ function ListExtraCategoryPage() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (category: Category, categoryId: number) => {
-    navigate(PATH_BRAND_APP.category.rootExtra + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail_local(category));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,8 +73,8 @@ function ListExtraCategoryPage() {
   return (
     <>
       <Page
-        title="List Extra Category"
         pathname={pathname}
+        title={translate('page.title.list', { model: translate('model.lowercase.extraCategory') })}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
           <Button
@@ -91,10 +83,11 @@ function ListExtraCategoryPage() {
             onClick={() => {
               navigate(PATH_BRAND_APP.category.newCategory);
               dispatch(setCategoryType(CategoryType.EXTRA));
+              dispatch(setRoutesToBack(pathname));
               dispatch(setAddCategory());
             }}
           >
-            Add extra category
+            {translate('button.add', { model: translate('model.lowercase.extraCategory') })}
           </Button>,
         ]}
       >
@@ -105,6 +98,7 @@ function ListExtraCategoryPage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<CategoryTable>
+                    showAction
                     headCells={categoryHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -121,7 +115,6 @@ function ListExtraCategoryPage() {
                             index={index}
                             category={extraCategory}
                             categoryType={CategoryType.EXTRA}
-                            handleNavigateDetail={handleNavigateDetail}
                           />
                         );
                       })}

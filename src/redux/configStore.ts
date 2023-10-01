@@ -8,6 +8,7 @@ import categoryReducer from './category/categorySlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
 import partnerReducer from './partner/partnerSlice';
 import productReducer from './product/productSlice';
+import routesReducer from './routes/routesSlice';
 import storeReducer from './store/storeSlice';
 
 export const store = configureStore({
@@ -21,6 +22,7 @@ export const store = configureStore({
     cashier: cashierReducer,
     bankingAccount: BankingAccountReducer,
     partner: partnerReducer,
+    routes: routesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

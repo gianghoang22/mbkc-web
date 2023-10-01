@@ -4,6 +4,8 @@ import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/mate
 import { styled } from '@mui/material/styles';
 //
 import { NavItem as NavItemInterface } from '@types';
+import { StorageKeys } from 'constants/storageKeys';
+import { removeLocalStorage } from 'utils';
 
 const StyledNavItemIcon = styled(ListItemIcon)({
   width: 22,
@@ -39,6 +41,10 @@ function NavItem({ item }: NavItemProps) {
           fontWeight: theme.typography.fontWeightBold,
         },
       })}
+      onClick={() => {
+        removeLocalStorage(StorageKeys.PAGE);
+        removeLocalStorage(StorageKeys.ROW_PER_PAGE);
+      }}
     >
       <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>
 

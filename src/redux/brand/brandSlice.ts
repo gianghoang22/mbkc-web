@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Brand } from '@types';
-import { StorageKeys } from 'constants/storageKeys';
-import { getPathname, setLocalStorage } from 'utils';
 import {
   createNewBrandThunk,
   deleteBrandThunk,
@@ -11,7 +9,6 @@ import {
 } from './brandThunk';
 
 interface BrandState {
-  pathnameBack: string;
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
@@ -20,12 +17,7 @@ interface BrandState {
   brand: Brand | null;
 }
 
-const getPathnameInStorage = getPathname(StorageKeys.PATH_BRAND_TO_BACK)
-  ? getPathname(StorageKeys.PATH_BRAND_TO_BACK)
-  : '';
-
 const initialState: BrandState = {
-  pathnameBack: getPathnameInStorage,
   isEditing: false,
   isLoading: false,
   isError: false,
@@ -54,10 +46,6 @@ const brandSlice = createSlice({
     setEditBrand: (state, action) => {
       state.isEditing = true;
       state.brand = action.payload;
-    },
-    setPathToBackBrand: (state, action) => {
-      state.pathnameBack = action.payload;
-      setLocalStorage(StorageKeys.PATH_BRAND_TO_BACK, action.payload);
     },
   },
   extraReducers(builder) {
@@ -133,7 +121,7 @@ const brandSlice = createSlice({
   },
 });
 
-export const { getBrandDetail_local, setAddBrand, setEditBrand, setPathToBackBrand } = brandSlice.actions;
+export const { getBrandDetail_local, setAddBrand, setEditBrand } = brandSlice.actions;
 const brandReducer = brandSlice.reducer;
 
 export default brandReducer;

@@ -1,40 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
 import { CategoryToCreate, CategoryType } from '@types';
+import { Color } from 'common/enum';
 import { Page } from 'components';
+import { useLocales, useValidationForm } from 'hooks';
+import { useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryForm } from 'sections/category';
-import { useAppSelector } from 'redux/configStore';
-import { Color } from 'common/enum';
-
-const schema = yup.object({
-  name: yup.string().required('Please enter Category Name'),
-  code: yup.string().required('Please enter Category Code'),
-  type: yup.string().required('Please select Category Type'),
-  displayOrder: yup
-    .number()
-    .typeError('Please enter the category display order')
-    // .transform((value, originalValue) => {
-    //   // Xử lý giá trị trước khi kiểm tra kiểu dữ liệu
-    //   if (originalValue === '') {
-    //     return NaN; // Chuyển giá trị "" thành NaN
-    //   }
-    //   return value;
-    // })
-    .required('Please enter the category display order'),
-  description: yup.string().required('Please enter Category Name'),
-  imageUrl: yup.string().required('Please select Category Photo'),
-});
 
 function CreateCategoryPage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { translate } = useLocales();
+  const { schemaCategory } = useValidationForm();
 
+  const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { isEditing, categoryType, category } = useAppSelector((state) => state.category);
 
   const createCategoryForm = useForm<CategoryToCreate>({
@@ -46,7 +30,7 @@ function CreateCategoryPage() {
       description: isEditing ? category?.description : '',
       imageUrl: isEditing ? category?.imageUrl : '',
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaCategory),
   });
 
   const { handleSubmit, watch } = createCategoryForm;
@@ -63,8 +47,18 @@ function CreateCategoryPage() {
     <Page
       title={
         isEditing
-          ? `Update  ${categoryType === CategoryType.NORMAL ? 'Category' : 'Extra Category'}`
-          : `Create  ${categoryType === CategoryType.NORMAL ? 'Category' : 'Extra Category'}`
+          ? translate('page.title.update', {
+              model:
+                categoryType === CategoryType.NORMAL
+                  ? translate('model.lowercase.category')
+                  : translate('model.lowercase.extraCategory'),
+            })
+          : translate('page.title.create', {
+              model:
+                categoryType === CategoryType.NORMAL
+                  ? translate('model.lowercase.category')
+                  : translate('model.lowercase.extraCategory'),
+            })
       }
       pathname={pathname}
       navigateDashboard={PATH_BRAND_APP.root}
@@ -74,21 +68,13 @@ function CreateCategoryPage() {
           <CategoryForm />
         </Card>
         <Stack direction="row" justifyContent="space-between" mt={12}>
-          <Button
-            variant="outlined"
-            color="inherit"
-            onClick={() =>
-              navigate(
-                categoryType === CategoryType.NORMAL ? PATH_BRAND_APP.category.list : PATH_BRAND_APP.category.extraList
-              )
-            }
-          >
-            Back
+          <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
+            {translate('button.back')}
           </Button>
           <Stack direction="row" gap={2}>
             {isEditing && (
               <Button variant="contained" color="inherit">
-                Reset
+                {translate('button.reset')}
               </Button>
             )}
             <Button
@@ -97,7 +83,7 @@ function CreateCategoryPage() {
               type="submit"
               onClick={handleSubmit(onSubmit)}
             >
-              {isEditing ? 'Update' : 'Create'}
+              {isEditing ? translate('button.update') : translate('button.create')}
             </Button>
           </Stack>
         </Stack>

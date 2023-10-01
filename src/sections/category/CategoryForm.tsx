@@ -1,9 +1,13 @@
 import { Grid, Stack, Typography } from '@mui/material';
 import { CATEGORY_TYPE_OPTIONS, CategoryType } from '@types';
+import { Language } from 'common/enum';
 import { InputField, SelectField, UploadImageField } from 'components';
+import { useLocales } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 
 function CategoryForm() {
+  const { translate, currentLang } = useLocales();
+
   const { isEditing } = useAppSelector((state) => state.category);
 
   return (
@@ -11,13 +15,13 @@ function CategoryForm() {
       <Grid item md={4} sm={12}>
         <Stack alignItems="center" gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Image</Typography>
+            <Typography variant="subtitle1">{translate('page.content.logo')}</Typography>
             <Typography variant="body2" color="grey.600">
-              Select file for category's image
+              {translate('page.content.contentLogo', { model: translate('model.lowercase.category') })}
             </Typography>
           </Stack>
           <UploadImageField
-            label="Drag and drop or select files"
+            label={translate('page.content.dragDrop')}
             name="imageUrl"
             defaultValue=""
             isEditing={isEditing}
@@ -27,26 +31,68 @@ function CategoryForm() {
       <Grid item md={8} sm={12}>
         <Stack gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Detail</Typography>
+            <Typography variant="subtitle1">{translate('page.content.detail')}</Typography>
             <Typography variant="body2" color="grey.600">
-              Name, code, type,...
+              {translate('table.name')}, {translate('table.lowercase.code')}, {translate('table.lowercase.type')},{' '}
+              {translate('table.lowercase.description')},...
             </Typography>
           </Stack>
 
           <Stack spacing={3}>
-            <InputField fullWidth name="name" label="Category name" />
-            <InputField fullWidth name="code" label="Category code" />
+            <InputField
+              fullWidth
+              name="name"
+              label={translate(
+                'page.form.nameExchange',
+                currentLang.value === Language.ENGLISH
+                  ? {
+                      model: translate('model.capitalizeOne.category'),
+                      name: translate('page.form.nameLower'),
+                    }
+                  : {
+                      model: translate('page.form.name'),
+                      name: translate('model.lowercase.category'),
+                    }
+              )}
+            />
+            <InputField
+              fullWidth
+              name="code"
+              label={translate(
+                'page.form.nameExchange',
+                currentLang.value === Language.ENGLISH
+                  ? {
+                      model: translate('model.capitalizeOne.category'),
+                      name: translate('page.form.codeLower'),
+                    }
+                  : {
+                      model: translate('page.form.code'),
+                      name: translate('model.lowercase.category'),
+                    }
+              )}
+            />
             <Stack direction="row" alignItems="start" gap={2}>
               <SelectField<CategoryType>
                 disabled
                 fullWidth
                 options={CATEGORY_TYPE_OPTIONS}
                 name="type"
-                label="Category type"
+                label={translate(
+                  'page.form.nameExchange',
+                  currentLang.value === Language.ENGLISH
+                    ? {
+                        model: translate('model.capitalizeOne.category'),
+                        name: translate('table.lowercase.type'),
+                      }
+                    : {
+                        model: translate('table.type'),
+                        name: translate('model.lowercase.category'),
+                      }
+                )}
               />
-              <InputField type="number" fullWidth name="displayOrder" label="Display order" />
+              <InputField type="number" fullWidth name="displayOrder" label={translate('table.displayOrder')} />
             </Stack>
-            <InputField fullWidth name="description" label="Description" multiline minRows={8} />
+            <InputField fullWidth name="description" label={translate('table.description')} multiline minRows={8} />
           </Stack>
         </Stack>
       </Grid>

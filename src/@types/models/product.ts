@@ -8,7 +8,7 @@ export interface Product {
   discountPrice: number;
   size: string;
   type: string;
-  status: number;
+  status: string;
   image: string;
   parentProductId: string;
   category: string;

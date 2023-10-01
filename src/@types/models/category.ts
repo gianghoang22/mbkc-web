@@ -16,7 +16,7 @@ export interface CategoryToCreate {
   type: string;
   displayOrder: number;
   description: string;
-  imageUrl: string;
+  imageUrl?: File | string;
 }
 
 export enum CategoryType {

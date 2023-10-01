@@ -1,26 +1,37 @@
+// @mui
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
-interface CategoryTableRowSkeletonProps {
+interface ProductTableRowSkeletonProps {
   length: number;
+  inTab?: boolean;
 }
 
-function CategoryTableRowSkeleton({ length }: CategoryTableRowSkeletonProps) {
+function ProductTableRowSkeleton({ length, inTab = false }: ProductTableRowSkeletonProps) {
   return (
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
         <TableRow key={index}>
-          <TableCell width={80} align="center">
+          <TableCell width={60} align="center">
             <Stack direction="row" alignItems="center" justifyContent="center">
               <Skeleton width={20} />
             </Stack>
           </TableCell>
-          <TableCell component="th" scope="row" padding="none" width={100}>
+          <TableCell component="th" padding="none" align="center" width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell align="left" width={300}>
+          <TableCell component="th" scope="row" padding="none" width={inTab ? 170 : 215}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={320}>
+          <TableCell align="left" width={inTab ? 190 : 180}>
+            <Skeleton />
+          </TableCell>
+          <TableCell align="left" width={inTab ? 115 : 160}>
+            <Skeleton />
+          </TableCell>
+          <TableCell align="left" width={inTab ? 130 : 165}>
+            <Skeleton />
+          </TableCell>
+          <TableCell align="left" width={inTab ? 130 : 165}>
             <Skeleton />
           </TableCell>
           <TableCell align="left">
@@ -40,4 +51,4 @@ function CategoryTableRowSkeleton({ length }: CategoryTableRowSkeletonProps) {
   );
 }
 
-export default CategoryTableRowSkeleton;
+export default ProductTableRowSkeleton;

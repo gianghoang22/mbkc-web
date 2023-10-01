@@ -1,8 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import { StyledRoot, StyledSearch } from '../styles';
-import { useLocales } from 'hooks';
+import { useDebounce, useLocales, usePagination } from 'hooks';
+import { ListParams } from '@types';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'redux/configStore';
+import { getAllStores } from 'redux/store/storeSlice';
 
 // ----------------------------------------------------------------------
 
@@ -11,9 +17,24 @@ interface StoreTableToolbarProps {
   filterName: string;
 }
 
-function StoreTableToolbar(props: StoreTableToolbarProps) {
-  const { filterName, onFilterName } = props;
+function StoreTableToolbar({ filterName, onFilterName }: StoreTableToolbarProps) {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate } = useLocales();
+  const { page, rowsPerPage } = usePagination();
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
 
   return (
     <StyledRoot>
@@ -30,7 +51,7 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
       />
 
       <Tooltip title={translate('button.reload')}>
-        <IconButton>
+        <IconButton onClick={() => dispatch<any>(getAllStores(params))}>
           <ReplayIcon />
         </IconButton>
       </Tooltip>

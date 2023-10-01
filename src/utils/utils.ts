@@ -1,4 +1,4 @@
-import { UserAuth } from '@types';
+import { CategoryType, UserAuth } from '@types';
 import { Error } from 'common/enum';
 import { StorageKeys } from 'constants/storageKeys';
 import Cookie from 'js-cookie';
@@ -54,8 +54,17 @@ export const getPathname = (name: string) => {
   return pathname;
 };
 
-export const getIsEditingStore = () => {
-  const isEditing = getLocalStorage(StorageKeys.IS_EDIT_STORE);
+export const getCategoryType = () => {
+  const categoryType = getLocalStorage(StorageKeys.CATEGORY_TYPE);
+  if (categoryType === null || categoryType === undefined) {
+    return CategoryType.NORMAL;
+  }
+  const type = categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA;
+  return type;
+};
+
+export const getIsEditing = (key: string) => {
+  const isEditing = getLocalStorage(key);
   if (isEditing === null || isEditing === undefined) {
     return false;
   }

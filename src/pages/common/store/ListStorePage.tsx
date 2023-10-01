@@ -15,6 +15,7 @@ import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 // ----------------------------------------------------------------------
 
@@ -89,6 +90,7 @@ function ListStorePage() {
                     variant="contained"
                     onClick={() => {
                       navigate(PATH_ADMIN_APP.store.newStore);
+                      dispatch(setRoutesToBack(pathname));
                       dispatch(setAddStore());
                     }}
                     startIcon={<AddRoundedIcon />}

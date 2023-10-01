@@ -1,28 +1,33 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import DescriptionIcon from '@mui/icons-material/Description';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Avatar, Box, Card, Grid, IconButton, Stack, Tab, Tooltip, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, Grid, Stack, Tab, Typography } from '@mui/material';
 //
 import { CategoryType } from '@types';
-import { Color } from 'common/enum';
-import { Label, Page } from 'components';
-import { useResponsive } from 'hooks';
+import { Color, Language, PopoverType, Status } from 'common/enum';
+import { ConfirmDialog, Label, Page, Popover } from 'components';
+import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableTab } from 'sections/category';
 import { ProductTableTab } from 'sections/product';
 
 function CategoryDetailPage() {
+  const { id: categoryId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const mdUp = useResponsive('up', 'md', 'md');
+  const { translate, currentLang } = useLocales();
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const { category } = useAppSelector((state) => state.category);
+  const { category, categoryType } = useAppSelector((state) => state.category);
 
   const [activeTab, setActiveTab] = useState('1');
 
@@ -30,9 +35,49 @@ function CategoryDetailPage() {
     setActiveTab(newValue);
   };
 
+  const handleDelete = () => {
+    handleOpenModal(category?.name);
+  };
+
   return (
     <>
-      <Page title="Category Detail" pathname={pathname} navigateDashboard={PATH_BRAND_APP.root}>
+      <Page
+        title={
+          categoryType === CategoryType.NORMAL
+            ? translate('page.title.detail', {
+                model:
+                  currentLang.value === Language.ENGLISH
+                    ? translate('model.capitalize.category')
+                    : translate('model.lowercase.category'),
+              })
+            : translate('page.title.detail', {
+                model:
+                  currentLang.value === Language.ENGLISH
+                    ? translate('model.capitalize.extraCategory')
+                    : translate('model.lowercase.extraCategory'),
+              })
+        }
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+        actions={() => [
+          <Button
+            color="inherit"
+            onClick={handleOpenMenu}
+            endIcon={<KeyboardArrowDownIcon />}
+            style={{
+              backgroundColor: '#000',
+              color: '#fff',
+            }}
+            sx={{
+              '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
+                backgroundColor: 'rgba(145, 158, 171, 0.08)',
+              },
+            }}
+          >
+            {translate('button.menuAction')}
+          </Button>,
+        ]}
+      >
         <Stack direction="row" alignItems="center" spacing={5} mb={10}>
           <Card>
             <Stack
@@ -41,26 +86,15 @@ function CategoryDetailPage() {
               justifyContent="space-between"
               sx={{
                 px: 3,
-                py: 0.5,
+                py: 1.5,
                 borderBottom: 1,
                 borderColor: 'divider',
               }}
             >
               <Stack direction="row" alignItems="center" gap={0.5}>
-                <Typography variant="h6">General information</Typography>
+                <Typography variant="h6">{translate('page.content.generalInformation')}</Typography>
                 <DescriptionIcon fontSize="small" />
               </Stack>
-              <Tooltip title="Edit" placement="top-end" arrow>
-                <IconButton
-                  onClick={() => {
-                    navigate(PATH_BRAND_APP.category.newCategory);
-                    dispatch(setCategoryType(CategoryType.NORMAL));
-                    dispatch(setEditCategory(category));
-                  }}
-                >
-                  <EditRoundedIcon />
-                </IconButton>
-              </Tooltip>
             </Stack>
             <Stack sx={{ px: 3, py: 3 }}>
               <Grid container columnSpacing={2}>
@@ -73,20 +107,32 @@ function CategoryDetailPage() {
                   <Stack gap={1}>
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
                       <Stack direction="row" alignItems="center" gap={0.5}>
-                        <Typography variant="subtitle1">Code:</Typography>
+                        <Typography variant="subtitle1">{translate('table.code')}:</Typography>
                         <Typography variant="body1">{category?.code}</Typography>
                       </Stack>
-                      <Label color={(category?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                        {category?.status}
+                      <Label
+                        color={
+                          category?.status === Status.ACTIVE
+                            ? Color.SUCCESS
+                            : category?.status === Status.INACTIVE
+                            ? Color.WARNING
+                            : Color.ERROR
+                        }
+                      >
+                        {category?.status === Status.INACTIVE
+                          ? translate('status.inactive')
+                          : category?.status === Status.ACTIVE
+                          ? translate('status.active')
+                          : translate('status.deactive')}
                       </Label>
                     </Stack>
 
                     <Stack direction="row" alignItems="center" gap={0.5}>
-                      <Typography variant="subtitle1">Name:</Typography>
+                      <Typography variant="subtitle1">{translate('table.name')}:</Typography>
                       <Typography variant="body1">{category?.name}</Typography>
                     </Stack>
                     <Box>
-                      <Typography variant="subtitle1">Description:</Typography>
+                      <Typography variant="subtitle1">{translate('table.description')}:</Typography>
                       <Typography variant="body2" sx={{ textAlign: 'justify' }}>
                         {category?.description}
                       </Typography>
@@ -104,28 +150,83 @@ function CategoryDetailPage() {
           )}
         </Stack>
 
-        <Stack spacing={1}>
-          <Card>
-            <TabContext value={activeTab}>
-              <Box>
-                <TabList sx={{ height: 50, borderBottom: 1, borderColor: 'divider' }} onChange={handleChangeTab}>
-                  <Tab label="Products in the category" value="1" sx={{ height: 50, px: 3 }} />
-                  <Tab label="Extra list in category" value="2" sx={{ height: 50, px: 3 }} />
-                </TabList>
-              </Box>
+        {categoryType === CategoryType.NORMAL ? (
+          <Stack spacing={1}>
+            <Card>
+              <TabContext value={activeTab}>
+                <Box>
+                  <TabList sx={{ height: 50, borderBottom: 1, borderColor: 'divider' }} onChange={handleChangeTab}>
+                    <Tab
+                      label={translate('page.content.productInCategory', {
+                        model: translate('model.capitalizeOne.product'),
+                        name: translate('model.lowercase.category'),
+                      })}
+                      value="1"
+                      sx={{ height: 50, px: 3 }}
+                    />
+                    <Tab label={translate('page.content.extraInCategory')} value="2" sx={{ height: 50, px: 3 }} />
+                  </TabList>
+                </Box>
 
-              <Stack>
-                <TabPanel sx={{ p: 0 }} value="1">
-                  <ProductTableTab />
-                </TabPanel>
-                <TabPanel sx={{ p: 0 }} value="2">
-                  <CategoryTableTab />
-                </TabPanel>
-              </Stack>
-            </TabContext>
+                <Stack>
+                  <TabPanel sx={{ p: 0 }} value="1">
+                    <ProductTableTab />
+                  </TabPanel>
+                  <TabPanel sx={{ p: 0 }} value="2">
+                    <CategoryTableTab />
+                  </TabPanel>
+                </Stack>
+              </TabContext>
+            </Card>
+          </Stack>
+        ) : (
+          <Card>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{
+                px: 3,
+                py: 1.5,
+                borderBottom: 1,
+                borderColor: 'divider',
+              }}
+            >
+              <Typography variant="h6" textTransform="capitalize">
+                {translate('page.content.productInCategory', {
+                  model: translate('model.capitalizeOne.product'),
+                  name: translate('model.lowercase.category'),
+                })}
+              </Typography>
+            </Stack>
+            <ProductTableTab />
           </Card>
-        </Stack>
+        )}
       </Page>
+
+      <Popover
+        type={PopoverType.ALL}
+        open={openPopover}
+        handleCloseMenu={handleCloseMenu}
+        onDelete={handleOpenModal}
+        onEdit={() => {
+          navigate(PATH_BRAND_APP.category.root + `/update/${categoryId}`);
+          dispatch(setRoutesToBack(pathname));
+          dispatch(setCategoryType(categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA));
+          dispatch(setEditCategory(category));
+        }}
+      />
+
+      {isOpenModal && (
+        <ConfirmDialog
+          open={isOpenModal}
+          onClose={handleOpenModal}
+          onAction={handleDelete}
+          model={category?.name}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.category') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.category') })}
+        />
+      )}
     </>
   );
 }
