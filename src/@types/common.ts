@@ -26,6 +26,7 @@ export interface IdParams {
   brandId?: number;
   storeId?: number;
   kitchenCenterId?: number;
+  categoryId?: number;
 }
 
 export interface Params<T> {

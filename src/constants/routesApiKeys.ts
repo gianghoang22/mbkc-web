@@ -16,6 +16,7 @@ const ROOTS_TRANSACTION = '/transactions';
 export const RoutesApiKeys = {
   // auth
   LOGIN: '/authentications/login',
+  REFRESH_TOKEN: '/authentications/tokens-regeneration',
   RESET_PASSWORD: '/authentications/reset-password',
   FORGOT_PASSWORD: '/verifications/email-verification',
   VERIFY_OTP: '/verifications/otp-verification',

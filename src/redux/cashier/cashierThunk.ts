@@ -12,7 +12,7 @@ export const getAllCashiersThunk = async (params: any, thunkAPI: any) => {
       const response = await axiosClient.get(RoutesApiKeys.GET_ALL_CASHIER);
       console.log(response);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -29,7 +29,7 @@ export const getCashierDetailThunk = async (params: any, thunkAPI: any) => {
       const response = await axiosClient.get(RoutesApiKeys.GET_CASHIER_DETAIL(cashierId));
       console.log(response);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -50,7 +50,7 @@ export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -70,7 +70,7 @@ export const updateCashierThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -90,7 +90,7 @@ export const deleteCashierThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);

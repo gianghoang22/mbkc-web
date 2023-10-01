@@ -134,7 +134,7 @@ function ListStorePage() {
                           />
                         );
                       })}
-                      {emptyRows > 0 && <EmptyTable colNumber={storeHeadCells.length} />}
+                      {emptyRows > 0 || (stores.length === 0 && <EmptyTable colNumber={storeHeadCells.length} />)}
                     </TableBody>
                   )}
 

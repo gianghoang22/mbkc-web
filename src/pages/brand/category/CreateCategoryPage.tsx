@@ -4,22 +4,24 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { CategoryToCreate, CategoryType } from '@types';
+import { CategoryToCreate, CategoryType, Params } from '@types';
 import { Color } from 'common/enum';
 import { Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryForm } from 'sections/category';
+import { createNewCategory } from 'redux/category/categorySlice';
 
 function CreateCategoryPage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { schemaCategory } = useValidationForm();
 
   const { pathnameToBack } = useAppSelector((state) => state.routes);
-  const { isEditing, categoryType, category } = useAppSelector((state) => state.category);
+  const { isEditing, isLoading, categoryType, category } = useAppSelector((state) => state.category);
 
   const createCategoryForm = useForm<CategoryToCreate>({
     defaultValues: {
@@ -33,14 +35,16 @@ function CreateCategoryPage() {
     resolver: yupResolver(schemaCategory),
   });
 
-  const { handleSubmit, watch } = createCategoryForm;
-
-  const image = watch('imageUrl');
-  console.log('image', image);
+  const { handleSubmit } = createCategoryForm;
 
   const onSubmit = async (values: CategoryToCreate) => {
-    const data = { ...values, imageUrl: image };
-    console.log('CategoryToAdd', data);
+    const data = { ...values, brandId: 16 };
+    console.log(data);
+    const paramCreate: Params<CategoryToCreate> = {
+      data: data,
+      navigate,
+    };
+    dispatch(createNewCategory(paramCreate));
   };
 
   return (
@@ -78,6 +82,7 @@ function CreateCategoryPage() {
               </Button>
             )}
             <Button
+              disabled={isLoading}
               variant="contained"
               color={isEditing ? Color.WARNING : Color.PRIMARY}
               type="submit"

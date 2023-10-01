@@ -54,14 +54,14 @@ function AppRouter() {
       <Route path="*" element={<Navigate to={PATH_ERROR.notFound} replace />} />
 
       {/* brand routes */}
-      {/* <Route path="/" element={<BrandRouter />}> */}
-      <Route element={<DashboardLayout />}>
-        <Route element={<Navigate to={PATH_BRAND_APP.root} />} index={true} />
-        {brandRoutes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.component} />
-        ))}
+      <Route path="/" element={<BrandRouter />}>
+        <Route element={<DashboardLayout />}>
+          <Route element={<Navigate to={PATH_BRAND_APP.root} />} index={true} />
+          {brandRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.component} />
+          ))}
+        </Route>
       </Route>
-      {/* </Route> */}
 
       {/* kitchen center routes */}
       <Route path="/" element={<KitchenCenterRouter />}>

@@ -15,7 +15,7 @@ export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: an
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_ALL_KITCHEN_CENTER(optionParams));
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -32,7 +32,7 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
       const response = await axiosClient.get(`/kitchencenters/${kitchenCenterId}`);
       console.log(response);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -53,7 +53,7 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
         params.navigate(PATH_ADMIN_APP.kitchenCenter.list);
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, params.navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -72,7 +72,7 @@ export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(setMessageSuccess('Update kitchen center successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -104,7 +104,7 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
       }
       console.log(response);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);

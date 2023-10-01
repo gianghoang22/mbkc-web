@@ -27,7 +27,7 @@ function StoreDetailPage() {
   const { userAuth } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { isLoading, store } = useAppSelector((state) => state.store);
-  console.log(store);
+
   const params = useMemo(() => {
     return {
       storeId,

@@ -44,6 +44,7 @@ function ListCategoryPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
 
+  console.log(emptyRows);
   const visibleRows = useMemo(
     () =>
       stableSort(categories, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
@@ -118,7 +119,8 @@ function ListCategoryPage() {
                           />
                         );
                       })}
-                      {emptyRows > 0 && <EmptyTable colNumber={categoryHeadCells.length} />}
+                      {emptyRows > 0 ||
+                        (categories.length === 0 && <EmptyTable colNumber={categoryHeadCells.length} />)}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}

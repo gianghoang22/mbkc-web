@@ -7,7 +7,6 @@ export interface Category {
   description: string;
   imageUrl: string;
   status: string;
-  brandId: number;
 }
 
 export interface CategoryToCreate {
@@ -17,6 +16,7 @@ export interface CategoryToCreate {
   displayOrder: number;
   description: string;
   imageUrl?: File | string;
+  brandId?: number;
 }
 
 export enum CategoryType {

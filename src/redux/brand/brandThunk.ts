@@ -14,7 +14,7 @@ export const getAllBrandsThunk = async (params: ListParams, thunkAPI: any) => {
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_ALL_BRAND(optionParams));
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -30,7 +30,7 @@ export const getBrandDetailThunk = async (params: any, thunkAPI: any) => {
       const response = await axiosClient.get(`/brands/${brandId}`);
       console.log(response);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -50,7 +50,7 @@ export const createNewBrandThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(setMessageSuccess('Created new brand successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -70,7 +70,7 @@ export const updateBrandThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(setMessageSuccess('Update brand successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -100,7 +100,7 @@ export const deleteBrandThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(getAllBrands(params_callback));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
