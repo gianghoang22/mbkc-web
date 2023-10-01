@@ -21,7 +21,9 @@ interface CategoryState {
   category: Category | null;
 }
 
-const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_STORE) ? getIsEditing(StorageKeys.IS_EDIT_STORE) : false;
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_CATEGORY)
+  ? getIsEditing(StorageKeys.IS_EDIT_CATEGORY)
+  : false;
 const getCategoryTypeInStorage = getCategoryType() ? getCategoryType() : CategoryType.NORMAL;
 
 const initialState: CategoryState = {
@@ -45,11 +47,16 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     setAddCategory: (state) => {
+      console.log('add category');
+      console.log(getCategoryTypeInStorage);
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, false);
     },
     setEditCategory: (state, action) => {
+      console.log('edit category');
       state.isEditing = true;
       state.category = action.payload;
+      setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, true);
     },
     setCategoryType: (state, action) => {
       state.categoryType = action.payload;

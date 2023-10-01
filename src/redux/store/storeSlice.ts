@@ -23,7 +23,8 @@ interface StoreState {
   numberItems: number;
 }
 
-const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_STORE) ? getIsEditing(StorageKeys.IS_EDIT_STORE) : false;
+const getIsEditingInStorage =
+  getIsEditing(StorageKeys.IS_EDIT_STORE) === true ? getIsEditing(StorageKeys.IS_EDIT_STORE) : false;
 
 const initialState: StoreState = {
   isEditing: getIsEditingInStorage,

@@ -68,7 +68,8 @@ export const getIsEditing = (key: string) => {
   if (isEditing === null || isEditing === undefined) {
     return false;
   }
-  return Boolean(isEditing);
+
+  return isEditing === 'true';
 };
 
 export const getNumberInStorage = (name: string) => {

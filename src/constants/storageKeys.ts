@@ -12,6 +12,8 @@ const StorageKeys = {
 
   // handles back page
   PATH_TO_BACK: 'pathToBack',
+
+  // isEditing
   IS_EDIT_STORE: 'isEditingStore',
   IS_EDIT_CATEGORY: 'isEditingCategory',
 
