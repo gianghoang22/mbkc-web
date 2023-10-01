@@ -25,10 +25,11 @@ import {
 import { OrderSort, StoreTable } from '@types';
 import { Color, Language, PopoverType, Status } from 'common/enum';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { setEditBrand, setPathToBackBrand } from 'redux/brand/brandSlice';
+import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { StoreTableRow, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function BrandDetailPage() {
   const { id: brandId } = useParams();
@@ -43,7 +44,6 @@ function BrandDetailPage() {
 
   const { brand } = useAppSelector((state) => state.brand);
   const { stores } = useAppSelector((state) => state.store);
-  console.log(stores);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
@@ -227,7 +227,7 @@ function BrandDetailPage() {
         onDelete={handleOpenModal}
         onEdit={() => {
           navigate(PATH_ADMIN_APP.brand.newBrand);
-          dispatch(setPathToBackBrand(pathname));
+          dispatch(setRoutesToBack(pathname));
           dispatch(setEditBrand(brand));
         }}
       />

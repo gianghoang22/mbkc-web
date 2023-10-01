@@ -24,7 +24,8 @@ function CreateStorePage() {
   const { translate } = useLocales();
   const { schemaStore } = useValidationForm();
 
-  const { store, isEditing, isLoading, pathnameBack } = useAppSelector((state) => state.store);
+  const { pathnameToBack } = useAppSelector((state) => state.routes);
+  const { store, isEditing, isLoading } = useAppSelector((state) => state.store);
 
   const createStoreForm = useForm<StoreToCreate>({
     defaultValues: {
@@ -47,7 +48,7 @@ function CreateStorePage() {
   }, [storeId, navigate]);
 
   useEffect(() => {
-    if (store !== null) {
+    if (store !== null && isEditing === true) {
       reset({
         name: store?.name,
         logo: store?.logo,
@@ -75,7 +76,7 @@ function CreateStorePage() {
             brandId: store?.brand.brandId,
             storeId: store?.storeId,
           },
-          pathname: pathnameBack,
+          pathname: pathnameToBack,
           navigate,
         };
         dispatch(updateStore(paramUpdate));
@@ -86,7 +87,7 @@ function CreateStorePage() {
             brandId: store?.brand.brandId,
             storeId: store?.storeId,
           },
-          pathname: pathnameBack,
+          pathname: pathnameToBack,
           navigate,
         };
         dispatch(updateStore(paramUpdate));
@@ -116,7 +117,7 @@ function CreateStorePage() {
             <StoreForm />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
-            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameBack)}>
+            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
               {translate('button.back')}
             </Button>
             <Stack direction="row" gap={1.5}>

@@ -8,10 +8,11 @@ import { Brand } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { deleteBrand, getBrandDetail, setEditBrand, setPathToBackBrand } from 'redux/brand/brandSlice';
+import { deleteBrand, getBrandDetail, setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { getStoresByBrand } from 'redux/store/storeSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 interface BrandTableRowProps {
   index: number;
@@ -41,7 +42,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
 
   const handleEdit = () => {
     navigate(PATH_ADMIN_APP.brand.root + `/update/${brand.brandId}`);
-    dispatch(setPathToBackBrand(pathname));
+    dispatch(setRoutesToBack(pathname));
     dispatch(setEditBrand(brand));
   };
 

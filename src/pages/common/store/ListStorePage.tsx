@@ -2,32 +2,20 @@
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { ListParams, OrderSort, Store, StoreTable } from '@types';
 import { Role } from 'common/enum';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { Typography } from '@mui/material';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 // ----------------------------------------------------------------------
 
@@ -102,6 +90,7 @@ function ListStorePage() {
                     variant="contained"
                     onClick={() => {
                       navigate(PATH_ADMIN_APP.store.newStore);
+                      dispatch(setRoutesToBack(pathname));
                       dispatch(setAddStore());
                     }}
                     startIcon={<AddRoundedIcon />}
@@ -145,16 +134,7 @@ function ListStorePage() {
                           />
                         );
                       })}
-                      {emptyRows > 0 && (
-                        <TableRow>
-                          <TableCell colSpan={storeHeadCells.length + 2} height={365}>
-                            <Stack direction="column" alignItems="center" gap={2}>
-                              <img src="/assets/illustrations/illustration_empty_content.svg" alt="empty" />
-                              <Typography variant="h6">{translate('page.content.empty')}</Typography>
-                            </Stack>
-                          </TableCell>
-                        </TableRow>
-                      )}
+                      {emptyRows > 0 && <EmptyTable colNumber={storeHeadCells.length} />}
                     </TableBody>
                   )}
 

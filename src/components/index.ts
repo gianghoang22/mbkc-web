@@ -13,6 +13,7 @@ export { default as ScrollToTop } from './scroll-to-top/ScrollToTop';
 export { default as Scrollbar } from './scrollbar/Scrollbar';
 export { default as CommonTableHead } from './table/CommonTableHead';
 export { default as SearchNotFound } from './table/SearchNotFound';
+export { default as EmptyTable } from './table/EmptyTable';
 export { default as UploadAvatar } from './upload/UploadAvatar';
 //form
 export { default as AutoCompleteField } from './form/AutoCompleteField';

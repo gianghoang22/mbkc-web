@@ -4,12 +4,12 @@ import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
 export const getAllCategoriesThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_CATEGORY);
+      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_CATEGORY(optionParams));
       console.log(response);
       return response;
     } catch (error) {

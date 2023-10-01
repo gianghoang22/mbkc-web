@@ -1,38 +1,30 @@
-import { useMemo, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
-import { getCategoryDetail_local, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
+import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { getAllCategories, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
+import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function ListCategoryPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { pathname } = useLocation();
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { categories } = useAppSelector((state) => state.category);
+  const { categories, isLoading } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
@@ -42,11 +34,6 @@ function ListCategoryPage() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (category: Category, categoryId: number) => {
-    navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail_local(category));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,11 +52,29 @@ function ListCategoryPage() {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        type: CategoryType.NORMAL,
+        pageSize: rowsPerPage,
+        pageNumber: page + 1,
+        keySearchName: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllCategories(params));
+  }, [params]);
+
   return (
     <>
       <Page
-        title="List Category"
         pathname={pathname}
+        title={translate('page.title.list', { model: translate('model.lowercase.normalCategory') })}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
           <Button
@@ -78,10 +83,11 @@ function ListCategoryPage() {
             onClick={() => {
               navigate(PATH_BRAND_APP.category.newCategory);
               dispatch(setCategoryType(CategoryType.NORMAL));
+              dispatch(setRoutesToBack(pathname));
               dispatch(setAddCategory());
             }}
           >
-            Add categories
+            {translate('button.add', { model: translate('model.lowercase.normalCategory') })}
           </Button>,
         ]}
       >
@@ -98,28 +104,23 @@ function ListCategoryPage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((category, index) => {
-                      return (
-                        <CategoryTableRow
-                          key={category.categoryId}
-                          index={index}
-                          category={category}
-                          categoryType={CategoryType.NORMAL}
-                          handleNavigateDetail={handleNavigateDetail}
-                        />
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={categoryHeadCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
+                  {isLoading ? (
+                    <CategoryTableRowSkeleton length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((category, index) => {
+                        return (
+                          <CategoryTableRow
+                            key={category.categoryId}
+                            index={index}
+                            category={category}
+                            categoryType={CategoryType.NORMAL}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 && <EmptyTable colNumber={categoryHeadCells.length} />}
+                    </TableBody>
+                  )}
                   {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>

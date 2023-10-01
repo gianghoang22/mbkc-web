@@ -1,17 +1,15 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //
-import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
-import { CommonTableHead, SearchNotFound } from 'components';
+import { CategoryTable, CategoryType, OrderSort } from '@types';
+import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useModal, usePagination } from 'hooks';
-import { getCategoryDetail_local } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import AddExtraToCategory from './AddExtraToCategory';
+import AddExtraToCategory from './AddExtraToCategoryModal';
 
 function CategoryTableTab() {
   const navigate = useNavigate();
@@ -31,11 +29,6 @@ function CategoryTableTab() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (category: Category, categoryId: number) => {
-    navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail_local(category));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,19 +74,10 @@ function CategoryTableTab() {
                     index={index}
                     category={category}
                     categoryType={CategoryType.NORMAL}
-                    handleNavigateDetail={handleNavigateDetail}
                   />
                 );
               })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={categoryHeadCells.length} />
-                </TableRow>
-              )}
+              {emptyRows > 0 && <EmptyTable colNumber={categoryHeadCells.length} />}
             </TableBody>
             {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
           </Table>

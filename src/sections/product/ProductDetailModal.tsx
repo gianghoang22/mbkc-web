@@ -6,7 +6,7 @@ import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typograph
 import { Product } from '@types';
 import { Color, Status } from 'common/enum';
 import { ContentLabel, ContentSpace, Popover } from 'components';
-import { usePopover } from 'hooks';
+import { useLocales, usePopover } from 'hooks';
 
 interface ProductDetailModalProps {
   isOpen: boolean;
@@ -15,6 +15,7 @@ interface ProductDetailModalProps {
 }
 
 function ProductDetailModal({ isOpen, handleOpen, product }: ProductDetailModalProps) {
+  const { translate } = useLocales();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   return (
@@ -69,8 +70,20 @@ function ProductDetailModal({ isOpen, handleOpen, product }: ProductDetailModalP
                     <ContentLabel title="Type" color={Color.INFO} content={product.type} />
                     <ContentLabel
                       title="Status"
-                      color={(product.status === 0 && Color.ERROR) || Color.SUCCESS}
-                      content={product.status === 0 ? Status.INACTIVE : Status.ACTIVE}
+                      color={
+                        product?.status === Status.ACTIVE
+                          ? Color.SUCCESS
+                          : product?.status === Status.INACTIVE
+                          ? Color.WARNING
+                          : Color.ERROR
+                      }
+                      content={
+                        product?.status === Status.INACTIVE
+                          ? translate('status.inactive')
+                          : product?.status === Status.ACTIVE
+                          ? translate('status.active')
+                          : translate('status.deactive')
+                      }
                     />
                   </Stack>
                 </Grid>

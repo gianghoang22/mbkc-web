@@ -1,38 +1,29 @@
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { OrderSort, ProductTable } from '@types';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setAddProduct } from 'redux/product/productSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { ProductTableRow, ProductTableToolbar } from 'sections/product';
+import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
 
 function ListProductPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { pathname } = useLocation();
   const { productHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { products } = useAppSelector((state) => state.product);
+  const { products, isLoading } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
@@ -64,7 +55,7 @@ function ListProductPage() {
     <>
       <Page
         containerWidth="xl"
-        title="List Product"
+        title={translate('page.title.list', { model: translate('model.lowercase.product') })}
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
@@ -73,10 +64,11 @@ function ListProductPage() {
             startIcon={<AddRoundedIcon />}
             onClick={() => {
               navigate(PATH_BRAND_APP.product.newProduct);
+              dispatch(setRoutesToBack(pathname));
               dispatch(setAddProduct());
             }}
           >
-            Create product
+            {translate('button.add', { model: translate('model.lowercase.product') })}
           </Button>,
         ]}
       >
@@ -87,25 +79,22 @@ function ListProductPage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<ProductTable>
+                    showAction
                     headCells={productHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((product, index) => {
-                      return <ProductTableRow index={index} product={product} />;
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={productHeadCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
+                  {isLoading ? (
+                    <ProductTableRowSkeleton length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((product, index) => {
+                        return <ProductTableRow index={index} product={product} />;
+                      })}
+                      {emptyRows > 0 && <EmptyTable colNumber={productHeadCells.length} />}
+                    </TableBody>
+                  )}
                   {isNotFound && <SearchNotFound colNumber={productHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>

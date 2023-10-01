@@ -18,9 +18,14 @@
   "type": "Type",
   "historicalPrice": "Historical price",
   "code": "Code",
+  "description": "Description",
+  "displayOrder": "Display order",
   "lowercase": {
     "address": "address",
     "email": "email",
-    "code": "code"
+    "code": "code",
+    "type": "type",
+    "description": "description",
+    "displayOrder": "display order"
   }
 }

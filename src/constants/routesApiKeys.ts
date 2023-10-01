@@ -65,7 +65,14 @@ export const RoutesApiKeys = {
 
   // category
   CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
-  GET_ALL_CATEGORY: pathRoot(ROOTS_CATEGORY),
+  GET_ALL_CATEGORY: ({ type = '', keySearchName = '', pageNumber = '', pageSize = '' }: OptionParams) =>
+    path(ROOTS_CATEGORY, `?type=${type}&keySearchName=${keySearchName}&pageNumber=${pageNumber}&pageSize=${pageSize}`),
+  GET_EXTRA_CATEGORY_OF_CATEGORY: ({ categoryId, keySearchName = '', pageNumber = '', pageSize = '' }: any) =>
+    path(
+      ROOTS_CATEGORY,
+      `/${categoryId}/extra-categories?keySearchName=${keySearchName}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+    ),
+  ADD_EXTRA_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}/add-extra-category`),
   GET_CATEGORY_DETAIL: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
   UPDATE_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
   DELETE_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),

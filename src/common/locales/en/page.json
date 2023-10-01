@@ -16,7 +16,10 @@
     "empty": "Empty",
     "notFound": "Not found",
     "noResult": "No results found for",
-    "tryAgain": "Try checking for typos or using complete words."
+    "tryAgain": "Try checking for typos or using complete words.",
+    "productInCategory": "{{model}} in the {{name}}",
+    "extraInCategory": "Extra list in category",
+    "selected": "Selected"
   },
   "form": {
     "email": "Email",

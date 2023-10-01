@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Category, CategoryType } from '@types';
+import { StorageKeys } from 'constants/storageKeys';
 import productCategories from 'mock/productCategory';
+import { getCategoryType, getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewCategoryThunk,
   deleteCategoryThunk,
@@ -19,12 +21,17 @@ interface CategoryState {
   category: Category | null;
 }
 
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_CATEGORY)
+  ? getIsEditing(StorageKeys.IS_EDIT_CATEGORY)
+  : false;
+const getCategoryTypeInStorage = getCategoryType() ? getCategoryType() : CategoryType.NORMAL;
+
 const initialState: CategoryState = {
-  isEditing: false,
+  isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
-  categoryType: CategoryType.NORMAL,
+  categoryType: getCategoryTypeInStorage,
   categories: productCategories,
   category: null,
 };
@@ -40,14 +47,20 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     setAddCategory: (state) => {
+      console.log('add category');
+      console.log(getCategoryTypeInStorage);
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, false);
     },
     setEditCategory: (state, action) => {
+      console.log('edit category');
       state.isEditing = true;
       state.category = action.payload;
+      setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, true);
     },
     setCategoryType: (state, action) => {
       state.categoryType = action.payload;
+      setLocalStorage(StorageKeys.CATEGORY_TYPE, action.payload);
     },
     getCategoryDetail_local: (state, action) => {
       console.log(action);

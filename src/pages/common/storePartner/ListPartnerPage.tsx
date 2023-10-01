@@ -2,37 +2,24 @@
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { Stack } from '@mui/material';
 import { ListParams, OrderSort, PartnerTable } from '@types';
 import { Role } from 'common/enum';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 import {
   CreatePartnerModal,
   PartnerTableRow,
   PartnerTableRowSkeleton,
   PartnerTableToolbar,
 } from 'sections/storePartner';
+import { getComparator, stableSort } from 'utils';
 
 // ----------------------------------------------------------------------
 
@@ -141,16 +128,7 @@ function ListPartnerPage() {
                           />
                         );
                       })}
-                      {emptyRows > 0 && (
-                        <TableRow>
-                          <TableCell colSpan={partnerHeadCells.length + 2} height={365}>
-                            <Stack direction="column" alignItems="center" gap={2}>
-                              <img src="/assets/illustrations/illustration_empty_content.svg" alt="empty" />
-                              <Typography variant="h6">{translate('page.content.empty')}</Typography>
-                            </Stack>
-                          </TableCell>
-                        </TableRow>
-                      )}
+                      {emptyRows > 0 && <EmptyTable colNumber={partnerHeadCells.length} />}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={partnerHeadCells.length + 2} searchQuery={filterName} />}

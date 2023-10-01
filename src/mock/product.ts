@@ -14,7 +14,7 @@ const products = [...Array(24)].map((_, index) => ({
   discountPrice: faker.number.int({ min: 10000, max: 1000000 }),
   size: 'S, M, L',
   type: sample(['father product', 'child product', 'single product', 'extra product']),
-  status: sample([0, 1]),
+  status: sample(['Active', 'Inactive', 'Deactive']),
   image: `/assets/images/avatars/avatar_${index + 1}.jpg`,
   parentProductId: sample(['Chicken', 'Noodle', 'Water']),
   category: sample(['Chicken', 'Noodle', 'Water']),

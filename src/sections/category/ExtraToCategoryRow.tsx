@@ -1,12 +1,11 @@
-import { sentenceCase } from 'change-case';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Checkbox, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Checkbox, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Category, CategoryType } from '@types';
-import { Color } from 'common/enum';
+import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
@@ -94,23 +93,31 @@ function ExtraToCategoryRow({
         </TableCell>
 
         <TableCell align="left">
-          {showAction ? (
-            <Label color={(category.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-              {sentenceCase(category?.status)}
-            </Label>
-          ) : (
-            <FormControlLabel
-              control={<Switch size="small" checked={category.status === 'inactive' ? false : true} />}
-              label={
-                <Label color={(category.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
-                  {sentenceCase(category?.status)}
-                </Label>
-              }
-            />
-          )}
+          <Label
+            color={
+              category?.status === Status.ACTIVE
+                ? Color.SUCCESS
+                : category?.status === Status.INACTIVE
+                ? Color.WARNING
+                : Color.ERROR
+            }
+          >
+            {category?.status === Status.INACTIVE
+              ? translate('status.inactive')
+              : category?.status === Status.ACTIVE
+              ? translate('status.active')
+              : translate('status.deactive')}
+          </Label>
         </TableCell>
         {!showAction && (
           <TableCell align="right">
+            <Switch
+              size="small"
+              inputProps={{ 'aria-label': 'controlled' }}
+              disabled={category.status === Status.DEACTIVE}
+              checked={category.status === Status.INACTIVE || category.status === Status.DEACTIVE ? false : true}
+              color={category?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+            />
             <IconButton color="inherit" onClick={handleOpenMenu}>
               <MoreVertIcon />
             </IconButton>

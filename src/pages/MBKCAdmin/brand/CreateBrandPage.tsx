@@ -20,7 +20,9 @@ function CreateBrandPage() {
   const dispatch = useDispatch();
   const { translate } = useLocales();
   const { schemaBrand } = useValidationForm();
-  const { isEditing, brand, pathnameBack } = useAppSelector((state) => state.brand);
+
+  const { pathnameToBack } = useAppSelector((state) => state.routes);
+  const { isEditing, brand } = useAppSelector((state) => state.brand);
 
   const createBrandForm = useForm<BrandToCreate>({
     defaultValues: {
@@ -80,7 +82,7 @@ function CreateBrandPage() {
           <BrandForm />
         </Card>
         <Stack direction="row" justifyContent="space-between" mt={12}>
-          <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameBack)}>
+          <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
             {translate('button.back')}
           </Button>
           <Stack direction="row" gap={2}>

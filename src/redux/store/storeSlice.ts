@@ -1,19 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Store } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
-import { getIsEditingStore, getPathname, setLocalStorage } from 'utils';
+import { getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewStoreThunk,
   deleteStoreThunk,
   getAllStoresThunk,
   getStoreDetailThunk,
-  getStoresByKitchenCenterThunk,
   getStoresByBrandThunk,
+  getStoresByKitchenCenterThunk,
   updateStoreThunk,
 } from './storeThunk';
 
 interface StoreState {
-  pathnameBack: string;
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
@@ -24,13 +23,10 @@ interface StoreState {
   numberItems: number;
 }
 
-const getPathnameInStorage = getPathname(StorageKeys.PATH_STORE_TO_BACK)
-  ? getPathname(StorageKeys.PATH_STORE_TO_BACK)
-  : '';
-const getIsEditingInStorage = getIsEditingStore() ? getIsEditingStore() : false;
+const getIsEditingInStorage =
+  getIsEditing(StorageKeys.IS_EDIT_STORE) === true ? getIsEditing(StorageKeys.IS_EDIT_STORE) : false;
 
 const initialState: StoreState = {
-  pathnameBack: getPathnameInStorage,
   isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
@@ -41,16 +37,16 @@ const initialState: StoreState = {
   numberItems: 5,
 };
 
-export const createNewStore = createAsyncThunk('Store/create-Store', createNewStoreThunk);
-export const getAllStores = createAsyncThunk('Store/get-all-Stores', getAllStoresThunk);
+export const createNewStore = createAsyncThunk('store/create-Store', createNewStoreThunk);
+export const getAllStores = createAsyncThunk('store/get-all-Stores', getAllStoresThunk);
 export const getStoresByKitchenCenter = createAsyncThunk(
-  'Store/get-stores-by-kitchen-center',
+  'store/get-stores-by-kitchen-center',
   getStoresByKitchenCenterThunk
 );
-export const getStoresByBrand = createAsyncThunk('brand/get-stores-by-brands', getStoresByBrandThunk);
-export const getStoreDetail = createAsyncThunk('Store/get-Store-detail', getStoreDetailThunk);
-export const updateStore = createAsyncThunk('Store/update-Store', updateStoreThunk);
-export const deleteStore = createAsyncThunk('Store/delete-Store', deleteStoreThunk);
+export const getStoresByBrand = createAsyncThunk('store/get-stores-by-brands', getStoresByBrandThunk);
+export const getStoreDetail = createAsyncThunk('store/get-Store-detail', getStoreDetailThunk);
+export const updateStore = createAsyncThunk('store/update-Store', updateStoreThunk);
+export const deleteStore = createAsyncThunk('store/delete-Store', deleteStoreThunk);
 
 const storeSlice = createSlice({
   name: 'store',
@@ -67,10 +63,6 @@ const storeSlice = createSlice({
       state.isEditing = true;
       state.store = action.payload;
       setLocalStorage(StorageKeys.IS_EDIT_STORE, true);
-    },
-    setPathToBackStore: (state, action) => {
-      state.pathnameBack = action.payload;
-      setLocalStorage(StorageKeys.PATH_STORE_TO_BACK, action.payload);
     },
   },
   extraReducers(builder) {
@@ -175,7 +167,7 @@ const storeSlice = createSlice({
   },
 });
 
-export const { getStoreDetail_local, setAddStore, setEditStore, setPathToBackStore } = storeSlice.actions;
+export const { getStoreDetail_local, setAddStore, setEditStore } = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 
 export default storeReducer;

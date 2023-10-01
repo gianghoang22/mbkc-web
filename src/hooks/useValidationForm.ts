@@ -37,6 +37,74 @@ function useValidationForm() {
       .required(translate('page.validation.select', { name: translate('model.lowercase.brand') })),
   });
 
+  const schemaCategory = yup.object({
+    name: yup.string().required(
+      translate('page.validation.required', {
+        name: translate(
+          'page.form.nameExchange',
+          currentLang.value === Language.ENGLISH
+            ? {
+                model: translate('model.lowercase.category'),
+                name: translate('page.form.nameLower'),
+              }
+            : {
+                model: translate('page.form.nameLower'),
+                name: translate('model.lowercase.category'),
+              }
+        ),
+      })
+    ),
+    code: yup.string().required(
+      translate('page.validation.required', {
+        name: translate(
+          'page.form.nameExchange',
+          currentLang.value === Language.ENGLISH
+            ? {
+                model: translate('model.lowercase.category'),
+                name: translate('page.form.codeLower'),
+              }
+            : {
+                model: translate('page.form.codeLower'),
+                name: translate('model.lowercase.category'),
+              }
+        ),
+      })
+    ),
+    type: yup.string().required(
+      translate('page.validation.select', {
+        name: translate(
+          'page.form.nameExchange',
+          currentLang.value === Language.ENGLISH
+            ? {
+                model: translate('model.lowercase.category'),
+                name: translate('table.lowercase.type'),
+              }
+            : {
+                model: translate('table.lowercase.type'),
+                name: translate('model.lowercase.category'),
+              }
+        ),
+      })
+    ),
+    displayOrder: yup
+      .number()
+      .typeError(
+        translate('page.validation.select', {
+          name: translate('table.lowercase.displayOrder'),
+        })
+      )
+      .required(
+        translate('page.validation.select', {
+          name: translate('table.lowercase.displayOrder'),
+        })
+      ),
+    description: yup.string().required(
+      translate('page.validation.required', {
+        name: translate('table.lowercase.description'),
+      })
+    ),
+  });
+
   const schemaBrand = yup.object({
     Name: yup.string().required(
       translate('page.validation.required', {
@@ -62,7 +130,7 @@ function useValidationForm() {
       .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
   });
 
-  return { schemaStore, schemaBrand };
+  return { schemaStore, schemaBrand, schemaCategory };
 }
 
 export default useValidationForm;

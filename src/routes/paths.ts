@@ -41,7 +41,6 @@ export const PATH_BRAND_APP = {
     list: path(ROOTS_BRAND_DASHBOARD, '/category/list'),
     extraList: path(ROOTS_BRAND_DASHBOARD, '/extra-category/list'),
     detailById: path(ROOTS_BRAND_DASHBOARD, '/category/detail/:id'),
-    extraDetailById: path(ROOTS_BRAND_DASHBOARD, '/extra-category/detail/:id'),
     editById: path(ROOTS_BRAND_DASHBOARD, '/category/update/:id'),
     newCategory: path(ROOTS_BRAND_DASHBOARD, '/category/create-new'),
   },

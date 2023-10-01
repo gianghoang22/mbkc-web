@@ -16,7 +16,10 @@
     "empty": "Trống",
     "notFound": "Không tìm thấy",
     "noResult": "Không tìm thấy kết quả nào cho",
-    "tryAgain": "Hãy thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh."
+    "tryAgain": "Hãy thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh.",
+    "productInCategory": "{{model}} trong {{name}}",
+    "extraInCategory": "Danh sách extra trong danh mục",
+    "selected": "Đã chọn"
   },
   "form": {
     "email": "Email",

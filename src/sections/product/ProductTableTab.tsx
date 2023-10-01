@@ -1,20 +1,21 @@
 import { useMemo, useState } from 'react';
 // @mui
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //
 import { OrderSort, ProductTable } from '@types';
-import { CommonTableHead, SearchNotFound } from 'components';
+import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { getComparator, stableSort } from 'utils';
 import ProductTableRow from './ProductTableRow';
+import ProductTableRowSkeleton from './ProductTableRowSkeleton';
 import ProductTableToolbar from './ProductTableToolbar';
 
 function ProductTableTab() {
   const { productHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { products } = useAppSelector((state) => state.product);
+  const { products, isLoading } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
@@ -56,20 +57,16 @@ function ProductTableTab() {
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
             />
-            <TableBody>
-              {visibleRows.map((product, index) => {
-                return <ProductTableRow index={index} product={product} />;
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={productHeadCells.length} />
-                </TableRow>
-              )}
-            </TableBody>
+            {isLoading ? (
+              <ProductTableRowSkeleton inTab length={visibleRows.length} />
+            ) : (
+              <TableBody>
+                {visibleRows.map((product, index) => {
+                  return <ProductTableRow key={product.productId} inTab index={index} product={product} />;
+                })}
+                {emptyRows > 0 && <EmptyTable colNumber={productHeadCells.length} />}
+              </TableBody>
+            )}
             {isNotFound && <SearchNotFound colNumber={productHeadCells.length} searchQuery={filterName} />}
           </Table>
         </TableContainer>

@@ -13,7 +13,7 @@ const productCategories = [...Array(24)].map((_, index) => ({
   description:
     ' Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt fugiat possimus laborum quisquam facilis sapiente architecto facere perspiciatis vel vitae ex repellat suscipit officia beatae, debitis blanditiis esse laudantium quod!',
   imageUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
-  status: sample(['active', 'inactive']),
+  status: sample(['Active', 'Inactive', 'Deactive']),
   brandId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
 }));
 

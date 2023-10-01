@@ -4,7 +4,6 @@ import {
   CategoryDetailPage,
   CreateCategoryPage,
   CreateProductPage,
-  ExtraCategoryDetailPage,
   ListCategoryPage,
   ListExtraCategoryPage,
   ListProductPage,
@@ -67,11 +66,6 @@ export const brandRoutes: Route[] = [
   {
     path: PATH_BRAND_APP.category.extraList,
     component: <ListExtraCategoryPage />,
-    index: false,
-  },
-  {
-    path: PATH_BRAND_APP.category.extraDetailById,
-    component: <ExtraCategoryDetailPage />,
     index: false,
   },
   {

@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
+  Button,
   Dialog,
+  DialogActions,
   DialogContent,
   Divider,
   IconButton,
@@ -12,37 +14,36 @@ import {
   Stack,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TablePagination,
-  TableRow,
   Typography,
-  DialogActions,
-  Button,
 } from '@mui/material';
 //
 import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
-import { CommonTableHead, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
+import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { getCategoryDetail_local } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
 import ExtraToCategoryRow from './ExtraToCategoryRow';
+import ExtraToCategoryRowSkeleton from './ExtraToCategoryRowSkeleton';
+import { Language } from 'common/enum';
 
-interface AddExtraToCategoryProps {
+interface AddExtraToCategoryModalProps {
   isOpen: boolean;
   handleOpen: (title: any) => void;
 }
 
-function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
+function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate, currentLang } = useLocales();
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { categories } = useAppSelector((state) => state.category);
+  const { categories, isLoading } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
@@ -110,7 +111,7 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
         <Dialog maxWidth="md" fullWidth open={isOpen} onClose={handleOpen}>
           <DialogContent sx={{ pb: 0 }}>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <Typography variant="h4">List Extra in Category</Typography>
+              <Typography variant="h4">{translate('page.content.extraInCategory')}</Typography>
 
               <IconButton onClick={handleOpen}>
                 <CloseIcon />
@@ -134,34 +135,30 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
                       onRequestSort={handleRequestSort}
                       onSelectAllClick={handleSelectAllClick}
                     />
-                    <TableBody>
-                      {visibleRows.map((category, index) => {
-                        const isItemSelected = isSelected(category.categoryId);
+                    {isLoading ? (
+                      <ExtraToCategoryRowSkeleton length={visibleRows.length} />
+                    ) : (
+                      <TableBody>
+                        {visibleRows.map((category, index) => {
+                          const isItemSelected = isSelected(category.categoryId);
 
-                        return (
-                          <ExtraToCategoryRow
-                            key={category.categoryId}
-                            showAction
-                            checkbox
-                            index={index}
-                            category={category}
-                            handleClick={handleClick}
-                            isItemSelected={isItemSelected}
-                            categoryType={CategoryType.NORMAL}
-                            handleNavigateDetail={handleNavigateDetail}
-                          />
-                        );
-                      })}
-                      {emptyRows > 0 && (
-                        <TableRow
-                          style={{
-                            height: 53 * emptyRows,
-                          }}
-                        >
-                          <TableCell colSpan={categoryHeadCells.length} />
-                        </TableRow>
-                      )}
-                    </TableBody>
+                          return (
+                            <ExtraToCategoryRow
+                              key={category.categoryId}
+                              showAction
+                              checkbox
+                              index={index}
+                              category={category}
+                              handleClick={handleClick}
+                              isItemSelected={isItemSelected}
+                              categoryType={CategoryType.EXTRA}
+                              handleNavigateDetail={handleNavigateDetail}
+                            />
+                          );
+                        })}
+                        {emptyRows > 0 && <EmptyTable colNumber={categoryHeadCells.length} />}
+                      </TableBody>
+                    )}
                     {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
                   </Table>
                 </TableContainer>
@@ -179,14 +176,20 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
           </DialogContent>
           <DialogActions>
             <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%" px={2}>
-              {selected.length > 0 && <Typography variant="subtitle1"> {selected.length} selected</Typography>}
+              {selected.length > 0 && (
+                <Typography variant="subtitle1">
+                  {currentLang.value === Language.ENGLISH
+                    ? `${selected.length + ' ' + translate('page.content.selected')}`
+                    : `${translate('page.content.selected') + ' ' + selected.length}`}
+                </Typography>
+              )}
 
               <Stack direction="row" gap={2} ml="auto">
                 <Button onClick={handleOpen} variant="text" color="secondary">
-                  Cancel
+                  {translate('button.cancel')}
                 </Button>
                 <Button onClick={handleOpen} variant="contained" autoFocus>
-                  Add
+                  {translate('button.addMore')}
                 </Button>
               </Stack>
             </Stack>
@@ -197,4 +200,4 @@ function AddExtraToCategory({ isOpen, handleOpen }: AddExtraToCategoryProps) {
   );
 }
 
-export default AddExtraToCategory;
+export default AddExtraToCategoryModal;

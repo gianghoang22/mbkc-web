@@ -8,9 +8,10 @@ import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { deleteStore, getStoreDetail, setEditStore, setPathToBackStore } from 'redux/store/storeSlice';
+import { deleteStore, getStoreDetail, setEditStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreDetailPageSkeleton } from 'sections/store';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function StoreDetailPage() {
   const { id: storeId } = useParams();
@@ -24,7 +25,8 @@ function StoreDetailPage() {
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { isLoading, store, pathnameBack } = useAppSelector((state) => state.store);
+  const { pathnameToBack } = useAppSelector((state) => state.routes);
+  const { isLoading, store } = useAppSelector((state) => state.store);
   console.log(store);
   const params = useMemo(() => {
     return {
@@ -221,7 +223,7 @@ function StoreDetailPage() {
             </Grid>
 
             <Box mt={10} textAlign="right">
-              <Button color="inherit" variant="outlined" onClick={() => navigate(pathnameBack)}>
+              <Button color="inherit" variant="outlined" onClick={() => navigate(pathnameToBack)}>
                 {translate('button.back')}
               </Button>
             </Box>
@@ -236,7 +238,7 @@ function StoreDetailPage() {
         onDelete={handleOpenModal}
         onEdit={() => {
           navigate(PATH_ADMIN_APP.store.root + `/update/${storeId}`);
-          dispatch(setPathToBackStore(pathname));
+          dispatch(setRoutesToBack(pathname));
           dispatch(setEditStore(store));
         }}
       />
