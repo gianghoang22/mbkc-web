@@ -12,7 +12,7 @@ export const getAllBankingAccountsThunk = async (params: any, thunkAPI: any) => 
       const response = await axiosClient.get(RoutesApiKeys.GET_ALL_BANKING_ACCOUNT);
       console.log(response);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -29,7 +29,7 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
       const response = await axiosClient.get(RoutesApiKeys.GET_BANKING_ACCOUNT_DETAIL(bankingAccountId));
       console.log(response);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -50,7 +50,7 @@ export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) =
         thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -73,7 +73,7 @@ export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -93,7 +93,7 @@ export const deleteBankingAccountThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);

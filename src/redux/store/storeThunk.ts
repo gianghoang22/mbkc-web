@@ -14,7 +14,7 @@ export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
     try {
       const response: ListResponse<Store> = await axiosClient.get(RoutesApiKeys.GET_ALL_STORE(optionParams));
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -32,7 +32,7 @@ export const getStoresByKitchenCenterThunk = async (params: any, thunkAPI: any) 
         RoutesApiKeys.GET_STORE_OF_KITCHEN_CENTER(kitchenCenterId)
       );
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -48,7 +48,7 @@ export const getStoresByBrandThunk = async (params: any, thunkAPI: any) => {
     try {
       const response: ListResponse<Store> = await axiosClient.get(RoutesApiKeys.GET_STORE_OF_BRAND(brandId));
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -64,7 +64,7 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
     try {
       const response: Store = await axiosClient.get(RoutesApiKeys.GET_STORE_DETAIL(storeId));
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -90,10 +90,10 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
         };
         thunkAPI.dispatch(getAllStores(params));
         navigate(PATH_ADMIN_APP.store.list);
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        thunkAPI.dispatch(setMessageSuccess('Created new store successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -134,7 +134,7 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
         thunkAPI.dispatch(setMessageSuccess('Update store successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -173,7 +173,7 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
         thunkAPI.dispatch(setMessageSuccess('Deleted store successfully'));
       }
       return response;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);

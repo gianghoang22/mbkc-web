@@ -118,7 +118,8 @@ function ListExtraCategoryPage() {
                           />
                         );
                       })}
-                      {emptyRows > 0 && <EmptyTable colNumber={categoryHeadCells.length} />}
+                      {emptyRows > 0 ||
+                        (categories.length === 0 && <EmptyTable colNumber={categoryHeadCells.length} />)}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}

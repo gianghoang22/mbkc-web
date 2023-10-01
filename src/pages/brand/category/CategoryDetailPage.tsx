@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -10,7 +10,7 @@ import { CategoryType } from '@types';
 import { Color, Language, PopoverType, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
-import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
+import { getCategoryDetail, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -34,6 +34,17 @@ function CategoryDetailPage() {
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     setActiveTab(newValue);
   };
+
+  const params = useMemo(() => {
+    return {
+      categoryId,
+      navigate,
+    };
+  }, [categoryId, navigate]);
+
+  useEffect(() => {
+    dispatch(getCategoryDetail(params));
+  }, [dispatch, navigate, params]);
 
   const handleDelete = () => {
     handleOpenModal(category?.name);
@@ -79,7 +90,7 @@ function CategoryDetailPage() {
         ]}
       >
         <Stack direction="row" alignItems="center" spacing={5} mb={10}>
-          <Card>
+          <Card sx={{ minWidth: 800 }}>
             <Stack
               direction="row"
               alignItems="center"

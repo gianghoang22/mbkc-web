@@ -54,7 +54,7 @@ export const forgotPasswordThunk = async (params: Params<EmailForm>, thunkAPI: a
       thunkAPI.dispatch(setMessageSuccess('Sent email confirmation successfully'));
     }
     return response;
-  } catch (error) {
+  } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
     thunkAPI.dispatch(setMessageError(errorMessage));
     return thunkAPI.rejectWithValue(error);
@@ -70,7 +70,7 @@ export const verifyOtpThunk = async (params: Params<VerificationForm>, thunkAPI:
       thunkAPI.dispatch(setMessageSuccess('Confirmed OTP Code Successfully.'));
     }
     return response;
-  } catch (error) {
+  } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
     thunkAPI.dispatch(setMessageError(errorMessage));
     return thunkAPI.rejectWithValue(error);
@@ -88,7 +88,7 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
       }
     }
     return response;
-  } catch (error) {
+  } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
     thunkAPI.dispatch(setMessageError(errorMessage));
     return thunkAPI.rejectWithValue(error);
@@ -101,7 +101,7 @@ export const logoutThunk = async (navigate: any, thunkAPI: any) => {
     removeUserAuth();
     removeAuthenticated();
     navigate(PATH_AUTH.login);
-  } catch (error) {
+  } catch (error: any) {
     return thunkAPI.rejectWithValue(error);
   }
 };

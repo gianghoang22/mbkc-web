@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Category, CategoryType } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
-import productCategories from 'mock/productCategory';
 import { getCategoryType, getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewCategoryThunk,
@@ -32,7 +31,7 @@ const initialState: CategoryState = {
   isError: false,
   isSuccess: false,
   categoryType: getCategoryTypeInStorage,
-  categories: productCategories,
+  categories: [],
   category: null,
 };
 
@@ -89,6 +88,7 @@ const categorySlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.categories = [...action.payload.categories];
       })
       .addCase(getAllCategories.rejected, (state, action) => {
         state.isLoading = false;
@@ -102,6 +102,7 @@ const categorySlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.category = { ...action.payload };
       })
       .addCase(getCategoryDetail.rejected, (state, action) => {
         state.isLoading = false;

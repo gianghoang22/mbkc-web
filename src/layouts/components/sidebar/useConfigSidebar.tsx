@@ -169,21 +169,6 @@ function useConfigSidebar() {
           path: PATH_ADMIN_APP.partner.list,
           icon: <HandshakeIcon fontSize="medium" />,
         },
-        {
-          title: translate('model.lowercase.category'),
-          path: PATH_BRAND_APP.category.list,
-          icon: <SummarizeIcon fontSize="medium" />,
-        },
-        {
-          title: translate('model.lowercase.extraCategory'),
-          path: PATH_BRAND_APP.category.extraList,
-          icon: <LanOutlinedIcon fontSize="medium" />,
-        },
-        {
-          title: translate('model.lowercase.product'),
-          path: PATH_BRAND_APP.product.list,
-          icon: <DinnerDiningIcon fontSize="medium" />,
-        },
       ],
     },
   ];

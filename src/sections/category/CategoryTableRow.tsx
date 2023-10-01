@@ -8,19 +8,28 @@ import { Category, CategoryType } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { getCategoryDetail_local, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
+import { deleteCategory, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch } from 'redux/configStore';
-import { PATH_BRAND_APP } from 'routes/paths';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { PATH_BRAND_APP } from 'routes/paths';
 
 interface CategoryTableRowProps {
   categoryType: CategoryType;
   category: Category;
   index: number;
   showAction?: boolean;
+  page?: number;
+  rowsPerPage?: number;
 }
 
-function CategoryTableRow({ index, category, categoryType, showAction = false }: CategoryTableRowProps) {
+function CategoryTableRow({
+  index,
+  page = 1,
+  rowsPerPage = 5,
+  category,
+  categoryType,
+  showAction = false,
+}: CategoryTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -28,10 +37,10 @@ function CategoryTableRow({ index, category, categoryType, showAction = false }:
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleNavigateDetail = (category: Category, categoryId: number) => {
+  const handleNavigateDetail = (category: Category) => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${category.categoryId}`);
     dispatch(setCategoryType(categoryType));
-    dispatch(getCategoryDetail_local(category));
+    dispatch(setRoutesToBack(pathname));
   };
 
   const handleEdit = () => {
@@ -41,7 +50,20 @@ function CategoryTableRow({ index, category, categoryType, showAction = false }:
     dispatch(setRoutesToBack(pathname));
   };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    handleOpen(category.name);
+    dispatch(
+      deleteCategory({
+        idParams: { categoryId: category.categoryId },
+        optionParams: {
+          itemsPerPage: rowsPerPage,
+          currentPage: page,
+        },
+        pathname: pathname,
+        navigate,
+      })
+    );
+  };
 
   const handleUpdateStatus = () => {
     // const paramUpdate: Params<StoreToUpdate> = {
@@ -72,21 +94,15 @@ function CategoryTableRow({ index, category, categoryType, showAction = false }:
           {index + 1}
         </TableCell>
 
-        <TableCell
-          scope="row"
-          component="th"
-          padding="none"
-          width={100}
-          onClick={() => handleNavigateDetail(category, category.categoryId)}
-        >
+        <TableCell scope="row" component="th" padding="none" width={100} onClick={() => handleNavigateDetail(category)}>
           <Avatar alt={category.name} src={category.imageUrl} />
         </TableCell>
-        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail(category, category.categoryId)}>
+        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail(category)}>
           <Typography variant="subtitle2" noWrap>
             {category.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(category, category.categoryId)}>
+        <TableCell align="left" onClick={() => handleNavigateDetail(category)}>
           {category.code}
         </TableCell>
 

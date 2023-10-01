@@ -2,7 +2,7 @@ import { CategoryType, UserAuth } from '@types';
 import { Error } from 'common/enum';
 import { StorageKeys } from 'constants/storageKeys';
 import Cookie from 'js-cookie';
-import { PATH_ERROR } from 'routes/paths';
+import { PATH_AUTH, PATH_ERROR } from 'routes/paths';
 import { Md5 } from 'ts-md5';
 
 // localstorage
@@ -107,12 +107,25 @@ export const hashPasswordMD5 = (password: string) => Md5.hashStr(password);
 
 // get API error message
 export const getErrorMessage = (error: any, navigate: any) => {
+  console.log(error);
+
+  const errorMessage = error?.response.data.Message[0].DescriptionError[0];
+  const errorStatus = error?.response.status;
+
   if (error?.code === Error.SERVER_ERROR) {
     console.log(error);
     navigate(PATH_ERROR.serverError);
-    return;
   }
-  return error?.response.data.Message[0].DescriptionError[0];
+
+  if (errorStatus === 401) {
+    navigate(PATH_AUTH.login);
+  }
+
+  if (errorStatus === 403) {
+    navigate(PATH_ERROR.noPermission);
+  }
+
+  return errorMessage;
 };
 
 // appendData
