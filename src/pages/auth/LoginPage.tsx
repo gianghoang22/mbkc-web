@@ -20,7 +20,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <Helmet title="Login" />
+      <Helmet title={translate('auth.login.title')} />
 
       {isLoading && (
         <Box sx={{ width: '100%' }}>

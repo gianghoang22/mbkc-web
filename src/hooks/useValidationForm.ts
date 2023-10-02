@@ -1,9 +1,52 @@
 import * as yup from 'yup';
 import useLocales from './useLocales';
 import { Language } from 'common/enum';
+import { ref } from 'yup';
 
 function useValidationForm() {
   const { translate, currentLang } = useLocales();
+
+  const schemaLogin = yup.object({
+    email: yup
+      .string()
+      .required(translate('page.validation.required', { name: 'email' }))
+      .email(translate('page.validation.emailFormat')),
+    password: yup.string().required(translate('page.validation.required', { name: translate('page.form.password') })),
+  });
+
+  const schemaForgotPassword = yup.object({
+    email: yup
+      .string()
+      .required(translate('page.validation.required', { name: 'Email' }))
+      .email(translate('page.validation.emailFormat')),
+  });
+
+  const schemaVerifyOtp = yup.object({
+    email: yup
+      .string()
+      .required(translate('page.validation.required', { name: 'Email' }))
+      .email(translate('page.validation.emailFormat')),
+    otpCode: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('page.form.otpCode') }))
+      .min(6, translate('page.validation.otpAlLeast'))
+      .max(6, translate('page.validation.otpMax'))
+      .matches(/^[0-9]+$/, translate('page.validation.otpMatches')),
+  });
+
+  const schemaResetPassword = yup.object({
+    email: yup
+      .string()
+      .required(translate('page.validation.required', { name: 'Email' }))
+      .email(translate('page.validation.emailFormat')),
+    newPassword: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('page.form.newPassword') })),
+    confirmPassword: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('page.form.confirmPassword') }))
+      .oneOf([ref('newPassword')], translate('page.validation.matchPassword')),
+  });
 
   const schemaStore = yup.object({
     name: yup.string().required(
@@ -130,7 +173,15 @@ function useValidationForm() {
       .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
   });
 
-  return { schemaStore, schemaBrand, schemaCategory };
+  return {
+    schemaLogin,
+    schemaForgotPassword,
+    schemaVerifyOtp,
+    schemaResetPassword,
+    schemaStore,
+    schemaBrand,
+    schemaCategory,
+  };
 }
 
 export default useValidationForm;

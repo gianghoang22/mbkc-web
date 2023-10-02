@@ -1,23 +1,23 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 // @mui
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Box, Button, Card, LinearProgress, Link as MuiLink, Stack, Typography } from '@mui/material';
 //
 import { VerificationForm } from '@types';
 import { Helmet, InputField, Logo } from 'components';
+import { useLocales, useValidationForm } from 'hooks';
 import { forgotPassword, verifyOtp } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { StyledContent, StyledRoot } from './styles';
-import { useLocales } from 'hooks';
 
 function VerificationOtpPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
+  const { schemaVerifyOtp } = useValidationForm();
 
   const { isLoading, email } = useAppSelector((state) => state.auth);
 
@@ -25,20 +25,7 @@ function VerificationOtpPage() {
     defaultValues: {
       email: email ? email : '',
     },
-    resolver: yupResolver(
-      yup.object({
-        email: yup
-          .string()
-          .required(translate('page.validation.required', { name: 'Email' }))
-          .email(translate('page.validation.emailFormat')),
-        otpCode: yup
-          .string()
-          .required(translate('page.validation.required', { name: translate('page.form.otpCode') }))
-          .min(6, translate('page.validation.otpAlLeast'))
-          .max(6, translate('page.validation.otpMax'))
-          .matches(/^[0-9]+$/, translate('page.validation.otpMatches')),
-      })
-    ),
+    resolver: yupResolver(schemaVerifyOtp),
   });
 
   const { handleSubmit } = verificationForm;
@@ -48,7 +35,6 @@ function VerificationOtpPage() {
       data: { ...values },
       navigate,
     };
-    console.log(params);
     dispatch(verifyOtp(params));
   };
 
@@ -62,7 +48,7 @@ function VerificationOtpPage() {
 
   return (
     <>
-      <Helmet title="Verification OTP" />
+      <Helmet title={translate('auth.verify.title')} />
 
       {isLoading && (
         <Box sx={{ width: '100%' }}>
