@@ -17,7 +17,7 @@ import {
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { KitchenCenter, KitchenCenterTable, ListParams, OrderSort } from '@types';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import {
@@ -141,15 +141,8 @@ function ListKitchenCenterPage(props: any) {
                           />
                         );
                       })}
-                      {emptyRows > 0 && (
-                        <TableRow
-                          style={{
-                            height: 53 * emptyRows,
-                          }}
-                        >
-                          <TableCell colSpan={kitchenCenterHeadCells.length} />
-                        </TableRow>
-                      )}
+                      {emptyRows > 0 ||
+                        (kitchenCenters.length === 0 && <EmptyTable colNumber={kitchenCenterHeadCells.length} />)}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={kitchenCenterHeadCells.length} searchQuery={filterName} />}
