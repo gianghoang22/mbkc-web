@@ -18,7 +18,7 @@ import {
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { BrandTable, OrderSort } from '@types';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -117,17 +117,17 @@ function ListBrandPage() {
                   ) : (
                     <TableBody>
                       {visibleRows.map((brand, index) => {
-                        return <BrandTableRow index={index} brand={brand} page={page} rowsPerPage={rowsPerPage} />;
+                        return (
+                          <BrandTableRow
+                            key={index}
+                            index={index}
+                            brand={brand}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                          />
+                        );
                       })}
-                      {emptyRows > 0 && (
-                        <TableRow
-                          style={{
-                            height: 53 * emptyRows,
-                          }}
-                        >
-                          <TableCell colSpan={brandHeadCells.length} />
-                        </TableRow>
-                      )}
+                      {emptyRows > 0 || (brands.length === 0 && <EmptyTable colNumber={brandHeadCells.length} />)}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={brands.length} searchQuery={filterName} />}

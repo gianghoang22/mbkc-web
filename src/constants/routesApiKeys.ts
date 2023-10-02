@@ -63,6 +63,10 @@ export const RoutesApiKeys = {
       `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}&isGetAll=${isGetAll}`
     );
   },
+  GET_KITCHEN_CENTER_DETAIL: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
+  CREATE_KITCHEN_CENTER: pathRoot(ROOTS_KITCHEN_CENTERS),
+  UPDATE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
+  DELETE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
 
   // category
   CREATE_BRAND: pathRoot(ROOTS_BRANDS),
