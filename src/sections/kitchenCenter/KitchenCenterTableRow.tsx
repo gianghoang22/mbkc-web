@@ -1,17 +1,16 @@
 // @mui
-import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { KitchenCenter } from '@types';
-import { sentenceCase } from 'change-case';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
-import { useDispatch } from 'react-redux';
-import { deleteKitchenCenter, setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { useNavigate } from 'react-router-dom';
-import { PATH_ADMIN_APP } from 'routes/paths';
 import { useLocales, useModal, usePopover } from 'hooks';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { deleteKitchenCenter, setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface KitchenCenterTableRowProps {
   handleNavigateDetail: (kitchenCenter: KitchenCenter, kitchenCenterId: number) => void;

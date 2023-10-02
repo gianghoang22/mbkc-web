@@ -1,6 +1,6 @@
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
 import React, { useMemo, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 //mui
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -31,7 +31,6 @@ import { getComparator, stableSort } from 'utils';
 import BrandDetailPageSkeleton from './BrandDetailPageSkeleton';
 
 function BrandDetailPage() {
-  const { id: brandId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();

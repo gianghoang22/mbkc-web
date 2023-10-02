@@ -1,19 +1,16 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //
 import { CategoryTable, CategoryType, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { useAppSelector } from 'redux/configStore';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
 import AddExtraToCategory from './AddExtraToCategoryModal';
 
 function CategoryTableTab() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { categoryHeadCells } = useConfigHeadTable();
