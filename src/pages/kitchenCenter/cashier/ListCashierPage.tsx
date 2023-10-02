@@ -17,7 +17,7 @@ import {
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { CashierTable, OrderSort } from '@types';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, usePagination } from 'hooks';
 import { setAddCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -96,15 +96,7 @@ function ListCashierPage() {
                     {visibleRows.map((cashier, index) => {
                       return <CashierTableRow key={cashier.accountId} index={index} cashier={cashier} />;
                     })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={cashierHeadCells.length} />
-                      </TableRow>
-                    )}
+                    {emptyRows > 0 || (cashiers.length === 0 && <EmptyTable colNumber={cashierHeadCells.length} />)}
                   </TableBody>
                   {isNotFound && <SearchNotFound colNumber={cashierHeadCells.length} searchQuery={filterName} />}
                 </Table>
