@@ -1,36 +1,29 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 // @mui
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Box, Button, Card, LinearProgress, Link as MuiLink, Stack, Typography } from '@mui/material';
 //
 import { EmailForm } from '@types';
 import { Helmet, InputField, Logo } from 'components';
+import { useLocales, useValidationForm } from 'hooks';
 import { forgotPassword, setEmail } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { StyledContent, StyledRoot } from './styles';
-import { useLocales } from 'hooks';
 
 function ForgotPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
+  const { schemaForgotPassword } = useValidationForm();
 
   const { isLoading } = useAppSelector((state) => state.auth);
 
   const forgotPasswordForm = useForm<EmailForm>({
     defaultValues: {},
-    resolver: yupResolver(
-      yup.object({
-        email: yup
-          .string()
-          .required(translate('page.validation.required', { name: 'Email' }))
-          .email(translate('page.validation.emailFormat')),
-      })
-    ),
+    resolver: yupResolver(schemaForgotPassword),
   });
 
   const { handleSubmit } = forgotPasswordForm;
@@ -47,7 +40,7 @@ function ForgotPasswordPage() {
 
   return (
     <>
-      <Helmet title="Forgot password" />
+      <Helmet title={translate('auth.forgotPassword.title')} />
 
       {isLoading && (
         <Box sx={{ width: '100%' }}>

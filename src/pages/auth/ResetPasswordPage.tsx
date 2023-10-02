@@ -1,19 +1,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { ref } from 'yup';
 // @mui
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { Box, Button, Card, IconButton, InputAdornment, Link as MuiLink, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  IconButton,
+  InputAdornment,
+  LinearProgress,
+  Link as MuiLink,
+  Stack,
+  Typography,
+} from '@mui/material';
 //
-import { LinearProgress } from '@mui/material';
 import { ResetForm } from '@types';
 import { Helmet, InputField, Logo } from 'components';
-import { useLocales } from 'hooks';
-import { useState } from 'react';
+import { useLocales, useValidationForm } from 'hooks';
 import { resetPassword } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
@@ -24,31 +31,18 @@ function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
+  const { schemaResetPassword } = useValidationForm();
 
   const { isLoading, email } = useAppSelector((state) => state.auth);
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
 
   const resetPasswordForm = useForm<ResetForm>({
     defaultValues: {
       email: email ? email : '',
     },
-    resolver: yupResolver(
-      yup.object({
-        email: yup
-          .string()
-          .required(translate('page.validation.required', { name: 'Email' }))
-          .email(translate('page.validation.emailFormat')),
-        newPassword: yup
-          .string()
-          .required(translate('page.validation.required', { name: translate('page.form.newPassword') })),
-        confirmPassword: yup
-          .string()
-          .required(translate('page.validation.required', { name: translate('page.form.confirmPassword') }))
-          .oneOf([ref('newPassword')], translate('page.validation.matchPassword')),
-      })
-    ),
+    resolver: yupResolver(schemaResetPassword),
   });
 
   const { handleSubmit } = resetPasswordForm;
@@ -59,13 +53,12 @@ function ResetPasswordPage() {
       data: { email: values.email, newPassword: hashPassword },
       navigate,
     };
-    console.log(params);
     dispatch(resetPassword(params));
   };
 
   return (
     <>
-      <Helmet title="Reset Password" />
+      <Helmet title={translate('auth.resetPassword.title')} />
 
       {isLoading && (
         <Box sx={{ width: '100%' }}>
@@ -117,7 +110,7 @@ function ResetPasswordPage() {
                     size="large"
                     name="confirmPassword"
                     label="Confirm password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPasswordConfirm ? 'text' : 'password'}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">

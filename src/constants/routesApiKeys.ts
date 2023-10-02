@@ -1,6 +1,8 @@
 import { OptionParams } from '@types';
 import { path, pathRoot } from 'utils';
 
+const ROOTS_AUTH = '/authentications';
+const ROOTS_VERIFY = '/verifications';
 const ROOTS_KITCHEN_CENTERS = '/kitchencenters';
 const ROOTS_KITCHEN_CENTER = '/kitchencenter';
 const ROOTS_BRANDS = '/brands';
@@ -13,13 +15,22 @@ const ROOTS_PARTNER = '/partners';
 const ROOTS_BANKING_ACCOUNT = '/bankingAccounts';
 const ROOTS_TRANSACTION = '/transactions';
 
+export const ROUTES_API_AUTH = {
+  LOGIN: path(ROOTS_AUTH, `/login`),
+  REFRESH_TOKEN: path(ROOTS_AUTH, `/regeneration-tokens`),
+  RESET_PASSWORD: path(ROOTS_AUTH, `/password-resetation`),
+  FORGOT_PASSWORD: path(ROOTS_VERIFY, `/email-verification`),
+  VERIFY_OTP: path(ROOTS_VERIFY, `/otp-verification`),
+};
+
 export const RoutesApiKeys = {
   // auth
-  LOGIN: '/authentications/login',
-  REFRESH_TOKEN: '/authentications/tokens-regeneration',
-  RESET_PASSWORD: '/authentications/reset-password',
-  FORGOT_PASSWORD: '/verifications/email-verification',
-  VERIFY_OTP: '/verifications/otp-verification',
+  LOGIN: path(ROOTS_AUTH, `/login`),
+  REFRESH_TOKEN: path(ROOTS_AUTH, `/regeneration-tokens`),
+  RESET_PASSWORD: path(ROOTS_AUTH, `/password-resetation`),
+
+  FORGOT_PASSWORD: path(ROOTS_VERIFY, `/email-verification`),
+  VERIFY_OTP: path(ROOTS_VERIFY, `/otp-verification`),
 
   // kitchen center
   GET_ALL_KITCHEN_CENTER: ({

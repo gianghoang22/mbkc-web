@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 // @mui
 import { Box, IconButton, InputAdornment, Link as MuiLink, Stack } from '@mui/material';
 // @mui icon
@@ -12,7 +11,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Button } from '@mui/material';
 import { LoginForm as LoginFormType } from '@types';
 import { InputField } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useValidationForm } from 'hooks';
 import { login } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
@@ -22,24 +21,15 @@ function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
+  const { schemaLogin } = useValidationForm();
 
   const { isLoading } = useAppSelector((state) => state.auth);
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const loginForm = useForm<LoginFormType>({
     defaultValues: {},
-    resolver: yupResolver(
-      yup.object({
-        email: yup
-          .string()
-          .required(translate('page.validation.required', { name: 'Email' }))
-          .email(translate('page.validation.emailFormat')),
-        password: yup
-          .string()
-          .required(translate('page.validation.required', { name: translate('page.form.password') })),
-      })
-    ),
+    resolver: yupResolver(schemaLogin),
   });
 
   const { handleSubmit } = loginForm;
