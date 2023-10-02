@@ -6,16 +6,16 @@ import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagina
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { ListParams, OrderSort, Store, StoreTable } from '@types';
+import { ListParams, OrderSort, StoreTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 // ----------------------------------------------------------------------
 
@@ -46,20 +46,9 @@ function ListStorePage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      stableSort<Store>(stores, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, stores]
-  );
-
-  console.log(page);
-  console.log(rowsPerPage);
-  console.log(visibleRows);
+  const visibleRows = useMemo(() => stableSort(stores, getComparator(order, orderBy)), [order, orderBy, stores]);
 
   const isNotFound = !visibleRows.length && !!filterName;
 
@@ -165,7 +154,7 @@ function ListStorePage() {
                         );
                       })}
                       {emptyRows > 0 ||
-                        (stores.length === 0 && (
+                        (stores.length === 0 && !filterName && (
                           <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
                         ))}
                     </TableBody>

@@ -208,7 +208,7 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
     setHeaderAuth(accessToken);
     try {
       const response: MessageResponse = await axiosClient.delete(
-        `/brand/${idParams?.brandId}/stores/${idParams?.storeId}`
+        ROUTES_API_STORES.DELETE_STORE(idParams?.storeId ? idParams?.storeId : 0)
       );
       if (response) {
         const paramsCallback = {
