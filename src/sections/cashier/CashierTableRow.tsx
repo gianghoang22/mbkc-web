@@ -12,6 +12,7 @@ import { useLocales, useModal, usePopover } from 'hooks';
 import { getCashierDetail_local, setEditCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import CashierDetailModal from './CashierDetailModal';
 
 interface CashierTableRowProps {
   index: number;
@@ -23,13 +24,13 @@ function CashierTableRow({ cashier, index }: CashierTableRowProps) {
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
-  const { handleOpen: handleOpenDetail, isOpen: isOpenDetail } = useModal();
+  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleOpenModalDetail = () => {
-    handleOpenDetail(cashier.fullName);
-    dispatch(getCashierDetail_local(cashier));
-  };
+  // const handleOpenModalDetail = () => {
+  //   handleOpenDetail(cashier.fullName);
+  //   dispatch(getCashierDetail_local(cashier));
+  // };
 
   const handleEdit = () => {
     navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/update/${cashier.accountId}`);
@@ -60,16 +61,30 @@ function CashierTableRow({ cashier, index }: CashierTableRowProps) {
           {cashier.gender}
         </TableCell>
         <TableCell align="left">
-          <FormControlLabel
-            control={<Switch size="small" checked={cashier.status === Status.INACTIVE ? false : true} />}
-            label={
-              <Label color={(cashier.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                {sentenceCase(cashier?.status)}
-              </Label>
+          <Label
+            color={
+              cashier?.status === Status.ACTIVE
+                ? Color.SUCCESS
+                : cashier?.status === Status.INACTIVE
+                ? Color.WARNING
+                : Color.ERROR
             }
-          />
+          >
+            {cashier?.status === Status.INACTIVE
+              ? translate('status.inactive')
+              : cashier?.status === Status.ACTIVE
+              ? translate('status.active')
+              : translate('status.deactive')}
+          </Label>
         </TableCell>
         <TableCell align="right">
+          <Switch
+            size="small"
+            inputProps={{ 'aria-label': 'controlled' }}
+            disabled={cashier.status === Status.DEACTIVE}
+            checked={cashier.status === Status.INACTIVE || cashier.status === Status.DEACTIVE ? false : true}
+            color={cashier?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+          />
           <IconButton color="inherit" onClick={handleOpenMenu}>
             <MoreVertIcon />
           </IconButton>
@@ -77,6 +92,10 @@ function CashierTableRow({ cashier, index }: CashierTableRowProps) {
       </TableRow>
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+
+      {isOpenModalDetail && (
+        <CashierDetailModal isOpen={isOpenModalDetail} handleOpen={handleOpenModalDetail} cashier={cashier} />
+      )}
 
       {isOpen && (
         <ConfirmDialog
