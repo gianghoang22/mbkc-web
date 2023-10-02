@@ -51,10 +51,11 @@ function CreateKitchenCenterPage(props: any) {
       Name: values.Name,
       Address: values.Address,
       Status: 'ACTIVE',
-      NewLogo: values.Logo,
-      DeletedLogo: '/assets/images/logos/user_default.png',
+      Logo: values.Logo,
       ManagerEmail: values.ManagerEmail,
     };
+
+    console.log(updateKitchenCenterOptions);
 
     const paramsUpdate = {
       updateKitchenCenterOptions: updateKitchenCenterOptions,

@@ -135,6 +135,7 @@ function ListKitchenCenterPage(props: any) {
                       {visibleRows.map((kitchenCenter, index) => {
                         return (
                           <KitchenCenterTableRow
+                            key={index}
                             index={index}
                             kitchenCenter={kitchenCenter}
                             handleNavigateDetail={handleNavigateDetail}

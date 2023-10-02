@@ -25,8 +25,7 @@ export interface KitchenCenterToAdd {
 export interface KitchenCenterToUpdate {
   Name: string;
   Address: string;
-  NewLogo?: string;
-  DeletedLogo?: string;
+  Logo?: string;
   ManagerEmail: string;
   Status: string;
 }
