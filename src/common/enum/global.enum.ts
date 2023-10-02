@@ -2,6 +2,8 @@ export enum Status {
   ACTIVE = 'Active',
   INACTIVE = 'Inactive',
   DEACTIVE = 'Deactive',
+  BE_CONFIRMING = 'Be_confirming',
+  REJECTED = 'Rejected',
 }
 
 export enum Gender {

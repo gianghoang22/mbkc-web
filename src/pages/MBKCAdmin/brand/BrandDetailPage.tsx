@@ -3,8 +3,8 @@ import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 //mui
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DescriptionIcon from '@mui/icons-material/Description';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {
   Avatar,
   Box,
@@ -15,10 +15,8 @@ import {
   Stack,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TablePagination,
-  TableRow,
   Typography,
 } from '@mui/material';
 //
@@ -27,9 +25,9 @@ import { Color, Language, PopoverType, Status } from 'common/enum';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 import BrandDetailPageSkeleton from './BrandDetailPageSkeleton';
 
 function BrandDetailPage() {
@@ -200,10 +198,14 @@ function BrandDetailPage() {
                             index={index}
                             store={store}
                             haveKitchenCenter
+                            showEmail
                           />
                         );
                       })}
-                      {emptyRows > 0 || (stores.length === 0 && <EmptyTable colNumber={storeHeadCells.length} />)}
+                      {emptyRows > 0 ||
+                        (stores.length === 0 && (
+                          <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
+                        ))}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}

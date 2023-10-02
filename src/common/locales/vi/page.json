@@ -4,7 +4,8 @@
     "create": "Tạo mới {{model}}",
     "update": "Cập nhật {{model}}",
     "detail": "Chi tiết {{model}}",
-    "search": "Tìm kiếm {{model}}..."
+    "search": "Tìm kiếm {{model}}...",
+    "registration": "Từ chối đăng kí {{model}}"
   },
   "content": {
     "logo": "Logo",
@@ -13,7 +14,7 @@
     "dragDrop": "Kéo và thả hoặc chọn tập tin",
     "generalInformation": "Thông tin chung",
     "storeOfBrand": "Danh sách {{model}} của {{name}}",
-    "empty": "Trống",
+    "empty": "Chưa có {{model}} nào",
     "notFound": "Không tìm thấy",
     "noResult": "Không tìm thấy kết quả nào cho",
     "tryAgain": "Hãy thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh.",
@@ -33,7 +34,9 @@
     "nameExchange": "{{model}} {{name}}",
     "address": "Địa chỉ",
     "code": "Mã",
-    "codeLower": "mã"
+    "codeLower": "mã",
+    "content": "Nội dung",
+    "contentLower": "nội dung"
   },
   "validation": {
     "required": "Vui lòng nhập {{name}}",

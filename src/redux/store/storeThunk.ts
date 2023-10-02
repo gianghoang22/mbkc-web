@@ -1,8 +1,18 @@
-import { ListParams, ListResponse, MessageResponse, Params, Store, StoreToCreate, StoreToUpdate } from '@types';
+import {
+  ListParams,
+  ListResponse,
+  MessageResponse,
+  Params,
+  Store,
+  StoreToConfirm,
+  StoreToCreate,
+  StoreToUpdate,
+  StoreToUpdateStatus,
+} from '@types';
 import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
+import { ROUTES_API_STORES } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { PATH_ADMIN_APP } from 'routes/paths';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { appendData, getAccessToken, getErrorMessage } from 'utils';
 import { getAllStores, getStoreDetail } from './storeSlice';
 
@@ -12,41 +22,7 @@ export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response: ListResponse<Store> = await axiosClient.get(RoutesApiKeys.GET_ALL_STORE(optionParams));
-      return response;
-    } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate);
-      thunkAPI.dispatch(setMessageError(errorMessage));
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-};
-
-export const getStoresByKitchenCenterThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, kitchenCenterId } = params;
-  const accessToken = getAccessToken();
-  if (accessToken) {
-    setHeaderAuth(accessToken);
-    try {
-      const response: ListResponse<Store> = await axiosClient.get(
-        RoutesApiKeys.GET_STORE_OF_KITCHEN_CENTER(kitchenCenterId)
-      );
-      return response;
-    } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate);
-      thunkAPI.dispatch(setMessageError(errorMessage));
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-};
-
-export const getStoresByBrandThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, brandId } = params;
-  const accessToken = getAccessToken();
-  if (accessToken) {
-    setHeaderAuth(accessToken);
-    try {
-      const response: ListResponse<Store> = await axiosClient.get(RoutesApiKeys.GET_STORE_OF_BRAND(brandId));
+      const response: ListResponse<Store> = await axiosClient.get(ROUTES_API_STORES.GET_ALL_STORE(optionParams));
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -62,7 +38,7 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response: Store = await axiosClient.get(RoutesApiKeys.GET_STORE_DETAIL(storeId));
+      const response: Store = await axiosClient.get(ROUTES_API_STORES.GET_STORE_DETAIL(storeId));
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -79,7 +55,7 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response: MessageResponse = await axiosFormData.post(RoutesApiKeys.CREATE_STORE, formData);
+      const response: MessageResponse = await axiosFormData.post(ROUTES_API_STORES.CREATE_STORE, formData);
       if (response) {
         const params = {
           optionParams: {
@@ -89,7 +65,7 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
           navigate,
         };
         thunkAPI.dispatch(getAllStores(params));
-        navigate(PATH_ADMIN_APP.store.list);
+        navigate(PATH_BRAND_APP.store.list);
         thunkAPI.dispatch(setMessageSuccess('Created new store successfully'));
       }
       return response;
@@ -103,14 +79,15 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
 
 export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
-  const formData = appendData(data);
+  console.log(params);
+  // const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response: MessageResponse = await axiosFormData.put(
-        `/brand/${idParams?.brandId}/stores/${idParams?.storeId}`,
-        formData
+        ROUTES_API_STORES.UPDATE_STORE_INFORMATION(idParams?.storeId ? idParams?.storeId : 0),
+        data
       );
       if (response) {
         const paramsCallback = {
@@ -132,6 +109,88 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
         }
         navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
         thunkAPI.dispatch(setMessageSuccess('Update store successfully'));
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const updateStatusStoreThunk = async (params: Params<StoreToUpdateStatus>, thunkAPI: any) => {
+  const { data, idParams, pathname, optionParams, navigate } = params;
+  console.log(params);
+  // const formData = appendData(data);
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response: MessageResponse = await axiosClient.put(
+        ROUTES_API_STORES.UPDATE_STORE_STATUS(idParams?.storeId ? idParams?.storeId : 0),
+        data
+      );
+      if (response) {
+        const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage,
+            currentPage: optionParams?.currentPage,
+          },
+          navigate,
+        };
+        if (
+          pathname
+            ?.split('/')
+            .slice(2)
+            .filter((x) => x)[1] === 'detail'
+        ) {
+          await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
+        } else {
+          await thunkAPI.dispatch(getAllStores(paramsCallback));
+        }
+        navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
+        thunkAPI.dispatch(setMessageSuccess('Update store successfully'));
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfirm>, thunkAPI: any) => {
+  const { data, idParams, optionParams, pathname, navigate } = params;
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response: MessageResponse = await axiosClient.put(
+        ROUTES_API_STORES.CONFIRM_STORE_REGISTRATION(idParams?.storeId ? idParams?.storeId : 0),
+        data
+      );
+      if (response) {
+        const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          },
+          navigate,
+        };
+        if (
+          pathname
+            ?.split('/')
+            .slice(2)
+            .filter((x) => x)[1] === 'detail'
+        ) {
+          await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
+        } else {
+          await thunkAPI.dispatch(getAllStores(paramsCallback));
+        }
+        navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
+        thunkAPI.dispatch(setMessageSuccess('Confirm store successfully'));
       }
       return response;
     } catch (error: any) {

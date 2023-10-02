@@ -97,7 +97,7 @@ function useConfigHeadTable() {
       label: translate('table.manageEmail'),
       numeric: false,
       hideSortIcon: false,
-      disablePadding: true,
+      disablePadding: false,
     },
     {
       id: 'kitchenCenter',

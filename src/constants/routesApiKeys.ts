@@ -4,10 +4,8 @@ import { path, pathRoot } from 'utils';
 const ROOTS_AUTH = '/authentications';
 const ROOTS_VERIFY = '/verifications';
 const ROOTS_KITCHEN_CENTERS = '/kitchen-centers';
-const ROOTS_KITCHEN_CENTER = '/kitchen-center';
 const ROOTS_BRANDS = '/brands';
-const ROOTS_BRAND = '/brand';
-const ROOTS_STORE = '/stores';
+const ROOTS_STORES = '/stores';
 const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCT = '/products';
 const ROOTS_CASHIER = '/cashiers';
@@ -21,6 +19,27 @@ export const ROUTES_API_AUTH = {
   RESET_PASSWORD: path(ROOTS_AUTH, `/password-resetation`),
   FORGOT_PASSWORD: path(ROOTS_VERIFY, `/email-verification`),
   VERIFY_OTP: path(ROOTS_VERIFY, `/otp-verification`),
+};
+
+export const ROUTES_API_STORES = {
+  CREATE_STORE: pathRoot(ROOTS_STORES),
+  GET_ALL_STORE: ({
+    itemsPerPage = '',
+    currentPage = '',
+    searchValue = '',
+    idBrand = '',
+    idKitchenCenter = '',
+  }: OptionParams) => {
+    return path(
+      ROOTS_STORES,
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}`
+    );
+  },
+  GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
+  UPDATE_STORE_INFORMATION: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
+  UPDATE_STORE_STATUS: (storeId: number) => path(ROOTS_STORES, `/${storeId}/updating-status`),
+  CONFIRM_STORE_REGISTRATION: (storeId: number) => path(ROOTS_STORES, `/${storeId}/confirming-registration`),
+  DELETE_STORE: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
 };
 
 export const RoutesApiKeys = {
@@ -68,21 +87,13 @@ export const RoutesApiKeys = {
   UPDATE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
   DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
 
-  // store
-  CREATE_STORE: pathRoot(ROOTS_STORE),
-  GET_ALL_STORE: ({ itemsPerPage = '', currentPage = '', searchValue = '' }: OptionParams) => {
-    return path(ROOTS_STORE, `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}`);
-  },
-  GET_STORE_OF_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTER, `/${kitchenCenterId}/stores`),
-  GET_STORE_OF_BRAND: (brandId: number) => path(ROOTS_BRAND, `/${brandId}/stores`),
-  GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORE, `/${storeId}`),
-  UPDATE_STORE: (brandId: number, storeId: number) => path(ROOTS_BRAND, `/${brandId}/stores/${storeId}`),
-  DELETE_STORE: (brandId: number, storeId: number) => path(ROOTS_BRAND, `/${brandId}/stores/${storeId}`),
-
   // category
   CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
-  GET_ALL_CATEGORY: ({ type = '', keySearchName = '', pageNumber = '', pageSize = '' }: OptionParams) =>
-    path(ROOTS_CATEGORY, `?type=${type}&keySearchName=${keySearchName}&pageNumber=${pageNumber}&pageSize=${pageSize}`),
+  GET_ALL_CATEGORY: ({ type = '', keySearchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
+    path(
+      ROOTS_CATEGORY,
+      `?type=${type}&keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+    ),
   GET_EXTRA_CATEGORY_OF_CATEGORY: ({ categoryId, keySearchName = '', pageNumber = '', pageSize = '' }: any) =>
     path(
       ROOTS_CATEGORY,

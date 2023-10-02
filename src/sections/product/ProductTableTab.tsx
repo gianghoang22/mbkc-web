@@ -4,7 +4,7 @@ import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@
 //
 import { OrderSort, ProductTable } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { getComparator, stableSort } from 'utils';
 import ProductTableRow from './ProductTableRow';
@@ -12,6 +12,7 @@ import ProductTableRowSkeleton from './ProductTableRowSkeleton';
 import ProductTableToolbar from './ProductTableToolbar';
 
 function ProductTableTab() {
+  const { translate } = useLocales();
   const { productHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
@@ -64,7 +65,9 @@ function ProductTableTab() {
                 {visibleRows.map((product, index) => {
                   return <ProductTableRow key={product.productId} inTab index={index} product={product} />;
                 })}
-                {emptyRows > 0 && <EmptyTable colNumber={productHeadCells.length} />}
+                {emptyRows > 0 && (
+                  <EmptyTable colNumber={productHeadCells.length} model={translate('model.lowercase.product')} />
+                )}
               </TableBody>
             )}
             {isNotFound && <SearchNotFound colNumber={productHeadCells.length} searchQuery={filterName} />}

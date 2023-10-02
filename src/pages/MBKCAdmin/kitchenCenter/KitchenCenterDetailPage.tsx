@@ -1,11 +1,12 @@
-import React, { useMemo, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 //
-import { OrderSort, StoreTable } from '@types';
+import { ListParams, OrderSort, StoreTable } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -22,18 +23,18 @@ import {
   Stack,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TablePagination,
-  TableRow,
   Typography,
 } from '@mui/material';
 
 // @mui icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { getAllStores } from 'redux/store/storeSlice';
 import { KitchenCenterDetailPageSkeleton } from '..';
 
 function KitchenCenterDetailPage(props: any) {
+  const { id: kitchenCenterId } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -74,6 +75,24 @@ function KitchenCenterDetailPage(props: any) {
   const handleDelete = () => {
     console.log('Handel delete clicked');
   };
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+        idKitchenCenter: kitchenCenterId, // Must edit to fix brand login
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllStores(params));
+  }, [params]);
 
   return (
     <>
@@ -166,7 +185,10 @@ function KitchenCenterDetailPage(props: any) {
                             />
                           );
                         })}
-                        {emptyRows > 0 || (stores.length === 0 && <EmptyTable colNumber={storeHeadCells.length} />)}
+                        {emptyRows > 0 ||
+                          (stores.length === 0 && (
+                            <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
+                          ))}
                       </TableBody>
                     )}
                     {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}

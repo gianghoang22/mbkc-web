@@ -1,4 +1,6 @@
 {
   "confirmDeleteTitle": "Confirm Delete {{model}}",
-  "confirmDeleteContent": "You definitely want to delete {{model}} "
+  "confirmAcceptTitle": "Confirm registration {{model}}",
+  "confirmDeleteContent": "You definitely want to delete {{model}} ",
+  "confirmAcceptContent": "You want to accept {{model}} registration "
 }

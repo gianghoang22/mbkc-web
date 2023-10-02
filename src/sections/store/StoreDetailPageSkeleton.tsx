@@ -3,7 +3,7 @@ import { Divider, Grid, Skeleton, Stack } from '@mui/material';
 import { useResponsive } from 'hooks';
 
 function StoreDetailPageSkeleton() {
-  const mdSm = useResponsive('up', 'sm', 'sm');
+  const mdUp = useResponsive('up', 'lg', 'lg');
 
   return (
     <>
@@ -12,8 +12,8 @@ function StoreDetailPageSkeleton() {
           <Stack width="100%" alignItems="center" justifyContent="center">
             <Skeleton
               variant="rounded"
-              width={mdSm ? 241 : 358}
-              height={mdSm ? 241 : 358}
+              width={!mdUp ? 241 : 358}
+              height={!mdUp ? 241 : 358}
               sx={{ borderRadius: '16px' }}
             />
           </Stack>
@@ -29,14 +29,21 @@ function StoreDetailPageSkeleton() {
 
             <Divider />
 
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Skeleton width={80} />
+              <Skeleton variant="rounded" width={100} height={24} />
+            </Stack>
+
+            <Divider />
+
             <Stack direction="row" alignItems="start" gap={2}>
-              <Skeleton width={120} />
+              <Skeleton width={!mdUp ? 150 : 120} />
               <Stack direction="row" alignItems="start" gap={1}>
                 <Skeleton variant="rectangular" width={120} height={120} />
                 <Stack gap={0.5}>
-                  <Skeleton width={mdSm ? 290 : 480} />
-                  <Skeleton width={mdSm ? 290 : 480} />
-                  {mdSm && <Skeleton width={290} />}
+                  <Skeleton width={!mdUp ? 290 : 480} />
+                  <Skeleton width={!mdUp ? 290 : 480} />
+                  {!mdUp && <Skeleton width={290} />}
                 </Stack>
               </Stack>
             </Stack>
@@ -45,11 +52,11 @@ function StoreDetailPageSkeleton() {
 
             {/* Role = 'MBKC Admin' */}
             <Stack direction="row" alignItems="start" gap={2}>
-              <Skeleton width={120} />
+              <Skeleton width={!mdUp ? 150 : 120} />
               <Stack direction="row" alignItems="start" gap={1}>
                 <Skeleton variant="rectangular" width={120} height={120} />
                 <Stack gap={0.5}>
-                  <Skeleton width={mdSm ? 290 : 480} />
+                  <Skeleton width={!mdUp ? 290 : 480} />
                 </Stack>
               </Stack>
             </Stack>

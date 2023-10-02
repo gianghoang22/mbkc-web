@@ -120,7 +120,12 @@ function ListCategoryPage() {
                         );
                       })}
                       {emptyRows > 0 ||
-                        (categories.length === 0 && <EmptyTable colNumber={categoryHeadCells.length} />)}
+                        (categories.length === 0 && (
+                          <EmptyTable
+                            colNumber={categoryHeadCells.length}
+                            model={translate('model.lowercase.category')}
+                          />
+                        ))}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}

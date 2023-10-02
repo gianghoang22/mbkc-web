@@ -26,6 +26,7 @@
     "code": "mã",
     "type": "loại",
     "description": "mô tả",
-    "displayOrder": "thứ tự hiển thị"
+    "displayOrder": "thứ tự hiển thị",
+    "status": "trạng thái"
   }
 }

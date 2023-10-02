@@ -5,7 +5,7 @@ import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@
 //
 import { CategoryTable, CategoryType, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
-import { useConfigHeadTable, useModal, usePagination } from 'hooks';
+import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
@@ -14,6 +14,7 @@ import AddExtraToCategory from './AddExtraToCategoryModal';
 function CategoryTableTab() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -77,7 +78,9 @@ function CategoryTableTab() {
                   />
                 );
               })}
-              {emptyRows > 0 && <EmptyTable colNumber={categoryHeadCells.length} />}
+              {emptyRows > 0 && (
+                <EmptyTable colNumber={categoryHeadCells.length} model={translate('model.lowercase.category')} />
+              )}
             </TableBody>
             {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
           </Table>

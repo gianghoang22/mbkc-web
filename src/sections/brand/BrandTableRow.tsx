@@ -11,7 +11,6 @@ import { useLocales, useModal, usePopover } from 'hooks';
 import { deleteBrand, getBrandDetail, setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { getStoresByBrand } from 'redux/store/storeSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 interface BrandTableRowProps {
@@ -37,7 +36,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
     navigate(PATH_ADMIN_APP.brand.root + `/detail/${brandId}`);
     dispatch(getBrandDetail(params));
     console.log('id', brandId);
-    dispatch(getStoresByBrand(params));
+    // dispatch(getStoresByBrand(params));
   };
 
   const handleEdit = () => {

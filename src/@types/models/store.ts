@@ -1,3 +1,4 @@
+import { Status } from 'common/enum';
 import { Brand } from './brand';
 import { KitchenCenter } from './kitchenCenter';
 
@@ -25,3 +26,25 @@ export interface StoreToUpdate {
   logo?: File | string;
   storeManagerEmail: string;
 }
+
+export interface StoreToUpdateStatus {
+  status: string;
+}
+
+export interface StoreToConfirm {
+  status: string;
+  rejectedReason: string;
+}
+
+export const STORE_STATUS_OPTIONS = [
+  {
+    value: Status.ACTIVE,
+    label: 'Active',
+    id: 'Act',
+  },
+  {
+    value: Status.REJECTED,
+    label: 'Rejected',
+    id: 'Rej',
+  },
+];

@@ -4,7 +4,8 @@
     "create": "Create new {{model}}",
     "update": "Update {{model}}",
     "detail": "{{model}} detail",
-    "search": "Search {{model}}..."
+    "search": "Search {{model}}...",
+    "registration": "Reject registration {{model}}"
   },
   "content": {
     "logo": "Logo",
@@ -13,7 +14,7 @@
     "dragDrop": "Drag and drop or select files",
     "generalInformation": "General information",
     "storeOfBrand": "List {{model}} of {{name}}",
-    "empty": "Empty",
+    "empty": "There are no {{model}} yet",
     "notFound": "Not found",
     "noResult": "No results found for",
     "tryAgain": "Try checking for typos or using complete words.",
@@ -33,7 +34,9 @@
     "nameExchange": "{{model}} {{name}}",
     "address": "Address",
     "code": "Code",
-    "codeLower": "code"
+    "codeLower": "code",
+    "content": "Content",
+    "contentLower": "content"
   },
   "validation": {
     "required": "Please enter {{name}}",
