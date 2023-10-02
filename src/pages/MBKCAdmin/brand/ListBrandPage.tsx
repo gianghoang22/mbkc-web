@@ -117,7 +117,15 @@ function ListBrandPage() {
                   ) : (
                     <TableBody>
                       {visibleRows.map((brand, index) => {
-                        return <BrandTableRow index={index} brand={brand} page={page} rowsPerPage={rowsPerPage} />;
+                        return (
+                          <BrandTableRow
+                            key={index}
+                            index={index}
+                            brand={brand}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                          />
+                        );
                       })}
                       {emptyRows > 0 || (brands.length === 0 && <EmptyTable colNumber={brandHeadCells.length} />)}
                     </TableBody>

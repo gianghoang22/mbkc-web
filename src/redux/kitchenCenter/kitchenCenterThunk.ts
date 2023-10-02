@@ -9,11 +9,11 @@ import { getAllKitchenCenters } from './kitchenCenterSlice';
 export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
   const accessToken = getAccessToken();
-  console.log(optionParams.keySearchName);
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_ALL_KITCHEN_CENTER(optionParams));
+      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
