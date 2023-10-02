@@ -67,16 +67,32 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
           {kitchenCenter.address}
         </TableCell>
         <TableCell align="left">
-          <FormControlLabel
-            control={<Switch size="small" checked={kitchenCenter.status === Status.DEACTIVE ? false : true} />}
-            label={
-              <Label color={(kitchenCenter.status === Status.DEACTIVE && Color.ERROR) || Color.SUCCESS}>
-                {sentenceCase(kitchenCenter.status)}
-              </Label>
+          <Label
+            color={
+              kitchenCenter?.status === Status.ACTIVE
+                ? Color.SUCCESS
+                : kitchenCenter?.status === Status.INACTIVE
+                ? Color.WARNING
+                : Color.ERROR
             }
-          />
+          >
+            {kitchenCenter?.status === Status.INACTIVE
+              ? translate('status.inactive')
+              : kitchenCenter?.status === Status.ACTIVE
+              ? translate('status.active')
+              : translate('status.deactive')}
+          </Label>
         </TableCell>
         <TableCell align="right">
+          <Switch
+            size="small"
+            inputProps={{ 'aria-label': 'controlled' }}
+            disabled={kitchenCenter.status === Status.DEACTIVE}
+            checked={
+              kitchenCenter.status === Status.INACTIVE || kitchenCenter.status === Status.DEACTIVE ? false : true
+            }
+            color={kitchenCenter?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+          />
           <IconButton color="inherit" onClick={handleOpenMenu}>
             <MoreVertIcon />
           </IconButton>

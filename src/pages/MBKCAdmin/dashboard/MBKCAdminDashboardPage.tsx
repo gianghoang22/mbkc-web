@@ -21,79 +21,20 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import StoreIcon from '@mui/icons-material/Store';
 
 //
-import { BrandData, KitchenCentersData } from '@types';
 import { Color } from 'common/enum';
 import { Helmet } from 'components';
 import { Link } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { AppWidgetSummary } from 'sections/dashboard';
 import { useLocales } from 'hooks';
+import { useAppSelector } from 'redux/configStore';
 
 // ----------------------------------------------------------------------
 
-const Brandrows: BrandData[] = [
-  {
-    no: 1,
-    brand: 'Starbucks',
-    address: '123 Le Dai Hanh',
-    status: 'Active',
-  },
-  {
-    no: 1,
-    brand: 'Starbucks',
-    address: '123 Le Dai Hanh',
-    status: 'Active',
-  },
-  {
-    no: 1,
-    brand: 'Starbucks',
-    address: '123 Le Dai Hanh',
-    status: 'Active',
-  },
-  {
-    no: 1,
-    brand: 'Starbucks',
-    address: '123 Le Dai Hanh',
-    status: 'Active',
-  },
-  {
-    no: 1,
-    brand: 'Starbucks',
-    address: '123 Le Dai Hanh',
-    status: 'Active',
-  },
-];
-
-const KitchenCenters: KitchenCentersData[] = [
-  {
-    no: 1,
-    kitchenCenter: 'Vincom Dong Khoi',
-    status: 'Active',
-  },
-  {
-    no: 1,
-    kitchenCenter: 'Vincom Dong Khoi',
-    status: 'Active',
-  },
-  {
-    no: 1,
-    kitchenCenter: 'Vincom Dong Khoi',
-    status: 'Active',
-  },
-  {
-    no: 1,
-    kitchenCenter: 'Vincom Dong Khoi',
-    status: 'Active',
-  },
-  {
-    no: 1,
-    kitchenCenter: 'Vincom Dong Khoi',
-    status: 'Active',
-  },
-];
-
 function MBKCAdminDashboardPage() {
   const { translate } = useLocales();
+  const { brands } = useAppSelector((state) => state.brand);
+  const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
 
   return (
     <>
@@ -140,10 +81,11 @@ function MBKCAdminDashboardPage() {
                 fontSize: '14px',
                 fontWeight: 700,
                 lineHeight: '28px',
+                marginBottom: 10,
                 letterSpacing: '0.6px',
               }}
             >
-              Brand
+              Brands
             </Typography>
             <TableContainer component={Paper}>
               <Table aria-label="simple table">
@@ -156,16 +98,16 @@ function MBKCAdminDashboardPage() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Brandrows.map((row, index) => (
+                  {brands.map((row, index) => (
                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
-                        {row.no}
+                        {row.brandId}
                       </TableCell>
                       <TableCell>
                         <Box style={{ display: 'flex', alignItems: 'center' }}>
-                          <Avatar src="/assets/images/avatars/avatar_1.jpg" alt="logo" />
+                          <Avatar src={row.logo} alt="logo" />
                           <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 600 }}>
-                            {row.brand}
+                            {row.name}
                           </Typography>
                         </Box>
                       </TableCell>
@@ -225,6 +167,7 @@ function MBKCAdminDashboardPage() {
               style={{
                 fontSize: '14px',
                 fontWeight: 700,
+                marginBottom: 10,
                 lineHeight: '28px',
                 letterSpacing: '0.6px',
               }}
@@ -236,23 +179,25 @@ function MBKCAdminDashboardPage() {
                 <TableHead>
                   <TableRow>
                     <TableCell>No.</TableCell>
-                    <TableCell>Kitchen Center</TableCell>
+                    <TableCell>Image</TableCell>
+                    <TableCell>Name</TableCell>
                     <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {KitchenCenters.map((row, index) => (
+                  {kitchenCenters.map((row, index) => (
                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
-                        {row.no}
+                        {row.kitchenCenterId}
                       </TableCell>
                       <TableCell>
-                        <Box style={{ display: 'flex', alignItems: 'center' }}>
-                          <Avatar src="/assets/images/avatars/avatar_1.jpg" alt="logo" />
-                          <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 600 }}>
-                            {row.kitchenCenter}
-                          </Typography>
-                        </Box>
+                        <Avatar src={row.logo} alt="logo" />
+                      </TableCell>
+
+                      <TableCell>
+                        <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 600 }}>
+                          {row.name}
+                        </Typography>
                       </TableCell>
                       <TableCell>
                         <Box

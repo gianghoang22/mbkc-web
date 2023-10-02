@@ -29,7 +29,7 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
   if (accessToken) {
     axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
-      const response = await axiosClient.get(`/kitchencenters/${kitchenCenterId}`);
+      const response = await axiosClient.get(RoutesApiKeys.GET_KITCHEN_CENTER_DETAIL(kitchenCenterId));
       console.log(response);
       return response;
     } catch (error: any) {
@@ -46,7 +46,7 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
     setHeaderAuth(accessToken);
     try {
       console.log('Logo: ', params.newKitchenCenter);
-      const response = await axiosFormData.post('/kitchencenters', params.newKitchenCenter);
+      const response = await axiosFormData.post(RoutesApiKeys.CREATE_KITCHEN_CENTER, params.newKitchenCenter);
       if (response) {
         console.log(response);
         thunkAPI.dispatch(setMessageSuccess('Create kitchen center successfully'));
@@ -67,7 +67,10 @@ export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
-      const response = await axiosFormData.put(`/kitchencenters/${kitchenCenterId}`, updateKitchenCenterOptions);
+      const response = await axiosFormData.put(
+        RoutesApiKeys.UPDATE_KITCHEN_CENTER(kitchenCenterId),
+        updateKitchenCenterOptions
+      );
       if (response) {
         thunkAPI.dispatch(setMessageSuccess('Update kitchen center successfully'));
       }
@@ -97,10 +100,10 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
     axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
     try {
-      const response = await axiosClient.delete(`/kitchencenters/${kitchenCenterId}`);
+      const response = await axiosClient.delete(RoutesApiKeys.DELETE_KITCHEN_CENTER(kitchenCenterId));
       if (response) {
         thunkAPI.dispatch(getAllKitchenCenters(params_callback));
-        thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
+        thunkAPI.dispatch(setMessageSuccess('Deleted kitchen center successfully'));
       }
       console.log(response);
       return response;

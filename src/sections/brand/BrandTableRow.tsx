@@ -76,16 +76,30 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
           {brand.address}
         </TableCell>
         <TableCell align="left">
-          <FormControlLabel
-            control={<Switch size="small" checked={brand.status === Status.DEACTIVE ? false : true} />}
-            label={
-              <Label color={(brand.status === Status.DEACTIVE && Color.ERROR) || Color.SUCCESS}>
-                {brand?.status === Status.DEACTIVE ? translate('status.inactive') : translate('status.active')}
-              </Label>
+          <Label
+            color={
+              brand?.status === Status.ACTIVE
+                ? Color.SUCCESS
+                : brand?.status === Status.INACTIVE
+                ? Color.WARNING
+                : Color.ERROR
             }
-          />
+          >
+            {brand?.status === Status.INACTIVE
+              ? translate('status.inactive')
+              : brand?.status === Status.ACTIVE
+              ? translate('status.active')
+              : translate('status.deactive')}
+          </Label>
         </TableCell>
         <TableCell align="right">
+          <Switch
+            size="small"
+            inputProps={{ 'aria-label': 'controlled' }}
+            disabled={brand.status === Status.DEACTIVE}
+            checked={brand.status === Status.INACTIVE || brand.status === Status.DEACTIVE ? false : true}
+            color={brand?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+          />
           <IconButton color="inherit" onClick={handleOpenMenu}>
             <MoreVertIcon />
           </IconButton>

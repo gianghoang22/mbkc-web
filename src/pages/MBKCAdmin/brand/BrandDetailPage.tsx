@@ -1,4 +1,4 @@
-import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
+import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
 import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -27,9 +27,10 @@ import { Color, Language, PopoverType, Status } from 'common/enum';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { StoreTableRow, StoreTableToolbar } from 'sections/store';
+import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+import BrandDetailPageSkeleton from './BrandDetailPageSkeleton';
 
 function BrandDetailPage() {
   const { id: brandId } = useParams();
@@ -42,8 +43,8 @@ function BrandDetailPage() {
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { brand } = useAppSelector((state) => state.brand);
-  const { stores } = useAppSelector((state) => state.store);
+  const { brand, isLoading } = useAppSelector((state) => state.brand);
+  const { stores, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
@@ -122,31 +123,37 @@ function BrandDetailPage() {
                 <DescriptionIcon fontSize="small" />
               </Stack>
             </Stack>
-            <Stack sx={{ px: 3.5, py: 3 }}>
-              <Grid container columnSpacing={2}>
-                <Grid item md={3} sm={12}>
-                  <Stack width="100%" alignItems="center">
-                    <Avatar src={brand?.logo} alt={brand?.name} sx={{ width: 150, height: 150 }} />
-                  </Stack>
-                </Grid>
-                <Grid item md={9} sm={12}>
-                  <Stack width="100%" alignItems="start" gap={1}>
-                    <Typography variant="h5">{brand?.name}</Typography>
+            {isLoading ? (
+              <BrandDetailPageSkeleton />
+            ) : (
+              <Stack sx={{ px: 3.5, py: 3 }}>
+                <Grid container columnSpacing={2}>
+                  <Grid item md={3} sm={12}>
+                    <Stack width="100%" alignItems="center">
+                      <Avatar src={brand?.logo} alt={brand?.name} sx={{ width: 150, height: 150 }} />
+                    </Stack>
+                  </Grid>
+                  <Grid item md={9} sm={12}>
+                    <Stack width="100%" alignItems="start" gap={1}>
+                      <Typography variant="h5">{brand?.name}</Typography>
 
-                    <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">{translate('table.status')}:</Typography>
-                      <Label color={(brand?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                        {brand?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
-                      </Label>
+                      <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
+                        <Typography variant="subtitle1">{translate('table.status')}:</Typography>
+                        <Label color={(brand?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
+                          {brand?.status === Status.INACTIVE
+                            ? translate('status.inactive')
+                            : translate('status.active')}
+                        </Label>
+                      </Stack>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
+                        <Typography variant="subtitle1">{translate('table.address')}:</Typography>
+                        <Typography variant="body1">{brand?.address}</Typography>
+                      </Stack>
                     </Stack>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                      <Typography variant="subtitle1">{translate('table.address')}:</Typography>
-                      <Typography variant="body1">{brand?.address}</Typography>
-                    </Stack>
-                  </Stack>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Stack>
+              </Stack>
+            )}
           </Card>
         </Stack>
 
@@ -181,28 +188,24 @@ function BrandDetailPage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((store, index) => {
-                      return (
-                        <StoreTableRow
-                          showAction={false}
-                          key={store.storeId}
-                          index={index}
-                          store={store}
-                          haveKitchenCenter
-                        />
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={storeHeadCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
+                  {isLoadingStores ? (
+                    <StoreTableRowSkeleton haveKitchenCenter={true} length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((store, index) => {
+                        return (
+                          <StoreTableRow
+                            showAction={false}
+                            key={store.storeId}
+                            index={index}
+                            store={store}
+                            haveKitchenCenter
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 || (stores.length === 0 && <EmptyTable colNumber={storeHeadCells.length} />)}
+                    </TableBody>
+                  )}
                   {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
