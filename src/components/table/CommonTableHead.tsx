@@ -11,6 +11,7 @@ interface CommonTableHeadProps<T> {
   showAction?: boolean;
   hideKitchenCenter?: boolean;
   hideBrand?: boolean;
+  hideEmail?: boolean;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
   onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: OrderSort;
@@ -26,6 +27,7 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     showAction = false,
     hideKitchenCenter = false,
     hideBrand = false,
+    hideEmail = false,
     onSelectAllClick,
     headCells,
     order,
@@ -39,6 +41,8 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     ? headCells.filter((col) => col.id !== 'kitchenCenter')
     : hideBrand
     ? headCells.filter((col) => col.id !== 'brand')
+    : hideEmail
+    ? headCells.filter((col) => col.id !== 'storeManagerEmail')
     : headCells;
 
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {

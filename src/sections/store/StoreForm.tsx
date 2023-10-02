@@ -18,24 +18,12 @@ function StoreForm() {
   const { translate, currentLang } = useLocales();
 
   const { isEditing } = useAppSelector((state) => state.store);
-  const { isLoading: isLoadingBrand, brands } = useAppSelector((state) => state.brand);
   const { isLoading: isLoadingKitchenCenter, kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
 
   const kitchenCenterOptions = kitchenCenters.map((kitchenCenter) => ({
     label: kitchenCenter.name,
     value: kitchenCenter.kitchenCenterId,
   }));
-
-  const brandOptions = brands.map((brand) => ({
-    label: brand.name,
-    value: brand.brandId,
-  }));
-
-  const getOpObjBrand = (option: any) => {
-    if (!option) return option;
-    if (!option.value) return brandOptions.find((opt) => opt.value === option);
-    return option;
-  };
 
   const getOpObjKitchenCenter = (option: any) => {
     if (!option) return option;
@@ -107,47 +95,25 @@ function StoreForm() {
             />
             <InputField fullWidth name="storeManagerEmail" label={translate('page.form.managerEmail')} />
             {!isEditing && (
-              <Stack direction="row" spacing={3}>
-                <Stack direction="row" alignItems="start" gap={2} width="100%">
-                  {isLoadingBrand && isLoadingKitchenCenter ? (
-                    <Skeleton variant="rounded" width={352} sx={{ height: 40 }} />
-                  ) : (
-                    <AutoCompleteField
-                      options={kitchenCenterOptions}
-                      getOptionLabel={(value: any) => {
-                        return getOpObjKitchenCenter(value)?.label;
-                      }}
-                      isOptionEqualToValue={(option: any, value: any) => {
-                        if (!option) return option;
-                        return option.value === getOpObjKitchenCenter(value)?.value;
-                      }}
-                      transformValue={(opt: any) => opt.value}
-                      name="kitchenCenterId"
-                      type="text"
-                      label={translate('model.capitalizeOne.kitchenCenter')}
-                    />
-                  )}
-                </Stack>
-                <Stack direction="row" alignItems="start" gap={2} width="100%">
-                  {isLoadingBrand && isLoadingKitchenCenter ? (
-                    <Skeleton variant="rounded" width={352} sx={{ height: 40 }} />
-                  ) : (
-                    <AutoCompleteField
-                      options={brandOptions}
-                      getOptionLabel={(value: any) => {
-                        return getOpObjBrand(value)?.label;
-                      }}
-                      isOptionEqualToValue={(option: any, value: any) => {
-                        if (!option) return option;
-                        return option.value === getOpObjBrand(value)?.value;
-                      }}
-                      transformValue={(opt: any) => opt.value}
-                      name="brandId"
-                      type="text"
-                      label={translate('model.capitalizeOne.brand')}
-                    />
-                  )}
-                </Stack>
+              <Stack direction="row" alignItems="start" gap={2} width="100%">
+                {isLoadingKitchenCenter ? (
+                  <Skeleton variant="rounded" width={728} sx={{ height: 40 }} />
+                ) : (
+                  <AutoCompleteField
+                    options={kitchenCenterOptions}
+                    getOptionLabel={(value: any) => {
+                      return getOpObjKitchenCenter(value)?.label;
+                    }}
+                    isOptionEqualToValue={(option: any, value: any) => {
+                      if (!option) return option;
+                      return option.value === getOpObjKitchenCenter(value)?.value;
+                    }}
+                    transformValue={(opt: any) => opt.value}
+                    name="kitchenCenterId"
+                    type="text"
+                    label={translate('model.capitalizeOne.kitchenCenter')}
+                  />
+                )}
               </Stack>
             )}
           </Stack>

@@ -128,7 +128,9 @@ function ListPartnerPage() {
                           />
                         );
                       })}
-                      {emptyRows > 0 && <EmptyTable colNumber={partnerHeadCells.length} />}
+                      {emptyRows > 0 && (
+                        <EmptyTable colNumber={partnerHeadCells.length} model={translate('model.lowercase.partner')} />
+                      )}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={partnerHeadCells.length + 2} searchQuery={filterName} />}

@@ -8,7 +8,7 @@ import {
   ListKitchenCenterPage,
   MBKCAdminDashboardPage,
 } from 'pages/MBKCAdmin';
-import { CreateStorePage, ListPartnerPage, ListStorePage, StoreDetailPage } from 'pages/common';
+import { ListPartnerPage, ListStorePage, StoreDetailPage } from 'pages/common';
 import { ProfilePage } from 'pages/profile';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
@@ -71,16 +71,6 @@ export const adminRoutes: Route[] = [
   {
     path: PATH_ADMIN_APP.store.detailById,
     component: <StoreDetailPage />,
-    index: true,
-  },
-  {
-    path: PATH_ADMIN_APP.store.editById,
-    component: <CreateStorePage />,
-    index: true,
-  },
-  {
-    path: PATH_ADMIN_APP.store.newStore,
-    component: <CreateStorePage />,
     index: true,
   },
   {

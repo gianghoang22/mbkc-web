@@ -156,7 +156,12 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                             />
                           );
                         })}
-                        {emptyRows > 0 && <EmptyTable colNumber={categoryHeadCells.length} />}
+                        {emptyRows > 0 && (
+                          <EmptyTable
+                            colNumber={categoryHeadCells.length}
+                            model={translate('model.lowercase.extraCategory')}
+                          />
+                        )}
                       </TableBody>
                     )}
                     {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}

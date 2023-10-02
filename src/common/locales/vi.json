@@ -8,7 +8,9 @@
   "status": {
     "active": "Hoạt động",
     "inactive": "Không hoạt động",
-    "deactive": "Vô hiệu hóa"
+    "deactive": "Vô hiệu hóa",
+    "beConfirming": "Đang xác nhận",
+    "reject": "Từ chối"
   },
   "header": {
     "account": "Tài khoản",
@@ -22,6 +24,8 @@
     "updatePassword": "Cập nhật mật khẩu",
     "addMore": "Thêm",
     "add": "Thêm {{model}}",
+    "register": "Đăng kí {{model}}",
+    "registerNew": "Đăng kí",
     "create": "Tạo mới",
     "update": "Cập nhật",
     "edit": "Chỉnh sửa",
@@ -31,6 +35,7 @@
     "all": "Tất cả",
     "goHome": "Về trang chủ",
     "confirm": "Xác nhận",
+    "reject": "Từ chối",
     "reset": "Đặt lại",
     "back": "Trở lại",
     "reload": "Tải lại",

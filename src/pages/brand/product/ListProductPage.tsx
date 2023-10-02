@@ -92,7 +92,13 @@ function ListProductPage() {
                       {visibleRows.map((product, index) => {
                         return <ProductTableRow index={index} product={product} />;
                       })}
-                      {emptyRows > 0 && <EmptyTable colNumber={productHeadCells.length} />}
+                      {emptyRows > 0 ||
+                        (products.length === 0 && (
+                          <EmptyTable
+                            colNumber={productHeadCells.length}
+                            model={translate('model.lowercase.product')}
+                          />
+                        ))}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={productHeadCells.length} searchQuery={filterName} />}

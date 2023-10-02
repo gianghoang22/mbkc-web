@@ -6,12 +6,18 @@ export interface OptionParams {
   keyStatusFilter?: string | null;
   itemsPerPage?: number | null | string;
   currentPage?: number | null | string;
-  pageSize?: number | null | string;
-  pageNumber?: number | null | string;
   isGetAll?: boolean | null | string;
   type?: boolean | null | string;
+  idBrand?: null | number | string;
+  idKitchenCenter?: null | number | string;
 }
 
+export interface IdParams {
+  brandId?: number;
+  storeId?: number;
+  kitchenCenterId?: number;
+  categoryId?: number;
+}
 export interface ListParams {
   optionParams: OptionParams;
   navigate: NavigateFunction;
@@ -20,13 +26,6 @@ export interface ListParams {
 export interface OneModelParams {
   idParams: IdParams;
   navigate: NavigateFunction;
-}
-
-export interface IdParams {
-  brandId?: number;
-  storeId?: number;
-  kitchenCenterId?: number;
-  categoryId?: number;
 }
 
 export interface Params<T> {

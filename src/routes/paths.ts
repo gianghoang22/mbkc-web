@@ -20,6 +20,38 @@ export const PATH_AUTH = {
   resetPassword: path(ROOTS_AUTH, '/reset-password'),
 };
 
+export const PATH_ADMIN_APP = {
+  root: path(ROOTS_ADMIN_DASHBOARD, '/dashboard'),
+  profile: path(ROOTS_ADMIN_DASHBOARD, '/profile'),
+  information: path(ROOTS_ADMIN_DASHBOARD, '/information'),
+  kitchenCenter: {
+    root: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/list'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/detail/:id'),
+    editById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/update/:id'),
+    newKitchenCenter: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/create-new'),
+  },
+  brand: {
+    root: path(ROOTS_ADMIN_DASHBOARD, '/brand'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/brand/list'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/brand/detail/:id'),
+    editById: path(ROOTS_ADMIN_DASHBOARD, '/brand/update/:id'),
+    newBrand: path(ROOTS_ADMIN_DASHBOARD, '/brand/create-new'),
+  },
+  partner: {
+    root: path(ROOTS_ADMIN_DASHBOARD, '/partner'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/partner/list'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/partner/detail/:id'),
+    editById: path(ROOTS_ADMIN_DASHBOARD, '/partner/update/:id'),
+    newPartner: path(ROOTS_ADMIN_DASHBOARD, '/partner/create-new'),
+  },
+  store: {
+    root: path(ROOTS_ADMIN_DASHBOARD, '/store'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/store/list'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/store/detail/:id'),
+  },
+};
+
 export const PATH_BRAND_APP = {
   root: path(ROOTS_BRAND_DASHBOARD, '/dashboard'),
   profile: path(ROOTS_BRAND_DASHBOARD, '/profile'),
@@ -28,6 +60,8 @@ export const PATH_BRAND_APP = {
     root: path(ROOTS_BRAND_DASHBOARD, '/store'),
     list: path(ROOTS_BRAND_DASHBOARD, '/store/list'),
     detailById: path(ROOTS_BRAND_DASHBOARD, '/store/detail/:id'),
+    editById: path(ROOTS_ADMIN_DASHBOARD, '/store/update/:id'),
+    newStore: path(ROOTS_ADMIN_DASHBOARD, '/store/create-new'),
   },
   product: {
     root: path(ROOTS_BRAND_DASHBOARD, '/product'),
@@ -92,39 +126,5 @@ export const PATH_CASHIER_APP = {
   transaction: {
     root: path(ROOTS_CASHIER_DASHBOARD, '/transaction'),
     list: path(ROOTS_CASHIER_DASHBOARD, '/transaction/list'),
-  },
-};
-
-export const PATH_ADMIN_APP = {
-  root: path(ROOTS_ADMIN_DASHBOARD, '/dashboard'),
-  profile: path(ROOTS_ADMIN_DASHBOARD, '/profile'),
-  information: path(ROOTS_ADMIN_DASHBOARD, '/information'),
-  kitchenCenter: {
-    root: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/detail/:id'),
-    editById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/update/:id'),
-    newKitchenCenter: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/create-new'),
-  },
-  brand: {
-    root: path(ROOTS_ADMIN_DASHBOARD, '/brand'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/brand/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/brand/detail/:id'),
-    editById: path(ROOTS_ADMIN_DASHBOARD, '/brand/update/:id'),
-    newBrand: path(ROOTS_ADMIN_DASHBOARD, '/brand/create-new'),
-  },
-  partner: {
-    root: path(ROOTS_ADMIN_DASHBOARD, '/partner'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/partner/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/partner/detail/:id'),
-    editById: path(ROOTS_ADMIN_DASHBOARD, '/partner/update/:id'),
-    newPartner: path(ROOTS_ADMIN_DASHBOARD, '/partner/create-new'),
-  },
-  store: {
-    root: path(ROOTS_ADMIN_DASHBOARD, '/store'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/store/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/store/detail/:id'),
-    editById: path(ROOTS_ADMIN_DASHBOARD, '/store/update/:id'),
-    newStore: path(ROOTS_ADMIN_DASHBOARD, '/store/create-new'),
   },
 };

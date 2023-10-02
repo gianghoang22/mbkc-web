@@ -3,12 +3,12 @@ import { Store } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
 import { getIsEditing, setLocalStorage } from 'utils';
 import {
+  confirmRegistrationStoreThunk,
   createNewStoreThunk,
   deleteStoreThunk,
   getAllStoresThunk,
   getStoreDetailThunk,
-  getStoresByBrandThunk,
-  getStoresByKitchenCenterThunk,
+  updateStatusStoreThunk,
   updateStoreThunk,
 } from './storeThunk';
 
@@ -37,16 +37,16 @@ const initialState: StoreState = {
   numberItems: 5,
 };
 
-export const createNewStore = createAsyncThunk('store/create-Store', createNewStoreThunk);
-export const getAllStores = createAsyncThunk('store/get-all-Stores', getAllStoresThunk);
-export const getStoresByKitchenCenter = createAsyncThunk(
-  'store/get-stores-by-kitchen-center',
-  getStoresByKitchenCenterThunk
+export const createNewStore = createAsyncThunk('store/create-store', createNewStoreThunk);
+export const getAllStores = createAsyncThunk('store/get-allsStores', getAllStoresThunk);
+export const getStoreDetail = createAsyncThunk('store/get-store-detail', getStoreDetailThunk);
+export const updateStore = createAsyncThunk('store/update-store', updateStoreThunk);
+export const updateStatusStore = createAsyncThunk('store/update-status-store', updateStatusStoreThunk);
+export const confirmRegistrationStore = createAsyncThunk(
+  'store/confirm-registration-store',
+  confirmRegistrationStoreThunk
 );
-export const getStoresByBrand = createAsyncThunk('store/get-stores-by-brands', getStoresByBrandThunk);
-export const getStoreDetail = createAsyncThunk('store/get-Store-detail', getStoreDetailThunk);
-export const updateStore = createAsyncThunk('store/update-Store', updateStoreThunk);
-export const deleteStore = createAsyncThunk('store/delete-Store', deleteStoreThunk);
+export const deleteStore = createAsyncThunk('store/delete-store', deleteStoreThunk);
 
 const storeSlice = createSlice({
   name: 'store',
@@ -96,34 +96,6 @@ const storeSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(getStoresByKitchenCenter.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getStoresByKitchenCenter.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-        state.stores = [...action.payload?.stores];
-      })
-      .addCase(getStoresByKitchenCenter.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-      })
-      .addCase(getStoresByBrand.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getStoresByBrand.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-        state.stores = [...action.payload?.stores];
-      })
-      .addCase(getStoresByBrand.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-      })
       .addCase(getStoreDetail.pending, (state) => {
         state.isLoading = true;
       })
@@ -147,6 +119,32 @@ const storeSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(updateStore.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(updateStatusStore.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateStatusStore.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateStatusStore.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(confirmRegistrationStore.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(confirmRegistrationStore.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(confirmRegistrationStore.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

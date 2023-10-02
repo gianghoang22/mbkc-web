@@ -1,11 +1,12 @@
-import React, { useMemo, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 //
-import { OrderSort, StoreTable } from '@types';
+import { ListParams, OrderSort, StoreTable } from '@types';
 import { Color, PopoverType } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -32,8 +33,10 @@ import {
 // @mui icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { KitchenCenterDetailPageSkeleton } from '..';
+import { getAllStores } from 'redux/store/storeSlice';
 
 function KitchenCenterDetailPage(props: any) {
+  const { id: kitchenCenterId } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -45,7 +48,7 @@ function KitchenCenterDetailPage(props: any) {
 
   const { kitchenCenter, isLoading = true } = useAppSelector((state) => state.kitchenCenter);
   const { stores } = useAppSelector((state) => state.store);
-
+  console.log(stores);
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
@@ -74,6 +77,24 @@ function KitchenCenterDetailPage(props: any) {
   const handleDelete = () => {
     console.log('Handel delete clicked');
   };
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+        idKitchenCenter: kitchenCenterId, // Must edit to fix brand login
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllStores(params));
+  }, [params]);
 
   return (
     <>
@@ -160,6 +181,7 @@ function KitchenCenterDetailPage(props: any) {
                                 index={index}
                                 length={visibleRows.length}
                                 haveBrand={true}
+                                showEmail
                               />
                             );
                           })}

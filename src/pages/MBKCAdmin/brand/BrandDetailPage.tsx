@@ -190,6 +190,7 @@ function BrandDetailPage() {
                           index={index}
                           store={store}
                           haveKitchenCenter
+                          showEmail
                         />
                       );
                     })}

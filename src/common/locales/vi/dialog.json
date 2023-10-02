@@ -1,4 +1,6 @@
 {
   "confirmDeleteTitle": "Xác nhận xóa {{model}}",
-  "confirmDeleteContent": "Bạn chắc chắn muốn xóa {{model}} "
+  "confirmAcceptTitle": "Xác nhận đăng kí {{model}}",
+  "confirmDeleteContent": "Bạn chắc chắn muốn xóa {{model}}",
+  "confirmAcceptContent": "Bạn muốn chập nhận đăng ký {{model}} "
 }

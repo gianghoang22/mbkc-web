@@ -65,6 +65,11 @@ function StoreDetailPage() {
           const listAction: ReactNode[] =
             userAuth?.roleName === Role.MBKC_ADMIN && !(store?.status === Status.DEACTIVE)
               ? [
+                  <Button variant="contained" color="secondary">
+                    {translate('button.confirm')}
+                  </Button>,
+                ]
+              : [
                   <Button
                     color="inherit"
                     onClick={handleOpenMenu}
@@ -81,8 +86,7 @@ function StoreDetailPage() {
                   >
                     {translate('button.menuAction')}
                   </Button>,
-                ]
-              : [];
+                ];
           return listAction;
         }}
       >
@@ -112,21 +116,32 @@ function StoreDetailPage() {
                           ? Color.SUCCESS
                           : store?.status === Status.INACTIVE
                           ? Color.WARNING
+                          : store?.status === Status.BE_CONFIRMING
+                          ? Color.SECONDARY
                           : Color.ERROR
                       }
                     >
-                      {store?.status === Status.ACTIVE
-                        ? translate('status.active')
-                        : store?.status === Status.INACTIVE
+                      {store?.status === Status.INACTIVE
                         ? translate('status.inactive')
+                        : store?.status === Status.ACTIVE
+                        ? translate('status.active')
+                        : store?.status === Status.BE_CONFIRMING
+                        ? translate('status.beConfirming')
                         : translate('status.deactive')}
                     </Label>
                   </Stack>
 
                   <Divider />
 
+                  <Stack direction="row" justifyContent="space-between" alignItems="center">
+                    <Typography variant="subtitle1">{translate('table.manageEmail')}</Typography>
+                    <Typography variant="body1"> {store?.storeManagerEmail}</Typography>
+                  </Stack>
+
+                  <Divider />
+
                   <Stack direction="row" alignItems="start" gap={2}>
-                    <Typography variant="subtitle1" width={150}>
+                    <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
                       {translate('table.kitchenCenter')}
                     </Typography>
                     <Stack direction="row" alignItems="start" gap={1}>
@@ -153,7 +168,7 @@ function StoreDetailPage() {
 
                   {/* Role = 'MBKC Admin' */}
                   <Stack direction="row" alignItems="start" gap={2}>
-                    <Typography variant="subtitle1" width={mdSm ? 150 : 120.9}>
+                    <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
                       {translate('table.brand')}
                     </Typography>
                     <Stack direction="row" alignItems="start" gap={1}>

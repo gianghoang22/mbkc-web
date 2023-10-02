@@ -26,6 +26,7 @@
     "code": "code",
     "type": "type",
     "description": "description",
-    "displayOrder": "display order"
+    "displayOrder": "display order",
+    "status": "status"
   }
 }

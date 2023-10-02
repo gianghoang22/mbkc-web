@@ -33,7 +33,7 @@ function CreateStorePage() {
       logo: isEditing && store ? store?.logo : '',
       storeManagerEmail: isEditing && store ? store?.storeManagerEmail : '',
       kitchenCenterId: isEditing && store ? store?.kitchenCenter.kitchenCenterId : 0,
-      brandId: isEditing && store ? store?.brand.brandId : 0,
+      brandId: 1,
     },
     resolver: yupResolver(schemaStore),
   });
@@ -73,23 +73,23 @@ function CreateStorePage() {
         const paramUpdate: Params<StoreToUpdate> = {
           data: { name: data.name, status: Status.ACTIVE, logo: '', storeManagerEmail: data.storeManagerEmail },
           idParams: {
-            brandId: store?.brand.brandId,
             storeId: store?.storeId,
           },
           pathname: pathnameToBack,
           navigate,
         };
+        console.log(paramUpdate);
         dispatch(updateStore(paramUpdate));
       } else {
         const paramUpdate: Params<StoreToUpdate> = {
           data: { name: data.name, status: Status.ACTIVE, logo: data.logo, storeManagerEmail: data.storeManagerEmail },
           idParams: {
-            brandId: store?.brand.brandId,
             storeId: store?.storeId,
           },
           pathname: pathnameToBack,
           navigate,
         };
+        console.log(paramUpdate);
         dispatch(updateStore(paramUpdate));
       }
     } else {
@@ -131,7 +131,6 @@ function CreateStorePage() {
                       logo: store?.logo,
                       storeManagerEmail: store?.storeManagerEmail,
                       kitchenCenterId: store?.kitchenCenter.kitchenCenterId,
-                      brandId: store?.brand.brandId,
                     });
                   }}
                 >
