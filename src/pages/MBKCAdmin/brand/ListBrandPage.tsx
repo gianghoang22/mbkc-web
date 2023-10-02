@@ -2,18 +2,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
@@ -127,7 +116,10 @@ function ListBrandPage() {
                           />
                         );
                       })}
-                      {emptyRows > 0 || (brands.length === 0 && <EmptyTable colNumber={brandHeadCells.length} />)}
+                      {emptyRows > 0 ||
+                        (brands.length === 0 && (
+                          <EmptyTable colNumber={brandHeadCells.length} model={translate('model.lowercase.brand')} />
+                        ))}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={brands.length} searchQuery={filterName} />}

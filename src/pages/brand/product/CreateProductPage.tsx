@@ -1,23 +1,14 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { ProductSizeEnum, ProductToCreate } from '@types';
+import { ProductToCreate } from '@types';
 import { Color } from 'common/enum';
 import { Page } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductForm } from 'sections/product';
-
-enum ProductTypeEnum {
-  FATHER = 'Father',
-  CHILD = 'Child',
-  SINGLE = 'Single',
-  EXTRA = 'Extra',
-}
 
 // const schemaProduct = yup.object({
 //   name: yup.string().when('type', {

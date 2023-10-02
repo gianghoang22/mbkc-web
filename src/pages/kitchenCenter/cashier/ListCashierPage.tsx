@@ -1,24 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { CashierTable, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { setAddCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
@@ -29,6 +18,7 @@ function ListCashierPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
+  const { translate } = useLocales();
   const { cashierHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
@@ -96,7 +86,10 @@ function ListCashierPage() {
                     {visibleRows.map((cashier, index) => {
                       return <CashierTableRow key={cashier.accountId} index={index} cashier={cashier} />;
                     })}
-                    {emptyRows > 0 || (cashiers.length === 0 && <EmptyTable colNumber={cashierHeadCells.length} />)}
+                    {emptyRows > 0 ||
+                      (cashiers.length === 0 && (
+                        <EmptyTable colNumber={cashierHeadCells.length} model={translate('model.lowercase.cashier')} />
+                      ))}
                   </TableBody>
                   {isNotFound && <SearchNotFound colNumber={cashierHeadCells.length} searchQuery={filterName} />}
                 </Table>

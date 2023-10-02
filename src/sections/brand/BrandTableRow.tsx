@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
@@ -10,8 +10,8 @@ import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { deleteBrand, getBrandDetail, setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
-import { PATH_ADMIN_APP } from 'routes/paths';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface BrandTableRowProps {
   index: number;

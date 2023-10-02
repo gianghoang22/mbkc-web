@@ -7,17 +7,9 @@ import { useAppSelector } from 'redux/configStore';
 function ProductForm() {
   const { isEditing } = useAppSelector((state) => state.product);
 
-  const {
-    watch,
-    register,
-    formState: { errors },
-  } = useFormContext<ProductToCreate>();
+  const { watch } = useFormContext<ProductToCreate>();
   const productType = watch('type');
   console.log('productType', productType);
-
-  const registerOptions = {
-    name: { require: 'Please enter product name' },
-  };
 
   return (
     <Grid container columnSpacing={3}>

@@ -1,24 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { KitchenCenter, KitchenCenterTable, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import {
   getAllKitchenCenters,
@@ -37,6 +26,7 @@ function ListKitchenCenterPage(props: any) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
+  const { translate } = useLocales();
   const { kitchenCenterHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
@@ -142,7 +132,12 @@ function ListKitchenCenterPage(props: any) {
                         );
                       })}
                       {emptyRows > 0 ||
-                        (kitchenCenters.length === 0 && <EmptyTable colNumber={kitchenCenterHeadCells.length} />)}
+                        (kitchenCenters.length === 0 && (
+                          <EmptyTable
+                            colNumber={kitchenCenterHeadCells.length}
+                            model={translate('model.lowercase.store')}
+                          />
+                        ))}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={kitchenCenterHeadCells.length} searchQuery={filterName} />}

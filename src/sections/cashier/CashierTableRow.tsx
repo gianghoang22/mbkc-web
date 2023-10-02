@@ -1,7 +1,6 @@
-import { sentenceCase } from 'change-case';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
@@ -9,7 +8,7 @@ import { Cashier } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { getCashierDetail_local, setEditCashier } from 'redux/cashier/cashierSlice';
+import { setEditCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import CashierDetailModal from './CashierDetailModal';
