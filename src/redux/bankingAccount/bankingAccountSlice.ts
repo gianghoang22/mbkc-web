@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BankingAccount } from '@types';
-import { bankingAccounts } from 'mock/bankingAccount';
 import {
   createNewBankingAccountThunk,
   deleteBankingAccountThunk,
@@ -23,7 +22,7 @@ const initialState: BankingAccountState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  bankingAccounts: bankingAccounts,
+  bankingAccounts: [],
   bankingAccount: null,
 };
 
@@ -79,6 +78,7 @@ const BankingAccountSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.bankingAccounts = [...action.payload?.bankingAccounts];
       })
       .addCase(getAllBankingAccounts.rejected, (state, action) => {
         state.isLoading = false;

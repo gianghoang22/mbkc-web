@@ -25,6 +25,7 @@
   "form": {
     "email": "Email",
     "managerEmail": "Email người quản lý",
+    "numberAccount": "Số tài khoản",
     "password": "Mật khẩu",
     "newPassword": "Mật khẩu mới",
     "confirmPassword": "Xác nhận mật khẩu",

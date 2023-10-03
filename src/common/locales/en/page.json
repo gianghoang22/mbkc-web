@@ -25,6 +25,7 @@
   "form": {
     "email": "Email",
     "managerEmail": "Manager email",
+    "numberAccount": "Number Account",
     "password": "Password",
     "newPassword": "New password",
     "confirmPassword": "Confirm password",

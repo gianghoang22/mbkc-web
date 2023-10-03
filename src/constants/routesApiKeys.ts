@@ -10,7 +10,7 @@ const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCT = '/products';
 const ROOTS_CASHIER = '/cashiers';
 const ROOTS_PARTNER = '/partners';
-const ROOTS_BANKING_ACCOUNT = '/bankingAccounts';
+const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
 
 export const ROUTES_API_AUTH = {
@@ -118,19 +118,24 @@ export const RoutesApiKeys = {
   UPDATE_CASHIER: (cashierId: number) => path(ROOTS_CASHIER, `/${cashierId}`),
   DELETE_CASHIER: (cashierId: number) => path(ROOTS_CASHIER, `/${cashierId}`),
 
+  // banking account
+  GET_ALL_BANKING_ACCOUNTS: ({ itemsPerPage = '', currentPage = '', searchValue = '' }: OptionParams) => {
+    return path(
+      ROOTS_BANKING_ACCOUNTS,
+      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&`
+    );
+  },
+  GET_BANKING_ACCOUNT_DETAIL: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
+  CREATE_BANKING_ACCOUNT: pathRoot(ROOTS_BANKING_ACCOUNTS),
+  UPDATE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
+  DELETE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
+
   // partner
   CREATE_PARTNER: pathRoot(ROOTS_PARTNER),
   GET_ALL_PARTNER: pathRoot(ROOTS_PARTNER),
   GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNER, `/${partnerId}`),
   UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNER, `/${partnerId}`),
   DELETE_PARTNER: (partnerId: number) => path(ROOTS_PARTNER, `/${partnerId}`),
-
-  // banking account
-  CREATE_BANKING_ACCOUNT: pathRoot(ROOTS_BANKING_ACCOUNT),
-  GET_ALL_BANKING_ACCOUNT: pathRoot(ROOTS_BANKING_ACCOUNT),
-  GET_BANKING_ACCOUNT_DETAIL: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNT, `/${bankingAccountId}`),
-  UPDATE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNT, `/${bankingAccountId}`),
-  DELETE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNT, `/${bankingAccountId}`),
 
   // transaction
   CREATE_TRANSACTION: pathRoot(ROOTS_TRANSACTION),

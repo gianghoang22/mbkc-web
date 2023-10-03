@@ -173,6 +173,28 @@ function useValidationForm() {
       .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
   });
 
+  const schemaBankingAccount = yup.object({
+    BankName: yup.string().required(
+      translate('page.validation.required', {
+        name: translate(
+          'page.form.nameExchange',
+          currentLang.value === Language.ENGLISH
+            ? {
+                model: translate('model.lowercase.bankingAccount'),
+                name: translate('page.form.nameLower'),
+              }
+            : {
+                model: translate('page.form.nameLower'),
+                name: translate('model.lowercase.bankingAccount'),
+              }
+        ),
+      })
+    ),
+    NumberAccount: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('model.lowercase.numberAccount') })),
+  });
+
   return {
     schemaLogin,
     schemaForgotPassword,
@@ -181,6 +203,7 @@ function useValidationForm() {
     schemaStore,
     schemaBrand,
     schemaCategory,
+    schemaBankingAccount,
   };
 }
 

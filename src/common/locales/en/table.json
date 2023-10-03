@@ -28,6 +28,7 @@
     "type": "type",
     "description": "description",
     "displayOrder": "display order",
+    "numberAccount": "number account",
     "status": "status"
   }
 }

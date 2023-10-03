@@ -61,7 +61,6 @@ export const createNewBrandThunk = async (params: any, thunkAPI: any) => {
 export const updateBrandThunk = async (params: any, thunkAPI: any) => {
   const { navigate, brandId, updateBrandOptions } = params;
   const accessToken = getAccessToken();
-  // console.log(updateBrandOptions);
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
