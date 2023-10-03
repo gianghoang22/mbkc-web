@@ -8,6 +8,7 @@ export interface Store {
   status: string;
   logo: string;
   storeManagerEmail: string;
+  rejectedReason?: string | null;
   kitchenCenter: KitchenCenter;
   brand: Brand;
 }
