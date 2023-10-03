@@ -71,7 +71,12 @@ function CreateStorePage() {
     if (isEditing) {
       if (typeof values.logo === 'string') {
         const paramUpdate: Params<StoreToUpdate> = {
-          data: { name: data.name, status: Status.ACTIVE, logo: '', storeManagerEmail: data.storeManagerEmail },
+          data: {
+            name: data.name,
+            status: store?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+            logo: '',
+            storeManagerEmail: data.storeManagerEmail,
+          },
           idParams: {
             storeId: store?.storeId,
           },
@@ -82,7 +87,12 @@ function CreateStorePage() {
         dispatch(updateStore(paramUpdate));
       } else {
         const paramUpdate: Params<StoreToUpdate> = {
-          data: { name: data.name, status: Status.ACTIVE, logo: data.logo, storeManagerEmail: data.storeManagerEmail },
+          data: {
+            name: data.name,
+            status: store?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+            logo: data.logo,
+            storeManagerEmail: data.storeManagerEmail,
+          },
           idParams: {
             storeId: store?.storeId,
           },
