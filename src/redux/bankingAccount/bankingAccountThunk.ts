@@ -30,7 +30,6 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_BANKING_ACCOUNT_DETAIL(bankingAccountId));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -104,6 +103,39 @@ export const deleteBankingAccountThunk = async (params: any, thunkAPI: any) => {
       if (response) {
         thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
         thunkAPI.dispatch(setMessageSuccess('Deleted banking account successfully'));
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const updateStatusBankingAccountThunk = async (params: any, thunkAPI: any) => {
+  const { bankingAccountId, navigate, status, page, rowsPerPage } = params;
+  const options = {
+    keySearchName: '',
+    currentPage: page,
+    itemsPerPage: rowsPerPage,
+  };
+
+  const paramsCallback: ListParams = {
+    optionParams: options,
+    navigate,
+  };
+
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosClient.put(RoutesApiKeys.UPDATE_STATUS_BANKING_ACCOUNT(bankingAccountId), {
+        status: status,
+      });
+      if (response) {
+        await thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Update status banking account successfully'));
       }
       return response;
     } catch (error: any) {

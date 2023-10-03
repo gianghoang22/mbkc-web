@@ -114,3 +114,36 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
     }
   }
 };
+
+export const updateStatusKitchenCenterThunk = async (params: any, thunkAPI: any) => {
+  const { kitchenCenterId, navigate, status, page, rowsPerPage } = params;
+  const options = {
+    keySearchName: '',
+    currentPage: page,
+    itemsPerPage: rowsPerPage,
+  };
+
+  const paramsCallback: ListParams = {
+    optionParams: options,
+    navigate,
+  };
+
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosClient.put(RoutesApiKeys.UPDATE_STATUS_KITCHEN_CENTER(kitchenCenterId), {
+        status: status,
+      });
+      if (response) {
+        await thunkAPI.dispatch(getAllKitchenCenters(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Update status kitchen center successfully'));
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};

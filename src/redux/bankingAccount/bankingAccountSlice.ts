@@ -6,6 +6,7 @@ import {
   getAllBankingAccountsThunk,
   getBankingAccountDetailThunk,
   updateBankingAccountThunk,
+  updateStatusBankingAccountThunk,
 } from './bankingAccountThunk';
 
 interface BankingAccountState {
@@ -34,11 +35,15 @@ export const getAllBankingAccounts = createAsyncThunk(
   'BankingAccount/get-all-BankingAccounts',
   getAllBankingAccountsThunk
 );
-export const getBankingAccountDetail = createAsyncThunk(
-  'BankingAccount/get-BankingAccount-detail',
+export const getBankingAccountDetails = createAsyncThunk(
+  'BankingAccount/get-BankingAccount-details',
   getBankingAccountDetailThunk
 );
 export const updateBankingAccount = createAsyncThunk('BankingAccount/update-BankingAccount', updateBankingAccountThunk);
+export const updateStatusBankingAccount = createAsyncThunk(
+  'BankingAccount/update-status-BankingAccount',
+  updateStatusBankingAccountThunk
+);
 export const deleteBankingAccount = createAsyncThunk('BankingAccount/delete-BankingAccount', deleteBankingAccountThunk);
 
 const BankingAccountSlice = createSlice({
@@ -85,15 +90,16 @@ const BankingAccountSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(getBankingAccountDetail.pending, (state) => {
+      .addCase(getBankingAccountDetails.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getBankingAccountDetail.fulfilled, (state, action) => {
+      .addCase(getBankingAccountDetails.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.bankingAccount = action.payload;
       })
-      .addCase(getBankingAccountDetail.rejected, (state, action) => {
+      .addCase(getBankingAccountDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -107,6 +113,19 @@ const BankingAccountSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(updateBankingAccount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(updateStatusBankingAccount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateStatusBankingAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateStatusBankingAccount.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

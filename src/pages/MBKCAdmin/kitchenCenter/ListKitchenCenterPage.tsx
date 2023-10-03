@@ -126,6 +126,8 @@ function ListKitchenCenterPage(props: any) {
                           <KitchenCenterTableRow
                             key={index}
                             index={index}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
                             kitchenCenter={kitchenCenter}
                             handleNavigateDetail={handleNavigateDetail}
                           />

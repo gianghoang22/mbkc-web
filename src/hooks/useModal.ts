@@ -3,7 +3,7 @@ import { useState } from 'react';
 function useModal() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleOpen = (title: any) => {
+  const handleOpen = (title?: any) => {
     setIsOpen(!isOpen);
   };
 

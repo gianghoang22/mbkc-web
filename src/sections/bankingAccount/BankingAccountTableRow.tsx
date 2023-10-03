@@ -7,12 +7,15 @@ import { BankingAccount } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
+import {
+  deleteBankingAccount,
+  setEditBankingAccount,
+  updateStatusBankingAccount,
+} from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { useNavigate } from 'react-router-dom';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import BankingAccountDetailModal from './BankingAccountDetailModal';
-import { useState } from 'react';
 
 interface BankingAccountTableRowProps {
   index: number;
@@ -27,7 +30,6 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
-
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {
@@ -39,6 +41,18 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
 
   const handleDelete = () => {
     dispatch(deleteBankingAccount(deleteParams));
+  };
+
+  const handleChangeStatus = () => {
+    const updateStatusParams = {
+      bankingAccountId: bankingAccount.bankingAccountId,
+      navigate,
+      status: `${bankingAccount.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
+      page: page,
+      rowsPerPage: rowsPerPage,
+    };
+
+    dispatch(updateStatusBankingAccount(updateStatusParams));
   };
 
   return (
@@ -56,7 +70,7 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
             {bankingAccount.name}
           </Typography>
         </TableCell>
-        <TableCell align="left">
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           <Label
             color={
               bankingAccount?.status === Status.ACTIVE
@@ -75,6 +89,8 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
         </TableCell>
         <TableCell align="right">
           <Switch
+            value={bankingAccount.status}
+            onChange={handleChangeStatus}
             size="small"
             inputProps={{ 'aria-label': 'controlled' }}
             disabled={bankingAccount.status === Status.DEACTIVE}

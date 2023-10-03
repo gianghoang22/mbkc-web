@@ -8,7 +8,7 @@ import { Brand } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { deleteBrand, getBrandDetail, setEditBrand } from 'redux/brand/brandSlice';
+import { deleteBrand, getBrandDetail, setEditBrand, updateStatusBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -16,8 +16,8 @@ import { PATH_ADMIN_APP } from 'routes/paths';
 interface BrandTableRowProps {
   index: number;
   brand: Brand;
-  page?: number;
-  rowsPerPage?: number;
+  page: number;
+  rowsPerPage: number;
 }
 
 function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) {
@@ -52,6 +52,18 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
       navigate,
     };
     dispatch(deleteBrand(params));
+  };
+
+  const handleChangeStatus = () => {
+    const updateStatusParams = {
+      brandId: brand.brandId,
+      navigate,
+      status: `${brand.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
+      page: page + 1,
+      rowsPerPage: rowsPerPage,
+    };
+
+    dispatch<any>(updateStatusBrand(updateStatusParams));
   };
 
   return (
@@ -93,6 +105,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
         </TableCell>
         <TableCell align="right">
           <Switch
+            onChange={handleChangeStatus}
             size="small"
             inputProps={{ 'aria-label': 'controlled' }}
             disabled={brand.status === Status.DEACTIVE}

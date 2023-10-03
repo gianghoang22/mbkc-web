@@ -6,6 +6,7 @@ import {
   getAllKitchenCentersThunk,
   getKitchenCenterDetailThunk,
   updateKitchenCenterThunk,
+  updateStatusKitchenCenterThunk,
 } from './kitchenCenterThunk';
 import { toast } from 'react-toastify';
 
@@ -51,6 +52,11 @@ export const getKitchenCenterDetail = createAsyncThunk(
 );
 
 export const updateKitchenCenter = createAsyncThunk('kitchenCenter/update-kitchen-center', updateKitchenCenterThunk);
+
+export const updateStatusKitchenCenter = createAsyncThunk(
+  'kitchenCenter/update-status-kitchen-center',
+  updateStatusKitchenCenterThunk
+);
 
 export const deleteKitchenCenter = createAsyncThunk('kitchenCenter/delete-kitchen-center', deleteKitchenCenterThunk);
 
@@ -129,6 +135,19 @@ const kitchenCenterSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(updateKitchenCenter.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(updateStatusKitchenCenter.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateStatusKitchenCenter.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateStatusKitchenCenter.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

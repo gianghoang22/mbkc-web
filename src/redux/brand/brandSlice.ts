@@ -6,6 +6,7 @@ import {
   getAllBrandsThunk,
   getBrandDetailThunk,
   updateBrandThunk,
+  updateStatusBrandThunk,
 } from './brandThunk';
 
 interface BrandState {
@@ -30,6 +31,7 @@ export const createNewBrand = createAsyncThunk('brand/create-brand', createNewBr
 export const getAllBrands = createAsyncThunk('brand/get-all-brands', getAllBrandsThunk);
 export const getBrandDetail = createAsyncThunk('brand/get-brand-detail', getBrandDetailThunk);
 export const updateBrand = createAsyncThunk('brand/update-brand', updateBrandThunk);
+export const updateStatusBrand = createAsyncThunk('brand/update-status-brand', updateStatusBrandThunk);
 export const deleteBrand = createAsyncThunk('brand/delete-brand', deleteBrandThunk);
 
 const brandSlice = createSlice({
@@ -101,6 +103,19 @@ const brandSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(updateBrand.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(updateStatusBrand.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateStatusBrand.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateStatusBrand.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
