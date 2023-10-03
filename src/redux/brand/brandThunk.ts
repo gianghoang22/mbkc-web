@@ -106,3 +106,36 @@ export const deleteBrandThunk = async (params: any, thunkAPI: any) => {
     }
   }
 };
+
+export const updateStatusBrandThunk = async (params: any, thunkAPI: any) => {
+  const { brandId, navigate, status, page, rowsPerPage } = params;
+  const options = {
+    keySearchName: '',
+    currentPage: page,
+    itemsPerPage: rowsPerPage,
+  };
+
+  const paramsCallback: ListParams = {
+    optionParams: options,
+    navigate,
+  };
+
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosClient.put(RoutesApiKeys.UPDATE_STATUS_BRAND(brandId), {
+        status: status,
+      });
+      if (response) {
+        await thunkAPI.dispatch(getAllBrands(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Update status brand successfully'));
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};

@@ -66,6 +66,8 @@ export const RoutesApiKeys = {
   GET_KITCHEN_CENTER_DETAIL: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
   CREATE_KITCHEN_CENTER: pathRoot(ROOTS_KITCHEN_CENTERS),
   UPDATE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
+  UPDATE_STATUS_KITCHEN_CENTER: (kitchenCenterId: number) =>
+    path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}/updating-status`),
   DELETE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
 
   // category
@@ -85,6 +87,7 @@ export const RoutesApiKeys = {
 
   GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
   UPDATE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
+  UPDATE_STATUS_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}/updating-status`),
   DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
 
   // category
@@ -128,6 +131,8 @@ export const RoutesApiKeys = {
   GET_BANKING_ACCOUNT_DETAIL: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
   CREATE_BANKING_ACCOUNT: pathRoot(ROOTS_BANKING_ACCOUNTS),
   UPDATE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
+  UPDATE_STATUS_BANKING_ACCOUNT: (bankingAccountId: number) =>
+    path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}/updating-status`),
   DELETE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
 
   // partner

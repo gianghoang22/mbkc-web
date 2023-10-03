@@ -9,17 +9,22 @@ import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteKitchenCenter, setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import {
+  deleteKitchenCenter,
+  setEditKitchenCenter,
+  updateStatusKitchenCenter,
+} from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface KitchenCenterTableRowProps {
   handleNavigateDetail: (kitchenCenter: KitchenCenter, kitchenCenterId: number) => void;
   kitchenCenter: KitchenCenter;
   index: number;
+  page: number;
+  rowsPerPage: number;
 }
 
-function StoreTableRow(props: KitchenCenterTableRowProps) {
-  const { index, kitchenCenter, handleNavigateDetail } = props;
+function StoreTableRow({ index, kitchenCenter, handleNavigateDetail, page, rowsPerPage }: KitchenCenterTableRowProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { translate } = useLocales();
@@ -39,6 +44,18 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
   const handleEdit = () => {
     navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenter.kitchenCenterId}`);
     dispatch(setEditKitchenCenter(kitchenCenter));
+  };
+
+  const handleChangeStatus = () => {
+    const updateStatusParams = {
+      kitchenCenterId: kitchenCenter.kitchenCenterId,
+      navigate,
+      status: `${kitchenCenter.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
+      page: page + 1,
+      rowsPerPage: rowsPerPage,
+    };
+
+    dispatch<any>(updateStatusKitchenCenter(updateStatusParams));
   };
 
   return (
@@ -85,6 +102,7 @@ function StoreTableRow(props: KitchenCenterTableRowProps) {
         <TableCell align="right">
           <Switch
             size="small"
+            onChange={handleChangeStatus}
             inputProps={{ 'aria-label': 'controlled' }}
             disabled={kitchenCenter.status === Status.DEACTIVE}
             checked={

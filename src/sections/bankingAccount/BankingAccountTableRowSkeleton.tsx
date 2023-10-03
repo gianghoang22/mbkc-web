@@ -1,7 +1,7 @@
 // @mui
 import { Skeleton, TableCell, TableRow, Typography } from '@mui/material';
 
-function BankingAccountTableRow({ length }: { length: number }) {
+function BankingAccountTableRow({ length = 5 }: { length: number }) {
   return (
     <>
       {Array.from({ length }).map((_, index) => (

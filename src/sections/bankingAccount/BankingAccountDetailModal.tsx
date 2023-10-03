@@ -4,7 +4,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
 //
-import { BankingAccount, Cashier } from '@types';
+import { BankingAccount } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -12,7 +12,6 @@ import { StatusWithIcon } from 'components/StatusWithIcon';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setEditCashier } from 'redux/cashier/cashierSlice';
 import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 
 interface BankingAccountDetailModalProps {
@@ -37,15 +36,25 @@ function BankingAccountDetailModal({
   const { isOpen: isOpenModalDelete, handleOpen: handleOpenModalDelete } = useModal();
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/update/${bankingAccount.bankingAccountId}`);
+    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/update/${bankingAccount?.bankingAccountId}`);
     dispatch(setEditBankingAccount(bankingAccount));
   };
 
-  const deleteParams = { bankingAccountId: bankingAccount.bankingAccountId, navigate, page, rowsPerPage };
+  const deleteParams = { bankingAccountId: bankingAccount?.bankingAccountId, navigate, page, rowsPerPage };
 
   const handleDelete = () => {
     dispatch<any>(deleteBankingAccount(deleteParams));
   };
+
+  // const params = useMemo(() => {
+  //   return { bankingAccountId: bankingAccountId, navigate };
+  // }, [bankingAccountId, navigate]);
+
+  // console.log(params);
+
+  // useEffect(() => {
+  //   dispatch<any>(getBankingAccountDetails(params));
+  // }, []);
 
   return (
     <>
@@ -66,7 +75,7 @@ function BankingAccountDetailModal({
               <Grid container columnSpacing={2}>
                 <Grid item lg={5} md={4} sm={12} style={{ paddingLeft: 40 }}>
                   <Box>
-                    <img src={bankingAccount.logoUrl} alt="avatar" style={{ borderRadius: '50%', width: '80%' }} />
+                    <img src={bankingAccount?.logoUrl} alt="avatar" style={{ borderRadius: '50%', width: '80%' }} />
                   </Box>
                 </Grid>
                 <Grid item lg={7} md={8} sm={12}>
@@ -80,14 +89,14 @@ function BankingAccountDetailModal({
                         <EditOutlinedIcon />
                       </IconButton>
 
-                      <StatusWithIcon status={bankingAccount.status} />
+                      {/* <StatusWithIcon status={bankingAccount?.status} /> */}
                     </Stack>
 
                     <Box>
-                      <Typography variant="h4">{bankingAccount.name}</Typography>
+                      <Typography variant="h4">{bankingAccount?.name}</Typography>
                     </Box>
 
-                    <ContentSpace title="Number Account" content={bankingAccount.numberAccount} />
+                    <ContentSpace title="Number Account" content={String(bankingAccount?.numberAccount)} />
 
                     <ContentLabel
                       title="Status"
