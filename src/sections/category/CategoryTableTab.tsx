@@ -1,22 +1,31 @@
-import { useMemo, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react';
 // @mui
 import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //
-import { CategoryTable, CategoryType, OrderSort } from '@types';
+import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
-import { CategoryTableRow, CategoryTableToolbar } from 'sections/category';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
 import AddExtraToCategory from './AddExtraToCategoryModal';
+import { useNavigate } from 'react-router-dom';
+import { getAllExtraCategoriesInCategory } from 'redux/category/categorySlice';
 
-function CategoryTableTab() {
+interface CategoryTableTabProps {
+  categoryId: number;
+}
+
+function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { categories } = useAppSelector((state) => state.category);
+  const { categoriesExtra, isLoading, numberItems } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
@@ -35,15 +44,32 @@ function CategoryTableTab() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categoriesExtra.length) : 0;
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(categories, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, categories]
+    () => stableSort(categoriesExtra, getComparator(order, orderBy)),
+    [order, orderBy, categoriesExtra]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        idCategory: categoryId,
+        pageSize: rowsPerPage,
+        pageNumber: page + 1,
+        keySearchName: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue, categoryId]);
+
+  useEffect(() => {
+    dispatch<any>(getAllExtraCategoriesInCategory(params));
+  }, [params]);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -64,28 +90,33 @@ function CategoryTableTab() {
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
             />
-            <TableBody>
-              {visibleRows.map((category, index) => {
-                return (
-                  <CategoryTableRow
-                    key={category.categoryId}
-                    index={index}
-                    category={category}
-                    categoryType={CategoryType.NORMAL}
-                  />
-                );
-              })}
-              {emptyRows > 0 && (
-                <EmptyTable colNumber={categoryHeadCells.length} model={translate('model.lowercase.category')} />
-              )}
-            </TableBody>
+            {isLoading ? (
+              <CategoryTableRowSkeleton length={visibleRows.length} />
+            ) : (
+              <TableBody>
+                {visibleRows.map((category, index) => {
+                  return (
+                    <CategoryTableRow
+                      key={category.categoryId}
+                      index={index}
+                      category={category}
+                      categoryType={CategoryType.NORMAL}
+                    />
+                  );
+                })}
+                {emptyRows > 0 ||
+                  (categoriesExtra.length === 0 && (
+                    <EmptyTable colNumber={categoryHeadCells.length} model={translate('model.lowercase.category')} />
+                  ))}
+              </TableBody>
+            )}
             {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={categories.length}
+          count={numberItems}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

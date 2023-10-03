@@ -80,10 +80,9 @@ function CreateStorePage() {
           idParams: {
             storeId: store?.storeId,
           },
-          pathname: pathnameToBack,
+          pathname: pathname,
           navigate,
         };
-        console.log(paramUpdate);
         dispatch(updateStore(paramUpdate));
       } else {
         const paramUpdate: Params<StoreToUpdate> = {
@@ -96,10 +95,9 @@ function CreateStorePage() {
           idParams: {
             storeId: store?.storeId,
           },
-          pathname: pathnameToBack,
+          pathname: pathname,
           navigate,
         };
-        console.log(paramUpdate);
         dispatch(updateStore(paramUpdate));
       }
     } else {

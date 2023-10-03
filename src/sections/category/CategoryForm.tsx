@@ -58,6 +58,7 @@ function CategoryForm() {
             <InputField
               fullWidth
               name="code"
+              disabled={isEditing}
               label={translate(
                 'page.form.nameExchange',
                 currentLang.value === Language.ENGLISH

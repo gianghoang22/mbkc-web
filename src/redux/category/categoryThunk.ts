@@ -1,9 +1,20 @@
-import { Category, CategoryToCreate, CategoryType, ListParams, ListResponse, MessageResponse, Params } from '@types';
+import {
+  AddExtraCategory,
+  Category,
+  CategoryToCreate,
+  CategoryToUpdate,
+  CategoryType,
+  ListParams,
+  ListResponse,
+  MessageResponse,
+  Params,
+} from '@types';
 import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
+import { ROUTES_API_CATEGORIES } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { appendData, getAccessToken, getErrorMessage } from 'utils';
+import { getAllCategories, getAllExtraCategoriesInCategory, getCategoryDetail } from './categorySlice';
 
 export const getAllCategoriesThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -11,8 +22,27 @@ export const getAllCategoriesThunk = async (params: ListParams, thunkAPI: any) =
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response: ListResponse<Category> = await axiosClient.get(RoutesApiKeys.GET_ALL_CATEGORY(optionParams));
-      console.log(response);
+      const response: ListResponse<Category> = await axiosClient.get(
+        ROUTES_API_CATEGORIES.GET_ALL_CATEGORY(optionParams)
+      );
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const getAllExtraCategoriesInCategoryThunk = async (params: ListParams, thunkAPI: any) => {
+  const { optionParams, navigate } = params;
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response: ListResponse<Category> = await axiosClient.get(
+        ROUTES_API_CATEGORIES.GET_EXTRA_CATEGORY_OF_CATEGORY(optionParams)
+      );
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -28,8 +58,7 @@ export const getCategoryDetailThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response: Category = await axiosClient.get(RoutesApiKeys.GET_CATEGORY_DETAIL(categoryId));
-      console.log(response);
+      const response: Category = await axiosClient.get(ROUTES_API_CATEGORIES.GET_CATEGORY_DETAIL(categoryId));
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -46,7 +75,7 @@ export const createNewCategoryThunk = async (params: Params<CategoryToCreate>, t
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response: MessageResponse = await axiosFormData.post(RoutesApiKeys.CREATE_CATEGORY, formData);
+      const response: MessageResponse = await axiosFormData.post(ROUTES_API_CATEGORIES.CREATE_CATEGORY, formData);
       if (response) {
         navigate(data?.type === CategoryType.NORMAL ? PATH_BRAND_APP.category.list : PATH_BRAND_APP.category.extraList);
         thunkAPI.dispatch(setMessageSuccess('Created new category successfully'));
@@ -61,16 +90,70 @@ export const createNewCategoryThunk = async (params: Params<CategoryToCreate>, t
   }
 };
 
-export const updateCategoryThunk = async (params: any, thunkAPI: any) => {
-  const { categoryId, navigate } = params;
+export const addExtraCategoryThunk = async (params: Params<AddExtraCategory>, thunkAPI: any) => {
+  const { data, idParams, optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.UPDATE_CATEGORY(categoryId), params.upadateSportCenter);
+      const response: MessageResponse = await axiosClient.post(
+        ROUTES_API_CATEGORIES.ADD_EXTRA_CATEGORY(idParams?.categoryId ? idParams?.categoryId : 0),
+        data
+      );
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+        const paramsCallback = {
+          optionParams: {
+            idCategory: idParams?.categoryId,
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          },
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllExtraCategoriesInCategory(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Add extra category successfully'));
+      }
+      return response;
+    } catch (error: any) {
+      console.log(error);
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const updateCategoryThunk = async (params: Params<CategoryToUpdate>, thunkAPI: any) => {
+  const { data, idParams, optionParams, pathname, navigate } = params;
+  const formData = appendData(data);
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response: MessageResponse = await axiosFormData.put(
+        ROUTES_API_CATEGORIES.UPDATE_CATEGORY(idParams?.categoryId ? idParams?.categoryId : 0),
+        formData
+      );
+      if (response) {
+        const paramsCallback = {
+          optionParams: {
+            type: optionParams?.type,
+            itemsPerPage: optionParams?.itemsPerPage,
+            currentPage: optionParams?.currentPage,
+          },
+          navigate,
+        };
+        if (
+          pathname
+            ?.split('/')
+            .slice(2)
+            .filter((x) => x)[1] === 'detail'
+        ) {
+          await thunkAPI.dispatch(getCategoryDetail({ categoryId: idParams?.categoryId, navigate }));
+        } else {
+          await thunkAPI.dispatch(getAllCategories(paramsCallback));
+        }
+        navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.category.list);
+        thunkAPI.dispatch(setMessageSuccess('Update category successfully'));
       }
       return response;
     } catch (error: any) {
@@ -87,10 +170,13 @@ export const deleteCategoryThunk = async (params: Params<Category>, thunkAPI: an
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.delete(RoutesApiKeys.DELETE_CATEGORY(1));
+      const response: MessageResponse = await axiosClient.delete(
+        ROUTES_API_CATEGORIES.DELETE_CATEGORY(idParams?.categoryId ? idParams?.categoryId : 0)
+      );
       if (response) {
         const paramsCallback = {
           optionParams: {
+            type: optionParams?.type,
             itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
             currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
           },
@@ -102,9 +188,9 @@ export const deleteCategoryThunk = async (params: Params<Category>, thunkAPI: an
             .slice(2)
             .filter((x) => x)[1] === 'detail'
         ) {
-          // await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
+          await thunkAPI.dispatch(getCategoryDetail({ categoryId: idParams?.categoryId, navigate }));
         } else {
-          // await thunkAPI.dispatch(getAllCa(paramsCallback));
+          await thunkAPI.dispatch(getAllCategories(paramsCallback));
         }
         navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.category.list);
         thunkAPI.dispatch(setMessageSuccess('Deleted category successfully'));

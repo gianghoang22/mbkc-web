@@ -14,7 +14,7 @@ import { getCategoryDetail, setCategoryType, setEditCategory } from 'redux/categ
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { CategoryTableTab } from 'sections/category';
+import { CategoryDetailSkeleton, CategoryTableTab } from 'sections/category';
 import { ProductTableTab } from 'sections/product';
 
 function CategoryDetailPage() {
@@ -27,7 +27,7 @@ function CategoryDetailPage() {
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const { category, categoryType } = useAppSelector((state) => state.category);
+  const { category, categoryType, isLoading } = useAppSelector((state) => state.category);
 
   const [activeTab, setActiveTab] = useState('1');
 
@@ -90,70 +90,77 @@ function CategoryDetailPage() {
         ]}
       >
         <Stack direction="row" alignItems="center" spacing={5} mb={10}>
-          <Card sx={{ minWidth: 800 }}>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              sx={{
-                px: 3,
-                py: 1.5,
-                borderBottom: 1,
-                borderColor: 'divider',
-              }}
-            >
-              <Stack direction="row" alignItems="center" gap={0.5}>
-                <Typography variant="h6">{translate('page.content.generalInformation')}</Typography>
-                <DescriptionIcon fontSize="small" />
+          {isLoading ? (
+            <CategoryDetailSkeleton />
+          ) : (
+            <Card sx={{ minWidth: 800 }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                sx={{
+                  px: 3,
+                  py: 1.5,
+                  borderBottom: 1,
+                  borderColor: 'divider',
+                }}
+              >
+                <Stack direction="row" alignItems="center" gap={0.5}>
+                  <Typography variant="h6">{translate('page.content.generalInformation')}</Typography>
+                  <DescriptionIcon fontSize="small" />
+                </Stack>
               </Stack>
-            </Stack>
-            <Stack sx={{ px: 3, py: 3 }}>
-              <Grid container columnSpacing={2}>
-                <Grid item md={3} sm={12}>
-                  <Stack width="100%" alignItems="center">
-                    <Avatar src={category?.imageUrl} alt={category?.name} sx={{ width: 150, height: 150 }} />
-                  </Stack>
-                </Grid>
-                <Grid item md={9} sm={12}>
-                  <Stack gap={1}>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                      <Stack direction="row" alignItems="center" gap={0.5}>
-                        <Typography variant="subtitle1">{translate('table.code')}:</Typography>
-                        <Typography variant="body1">{category?.code}</Typography>
+              <Stack sx={{ px: 3, py: 3 }}>
+                <Grid container columnSpacing={2}>
+                  <Grid item md={3} sm={12}>
+                    <Stack width="100%" alignItems="center">
+                      <Avatar src={category?.imageUrl} alt={category?.name} sx={{ width: 150, height: 150 }} />
+                    </Stack>
+                  </Grid>
+                  <Grid item md={9} sm={12}>
+                    <Stack gap={1}>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <Stack direction="row" alignItems="center" gap={0.5}>
+                          <Typography variant="subtitle1">{translate('table.code')}:</Typography>
+                          <Typography variant="body1">{category?.code}</Typography>
+                        </Stack>
+                        <Label
+                          color={
+                            category?.status === Status.ACTIVE
+                              ? Color.SUCCESS
+                              : category?.status === Status.INACTIVE
+                              ? Color.WARNING
+                              : Color.ERROR
+                          }
+                        >
+                          {category?.status === Status.INACTIVE
+                            ? translate('status.inactive')
+                            : category?.status === Status.ACTIVE
+                            ? translate('status.active')
+                            : translate('status.deactive')}
+                        </Label>
                       </Stack>
-                      <Label
-                        color={
-                          category?.status === Status.ACTIVE
-                            ? Color.SUCCESS
-                            : category?.status === Status.INACTIVE
-                            ? Color.WARNING
-                            : Color.ERROR
-                        }
-                      >
-                        {category?.status === Status.INACTIVE
-                          ? translate('status.inactive')
-                          : category?.status === Status.ACTIVE
-                          ? translate('status.active')
-                          : translate('status.deactive')}
-                      </Label>
-                    </Stack>
 
-                    <Stack direction="row" alignItems="center" gap={0.5}>
-                      <Typography variant="subtitle1">{translate('table.name')}:</Typography>
-                      <Typography variant="body1">{category?.name}</Typography>
+                      <Stack direction="row" alignItems="center" gap={0.5}>
+                        <Typography variant="subtitle1">{translate('table.name')}:</Typography>
+                        <Typography variant="body1">{category?.name}</Typography>
+                      </Stack>
+                      <Stack direction="row" alignItems="center" gap={0.5}>
+                        <Typography variant="subtitle1">{translate('table.displayOrder')}:</Typography>
+                        <Typography variant="body1">{category?.displayOrder}</Typography>
+                      </Stack>
+                      <Box>
+                        <Typography variant="subtitle1">{translate('table.description')}:</Typography>
+                        <Typography variant="body2" sx={{ textAlign: 'justify' }}>
+                          {category?.description}
+                        </Typography>
+                      </Box>
                     </Stack>
-                    <Box>
-                      <Typography variant="subtitle1">{translate('table.description')}:</Typography>
-                      <Typography variant="body2" sx={{ textAlign: 'justify' }}>
-                        {category?.description}
-                      </Typography>
-                    </Box>
-                  </Stack>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Stack>
-          </Card>
-
+              </Stack>
+            </Card>
+          )}
           {mdUp && (
             <Box width={700}>
               <img src="/assets/illustrations/mbkc_cook.svg" alt="login" />
@@ -184,7 +191,7 @@ function CategoryDetailPage() {
                     <ProductTableTab />
                   </TabPanel>
                   <TabPanel sx={{ p: 0 }} value="2">
-                    <CategoryTableTab />
+                    <CategoryTableTab categoryId={Number(categoryId)} />
                   </TabPanel>
                 </Stack>
               </TabContext>

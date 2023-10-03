@@ -3,3 +3,4 @@ export { default as CategoryTableRow } from './CategoryTableRow';
 export { default as CategoryTableRowSkeleton } from './CategoryTableRowSkeleton';
 export { default as CategoryTableTab } from './CategoryTableTab';
 export { default as CategoryTableToolbar } from './CategoryTableToolbar';
+export { default as CategoryDetailSkeleton } from './CategoryDetailSkeleton';

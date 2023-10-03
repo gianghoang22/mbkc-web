@@ -39,6 +39,7 @@ export interface CategoryTable {
   imageUrl: string;
   name: string;
   code: string;
+  displayOrder: string;
   status: string;
 }
 

@@ -42,15 +42,31 @@ export const ROUTES_API_STORES = {
   DELETE_STORE: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
 };
 
+export const ROUTES_API_CATEGORIES = {
+  CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
+  GET_ALL_CATEGORY: ({ type = '', keySearchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
+    path(
+      ROOTS_CATEGORY,
+      `?type=${type}&keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+    ),
+  GET_EXTRA_CATEGORY_OF_CATEGORY: ({
+    categoryId,
+    keySearchName = '',
+    currentPage = '',
+    itemsPerPage = '',
+    idCategory = '',
+  }: any) =>
+    path(
+      ROOTS_CATEGORY,
+      `/${idCategory}/extra-categories?keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+    ),
+  ADD_EXTRA_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}/extra-categories`),
+  GET_CATEGORY_DETAIL: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
+  UPDATE_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
+  DELETE_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
+};
+
 export const RoutesApiKeys = {
-  // auth
-  LOGIN: path(ROOTS_AUTH, `/login`),
-  REFRESH_TOKEN: path(ROOTS_AUTH, `/regeneration-tokens`),
-  RESET_PASSWORD: path(ROOTS_AUTH, `/password-resetation`),
-
-  FORGOT_PASSWORD: path(ROOTS_VERIFY, `/email-verification`),
-  VERIFY_OTP: path(ROOTS_VERIFY, `/otp-verification`),
-
   // kitchen center
   GET_ALL_KITCHEN_CENTER: ({
     itemsPerPage = '',
@@ -86,23 +102,6 @@ export const RoutesApiKeys = {
   GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
   UPDATE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
   DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
-
-  // category
-  CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
-  GET_ALL_CATEGORY: ({ type = '', keySearchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
-    path(
-      ROOTS_CATEGORY,
-      `?type=${type}&keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
-    ),
-  GET_EXTRA_CATEGORY_OF_CATEGORY: ({ categoryId, keySearchName = '', pageNumber = '', pageSize = '' }: any) =>
-    path(
-      ROOTS_CATEGORY,
-      `/${categoryId}/extra-categories?keySearchName=${keySearchName}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-    ),
-  ADD_EXTRA_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}/add-extra-category`),
-  GET_CATEGORY_DETAIL: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
-  UPDATE_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
-  DELETE_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
 
   // product
   CREATE_PRODUCT: pathRoot(ROOTS_PRODUCT),

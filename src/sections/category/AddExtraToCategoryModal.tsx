@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -19,17 +20,16 @@ import {
   Typography,
 } from '@mui/material';
 //
-import { Category, CategoryTable, CategoryType, OrderSort } from '@types';
+import { AddExtraCategory, CategoryTable, CategoryType, ListParams, OrderSort, Params } from '@types';
+import { Language } from 'common/enum';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { getCategoryDetail_local } from 'redux/category/categorySlice';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { addExtraCategory, getAllCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
 import ExtraToCategoryRow from './ExtraToCategoryRow';
 import ExtraToCategoryRowSkeleton from './ExtraToCategoryRowSkeleton';
-import { Language } from 'common/enum';
 
 interface AddExtraToCategoryModalProps {
   isOpen: boolean;
@@ -37,28 +37,28 @@ interface AddExtraToCategoryModalProps {
 }
 
 function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModalProps) {
+  const { id: categoryId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { categories, isLoading } = useAppSelector((state) => state.category);
+  console.log(categoryId);
+  const { categories, isLoading, numberItems } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [filterName, setFilterName] = useState<string>('');
 
+  console.log('categories', categories);
+  console.log('selected', selected);
+
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (category: Category, categoryId: number) => {
-    navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
-    dispatch(getCategoryDetail_local(category));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,12 +98,38 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(categories, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, categories]
+    () => stableSort(categories, getComparator(order, orderBy)),
+    [order, orderBy, categories]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        type: CategoryType.EXTRA,
+        pageSize: rowsPerPage,
+        pageNumber: page + 1,
+        keySearchName: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllCategories(params));
+  }, [params]);
+
+  const handleAddExtraCategory = () => {
+    const params: Params<AddExtraCategory> = {
+      data: { extraCategoryIds: [...selected] },
+      idParams: { categoryId: Number(categoryId) },
+      navigate,
+    };
+    dispatch<any>(addExtraCategory(params));
+  };
 
   return (
     <>
@@ -152,16 +178,16 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                               handleClick={handleClick}
                               isItemSelected={isItemSelected}
                               categoryType={CategoryType.EXTRA}
-                              handleNavigateDetail={handleNavigateDetail}
                             />
                           );
                         })}
-                        {emptyRows > 0 && (
-                          <EmptyTable
-                            colNumber={categoryHeadCells.length}
-                            model={translate('model.lowercase.extraCategory')}
-                          />
-                        )}
+                        {emptyRows > 0 ||
+                          (categories.length === 0 && (
+                            <EmptyTable
+                              colNumber={categoryHeadCells.length}
+                              model={translate('model.lowercase.extraCategory')}
+                            />
+                          ))}
                       </TableBody>
                     )}
                     {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
@@ -170,7 +196,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   component="div"
-                  count={categories.length}
+                  count={numberItems}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
@@ -193,7 +219,14 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                 <Button onClick={handleOpen} variant="text" color="secondary">
                   {translate('button.cancel')}
                 </Button>
-                <Button onClick={handleOpen} variant="contained" autoFocus>
+                <Button
+                  onClick={() => {
+                    handleOpen('addExtra');
+                    handleAddExtraCategory();
+                  }}
+                  variant="contained"
+                  autoFocus
+                >
                   {translate('button.addMore')}
                 </Button>
               </Stack>

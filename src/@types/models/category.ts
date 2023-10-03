@@ -1,3 +1,5 @@
+import { Status } from 'common/enum';
+
 export interface Category {
   categoryId: number;
   code: string;
@@ -17,6 +19,19 @@ export interface CategoryToCreate {
   description: string;
   imageUrl?: File | string;
   brandId?: number;
+}
+
+export interface CategoryToUpdate {
+  name: string;
+  code: string;
+  displayOrder: number;
+  description: string;
+  imageUrl?: File | string;
+  status: Status;
+}
+
+export interface AddExtraCategory {
+  extraCategoryIds: number[];
 }
 
 export enum CategoryType {

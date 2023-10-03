@@ -141,11 +141,14 @@ function useValidationForm() {
           name: translate('table.lowercase.displayOrder'),
         })
       ),
-    description: yup.string().required(
-      translate('page.validation.required', {
-        name: translate('table.lowercase.description'),
-      })
-    ),
+    description: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate('table.lowercase.description'),
+        })
+      )
+      .max(100, translate('page.validation.max100')),
   });
 
   const schemaBrand = yup.object({
