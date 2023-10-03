@@ -167,6 +167,13 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
+      id: 'displayOrder',
+      label: translate('table.displayOrder'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
       id: 'status',
       label: translate('table.status'),
       numeric: false,

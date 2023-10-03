@@ -4,11 +4,11 @@ import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mu
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { Category, CategoryType } from '@types';
+import { Category, CategoryToUpdate, CategoryType, Params } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { deleteCategory, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
+import { deleteCategory, setCategoryType, setEditCategory, updateCategory } from 'redux/category/categorySlice';
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -37,7 +37,7 @@ function CategoryTableRow({
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleNavigateDetail = (category: Category) => {
+  const handleNavigateDetail = () => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${category.categoryId}`);
     dispatch(setCategoryType(categoryType));
     dispatch(setRoutesToBack(pathname));
@@ -56,6 +56,7 @@ function CategoryTableRow({
       deleteCategory({
         idParams: { categoryId: category.categoryId },
         optionParams: {
+          type: category.type,
           itemsPerPage: rowsPerPage,
           currentPage: page,
         },
@@ -66,25 +67,27 @@ function CategoryTableRow({
   };
 
   const handleUpdateStatus = () => {
-    // const paramUpdate: Params<StoreToUpdate> = {
-    //   data: {
-    //     name: store?.name,
-    //     status: store.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
-    //     logo: '',
-    //     storeManagerEmail: store?.storeManagerEmail,
-    //   },
-    //   idParams: {
-    //     brandId: store?.brand.brandId,
-    //     storeId: store?.storeId,
-    //   },
-    //   optionParams: {
-    //     itemsPerPage: rowsPerPage,
-    //     currentPage: page,
-    //   },
-    //   pathname: pathname,
-    //   navigate,
-    // };
-    // dispatch(updateStore(paramUpdate));
+    const paramUpdate: Params<CategoryToUpdate> = {
+      data: {
+        name: category.name,
+        code: category.code,
+        displayOrder: category.displayOrder,
+        imageUrl: '',
+        description: category.description,
+        status: category?.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
+      },
+      idParams: {
+        categoryId: category?.categoryId,
+      },
+      optionParams: {
+        type: category?.type,
+        currentPage: page,
+        itemsPerPage: rowsPerPage,
+      },
+      pathname: pathname,
+      navigate,
+    };
+    dispatch(updateCategory(paramUpdate));
   };
 
   return (
@@ -94,16 +97,21 @@ function CategoryTableRow({
           {index + 1}
         </TableCell>
 
-        <TableCell scope="row" component="th" padding="none" width={100} onClick={() => handleNavigateDetail(category)}>
+        <TableCell scope="row" component="th" padding="none" width={100} onClick={handleNavigateDetail}>
           <Avatar alt={category.name} src={category.imageUrl} />
         </TableCell>
-        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail(category)}>
+        <TableCell component="th" scope="row" onClick={handleNavigateDetail}>
           <Typography variant="subtitle2" noWrap>
             {category.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(category)}>
+        <TableCell align="left" onClick={handleNavigateDetail}>
           {category.code}
+        </TableCell>
+        <TableCell align="left" onClick={handleNavigateDetail}>
+          <Typography variant="body2" pl={2}>
+            {category.displayOrder}
+          </Typography>
         </TableCell>
 
         <TableCell align="left">

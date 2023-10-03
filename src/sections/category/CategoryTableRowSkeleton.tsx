@@ -17,10 +17,13 @@ function CategoryTableRowSkeleton({ length }: CategoryTableRowSkeletonProps) {
           <TableCell component="th" scope="row" padding="none" width={100}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell align="left" width={300}>
+          <TableCell align="left" width={214}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={320}>
+          <TableCell align="left" width={207}>
+            <Skeleton />
+          </TableCell>
+          <TableCell align="left" width={220}>
             <Skeleton />
           </TableCell>
           <TableCell align="left">

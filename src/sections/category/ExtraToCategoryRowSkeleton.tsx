@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import { Checkbox, IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
 interface ExtraToCategoryRowSkeletonProps {
@@ -10,6 +11,7 @@ function ExtraToCategoryRowSkeleton({ length, showAction = false }: ExtraToCateg
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
         <TableRow
+          key={index}
           hover
           tabIndex={-1}
           sx={showAction ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}
@@ -26,11 +28,16 @@ function ExtraToCategoryRowSkeleton({ length, showAction = false }: ExtraToCateg
           <TableCell scope="row" component="th" padding="none" width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" width={215}>
+            <Skeleton />
+          </TableCell>
+          <TableCell align="left" width={175}>
             <Skeleton />
           </TableCell>
           <TableCell align="left">
-            <Skeleton />
+            <Box pl={2}>
+              <Skeleton width={20} />
+            </Box>
           </TableCell>
 
           <TableCell align="left">

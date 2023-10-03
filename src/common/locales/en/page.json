@@ -47,6 +47,7 @@
     "otpMax": "OTP code must not exceed 6 digits",
     "otpMatches": "OTP must contain only numbers",
     "matchPassword": "Confirm password not match with new password",
-    "atLeast": "At least {{number}} value(s)"
+    "atLeast": "At least {{number}} value(s)",
+    "max100": "Must not exceed 100 characters."
   }
 }

@@ -1,19 +1,21 @@
+import { useEffect, useMemo } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { CategoryToCreate, CategoryType, Params } from '@types';
-import { Color } from 'common/enum';
+import { CategoryToCreate, CategoryToUpdate, CategoryType, Params } from '@types';
+import { Color, Status } from 'common/enum';
 import { Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryForm } from 'sections/category';
-import { createNewCategory } from 'redux/category/categorySlice';
+import { createNewCategory, getCategoryDetail, updateCategory } from 'redux/category/categorySlice';
 
 function CreateCategoryPage() {
+  const { id: categoryId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -37,14 +39,72 @@ function CreateCategoryPage() {
 
   const { handleSubmit } = createCategoryForm;
 
-  const onSubmit = async (values: CategoryToCreate) => {
-    const data = { ...values, brandId: 16 };
-    console.log(data);
-    const paramCreate: Params<CategoryToCreate> = {
-      data: data,
+  const paramsDetail = useMemo(() => {
+    return {
+      categoryId,
       navigate,
     };
-    dispatch(createNewCategory(paramCreate));
+  }, [categoryId, navigate]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch(getCategoryDetail(paramsDetail));
+    }
+  }, [dispatch, navigate, paramsDetail, isEditing]);
+
+  const onSubmit = async (values: CategoryToCreate) => {
+    const data = { ...values };
+    console.log(data);
+
+    if (isEditing) {
+      if (typeof values.imageUrl === 'string') {
+        const paramUpdate: Params<CategoryToUpdate> = {
+          data: {
+            name: data.name,
+            code: data.code,
+            displayOrder: data.displayOrder,
+            imageUrl: '',
+            description: data.description,
+            status: category?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+          },
+          idParams: {
+            categoryId: category?.categoryId,
+          },
+          optionParams: {
+            type: category?.type,
+          },
+          pathname: pathnameToBack,
+          navigate,
+        };
+        dispatch(updateCategory(paramUpdate));
+      } else {
+        const paramUpdate: Params<CategoryToUpdate> = {
+          data: {
+            name: data.name,
+            code: data.code,
+            displayOrder: data.displayOrder,
+            imageUrl: data.imageUrl,
+            description: data.description,
+            status: category?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+          },
+          idParams: {
+            categoryId: category?.categoryId,
+          },
+          optionParams: {
+            type: category?.type,
+          },
+          pathname: pathnameToBack,
+          navigate,
+        };
+        dispatch(updateCategory(paramUpdate));
+      }
+    } else {
+      const paramCreate: Params<CategoryToCreate> = {
+        data: { ...data, brandId: 1 },
+        navigate,
+      };
+      dispatch(createNewCategory(paramCreate));
+    }
   };
 
   return (

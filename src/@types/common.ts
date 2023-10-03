@@ -10,6 +10,7 @@ export interface OptionParams {
   type?: boolean | null | string;
   idBrand?: null | number | string;
   idKitchenCenter?: null | number | string;
+  idCategory?: null | number | string;
 }
 
 export interface IdParams {

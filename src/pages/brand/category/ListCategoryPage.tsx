@@ -44,11 +44,9 @@ function ListCategoryPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
 
-  console.log(emptyRows);
   const visibleRows = useMemo(
-    () =>
-      stableSort(categories, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, categories]
+    () => stableSort(categories, getComparator(order, orderBy)),
+    [order, orderBy, categories]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
