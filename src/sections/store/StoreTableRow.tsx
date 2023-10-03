@@ -1,22 +1,32 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Stack, Switch, TableCell, TableRow, Popover as MUIPopover, MenuItem } from '@mui/material';
+import {
+  Avatar,
+  IconButton,
+  Popover as MUIPopover,
+  MenuItem,
+  Stack,
+  Switch,
+  TableCell,
+  TableRow,
+  Tooltip,
+} from '@mui/material';
 // @mui icon
 import CheckIcon from '@mui/icons-material/Check';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ClearIcon from '@mui/icons-material/Clear';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Params, Store, StoreToUpdateStatus } from '@types';
 import { Color, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { confirmRegistrationStore, deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeSlice';
+import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import ConfirmRegistrationStore from './ConfirmRegistrationStore';
-import { Tooltip } from '@mui/material';
 
 interface StoreTableRowProps {
   store: Store;
@@ -46,7 +56,6 @@ function StoreTableRow({
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal();
-  const { handleOpen: handleOpenReject, isOpen: isOpenReject } = useModal();
   const {
     open: openConfirm,
     handleOpenMenu: handleOpenMenuConfirm,
@@ -55,6 +64,8 @@ function StoreTableRow({
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const { userAuth } = useAppSelector((state) => state.auth);
+
+  const [status, setStatus] = useState<Status>(Status.ACTIVE);
 
   const handleNavigateDetail = (storeId: number) => {
     navigate(
@@ -103,21 +114,6 @@ function StoreTableRow({
       navigate,
     };
     dispatch(updateStatusStore(paramUpdate));
-  };
-
-  const handleAcceptStore = async () => {
-    dispatch(
-      confirmRegistrationStore({
-        data: { status: Status.ACTIVE, rejectedReason: Status.ACTIVE },
-        idParams: { storeId: store.storeId },
-        optionParams: {
-          itemsPerPage: rowsPerPage,
-          currentPage: page,
-        },
-        pathname: pathname,
-        navigate,
-      })
-    );
   };
 
   return (
@@ -179,7 +175,7 @@ function StoreTableRow({
                 ? Color.WARNING
                 : store?.status === Status.BE_CONFIRMING
                 ? Color.SECONDARY
-                : store?.status === Status.BE_CONFIRMING
+                : store?.status === Status.REJECTED
                 ? Color.ERROR
                 : Color.ERROR
             }
@@ -280,45 +276,46 @@ function StoreTableRow({
           },
         }}
       >
-        <MenuItem onClick={handleOpenConfirm}>
+        <MenuItem
+          onClick={() => {
+            setStatus(Status.ACTIVE);
+            handleOpenConfirm(Status.ACTIVE);
+          }}
+        >
           <CheckIcon fontSize="small" sx={{ mr: 2 }} />
-          {translate('status.active')}
+          {translate('button.accept')}
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }} onClick={handleOpenReject}>
+        <MenuItem
+          sx={{ color: 'error.main' }}
+          onClick={() => {
+            setStatus(Status.REJECTED);
+            handleOpenConfirm(Status.REJECTED);
+          }}
+        >
           <ClearIcon fontSize="small" sx={{ mr: 2 }} />
           {translate('button.reject')}
         </MenuItem>
       </MUIPopover>
 
-      {isOpenConfirm && (
-        <ConfirmDialog
-          open={isOpenConfirm}
-          onClose={handleOpenConfirm}
-          onAction={handleAcceptStore}
-          model={store.name}
-          title={translate('dialog.confirmAcceptTitle', { model: translate('model.lowercase.store') })}
-          description={translate('dialog.confirmAcceptContent', { model: translate('model.lowercase.store') })}
-        />
-      )}
-
       {isOpen && (
         <ConfirmDialog
           open={isOpen}
+          model={store.name}
           onClose={handleOpen}
           onAction={handleDelete}
-          model={store.name}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.store') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.store') })}
         />
       )}
 
-      {isOpenReject && (
+      {isOpenConfirm && (
         <ConfirmRegistrationStore
+          store={store}
+          storeStatus={status}
+          isOpen={isOpenConfirm}
+          handleOpen={handleOpenConfirm}
           handleCloseMenuConfirm={handleCloseMenuConfirm}
-          storeId={store.storeId}
-          isOpen={isOpenReject}
-          handleOpen={handleOpenReject}
         />
       )}
     </>

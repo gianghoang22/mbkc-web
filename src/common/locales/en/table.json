@@ -20,6 +20,7 @@
   "code": "Code",
   "description": "Description",
   "displayOrder": "Display order",
+  "rejectedReason": "Rejected reason",
   "lowercase": {
     "address": "address",
     "email": "email",

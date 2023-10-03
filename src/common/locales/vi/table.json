@@ -20,6 +20,7 @@
   "code": "Mã",
   "description": "Mô tả",
   "displayOrder": "Thứ tự hiển thị",
+  "rejectedReason": "Lý do từ chối",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

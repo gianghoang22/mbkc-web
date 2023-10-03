@@ -1,17 +1,19 @@
-import { ReactNode, useEffect, useMemo } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Popover as MUIPopover, MenuItem, Stack, Typography } from '@mui/material';
 //
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { deleteStore, getStoreDetail, setEditStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { StoreDetailPageSkeleton } from 'sections/store';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { ConfirmRegistrationStore, StoreDetailPageSkeleton } from 'sections/store';
 
 function StoreDetailPage() {
   const { id: storeId } = useParams();
@@ -23,10 +25,18 @@ function StoreDetailPage() {
   const { translate, currentLang } = useLocales();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal();
+  const {
+    open: openConfirm,
+    handleOpenMenu: handleOpenMenuConfirm,
+    handleCloseMenu: handleCloseMenuConfirm,
+  } = usePopover();
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { isLoading, store } = useAppSelector((state) => state.store);
+
+  const [status, setStatus] = useState<Status>(Status.ACTIVE);
 
   const params = useMemo(() => {
     return {
@@ -43,7 +53,7 @@ function StoreDetailPage() {
     handleOpenModal(store?.name);
     dispatch(
       deleteStore({
-        idParams: { brandId: store?.brand.brandId, storeId: store?.storeId },
+        idParams: { storeId: store?.storeId },
         pathname: pathname,
         navigate,
       })
@@ -63,16 +73,12 @@ function StoreDetailPage() {
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => {
           const listAction: ReactNode[] =
-            userAuth?.roleName === Role.MBKC_ADMIN && !(store?.status === Status.DEACTIVE)
+            userAuth?.roleName === Role.MBKC_ADMIN &&
+            !(store?.status === Status.DEACTIVE) &&
+            !(store?.status === Status.REJECTED)
               ? [
-                  <Button variant="contained" color="secondary">
-                    {translate('button.confirm')}
-                  </Button>,
-                ]
-              : [
                   <Button
                     color="inherit"
-                    onClick={handleOpenMenu}
                     endIcon={<KeyboardArrowDownIcon />}
                     style={{
                       backgroundColor: '#000',
@@ -83,15 +89,41 @@ function StoreDetailPage() {
                         backgroundColor: 'rgba(145, 158, 171, 0.08)',
                       },
                     }}
+                    disabled={store?.status === Status.DEACTIVE || store?.status === Status.REJECTED}
+                    onClick={handleOpenMenuConfirm}
                   >
                     {translate('button.menuAction')}
                   </Button>,
-                ];
+                ]
+              : userAuth?.roleName === Role.BRAND_MANAGER &&
+                !(store?.status === Status.DEACTIVE) &&
+                !(store?.status === Status.BE_CONFIRMING) &&
+                !(store?.status === Status.REJECTED)
+              ? [
+                  <Button
+                    color="inherit"
+                    endIcon={<KeyboardArrowDownIcon />}
+                    style={{
+                      backgroundColor: '#000',
+                      color: '#fff',
+                    }}
+                    sx={{
+                      '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
+                        backgroundColor: 'rgba(145, 158, 171, 0.08)',
+                      },
+                    }}
+                    disabled={store?.status === Status.DEACTIVE || store?.status === Status.REJECTED}
+                    onClick={handleOpenMenu}
+                  >
+                    {translate('button.menuAction')}
+                  </Button>,
+                ]
+              : [];
           return listAction;
         }}
       >
         {isLoading ? (
-          <StoreDetailPageSkeleton />
+          <StoreDetailPageSkeleton rejectedReason={store?.rejectedReason} />
         ) : (
           <>
             <Grid container columnSpacing={5} rowSpacing={5}>
@@ -118,6 +150,8 @@ function StoreDetailPage() {
                           ? Color.WARNING
                           : store?.status === Status.BE_CONFIRMING
                           ? Color.SECONDARY
+                          : store?.status === Status.REJECTED
+                          ? Color.ERROR
                           : Color.ERROR
                       }
                     >
@@ -127,15 +161,28 @@ function StoreDetailPage() {
                         ? translate('status.active')
                         : store?.status === Status.BE_CONFIRMING
                         ? translate('status.beConfirming')
+                        : store?.status === Status.REJECTED
+                        ? translate('status.reject')
                         : translate('status.deactive')}
                     </Label>
                   </Stack>
 
                   <Divider />
 
+                  {store?.rejectedReason !== null && (
+                    <>
+                      <Stack direction="row" justifyContent="space-between" alignItems="center">
+                        <Typography variant="subtitle1">{translate('table.rejectedReason')}</Typography>
+                        <Typography variant="body1">{store?.rejectedReason}</Typography>
+                      </Stack>
+
+                      <Divider />
+                    </>
+                  )}
+
                   <Stack direction="row" justifyContent="space-between" alignItems="center">
                     <Typography variant="subtitle1">{translate('table.manageEmail')}</Typography>
-                    <Typography variant="body1"> {store?.storeManagerEmail}</Typography>
+                    <Typography variant="body1">{store?.storeManagerEmail}</Typography>
                   </Stack>
 
                   <Divider />
@@ -266,6 +313,57 @@ function StoreDetailPage() {
           model={store?.name}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.store') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.store') })}
+        />
+      )}
+
+      <MUIPopover
+        open={Boolean(openConfirm)}
+        anchorEl={openConfirm}
+        onClose={handleCloseMenuConfirm}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: {
+            p: 1,
+            mt: 0.5,
+            width: 140,
+            '& .MuiMenuItem-root': {
+              px: 1,
+              typography: 'body2',
+              borderRadius: 0.75,
+            },
+          },
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setStatus(Status.ACTIVE);
+            handleOpenConfirm(Status.ACTIVE);
+          }}
+        >
+          <CheckIcon fontSize="small" sx={{ mr: 2 }} />
+          {translate('button.accept')}
+        </MenuItem>
+
+        <MenuItem
+          sx={{ color: 'error.main' }}
+          onClick={() => {
+            setStatus(Status.REJECTED);
+            handleOpenConfirm(Status.REJECTED);
+          }}
+        >
+          <ClearIcon fontSize="small" sx={{ mr: 2 }} />
+          {translate('button.reject')}
+        </MenuItem>
+      </MUIPopover>
+
+      {isOpenConfirm && (
+        <ConfirmRegistrationStore
+          store={store}
+          storeStatus={status}
+          isOpen={isOpenConfirm}
+          handleOpen={handleOpenConfirm}
+          handleCloseMenuConfirm={handleCloseMenuConfirm}
         />
       )}
     </>

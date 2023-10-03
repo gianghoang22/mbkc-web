@@ -2,7 +2,7 @@
 import { Divider, Grid, Skeleton, Stack } from '@mui/material';
 import { useResponsive } from 'hooks';
 
-function StoreDetailPageSkeleton() {
+function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: string | null | undefined }) {
   const mdUp = useResponsive('up', 'lg', 'lg');
 
   return (
@@ -28,6 +28,17 @@ function StoreDetailPageSkeleton() {
             </Stack>
 
             <Divider />
+
+            {rejectedReason !== null && rejectedReason !== undefined && (
+              <>
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Skeleton width={80} />
+                  <Skeleton variant="rounded" width={100} height={24} />
+                </Stack>
+
+                <Divider />
+              </>
+            )}
 
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Skeleton width={80} />
