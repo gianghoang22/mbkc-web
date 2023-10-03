@@ -24,6 +24,7 @@
     "address": "địa chỉ",
     "email": "email",
     "code": "mã",
+    "numberAccount": "số tài khoản",
     "type": "loại",
     "description": "mô tả",
     "displayOrder": "thứ tự hiển thị",

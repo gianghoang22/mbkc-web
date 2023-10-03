@@ -1,37 +1,32 @@
-import { useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Box,
-  Button,
-  Card,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { BankingAccount, OrderSort } from '@types';
-import { CommonTableHead, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, usePagination } from 'hooks';
-import { setAddBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
+import { BankingAccount, ListParams, OrderSort } from '@types';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { getAllBankingAccounts, setAddBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { BankingAccountTableRow, BankingAccountTableToolbar } from 'sections/bankingAccount';
+import {
+  BankingAccountTableRow,
+  BankingAccountTableRowSkeleton,
+  BankingAccountTableToolbar,
+} from 'sections/bankingAccount';
 import { getComparator, stableSort } from 'utils';
 
 function ListBankingAccountPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { translate } = useLocales();
   const { bankingAccountHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { bankingAccounts } = useAppSelector((state) => state.bankingAccount);
+  const { bankingAccounts, isLoading } = useAppSelector((state) => state.bankingAccount);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BankingAccount>('name');
@@ -62,6 +57,21 @@ function ListBankingAccountPage() {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: filterName,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, filterName, navigate]);
+
+  useEffect(() => {
+    dispatch(getAllBankingAccounts(params));
+  }, [dispatch, navigate, params]);
+
   return (
     <>
       <Page
@@ -73,6 +83,7 @@ function ListBankingAccountPage() {
             variant="contained"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
+              navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.newBankingAccount);
               dispatch(setAddBankingAccount());
             }}
           >
@@ -93,26 +104,30 @@ function ListBankingAccountPage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((bankingAccount, index) => {
-                      return (
-                        <BankingAccountTableRow
-                          key={bankingAccount.bankingAccountId}
-                          index={index}
-                          bankingAccount={bankingAccount}
-                        />
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={bankingAccountHeadCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
+                  {isLoading ? (
+                    <BankingAccountTableRowSkeleton length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((bankingAccount, index) => {
+                        return (
+                          <BankingAccountTableRow
+                            key={bankingAccount.bankingAccountId}
+                            index={index}
+                            page={page + 1}
+                            rowsPerPage={rowsPerPage}
+                            bankingAccount={bankingAccount}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 ||
+                        (bankingAccounts.length === 0 && (
+                          <EmptyTable
+                            colNumber={bankingAccountHeadCells.length}
+                            model={translate('model.lowercase.bankingAccount')}
+                          />
+                        ))}
+                    </TableBody>
+                  )}
                   {isNotFound && <SearchNotFound colNumber={bankingAccountHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>

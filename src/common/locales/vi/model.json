@@ -18,6 +18,7 @@
     "wallet": "Ví",
     "transaction": "Giao dịch",
     "bankingAccount": "Tài khoản ngân hàng",
+    "numberAccount": "Số tài khoản",
     "managerEmail": "Email người quản lý",
     "partner": "Đối tác"
   },
@@ -40,6 +41,7 @@
     "wallet": "Ví",
     "transaction": "Giao Dịch",
     "bankingAccount": "Tài Khoản Ngân Hàng",
+    "numberAccount": "Số Tài Khoản",
     "managerEmail": "Email Người Quản Lý",
     "partner": "Đối Tác"
   },
@@ -62,6 +64,7 @@
     "wallet": "ví",
     "transaction": "giao dịch",
     "bankingAccount": "tài khoản ngân hàng",
+    "numberAccount": "số tài khoản",
     "managerEmail": "email người quản lý",
     "partner": "đối tác"
   }

@@ -1,15 +1,18 @@
-import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { ListParams } from '@types';
+import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
+import { getAllBankingAccounts } from './bankingAccountSlice';
 
-export const getAllBankingAccountsThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: any) => {
+  const { navigate, optionParams } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_BANKING_ACCOUNT);
+      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_BANKING_ACCOUNTS(optionParams));
       console.log(response);
       return response;
     } catch (error: any) {
@@ -38,16 +41,15 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
 };
 
 export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { navigate, newBankingAccountOptions } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.CREATE_BANKING_ACCOUNT);
+      const response = await axiosFormData.post(RoutesApiKeys.CREATE_BANKING_ACCOUNT, newBankingAccountOptions);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        params.navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.list);
+        thunkAPI.dispatch(setMessageSuccess('Created new banking account successfully'));
       }
       return response;
     } catch (error: any) {
@@ -59,18 +61,18 @@ export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) =
 };
 
 export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
-  const { bankingAccountId, navigate } = params;
+  const { bankingAccountId, navigate, updateBankingAccountOptions } = params;
+  console.log(updateBankingAccountOptions);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(
+      const response = await axiosFormData.put(
         RoutesApiKeys.UPDATE_BANKING_ACCOUNT(bankingAccountId),
-        params.upadateSportCenter
+        updateBankingAccountOptions
       );
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+        thunkAPI.dispatch(setMessageSuccess('Update banking account successfully'));
       }
       return response;
     } catch (error: any) {
@@ -82,15 +84,26 @@ export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const deleteBankingAccountThunk = async (params: any, thunkAPI: any) => {
-  const { bankingAccountId, navigate } = params;
+  const { bankingAccountId, navigate, page, rowsPerPage } = params;
+  const options = {
+    keySearchName: '',
+    currentPage: page,
+    itemsPerPage: rowsPerPage,
+  };
+
+  const paramsCallback: ListParams = {
+    optionParams: options,
+    navigate,
+  };
+
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.delete(RoutesApiKeys.DELETE_BANKING_ACCOUNT(bankingAccountId));
       if (response) {
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
+        thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Deleted banking account successfully'));
       }
       return response;
     } catch (error: any) {

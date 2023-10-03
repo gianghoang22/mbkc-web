@@ -1,6 +1,5 @@
-import { sentenceCase } from 'change-case';
 // @mui
-import { Avatar, FormControlLabel, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
@@ -8,61 +7,82 @@ import { BankingAccount } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { getBankingAccountDetail_local, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
+import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch } from 'redux/configStore';
+import { useNavigate } from 'react-router-dom';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import BankingAccountDetailModal from './BankingAccountDetailModal';
+import { useState } from 'react';
 
 interface BankingAccountTableRowProps {
   index: number;
   bankingAccount: BankingAccount;
+  page: number;
+  rowsPerPage: number;
 }
 
-function BankingAccountTableRow({ index, bankingAccount }: BankingAccountTableRowProps) {
+function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: BankingAccountTableRowProps) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
-  const { handleOpen: handleOpenCreate, isOpen: isOpenCreate } = useModal();
+  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
+
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleOpenModalCreate = () => {
-    handleOpenCreate(bankingAccount.name);
-    dispatch(getBankingAccountDetail_local(bankingAccount));
-  };
-
   const handleEdit = () => {
+    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.editById);
     dispatch(setEditBankingAccount(bankingAccount));
   };
 
-  const handleDelete = () => {};
+  const deleteParams = { bankingAccountId: bankingAccount.bankingAccountId, navigate, page, rowsPerPage };
+
+  const handleDelete = () => {
+    dispatch(deleteBankingAccount(deleteParams));
+  };
 
   return (
     <>
       <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer' }}>
-        <TableCell width={80} align="center">
+        <TableCell width={100} align="center">
           {index + 1}
         </TableCell>
 
-        <TableCell scope="row" component="th" padding="none" width={80} onClick={handleOpenModalCreate}>
+        <TableCell scope="row" component="th" width={200} onClick={handleOpenModalDetail}>
           <Avatar alt={bankingAccount.name} src={bankingAccount.logoUrl} />
         </TableCell>
-        <TableCell component="th" scope="row" onClick={handleOpenModalCreate}>
-          <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
+        <TableCell component="th" scope="row" onClick={handleOpenModalDetail}>
+          <Typography variant="subtitle2" sx={{ width: 80 }} noWrap>
             {bankingAccount.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={handleOpenModalCreate}>
-          {bankingAccount.numberAccount}
-        </TableCell>
         <TableCell align="left">
-          <FormControlLabel
-            control={<Switch size="small" checked={bankingAccount.status === Status.INACTIVE ? false : true} />}
-            label={
-              <Label color={(bankingAccount.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                {sentenceCase(bankingAccount?.status)}
-              </Label>
+          <Label
+            color={
+              bankingAccount?.status === Status.ACTIVE
+                ? Color.SUCCESS
+                : bankingAccount?.status === Status.INACTIVE
+                ? Color.WARNING
+                : Color.ERROR
             }
-          />
+          >
+            {bankingAccount?.status === Status.INACTIVE
+              ? translate('status.inactive')
+              : bankingAccount?.status === Status.ACTIVE
+              ? translate('status.active')
+              : translate('status.deactive')}
+          </Label>
         </TableCell>
         <TableCell align="right">
+          <Switch
+            size="small"
+            inputProps={{ 'aria-label': 'controlled' }}
+            disabled={bankingAccount.status === Status.DEACTIVE}
+            checked={
+              bankingAccount.status === Status.INACTIVE || bankingAccount.status === Status.DEACTIVE ? false : true
+            }
+            color={bankingAccount?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+          />
           <IconButton color="inherit" onClick={handleOpenMenu}>
             <MoreVertIcon />
           </IconButton>
@@ -70,6 +90,16 @@ function BankingAccountTableRow({ index, bankingAccount }: BankingAccountTableRo
       </TableRow>
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+
+      {isOpenModalDetail && (
+        <BankingAccountDetailModal
+          isOpen={isOpenModalDetail}
+          handleOpen={handleOpenModalDetail}
+          bankingAccount={bankingAccount}
+          page={page}
+          rowsPerPage={rowsPerPage}
+        />
+      )}
 
       {isOpen && (
         <ConfirmDialog

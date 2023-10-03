@@ -18,6 +18,7 @@
     "wallet": "Wallet",
     "transaction": "Transaction",
     "bankingAccount": "Banking account",
+    "numberAccount": "Number account",
     "managerEmail": "Manager email",
     "partner": "Partner"
   },
@@ -40,6 +41,7 @@
     "wallet": "Wallet",
     "transaction": "Transaction",
     "bankingAccount": "Banking Account",
+    "numberAccount": "Number Account",
     "managerEmail": "Manager Email",
     "partner": "Partner"
   },
@@ -62,6 +64,7 @@
     "wallet": "wallet",
     "transaction": "transaction",
     "bankingAccount": "banking account",
+    "numberAccount": "number account",
     "managerEmail": "manager email",
     "partner": "partner"
   }
