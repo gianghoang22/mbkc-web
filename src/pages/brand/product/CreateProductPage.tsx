@@ -118,7 +118,7 @@ function CreateProductPage(props: any) {
 
     reset(initialValues);
   };
-
+  console.log('change category');
   useEffect(() => {
     resetForm(type);
   }, [type]);
