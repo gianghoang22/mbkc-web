@@ -9,6 +9,7 @@ export * from './models/partner';
 export * from './models/product';
 export * from './models/store';
 export * from './models/user';
+export * from './models/order';
 export * from './route';
 export * from './sidebar';
 export * from './table';
