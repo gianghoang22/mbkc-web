@@ -1,4 +1,3 @@
-import { sentenceCase } from 'change-case';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
@@ -6,22 +5,25 @@ import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mu
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { useAppDispatch } from 'redux/configStore';
-import { getProductDetail_local, setEditProduct } from 'redux/product/productSlice';
+import { deleteProduct, getProductDetail_local, setEditProduct, updateStatusProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Product } from '@types';
+import { Params, Product, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
+import { fCurrencyVN } from 'utils';
 
 interface ProductTableRowProps {
   product: Product;
   index: number;
   inTab?: boolean;
+  page?: number;
+  rowsPerPage?: number;
 }
 
-function ProductTableRow({ index, product, inTab = false }: ProductTableRowProps) {
+function ProductTableRow({ index, product, inTab = false, page = 1, rowsPerPage = 5 }: ProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -41,28 +43,33 @@ function ProductTableRow({ index, product, inTab = false }: ProductTableRowProps
     dispatch(setRoutesToBack(pathname));
   };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    handleOpen();
+    dispatch(
+      deleteProduct({
+        idParams: { productId: product?.productId },
+        pathname: pathname,
+        navigate,
+      })
+    );
+  };
 
   const handleUpdateStatus = () => {
-    // const paramUpdate: Params<StoreToUpdate> = {
-    //   data: {
-    //     name: store?.name,
-    //     status: store.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
-    //     logo: '',
-    //     storeManagerEmail: store?.storeManagerEmail,
-    //   },
-    //   idParams: {
-    //     brandId: store?.brand.brandId,
-    //     storeId: store?.storeId,
-    //   },
-    //   optionParams: {
-    //     itemsPerPage: rowsPerPage,
-    //     currentPage: page,
-    //   },
-    //   pathname: pathname,
-    //   navigate,
-    // };
-    // dispatch(updateStore(paramUpdate));
+    const paramUpdate: Params<ToUpdateStatus> = {
+      data: {
+        status: product.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
+      },
+      idParams: {
+        productId: product?.productId,
+      },
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page,
+      },
+      pathname: pathname,
+      navigate,
+    };
+    dispatch(updateStatusProduct(paramUpdate));
   };
 
   return (
@@ -85,13 +92,13 @@ function ProductTableRow({ index, product, inTab = false }: ProductTableRowProps
           </Typography>
         </TableCell>
         <TableCell align="left" onClick={handleNavigateDetail}>
-          {product.historicalPrice}
+          {fCurrencyVN(product.historicalPrice)} đ
         </TableCell>
         <TableCell align="left" onClick={handleNavigateDetail}>
-          {sentenceCase(product.category)}
+          {product.category.name}
         </TableCell>
         <TableCell align="left" onClick={handleNavigateDetail}>
-          {sentenceCase(product.type)}
+          {product.type}
         </TableCell>
         <TableCell align="left" onClick={handleNavigateDetail}>
           <Label

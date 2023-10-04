@@ -11,6 +11,7 @@ export interface OptionParams {
   idBrand?: null | number | string;
   idKitchenCenter?: null | number | string;
   idCategory?: null | number | string;
+  idStore?: null | number | string;
 }
 
 export interface IdParams {
@@ -18,6 +19,7 @@ export interface IdParams {
   storeId?: number;
   kitchenCenterId?: number;
   categoryId?: number;
+  productId?: number;
 }
 export interface ListParams {
   optionParams: OptionParams;

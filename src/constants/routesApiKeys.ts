@@ -7,7 +7,7 @@ const ROOTS_KITCHEN_CENTERS = '/kitchen-centers';
 const ROOTS_BRANDS = '/brands';
 const ROOTS_STORES = '/stores';
 const ROOTS_CATEGORY = '/categories';
-const ROOTS_PRODUCT = '/products';
+const ROOTS_PRODUCTS = '/products';
 const ROOTS_CASHIER = '/cashiers';
 const ROOTS_PARTNER = '/partners';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
@@ -66,6 +66,27 @@ export const ROUTES_API_CATEGORIES = {
   DELETE_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
 };
 
+export const ROUTES_API_PRODUCTS = {
+  CREATE_PRODUCT: pathRoot(ROOTS_PRODUCTS),
+  GET_ALL_PRODUCT: ({
+    type = '',
+    keySearchName = '',
+    currentPage = '',
+    itemsPerPage = '',
+    isGetAll = '',
+    idStore = '',
+    idCategory = '',
+  }: OptionParams) =>
+    path(
+      ROOTS_PRODUCTS,
+      `?searchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}`
+    ),
+  GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
+  UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
+  UPDATE_PRODUCT_STATUS: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}/updating-status`),
+  DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
+};
+
 export const RoutesApiKeys = {
   // kitchen center
   GET_ALL_KITCHEN_CENTER: ({
@@ -107,11 +128,6 @@ export const RoutesApiKeys = {
   DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
 
   // product
-  CREATE_PRODUCT: pathRoot(ROOTS_PRODUCT),
-  GET_ALL_PRODUCT: pathRoot(ROOTS_PRODUCT),
-  GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
-  UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
-  DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
 
   // cashier
   CREATE_CASHIER: pathRoot(ROOTS_CASHIER),

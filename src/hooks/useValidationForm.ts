@@ -1,8 +1,7 @@
-import * as yup from 'yup';
-import useLocales from './useLocales';
 import { Language } from 'common/enum';
+import * as yup from 'yup';
 import { ref } from 'yup';
-import { ProductSizeEnum, ProductTypeEnum } from '@types';
+import useLocales from './useLocales';
 
 function useValidationForm() {
   const { translate, currentLang } = useLocales();
@@ -199,21 +198,18 @@ function useValidationForm() {
         })
       )
       .max(1000, translate('page.validation.max1000')),
-    historicalPrice: yup.number().typeError(
-      translate('page.validation.required', {
-        name: translate('table.lowercase.historicalPrice'),
-      })
-    ),
-    sellingPrice: yup.number().typeError(
-      translate('page.validation.required', {
-        name: translate('table.lowercase.sellingPrice'),
-      })
-    ),
-    discountPrice: yup.number().typeError(
-      translate('page.validation.required', {
-        name: translate('table.lowercase.discountPrice'),
-      })
-    ),
+    historicalPrice: yup
+      .number()
+      .typeError(translate('page.validation.required', { name: translate('table.lowercase.historicalPrice') }))
+      .required(translate('page.validation.required', { name: translate('table.lowercase.historicalPrice') })),
+    sellingPrice: yup
+      .number()
+      .typeError(translate('page.validation.required', { name: translate('table.lowercase.sellingPrice') }))
+      .required(translate('page.validation.required', { name: translate('table.lowercase.sellingPrice') })),
+    discountPrice: yup
+      .number()
+      .typeError(translate('page.validation.required', { name: translate('table.lowercase.discountPrice') }))
+      .required(translate('page.validation.required', { name: translate('table.lowercase.discountPrice') })),
     displayOrder: yup
       .number()
       .typeError(
@@ -226,18 +222,31 @@ function useValidationForm() {
           name: translate('table.lowercase.displayOrder'),
         })
       ),
-    size: yup.string(),
-    // .required('Please select Product size')
-    // .oneOf(Object.values(ProductSizeEnum), 'Please select Product size'),
-    type: yup.string().required('Please select Product type'),
+    size: yup.string().required(translate('page.validation.select', { name: translate('table.lowercase.size') })),
+    type: yup.string().required(
+      translate('page.validation.select', {
+        name: translate(
+          'page.form.nameExchange',
+          currentLang.value === Language.ENGLISH
+            ? {
+                model: translate('model.lowercase.product'),
+                name: translate('table.lowercase.type'),
+              }
+            : {
+                model: translate('table.lowercase.type'),
+                name: translate('model.lowercase.product'),
+              }
+        ),
+      })
+    ),
     parentProductId: yup
       .number()
-      .typeError(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
-      .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.parentProduct') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.parentProduct') })),
     categoryId: yup
       .number()
-      .typeError(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
-      .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.category') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.category') })),
   });
 
   const schemaBrand = yup.object({
@@ -295,8 +304,8 @@ function useValidationForm() {
     schemaStore,
     schemaBrand,
     schemaCategory,
-    schemaProduct,
     schemaBankingAccount,
+    schemaProduct,
   };
 }
 

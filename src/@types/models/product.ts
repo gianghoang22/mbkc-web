@@ -1,38 +1,66 @@
+import { Brand } from './brand';
+import { Category } from './category';
+
 export interface Product {
   productId: number;
   code: string;
   name: string;
   description: string;
-  historicalPrice: number;
   sellingPrice: number;
   discountPrice: number;
-  size: string;
+  historicalPrice: number;
   type: string;
-  status: string;
   image: string;
-  parentProductId: string;
-  category: string;
-  brandId: string;
+  status: string;
+  size: string;
+  displayOrder: number;
+  parentProduct: string;
+  childrenProducts: string[];
+  category: Category;
+  brand: Brand;
 }
 
 export interface ProductToCreate {
   name: string;
   code: string;
   description: string;
-  historicalPrice?: number | undefined | null;
-  sellingPrice?: number | undefined | null;
-  discountPrice?: number | undefined | null;
+  historicalPrice: number;
+  sellingPrice: number;
+  discountPrice: number;
   displayOrder: number;
-  size?: string | undefined | null;
+  size: string;
   type: string;
   image?: File | string;
-  parentProductId?: number;
-  categoryId?: number;
+  parentProductId: number;
+  categoryId: number;
 }
 
-export enum ProductStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
+export interface ProductToCreateParams {
+  name: string;
+  code: string;
+  description: string;
+  historicalPrice: number | null | string;
+  sellingPrice: number | null | string;
+  discountPrice: number | null | string;
+  displayOrder: number;
+  size: string | null | string;
+  type: string;
+  image?: File | string;
+  parentProductId: number | null | string;
+  categoryId: number | null | string;
+}
+
+export interface ProductToUpdate {
+  name: string | null;
+  description: string;
+  historicalPrice: number | null | string;
+  sellingPrice: number | null | string;
+  discountPrice: number | null | string;
+  image?: File | string;
+  displayOrder: number;
+  parentProductId: number | null | string;
+  categoryId: number | null | string;
+  status: string;
 }
 
 export enum ProductSizeEnum {
@@ -42,7 +70,7 @@ export enum ProductSizeEnum {
 }
 
 export enum ProductTypeEnum {
-  FATHER = 'Father',
+  PARENT = 'Parent',
   CHILD = 'Child',
   SINGLE = 'Single',
   EXTRA = 'Extra',
@@ -50,8 +78,8 @@ export enum ProductTypeEnum {
 
 export const PRODUCT_TYPE_OPTIONS = [
   {
-    value: ProductTypeEnum.FATHER,
-    label: 'Father Product',
+    value: ProductTypeEnum.PARENT,
+    label: 'Parent Product',
     id: 'Fat',
   },
   {

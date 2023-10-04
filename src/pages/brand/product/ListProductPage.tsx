@@ -25,8 +25,9 @@ function ListProductPage() {
   const { productHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { products, isLoading } = useAppSelector((state) => state.product);
+  const { products, isLoading, numberItems } = useAppSelector((state) => state.product);
 
+  console.log(products);
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
   const [filterName, setFilterName] = useState<string>('');
@@ -46,8 +47,7 @@ function ListProductPage() {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(products, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    () => stableSort(products, getComparator(order, orderBy)),
     [order, orderBy, page, rowsPerPage, products]
   );
 
@@ -109,7 +109,15 @@ function ListProductPage() {
                   ) : (
                     <TableBody>
                       {visibleRows.map((product, index) => {
-                        return <ProductTableRow key={product.productId} index={index} product={product} />;
+                        return (
+                          <ProductTableRow
+                            key={product.productId}
+                            page={page + 1}
+                            rowsPerPage={rowsPerPage}
+                            index={index}
+                            product={product}
+                          />
+                        );
                       })}
                       {emptyRows > 0 ||
                         (products.length === 0 && (
@@ -126,7 +134,7 @@ function ListProductPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={products.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

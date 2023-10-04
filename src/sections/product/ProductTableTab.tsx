@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // redux
@@ -16,6 +16,7 @@ import ProductTableRowSkeleton from './ProductTableRowSkeleton';
 import ProductTableToolbar from './ProductTableToolbar';
 
 function ProductTableTab() {
+  const { id: categoryId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
@@ -58,6 +59,7 @@ function ProductTableTab() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchValue: debounceValue,
+        idCategory: categoryId,
       },
       navigate,
     };
@@ -86,9 +88,10 @@ function ProductTableTab() {
                 {visibleRows.map((product, index) => {
                   return <ProductTableRow key={product.productId} inTab index={index} product={product} />;
                 })}
-                {emptyRows > 0 && (
-                  <EmptyTable colNumber={productHeadCells.length} model={translate('model.lowercase.product')} />
-                )}
+                {emptyRows > 0 ||
+                  (products.length === 0 && (
+                    <EmptyTable colNumber={productHeadCells.length} model={translate('model.lowercase.product')} />
+                  ))}
               </TableBody>
             )}
             {isNotFound && <SearchNotFound colNumber={productHeadCells.length} searchQuery={filterName} />}

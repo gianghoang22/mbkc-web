@@ -30,6 +30,7 @@
     "code": "mã",
     "numberAccount": "số tài khoản",
     "type": "loại",
+    "size": "kích cỡ",
     "description": "mô tả",
     "displayOrder": "thứ tự hiển thị",
     "status": "trạng thái",

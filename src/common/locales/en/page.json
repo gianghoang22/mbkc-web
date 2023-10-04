@@ -42,7 +42,7 @@
     "contentLower": "content",
     "containProduct": "Categories contain products",
     "containExtraProduct": "Categories contain extra products",
-    "parentProduct": "Father product",
+    "parentProduct": "Parent product",
     "productSize": "Product size"
   },
   "validation": {

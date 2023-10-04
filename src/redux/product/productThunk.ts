@@ -1,16 +1,18 @@
-import { axiosClient, setHeaderAuth } from 'api/axiosClient';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
+import { MessageResponse, Params, Product, ProductToCreateParams, ProductToUpdate, ToUpdateStatus } from '@types';
+import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { getAccessToken, getErrorMessage } from 'utils';
+import { PATH_BRAND_APP } from 'routes/paths';
+import { appendData, getAccessToken, getErrorMessage } from 'utils';
+import { getAllProducts, getProductDetail } from './productSlice';
+import { ROUTES_API_PRODUCTS } from 'constants/routesApiKeys';
 
 export const getAllProductsThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_PRODUCT);
-      console.log(response);
+      const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_ALL_PRODUCT(optionParams));
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -26,7 +28,7 @@ export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_PRODUCT_DETAIL(productId));
+      const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_PRODUCT_DETAIL(productId));
       console.log(response);
       return response;
     } catch (error: any) {
@@ -37,17 +39,21 @@ export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const createNewProductThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const createNewProductThunk = async (params: Params<ProductToCreateParams>, thunkAPI: any) => {
+  const { data, navigate } = params;
+  const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.CREATE_PRODUCT, params.newSportCenter);
+      const response: MessageResponse = await axiosFormData.post(ROUTES_API_PRODUCTS.CREATE_PRODUCT, formData);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        const paramsCallback = {
+          navigate,
+        };
+        thunkAPI.dispatch(getAllProducts(paramsCallback));
+        navigate(PATH_BRAND_APP.product.list);
+        thunkAPI.dispatch(setMessageSuccess('Created new product successfully'));
       }
       return response;
     } catch (error: any) {
@@ -58,16 +64,38 @@ export const createNewProductThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const updateProductThunk = async (params: any, thunkAPI: any) => {
-  const { productId, navigate } = params;
+export const updateProductThunk = async (params: Params<ProductToUpdate>, thunkAPI: any) => {
+  const { data, idParams, pathname, optionParams, navigate } = params;
+  console.log(params);
+  const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.UPDATE_PRODUCT(productId), params.upadateSportCenter);
+      const response: MessageResponse = await axiosFormData.put(
+        ROUTES_API_PRODUCTS.UPDATE_PRODUCT(idParams?.productId ? idParams?.productId : 0),
+        formData
+      );
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+        const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage,
+            currentPage: optionParams?.currentPage,
+          },
+          navigate,
+        };
+        if (
+          pathname
+            ?.split('/')
+            .slice(2)
+            .filter((x) => x)[1] === 'detail'
+        ) {
+          await thunkAPI.dispatch(getProductDetail({ productId: idParams?.productId, navigate }));
+        } else {
+          await thunkAPI.dispatch(getAllProducts(paramsCallback));
+        }
+        navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
+        thunkAPI.dispatch(setMessageSuccess('Update store successfully'));
       }
       return response;
     } catch (error: any) {
@@ -78,16 +106,58 @@ export const updateProductThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const deleteProductThunk = async (params: any, thunkAPI: any) => {
-  const { productId, navigate } = params;
+export const updateStatusProductThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
+  const { data, idParams, pathname, optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.delete(RoutesApiKeys.DELETE_PRODUCT(productId));
+      const response: MessageResponse = await axiosClient.put(
+        ROUTES_API_PRODUCTS.UPDATE_PRODUCT_STATUS(idParams?.productId ? idParams?.productId : 0),
+        data
+      );
       if (response) {
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
+        const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage,
+            currentPage: optionParams?.currentPage,
+          },
+          navigate,
+        };
+
+        await thunkAPI.dispatch(getAllProducts(paramsCallback));
+        navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.store.list);
+        thunkAPI.dispatch(setMessageSuccess('Update product status successfully'));
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const deleteProductThunk = async (params: Params<Product>, thunkAPI: any) => {
+  const { idParams, optionParams, navigate, pathname } = params;
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response: MessageResponse = await axiosClient.delete(
+        ROUTES_API_PRODUCTS.DELETE_PRODUCT(idParams?.productId ? idParams?.productId : 0)
+      );
+      if (response) {
+        const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          },
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllProducts(paramsCallback));
+        navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
+        thunkAPI.dispatch(setMessageSuccess('Deleted product successfully'));
       }
       return response;
     } catch (error: any) {

@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, FormHelperText, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface Option {
@@ -69,16 +69,21 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
             field.onChange(updateValue);
           }}
           renderInput={(params: any) => (
-            <TextField
-              {...params}
-              {...props}
-              variant="outlined"
-              error={Boolean(fieldState.error)}
-              helperText={fieldState.error?.message}
-              label={label}
-              placeholder={placeholder}
-              disabled={props.disabled}
-            />
+            <>
+              <TextField
+                {...params}
+                {...props}
+                variant="outlined"
+                // error={Boolean(fieldState.error)}
+                // helperText={fieldState.error?.message}
+                label={label}
+                placeholder={placeholder}
+                disabled={props.disabled}
+              />
+              <FormHelperText sx={{ color: 'red', ml: 2 }}>
+                {fieldState.error && fieldState.error.message}
+              </FormHelperText>
+            </>
           )}
           {...props}
         />

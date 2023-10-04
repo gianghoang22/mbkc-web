@@ -7,7 +7,7 @@ import {
   StoreToConfirm,
   StoreToCreate,
   StoreToUpdate,
-  StoreToUpdateStatus,
+  ToUpdateStatus,
 } from '@types';
 import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { ROUTES_API_STORES } from 'constants/routesApiKeys';
@@ -80,14 +80,14 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
 export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
   console.log(params);
-  // const formData = appendData(data);
+  const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response: MessageResponse = await axiosFormData.put(
         ROUTES_API_STORES.UPDATE_STORE_INFORMATION(idParams?.storeId ? idParams?.storeId : 0),
-        data
+        formData
       );
       if (response) {
         const paramsCallback = {
@@ -119,10 +119,9 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
   }
 };
 
-export const updateStatusStoreThunk = async (params: Params<StoreToUpdateStatus>, thunkAPI: any) => {
+export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
   console.log(params);
-  // const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
@@ -139,18 +138,9 @@ export const updateStatusStoreThunk = async (params: Params<StoreToUpdateStatus>
           },
           navigate,
         };
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
-          await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
-        } else {
-          await thunkAPI.dispatch(getAllStores(paramsCallback));
-        }
+        await thunkAPI.dispatch(getAllStores(paramsCallback));
         navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
-        thunkAPI.dispatch(setMessageSuccess('Update store successfully'));
+        thunkAPI.dispatch(setMessageSuccess('Update store status successfully'));
       }
       return response;
     } catch (error: any) {
@@ -218,16 +208,7 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
           },
           navigate,
         };
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
-          await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
-        } else {
-          await thunkAPI.dispatch(getAllStores(paramsCallback));
-        }
+        await thunkAPI.dispatch(getAllStores(paramsCallback));
         navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
         thunkAPI.dispatch(setMessageSuccess('Deleted store successfully'));
       }

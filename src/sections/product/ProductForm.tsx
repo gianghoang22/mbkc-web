@@ -1,22 +1,60 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 //
 import { Grid, Stack, Typography } from '@mui/material';
 // redux
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { PRODUCT_SIZE_OPTIONS, PRODUCT_TYPE_OPTIONS, ProductSizeEnum, ProductToCreate, ProductTypeEnum } from '@types';
+import {
+  CategoryType,
+  ListParams,
+  PRODUCT_SIZE_OPTIONS,
+  PRODUCT_TYPE_OPTIONS,
+  ProductSizeEnum,
+  ProductToCreate,
+  ProductTypeEnum,
+} from '@types';
 import { Language } from 'common/enum';
-import { InputField, SelectField, UploadImageField } from 'components';
+import { AutoCompleteField, InputField, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
+import { getAllCategories } from 'redux/category/categorySlice';
 
 function ProductForm() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
 
   const { isEditing } = useAppSelector((state) => state.product);
+  const { categories } = useAppSelector((state) => state.category);
+
+  const categoriesOptions = categories.map((category) => ({
+    label: category.name,
+    value: category.categoryId,
+  }));
+
+  const getOpObjKitchenCenter = (option: any) => {
+    if (!option) return option;
+    if (!option.value) return categoriesOptions.find((opt) => opt.value === option);
+    return option;
+  };
 
   const { watch } = useFormContext<ProductToCreate>();
   const productType = watch('type');
-  console.log('productType', productType);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        type: productType === ProductTypeEnum.EXTRA ? CategoryType.EXTRA : CategoryType.NORMAL,
+      },
+      navigate,
+    };
+  }, [productType]);
+
+  useEffect(() => {
+    dispatch<any>(getAllCategories(params));
+  }, [params]);
 
   return (
     <Grid container columnSpacing={3}>
@@ -135,11 +173,19 @@ function ProductForm() {
             )}
             {(productType === ProductTypeEnum.EXTRA ||
               productType === ProductTypeEnum.SINGLE ||
-              productType === ProductTypeEnum.FATHER) && (
-              <SelectField<ProductTypeEnum>
-                fullWidth
-                options={PRODUCT_TYPE_OPTIONS}
+              productType === ProductTypeEnum.PARENT) && (
+              <AutoCompleteField
+                options={categoriesOptions}
+                getOptionLabel={(value: any) => {
+                  return getOpObjKitchenCenter(value)?.label;
+                }}
+                isOptionEqualToValue={(option: any, value: any) => {
+                  if (!option) return option;
+                  return option.value === getOpObjKitchenCenter(value)?.value;
+                }}
+                transformValue={(opt: any) => opt.value}
                 name="categoryId"
+                type="text"
                 label={
                   productType === ProductTypeEnum.EXTRA
                     ? translate('page.form.containExtraProduct')

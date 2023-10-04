@@ -10,7 +10,7 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, ContentSpace, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
-import { getProductDetail, setEditProduct } from 'redux/product/productSlice';
+import { deleteProduct, getProductDetail, setEditProduct } from 'redux/product/productSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductDetailPageSkeleton } from 'sections/product';
 
@@ -29,6 +29,8 @@ function ProductDetailPage() {
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { isLoading, product } = useAppSelector((state) => state.product);
 
+  console.log(product);
+
   const params = useMemo(() => {
     return {
       productId,
@@ -42,13 +44,13 @@ function ProductDetailPage() {
 
   const handleDelete = () => {
     handleOpenModal(product?.name);
-    // dispatch(
-    //   deleteStore({
-    //     idParams: { storeId: store?.storeId },
-    //     pathname: pathname,
-    //     navigate,
-    //   })
-    // );
+    dispatch(
+      deleteProduct({
+        idParams: { productId: product?.productId },
+        pathname: pathname,
+        navigate,
+      })
+    );
   };
 
   return (
@@ -136,7 +138,7 @@ function ProductDetailPage() {
                     <ContentLabel title={translate('table.type')} color={Color.INFO} content={product?.type} />
 
                     <ContentSpace title={translate('table.size')} content={product?.size} />
-                    <ContentSpace title={translate('model.capitalizeOne.category')} content={product?.category} />
+                    <ContentSpace title={translate('model.capitalizeOne.category')} content={product?.category.name} />
                     <ContentSpace title={translate('table.historicalPrice')} content={product?.historicalPrice} />
                     <ContentSpace title={translate('table.sellingPrice')} content={product?.sellingPrice} />
                     <ContentSpace title={translate('table.discountPrice')} content={product?.discountPrice} />

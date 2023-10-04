@@ -17,7 +17,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { Params, Store, StoreToUpdateStatus } from '@types';
+import { Params, Store, ToUpdateStatus } from '@types';
 import { Color, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -98,12 +98,11 @@ function StoreTableRow({
   };
 
   const handleUpdateStatus = () => {
-    const paramUpdate: Params<StoreToUpdateStatus> = {
+    const paramUpdate: Params<ToUpdateStatus> = {
       data: {
         status: store.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
       },
       idParams: {
-        brandId: store?.brand.brandId,
         storeId: store?.storeId,
       },
       optionParams: {

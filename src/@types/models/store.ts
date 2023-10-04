@@ -28,7 +28,7 @@ export interface StoreToUpdate {
   storeManagerEmail: string;
 }
 
-export interface StoreToUpdateStatus {
+export interface ToUpdateStatus {
   status: string;
 }
 
