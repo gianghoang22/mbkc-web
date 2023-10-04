@@ -8,6 +8,7 @@ const ROOTS_BRANDS = '/brands';
 const ROOTS_STORES = '/stores';
 const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCTS = '/products';
+const ROOTS_ORDERS = '/orders';
 const ROOTS_CASHIER = '/cashiers';
 const ROOTS_PARTNER = '/partners';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
@@ -128,6 +129,10 @@ export const RoutesApiKeys = {
   DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
 
   // product
+
+  // order
+  GET_ALL_ORDERS: pathRoot(ROOTS_PRODUCTS),
+  GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),
 
   // cashier
   CREATE_CASHIER: pathRoot(ROOTS_CASHIER),

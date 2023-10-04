@@ -18,6 +18,14 @@ export interface KitchenCenterTable {
   status: string;
 }
 
+export interface OrderTable {
+  customerName: string;
+  customerPhone: string;
+  finalTotalPrice: number;
+  orderCode: string;
+  status: string;
+}
+
 export interface BrandTable {
   brandId: number;
   name: string;
