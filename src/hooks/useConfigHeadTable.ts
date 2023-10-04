@@ -5,6 +5,7 @@ import {
   CategoryTable,
   HeadCell,
   KitchenCenterTable,
+  OrderTable,
   PartnerTable,
   ProductTable,
   StoreTable,
@@ -349,6 +350,44 @@ function useConfigHeadTable() {
     },
   ];
 
+  const OrderHeadCells: HeadCell<OrderTable>[] = [
+    {
+      id: 'orderCode',
+      label: 'Order',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'customerName',
+      label: 'Customer name',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'customerPhone',
+      label: 'Customer phone',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'finalTotalPrice',
+      label: 'Total price',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: translate('table.status'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
   return {
     kitchenCenterHeadCells,
     brandHeadCells,
@@ -358,6 +397,7 @@ function useConfigHeadTable() {
     cashierHeadCells,
     bankingAccountHeadCells,
     partnerHeadCells,
+    OrderHeadCells,
   };
 }
 

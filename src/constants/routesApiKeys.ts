@@ -8,6 +8,7 @@ const ROOTS_BRANDS = '/brands';
 const ROOTS_STORES = '/stores';
 const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCT = '/products';
+const ROOTS_ORDERS = '/orders';
 const ROOTS_CASHIER = '/cashiers';
 const ROOTS_PARTNER = '/partners';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
@@ -112,6 +113,10 @@ export const RoutesApiKeys = {
   GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
   UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
   DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCT, `/${productId}`),
+
+  // order
+  GET_ALL_ORDERS: pathRoot(ROOTS_PRODUCT),
+  GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),
 
   // cashier
   CREATE_CASHIER: pathRoot(ROOTS_CASHIER),
