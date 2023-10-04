@@ -1,19 +1,19 @@
 import { sentenceCase } from 'change-case';
-import { useNavigate } from 'react-router-dom';
-
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+// redux
+import { useAppDispatch } from 'redux/configStore';
+import { getProductDetail_local, setEditProduct } from 'redux/product/productSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { Product } from '@types';
 import { Color, Status } from 'common/enum';
-import { Label, Popover } from 'components';
+import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { useAppDispatch } from 'redux/configStore';
-import { setEditProduct } from 'redux/product/productSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import ProductDetailModal from './ProductDetailModal';
 
 interface ProductTableRowProps {
   product: Product;
@@ -24,13 +24,21 @@ interface ProductTableRowProps {
 function ProductTableRow({ index, product, inTab = false }: ProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
+  const handleNavigateDetail = () => {
+    navigate(PATH_BRAND_APP.product.root + `/detail/${product.productId}`);
+    dispatch(setRoutesToBack(pathname));
+    dispatch(getProductDetail_local(product));
+  };
+
   const handleEdit = () => {
     navigate(PATH_BRAND_APP.product.root + `/update/${product.productId}`);
     dispatch(setEditProduct(product));
+    dispatch(setRoutesToBack(pathname));
   };
 
   const handleDelete = () => {};
@@ -59,33 +67,33 @@ function ProductTableRow({ index, product, inTab = false }: ProductTableRowProps
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={product.name} sx={{ cursor: 'pointer' }}>
-        <TableCell width={60} align="center" onClick={handleOpen}>
+      <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
+        <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" padding="none" width={80} align="center" onClick={handleOpen}>
+        <TableCell component="th" padding="none" width={80} align="center" onClick={handleNavigateDetail}>
           <Avatar alt={product.name} src={product.image} />
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={handleOpen}>
+        <TableCell component="th" scope="row" padding="none" onClick={handleNavigateDetail}>
           <Typography variant="subtitle2" width={160} noWrap>
             {product.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" width={160} onClick={handleOpen}>
+        <TableCell align="left" width={160} onClick={handleNavigateDetail}>
           <Typography variant="body2" width={160} noWrap>
             {product.code}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={handleOpen}>
+        <TableCell align="left" onClick={handleNavigateDetail}>
           {product.historicalPrice}
         </TableCell>
-        <TableCell align="left" onClick={handleOpen}>
+        <TableCell align="left" onClick={handleNavigateDetail}>
           {sentenceCase(product.category)}
         </TableCell>
-        <TableCell align="left" onClick={handleOpen}>
+        <TableCell align="left" onClick={handleNavigateDetail}>
           {sentenceCase(product.type)}
         </TableCell>
-        <TableCell align="left">
+        <TableCell align="left" onClick={handleNavigateDetail}>
           <Label
             color={
               product?.status === Status.ACTIVE
@@ -119,9 +127,18 @@ function ProductTableRow({ index, product, inTab = false }: ProductTableRowProps
         )}
       </TableRow>
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleDelete} />
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
 
-      {isOpen && <ProductDetailModal isOpen={isOpen} handleOpen={handleOpen} product={product} />}
+      {isOpen && (
+        <ConfirmDialog
+          open={isOpen}
+          onClose={handleOpen}
+          onAction={handleDelete}
+          model={product.name}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.product') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.product') })}
+        />
+      )}
     </>
   );
 }

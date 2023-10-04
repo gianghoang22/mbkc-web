@@ -16,19 +16,18 @@ export interface Product {
 }
 
 export interface ProductToCreate {
-  name?: string;
+  name: string;
   code: string;
   description: string;
-  historicalPrice?: number;
-  sellingPrice?: number;
-  discountPrice?: number;
+  historicalPrice?: number | undefined | null;
+  sellingPrice?: number | undefined | null;
+  discountPrice?: number | undefined | null;
   displayOrder: number;
-  size: ProductSizeEnum;
-  type: ProductTypeEnum;
-  image?: string;
-  parentProductId: string;
-  categoryId: string;
-  brandId: string;
+  size?: string | undefined | null;
+  type: string;
+  image?: File | string;
+  parentProductId?: number;
+  categoryId?: number;
 }
 
 export enum ProductStatus {

@@ -1,10 +1,17 @@
-import { Grid, Stack, Typography } from '@mui/material';
-import { PRODUCT_SIZE_OPTIONS, PRODUCT_TYPE_OPTIONS, ProductSizeEnum, ProductToCreate, ProductTypeEnum } from '@types';
-import { InputField, SelectField, UploadImageField } from 'components';
 import { useFormContext } from 'react-hook-form';
+//
+import { Grid, Stack, Typography } from '@mui/material';
+// redux
 import { useAppSelector } from 'redux/configStore';
+//
+import { PRODUCT_SIZE_OPTIONS, PRODUCT_TYPE_OPTIONS, ProductSizeEnum, ProductToCreate, ProductTypeEnum } from '@types';
+import { Language } from 'common/enum';
+import { InputField, SelectField, UploadImageField } from 'components';
+import { useLocales } from 'hooks';
 
 function ProductForm() {
+  const { translate, currentLang } = useLocales();
+
   const { isEditing } = useAppSelector((state) => state.product);
 
   const { watch } = useFormContext<ProductToCreate>();
@@ -16,20 +23,26 @@ function ProductForm() {
       <Grid item md={3} sm={12}>
         <Stack alignItems="center" gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Image</Typography>
+            <Typography variant="subtitle1">{translate('page.content.image')}</Typography>
             <Typography variant="body2" color="grey.600">
-              Select file for product's image
+              {translate('page.content.contentImage', { model: translate('model.lowercase.product') })}
             </Typography>
           </Stack>
-          <UploadImageField label="Drag and drop or select files" name="image" defaultValue="" isEditing={isEditing} />
+          <UploadImageField
+            label={translate('page.content.dragDrop')}
+            name="image"
+            defaultValue=""
+            isEditing={isEditing}
+          />
         </Stack>
       </Grid>
       <Grid item md={9} sm={12}>
         <Stack gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Detail</Typography>
+            <Typography variant="subtitle1">{translate('page.content.detail')}</Typography>
             <Typography variant="body2" color="grey.600">
-              Name, code, type,...
+              {translate('table.name')}, {translate('table.lowercase.code')}, {translate('table.lowercase.type')},{' '}
+              {translate('table.lowercase.description')},...
             </Typography>
           </Stack>
 
@@ -38,18 +51,60 @@ function ProductForm() {
               <InputField
                 fullWidth
                 name="name"
-                label="Name"
+                label={translate(
+                  'page.form.nameExchange',
+                  currentLang.value === Language.ENGLISH
+                    ? {
+                        model: translate('model.capitalizeOne.product'),
+                        name: translate('page.form.nameLower'),
+                      }
+                    : {
+                        model: translate('page.form.name'),
+                        name: translate('model.lowercase.product'),
+                      }
+                )}
                 disabled={productType === ProductTypeEnum.CHILD}
                 helperText={
-                  productType === ProductTypeEnum.CHILD ? 'Tên của sản phẩm con: tên sản phẩm cha + size được chọn' : ''
+                  productType === ProductTypeEnum.CHILD ? translate('page.validation.nameProductHelperText') : ''
                 }
               />
-              <InputField fullWidth name="code" label="Code" />
+              <InputField
+                fullWidth
+                name="code"
+                label={translate(
+                  'page.form.nameExchange',
+                  currentLang.value === Language.ENGLISH
+                    ? {
+                        model: translate('model.capitalizeOne.product'),
+                        name: translate('page.form.codeLower'),
+                      }
+                    : {
+                        model: translate('page.form.code'),
+                        name: translate('model.lowercase.product'),
+                      }
+                )}
+              />
             </Stack>
-            <InputField fullWidth name="description" label="Description" multiline minRows={8} />
+            <InputField fullWidth name="description" label={translate('table.description')} multiline minRows={8} />
             <Stack direction="row" alignItems="start" gap={2}>
-              <SelectField<ProductTypeEnum> fullWidth options={PRODUCT_TYPE_OPTIONS} name="type" label="Product type" />
-              <InputField type="number" fullWidth name="displayOrder" label="Display order" />
+              <SelectField<ProductTypeEnum>
+                fullWidth
+                options={PRODUCT_TYPE_OPTIONS}
+                name="type"
+                label={translate(
+                  'page.form.nameExchange',
+                  currentLang.value === Language.ENGLISH
+                    ? {
+                        model: translate('model.capitalizeOne.product'),
+                        name: translate('table.lowercase.type'),
+                      }
+                    : {
+                        model: translate('table.type'),
+                        name: translate('model.lowercase.product'),
+                      }
+                )}
+              />
+              <InputField type="number" fullWidth name="displayOrder" label={translate('table.displayOrder')} />
             </Stack>
             {(productType === ProductTypeEnum.CHILD ||
               productType === ProductTypeEnum.SINGLE ||
@@ -59,22 +114,22 @@ function ProductForm() {
                   fullWidth
                   type="number"
                   name="sellingPrice"
-                  label="Selling price*"
-                  helperText="Selling price of the product"
+                  label={translate('table.sellingPrice') + '*'}
+                  helperText={translate('page.validation.sellingPriceContent')}
                 />
                 <InputField
                   fullWidth
                   type="number"
                   name="discountPrice"
-                  label="Discount price*"
-                  helperText="Reduced price of the product"
+                  label={translate('table.discountPrice') + '*'}
+                  helperText={translate('page.validation.discountPriceContent')}
                 />
                 <InputField
                   fullWidth
                   type="number"
                   name="historicalPrice"
-                  label="Original price*"
-                  helperText="Cost of manufacturing products"
+                  label={translate('table.historicalPrice') + '*'}
+                  helperText={translate('page.validation.historicalPriceContent')}
                 />
               </Stack>
             )}
@@ -87,8 +142,8 @@ function ProductForm() {
                 name="categoryId"
                 label={
                   productType === ProductTypeEnum.EXTRA
-                    ? 'Categories contain extra products'
-                    : 'Categories contain products'
+                    ? translate('page.form.containExtraProduct')
+                    : translate('page.form.containProduct')
                 }
               />
             )}
@@ -98,13 +153,13 @@ function ProductForm() {
                   fullWidth
                   options={PRODUCT_TYPE_OPTIONS}
                   name="parentProductId"
-                  label="Father Product"
+                  label={translate('page.form.parentProduct')}
                 />
                 <SelectField<ProductSizeEnum>
                   fullWidth
                   options={PRODUCT_SIZE_OPTIONS}
                   name="size"
-                  label="Product size"
+                  label={translate('page.form.productSize')}
                 />
               </Stack>
             )}
