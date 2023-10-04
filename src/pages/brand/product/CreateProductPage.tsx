@@ -20,6 +20,8 @@ function CreateProductPage(props: any) {
   const { translate } = useLocales();
   const { schemaProduct } = useValidationForm();
 
+  console.log('Change product');
+
   const { isEditing } = useAppSelector((state) => state.product);
 
   const createProductForm = useForm<ProductToCreate>({
