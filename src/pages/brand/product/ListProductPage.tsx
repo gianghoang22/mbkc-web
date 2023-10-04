@@ -1,16 +1,18 @@
-import { useMemo, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-//
-import { OrderSort, ProductTable } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+// redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setAddProduct } from 'redux/product/productSlice';
+import { getAllProducts, setAddProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+//
+import { ListParams, OrderSort, ProductTable } from '@types';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
 import { getComparator, stableSort } from 'utils';
@@ -51,6 +53,23 @@ function ListProductPage() {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllProducts(params));
+  }, [params]);
+
   return (
     <>
       <Page
@@ -90,7 +109,7 @@ function ListProductPage() {
                   ) : (
                     <TableBody>
                       {visibleRows.map((product, index) => {
-                        return <ProductTableRow index={index} product={product} />;
+                        return <ProductTableRow key={product.productId} index={index} product={product} />;
                       })}
                       {emptyRows > 0 ||
                         (products.length === 0 && (

@@ -3,7 +3,7 @@ import { Divider, Stack, Typography } from '@mui/material';
 interface ContentSpaceProps {
   divider?: boolean;
   title: string;
-  content: string | number;
+  content: string | number | undefined;
 }
 
 function ContentSpace({ divider = true, title, content }: ContentSpaceProps) {

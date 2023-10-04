@@ -9,8 +9,10 @@
   },
   "content": {
     "logo": "Logo",
+    "image": "Hình ảnh",
     "detail": "Chi tiết",
     "contentLogo": "Chọn file logo của {{model}}",
+    "contentImage": "Chọn file hỉnh ảnh của {{model}}",
     "dragDrop": "Kéo và thả hoặc chọn tập tin",
     "generalInformation": "Thông tin chung",
     "storeOfBrand": "Danh sách {{model}} của {{name}}",
@@ -37,7 +39,11 @@
     "code": "Mã",
     "codeLower": "mã",
     "content": "Nội dung",
-    "contentLower": "nội dung"
+    "contentLower": "nội dung",
+    "containProduct": "Danh mục chứa sản phẩm",
+    "containExtraProduct": "Danh mục chứa sản phẩm extra",
+    "parentProduct": "Sản phẩm cha",
+    "productSize": "Kích cỡ sản phẩm"
   },
   "validation": {
     "required": "Vui lòng nhập {{name}}",
@@ -48,6 +54,13 @@
     "otpMatches": "OTP chỉ bao gồm chứa số",
     "matchPassword": "Xác nhận mật khẩu không khớp với mật khẩu mới",
     "atLeast": "Ít nhất {{number}} giá trị",
-    "max100": "Không được vượt quá 100 ký tự"
+    "max20": "Không được vượt quá 20 ký tự",
+    "max100": "Không được vượt quá 100 ký tự",
+    "max120": "Không được vượt quá 120 ký tự",
+    "max1000": "Không được vượt quá 1000 ký tự",
+    "sellingPriceContent": "Giá bán của sản phẩm",
+    "discountPriceContent": "Giá đã giảm của sản phẩm",
+    "historicalPriceContent": "Chi phí sản xuất sản phẩm",
+    "nameProductHelperText": "Tên của sản phẩm con: tên sản phẩm cha + size được chọn"
   }
 }

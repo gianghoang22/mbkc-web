@@ -17,10 +17,13 @@
   "avatar": "Ảnh đại diệm",
   "type": "Loại",
   "historicalPrice": "Giá gốc",
+  "sellingPrice": "Giá bán",
+  "discountPrice": "Giá đã giảm",
   "code": "Mã",
   "description": "Mô tả",
   "displayOrder": "Thứ tự hiển thị",
   "rejectedReason": "Lý do từ chối",
+  "size": "Kích cỡ",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",
@@ -29,6 +32,12 @@
     "type": "loại",
     "description": "mô tả",
     "displayOrder": "thứ tự hiển thị",
-    "status": "trạng thái"
+    "status": "trạng thái",
+    "historicalPrice": "giá gốc",
+    "sellingPrice": "giá bán",
+    "discountPrice": "giá đã giảm"
+  },
+  "uppercase": {
+    "code": "MÃ"
   }
 }
