@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 //
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound, Tabs } from 'components';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Tabs } from 'components/tabs';
 import { OrderTableRow, OrderTableToolbar } from 'sections/order';
 import { Order, OrderSort, OrderTable } from '@types';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
