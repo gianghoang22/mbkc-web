@@ -15,6 +15,8 @@ export { default as CommonTableHead } from './table/CommonTableHead';
 export { default as SearchNotFound } from './table/SearchNotFound';
 export { default as EmptyTable } from './table/EmptyTable';
 export { default as UploadAvatar } from './upload/UploadAvatar';
+export { default as Tabs } from './tabs/Tabs';
+
 //form
 export { default as AutoCompleteField } from './form/AutoCompleteField';
 export { default as CheckBoxField } from './form/CheckBoxField';
