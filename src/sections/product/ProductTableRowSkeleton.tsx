@@ -10,7 +10,7 @@ function ProductTableRowSkeleton({ length, inTab = false }: ProductTableRowSkele
   return (
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
-        <TableRow key={index}>
+        <TableRow key={index} sx={{ height: '72.89px' }}>
           <TableCell width={60} align="center">
             <Stack direction="row" alignItems="center" justifyContent="center">
               <Skeleton width={20} />
@@ -19,32 +19,34 @@ function ProductTableRowSkeleton({ length, inTab = false }: ProductTableRowSkele
           <TableCell component="th" padding="none" align="center" width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell component="th" scope="row" padding="none" width={inTab ? 170 : 215}>
+          <TableCell component="th" scope="row" padding="none" width={!inTab ? 202 : 195}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={inTab ? 190 : 180}>
+          <TableCell align="left" width={!inTab ? 192 : 192}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={inTab ? 115 : 160}>
+          <TableCell align="left" width={!inTab ? 140 : 133}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={inTab ? 130 : 165}>
+          <TableCell align="left" width={!inTab ? 160 : 153}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={inTab ? 130 : 165}>
+          <TableCell align="left" width={!inTab ? 155 : 150}>
             <Skeleton />
           </TableCell>
           <TableCell align="left">
-            <Skeleton variant="rounded" width={100} height={24} />
+            <Skeleton variant="rounded" width={!inTab ? 100 : 120} height={24} />
           </TableCell>
-          <TableCell align="right">
-            <Stack direction="row" alignItems="center" justifyContent="right">
-              <Skeleton variant="rounded" width={30} height={14} />
-              <IconButton color="inherit">
-                <Skeleton variant="circular" width={28} height={28} />
-              </IconButton>
-            </Stack>
-          </TableCell>
+          {!inTab && (
+            <TableCell align="right">
+              <Stack direction="row" alignItems="center" justifyContent="right">
+                <Skeleton variant="rounded" width={30} height={14} />
+                <IconButton color="inherit">
+                  <Skeleton variant="circular" width={28} height={28} />
+                </IconButton>
+              </Stack>
+            </TableCell>
+          )}
         </TableRow>
       ))}
     </TableBody>

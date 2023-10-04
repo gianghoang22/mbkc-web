@@ -16,11 +16,14 @@
   "gender": "Gender",
   "avatar": "Avatar",
   "type": "Type",
-  "historicalPrice": "Historical price",
+  "historicalPrice": "Original price",
+  "sellingPrice": "Selling price",
+  "discountPrice": "Discount price",
   "code": "Code",
   "description": "Description",
   "displayOrder": "Display order",
   "rejectedReason": "Rejected reason",
+  "size": "Size",
   "lowercase": {
     "address": "address",
     "email": "email",
@@ -29,6 +32,12 @@
     "description": "description",
     "displayOrder": "display order",
     "numberAccount": "number account",
-    "status": "status"
+    "status": "status",
+    "historicalPrice": "original price",
+    "sellingPrice": "selling price",
+    "discountPrice": "discount price"
+  },
+  "uppercase": {
+    "code": "CODE"
   }
 }

@@ -2,6 +2,7 @@ import * as yup from 'yup';
 import useLocales from './useLocales';
 import { Language } from 'common/enum';
 import { ref } from 'yup';
+import { ProductSizeEnum, ProductTypeEnum } from '@types';
 
 function useValidationForm() {
   const { translate, currentLang } = useLocales();
@@ -132,12 +133,12 @@ function useValidationForm() {
     displayOrder: yup
       .number()
       .typeError(
-        translate('page.validation.select', {
+        translate('page.validation.required', {
           name: translate('table.lowercase.displayOrder'),
         })
       )
       .required(
-        translate('page.validation.select', {
+        translate('page.validation.required', {
           name: translate('table.lowercase.displayOrder'),
         })
       ),
@@ -149,6 +150,94 @@ function useValidationForm() {
         })
       )
       .max(100, translate('page.validation.max100')),
+  });
+
+  const schemaProduct = yup.object({
+    name: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.lowercase.product'),
+                  name: translate('page.form.nameLower'),
+                }
+              : {
+                  model: translate('page.form.nameLower'),
+                  name: translate('model.lowercase.product'),
+                }
+          ),
+        })
+      )
+      .max(120, translate('page.validation.max120')),
+    code: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.lowercase.product'),
+                  name: translate('page.form.codeLower'),
+                }
+              : {
+                  model: translate('page.form.codeLower'),
+                  name: translate('model.lowercase.product'),
+                }
+          ),
+        })
+      )
+      .max(20, translate('page.validation.max20')),
+    description: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate('table.lowercase.description'),
+        })
+      )
+      .max(1000, translate('page.validation.max1000')),
+    historicalPrice: yup.number().typeError(
+      translate('page.validation.required', {
+        name: translate('table.lowercase.historicalPrice'),
+      })
+    ),
+    sellingPrice: yup.number().typeError(
+      translate('page.validation.required', {
+        name: translate('table.lowercase.sellingPrice'),
+      })
+    ),
+    discountPrice: yup.number().typeError(
+      translate('page.validation.required', {
+        name: translate('table.lowercase.discountPrice'),
+      })
+    ),
+    displayOrder: yup
+      .number()
+      .typeError(
+        translate('page.validation.required', {
+          name: translate('table.lowercase.displayOrder'),
+        })
+      )
+      .required(
+        translate('page.validation.required', {
+          name: translate('table.lowercase.displayOrder'),
+        })
+      ),
+    size: yup.string(),
+    // .required('Please select Product size')
+    // .oneOf(Object.values(ProductSizeEnum), 'Please select Product size'),
+    type: yup.string().required('Please select Product type'),
+    parentProductId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
+    categoryId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
   });
 
   const schemaBrand = yup.object({
@@ -206,6 +295,7 @@ function useValidationForm() {
     schemaStore,
     schemaBrand,
     schemaCategory,
+    schemaProduct,
     schemaBankingAccount,
   };
 }

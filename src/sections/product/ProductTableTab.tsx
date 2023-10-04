@@ -1,17 +1,23 @@
-import { useMemo, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllProducts } from 'redux/product/productSlice';
 //
-import { OrderSort, ProductTable } from '@types';
+import { ListParams, OrderSort, ProductTable } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { getComparator, stableSort } from 'utils';
 import ProductTableRow from './ProductTableRow';
 import ProductTableRowSkeleton from './ProductTableRowSkeleton';
 import ProductTableToolbar from './ProductTableToolbar';
 
 function ProductTableTab() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { productHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -20,7 +26,6 @@ function ProductTableTab() {
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
-
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
@@ -45,6 +50,23 @@ function ProductTableTab() {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllProducts(params));
+  }, [params]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -52,7 +74,6 @@ function ProductTableTab() {
         <TableContainer>
           <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
             <CommonTableHead<ProductTable>
-              showAction
               headCells={productHeadCells}
               order={order}
               orderBy={orderBy}

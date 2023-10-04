@@ -9,8 +9,10 @@
   },
   "content": {
     "logo": "Logo",
+    "image": "Image",
     "detail": "Detail",
     "contentLogo": "Select the file of the {{model}}'s logo",
+    "contentImage": "Select the file of the {{model}}'s image",
     "dragDrop": "Drag and drop or select files",
     "generalInformation": "General information",
     "storeOfBrand": "List {{model}} of {{name}}",
@@ -37,7 +39,11 @@
     "code": "Code",
     "codeLower": "code",
     "content": "Content",
-    "contentLower": "content"
+    "contentLower": "content",
+    "containProduct": "Categories contain products",
+    "containExtraProduct": "Categories contain extra products",
+    "parentProduct": "Father product",
+    "productSize": "Product size"
   },
   "validation": {
     "required": "Please enter {{name}}",
@@ -48,6 +54,13 @@
     "otpMatches": "OTP must contain only numbers",
     "matchPassword": "Confirm password not match with new password",
     "atLeast": "At least {{number}} value(s)",
-    "max100": "Must not exceed 100 characters."
+    "max20": "Must not exceed 20 characters.",
+    "max100": "Must not exceed 100 characters.",
+    "max120": "Must not exceed 120 characters.",
+    "max1000": "Must not exceed 1000 characters.",
+    "sellingPriceContent": "Selling price of the product",
+    "discountPriceContent": "Reduced price of the product",
+    "historicalPriceContent": "Cost of manufacturing products",
+    "nameProductHelperText": "Name of child product: parent product name + selected size"
   }
 }

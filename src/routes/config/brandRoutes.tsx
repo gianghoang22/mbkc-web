@@ -7,6 +7,7 @@ import {
   ListCategoryPage,
   ListExtraCategoryPage,
   ListProductPage,
+  ProductDetailPage,
 } from 'pages/brand';
 import { CreateStorePage, ListStorePage, StoreDetailPage } from 'pages/common';
 import { InformationPage, ProfilePage } from 'pages/profile';
@@ -56,6 +57,11 @@ export const brandRoutes: Route[] = [
   {
     path: PATH_BRAND_APP.product.newProduct,
     component: <CreateProductPage />,
+    index: false,
+  },
+  {
+    path: PATH_BRAND_APP.product.detailById,
+    component: <ProductDetailPage />,
     index: false,
   },
   {

@@ -1,8 +1,17 @@
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+//
 import ReplayIcon from '@mui/icons-material/Replay';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
+// redux
+import { useAppDispatch } from 'redux/configStore';
+import { getAllProducts } from 'redux/product/productSlice';
+
+import { ListParams } from '@types';
+import { useDebounce, useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from 'sections/styles';
-import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -14,7 +23,23 @@ interface ProductTableToolbarProps {
 function ProductTableToolbar(props: ProductTableToolbarProps) {
   const { filterName, onFilterName } = props;
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate } = useLocales();
+  const { page, rowsPerPage } = usePagination();
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
 
   return (
     <StyledRoot>
@@ -31,7 +56,7 @@ function ProductTableToolbar(props: ProductTableToolbarProps) {
       />
 
       <Tooltip title={translate('button.reload')}>
-        <IconButton>
+        <IconButton onClick={() => dispatch<any>(getAllProducts(params))}>
           <ReplayIcon />
         </IconButton>
       </Tooltip>

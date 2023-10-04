@@ -66,6 +66,7 @@ export const PATH_BRAND_APP = {
   product: {
     root: path(ROOTS_BRAND_DASHBOARD, '/product'),
     list: path(ROOTS_BRAND_DASHBOARD, '/product/list'),
+    detailById: path(ROOTS_BRAND_DASHBOARD, '/product/detail/:id'),
     editById: path(ROOTS_BRAND_DASHBOARD, '/product/update/:id'),
     newProduct: path(ROOTS_BRAND_DASHBOARD, '/product/create-new'),
   },

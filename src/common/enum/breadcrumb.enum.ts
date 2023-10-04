@@ -4,7 +4,7 @@ export enum Breadcrumb {
   STORE = 'store',
   CATEGORY = 'category',
   EXTRA_CATEGORY = 'extra category',
-  PRODUCT = 'category',
+  PRODUCT = 'product',
   CASHIER = 'cashier',
   ORDER = 'order',
   BANKING_ACCOUNT = 'banking account',
