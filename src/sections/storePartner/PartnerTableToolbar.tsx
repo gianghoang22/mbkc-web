@@ -1,8 +1,17 @@
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+// @mui
 import ReplayIcon from '@mui/icons-material/Replay';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
+// redux
+import { useAppDispatch } from 'redux/configStore';
+import { getAllPartners } from 'redux/partner/partnerSlice';
+//
+import { ListParams } from '@types';
+import { useDebounce, useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
-import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +22,23 @@ interface PartnerTableToolbarProps {
 
 function PartnerTableToolbar(props: PartnerTableToolbarProps) {
   const { filterName, onFilterName } = props;
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate } = useLocales();
+  const { page, rowsPerPage } = usePagination();
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page === 0 ? page + 1 : page,
+        keySearchName: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
 
   return (
     <StyledRoot>
@@ -30,7 +55,7 @@ function PartnerTableToolbar(props: PartnerTableToolbarProps) {
       />
 
       <Tooltip title={translate('button.reload')}>
-        <IconButton>
+        <IconButton onClick={() => dispatch<any>(getAllPartners(params))}>
           <ReplayIcon />
         </IconButton>
       </Tooltip>

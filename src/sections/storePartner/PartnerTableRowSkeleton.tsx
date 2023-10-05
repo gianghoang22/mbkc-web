@@ -11,12 +11,12 @@ function PartnerTableRowSkeleton({ length }: { length: number }) {
               <Skeleton width={20} />
             </Stack>
           </TableCell>
-          <TableCell component="th" scope="row" padding="none" width={120}>
+          <TableCell component="th" scope="row" padding="none" width={300}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
 
-          <TableCell align="left" padding="none" width={397} sx={{ pr: 2 }}>
-            <Skeleton />
+          <TableCell align="left" padding="none" width={350} sx={{ pr: 2 }}>
+            <Skeleton width={120} />
           </TableCell>
 
           <TableCell align="left">

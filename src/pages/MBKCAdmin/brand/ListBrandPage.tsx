@@ -53,7 +53,7 @@ function ListBrandPage() {
   const options = {
     keySearchName: filterName,
     keyStatusFilter: 'active',
-    currentPage: page + 1,
+    currentPage: page === 0 ? page + 1 : page,
     itemsPerPage: rowsPerPage,
   };
 
@@ -117,7 +117,7 @@ function ListBrandPage() {
                         );
                       })}
                       {emptyRows > 0 ||
-                        (brands.length === 0 && (
+                        (brands.length === 0 && !filterName && (
                           <EmptyTable colNumber={brandHeadCells.length} model={translate('model.lowercase.brand')} />
                         ))}
                     </TableBody>

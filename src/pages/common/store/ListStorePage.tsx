@@ -58,7 +58,7 @@ function ListStorePage() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page === 0 ? page + 1 : page,
         searchValue: debounceValue,
       },
       navigate,
@@ -69,7 +69,7 @@ function ListStorePage() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page === 0 ? page + 1 : page,
         searchValue: debounceValue,
         idBrand: 1, // Must edit to fix brand login
       },
@@ -139,7 +139,7 @@ function ListStorePage() {
                             key={store.storeId}
                             index={index}
                             store={store}
-                            page={page + 1}
+                            page={page === 0 ? page + 1 : page}
                             rowsPerPage={rowsPerPage}
                             length={visibleRows.length}
                             haveBrand={userAuth?.roleName === Role.MBKC_ADMIN}

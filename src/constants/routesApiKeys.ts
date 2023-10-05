@@ -10,7 +10,7 @@ const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCTS = '/products';
 const ROOTS_ORDERS = '/orders';
 const ROOTS_CASHIER = '/cashiers';
-const ROOTS_PARTNER = '/partners';
+const ROOTS_PARTNERS = '/partners';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
 
@@ -88,6 +88,18 @@ export const ROUTES_API_PRODUCTS = {
   DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
 };
 
+export const ROUTES_API_PARTNERS = {
+  CREATE_PARTNER: pathRoot(ROOTS_PARTNERS),
+  GET_ALL_PARTNER: ({ keySearchName = '', currentPage = '', itemsPerPage = '', isGetAll = '' }: OptionParams) =>
+    path(
+      ROOTS_PARTNERS,
+      `?keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+    ),
+  GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
+  UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
+  DELETE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
+};
+
 export const RoutesApiKeys = {
   // kitchen center
   GET_ALL_KITCHEN_CENTER: ({
@@ -154,13 +166,6 @@ export const RoutesApiKeys = {
   UPDATE_STATUS_BANKING_ACCOUNT: (bankingAccountId: number) =>
     path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}/updating-status`),
   DELETE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
-
-  // partner
-  CREATE_PARTNER: pathRoot(ROOTS_PARTNER),
-  GET_ALL_PARTNER: pathRoot(ROOTS_PARTNER),
-  GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNER, `/${partnerId}`),
-  UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNER, `/${partnerId}`),
-  DELETE_PARTNER: (partnerId: number) => path(ROOTS_PARTNER, `/${partnerId}`),
 
   // transaction
   CREATE_TRANSACTION: pathRoot(ROOTS_TRANSACTION),

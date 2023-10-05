@@ -1,15 +1,18 @@
-import { axiosClient, setHeaderAuth } from 'api/axiosClient';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
+import { ListParams, Params, Partner, PartnerToCreate, PartnerToUpdate } from '@types';
+import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
+import { ROUTES_API_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { getAccessToken, getErrorMessage } from 'utils';
+import { appendData, getAccessToken, getErrorMessage } from 'utils';
+import { getAllPartners } from './partnerSlice';
 
-export const getAllPartnersThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const getAllPartnersThunk = async (params: ListParams, thunkAPI: any) => {
+  const { optionParams, navigate } = params;
+  console.log(optionParams);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_PARTNER);
+      const response = await axiosClient.get(ROUTES_API_PARTNERS.GET_ALL_PARTNER(optionParams));
       console.log(response);
       return response;
     } catch (error: any) {
@@ -26,7 +29,7 @@ export const getPartnerDetailThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_PARTNER_DETAIL(partnerId));
+      const response = await axiosClient.get(ROUTES_API_PARTNERS.GET_PARTNER_DETAIL(partnerId));
       console.log(response);
       return response;
     } catch (error: any) {
@@ -37,17 +40,24 @@ export const getPartnerDetailThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const createNewPartnerThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thunkAPI: any) => {
+  const { data, navigate } = params;
+  const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.CREATE_PARTNER);
+      const response = await axiosFormData.post(ROUTES_API_PARTNERS.CREATE_PARTNER, formData);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        const params = {
+          optionParams: {
+            itemsPerPage: 5,
+            currentPage: 1,
+          },
+          navigate,
+        };
+        thunkAPI.dispatch(getAllPartners(params));
+        thunkAPI.dispatch(setMessageSuccess('Created new partner successfully'));
       }
       return response;
     } catch (error: any) {
@@ -58,16 +68,28 @@ export const createNewPartnerThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const updatePartnerThunk = async (params: any, thunkAPI: any) => {
-  const { partnerId, navigate } = params;
+export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkAPI: any) => {
+  const { data, idParams, optionParams, navigate } = params;
+  console.log(optionParams);
+  const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.UPDATE_PARTNER(partnerId), params.upadateSportCenter);
+      const response = await axiosFormData.put(
+        ROUTES_API_PARTNERS.UPDATE_PARTNER(idParams?.partnerId ? idParams.partnerId : 0),
+        formData
+      );
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+        const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage,
+            currentPage: optionParams?.currentPage,
+          },
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllPartners(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Update partner successfully'));
       }
       return response;
     } catch (error: any) {
@@ -78,16 +100,25 @@ export const updatePartnerThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const deletePartnerThunk = async (params: any, thunkAPI: any) => {
-  const { partnerId, navigate } = params;
+export const deletePartnerThunk = async (params: Params<Partner>, thunkAPI: any) => {
+  const { idParams, optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.delete(RoutesApiKeys.DELETE_PARTNER(partnerId));
+      const response = await axiosClient.delete(
+        ROUTES_API_PARTNERS.DELETE_PARTNER(idParams?.partnerId ? idParams.partnerId : 0)
+      );
       if (response) {
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
+        const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          },
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllPartners(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Deleted partner successfully'));
       }
       return response;
     } catch (error: any) {

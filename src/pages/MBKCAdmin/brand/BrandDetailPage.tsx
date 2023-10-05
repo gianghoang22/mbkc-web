@@ -202,7 +202,7 @@ function BrandDetailPage() {
                         );
                       })}
                       {emptyRows > 0 ||
-                        (stores.length === 0 && (
+                        (stores.length === 0 && !filterName && (
                           <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
                         ))}
                     </TableBody>

@@ -82,7 +82,7 @@ function KitchenCenterDetailPage(props: any) {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page === 0 ? page + 1 : page,
         searchValue: debounceValue,
         idKitchenCenter: kitchenCenterId, // Must edit to fix brand login
       },
@@ -186,7 +186,7 @@ function KitchenCenterDetailPage(props: any) {
                           );
                         })}
                         {emptyRows > 0 ||
-                          (stores.length === 0 && (
+                          (stores.length === 0 && !filterName && (
                             <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
                           ))}
                       </TableBody>

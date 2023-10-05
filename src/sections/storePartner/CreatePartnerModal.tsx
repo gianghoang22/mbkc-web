@@ -1,39 +1,39 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, Dialog, DialogActions, DialogContent, Stack, Typography, IconButton } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 //
-import { PartnerToCreate } from '@types';
-import { Color, Language } from 'common/enum';
+import { Params, PartnerToCreate, PartnerToUpdate } from '@types';
+import { Color, Language, Status } from 'common/enum';
 import { InputField, UploadImageField } from 'components';
-import { useLocales } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
+import { useLocales, useValidationForm } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { useNavigate } from 'react-router-dom';
+import { createNewPartner, updatePartner } from 'redux/partner/partnerSlice';
 
 interface CreatePartnerModalProps {
+  page: number;
+  rowsPerPage: number;
   isOpen: boolean;
   handleOpen: (title: any) => void;
 }
 
-function CreatePartnerModal({ isOpen, handleOpen }: CreatePartnerModalProps) {
+function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePartnerModalProps) {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
-  const { partner, isEditing } = useAppSelector((state) => state.partner);
+  const { schemaPartner } = useValidationForm();
+
+  const { partner, isEditing, isLoading } = useAppSelector((state) => state.partner);
 
   const createPartnerForm = useForm<PartnerToCreate>({
     defaultValues: {
       name: isEditing && partner ? partner?.name : '',
       logo: isEditing && partner ? partner?.logo : '',
+      webUrl: isEditing && partner ? partner?.webUrl : '',
     },
-    resolver: yupResolver(
-      yup.object({
-        name: yup.string().required(
-          translate('page.validation.required', {
-            name: `${translate('page.form.nameLower')} ${translate('model.lowercase.partner')}`,
-          })
-        ),
-      })
-    ),
+    resolver: yupResolver(schemaPartner),
   });
 
   const { handleSubmit, reset } = createPartnerForm;
@@ -42,6 +42,48 @@ function CreatePartnerModal({ isOpen, handleOpen }: CreatePartnerModalProps) {
     const data = { ...values };
 
     console.log(data);
+
+    if (isEditing) {
+      if (typeof values.logo === 'string') {
+        const paramUpdate: Params<PartnerToUpdate> = {
+          data: {
+            name: data.name,
+            status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+            logo: '',
+            webUrl: data.webUrl,
+          },
+          idParams: {
+            partnerId: partner?.partnerId,
+          },
+          navigate,
+        };
+        dispatch(updatePartner(paramUpdate));
+      } else {
+        const paramUpdate: Params<PartnerToUpdate> = {
+          data: {
+            name: data.name,
+            status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+            logo: data.logo,
+            webUrl: data.webUrl,
+          },
+          optionParams: {
+            currentPage: page === 0 ? page + 1 : page,
+            itemsPerPage: rowsPerPage,
+          },
+          idParams: {
+            partnerId: partner?.partnerId,
+          },
+          navigate,
+        };
+        dispatch(updatePartner(paramUpdate));
+      }
+    } else {
+      const paramCreate: Params<PartnerToCreate> = {
+        data: data,
+        navigate,
+      };
+      dispatch(createNewPartner(paramCreate));
+    }
   };
 
   return (
@@ -73,27 +115,32 @@ function CreatePartnerModal({ isOpen, handleOpen }: CreatePartnerModalProps) {
                   isEditing={isEditing}
                 />
 
-                <InputField
-                  fullWidth
-                  name="name"
-                  label={translate(
-                    'page.form.nameExchange',
-                    currentLang.value === Language.ENGLISH
-                      ? {
-                          model: translate('model.capitalizeOne.partner'),
-                          name: translate('page.form.nameLower'),
-                        }
-                      : {
-                          model: translate('page.form.name'),
-                          name: translate('model.lowercase.partner'),
-                        }
-                  )}
-                />
+                <Stack width="100%" gap={2}>
+                  <InputField
+                    fullWidth
+                    name="name"
+                    label={translate(
+                      'page.form.nameExchange',
+                      currentLang.value === Language.ENGLISH
+                        ? {
+                            model: translate('model.capitalizeOne.partner'),
+                            name: translate('page.form.nameLower'),
+                          }
+                        : {
+                            model: translate('page.form.name'),
+                            name: translate('model.lowercase.partner'),
+                          }
+                    )}
+                  />
+
+                  <InputField fullWidth name="webUrl" label={translate('page.form.webUrlLower')} />
+                </Stack>
               </Stack>
             </DialogContent>
             <DialogActions sx={{ px: 3, pb: 3 }}>
               {isEditing && (
                 <Button
+                  disabled={isLoading}
                   variant="contained"
                   color="inherit"
                   onClick={() => {
@@ -109,6 +156,7 @@ function CreatePartnerModal({ isOpen, handleOpen }: CreatePartnerModalProps) {
               <Button
                 type="submit"
                 variant="contained"
+                disabled={isLoading}
                 color={isEditing ? Color.WARNING : Color.PRIMARY}
                 onClick={handleSubmit(onSubmit)}
               >

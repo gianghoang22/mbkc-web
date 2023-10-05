@@ -59,8 +59,6 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     setAddCategory: (state) => {
-      console.log('add category');
-      console.log(getCategoryTypeInStorage);
       state.isEditing = false;
       setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, false);
     },

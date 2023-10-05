@@ -111,7 +111,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
       optionParams: {
         type: CategoryType.EXTRA,
         pageSize: rowsPerPage,
-        pageNumber: page + 1,
+        pageNumber: page === 0 ? page + 1 : page,
         keySearchName: debounceValue,
       },
       navigate,
@@ -182,7 +182,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                           );
                         })}
                         {emptyRows > 0 ||
-                          (categories.length === 0 && (
+                          (categories.length === 0 && !filterName && (
                             <EmptyTable
                               colNumber={categoryHeadCells.length}
                               model={translate('model.lowercase.extraCategory')}

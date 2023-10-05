@@ -3,15 +3,16 @@ import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
-// @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllPartners } from 'redux/partner/partnerSlice';
+import { setAddStore } from 'redux/store/storeSlice';
 //
 import { ListParams, OrderSort, PartnerTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllStores, setAddStore } from 'redux/store/storeSlice';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import {
   CreatePartnerModal,
@@ -33,7 +34,7 @@ function ListPartnerPage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { partners, isLoading } = useAppSelector((state) => state.partner);
+  const { partners, isLoading, numberItems } = useAppSelector((state) => state.partner);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof PartnerTable>('name');
@@ -54,26 +55,27 @@ function ListPartnerPage() {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - partners.length) : 0;
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(partners, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    () => stableSort(partners, getComparator(order, orderBy)),
     [order, orderBy, page, rowsPerPage, partners]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const debounceValue = useDebounce(filterName, 500);
+
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
-        searchValue: filterName,
+        currentPage: page === 0 ? page + 1 : page,
+        keySearchName: debounceValue,
       },
       navigate,
     };
-  }, [page, rowsPerPage, filterName]);
+  }, [page, rowsPerPage, debounceValue]);
 
   useEffect(() => {
-    dispatch(getAllStores(params));
+    dispatch(getAllPartners(params));
   }, [params]);
 
   return (
@@ -128,9 +130,13 @@ function ListPartnerPage() {
                           />
                         );
                       })}
-                      {emptyRows > 0 && (
-                        <EmptyTable colNumber={partnerHeadCells.length} model={translate('model.lowercase.partner')} />
-                      )}
+                      {emptyRows > 0 ||
+                        (partners.length === 0 && !filterName && (
+                          <EmptyTable
+                            colNumber={partnerHeadCells.length}
+                            model={translate('model.lowercase.partner')}
+                          />
+                        ))}
                     </TableBody>
                   )}
                   {isNotFound && <SearchNotFound colNumber={partnerHeadCells.length + 2} searchQuery={filterName} />}
@@ -139,7 +145,7 @@ function ListPartnerPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={partners.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -150,7 +156,7 @@ function ListPartnerPage() {
         </Card>
       </Page>
 
-      {isOpen && <CreatePartnerModal isOpen={isOpen} handleOpen={handleOpen} />}
+      {isOpen && <CreatePartnerModal page={page} rowsPerPage={rowsPerPage} isOpen={isOpen} handleOpen={handleOpen} />}
     </>
   );
 }
