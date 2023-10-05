@@ -18,11 +18,14 @@ import { getAllStores, getStoreDetail } from './storeSlice';
 
 export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
+  console.log(optionParams);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response: ListResponse<Store> = await axiosClient.get(ROUTES_API_STORES.GET_ALL_STORE(optionParams));
+      console.log(response);
+
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
