@@ -59,7 +59,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
       brandId: brand.brandId,
       navigate,
       status: `${brand.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
-      page: page === 0 ? page + 1 : page,
+      page: page + 1,
       rowsPerPage: rowsPerPage,
     };
 

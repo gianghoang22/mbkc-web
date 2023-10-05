@@ -21,9 +21,19 @@ interface ProductTableRowProps {
   inTab?: boolean;
   page?: number;
   rowsPerPage?: number;
+  length: number;
+  setPage?: any;
 }
 
-function ProductTableRow({ index, product, inTab = false, page = 1, rowsPerPage = 5 }: ProductTableRowProps) {
+function ProductTableRow({
+  index,
+  product,
+  inTab = false,
+  page = 1,
+  rowsPerPage = 5,
+  length,
+  setPage,
+}: ProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -45,6 +55,9 @@ function ProductTableRow({ index, product, inTab = false, page = 1, rowsPerPage 
 
   const handleDelete = () => {
     handleOpen();
+    if (length === 1) {
+      setPage(0);
+    }
     dispatch(
       deleteProduct({
         idParams: { productId: product?.productId },
@@ -86,8 +99,8 @@ function ProductTableRow({ index, product, inTab = false, page = 1, rowsPerPage 
             {product.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" width={160} onClick={handleNavigateDetail}>
-          <Typography variant="body2" width={160} noWrap>
+        <TableCell align="left" width={150} onClick={handleNavigateDetail}>
+          <Typography variant="body2" width={140} noWrap>
             {product.code}
           </Typography>
         </TableCell>

@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
@@ -9,10 +10,10 @@ import { CategoryToCreate, CategoryToUpdate, CategoryType, Params } from '@types
 import { Color, Status } from 'common/enum';
 import { Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
+import { createNewCategory, getCategoryDetail, updateCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryForm } from 'sections/category';
-import { createNewCategory, getCategoryDetail, updateCategory } from 'redux/category/categorySlice';
 
 function CreateCategoryPage() {
   const { id: categoryId } = useParams();
@@ -27,17 +28,17 @@ function CreateCategoryPage() {
 
   const createCategoryForm = useForm<CategoryToCreate>({
     defaultValues: {
-      name: isEditing ? category?.name : '',
-      code: isEditing ? category?.code : '',
+      name: '',
+      code: '',
       type: categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA,
-      displayOrder: isEditing ? category?.displayOrder : 0,
-      description: isEditing ? category?.description : '',
-      imageUrl: isEditing ? category?.imageUrl : '',
+      displayOrder: 0,
+      description: '',
+      imageUrl: '',
     },
     resolver: yupResolver(schemaCategory),
   });
 
-  const { handleSubmit, reset } = createCategoryForm;
+  const { handleSubmit, reset, setValue } = createCategoryForm;
 
   const paramsDetail = useMemo(() => {
     return {
@@ -47,14 +48,32 @@ function CreateCategoryPage() {
   }, [categoryId, navigate]);
 
   useEffect(() => {
+    if (category !== null && isEditing === true) {
+      setValue('name', category?.name);
+      setValue('code', category?.code);
+      setValue('type', categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA);
+      setValue('displayOrder', category?.displayOrder);
+      setValue('description', category?.description);
+      setValue('imageUrl', category?.imageUrl);
+      // reset({
+      //   name: category?.name,
+      //   code: category?.code,
+      //   type: categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA,
+      //   displayOrder: category?.displayOrder,
+      //   description: category?.description,
+      //   imageUrl: category?.imageUrl,
+      // });
+    }
+  }, [category]);
+
+  useEffect(() => {
     if (isEditing) {
       dispatch(getCategoryDetail(paramsDetail));
     }
-  }, [dispatch, navigate, paramsDetail, isEditing]);
+  }, [dispatch, navigate, paramsDetail]);
 
   const onSubmit = async (values: CategoryToCreate) => {
     const data = { ...values };
-    console.log(data);
 
     if (isEditing) {
       if (typeof values.imageUrl === 'string') {

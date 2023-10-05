@@ -8,7 +8,7 @@ import {
   updatePartnerThunk,
 } from './partnerThunk';
 import { StorageKeys } from 'constants/storageKeys';
-import { setLocalStorage } from 'utils';
+import { getIsEditing, setLocalStorage } from 'utils';
 
 interface PartnerState {
   isEditing: boolean;
@@ -21,8 +21,12 @@ interface PartnerState {
   numberItems: number;
 }
 
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_PARTNER)
+  ? getIsEditing(StorageKeys.IS_EDIT_PARTNER)
+  : false;
+
 const initialState: PartnerState = {
-  isEditing: false,
+  isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,

@@ -22,6 +22,22 @@ export const getAllProductsThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
+export const getAllProductsParentThunk = async (params: any, thunkAPI: any) => {
+  const { optionParams, navigate } = params;
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_ALL_PRODUCT(optionParams));
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
 export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
   const { productId, navigate } = params;
   const accessToken = getAccessToken();
@@ -29,7 +45,6 @@ export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_PRODUCT_DETAIL(productId));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -40,7 +55,7 @@ export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const createNewProductThunk = async (params: Params<ProductToCreateParams>, thunkAPI: any) => {
-  const { data, navigate } = params;
+  const { data, optionParams, navigate } = params;
   const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
@@ -49,6 +64,10 @@ export const createNewProductThunk = async (params: Params<ProductToCreateParams
       const response: MessageResponse = await axiosFormData.post(ROUTES_API_PRODUCTS.CREATE_PRODUCT, formData);
       if (response) {
         const paramsCallback = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage,
+            currentPage: optionParams?.currentPage,
+          },
           navigate,
         };
         thunkAPI.dispatch(getAllProducts(paramsCallback));

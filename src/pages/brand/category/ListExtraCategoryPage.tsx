@@ -58,7 +58,7 @@ function ListExtraCategoryPage() {
       optionParams: {
         type: CategoryType.EXTRA,
         pageSize: rowsPerPage,
-        pageNumber: page === 0 ? page + 1 : page,
+        pageNumber: page + 1,
         keySearchName: debounceValue,
       },
       navigate,
@@ -114,6 +114,8 @@ function ListExtraCategoryPage() {
                             index={index}
                             category={extraCategory}
                             categoryType={CategoryType.EXTRA}
+                            length={visibleRows.length}
+                            setPage={setPage}
                           />
                         );
                       })}

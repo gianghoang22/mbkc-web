@@ -3,6 +3,7 @@ import { NavigateFunction } from 'react-router-dom';
 export interface OptionParams {
   keySearchName?: string | null;
   searchValue?: string | null;
+  searchName?: string | null;
   keyStatusFilter?: string | null;
   itemsPerPage?: number | null | string;
   currentPage?: number | null | string;

@@ -53,7 +53,7 @@ function ListBrandPage() {
   const options = {
     keySearchName: filterName,
     keyStatusFilter: 'active',
-    currentPage: page === 0 ? page + 1 : page,
+    currentPage: page + 1,
     itemsPerPage: rowsPerPage,
   };
 

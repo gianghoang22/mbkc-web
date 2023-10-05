@@ -14,7 +14,7 @@ export interface Product {
   status: string;
   size: string;
   displayOrder: number;
-  parentProduct: string;
+  parentProductId: string;
   childrenProducts: string[];
   category: Category;
   brand: Brand;
@@ -70,10 +70,10 @@ export enum ProductSizeEnum {
 }
 
 export enum ProductTypeEnum {
-  PARENT = 'Parent',
-  CHILD = 'Child',
-  SINGLE = 'Single',
-  EXTRA = 'Extra',
+  PARENT = 'PARENT',
+  CHILD = 'CHILD',
+  SINGLE = 'SINGLE',
+  EXTRA = 'EXTRA',
 }
 
 export const PRODUCT_TYPE_OPTIONS = [

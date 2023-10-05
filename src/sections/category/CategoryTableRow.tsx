@@ -20,6 +20,8 @@ interface CategoryTableRowProps {
   showAction?: boolean;
   page?: number;
   rowsPerPage?: number;
+  length?: number;
+  setPage?: any;
 }
 
 function CategoryTableRow({
@@ -29,6 +31,8 @@ function CategoryTableRow({
   category,
   categoryType,
   showAction = false,
+  length,
+  setPage,
 }: CategoryTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -52,13 +56,16 @@ function CategoryTableRow({
 
   const handleDelete = () => {
     handleOpen(category.name);
+    if (length === 1) {
+      setPage(0);
+    }
     dispatch(
       deleteCategory({
         idParams: { categoryId: category.categoryId },
         optionParams: {
           type: category.type,
           itemsPerPage: rowsPerPage,
-          currentPage: page,
+          currentPage: length === 1 ? 1 : page,
         },
         pathname: pathname,
         navigate,

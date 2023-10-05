@@ -60,7 +60,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
       optionParams: {
         idCategory: categoryId,
         pageSize: rowsPerPage,
-        pageNumber: page === 0 ? page + 1 : page,
+        pageNumber: page + 1,
         keySearchName: debounceValue,
       },
       navigate,

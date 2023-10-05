@@ -4,7 +4,7 @@ import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mu
 function PartnerTableRowSkeleton({ length }: { length: number }) {
   return (
     <TableBody>
-      {Array.from({ length }).map((_, index: any) => (
+      {Array.from({ length: 5 }).map((_, index: any) => (
         <TableRow hover tabIndex={-1} key={index}>
           <TableCell width={100} align="center">
             <Stack direction="row" alignItems="center" justifyContent="center">
