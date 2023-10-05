@@ -3,11 +3,14 @@ import { Product, ProductTypeEnum } from '@types';
 import {
   createNewProductThunk,
   deleteProductThunk,
+  getAllProductsParentThunk,
   getAllProductsThunk,
   getProductDetailThunk,
   updateProductThunk,
   updateStatusProductThunk,
 } from './productThunk';
+import { StorageKeys } from 'constants/storageKeys';
+import { getIsEditing, setLocalStorage } from 'utils';
 
 interface ProductState {
   isEditing: boolean;
@@ -16,18 +19,24 @@ interface ProductState {
   isSuccess: boolean;
   productType: ProductTypeEnum;
   products: Product[];
+  productParent: Product[];
   product: Product | null;
   totalPage: number;
   numberItems: number;
 }
 
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_PRODUCT)
+  ? getIsEditing(StorageKeys.IS_EDIT_PRODUCT)
+  : false;
+
 const initialState: ProductState = {
-  isEditing: false,
+  isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
   productType: ProductTypeEnum.SINGLE,
   products: [],
+  productParent: [],
   product: null,
   totalPage: 0,
   numberItems: 5,
@@ -35,6 +44,7 @@ const initialState: ProductState = {
 
 export const createNewProduct = createAsyncThunk('product/create-product', createNewProductThunk);
 export const getAllProducts = createAsyncThunk('product/get-all-products', getAllProductsThunk);
+export const getAllProductsParent = createAsyncThunk('product/get-all-products-parent', getAllProductsParentThunk);
 export const getProductDetail = createAsyncThunk('product/get-product-detail', getProductDetailThunk);
 export const updateProduct = createAsyncThunk('product/update-product', updateProductThunk);
 export const updateStatusProduct = createAsyncThunk('product/update-product-status', updateStatusProductThunk);
@@ -46,10 +56,12 @@ const productSlice = createSlice({
   reducers: {
     setAddProduct: (state) => {
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_PRODUCT, false);
     },
     setEditProduct: (state, action) => {
       state.isEditing = true;
-      state.product = action.payload;
+      // state.product = action.payload;
+      setLocalStorage(StorageKeys.IS_EDIT_PRODUCT, true);
     },
     getProductDetail_local: (state, action) => {
       state.product = action.payload;
@@ -83,6 +95,22 @@ const productSlice = createSlice({
       })
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getAllProductsParent.pending, (state) => {
+        // state.isLoading = true;
+      })
+      .addCase(getAllProductsParent.fulfilled, (state, action) => {
+        // state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.productParent = [...action.payload?.products];
+        state.totalPage = action.payload?.totalPage;
+        state.numberItems = action.payload?.numberItems;
+      })
+      .addCase(getAllProductsParent.rejected, (state, action) => {
+        // state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
       })

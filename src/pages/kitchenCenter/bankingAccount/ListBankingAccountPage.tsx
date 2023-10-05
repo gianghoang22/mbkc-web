@@ -61,7 +61,7 @@ function ListBankingAccountPage() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page === 0 ? page + 1 : page,
+        currentPage: page + 1,
         searchValue: filterName,
       },
       navigate,
@@ -113,7 +113,7 @@ function ListBankingAccountPage() {
                           <BankingAccountTableRow
                             key={bankingAccount.bankingAccountId}
                             index={index}
-                            page={page === 0 ? page + 1 : page}
+                            page={page + 1}
                             rowsPerPage={rowsPerPage}
                             bankingAccount={bankingAccount}
                           />

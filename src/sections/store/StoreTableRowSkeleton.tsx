@@ -19,7 +19,7 @@ function StoreTableRowSkeleton({
 
   return (
     <TableBody>
-      {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
+      {Array.from({ length: 5 }).map((_, index: any) => (
         <TableRow key={index}>
           <TableCell width={80} align="center">
             <Stack direction="row" alignItems="center" justifyContent="center">

@@ -33,7 +33,7 @@ function PartnerTableToolbar(props: PartnerTableToolbarProps) {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page === 0 ? page + 1 : page,
+        currentPage: page + 1,
         keySearchName: debounceValue,
       },
       navigate,

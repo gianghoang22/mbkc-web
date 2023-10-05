@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 //
 import { Grid, Stack, Typography } from '@mui/material';
 // redux
+import { getAllCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllProductsParent } from 'redux/product/productSlice';
 //
 import {
   CategoryType,
@@ -19,31 +21,19 @@ import {
 import { Language } from 'common/enum';
 import { AutoCompleteField, InputField, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
-import { getAllCategories } from 'redux/category/categorySlice';
 
 function ProductForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
 
-  const { isEditing } = useAppSelector((state) => state.product);
+  const { productParent, isEditing } = useAppSelector((state) => state.product);
   const { categories } = useAppSelector((state) => state.category);
-
-  const categoriesOptions = categories.map((category) => ({
-    label: category.name,
-    value: category.categoryId,
-  }));
-
-  const getOpObjKitchenCenter = (option: any) => {
-    if (!option) return option;
-    if (!option.value) return categoriesOptions.find((opt) => opt.value === option);
-    return option;
-  };
 
   const { watch } = useFormContext<ProductToCreate>();
   const productType = watch('type');
 
-  const params: ListParams = useMemo(() => {
+  const paramsCategory: ListParams = useMemo(() => {
     return {
       optionParams: {
         type: productType === ProductTypeEnum.EXTRA ? CategoryType.EXTRA : CategoryType.NORMAL,
@@ -52,9 +42,46 @@ function ProductForm() {
     };
   }, [productType]);
 
+  const paramsProduct: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        type: ProductTypeEnum.PARENT,
+        isGetAll: true,
+      },
+      navigate,
+    };
+  }, [productType]);
+
   useEffect(() => {
-    dispatch<any>(getAllCategories(params));
-  }, [params]);
+    if (productType === ProductTypeEnum.CHILD) {
+      dispatch<any>(getAllProductsParent(paramsProduct));
+    }
+    dispatch<any>(getAllCategories(paramsCategory));
+  }, [paramsCategory, paramsProduct, productType]);
+
+  console.log(categories);
+
+  const categoriesOptions = categories.map((category) => ({
+    label: category.name,
+    value: category.categoryId,
+  }));
+
+  const getOpObjCategory = (option: any) => {
+    if (!option) return option;
+    if (!option.value) return categoriesOptions.find((opt) => opt.value === option);
+    return option;
+  };
+
+  const productsOptions = productParent.map((product) => ({
+    label: product.name,
+    value: product.productId,
+  }));
+
+  const getOpObjProduct = (option: any) => {
+    if (!option) return option;
+    if (!option.value) return productsOptions.find((opt) => opt.value === option);
+    return option;
+  };
 
   return (
     <Grid container columnSpacing={3}>
@@ -106,29 +133,13 @@ function ProductForm() {
                   productType === ProductTypeEnum.CHILD ? translate('page.validation.nameProductHelperText') : ''
                 }
               />
-              <InputField
-                fullWidth
-                name="code"
-                label={translate(
-                  'page.form.nameExchange',
-                  currentLang.value === Language.ENGLISH
-                    ? {
-                        model: translate('model.capitalizeOne.product'),
-                        name: translate('page.form.codeLower'),
-                      }
-                    : {
-                        model: translate('page.form.code'),
-                        name: translate('model.lowercase.product'),
-                      }
-                )}
-              />
             </Stack>
-            <InputField fullWidth name="description" label={translate('table.description')} multiline minRows={8} />
             <Stack direction="row" alignItems="start" gap={2}>
               <SelectField<ProductTypeEnum>
                 fullWidth
-                options={PRODUCT_TYPE_OPTIONS}
                 name="type"
+                disabled={isEditing}
+                options={PRODUCT_TYPE_OPTIONS}
                 label={translate(
                   'page.form.nameExchange',
                   currentLang.value === Language.ENGLISH
@@ -142,8 +153,55 @@ function ProductForm() {
                       }
                 )}
               />
+            </Stack>
+
+            {productType === ProductTypeEnum.CHILD && (
+              <Stack direction="row" alignItems="start" gap={2}>
+                <AutoCompleteField
+                  type="text"
+                  name="parentProductId"
+                  label={translate('page.form.parentProduct')}
+                  options={productsOptions}
+                  getOptionLabel={(value: any) => {
+                    return getOpObjProduct(value)?.label;
+                  }}
+                  isOptionEqualToValue={(option: any, value: any) => {
+                    if (!option) return option;
+                    return option.value === getOpObjProduct(value)?.value;
+                  }}
+                  transformValue={(opt: any) => opt.value}
+                />
+                <SelectField<ProductSizeEnum>
+                  fullWidth
+                  name="size"
+                  disabled={isEditing}
+                  options={PRODUCT_SIZE_OPTIONS}
+                  label={translate('page.form.productSize')}
+                />
+              </Stack>
+            )}
+
+            <Stack direction="row" alignItems="start" gap={2}>
+              <InputField
+                fullWidth
+                name="code"
+                disabled={isEditing}
+                label={translate(
+                  'page.form.nameExchange',
+                  currentLang.value === Language.ENGLISH
+                    ? {
+                        model: translate('model.capitalizeOne.product'),
+                        name: translate('page.form.codeLower'),
+                      }
+                    : {
+                        model: translate('page.form.code'),
+                        name: translate('model.lowercase.product'),
+                      }
+                )}
+              />
               <InputField type="number" fullWidth name="displayOrder" label={translate('table.displayOrder')} />
             </Stack>
+
             {(productType === ProductTypeEnum.CHILD ||
               productType === ProductTypeEnum.SINGLE ||
               productType === ProductTypeEnum.EXTRA) && (
@@ -175,40 +233,26 @@ function ProductForm() {
               productType === ProductTypeEnum.SINGLE ||
               productType === ProductTypeEnum.PARENT) && (
               <AutoCompleteField
-                options={categoriesOptions}
-                getOptionLabel={(value: any) => {
-                  return getOpObjKitchenCenter(value)?.label;
-                }}
-                isOptionEqualToValue={(option: any, value: any) => {
-                  if (!option) return option;
-                  return option.value === getOpObjKitchenCenter(value)?.value;
-                }}
-                transformValue={(opt: any) => opt.value}
-                name="categoryId"
                 type="text"
+                name="categoryId"
                 label={
                   productType === ProductTypeEnum.EXTRA
                     ? translate('page.form.containExtraProduct')
                     : translate('page.form.containProduct')
                 }
+                options={categoriesOptions}
+                getOptionLabel={(value: any) => {
+                  return getOpObjCategory(value)?.label;
+                }}
+                isOptionEqualToValue={(option: any, value: any) => {
+                  if (!option) return option;
+                  return option.value === getOpObjCategory(value)?.value;
+                }}
+                transformValue={(opt: any) => opt.value}
               />
             )}
-            {productType === ProductTypeEnum.CHILD && (
-              <Stack direction="row" alignItems="start" gap={2}>
-                <SelectField<ProductTypeEnum>
-                  fullWidth
-                  options={PRODUCT_TYPE_OPTIONS}
-                  name="parentProductId"
-                  label={translate('page.form.parentProduct')}
-                />
-                <SelectField<ProductSizeEnum>
-                  fullWidth
-                  options={PRODUCT_SIZE_OPTIONS}
-                  name="size"
-                  label={translate('page.form.productSize')}
-                />
-              </Stack>
-            )}
+
+            <InputField fullWidth name="description" label={translate('table.description')} multiline minRows={5} />
           </Stack>
         </Stack>
       </Grid>

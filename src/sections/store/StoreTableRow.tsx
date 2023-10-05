@@ -18,7 +18,7 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
 import { Params, Store, ToUpdateStatus } from '@types';
-import { Color, Role, Status } from 'common/enum';
+import { Color, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { useState } from 'react';
@@ -38,6 +38,7 @@ interface StoreTableRowProps {
   haveBrand?: boolean;
   haveKitchenCenter?: boolean;
   showEmail?: boolean;
+  setPage?: any;
 }
 
 function StoreTableRow({
@@ -49,6 +50,8 @@ function StoreTableRow({
   haveBrand = false,
   haveKitchenCenter = false,
   showEmail = false,
+  length,
+  setPage,
 }: StoreTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -84,12 +87,15 @@ function StoreTableRow({
 
   const handleDelete = () => {
     handleOpen(store.name);
+    if (length === 1) {
+      setPage(0);
+    }
     dispatch(
       deleteStore({
         idParams: { storeId: store.storeId },
         optionParams: {
           itemsPerPage: rowsPerPage,
-          currentPage: page,
+          currentPage: length === 1 ? 1 : page,
         },
         pathname: pathname,
         navigate,
@@ -209,11 +215,7 @@ function StoreTableRow({
                 />
                 <IconButton
                   color="inherit"
-                  disabled={
-                    store?.status === Status.DEACTIVE ||
-                    store.status === Status.BE_CONFIRMING ||
-                    store.status === Status.REJECTED
-                  }
+                  disabled={store?.status === Status.DEACTIVE || store.status === Status.BE_CONFIRMING}
                   onClick={handleOpenMenu}
                 >
                   <MoreVertIcon />
@@ -254,7 +256,13 @@ function StoreTableRow({
         )}
       </TableRow>
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+      <Popover
+        open={open}
+        handleCloseMenu={handleCloseMenu}
+        onEdit={handleEdit}
+        onDelete={handleOpen}
+        type={store.status === Status.REJECTED ? PopoverType.DELETE : PopoverType.ALL}
+      />
 
       <MUIPopover
         open={Boolean(openConfirm)}

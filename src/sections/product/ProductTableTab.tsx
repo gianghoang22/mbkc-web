@@ -57,8 +57,8 @@ function ProductTableTab() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page === 0 ? page + 1 : page,
-        searchValue: debounceValue,
+        currentPage: page + 1,
+        searchName: debounceValue,
         idCategory: categoryId,
       },
       navigate,
@@ -86,7 +86,16 @@ function ProductTableTab() {
             ) : (
               <TableBody>
                 {visibleRows.map((product, index) => {
-                  return <ProductTableRow key={product.productId} inTab index={index} product={product} />;
+                  return (
+                    <ProductTableRow
+                      length={visibleRows.length}
+                      key={product.productId}
+                      inTab
+                      index={index}
+                      product={product}
+                      setPage={setPage}
+                    />
+                  );
                 })}
                 {emptyRows > 0 ||
                   (products.length === 0 && !filterName && (

@@ -49,7 +49,7 @@ function PartnerDetailModal({ partner, isOpen, handleOpen }: PartnerDetailModalP
         idParams: { partnerId: partner?.partnerId },
         optionParams: {
           itemsPerPage: rowsPerPage,
-          currentPage: page === 0 ? page + 1 : page,
+          currentPage: page + 1,
         },
         navigate,
       })

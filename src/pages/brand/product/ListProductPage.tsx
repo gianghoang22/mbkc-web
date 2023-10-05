@@ -27,7 +27,6 @@ function ListProductPage() {
 
   const { products, isLoading, numberItems } = useAppSelector((state) => state.product);
 
-  console.log(products);
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
   const [filterName, setFilterName] = useState<string>('');
@@ -59,8 +58,8 @@ function ListProductPage() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page === 0 ? page + 1 : page,
-        searchValue: debounceValue,
+        currentPage: page + 1,
+        searchName: debounceValue,
       },
       navigate,
     };
@@ -112,8 +111,10 @@ function ListProductPage() {
                         return (
                           <ProductTableRow
                             key={product.productId}
-                            page={page === 0 ? page + 1 : page}
+                            setPage={setPage}
+                            page={page + 1}
                             rowsPerPage={rowsPerPage}
+                            length={visibleRows.length}
                             index={index}
                             product={product}
                           />
@@ -122,7 +123,7 @@ function ListProductPage() {
                       {emptyRows > 0 ||
                         (products.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={productHeadCells.length}
+                            colNumber={productHeadCells.length + 2}
                             model={translate('model.lowercase.product')}
                           />
                         ))}
