@@ -58,7 +58,7 @@ function ListCategoryPage() {
       optionParams: {
         type: CategoryType.NORMAL,
         pageSize: rowsPerPage,
-        pageNumber: page === 0 ? page + 1 : page,
+        pageNumber: page + 1,
         keySearchName: debounceValue,
       },
       navigate,
@@ -114,6 +114,8 @@ function ListCategoryPage() {
                             index={index}
                             category={category}
                             categoryType={CategoryType.NORMAL}
+                            length={visibleRows.length}
+                            setPage={setPage}
                           />
                         );
                       })}

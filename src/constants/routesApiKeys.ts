@@ -71,7 +71,7 @@ export const ROUTES_API_PRODUCTS = {
   CREATE_PRODUCT: pathRoot(ROOTS_PRODUCTS),
   GET_ALL_PRODUCT: ({
     type = '',
-    keySearchName = '',
+    searchName = '',
     currentPage = '',
     itemsPerPage = '',
     isGetAll = '',
@@ -80,7 +80,7 @@ export const ROUTES_API_PRODUCTS = {
   }: OptionParams) =>
     path(
       ROOTS_PRODUCTS,
-      `?searchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}`
+      `?searchName=${searchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}`
     ),
   GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
   UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),

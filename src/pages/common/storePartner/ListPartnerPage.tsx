@@ -2,12 +2,11 @@
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllPartners } from 'redux/partner/partnerSlice';
-import { setAddStore } from 'redux/store/storeSlice';
+import { getAllPartners, setAddPartner } from 'redux/partner/partnerSlice';
 //
 import { ListParams, OrderSort, PartnerTable } from '@types';
 import { Role } from 'common/enum';
@@ -33,6 +32,7 @@ function ListPartnerPage() {
   const { partnerHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  console.log('page', page);
   const { userAuth } = useAppSelector((state) => state.auth);
   const { partners, isLoading, numberItems } = useAppSelector((state) => state.partner);
 
@@ -67,7 +67,7 @@ function ListPartnerPage() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page === 0 ? page + 1 : page,
+        currentPage: page + 1,
         keySearchName: debounceValue,
       },
       navigate,
@@ -92,7 +92,7 @@ function ListPartnerPage() {
                     variant="contained"
                     onClick={() => {
                       handleOpen('create partner');
-                      dispatch(setAddStore());
+                      dispatch(setAddPartner());
                     }}
                     startIcon={<AddRoundedIcon />}
                   >
@@ -127,6 +127,8 @@ function ListPartnerPage() {
                             key={partner.partnerId}
                             index={index}
                             partner={partner}
+                            lengthPartners={partners.length}
+                            setPage={setPage}
                           />
                         );
                       })}

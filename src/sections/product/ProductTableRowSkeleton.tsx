@@ -19,10 +19,10 @@ function ProductTableRowSkeleton({ length, inTab = false }: ProductTableRowSkele
           <TableCell component="th" padding="none" align="center" width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell component="th" scope="row" padding="none" width={!inTab ? 202 : 195}>
+          <TableCell component="th" scope="row" padding="none" width={!inTab ? 206 : 195}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={!inTab ? 192 : 192}>
+          <TableCell align="left" width={!inTab ? 172 : 192}>
             <Skeleton />
           </TableCell>
           <TableCell align="left" width={!inTab ? 140 : 133}>

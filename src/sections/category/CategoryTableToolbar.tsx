@@ -34,7 +34,7 @@ function CategoryTableToolbar(props: CategoryTableToolbarProps) {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page === 0 ? page + 1 : page,
+        currentPage: page + 1,
         searchValue: debounceValue,
       },
       navigate,

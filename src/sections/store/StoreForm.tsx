@@ -8,7 +8,6 @@ import { ListParams } from '@types';
 import { Language } from 'common/enum';
 import { AutoCompleteField, InputField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
-import { getAllBrands } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 
@@ -43,7 +42,6 @@ function StoreForm() {
   useEffect(() => {
     if (!isEditing) {
       dispatch(getAllKitchenCenters(params));
-      dispatch(getAllBrands(params));
     }
   }, [params]);
 

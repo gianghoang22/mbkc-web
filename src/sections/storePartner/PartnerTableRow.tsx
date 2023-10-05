@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow, Stack } from '@mui/material';
+import { Avatar, IconButton, Stack, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
@@ -17,10 +17,12 @@ import PartnerDetailModal from './PartnerDetailModal';
 interface PartnerTableRowProps {
   partner: Partner;
   index: number;
+  lengthPartners: number;
   showAction?: boolean;
+  setPage?: any;
 }
 
-function PartnerTableRow({ index, partner, showAction = false }: PartnerTableRowProps) {
+function PartnerTableRow({ lengthPartners, index, partner, showAction = false, setPage }: PartnerTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
@@ -37,12 +39,15 @@ function PartnerTableRow({ index, partner, showAction = false }: PartnerTableRow
 
   const handleDelete = () => {
     handleOpen();
+    if (lengthPartners === 1) {
+      setPage(0);
+    }
     dispatch(
       deletePartner({
         idParams: { partnerId: partner.partnerId },
         optionParams: {
           itemsPerPage: rowsPerPage,
-          currentPage: page === 0 ? page + 1 : page,
+          currentPage: lengthPartners === 1 ? 1 : page + 1,
         },
         navigate,
       })
@@ -60,7 +65,7 @@ function PartnerTableRow({ index, partner, showAction = false }: PartnerTableRow
       idParams: { partnerId: partner.partnerId },
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page === 0 ? page + 1 : page,
+        currentPage: page + 1,
       },
       navigate,
     };

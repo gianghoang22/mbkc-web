@@ -41,7 +41,7 @@ export const getPartnerDetailThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thunkAPI: any) => {
-  const { data, navigate } = params;
+  const { data, optionParams, navigate } = params;
   const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
@@ -49,14 +49,14 @@ export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thu
     try {
       const response = await axiosFormData.post(ROUTES_API_PARTNERS.CREATE_PARTNER, formData);
       if (response) {
-        const params = {
+        const paramsCallback = {
           optionParams: {
-            itemsPerPage: 5,
-            currentPage: 1,
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
           },
           navigate,
         };
-        thunkAPI.dispatch(getAllPartners(params));
+        await thunkAPI.dispatch(getAllPartners(paramsCallback));
         thunkAPI.dispatch(setMessageSuccess('Created new partner successfully'));
       }
       return response;
@@ -83,8 +83,8 @@ export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkA
       if (response) {
         const paramsCallback = {
           optionParams: {
-            itemsPerPage: optionParams?.itemsPerPage,
-            currentPage: optionParams?.currentPage,
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
           },
           navigate,
         };

@@ -41,8 +41,6 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
   const onSubmit = async (values: PartnerToCreate) => {
     const data = { ...values };
 
-    console.log(data);
-
     if (isEditing) {
       if (typeof values.logo === 'string') {
         const paramUpdate: Params<PartnerToUpdate> = {
@@ -51,6 +49,10 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
             status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
             logo: '',
             webUrl: data.webUrl,
+          },
+          optionParams: {
+            currentPage: page + 1,
+            itemsPerPage: rowsPerPage,
           },
           idParams: {
             partnerId: partner?.partnerId,
@@ -67,7 +69,7 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
             webUrl: data.webUrl,
           },
           optionParams: {
-            currentPage: page === 0 ? page + 1 : page,
+            currentPage: page + 1,
             itemsPerPage: rowsPerPage,
           },
           idParams: {
@@ -80,9 +82,14 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
     } else {
       const paramCreate: Params<PartnerToCreate> = {
         data: data,
+        optionParams: {
+          currentPage: page + 1,
+          itemsPerPage: rowsPerPage,
+        },
         navigate,
       };
       dispatch(createNewPartner(paramCreate));
+      handleOpen('create partner');
     }
   };
 
