@@ -11,6 +11,7 @@ import productReducer from './product/productSlice';
 import routesReducer from './routes/routesSlice';
 import storeReducer from './store/storeSlice';
 import orderReducer from './order/orderSlice';
+import walletReducer from './wallet/walletSlice';
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
     partner: partnerReducer,
     order: orderReducer,
     routes: routesReducer,
+    wallet: walletReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

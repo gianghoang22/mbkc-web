@@ -5,6 +5,7 @@ import {
   CategoryTable,
   HeadCell,
   KitchenCenterTable,
+  MoneyExchangeTable,
   OrderTable,
   PartnerTable,
   ProductTable,
@@ -388,6 +389,44 @@ function useConfigHeadTable() {
     },
   ];
 
+  const MoneyExchangeHeadCells: HeadCell<MoneyExchangeTable>[] = [
+    {
+      id: 'sender',
+      label: 'Sender',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'receiver',
+      label: 'Receiver',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'amount',
+      label: 'Amount',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'exchangeType',
+      label: 'Type',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: translate('table.status'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
   return {
     kitchenCenterHeadCells,
     brandHeadCells,
@@ -398,6 +437,7 @@ function useConfigHeadTable() {
     bankingAccountHeadCells,
     partnerHeadCells,
     OrderHeadCells,
+    MoneyExchangeHeadCells,
   };
 }
 
