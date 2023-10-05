@@ -58,7 +58,7 @@ function ListCategoryPage() {
       optionParams: {
         type: CategoryType.NORMAL,
         pageSize: rowsPerPage,
-        pageNumber: page + 1,
+        pageNumber: page === 0 ? page + 1 : page,
         keySearchName: debounceValue,
       },
       navigate,
@@ -118,7 +118,7 @@ function ListCategoryPage() {
                         );
                       })}
                       {emptyRows > 0 ||
-                        (categories.length === 0 && (
+                        (categories.length === 0 && !filterName && (
                           <EmptyTable
                             colNumber={categoryHeadCells.length}
                             model={translate('model.lowercase.category')}

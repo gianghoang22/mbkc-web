@@ -59,7 +59,7 @@ function ListProductPage() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page === 0 ? page + 1 : page,
         searchValue: debounceValue,
       },
       navigate,
@@ -112,7 +112,7 @@ function ListProductPage() {
                         return (
                           <ProductTableRow
                             key={product.productId}
-                            page={page + 1}
+                            page={page === 0 ? page + 1 : page}
                             rowsPerPage={rowsPerPage}
                             index={index}
                             product={product}
@@ -120,7 +120,7 @@ function ListProductPage() {
                         );
                       })}
                       {emptyRows > 0 ||
-                        (products.length === 0 && (
+                        (products.length === 0 && !filterName && (
                           <EmptyTable
                             colNumber={productHeadCells.length}
                             model={translate('model.lowercase.product')}

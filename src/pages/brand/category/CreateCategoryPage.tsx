@@ -37,7 +37,7 @@ function CreateCategoryPage() {
     resolver: yupResolver(schemaCategory),
   });
 
-  const { handleSubmit } = createCategoryForm;
+  const { handleSubmit, reset } = createCategoryForm;
 
   const paramsDetail = useMemo(() => {
     return {
@@ -137,7 +137,21 @@ function CreateCategoryPage() {
           </Button>
           <Stack direction="row" gap={2}>
             {isEditing && (
-              <Button variant="contained" color="inherit">
+              <Button
+                variant="contained"
+                color="inherit"
+                disabled={isLoading}
+                onClick={() => {
+                  reset({
+                    name: category?.name,
+                    code: category?.code,
+                    type: categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA,
+                    displayOrder: category?.displayOrder,
+                    description: category?.description,
+                    imageUrl: category?.imageUrl,
+                  });
+                }}
+              >
                 {translate('button.reset')}
               </Button>
             )}

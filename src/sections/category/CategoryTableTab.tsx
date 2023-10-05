@@ -60,7 +60,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
       optionParams: {
         idCategory: categoryId,
         pageSize: rowsPerPage,
-        pageNumber: page + 1,
+        pageNumber: page === 0 ? page + 1 : page,
         keySearchName: debounceValue,
       },
       navigate,
@@ -105,7 +105,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
                   );
                 })}
                 {emptyRows > 0 ||
-                  (categoriesExtra.length === 0 && (
+                  (categoriesExtra.length === 0 && !filterName && (
                     <EmptyTable colNumber={categoryHeadCells.length} model={translate('model.lowercase.category')} />
                   ))}
               </TableBody>

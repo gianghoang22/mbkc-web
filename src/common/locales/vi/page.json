@@ -43,7 +43,9 @@
     "containProduct": "Danh mục chứa sản phẩm",
     "containExtraProduct": "Danh mục chứa sản phẩm extra",
     "parentProduct": "Sản phẩm cha",
-    "productSize": "Kích cỡ sản phẩm"
+    "productSize": "Kích cỡ sản phẩm",
+    "webUrl": "Web URL",
+    "webUrlLower": "web URL"
   },
   "validation": {
     "required": "Vui lòng nhập {{name}}",
@@ -61,6 +63,7 @@
     "sellingPriceContent": "Giá bán của sản phẩm",
     "discountPriceContent": "Giá đã giảm của sản phẩm",
     "historicalPriceContent": "Chi phí sản xuất sản phẩm",
-    "nameProductHelperText": "Tên của sản phẩm con: tên sản phẩm cha + size được chọn"
+    "nameProductHelperText": "Tên của sản phẩm con: tên sản phẩm cha + size được chọn",
+    "formatUrl": "Chưa đúng format của url"
   }
 }

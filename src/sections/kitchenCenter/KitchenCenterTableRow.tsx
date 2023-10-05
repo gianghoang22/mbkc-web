@@ -51,7 +51,7 @@ function StoreTableRow({ index, kitchenCenter, handleNavigateDetail, page, rowsP
       kitchenCenterId: kitchenCenter.kitchenCenterId,
       navigate,
       status: `${kitchenCenter.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
-      page: page + 1,
+      page: page === 0 ? page + 1 : page,
       rowsPerPage: rowsPerPage,
     };
 

@@ -20,6 +20,7 @@ export interface IdParams {
   kitchenCenterId?: number;
   categoryId?: number;
   productId?: number;
+  partnerId?: number;
 }
 export interface ListParams {
   optionParams: OptionParams;

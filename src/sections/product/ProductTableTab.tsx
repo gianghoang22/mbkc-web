@@ -57,7 +57,7 @@ function ProductTableTab() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page === 0 ? page + 1 : page,
         searchValue: debounceValue,
         idCategory: categoryId,
       },
@@ -89,7 +89,7 @@ function ProductTableTab() {
                   return <ProductTableRow key={product.productId} inTab index={index} product={product} />;
                 })}
                 {emptyRows > 0 ||
-                  (products.length === 0 && (
+                  (products.length === 0 && !filterName && (
                     <EmptyTable colNumber={productHeadCells.length} model={translate('model.lowercase.product')} />
                   ))}
               </TableBody>

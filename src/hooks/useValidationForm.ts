@@ -249,6 +249,22 @@ function useValidationForm() {
       .required(translate('page.validation.select', { name: translate('model.lowercase.category') })),
   });
 
+  const schemaPartner = yup.object({
+    name: yup.string().required(
+      translate('page.validation.required', {
+        name: `${translate('page.form.nameLower')} ${translate('model.lowercase.partner')}`,
+      })
+    ),
+    webUrl: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate('page.form.webUrlLower'),
+        })
+      )
+      .url(translate('page.validation.formatUrl')),
+  });
+
   const schemaBrand = yup.object({
     Name: yup.string().required(
       translate('page.validation.required', {
@@ -306,6 +322,7 @@ function useValidationForm() {
     schemaCategory,
     schemaBankingAccount,
     schemaProduct,
+    schemaPartner,
   };
 }
 

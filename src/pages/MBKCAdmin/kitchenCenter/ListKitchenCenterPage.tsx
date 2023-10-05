@@ -75,7 +75,7 @@ function ListKitchenCenterPage(props: any) {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page === 0 ? page + 1 : page,
         keySearchName: filterName,
       },
       navigate,
@@ -134,7 +134,7 @@ function ListKitchenCenterPage(props: any) {
                         );
                       })}
                       {emptyRows > 0 ||
-                        (kitchenCenters.length === 0 && (
+                        (kitchenCenters.length === 0 && !filterName && (
                           <EmptyTable
                             colNumber={kitchenCenterHeadCells.length}
                             model={translate('model.lowercase.store')}

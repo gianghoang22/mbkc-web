@@ -92,7 +92,7 @@ function ListOrdersPage() {
                       );
                     })}
                     {emptyRows > 0 ||
-                      (orders.length === 0 && (
+                      (orders.length === 0 && !filterName && (
                         <EmptyTable colNumber={orders.length} model={translate('model.lowercase.store')} />
                       ))}
                   </TableBody>

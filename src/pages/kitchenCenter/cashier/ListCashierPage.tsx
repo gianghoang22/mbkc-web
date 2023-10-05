@@ -87,7 +87,7 @@ function ListCashierPage() {
                       return <CashierTableRow key={cashier.accountId} index={index} cashier={cashier} />;
                     })}
                     {emptyRows > 0 ||
-                      (cashiers.length === 0 && (
+                      (cashiers.length === 0 && !filterName && (
                         <EmptyTable colNumber={cashierHeadCells.length} model={translate('model.lowercase.cashier')} />
                       ))}
                   </TableBody>

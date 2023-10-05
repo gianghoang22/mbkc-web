@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Partner } from '@types';
-import { partners } from 'mock/partner';
 import {
   createNewPartnerThunk,
   deletePartnerThunk,
@@ -8,6 +7,8 @@ import {
   getPartnerDetailThunk,
   updatePartnerThunk,
 } from './partnerThunk';
+import { StorageKeys } from 'constants/storageKeys';
+import { setLocalStorage } from 'utils';
 
 interface PartnerState {
   isEditing: boolean;
@@ -16,6 +17,8 @@ interface PartnerState {
   isSuccess: boolean;
   partners: Partner[];
   partner: Partner | null;
+  totalPage: number;
+  numberItems: number;
 }
 
 const initialState: PartnerState = {
@@ -23,8 +26,10 @@ const initialState: PartnerState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  partners: partners,
+  partners: [],
   partner: null,
+  totalPage: 0,
+  numberItems: 5,
 };
 
 export const createNewPartner = createAsyncThunk('partner/create-Partner', createNewPartnerThunk);
@@ -39,10 +44,12 @@ const partnerSlice = createSlice({
   reducers: {
     setAddPartner: (state) => {
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_PARTNER, false);
     },
     setEditPartner: (state, action) => {
       state.isEditing = true;
       state.partner = action.payload;
+      setLocalStorage(StorageKeys.IS_EDIT_PARTNER, true);
     },
     getPartnerDetail_local: (state, action) => {
       state.partner = action.payload;
@@ -70,6 +77,9 @@ const partnerSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.partners = [...action.payload?.partners];
+        state.totalPage = action.payload?.totalPage;
+        state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllPartners.rejected, (state, action) => {
         state.isLoading = false;
@@ -83,6 +93,7 @@ const partnerSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.partner = { ...action.payload };
       })
       .addCase(getPartnerDetail.rejected, (state, action) => {
         state.isLoading = false;

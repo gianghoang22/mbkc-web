@@ -133,6 +133,7 @@ function CreateStorePage() {
                 <Button
                   variant="contained"
                   color="inherit"
+                  disabled={isLoading}
                   onClick={() => {
                     reset({
                       name: store?.name,

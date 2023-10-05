@@ -43,7 +43,9 @@
     "containProduct": "Categories contain products",
     "containExtraProduct": "Categories contain extra products",
     "parentProduct": "Parent product",
-    "productSize": "Product size"
+    "productSize": "Product size",
+    "webUrl": "Web URL",
+    "webUrlLower": "web URL"
   },
   "validation": {
     "required": "Please enter {{name}}",
@@ -61,6 +63,7 @@
     "sellingPriceContent": "Selling price of the product",
     "discountPriceContent": "Reduced price of the product",
     "historicalPriceContent": "Cost of manufacturing products",
-    "nameProductHelperText": "Name of child product: parent product name + selected size"
+    "nameProductHelperText": "Name of child product: parent product name + selected size",
+    "formatUrl": "The format of the url is not correct"
   }
 }

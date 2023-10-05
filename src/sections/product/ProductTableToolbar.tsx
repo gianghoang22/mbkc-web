@@ -34,7 +34,7 @@ function ProductTableToolbar(props: ProductTableToolbarProps) {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page === 0 ? page + 1 : page,
         searchValue: debounceValue,
       },
       navigate,

@@ -61,7 +61,7 @@ function ListBankingAccountPage() {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page === 0 ? page + 1 : page,
         searchValue: filterName,
       },
       navigate,
@@ -113,14 +113,14 @@ function ListBankingAccountPage() {
                           <BankingAccountTableRow
                             key={bankingAccount.bankingAccountId}
                             index={index}
-                            page={page + 1}
+                            page={page === 0 ? page + 1 : page}
                             rowsPerPage={rowsPerPage}
                             bankingAccount={bankingAccount}
                           />
                         );
                       })}
                       {emptyRows > 0 ||
-                        (bankingAccounts.length === 0 && (
+                        (bankingAccounts.length === 0 && !filterName && (
                           <EmptyTable
                             colNumber={bankingAccountHeadCells.length}
                             model={translate('model.lowercase.bankingAccount')}
