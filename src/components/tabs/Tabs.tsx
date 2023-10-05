@@ -2,10 +2,6 @@ import { useState } from 'react';
 // mui
 import TabsMui from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import PhoneIcon from '@mui/icons-material/Phone';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
-import PhoneMissedIcon from '@mui/icons-material/PhoneMissed';
 import Label from 'components/label/Label';
 import { Color } from 'common/enum';
 

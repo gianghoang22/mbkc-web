@@ -70,7 +70,7 @@ function OrderTableRow({ index, order, handleNavigateDetail, page, rowsPerPage }
         </TableCell>
         <TableCell align="right">
           <IconButton onClick={() => setOpenList(openList === index ? -1 : index)}>
-            {openList === index ? <ExpandMore /> : <ExpandLess />}
+            {openList === index ? <ExpandLess /> : <ExpandMore />}
           </IconButton>
         </TableCell>
       </TableRow>
