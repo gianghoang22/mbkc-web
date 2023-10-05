@@ -80,3 +80,11 @@ export interface PartnerTable {
   name: string;
   status: string;
 }
+
+export interface MoneyExchangeTable {
+  amount: number;
+  exchangeType: string;
+  sender: string;
+  receiver: string;
+  status: string;
+}
