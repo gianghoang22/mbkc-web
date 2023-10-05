@@ -1,6 +1,6 @@
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
-import React, { useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 //mui
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -20,17 +20,19 @@ import {
   Typography,
 } from '@mui/material';
 //
-import { OrderSort, StoreTable } from '@types';
+import { ListParams, OrderSort, StoreTable } from '@types';
 import { Color, Language, PopoverType, Status } from 'common/enum';
-import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import BrandDetailPageSkeleton from './BrandDetailPageSkeleton';
+import { getAllStores } from 'redux/store/storeSlice';
 
 function BrandDetailPage() {
+  const { id: brandId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
@@ -71,6 +73,24 @@ function BrandDetailPage() {
   const handleDelete = () => {
     console.log('Deleting');
   };
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+        idBrand: brandId,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllStores(params));
+  }, [params]);
 
   return (
     <>

@@ -26,8 +26,8 @@ import { Helmet } from 'components';
 import { Link } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { AppWidgetSummary } from 'sections/dashboard';
-import { useLocales } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
+import { useLocales } from 'hooks';
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +35,20 @@ function MBKCAdminDashboardPage() {
   const { translate } = useLocales();
   const { brands } = useAppSelector((state) => state.brand);
   const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
+
+  interface Props {
+    workString: string;
+    lengthLimit: number;
+    end?: string;
+  }
+
+  const LimitedWord = ({ workString, lengthLimit, end = '...' }: Props) => {
+    const limitedWord = workString.length < lengthLimit ? workString : workString.substring(0, lengthLimit) + end;
+    return limitedWord;
+  };
+
+  const featuredKitchenCenters = kitchenCenters.slice(0, 3);
+  const featuredBrands = brands.slice(0, 3);
 
   return (
     <>
@@ -74,7 +88,7 @@ function MBKCAdminDashboardPage() {
         </Grid>
 
         <Grid container spacing={8} marginTop={-5}>
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={6}>
             <Typography
               color="#2B3674"
               style={{
@@ -92,26 +106,27 @@ function MBKCAdminDashboardPage() {
                 <TableHead>
                   <TableRow>
                     <TableCell>No.</TableCell>
-                    <TableCell>Brand</TableCell>
+                    <TableCell>Logo</TableCell>
+                    <TableCell>Name</TableCell>
                     <TableCell>Address</TableCell>
                     <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {brands.map((row, index) => (
+                  {featuredBrands.map((row, index) => (
                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
                         {row.brandId}
                       </TableCell>
                       <TableCell>
-                        <Box style={{ display: 'flex', alignItems: 'center' }}>
-                          <Avatar src={row.logo} alt="logo" />
-                          <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 600 }}>
-                            {row.name}
-                          </Typography>
-                        </Box>
+                        <Avatar src={row.logo} alt="logo" />
                       </TableCell>
-                      <TableCell>{row.address}</TableCell>
+                      <TableCell>
+                        <Typography variant="subtitle2" style={{ marginLeft: 4, fontWeight: 600 }}>
+                          {LimitedWord({ workString: row.name, lengthLimit: 10 })}
+                        </Typography>
+                      </TableCell>
+                      <TableCell> {LimitedWord({ workString: row.address, lengthLimit: 10 })}</TableCell>
                       <TableCell>
                         <Box
                           style={{
@@ -161,7 +176,7 @@ function MBKCAdminDashboardPage() {
             </TableContainer>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={7}>
+          <Grid item xs={12} sm={12} md={6}>
             <Typography
               color="#2B3674"
               style={{
@@ -179,13 +194,13 @@ function MBKCAdminDashboardPage() {
                 <TableHead>
                   <TableRow>
                     <TableCell>No.</TableCell>
-                    <TableCell>Image</TableCell>
+                    <TableCell>Logo</TableCell>
                     <TableCell>Name</TableCell>
                     <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {kitchenCenters.map((row, index) => (
+                  {featuredKitchenCenters.map((row, index) => (
                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
                         {row.kitchenCenterId}

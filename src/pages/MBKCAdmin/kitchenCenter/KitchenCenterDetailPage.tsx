@@ -33,7 +33,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { getAllStores } from 'redux/store/storeSlice';
 import { KitchenCenterDetailPageSkeleton } from '..';
 
-function KitchenCenterDetailPage(props: any) {
+function KitchenCenterDetailPage() {
   const { id: kitchenCenterId } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -170,7 +170,7 @@ function KitchenCenterDetailPage(props: any) {
                       onRequestSort={handleRequestSort}
                     />
                     {isLoadingStores ? (
-                      <StoreTableRowSkeleton haveBrand={true} length={visibleRows.length} />
+                      <StoreTableRowSkeleton showEmail haveBrand={true} length={visibleRows.length} />
                     ) : (
                       <TableBody>
                         {visibleRows.map((store, index) => {
@@ -182,6 +182,7 @@ function KitchenCenterDetailPage(props: any) {
                               index={index}
                               length={visibleRows.length}
                               haveBrand={true}
+                              showEmail
                             />
                           );
                         })}
