@@ -3,5 +3,6 @@
   "confirmAcceptTitle": "Chấp nhận đăng kí {{model}}",
   "confirmDeleteContent": "Bạn chắc chắn muốn xóa {{model}}",
   "confirmAcceptContent": "Bạn muốn chập nhận đăng ký {{model}}?",
-  "confirmRejectContent": "Bạn muốn từ chối đăng ký {{model}}? Vui lòng nhập lý do..."
+  "confirmRejectContent": "Bạn muốn từ chối đăng ký {{model}}? Vui lòng nhập lý do...",
+  "updatePasswordContent": "Bạn cần cập nhật mật khẩu để bắt đầu sử dung tài khoản!"
 }

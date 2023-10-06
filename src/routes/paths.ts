@@ -22,7 +22,6 @@ export const PATH_AUTH = {
 
 export const PATH_ADMIN_APP = {
   root: path(ROOTS_ADMIN_DASHBOARD, '/dashboard'),
-  profile: path(ROOTS_ADMIN_DASHBOARD, '/profile'),
   information: path(ROOTS_ADMIN_DASHBOARD, '/information'),
   kitchenCenter: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center'),

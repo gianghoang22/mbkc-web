@@ -18,6 +18,15 @@ export interface ResetForm {
   confirmPassword: string;
 }
 
+export interface UpdatePasswordForm {
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface UpdatePasswordFormApi {
+  newPassword: string;
+}
+
 export interface ResetFormApi {
   email: string;
   newPassword: string;

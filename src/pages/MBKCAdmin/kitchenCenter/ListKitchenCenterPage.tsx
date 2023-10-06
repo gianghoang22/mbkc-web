@@ -4,16 +4,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllKitchenCenters, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { KitchenCenter, KitchenCenterTable, ListParams, OrderSort } from '@types';
+import { KitchenCenterTable, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import {
-  getAllKitchenCenters,
-  getKitchenCenterDetail,
-  setAddKitchenCenter,
-} from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import {
   KitchenCenterTableRow,
@@ -40,16 +38,6 @@ function ListKitchenCenterPage(props: any) {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (kitchenCenter: KitchenCenter, kitchenCenterId: number) => {
-    const params = {
-      navigate,
-      kitchenCenterId,
-    };
-    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenterId}`);
-    dispatch(getKitchenCenterDetail(params));
-    // dispatch(getStoresByKitchenCenter(params));
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +77,7 @@ function ListKitchenCenterPage(props: any) {
   return (
     <>
       <Page
-        title="List Of Kitchen Center"
+        title={translate('page.title.list', { model: translate('model.lowercase.kitchenCenter') })}
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [
@@ -98,10 +86,11 @@ function ListKitchenCenterPage(props: any) {
             startIcon={<AddRoundedIcon />}
             onClick={() => {
               navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter);
+              dispatch(setRoutesToBack(pathname));
               dispatch(setAddKitchenCenter());
             }}
           >
-            Add Kitchen Center
+            {translate('button.add', { model: translate('model.lowercase.kitchenCenter') })}
           </Button>,
         ]}
       >
@@ -124,12 +113,11 @@ function ListKitchenCenterPage(props: any) {
                       {visibleRows.map((kitchenCenter, index) => {
                         return (
                           <KitchenCenterTableRow
-                            key={index}
+                            key={kitchenCenter.kitchenCenterId}
                             index={index}
                             page={page}
                             rowsPerPage={rowsPerPage}
                             kitchenCenter={kitchenCenter}
-                            handleNavigateDetail={handleNavigateDetail}
                           />
                         );
                       })}
@@ -137,7 +125,7 @@ function ListKitchenCenterPage(props: any) {
                         (kitchenCenters.length === 0 && !filterName && (
                           <EmptyTable
                             colNumber={kitchenCenterHeadCells.length}
-                            model={translate('model.lowercase.store')}
+                            model={translate('model.lowercase.kitchenCenter')}
                           />
                         ))}
                     </TableBody>

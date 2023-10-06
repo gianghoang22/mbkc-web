@@ -13,6 +13,7 @@ import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { deleteProduct, getProductDetail, setEditProduct } from 'redux/product/productSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductDetailPageSkeleton } from 'sections/product';
+import { fCurrencyVN } from 'utils';
 
 function ProductDetailPage() {
   const { id: productId } = useParams();
@@ -137,11 +138,28 @@ function ProductDetailPage() {
                     />
                     <ContentLabel title={translate('table.type')} color={Color.INFO} content={product?.type} />
 
-                    <ContentSpace title={translate('table.size')} content={product?.size} />
-                    <ContentSpace title={translate('model.capitalizeOne.category')} content={product?.category.name} />
-                    <ContentSpace title={translate('table.historicalPrice')} content={product?.historicalPrice} />
-                    <ContentSpace title={translate('table.sellingPrice')} content={product?.sellingPrice} />
-                    <ContentSpace title={translate('table.discountPrice')} content={product?.discountPrice} />
+                    {product?.size !== null ? (
+                      <ContentSpace title={translate('table.size')} content={product?.size} />
+                    ) : (
+                      <></>
+                    )}
+                    <ContentSpace title={translate('model.capitalizeOne.category')} content={product?.categoryId} />
+                    <ContentSpace
+                      title={translate('table.historicalPrice')}
+                      content={fCurrencyVN(product?.historicalPrice ? product?.historicalPrice : '')}
+                    />
+                    <ContentSpace
+                      title={translate('table.sellingPrice')}
+                      content={fCurrencyVN(product?.sellingPrice ? product?.sellingPrice : '')}
+                    />
+                    <ContentSpace
+                      title={translate('table.discountPrice')}
+                      content={fCurrencyVN(product?.discountPrice ? product?.discountPrice : '')}
+                    />
+                    {product?.childrenProducts?.length !== undefined &&
+                      product?.childrenProducts.map((childProduct) => (
+                        <Typography key={childProduct.productId}>{childProduct.name}</Typography>
+                      ))}
                   </Stack>
                 </Stack>
               </Grid>

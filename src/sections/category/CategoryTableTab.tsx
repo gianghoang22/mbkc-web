@@ -100,7 +100,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
                       key={category.categoryId}
                       index={index}
                       category={category}
-                      categoryType={CategoryType.NORMAL}
+                      categoryType={CategoryType.EXTRA}
                     />
                   );
                 })}

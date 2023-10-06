@@ -67,8 +67,11 @@ const productSlice = createSlice({
     },
     setEditProduct: (state, action) => {
       state.isEditing = true;
-      // state.product = action.payload;
+      state.product = action.payload;
       setLocalStorage(StorageKeys.IS_EDIT_PRODUCT, true);
+    },
+    getProductEmpty: (state) => {
+      state.productParent = null;
     },
     getProductDetail_local: (state, action) => {
       state.product = action.payload;
@@ -191,7 +194,7 @@ const productSlice = createSlice({
   },
 });
 
-export const { setAddProduct, setEditProduct, getProductDetail_local } = productSlice.actions;
+export const { setAddProduct, setEditProduct, getProductDetail_local, getProductEmpty } = productSlice.actions;
 const productReducer = productSlice.reducer;
 
 export default productReducer;

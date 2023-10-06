@@ -10,7 +10,6 @@ import { getAllProducts } from 'redux/product/productSlice';
 import { ListParams, OrderSort, ProductTable } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import { getComparator, stableSort } from 'utils';
 import ProductTableRow from './ProductTableRow';
 import ProductTableRowSkeleton from './ProductTableRowSkeleton';
 import ProductTableToolbar from './ProductTableToolbar';
@@ -43,13 +42,13 @@ function ProductTableTab() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      stableSort(products, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, products]
-  );
+  // const visibleRows = useMemo(
+  //   () =>
+  //     stableSort(products, getComparator(order, orderBy))
+  //   [order, orderBy, page, rowsPerPage, products]
+  // );
 
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !products.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -82,13 +81,13 @@ function ProductTableTab() {
               onRequestSort={handleRequestSort}
             />
             {isLoading ? (
-              <ProductTableRowSkeleton inTab length={visibleRows.length} />
+              <ProductTableRowSkeleton inTab length={products?.length} />
             ) : (
               <TableBody>
-                {visibleRows.map((product, index) => {
+                {products?.map((product, index) => {
                   return (
                     <ProductTableRow
-                      length={visibleRows.length}
+                      length={products?.length}
                       key={product.productId}
                       inTab
                       index={index}

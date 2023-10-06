@@ -174,7 +174,7 @@ export const updateStatusProductThunk = async (params: Params<ToUpdateStatus>, t
 };
 
 export const deleteProductThunk = async (params: Params<Product>, thunkAPI: any) => {
-  const { idParams, optionParams, navigate, pathname } = params;
+  const { idParams, optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
@@ -191,7 +191,7 @@ export const deleteProductThunk = async (params: Params<Product>, thunkAPI: any)
           navigate,
         };
         await thunkAPI.dispatch(getAllProducts(paramsCallback));
-        navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
+        navigate(PATH_BRAND_APP.product.list);
         thunkAPI.dispatch(setMessageSuccess('Deleted product successfully'));
       }
       return response;

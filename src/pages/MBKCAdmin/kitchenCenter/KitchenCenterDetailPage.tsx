@@ -2,16 +2,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useNavigate, useParams } from 'react-router-dom';
-//
-import { ListParams, OrderSort, StoreTable } from '@types';
-import { Color, PopoverType } from 'common/enum';
-import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { PATH_ADMIN_APP } from 'routes/paths';
-import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
-import { getComparator, stableSort } from 'utils';
 // @mui
 import {
   Avatar,
@@ -27,10 +17,21 @@ import {
   TablePagination,
   Typography,
 } from '@mui/material';
-
 // @mui icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { getAllStores } from 'redux/store/storeSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+//
+import { ListParams, OrderSort, StoreTable } from '@types';
+import { Color, Status } from 'common/enum';
+import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
+import { PATH_ADMIN_APP } from 'routes/paths';
+import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
+import { getComparator, stableSort } from 'utils';
 import { KitchenCenterDetailPageSkeleton } from '..';
 
 function KitchenCenterDetailPage() {
@@ -45,7 +46,7 @@ function KitchenCenterDetailPage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { kitchenCenter, isLoading } = useAppSelector((state) => state.kitchenCenter);
-  const { stores, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
+  const { stores, isLoading: isLoadingStores, numberItems } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
@@ -66,7 +67,7 @@ function KitchenCenterDetailPage() {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
 
   const visibleRows = useMemo(
-    () => stableSort(stores, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    () => stableSort(stores, getComparator(order, orderBy)),
     [order, orderBy, page, rowsPerPage, stores]
   );
 
@@ -84,7 +85,7 @@ function KitchenCenterDetailPage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchValue: debounceValue,
-        idKitchenCenter: kitchenCenterId, // Must edit to fix brand login
+        idKitchenCenter: kitchenCenterId,
       },
       navigate,
     };
@@ -97,7 +98,9 @@ function KitchenCenterDetailPage() {
   return (
     <>
       <Page
-        title="Kitchen Center Detail"
+        title={translate('page.title.detail', {
+          model: translate('model.lowercase.kitchenCenter'),
+        })}
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [
@@ -108,8 +111,6 @@ function KitchenCenterDetailPage() {
             style={{
               backgroundColor: '#000',
               color: '#fff',
-              width: 140,
-              height: 32,
             }}
             sx={{
               '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
@@ -117,7 +118,7 @@ function KitchenCenterDetailPage() {
               },
             }}
           >
-            <Typography>Menu Actions</Typography>
+            {translate('button.menuAction')}
           </Button>,
         ]}
       >
@@ -137,10 +138,9 @@ function KitchenCenterDetailPage() {
                     <Stack gap={1}>
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Stack direction="row" alignItems="center" gap={0.5}>
-                          {/* <Typography variant="body1">{kitchenCenter?.title}</Typography> */}
                           <Typography variant="h6">{kitchenCenter?.name}</Typography>
                         </Stack>
-                        <Label color={(kitchenCenter?.status === 'inactive' && Color.ERROR) || Color.SUCCESS}>
+                        <Label color={(kitchenCenter?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
                           {kitchenCenter?.status}
                         </Label>
                       </Stack>
@@ -198,7 +198,7 @@ function KitchenCenterDetailPage() {
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   component="div"
-                  count={stores.length}
+                  count={numberItems}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
@@ -211,21 +211,21 @@ function KitchenCenterDetailPage() {
       </Page>
 
       <Popover
-        type={PopoverType.ALL}
         open={openPopover}
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter);
+          navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenterId}`);
           dispatch(setEditKitchenCenter(kitchenCenter));
+          dispatch(setRoutesToBack(pathname));
         }}
       />
 
       {isOpenModal && (
         <ConfirmDialog
           open={isOpenModal}
-          onClose={handleOpenModal}
           onAction={handleDelete}
+          onClose={handleOpenModal}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.kitchenCenter') })}
           description={translate('dialog.confirmDeleteContent', {
             model: translate('model.lowercase.kitchenCenter'),

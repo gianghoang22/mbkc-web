@@ -21,7 +21,8 @@
     "bankingAccount": "Banking account",
     "numberAccount": "Number account",
     "managerEmail": "Manager email",
-    "partner": "Partner"
+    "partner": "Partner",
+    "accountInformation": "Account information"
   },
   "capitalize": {
     "overview": "Overview",
@@ -45,7 +46,8 @@
     "bankingAccount": "Banking Account",
     "numberAccount": "Number Account",
     "managerEmail": "Manager Email",
-    "partner": "Partner"
+    "partner": "Partner",
+    "accountInformation": "Account Information"
   },
   "lowercase": {
     "overview": "overview",
@@ -69,6 +71,7 @@
     "bankingAccount": "banking account",
     "numberAccount": "number account",
     "managerEmail": "manager email",
-    "partner": "partner"
+    "partner": "partner",
+    "accountInformation": "account information"
   }
 }

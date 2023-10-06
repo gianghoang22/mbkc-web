@@ -9,18 +9,12 @@ import {
   MBKCAdminDashboardPage,
 } from 'pages/MBKCAdmin';
 import { ListPartnerPage, ListStorePage, StoreDetailPage } from 'pages/common';
-import { ProfilePage } from 'pages/profile';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 export const adminRoutes: Route[] = [
   {
     path: PATH_ADMIN_APP.root,
     component: <MBKCAdminDashboardPage />,
-    index: true,
-  },
-  {
-    path: PATH_ADMIN_APP.profile,
-    component: <ProfilePage />,
     index: true,
   },
   {

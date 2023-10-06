@@ -1,5 +1,4 @@
 import { Brand } from './brand';
-import { Category } from './category';
 
 export interface Product {
   productId: number;
@@ -12,14 +11,15 @@ export interface Product {
   type: string;
   image: string;
   status: string;
-  size: string;
+  size: string | null;
   displayOrder: number;
-  parentProductId: string;
-  childrenProducts: string[];
-  category: Category;
+  parentProductId: string | null;
+  childrenProducts: ChildrenProduct[];
+  categoryId: number;
   brand: Brand;
 }
 
+export interface ChildrenProduct extends Product {}
 export interface ProductToCreate {
   name: string;
   code: string;
@@ -43,7 +43,7 @@ export interface ProductToCreateParams {
   sellingPrice: number | null | string;
   discountPrice: number | null | string;
   displayOrder: number;
-  size: string | null | string;
+  size: string | null | undefined;
   type: string;
   image?: File | string;
   parentProductId: number | null | string;

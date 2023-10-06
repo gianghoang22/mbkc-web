@@ -83,6 +83,26 @@ function ProductForm({ productsParent, categories }: ProductFormProps) {
 
           <Stack spacing={3}>
             <Stack direction="row" alignItems="start" gap={2}>
+              <SelectField<ProductTypeEnum>
+                fullWidth
+                name="type"
+                disabled={isEditing}
+                options={PRODUCT_TYPE_OPTIONS}
+                label={translate(
+                  'page.form.nameExchange',
+                  currentLang.value === Language.ENGLISH
+                    ? {
+                        model: translate('model.capitalizeOne.product'),
+                        name: translate('table.lowercase.type'),
+                      }
+                    : {
+                        model: translate('table.type'),
+                        name: translate('model.lowercase.product'),
+                      }
+                )}
+              />
+            </Stack>
+            <Stack direction="row" alignItems="start" gap={2}>
               <InputField
                 fullWidth
                 name="name"
@@ -104,27 +124,6 @@ function ProductForm({ productsParent, categories }: ProductFormProps) {
                 }
               />
             </Stack>
-            <Stack direction="row" alignItems="start" gap={2}>
-              <SelectField<ProductTypeEnum>
-                fullWidth
-                name="type"
-                disabled={isEditing}
-                options={PRODUCT_TYPE_OPTIONS}
-                label={translate(
-                  'page.form.nameExchange',
-                  currentLang.value === Language.ENGLISH
-                    ? {
-                        model: translate('model.capitalizeOne.product'),
-                        name: translate('table.lowercase.type'),
-                      }
-                    : {
-                        model: translate('table.type'),
-                        name: translate('model.lowercase.product'),
-                      }
-                )}
-              />
-            </Stack>
-
             {productType === ProductTypeEnum.CHILD && (
               <Stack direction="row" alignItems="start" gap={2}>
                 <AutoCompleteField

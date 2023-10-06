@@ -7,7 +7,7 @@ import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagina
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllProducts, setAddProduct } from 'redux/product/productSlice';
+import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { ListParams, OrderSort, ProductTable } from '@types';
@@ -15,7 +15,6 @@ import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
-import { getComparator, stableSort } from 'utils';
 
 function ListProductPage() {
   const navigate = useNavigate();
@@ -45,12 +44,7 @@ function ListProductPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(products, getComparator(order, orderBy)),
-    [order, orderBy, page, rowsPerPage, products]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !products.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -84,6 +78,7 @@ function ListProductPage() {
               navigate(PATH_BRAND_APP.product.newProduct);
               dispatch(setRoutesToBack(pathname));
               dispatch(setAddProduct());
+              dispatch(getProductEmpty());
             }}
           >
             {translate('button.add', { model: translate('model.lowercase.product') })}
@@ -104,17 +99,17 @@ function ListProductPage() {
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (
-                    <ProductTableRowSkeleton length={visibleRows.length} />
+                    <ProductTableRowSkeleton length={products.length} />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((product, index) => {
+                      {products.map((product, index) => {
                         return (
                           <ProductTableRow
                             key={product.productId}
                             setPage={setPage}
                             page={page + 1}
                             rowsPerPage={rowsPerPage}
-                            length={visibleRows.length}
+                            length={products.length}
                             index={index}
                             product={product}
                           />

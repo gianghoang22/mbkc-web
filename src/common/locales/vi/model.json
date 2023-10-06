@@ -21,7 +21,8 @@
     "bankingAccount": "Tài khoản ngân hàng",
     "numberAccount": "Số tài khoản",
     "managerEmail": "Email người quản lý",
-    "partner": "Đối tác"
+    "partner": "Đối tác",
+    "accountInformation": "Thông tin tài khoản"
   },
   "capitalize": {
     "overview": "Tổng Quan",
@@ -45,7 +46,8 @@
     "bankingAccount": "Tài Khoản Ngân Hàng",
     "numberAccount": "Số Tài Khoản",
     "managerEmail": "Email Người Quản Lý",
-    "partner": "Đối Tác"
+    "partner": "Đối Tác",
+    "accountInformation": "Thông Tin Tài Khoản"
   },
   "lowercase": {
     "overview": "tổng quan",
@@ -69,6 +71,7 @@
     "bankingAccount": "tài khoản ngân hàng",
     "numberAccount": "số tài khoản",
     "managerEmail": "email người quản lý",
-    "partner": "đối tác"
+    "partner": "đối tác",
+    "accountInformation": "thông tin tài khoản"
   }
 }

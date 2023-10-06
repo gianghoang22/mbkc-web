@@ -38,7 +38,7 @@ function CreateProductPage() {
   const { categories } = useAppSelector((state) => state.category);
 
   const createProductForm = useForm<ProductToCreate>({
-    defaultValues: {},
+    defaultValues: { name: '' },
     resolver: yupResolver(schemaProduct),
   });
 
@@ -103,10 +103,9 @@ function CreateProductPage() {
       dispatch<any>(getAllProductsParent(paramsProduct));
     }
     if (type !== ProductTypeEnum.CHILD && type !== undefined && type !== '') {
-      console.log('get category');
       dispatch<any>(getAllCategories(paramsCategory));
     }
-  }, [type]);
+  }, [type, name, parentProductId]);
 
   //set image
   useEffect(() => {
@@ -131,7 +130,7 @@ function CreateProductPage() {
     if (type === ProductTypeEnum.CHILD && type !== undefined && productParent?.name !== undefined) {
       console.log('type', type);
       reset({
-        name: `${productParent?.name === undefined ? 'parent name' : productParent.name} - size ${size}`,
+        name: `${productParent?.name === undefined ? 'Tên sản phẩm cha' : productParent.name} - size ${size}`,
         type: type,
         code: code,
         image: image,
@@ -145,7 +144,7 @@ function CreateProductPage() {
         categoryId: 0,
       });
     }
-  }, [parentProductId, size]);
+  }, [parentProductId, productParent, size]);
 
   const resetForm = async (type: string) => {
     let initialValues = {};
@@ -190,7 +189,7 @@ function CreateProductPage() {
         image: image,
         description: description,
         displayOrder: displayOrder,
-        name: `${productParent?.name === undefined ? 'parent name' : productParent.name} - ${size ? size : 'size'}`,
+        name: `Tên sản phẩm cha - size`,
         historicalPrice: '',
         sellingPrice: '',
         discountPrice: '',
@@ -226,55 +225,6 @@ function CreateProductPage() {
 
   const onSubmit = async (values: ProductToCreate) => {
     const data = { ...values };
-
-    // if (type === ProductTypeEnum.SINGLE) {
-    //   const paramsSingle: Params<ProductToCreateParams> = {
-    //     data: { ...data, size: '', parentProductId: '' },
-    //     optionParams: {
-    //       currentPage: page + 1,
-    //       itemsPerPage: rowsPerPage,
-    //     },
-    //     navigate,
-    //   };
-    //   dispatch(createNewProduct(paramsSingle));
-    // }
-
-    // if (type === ProductTypeEnum.EXTRA) {
-    //   const paramsExtra: Params<ProductToCreateParams> = {
-    //     data: { ...data, size: '', parentProductId: '' },
-    //     optionParams: {
-    //       currentPage: page + 1,
-    //       itemsPerPage: rowsPerPage,
-    //     },
-    //     navigate,
-    //   };
-    //   dispatch(createNewProduct(paramsExtra));
-    // }
-
-    // if (type === ProductTypeEnum.CHILD) {
-    //   const paramsChild: Params<ProductToCreateParams> = {
-    //     data: { ...data, categoryId: '' },
-    //     optionParams: {
-    //       currentPage: page + 1,
-    //       itemsPerPage: rowsPerPage,
-    //     },
-    //     navigate,
-    //   };
-    //   console.log('ProductToCreate', paramsChild);
-    //   dispatch(createNewProduct(paramsChild));
-    // }
-
-    // if (type === ProductTypeEnum.PARENT) {
-    //   const paramsParent: Params<ProductToCreateParams> = {
-    //     data: { ...data, size: '', parentProductId: '', historicalPrice: '', sellingPrice: '', discountPrice: '' },
-    //     optionParams: {
-    //       currentPage: page + 1,
-    //       itemsPerPage: rowsPerPage,
-    //     },
-    //     navigate,
-    //   };
-    //   dispatch(createNewProduct(paramsParent));
-    // }
     const paramsCreate: Params<ProductToCreateParams> = {
       data: {
         ...data,

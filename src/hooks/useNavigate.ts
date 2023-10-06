@@ -25,9 +25,7 @@ function useNavigate() {
 
   const handleNavigateProfile = () => {
     if (isAuthenticated) {
-      if (userAuth?.roleName === Role.MBKC_ADMIN) {
-        navigate(PATH_ADMIN_APP.profile);
-      } else if (userAuth?.roleName === Role.BRAND_MANAGER) {
+      if (userAuth?.roleName === Role.BRAND_MANAGER) {
         navigate(PATH_BRAND_APP.profile);
       } else if (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) {
         navigate(PATH_KITCHEN_CENTER_APP.profile);

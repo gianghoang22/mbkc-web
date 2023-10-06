@@ -44,7 +44,7 @@ function CategoryDetailPage() {
 
   useEffect(() => {
     dispatch(getCategoryDetail(params));
-  }, [dispatch, navigate, params]);
+  }, [dispatch, navigate, params, categoryId]);
 
   const handleDelete = () => {
     handleOpenModal(category?.name);

@@ -48,6 +48,16 @@ function useValidationForm() {
       .oneOf([ref('newPassword')], translate('page.validation.matchPassword')),
   });
 
+  const schemaUpdatePassword = yup.object({
+    newPassword: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('page.form.newPassword') })),
+    confirmPassword: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('page.form.confirmPassword') }))
+      .oneOf([ref('newPassword')], translate('page.validation.matchPassword')),
+  });
+
   const schemaStore = yup.object({
     name: yup.string().required(
       translate('page.validation.required', {
@@ -323,6 +333,7 @@ function useValidationForm() {
     schemaBankingAccount,
     schemaProduct,
     schemaPartner,
+    schemaUpdatePassword,
   };
 }
 
