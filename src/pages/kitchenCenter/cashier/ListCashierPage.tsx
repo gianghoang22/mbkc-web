@@ -6,7 +6,7 @@ import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagina
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { CashierTable, ListParams, OrderSort } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound, SelectField } from 'components';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { getAllCashiers, setAddCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';

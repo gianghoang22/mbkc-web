@@ -1,10 +1,10 @@
 import { ListParams } from '@types';
 import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
 import { getAllBankingAccounts } from './bankingAccountSlice';
+import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
 
 export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -12,7 +12,7 @@ export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: a
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_BANKING_ACCOUNTS(optionParams));
+      const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
       console.log(response);
       return response;
     } catch (error: any) {
@@ -29,7 +29,7 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_BANKING_ACCOUNT_DETAIL(bankingAccountId));
+      const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_BANKING_ACCOUNT_DETAIL(bankingAccountId));
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -45,7 +45,10 @@ export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) =
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosFormData.post(RoutesApiKeys.CREATE_BANKING_ACCOUNT, newBankingAccountOptions);
+      const response = await axiosFormData.post(
+        ROUTES_API_BANKING_ACCOUNTS.CREATE_BANKING_ACCOUNT,
+        newBankingAccountOptions
+      );
       if (response) {
         params.navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.list);
         thunkAPI.dispatch(setMessageSuccess('Created new banking account successfully'));
@@ -67,7 +70,7 @@ export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosFormData.put(
-        RoutesApiKeys.UPDATE_BANKING_ACCOUNT(bankingAccountId),
+        ROUTES_API_BANKING_ACCOUNTS.UPDATE_BANKING_ACCOUNT(bankingAccountId),
         updateBankingAccountOptions
       );
       if (response) {
@@ -99,7 +102,7 @@ export const deleteBankingAccountThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.delete(RoutesApiKeys.DELETE_BANKING_ACCOUNT(bankingAccountId));
+      const response = await axiosClient.delete(ROUTES_API_BANKING_ACCOUNTS.DELETE_BANKING_ACCOUNT(bankingAccountId));
       if (response) {
         thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
         thunkAPI.dispatch(setMessageSuccess('Deleted banking account successfully'));
@@ -130,9 +133,12 @@ export const updateStatusBankingAccountThunk = async (params: any, thunkAPI: any
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.put(RoutesApiKeys.UPDATE_STATUS_BANKING_ACCOUNT(bankingAccountId), {
-        status: status,
-      });
+      const response = await axiosClient.put(
+        ROUTES_API_BANKING_ACCOUNTS.UPDATE_STATUS_BANKING_ACCOUNT(bankingAccountId),
+        {
+          status: status,
+        }
+      );
       if (response) {
         await thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
         thunkAPI.dispatch(setMessageSuccess('Update status banking account successfully'));

@@ -1,6 +1,7 @@
 import { Role } from 'common/enum';
 import { useNavigate as useNavigateRouter } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';
+
 import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function useNavigate() {

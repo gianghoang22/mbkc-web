@@ -1,6 +1,7 @@
 import { ListParams } from '@types';
 import { axiosClient, setHeaderAuth } from 'api/axiosClient';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
+import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
+
 import { setMessageError } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
@@ -10,7 +11,7 @@ export const getAllMoneyExchangeThunk = async (params: ListParams, thunkAPI: any
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_BANKING_ACCOUNTS(optionParams));
+      const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
       console.log(response);
       return response;
     } catch (error: any) {

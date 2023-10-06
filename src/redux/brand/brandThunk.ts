@@ -1,10 +1,10 @@
 import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 import { getAllBrands } from './brandSlice';
 import { ListParams } from '@types';
 import { PATH_ADMIN_APP } from 'routes/paths';
+import { ROUTES_API_BRANDS } from 'constants/routesApiKeys';
 
 export const getAllBrandsThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -12,7 +12,7 @@ export const getAllBrandsThunk = async (params: ListParams, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_BRAND(optionParams));
+      const response = await axiosClient.get(ROUTES_API_BRANDS.GET_ALL_BRAND(optionParams));
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -124,7 +124,7 @@ export const updateStatusBrandThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.put(RoutesApiKeys.UPDATE_STATUS_BRAND(brandId), {
+      const response = await axiosClient.put(ROUTES_API_BRANDS.UPDATE_STATUS_BRAND(brandId), {
         status: status,
       });
       if (response) {
