@@ -12,6 +12,7 @@ import routesReducer from './routes/routesSlice';
 import storeReducer from './store/storeSlice';
 import orderReducer from './order/orderSlice';
 import walletReducer from './wallet/walletSlice';
+import profileReducer from './profile/profileSlice';
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
     order: orderReducer,
     routes: routesReducer,
     wallet: walletReducer,
+    profile: profileReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

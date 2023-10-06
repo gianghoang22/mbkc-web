@@ -10,7 +10,7 @@ const ROOTS_STORES = '/stores';
 const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCTS = '/products';
 const ROOTS_ORDERS = '/orders';
-const ROOTS_CASHIER = '/cashiers';
+const ROOTS_CASHIERS = '/cashiers';
 const ROOTS_PARTNERS = '/partners';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
@@ -128,11 +128,7 @@ export const ROUTES_API_PARTNERS = {
   DELETE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
 };
 
-export const RoutesApiKeys = {
-  // kitchen center
-
-  // category
-  CREATE_BRAND: pathRoot(ROOTS_BRANDS),
+export const ROUTES_API_BRANDS = {
   GET_ALL_BRAND: ({
     keySearchName = '',
     keyStatusFilter = '',
@@ -145,26 +141,34 @@ export const RoutesApiKeys = {
       `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
     );
   },
-
+  CREATE_BRAND: pathRoot(ROOTS_BRANDS),
   GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
   UPDATE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
   UPDATE_STATUS_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}/updating-status`),
   DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
+  GET_PROFILE_BRAND: path(ROOTS_BRANDS, `/profile`),
+};
 
-  // product
-
-  // order
+export const ROUTES_API_ORDERS = {
   GET_ALL_ORDERS: pathRoot(ROOTS_PRODUCTS),
   GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),
+};
 
-  // cashier
-  CREATE_CASHIER: pathRoot(ROOTS_CASHIER),
-  GET_ALL_CASHIER: pathRoot(ROOTS_CASHIER),
-  GET_CASHIER_DETAIL: (cashierId: number) => path(ROOTS_CASHIER, `/${cashierId}`),
-  UPDATE_CASHIER: (cashierId: number) => path(ROOTS_CASHIER, `/${cashierId}`),
-  DELETE_CASHIER: (cashierId: number) => path(ROOTS_CASHIER, `/${cashierId}`),
+export const ROUTES_API_CASHIERS = {
+  GET_ALL_CASHIERS: ({ searchValue = '', currentPage = '', itemsPerPage = '', sortBy = '' }: OptionParams) => {
+    return path(
+      ROOTS_CASHIERS,
+      `?SearchValue=${searchValue}&ItemsPerPage=${itemsPerPage}&CurrentPage=${currentPage}&SortBy=${sortBy}`
+    );
+  },
+  CREATE_CASHIER: pathRoot(ROOTS_CASHIERS),
+  GET_CASHIER_DETAIL: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}`),
+  UPDATE_CASHIER: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}`),
+  UPDATE_CASHIER_STATUS: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}/updating-status`),
+  DELETE_CASHIER: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}`),
+};
 
-  // banking account
+export const ROUTES_API_BANKING_ACCOUNTS = {
   GET_ALL_BANKING_ACCOUNTS: ({ itemsPerPage = '', currentPage = '', searchValue = '' }: OptionParams) => {
     return path(
       ROOTS_BANKING_ACCOUNTS,
@@ -177,8 +181,9 @@ export const RoutesApiKeys = {
   UPDATE_STATUS_BANKING_ACCOUNT: (bankingAccountId: number) =>
     path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}/updating-status`),
   DELETE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
+};
 
-  // transaction
+export const ROUTES_API_TRANSACTIONS = {
   CREATE_TRANSACTION: pathRoot(ROOTS_TRANSACTION),
   GET_ALL_TRANSACTION: pathRoot(ROOTS_TRANSACTION),
   GET_TRANSACTION_DETAIL: (transactionId: number) => path(ROOTS_TRANSACTION, `/${transactionId}`),

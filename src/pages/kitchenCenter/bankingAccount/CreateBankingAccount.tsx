@@ -4,14 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
-import { BankingAccountToCreate, BankingAccountToUpdate, BrandToCreate, BrandToUpdate } from '@types';
+import { BankingAccountToCreate, BankingAccountToUpdate } from '@types';
 import { Color } from 'common/enum';
 import { Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { useDispatch } from 'react-redux';
-import { createNewBrand, updateBrand } from 'redux/brand/brandSlice';
 import BankingAccountForm from 'sections/bankingAccount/BankingAccountForm';
 import { createNewBankingAccount, updateBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 

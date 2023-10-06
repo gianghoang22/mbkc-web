@@ -8,21 +8,21 @@ import { Cashier } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { StatusWithIcon } from 'components/StatusWithIcon';
+
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setEditCashier } from 'redux/cashier/cashierSlice';
+import { deleteCashier, setEditCashier } from 'redux/cashier/cashierSlice';
 
 interface CashierDetailModalProps {
   isOpen: boolean;
   handleOpen: (title: any) => void;
   cashier: Cashier;
+  page: number;
+  rowsPerPage: number;
 }
 
-const handleDelete = () => {};
-
-function CashierDetailModal({ isOpen, handleOpen, cashier }: CashierDetailModalProps) {
+function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: CashierDetailModalProps) {
   const { translate } = useLocales();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,6 +32,17 @@ function CashierDetailModal({ isOpen, handleOpen, cashier }: CashierDetailModalP
   const handleEdit = () => {
     navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/update/${cashier.accountId}`);
     dispatch(setEditCashier(cashier));
+  };
+
+  const handleDelete = () => {
+    const params = {
+      cashierId: cashier?.accountId,
+      navigate,
+      page: page + 1,
+      rowsPerPage: rowsPerPage,
+    };
+
+    dispatch<any>(deleteCashier(params));
   };
 
   return (
@@ -66,8 +77,6 @@ function CashierDetailModal({ isOpen, handleOpen, cashier }: CashierDetailModalP
                       <IconButton style={{ marginRight: 4 }} onClick={handleEdit}>
                         <EditOutlinedIcon />
                       </IconButton>
-
-                      <StatusWithIcon status={cashier.status} />
                     </Stack>
 
                     <Box>

@@ -5,17 +5,25 @@ export interface Cashier {
   email: string;
   fullName: string;
   gender: Gender;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   avatar: string;
   citizenNumber: string;
   status: Status;
+  kitchenCenter?: {
+    kitchenCenterId: number;
+    name: string;
+    address: string;
+    status: string;
+    logo: string;
+    kitchenCenterManagerEmail: string;
+  };
 }
 
 export interface CashierToCreate {
   email: string;
   fullName: string;
   gender: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   avatar?: string;
   citizenNumber: string;
 }

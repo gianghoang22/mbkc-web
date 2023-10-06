@@ -22,7 +22,10 @@
     "numberAccount": "Number account",
     "managerEmail": "Manager email",
     "partner": "Partner",
-    "accountInformation": "Account information"
+    "accountInformation": "Account information",
+    "citizenNumber": "Citizen number",
+    "dateOfBirth": "Date of birth",
+    "gender": "Gender"
   },
   "capitalize": {
     "overview": "Overview",
@@ -47,7 +50,10 @@
     "numberAccount": "Number Account",
     "managerEmail": "Manager Email",
     "partner": "Partner",
-    "accountInformation": "Account Information"
+    "accountInformation": "Account Information",
+    "citizenNumber": "Citizen Number",
+    "dateOfBirth": "Date Of Birth",
+    "gender": "Gender"
   },
   "lowercase": {
     "overview": "overview",
@@ -72,6 +78,9 @@
     "numberAccount": "number account",
     "managerEmail": "manager email",
     "partner": "partner",
-    "accountInformation": "account information"
+    "accountInformation": "account information",
+    "citizenNumber": "citizen number",
+    "dateOfBirth": "date of birth",
+    "gender": "gender"
   }
 }

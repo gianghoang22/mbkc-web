@@ -1,5 +1,5 @@
 import { axiosClient } from 'api/axiosClient';
-import { ROUTES_API_BRANDS, ROUTES_API_KITCHEN_CENTERS, ROUTES_API_STORES } from 'constants/routesApiKeys';
+import { ROUTES_API_BRANDS, ROUTES_API_KITCHEN_CENTER, ROUTES_API_STORES } from 'constants/routesApiKeys';
 import { NavigateFunction } from 'react-router-dom';
 import { setMessageError } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage, setAccessToken } from 'utils';
@@ -9,7 +9,7 @@ export const getKitchenCenterProfileThunk = async (navigate: NavigateFunction, t
   if (accessToken) {
     setAccessToken(accessToken);
     try {
-      const response = await axiosClient.get(ROUTES_API_KITCHEN_CENTERS.GET_PROFILE_KITCHEN_CENTER);
+      const response = await axiosClient.get(ROUTES_API_KITCHEN_CENTER.GET_PROFILE_KITCHEN_CENTER);
       console.log(response);
       return response;
     } catch (error: any) {

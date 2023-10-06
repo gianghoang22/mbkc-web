@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Box, Card } from '@mui/material';
 import { Role } from 'common/enum';
 import { Page } from 'components';
-import { useLocales, useModal } from 'hooks';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useLocales } from 'hooks';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getUserInformation } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Card, Box } from '@mui/material';
-import { getUserInformation } from 'redux/auth/authSlice';
 import { UpdatePasswordModal } from 'sections/auth';
 
 function ProfilePage() {

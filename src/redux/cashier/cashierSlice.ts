@@ -5,9 +5,9 @@ import {
   deleteCashierThunk,
   getAllCashiersThunk,
   getCashierDetailThunk,
+  updateCashierStatusThunk,
   updateCashierThunk,
 } from './cashierThunk';
-import { cashiers } from 'mock/cashier';
 
 interface CashierState {
   isEditing: boolean;
@@ -23,7 +23,7 @@ const initialState: CashierState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  cashiers: cashiers,
+  cashiers: [],
   cashier: null,
 };
 
@@ -31,6 +31,7 @@ export const createNewCashier = createAsyncThunk('cashier/create-cashier', creat
 export const getAllCashiers = createAsyncThunk('cashier/get-all-cashiers', getAllCashiersThunk);
 export const getCashierDetail = createAsyncThunk('cashier/get-cashier-detail', getCashierDetailThunk);
 export const updateCashier = createAsyncThunk('cashier/update-cashier', updateCashierThunk);
+export const updateCashierStatus = createAsyncThunk('cashier/update-cashier-status', updateCashierStatusThunk);
 export const deleteCashier = createAsyncThunk('cashier/delete-cashier', deleteCashierThunk);
 
 const CashierSlice = createSlice({
@@ -70,6 +71,7 @@ const CashierSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.cashiers = [...action.payload?.cashiers];
       })
       .addCase(getAllCashiers.rejected, (state, action) => {
         state.isLoading = false;
@@ -83,6 +85,7 @@ const CashierSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.cashier = action.payload;
       })
       .addCase(getCashierDetail.rejected, (state, action) => {
         state.isLoading = false;
@@ -98,6 +101,19 @@ const CashierSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(updateCashier.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(updateCashierStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateCashierStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateCashierStatus.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

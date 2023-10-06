@@ -1,17 +1,17 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { CashierTable, OrderSort } from '@types';
+import { CashierTable, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { setAddCashier } from 'redux/cashier/cashierSlice';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { getAllCashiers, setAddCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { CashierTableRow, CashierTableToolbar } from 'sections/cashier';
+import { CashierTableRow, CashierTableRowSkeleton, CashierTableToolbar } from 'sections/cashier';
 import { getComparator, stableSort } from 'utils';
 
 function ListCashierPage() {
@@ -22,7 +22,7 @@ function ListCashierPage() {
   const { cashierHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { cashiers } = useAppSelector((state) => state.cashier);
+  const { cashiers, isLoading } = useAppSelector((state) => state.cashier);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CashierTable>('fullName');
@@ -49,6 +49,23 @@ function ListCashierPage() {
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
+
+  const debounceValue = useDebounce(filterName, 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        searchValue: debounceValue,
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue, navigate]);
+
+  useEffect(() => {
+    dispatch(getAllCashiers(params));
+  }, [dispatch, navigate, params]);
 
   return (
     <>
@@ -82,15 +99,30 @@ function ListCashierPage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  <TableBody>
-                    {visibleRows.map((cashier, index) => {
-                      return <CashierTableRow key={cashier.accountId} index={index} cashier={cashier} />;
-                    })}
-                    {emptyRows > 0 ||
-                      (cashiers.length === 0 && !filterName && (
-                        <EmptyTable colNumber={cashierHeadCells.length} model={translate('model.lowercase.cashier')} />
-                      ))}
-                  </TableBody>
+                  {isLoading ? (
+                    <CashierTableRowSkeleton length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((cashier, index) => {
+                        return (
+                          <CashierTableRow
+                            key={cashier.accountId}
+                            index={index}
+                            cashier={cashier}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 ||
+                        (cashiers.length === 0 && !filterName && (
+                          <EmptyTable
+                            colNumber={cashierHeadCells.length}
+                            model={translate('model.lowercase.cashier')}
+                          />
+                        ))}
+                    </TableBody>
+                  )}
                   {isNotFound && <SearchNotFound colNumber={cashierHeadCells.length} searchQuery={filterName} />}
                 </Table>
               </TableContainer>

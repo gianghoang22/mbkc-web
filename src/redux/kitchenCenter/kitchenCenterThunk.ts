@@ -104,7 +104,6 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(getAllKitchenCenters(params_callback));
         thunkAPI.dispatch(setMessageSuccess('Deleted kitchen center successfully'));
       }
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
