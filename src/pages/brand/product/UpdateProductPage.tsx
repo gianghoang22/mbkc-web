@@ -35,7 +35,7 @@ function CreateProductPage() {
   const { schemaProduct } = useValidationForm();
   const { page, rowsPerPage } = usePagination();
 
-  const { product, productParent, isEditing, isLoading } = useAppSelector((state) => state.product);
+  const { product, productsParent, isEditing, isLoading } = useAppSelector((state) => state.product);
   const { categories } = useAppSelector((state) => state.category);
 
   const createProductForm = useForm<ProductToCreate>({
@@ -377,7 +377,7 @@ function CreateProductPage() {
       >
         <FormProvider {...createProductForm}>
           <Card sx={{ p: 3 }}>
-            <ProductForm />
+            <ProductForm productsParent={productsParent} categories={categories} />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
             <Button variant="outlined" color="inherit" onClick={() => navigate(PATH_BRAND_APP.product.list)}>

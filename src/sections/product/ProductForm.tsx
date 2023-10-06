@@ -1,19 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 //
 import { Grid, Stack, Typography } from '@mui/material';
 // redux
-import { getAllCategories } from 'redux/category/categorySlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllProductsParent } from 'redux/product/productSlice';
+import { useAppSelector } from 'redux/configStore';
 //
 import {
-  CategoryType,
-  ListParams,
+  Category,
   PRODUCT_SIZE_OPTIONS,
   PRODUCT_TYPE_OPTIONS,
+  Product,
   ProductSizeEnum,
   ProductToCreate,
   ProductTypeEnum,
@@ -22,44 +18,18 @@ import { Language } from 'common/enum';
 import { AutoCompleteField, InputField, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 
-function ProductForm() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+interface ProductFormProps {
+  productsParent: Product[];
+  categories: Category[];
+}
+
+function ProductForm({ productsParent, categories }: ProductFormProps) {
   const { translate, currentLang } = useLocales();
 
-  const { productParent, isEditing } = useAppSelector((state) => state.product);
-  const { categories } = useAppSelector((state) => state.category);
+  const { isEditing } = useAppSelector((state) => state.product);
 
   const { watch } = useFormContext<ProductToCreate>();
   const productType = watch('type');
-
-  const paramsCategory: ListParams = useMemo(() => {
-    return {
-      optionParams: {
-        type: productType === ProductTypeEnum.EXTRA ? CategoryType.EXTRA : CategoryType.NORMAL,
-      },
-      navigate,
-    };
-  }, [productType]);
-
-  const paramsProduct: ListParams = useMemo(() => {
-    return {
-      optionParams: {
-        type: ProductTypeEnum.PARENT,
-        isGetAll: true,
-      },
-      navigate,
-    };
-  }, [productType]);
-
-  useEffect(() => {
-    if (productType === ProductTypeEnum.CHILD) {
-      dispatch<any>(getAllProductsParent(paramsProduct));
-    }
-    dispatch<any>(getAllCategories(paramsCategory));
-  }, [paramsCategory, paramsProduct, productType]);
-
-  console.log(categories);
 
   const categoriesOptions = categories.map((category) => ({
     label: category.name,
@@ -72,7 +42,7 @@ function ProductForm() {
     return option;
   };
 
-  const productsOptions = productParent.map((product) => ({
+  const productsOptions = productsParent.map((product) => ({
     label: product.name,
     value: product.productId,
   }));

@@ -54,6 +54,22 @@ export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
+export const getProductParentDetailThunk = async (params: any, thunkAPI: any) => {
+  const { productId, navigate } = params;
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_PRODUCT_DETAIL(productId));
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
 export const createNewProductThunk = async (params: Params<ProductToCreateParams>, thunkAPI: any) => {
   const { data, optionParams, navigate } = params;
   const formData = appendData(data);
