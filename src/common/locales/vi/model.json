@@ -21,6 +21,9 @@
     "bankingAccount": "Tài khoản ngân hàng",
     "numberAccount": "Số tài khoản",
     "managerEmail": "Email người quản lý",
+    "citizenNumber": "Số chứng minh nhân dân",
+    "dateOfBirth": "Ngày tháng năm sinh",
+    "gender": "Giới tính",
     "partner": "Đối tác"
   },
   "capitalize": {
@@ -45,6 +48,9 @@
     "bankingAccount": "Tài Khoản Ngân Hàng",
     "numberAccount": "Số Tài Khoản",
     "managerEmail": "Email Người Quản Lý",
+    "citizenNumber": "Số Chứng Minh Nhân Dân",
+    "dateOfBirth": "Ngày Tháng Năm Sinh",
+    "gender": "Giới Tính",
     "partner": "Đối Tác"
   },
   "lowercase": {
@@ -69,6 +75,9 @@
     "bankingAccount": "tài khoản ngân hàng",
     "numberAccount": "số tài khoản",
     "managerEmail": "email người quản lý",
+    "citizenNumber": "số chứng minh nhân dân",
+    "dateOfBirth": "ngày tháng năm sinh",
+    "gender": "giới tính",
     "partner": "đối tác"
   }
 }

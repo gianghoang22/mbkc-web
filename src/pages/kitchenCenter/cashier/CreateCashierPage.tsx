@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
@@ -11,41 +10,69 @@ import { Page } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { CashierForm } from 'sections/cashier';
+import { useDispatch } from 'react-redux';
+import { createNewCashier, updateCashier } from 'redux/cashier/cashierSlice';
+import { useValidationForm } from 'hooks';
 
-const schema = yup.object({
-  email: yup.string().required('Please enter Category Name'),
-  fullName: yup.string().required('Please enter Category Code'),
-  gender: yup.string().required('Please select Category Type'),
-  dateOfBirth: yup.date().required('Please enter the category display order'),
-  avatar: yup.string(),
-  citizenNumber: yup.string().required('Please select Category Photo'),
-});
+// const schema = yup.object({
+//   email: yup.string().required('Please enter Cashier Email'),
+//   fullName: yup.string().required('Please enter Cashier Full Name'),
+//   gender: yup.string().required('Please select Cashier Gender'),
+//   dateOfBirth: yup.string().required('Please enter the Cashier date of birth'),
+//   avatar: yup.string(),
+//   citizenNumber: yup.string().required('Please select Cashier citizen number'),
+// });
 
 function CreateCashierPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { isEditing, cashier } = useAppSelector((state) => state.cashier);
+  const { schemaCashier } = useValidationForm();
 
   const createCashierForm = useForm<CashierToCreate>({
     defaultValues: {
       email: isEditing ? cashier?.email : '',
       fullName: isEditing ? cashier?.fullName : '',
       gender: isEditing ? cashier?.gender : '',
-      dateOfBirth: isEditing ? cashier?.dateOfBirth : new Date(),
       avatar: isEditing ? cashier?.avatar : '',
       citizenNumber: isEditing ? cashier?.citizenNumber : '',
+      dateOfBirth: isEditing ? cashier?.dateOfBirth : '2001/5/9',
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaCashier),
   });
 
-  const { handleSubmit, watch } = createCashierForm;
-
-  const image = watch('avatar');
-  console.log('image', image);
+  const { handleSubmit } = createCashierForm;
 
   const onSubmit = async (values: CashierToCreate) => {
-    const data = { ...values, imageUrl: image };
-    console.log('CategoryToAdd', data);
+    const newCashierOptions = { ...values };
+
+    const updateCashierOptions = {
+      fullName: values.fullName,
+      gender: values.gender,
+      dateOfBirth: values.dateOfBirth,
+      avatar: values.avatar,
+      citizenNumber: values.citizenNumber,
+      newPassword: '',
+      Status: 'ACTIVE',
+    };
+
+    const updateCashierParams = {
+      cashierId: cashier?.accountId,
+      navigate,
+      updateCashierOptions,
+    };
+
+    const createCashierParams = {
+      navigate,
+      newCashierOptions,
+    };
+
+    if (isEditing) {
+      dispatch<any>(updateCashier(updateCashierParams));
+    } else {
+      dispatch<any>(createNewCashier(createCashierParams));
+    }
   };
 
   return (

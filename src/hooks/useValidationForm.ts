@@ -312,6 +312,33 @@ function useValidationForm() {
       .required(translate('page.validation.required', { name: translate('model.lowercase.numberAccount') })),
   });
 
+  const schemaCashier = yup.object({
+    fullName: yup.string().required(
+      translate('page.validation.required', {
+        name: translate(
+          'page.form.nameExchange',
+          currentLang.value === Language.ENGLISH
+            ? {
+                model: translate('model.lowercase.cashier'),
+                name: translate('page.form.nameLower'),
+              }
+            : {
+                model: translate('page.form.nameLower'),
+                name: translate('model.lowercase.cashier'),
+              }
+        ),
+      })
+    ),
+    email: yup.string().required(translate('page.validation.required', { name: translate('model.lowercase.email') })),
+    citizenNumber: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('model.lowercase.citizenNumber') })),
+    dateOfBirth: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('model.lowercase.dateOfBirth') })),
+    gender: yup.string().required(translate('page.validation.required', { name: translate('model.lowercase.gender') })),
+  });
+
   return {
     schemaLogin,
     schemaForgotPassword,
@@ -323,6 +350,7 @@ function useValidationForm() {
     schemaBankingAccount,
     schemaProduct,
     schemaPartner,
+    schemaCashier,
   };
 }
 

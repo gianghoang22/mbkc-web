@@ -13,7 +13,6 @@ export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: an
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_ALL_KITCHEN_CENTER(optionParams));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -30,7 +29,6 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
     axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_KITCHEN_CENTER_DETAIL(kitchenCenterId));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -45,10 +43,8 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      console.log('Logo: ', params.newKitchenCenter);
       const response = await axiosFormData.post(RoutesApiKeys.CREATE_KITCHEN_CENTER, params.newKitchenCenter);
       if (response) {
-        console.log(response);
         thunkAPI.dispatch(setMessageSuccess('Create kitchen center successfully'));
         params.navigate(PATH_ADMIN_APP.kitchenCenter.list);
       }
@@ -63,7 +59,6 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
 
 export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
   const { navigate, updateKitchenCenterOptions, kitchenCenterId } = params;
-  console.log(updateKitchenCenterOptions);
   const accessToken = getAccessToken();
   if (accessToken) {
     try {
@@ -95,7 +90,6 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
     navigate,
   };
   const accessToken = getAccessToken();
-  console.log(kitchenCenterId);
   if (accessToken) {
     axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
@@ -105,7 +99,6 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
         thunkAPI.dispatch(getAllKitchenCenters(params_callback));
         thunkAPI.dispatch(setMessageSuccess('Deleted kitchen center successfully'));
       }
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);

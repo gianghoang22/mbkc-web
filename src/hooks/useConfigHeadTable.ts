@@ -271,7 +271,7 @@ function useConfigHeadTable() {
       label: translate('table.fullName'),
       numeric: false,
       hideSortIcon: false,
-      disablePadding: true,
+      disablePadding: false,
     },
     {
       id: 'email',

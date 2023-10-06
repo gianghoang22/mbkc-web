@@ -1,16 +1,18 @@
-import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { ListParams } from '@types';
+import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { RoutesApiKeys } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { getAccessToken, getErrorMessage } from 'utils';
+import { getAllCashiers } from './cashierSlice';
 
-export const getAllCashiersThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+export const getAllCashiersThunk = async (params: ListParams, thunkAPI: any) => {
+  const { navigate, optionParams } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_CASHIER);
-      console.log(response);
+      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_CASHIERS(optionParams));
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -27,7 +29,6 @@ export const getCashierDetailThunk = async (params: any, thunkAPI: any) => {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(RoutesApiKeys.GET_CASHIER_DETAIL(cashierId));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -38,16 +39,16 @@ export const getCashierDetailThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
-  const { navigate } = params;
+  const { navigate, newCashierOptions } = params;
+  console.log(newCashierOptions);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.CREATE_CASHIER);
+      const response = await axiosFormData.post(RoutesApiKeys.CREATE_CASHIER, newCashierOptions);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        params.navigate(PATH_KITCHEN_CENTER_APP.cashier.list);
+        thunkAPI.dispatch(setMessageSuccess('Created new cashier successfully'));
       }
       return response;
     } catch (error: any) {
@@ -59,15 +60,14 @@ export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const updateCashierThunk = async (params: any, thunkAPI: any) => {
-  const { cashierId, navigate } = params;
+  const { cashierId, navigate, updateCashierOptions } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(RoutesApiKeys.UPDATE_CASHIER(cashierId), params.upadateSportCenter);
+      const response = await axiosFormData.put(RoutesApiKeys.UPDATE_CASHIER(cashierId), updateCashierOptions);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+        thunkAPI.dispatch(setMessageSuccess('Update cashier successfully'));
       }
       return response;
     } catch (error: any) {
@@ -79,15 +79,61 @@ export const updateCashierThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const deleteCashierThunk = async (params: any, thunkAPI: any) => {
-  const { cashierId, navigate } = params;
+  const { cashierId, navigate, page, rowsPerPage } = params;
+
+  const options = {
+    itemsPerPage: rowsPerPage,
+    currentPage: page,
+  };
+
+  console.log(options);
+
+  const paramsCallback: ListParams = {
+    optionParams: options,
+    navigate,
+  };
+
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.delete(RoutesApiKeys.DELETE_CASHIER(cashierId));
       if (response) {
-        // thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
+        await thunkAPI.dispatch(getAllCashiers(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Deleted cashier successfully'));
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const updateCashierStatusThunk = async (params: any, thunkAPI: any) => {
+  const { cashierId, navigate, status, page, rowsPerPage } = params;
+
+  const options = {
+    itemsPerPage: rowsPerPage,
+    currentPage: page,
+  };
+
+  const paramsCallback: ListParams = {
+    optionParams: options,
+    navigate,
+  };
+
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response = await axiosClient.put(RoutesApiKeys.UPDATE_CASHIER_STATUS(cashierId), {
+        status: status,
+      });
+      if (response) {
+        await thunkAPI.dispatch(getAllCashiers(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Update status cashier successfully'));
       }
       return response;
     } catch (error: any) {

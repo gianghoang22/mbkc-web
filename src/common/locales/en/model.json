@@ -21,6 +21,9 @@
     "bankingAccount": "Banking account",
     "numberAccount": "Number account",
     "managerEmail": "Manager email",
+    "citizenNumber": "Citizen number",
+    "dateOfBirth": "Date of birth",
+    "gender": "Gender",
     "partner": "Partner"
   },
   "capitalize": {
@@ -45,6 +48,9 @@
     "bankingAccount": "Banking Account",
     "numberAccount": "Number Account",
     "managerEmail": "Manager Email",
+    "citizenNumber": "Citizen Number",
+    "dateOfBirth": "Date Of Birth",
+    "gender": "Gender",
     "partner": "Partner"
   },
   "lowercase": {
@@ -69,6 +75,9 @@
     "bankingAccount": "banking account",
     "numberAccount": "number account",
     "managerEmail": "manager email",
+    "citizenNumber": "citizen number",
+    "dateOfBirth": "date of birth",
+    "gender": "gender",
     "partner": "partner"
   }
 }
