@@ -5,14 +5,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
@@ -78,7 +79,11 @@ function ListStorePage() {
   }, [page, rowsPerPage, debounceValue]);
 
   useEffect(() => {
-    dispatch<any>(getAllStores(userAuth?.roleName === Role.MBKC_ADMIN ? paramsAdminRole : paramsBrandRole));
+    if (userAuth?.roleName === Role.MBKC_ADMIN) {
+      dispatch<any>(getAllStores(paramsAdminRole));
+    } else {
+      dispatch<any>(getAllStores(paramsBrandRole));
+    }
   }, [paramsAdminRole, paramsBrandRole]);
 
   return (

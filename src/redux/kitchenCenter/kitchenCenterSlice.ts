@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { KitchenCenter } from '@types';
+import { StorageKeys } from 'constants/storageKeys';
+import { getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewKitchenCenterThunk,
   deleteKitchenCenterThunk,
@@ -8,32 +10,31 @@ import {
   updateKitchenCenterThunk,
   updateStatusKitchenCenterThunk,
 } from './kitchenCenterThunk';
-import { toast } from 'react-toastify';
 
 interface KitchenCenterState {
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  errorMessage: string[];
-  successMessage: string;
   kitchenCenters: KitchenCenter[];
   kitchenCenter: KitchenCenter | null;
   totalPage: number;
   numberItems: number;
 }
 
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_KITCHEN_CENTER)
+  ? getIsEditing(StorageKeys.IS_EDIT_KITCHEN_CENTER)
+  : false;
+
 const initialState: KitchenCenterState = {
-  isEditing: false,
+  isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
-  errorMessage: [''],
   kitchenCenters: [],
-  successMessage: '',
+  kitchenCenter: null,
   totalPage: 0,
   numberItems: 0,
-  kitchenCenter: null,
 };
 
 export const createNewKitchenCenter = createAsyncThunk(
@@ -65,19 +66,16 @@ const kitchenCenterSlice = createSlice({
   initialState,
   reducers: {
     getKitchenCenterDetail_local: (state, action) => {
-      console.log(action);
       state.kitchenCenter = action.payload;
     },
     setAddKitchenCenter: (state) => {
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_KITCHEN_CENTER, false);
     },
     setEditKitchenCenter: (state, action) => {
       state.isEditing = true;
       state.kitchenCenter = action.payload;
-    },
-    setMessageSuccess: (state, action) => {
-      state.successMessage = action?.payload?.message;
-      toast.success(state.successMessage);
+      setLocalStorage(StorageKeys.IS_EDIT_KITCHEN_CENTER, true);
     },
   },
   extraReducers(builder) {
@@ -85,13 +83,12 @@ const kitchenCenterSlice = createSlice({
       .addCase(createNewKitchenCenter.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createNewKitchenCenter.fulfilled, (state, action) => {
+      .addCase(createNewKitchenCenter.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.successMessage = action.payload?.message;
       })
-      .addCase(createNewKitchenCenter.rejected, (state, action) => {
+      .addCase(createNewKitchenCenter.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -107,7 +104,7 @@ const kitchenCenterSlice = createSlice({
         state.numberItems = action.payload?.numberItems;
         state.totalPage = action.payload?.totalPages;
       })
-      .addCase(getAllKitchenCenters.rejected, (state, action) => {
+      .addCase(getAllKitchenCenters.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -119,9 +116,9 @@ const kitchenCenterSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.kitchenCenter = action.payload;
+        state.kitchenCenter = { ...action.payload };
       })
-      .addCase(getKitchenCenterDetail.rejected, (state, action) => {
+      .addCase(getKitchenCenterDetail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -129,12 +126,12 @@ const kitchenCenterSlice = createSlice({
       .addCase(updateKitchenCenter.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateKitchenCenter.fulfilled, (state, action) => {
+      .addCase(updateKitchenCenter.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(updateKitchenCenter.rejected, (state, action) => {
+      .addCase(updateKitchenCenter.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -142,12 +139,12 @@ const kitchenCenterSlice = createSlice({
       .addCase(updateStatusKitchenCenter.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateStatusKitchenCenter.fulfilled, (state, action) => {
+      .addCase(updateStatusKitchenCenter.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(updateStatusKitchenCenter.rejected, (state, action) => {
+      .addCase(updateStatusKitchenCenter.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -155,12 +152,12 @@ const kitchenCenterSlice = createSlice({
       .addCase(deleteKitchenCenter.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteKitchenCenter.fulfilled, (state, action) => {
+      .addCase(deleteKitchenCenter.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(deleteKitchenCenter.rejected, (state, action) => {
+      .addCase(deleteKitchenCenter.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -168,8 +165,7 @@ const kitchenCenterSlice = createSlice({
   },
 });
 
-export const { getKitchenCenterDetail_local, setAddKitchenCenter, setEditKitchenCenter, setMessageSuccess } =
-  kitchenCenterSlice.actions;
+export const { getKitchenCenterDetail_local, setAddKitchenCenter, setEditKitchenCenter } = kitchenCenterSlice.actions;
 const kitchenCenterReducer = kitchenCenterSlice.reducer;
 
 export default kitchenCenterReducer;

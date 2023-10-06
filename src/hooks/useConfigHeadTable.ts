@@ -311,13 +311,13 @@ function useConfigHeadTable() {
       hideSortIcon: false,
       disablePadding: false,
     },
-    // {
-    //   id: 'numberAccount',
-    //   label: translate('table.numberAccount'),
-    //   numeric: false,
-    //   hideSortIcon: false,
-    //   disablePadding: true,
-    // },
+    {
+      id: 'numberAccount',
+      label: translate('table.numberAccount'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
     {
       id: 'status',
       label: translate('table.status'),

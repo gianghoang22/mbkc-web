@@ -18,6 +18,7 @@ const StorageKeys = {
   IS_EDIT_CATEGORY: 'isEditingCategory',
   IS_EDIT_PRODUCT: 'isEditingProduct',
   IS_EDIT_PARTNER: 'isEditingPartner',
+  IS_EDIT_KITCHEN_CENTER: 'isEditingKitchenCenter',
 
   // pagination
   PAGE: 'page',

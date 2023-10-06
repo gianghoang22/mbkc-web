@@ -23,6 +23,17 @@ export const getUserAuth = () => {
 };
 export const removeUserAuth = () => removeLocalStorage(StorageKeys.USER_AUTH);
 
+export const setUserInfo = (userAuth: UserAuth) => setLocalStorage(StorageKeys.USER_INFO, JSON.stringify(userAuth));
+export const getUserInfo = () => {
+  const userAuth = getLocalStorage(StorageKeys.USER_INFO);
+  if (userAuth === null) {
+    return;
+  }
+  const userRaw = JSON.parse(userAuth);
+  return userRaw;
+};
+export const removeUserInfo = () => removeLocalStorage(StorageKeys.USER_INFO);
+
 export const setAuthenticated = () => setLocalStorage(StorageKeys.AUTHENTICATE, true);
 export const getAuthenticated = () => {
   const isAuthenticated = getLocalStorage(StorageKeys.AUTHENTICATE);

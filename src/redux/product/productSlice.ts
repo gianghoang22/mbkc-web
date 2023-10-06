@@ -6,6 +6,7 @@ import {
   getAllProductsParentThunk,
   getAllProductsThunk,
   getProductDetailThunk,
+  getProductParentDetailThunk,
   updateProductThunk,
   updateStatusProductThunk,
 } from './productThunk';
@@ -19,8 +20,9 @@ interface ProductState {
   isSuccess: boolean;
   productType: ProductTypeEnum;
   products: Product[];
-  productParent: Product[];
+  productsParent: Product[];
   product: Product | null;
+  productParent: Product | null;
   totalPage: number;
   numberItems: number;
 }
@@ -36,8 +38,9 @@ const initialState: ProductState = {
   isSuccess: false,
   productType: ProductTypeEnum.SINGLE,
   products: [],
-  productParent: [],
+  productsParent: [],
   product: null,
+  productParent: null,
   totalPage: 0,
   numberItems: 5,
 };
@@ -46,6 +49,10 @@ export const createNewProduct = createAsyncThunk('product/create-product', creat
 export const getAllProducts = createAsyncThunk('product/get-all-products', getAllProductsThunk);
 export const getAllProductsParent = createAsyncThunk('product/get-all-products-parent', getAllProductsParentThunk);
 export const getProductDetail = createAsyncThunk('product/get-product-detail', getProductDetailThunk);
+export const getProductParentDetail = createAsyncThunk(
+  'product/get-product-parent-detail',
+  getProductParentDetailThunk
+);
 export const updateProduct = createAsyncThunk('product/update-product', updateProductThunk);
 export const updateStatusProduct = createAsyncThunk('product/update-product-status', updateStatusProductThunk);
 export const deleteProduct = createAsyncThunk('product/delete-product', deleteProductThunk);
@@ -60,8 +67,11 @@ const productSlice = createSlice({
     },
     setEditProduct: (state, action) => {
       state.isEditing = true;
-      // state.product = action.payload;
+      state.product = action.payload;
       setLocalStorage(StorageKeys.IS_EDIT_PRODUCT, true);
+    },
+    getProductEmpty: (state) => {
+      state.productParent = null;
     },
     getProductDetail_local: (state, action) => {
       state.product = action.payload;
@@ -105,7 +115,7 @@ const productSlice = createSlice({
         // state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.productParent = [...action.payload?.products];
+        state.productsParent = [...action.payload?.products];
         state.totalPage = action.payload?.totalPage;
         state.numberItems = action.payload?.numberItems;
       })
@@ -124,6 +134,20 @@ const productSlice = createSlice({
         state.product = { ...action.payload };
       })
       .addCase(getProductDetail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getProductParentDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProductParentDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.productParent = { ...action.payload };
+      })
+      .addCase(getProductParentDetail.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -170,7 +194,7 @@ const productSlice = createSlice({
   },
 });
 
-export const { setAddProduct, setEditProduct, getProductDetail_local } = productSlice.actions;
+export const { setAddProduct, setEditProduct, getProductDetail_local, getProductEmpty } = productSlice.actions;
 const productReducer = productSlice.reducer;
 
 export default productReducer;

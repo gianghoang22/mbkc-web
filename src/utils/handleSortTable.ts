@@ -14,8 +14,8 @@ export function getComparator<Key extends keyof any>(
   order: OrderSort,
   orderBy: Key
 ): (
-  a: { [key in Key]: Date | string | number | Brand | KitchenCenter | Category },
-  b: { [key in Key]: Date | string | number | Brand | KitchenCenter | Category }
+  a: { [key in Key]: Date | string | number | Brand | KitchenCenter | Category | null },
+  b: { [key in Key]: Date | string | number | Brand | KitchenCenter | Category | null }
 ) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)

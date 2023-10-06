@@ -1,9 +1,19 @@
-import { EmailForm, LoginForm, LoginResponse, MessageResponse, Params, ResetFormApi, VerificationForm } from '@types';
-import { axiosClient } from 'api/axiosClient';
-import { Role } from 'common/enum';
-import { ROUTES_API_AUTH } from 'constants/routesApiKeys';
-import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import {
+  EmailForm,
+  LoginForm,
+  LoginResponse,
+  MessageResponse,
+  Params,
+  ResetFormApi,
+  UpdatePasswordFormApi,
+  UserInfo,
+  VerificationForm,
+} from '@types';
+import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { ROUTES_API_ACCOUNT, ROUTES_API_AUTH } from 'constants/routesApiKeys';
+import { PATH_AUTH } from 'routes/paths';
+import {
+  getAccessToken,
   getErrorMessage,
   removeAuthenticated,
   removeSession,
@@ -11,8 +21,9 @@ import {
   setAuthenticated,
   setSession,
   setUserAuth,
+  setUserInfo,
 } from 'utils';
-import { setMessageError, setMessageSuccess } from './authSlice';
+import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
 
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
   const { data, navigate } = params;
@@ -22,26 +33,66 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
       accountId: response?.accountId,
       email: response?.email,
       roleName: response?.roleName,
+      isConfirmed: response?.isConfirmed,
     };
     setSession(response.tokens.accessToken, response.tokens.refreshToken);
     setUserAuth(userStorage);
     setAuthenticated();
-
-    if (response.roleName === Role.MBKC_ADMIN) {
-      navigate(PATH_ADMIN_APP.root);
-    } else if (response.roleName === Role.BRAND_MANAGER) {
-      navigate(PATH_BRAND_APP.root);
-    } else if (response.roleName === Role.KITCHEN_CENTER_MANAGER) {
-      navigate(PATH_KITCHEN_CENTER_APP.root);
-    } else if (response.roleName === Role.CASHIER) {
-      navigate(PATH_CASHIER_APP.root);
-    }
     thunkAPI.dispatch(setMessageSuccess('Login successfully'));
     return userStorage;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
     thunkAPI.dispatch(setMessageError(errorMessage));
     return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const updatePasswordThunk = async (params: Params<UpdatePasswordFormApi>, thunkAPI: any) => {
+  const { data, idParams, navigate } = params;
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response: MessageResponse = await axiosClient.put(
+        ROUTES_API_ACCOUNT.UPDATE_PASSWORD(idParams?.accountId ? idParams?.accountId : 0),
+        data
+      );
+      if (response) {
+        thunkAPI.dispatch(setMessageSuccess('Update Password Successfully.'));
+        thunkAPI.dispatch(getUserInformation({ accountId: idParams?.accountId, navigate }));
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};
+
+export const getUserInfoThunk = async (params: any, thunkAPI: any) => {
+  const { accountId, navigate } = params;
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    setHeaderAuth(accessToken);
+    try {
+      const response: UserInfo = await axiosClient.get(ROUTES_API_ACCOUNT.ACCOUNT_INFORMATION(accountId));
+      if (response) {
+        const userStorage = {
+          accountId: response?.accountId,
+          email: response?.email,
+          roleName: response?.roleName,
+          isConfirmed: response?.isConfirmed,
+        };
+        setUserAuth(userStorage);
+        setUserInfo(response);
+      }
+      return response;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
+    }
   }
 };
 
@@ -82,10 +133,8 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
   try {
     const response: MessageResponse = await axiosClient.put(ROUTES_API_AUTH.RESET_PASSWORD, data);
     if (response) {
-      if (response) {
-        navigate(PATH_AUTH.login);
-        thunkAPI.dispatch(setMessageSuccess('Reset Password Successfully.'));
-      }
+      navigate(PATH_AUTH.login);
+      thunkAPI.dispatch(setMessageSuccess('Reset Password Successfully.'));
     }
     return response;
   } catch (error: any) {

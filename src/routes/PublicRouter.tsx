@@ -9,15 +9,19 @@ export default function PublicRouter() {
 
   const { isAuthenticated, userAuth } = useAppSelector((state) => state.auth);
 
+  const brandPath = userAuth?.isConfirmed ? PATH_BRAND_APP.root : PATH_BRAND_APP.profile;
+  const kitchenCenterPath = userAuth?.isConfirmed ? PATH_KITCHEN_CENTER_APP.root : PATH_KITCHEN_CENTER_APP.profile;
+  const cashierPath = userAuth?.isConfirmed ? PATH_CASHIER_APP.root : PATH_CASHIER_APP.profile;
+
   const navigateRouter =
     userAuth?.roleName === Role.MBKC_ADMIN
       ? PATH_ADMIN_APP.root
       : userAuth?.roleName === Role.BRAND_MANAGER
-      ? PATH_BRAND_APP.root
+      ? brandPath
       : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-      ? PATH_KITCHEN_CENTER_APP.root
+      ? kitchenCenterPath
       : userAuth?.roleName === Role.CASHIER
-      ? PATH_CASHIER_APP.root
+      ? cashierPath
       : PATH_AUTH.login;
 
   return isAuthenticated && accessToken ? <Navigate to={navigateRouter} /> : <Outlet />;

@@ -7,7 +7,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Button, Card, Stack } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { createNewProduct, getAllProductsParent, getProductDetail } from 'redux/product/productSlice';
+import {
+  getAllProductsParent,
+  getProductDetail,
+  getProductParentDetail,
+  updateProduct,
+} from 'redux/product/productSlice';
+import { getAllCategories } from 'redux/category/categorySlice';
 //
 import {
   CategoryType,
@@ -15,17 +21,16 @@ import {
   Params,
   ProductSizeEnum,
   ProductToCreate,
-  ProductToCreateParams,
+  ProductToUpdate,
   ProductTypeEnum,
 } from '@types';
-import { Color } from 'common/enum';
+import { Color, Status } from 'common/enum';
 import { Page } from 'components';
 import { useLocales, usePagination, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductForm } from 'sections/product';
-import { getAllCategories } from 'redux/category/categorySlice';
 
-function CreateProductPage() {
+function UpdateProductPage() {
   const { id: productId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -35,15 +40,25 @@ function CreateProductPage() {
   const { schemaProduct } = useValidationForm();
   const { page, rowsPerPage } = usePagination();
 
-  const { product, productParent, isEditing, isLoading } = useAppSelector((state) => state.product);
+  const { product, productParent, productsParent, isEditing, isLoading } = useAppSelector((state) => state.product);
   const { categories } = useAppSelector((state) => state.category);
+
+  console.log(product);
 
   const createProductForm = useForm<ProductToCreate>({
     defaultValues: {
       name: '',
       code: '',
       description: '',
+      historicalPrice: 0,
+      sellingPrice: 0,
+      discountPrice: 0,
       displayOrder: 0,
+      image: '',
+      size: '',
+      type: '',
+      parentProductId: 0,
+      categoryId: 0,
     },
     resolver: yupResolver(schemaProduct),
   });
@@ -62,32 +77,41 @@ function CreateProductPage() {
   const discountPrice = watch('discountPrice');
   const parentProductId = watch('parentProductId');
 
-  console.log(type);
+  console.log(parentProductId);
 
   const params = useMemo(() => {
     return {
       productId: parentProductId,
       navigate,
     };
-  }, [parentProductId, navigate]);
+  }, [parentProductId]);
 
   const paramsEditing = useMemo(() => {
     return {
       productId: productId,
       navigate,
     };
-  }, [parentProductId]);
+  }, [productId]);
 
-  const paramsCategory: ListParams = useMemo(() => {
+  const paramsCategoryNormal: ListParams = useMemo(() => {
     return {
       optionParams: {
-        type: type === ProductTypeEnum.EXTRA ? CategoryType.EXTRA : CategoryType.NORMAL,
+        type: CategoryType.NORMAL,
+      },
+      navigate,
+    };
+  }, []);
+
+  const paramsCategoryExtra: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        type: CategoryType.EXTRA,
       },
       navigate,
     };
   }, [type]);
 
-  const paramsProduct: ListParams = useMemo(() => {
+  const paramsProductParent: ListParams = useMemo(() => {
     return {
       optionParams: {
         type: ProductTypeEnum.PARENT,
@@ -98,15 +122,73 @@ function CreateProductPage() {
   }, [type]);
 
   useEffect(() => {
-    if (type === ProductTypeEnum.CHILD) {
-      dispatch<any>(getAllProductsParent(paramsProduct));
+    if (type === ProductTypeEnum.CHILD && type !== undefined) {
+      dispatch<any>(getAllProductsParent(paramsProductParent));
     }
-    dispatch<any>(getAllCategories(paramsCategory));
-  }, [paramsCategory, paramsProduct, type]);
+    if (type === ProductTypeEnum.EXTRA && type !== undefined) {
+      dispatch<any>(getAllCategories(paramsCategoryExtra));
+    }
+    if (type === ProductTypeEnum.SINGLE || (type === ProductTypeEnum.PARENT && type !== undefined)) {
+      dispatch<any>(getAllCategories(paramsCategoryNormal));
+    }
+  }, [type]);
 
   useEffect(() => {
-    if (product !== null && isEditing === true) {
-      if (product?.type === ProductTypeEnum.SINGLE) {
+    if (type === ProductTypeEnum.CHILD) {
+      if (parentProductId !== undefined && parentProductId !== 0) {
+        dispatch(getProductParentDetail(params));
+      }
+    }
+    if (isEditing) {
+      dispatch(getProductDetail(paramsEditing));
+    }
+  }, [isEditing]);
+
+  //for set product to form
+  useEffect(() => {
+    reset({
+      name: product?.name,
+      code: product?.code,
+      description: product?.description,
+      historicalPrice: product?.historicalPrice,
+      sellingPrice: product?.sellingPrice,
+      discountPrice: product?.discountPrice,
+      displayOrder: product?.displayOrder,
+      image: product?.image,
+      size: product?.size ? product?.size : '',
+      type: product?.type,
+      parentProductId: Number(product?.parentProductId),
+      categoryId: product?.categoryId,
+    });
+  }, [product]);
+
+  //for set name of product child
+  useEffect(() => {
+    if (product?.type === ProductTypeEnum.CHILD || type === ProductTypeEnum.CHILD) {
+      if (product?.name !== undefined && size !== undefined) {
+        console.log('parentProductId', parentProductId);
+        reset({
+          name: `${product?.name === undefined ? 'parent name' : product.name} - size ${size}`,
+          type: type,
+          code: code,
+          image: image,
+          description: description,
+          displayOrder: displayOrder,
+          parentProductId: parentProductId,
+          historicalPrice: historicalPrice,
+          sellingPrice: sellingPrice,
+          discountPrice: discountPrice,
+          size: size,
+          categoryId: 0,
+        });
+      }
+    }
+  }, [parentProductId]);
+
+  useEffect(() => {
+    if (product !== null && isEditing) {
+      if (product?.type === ProductTypeEnum.SINGLE && productParent === null) {
+        console.log('set');
         reset({
           name: product?.name,
           code: product?.code,
@@ -116,18 +198,14 @@ function CreateProductPage() {
           discountPrice: product?.discountPrice,
           displayOrder: product?.displayOrder,
           image: product?.image,
-          size:
-            product?.size === ProductSizeEnum.SMALL
-              ? ProductSizeEnum.SMALL
-              : product?.size === ProductSizeEnum.MEDIUM
-              ? ProductSizeEnum.MEDIUM
-              : ProductSizeEnum.LARGE,
+          size: ProductSizeEnum.LARGE,
           type: ProductTypeEnum.SINGLE,
           parentProductId: 0,
-          categoryId: product?.category.categoryId,
+          categoryId: product?.categoryId,
         });
       }
-      if (product?.type === ProductTypeEnum.PARENT) {
+      if (product?.type === ProductTypeEnum.PARENT && productParent === null) {
+        console.log('set');
         reset({
           name: product?.name,
           code: product?.code,
@@ -137,13 +215,14 @@ function CreateProductPage() {
           discountPrice: 0,
           displayOrder: product?.displayOrder,
           image: product?.image,
-          size: '',
+          size: ProductSizeEnum.LARGE,
           type: ProductTypeEnum.PARENT,
           parentProductId: 0,
-          categoryId: product?.category.categoryId,
+          categoryId: product?.categoryId,
         });
       }
       if (product?.type === ProductTypeEnum.CHILD) {
+        console.log('set');
         reset({
           name: product?.name,
           code: product?.code,
@@ -160,11 +239,12 @@ function CreateProductPage() {
               ? ProductSizeEnum.MEDIUM
               : ProductSizeEnum.LARGE,
           type: ProductTypeEnum.CHILD,
-          parentProductId: Number(product?.parentProductId),
-          categoryId: product?.category.categoryId,
+          parentProductId: Number(productParent?.parentProductId),
+          categoryId: 0,
         });
       }
-      if (product?.type === ProductTypeEnum.EXTRA) {
+      if (product?.type === ProductTypeEnum.EXTRA && productParent === null) {
+        console.log('set');
         reset({
           name: product?.name,
           code: product?.code,
@@ -174,229 +254,72 @@ function CreateProductPage() {
           discountPrice: product?.discountPrice,
           displayOrder: product?.displayOrder,
           image: product?.image,
+          size: ProductSizeEnum.LARGE,
           type: ProductTypeEnum.EXTRA,
-          size: '',
           parentProductId: 0,
-          categoryId: product?.category.categoryId,
+          categoryId: product?.categoryId,
         });
       }
     }
   }, [product]);
 
-  useEffect(() => {
-    if (product?.type === ProductTypeEnum.CHILD || type === ProductTypeEnum.CHILD) {
-      if (parentProductId !== undefined && parentProductId !== 0 && parentProductId.toString() !== '') {
-        dispatch(getProductDetail(params));
-      }
-    }
-    if (isEditing) {
-      dispatch(getProductDetail(paramsEditing));
-    }
-  }, [params, paramsEditing]);
-
-  //for set name of product child
-  useEffect(() => {
-    if (product?.type === ProductTypeEnum.CHILD || type === ProductTypeEnum.CHILD) {
-      if (product?.name !== undefined && size !== undefined) {
-        reset({
-          name: isEditing
-            ? product?.name
-            : `${product?.name === undefined ? 'parent name' : product.name} - size ${size}`,
-          type: type,
-          code: code,
-          image: image,
-          description: description,
-          displayOrder: displayOrder,
-          parentProductId: parentProductId,
-          historicalPrice: historicalPrice,
-          sellingPrice: sellingPrice,
-          discountPrice: discountPrice,
-          size: size,
-          categoryId: 0,
-        });
-      }
-    }
-  }, [parentProductId, size]);
-
-  const resetForm = async (type: string) => {
-    let initialValues = {};
-    if (type === ProductTypeEnum.SINGLE) {
-      initialValues = {
-        type: type,
-        name: name,
-        code: code,
-        image: image,
-        description: description,
-        displayOrder: displayOrder,
-        parentProductId: 0,
-        historicalPrice: isEditing ? product?.historicalPrice : '',
-        sellingPrice: isEditing ? product?.sellingPrice : '',
-        discountPrice: isEditing ? product?.discountPrice : '',
-        size: ProductSizeEnum.MEDIUM,
-        categoryId: isEditing ? product?.category.categoryId : '',
-      };
-    }
-
-    if (type === ProductTypeEnum.PARENT) {
-      initialValues = {
-        type: type,
-        name: name,
-        code: code,
-        image: image,
-        description: description,
-        displayOrder: displayOrder,
-        parentProductId: 0,
-        historicalPrice: '',
-        sellingPrice: '',
-        discountPrice: '',
-        size: ProductSizeEnum.MEDIUM,
-        categoryId: isEditing ? product?.category.categoryId : '',
-      };
-    }
-
-    if (type === ProductTypeEnum.CHILD) {
-      initialValues = {
-        type: type,
-        code: code,
-        image: image,
-        description: description,
-        displayOrder: displayOrder,
-        name: isEditing
-          ? product?.name
-          : `${product?.name === undefined ? 'parent name' : product.name} - ${size ? size : 'size'}`,
-        historicalPrice: isEditing ? product?.historicalPrice : '',
-        sellingPrice: isEditing ? product?.sellingPrice : '',
-        discountPrice: isEditing ? product?.discountPrice : '',
-        categoryId: 0,
-        parentProductId: isEditing ? Number(product?.parentProductId) : '',
-        size: isEditing
-          ? product?.size === ProductSizeEnum.SMALL
-            ? ProductSizeEnum.SMALL
-            : product?.size === ProductSizeEnum.MEDIUM
-            ? ProductSizeEnum.MEDIUM
-            : ProductSizeEnum.LARGE
-          : '',
-      };
-    }
-
-    if (type === ProductTypeEnum.EXTRA) {
-      initialValues = {
-        type: type,
-        name: name,
-        code: code,
-        image: image,
-        description: description,
-        displayOrder: displayOrder,
-        historicalPrice: isEditing ? product?.historicalPrice : '',
-        sellingPrice: isEditing ? product?.sellingPrice : '',
-        discountPrice: isEditing ? product?.discountPrice : '',
-        categoryId: isEditing ? product?.category.categoryId : '',
-        parentProductId: 0,
-        size: ProductSizeEnum.MEDIUM,
-      };
-    }
-
-    reset(initialValues);
-  };
-
-  useEffect(() => {
-    if (!isEditing) {
-      resetForm(type);
-    }
-  }, [type]);
-
   const onSubmit = async (values: ProductToCreate) => {
     const data = { ...values };
-    console.log('ProductToCreate', data);
+    const paramsCreate: Params<ProductToUpdate> = {
+      data: {
+        name: data.name,
+        image: typeof values.image === 'string' ? '' : data.image,
+        description: data.description,
+        displayOrder: data.displayOrder,
+        historicalPrice: type === ProductTypeEnum.PARENT ? '' : data.historicalPrice,
+        sellingPrice: type === ProductTypeEnum.PARENT ? '' : data.sellingPrice,
+        discountPrice: type === ProductTypeEnum.PARENT ? '' : data.discountPrice,
+        parentProductId:
+          type === ProductTypeEnum.PARENT || type === ProductTypeEnum.SINGLE || type === ProductTypeEnum.EXTRA
+            ? ''
+            : data.parentProductId,
 
-    if (isEditing) {
-      console.log(data);
-    } else {
-      if (type === ProductTypeEnum.SINGLE) {
-        const paramsSingle: Params<ProductToCreateParams> = {
-          data: { ...data, size: '', parentProductId: '' },
-          optionParams: {
-            currentPage: page + 1,
-            itemsPerPage: rowsPerPage,
-          },
-          navigate,
-        };
-        dispatch(createNewProduct(paramsSingle));
-      }
-
-      if (type === ProductTypeEnum.EXTRA) {
-        const paramsExtra: Params<ProductToCreateParams> = {
-          data: { ...data, size: '', parentProductId: '' },
-          optionParams: {
-            currentPage: page + 1,
-            itemsPerPage: rowsPerPage,
-          },
-          navigate,
-        };
-        dispatch(createNewProduct(paramsExtra));
-      }
-
-      if (type === ProductTypeEnum.CHILD) {
-        const paramsChild: Params<ProductToCreateParams> = {
-          data: { ...data, categoryId: '' },
-          optionParams: {
-            currentPage: page + 1,
-            itemsPerPage: rowsPerPage,
-          },
-          navigate,
-        };
-        console.log('ProductToCreate', paramsChild);
-        dispatch(createNewProduct(paramsChild));
-      }
-
-      if (type === ProductTypeEnum.PARENT) {
-        const paramsParent: Params<ProductToCreateParams> = {
-          data: { ...data, size: '', parentProductId: '', historicalPrice: '', sellingPrice: '', discountPrice: '' },
-          optionParams: {
-            currentPage: page + 1,
-            itemsPerPage: rowsPerPage,
-          },
-          navigate,
-        };
-        dispatch(createNewProduct(paramsParent));
-      }
-    }
+        categoryId: type === ProductTypeEnum.CHILD ? '' : data?.categoryId,
+        status: product?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+      },
+      idParams: { productId: Number(productId) },
+      optionParams: {
+        currentPage: page + 1,
+        itemsPerPage: rowsPerPage,
+      },
+      navigate,
+    };
+    dispatch(updateProduct(paramsCreate));
   };
 
   return (
     <>
       <Page
         containerWidth="xl"
-        title={
-          isEditing
-            ? translate('page.title.update', { model: translate('model.lowercase.product') })
-            : translate('page.title.create', { model: translate('model.lowercase.product') })
-        }
+        title={translate('page.title.update', { model: translate('model.lowercase.product') })}
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
       >
         <FormProvider {...createProductForm}>
           <Card sx={{ p: 3 }}>
-            <ProductForm />
+            <ProductForm productsParent={productsParent} categories={categories} />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
             <Button variant="outlined" color="inherit" onClick={() => navigate(PATH_BRAND_APP.product.list)}>
               {translate('button.back')}
             </Button>
             <Stack direction="row" gap={2}>
-              {isEditing && (
-                <Button variant="contained" color="inherit" disabled={isLoading}>
-                  {translate('button.reset')}
-                </Button>
-              )}
+              <Button variant="contained" color="inherit" disabled={isLoading}>
+                {translate('button.reset')}
+              </Button>
               <Button
                 type="submit"
                 variant="contained"
                 disabled={isLoading}
                 onClick={handleSubmit(onSubmit)}
-                color={isEditing ? Color.WARNING : Color.PRIMARY}
+                color={Color.WARNING}
               >
-                {isEditing ? translate('button.update') : translate('button.create')}
+                {translate('button.update')}
               </Button>
             </Stack>
           </Stack>
@@ -406,4 +329,4 @@ function CreateProductPage() {
   );
 }
 
-export default CreateProductPage;
+export default UpdateProductPage;

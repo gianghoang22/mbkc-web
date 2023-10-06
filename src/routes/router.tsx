@@ -26,7 +26,7 @@ function AppRouter() {
 
   return (
     <Routes>
-      <Route path="/" element={<PublicRouter />}>
+      <Route element={<PublicRouter />}>
         <Route element={<Navigate to={PATH_AUTH.login} />} index={true} />
         {publicRoutes.map((route) => (
           <Route key={route.path} path={route.path} element={route.component} />
@@ -54,9 +54,10 @@ function AppRouter() {
       <Route path="*" element={<Navigate to={PATH_ERROR.notFound} replace />} />
 
       {/* brand routes */}
-      <Route path="/" element={<BrandRouter />}>
+      <Route element={<BrandRouter />}>
         <Route element={<DashboardLayout />}>
           <Route element={<Navigate to={PATH_BRAND_APP.root} />} index={true} />
+          <Route element={<Navigate to={PATH_BRAND_APP.profile} />} index={true} />
           {brandRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}

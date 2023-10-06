@@ -1,9 +1,6 @@
-import { Label } from 'components';
-
-// @mui
 import { Card, Grid, Stack, Typography, Skeleton } from '@mui/material';
 
-function KitchenCenterDetailPage() {
+function KitchenCenterDetailPageSkeleton() {
   return (
     <>
       <Card>
@@ -20,9 +17,8 @@ function KitchenCenterDetailPage() {
                   <Stack direction="row" alignItems="center" gap={0.5}>
                     <Skeleton width={250} />
                   </Stack>
-                  <Label>
-                    <Skeleton width={60} />
-                  </Label>
+
+                  <Skeleton variant="rounded" width={100} height={24} />
                 </Stack>
 
                 <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
@@ -38,4 +34,4 @@ function KitchenCenterDetailPage() {
   );
 }
 
-export default KitchenCenterDetailPage;
+export default KitchenCenterDetailPageSkeleton;

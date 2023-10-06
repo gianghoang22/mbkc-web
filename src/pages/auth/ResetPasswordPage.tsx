@@ -88,12 +88,18 @@ function ResetPasswordPage() {
                 </Stack>
 
                 <Stack width="100%" alignItems="center" gap={2}>
-                  <InputField fullWidth size="large" name="email" label="Email" disabled={email ? true : false} />
+                  <InputField
+                    fullWidth
+                    size="large"
+                    name="email"
+                    label={translate('page.form.email')}
+                    disabled={email ? true : false}
+                  />
                   <InputField
                     fullWidth
                     size="large"
                     name="newPassword"
-                    label="New password"
+                    label={translate('page.form.newPassword')}
                     type={showPassword ? 'text' : 'password'}
                     InputProps={{
                       endAdornment: (
@@ -109,7 +115,7 @@ function ResetPasswordPage() {
                     fullWidth
                     size="large"
                     name="confirmPassword"
-                    label="Confirm password"
+                    label={translate('page.form.confirmPassword')}
                     type={showPasswordConfirm ? 'text' : 'password'}
                     InputProps={{
                       endAdornment: (

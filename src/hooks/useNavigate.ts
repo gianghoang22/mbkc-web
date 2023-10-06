@@ -1,7 +1,6 @@
 import { Role } from 'common/enum';
 import { useNavigate as useNavigateRouter } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';
-
 import { PATH_ADMIN_APP, PATH_AUTH, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function useNavigate() {
@@ -26,9 +25,7 @@ function useNavigate() {
 
   const handleNavigateProfile = () => {
     if (isAuthenticated) {
-      if (userAuth?.roleName === Role.MBKC_ADMIN) {
-        navigate(PATH_ADMIN_APP.profile);
-      } else if (userAuth?.roleName === Role.BRAND_MANAGER) {
+      if (userAuth?.roleName === Role.BRAND_MANAGER) {
         navigate(PATH_BRAND_APP.profile);
       } else if (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) {
         navigate(PATH_KITCHEN_CENTER_APP.profile);

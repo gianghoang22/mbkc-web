@@ -2,6 +2,7 @@ import { OptionParams } from '@types';
 import { path, pathRoot } from 'utils';
 
 const ROOTS_AUTH = '/authentications';
+const ROOTS_ACCOUNT = '/accounts';
 const ROOTS_VERIFY = '/verifications';
 const ROOTS_KITCHEN_CENTERS = '/kitchen-centers';
 const ROOTS_BRANDS = '/brands';
@@ -20,6 +21,32 @@ export const ROUTES_API_AUTH = {
   RESET_PASSWORD: path(ROOTS_AUTH, `/password-resetation`),
   FORGOT_PASSWORD: path(ROOTS_VERIFY, `/email-verification`),
   VERIFY_OTP: path(ROOTS_VERIFY, `/otp-verification`),
+};
+
+export const ROUTES_API_ACCOUNT = {
+  ACCOUNT_INFORMATION: (accountId: number) => path(ROOTS_ACCOUNT, `/${accountId}`),
+  UPDATE_PASSWORD: (accountId: number) => path(ROOTS_ACCOUNT, `/${accountId}`),
+};
+
+export const ROUTES_API_KITCHEN_CENTER = {
+  GET_ALL_KITCHEN_CENTER: ({
+    itemsPerPage = '',
+    currentPage = '',
+    keySearchName = '',
+    isGetAll = '',
+  }: OptionParams) => {
+    return path(
+      ROOTS_KITCHEN_CENTERS,
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}&isGetAll=${isGetAll}`
+    );
+  },
+  GET_KITCHEN_CENTER_DETAIL: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
+  CREATE_KITCHEN_CENTER: pathRoot(ROOTS_KITCHEN_CENTERS),
+  UPDATE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
+  UPDATE_STATUS_KITCHEN_CENTER: (kitchenCenterId: number) =>
+    path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}/updating-status`),
+  DELETE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
+  GET_PROFILE_KITCHEN_CENTER: path(ROOTS_KITCHEN_CENTERS, `/profile`),
 };
 
 export const ROUTES_API_STORES = {
@@ -99,27 +126,6 @@ export const ROUTES_API_PARTNERS = {
   GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
   UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
   DELETE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
-};
-
-export const ROUTES_API_KITCHEN_CENTERS = {
-  GET_ALL_KITCHEN_CENTER: ({
-    itemsPerPage = '',
-    currentPage = '',
-    keySearchName = '',
-    isGetAll = '',
-  }: OptionParams) => {
-    return path(
-      ROOTS_KITCHEN_CENTERS,
-      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}&isGetAll=${isGetAll}`
-    );
-  },
-  GET_KITCHEN_CENTER_DETAIL: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
-  CREATE_KITCHEN_CENTER: pathRoot(ROOTS_KITCHEN_CENTERS),
-  UPDATE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
-  UPDATE_STATUS_KITCHEN_CENTER: (kitchenCenterId: number) =>
-    path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}/updating-status`),
-  DELETE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
-  GET_PROFILE_KITCHEN_CENTER: path(ROOTS_KITCHEN_CENTERS, `/profile`),
 };
 
 export const ROUTES_API_BRANDS = {

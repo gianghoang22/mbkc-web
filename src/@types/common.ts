@@ -23,6 +23,7 @@ export interface IdParams {
   categoryId?: number;
   productId?: number;
   partnerId?: number;
+  accountId?: number;
 }
 export interface ListParams {
   optionParams: OptionParams;
@@ -46,6 +47,7 @@ export interface LoginResponse {
   accountId: number;
   email: string;
   roleName: string;
+  isConfirmed: boolean;
   tokens: {
     accessToken: string;
     refreshToken: string;
