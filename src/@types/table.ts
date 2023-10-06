@@ -66,6 +66,7 @@ export interface CashierTable {
   email: string;
   gender: string;
   status: string;
+  dateOfBirth: string;
 }
 
 export interface BankingAccountTable {

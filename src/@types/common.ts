@@ -13,6 +13,7 @@ export interface OptionParams {
   idKitchenCenter?: null | number | string;
   idCategory?: null | number | string;
   idStore?: null | number | string;
+  sortBy?: string | null;
 }
 
 export interface IdParams {
