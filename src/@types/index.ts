@@ -3,6 +3,7 @@ export * from './form';
 export * from './models/bankingAccount';
 export * from './models/moneyExchange';
 export * from './models/brand';
+export * from './models/profile';
 export * from './models/cashier';
 export * from './models/category';
 export * from './models/kitchenCenter';

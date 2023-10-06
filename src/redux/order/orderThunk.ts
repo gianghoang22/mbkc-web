@@ -1,5 +1,5 @@
 import { axiosClient, setHeaderAuth } from 'api/axiosClient';
-import { RoutesApiKeys } from 'constants/routesApiKeys';
+import { ROUTES_API_ORDERS } from 'constants/routesApiKeys';
 import { setMessageError } from 'redux/auth/authSlice';
 import { getAccessToken, getErrorMessage } from 'utils';
 
@@ -9,7 +9,7 @@ export const getAllOrdersThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ALL_ORDERS);
+      const response = await axiosClient.get(ROUTES_API_ORDERS.GET_ALL_ORDERS);
       console.log(response);
       return response;
     } catch (error: any) {
@@ -26,7 +26,7 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(RoutesApiKeys.GET_ORDER_DETAIL(orderId));
+      const response = await axiosClient.get(ROUTES_API_ORDERS.GET_ORDER_DETAIL(orderId));
       console.log(response);
       return response;
     } catch (error: any) {
