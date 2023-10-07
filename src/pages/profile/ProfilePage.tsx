@@ -9,6 +9,7 @@ import { getUserInformation } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { UpdatePasswordModal } from 'sections/auth';
+import InformationPage from './InformationPage';
 
 function ProfilePage() {
   const navigate = useNavigate();
@@ -62,9 +63,7 @@ function ProfilePage() {
             : PATH_ADMIN_APP.root
         }
       >
-        <Card>
-          <Box></Box>
-        </Card>
+        <InformationPage />
       </Page>
 
       {isOpen && <UpdatePasswordModal isOpen={isOpen} handleOpen={handleOpen} handleClose={handleClose} />}
