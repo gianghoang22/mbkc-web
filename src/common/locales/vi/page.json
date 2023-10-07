@@ -61,7 +61,7 @@
     "max120": "Không được vượt quá 120 ký tự",
     "max1000": "Không được vượt quá 1000 ký tự",
     "sellingPriceContent": "Giá bán của sản phẩm",
-    "discountPriceContent": "Giá đã giảm của sản phẩm",
+    "discountPriceContent": "Sản phẩm được giảm giá...",
     "historicalPriceContent": "Chi phí sản xuất sản phẩm",
     "nameProductHelperText": "Tên của sản phẩm con: tên sản phẩm cha + size được chọn",
     "formatUrl": "Chưa đúng format của url"

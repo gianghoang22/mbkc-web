@@ -16,6 +16,7 @@ export interface Product {
   parentProductId: string | null;
   childrenProducts: ChildrenProduct[];
   categoryId: number;
+  categoryName: string;
   brand: Brand;
 }
 

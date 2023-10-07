@@ -124,13 +124,15 @@ function ListKitchenCenterPage(props: any) {
                       {emptyRows > 0 ||
                         (kitchenCenters.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={kitchenCenterHeadCells.length}
+                            colNumber={kitchenCenterHeadCells.length + 2}
                             model={translate('model.lowercase.kitchenCenter')}
                           />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={kitchenCenterHeadCells.length} searchQuery={filterName} />}
+                  {isNotFound && (
+                    <SearchNotFound colNumber={kitchenCenterHeadCells.length + 2} searchQuery={filterName} />
+                  )}
                 </Table>
               </TableContainer>
               <TablePagination

@@ -7,11 +7,13 @@ const ROOTS_VERIFY = '/verifications';
 const ROOTS_KITCHEN_CENTERS = '/kitchen-centers';
 const ROOTS_BRANDS = '/brands';
 const ROOTS_STORES = '/stores';
+const ROOTS_PARTNERS = '/partners';
+const ROOTS_STORE_PARTNERS = '/store-partners';
 const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCTS = '/products';
+const ROOTS_MAPPING_PRODUCTS = '/mapping-products';
 const ROOTS_ORDERS = '/orders';
 const ROOTS_CASHIERS = '/cashiers';
-const ROOTS_PARTNERS = '/partners';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
 
@@ -49,6 +51,28 @@ export const ROUTES_API_KITCHEN_CENTER = {
   GET_PROFILE_KITCHEN_CENTER: path(ROOTS_KITCHEN_CENTERS, `/profile`),
 };
 
+export const ROUTES_API_BRANDS = {
+  GET_ALL_BRAND: ({
+    keySearchName = '',
+    keyStatusFilter = '',
+    currentPage = '',
+    itemsPerPage = '',
+    isGetAll = '',
+  }: OptionParams) => {
+    return path(
+      ROOTS_BRANDS,
+      `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+    );
+  },
+  CREATE_BRAND: pathRoot(ROOTS_BRANDS),
+  GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
+  UPDATE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
+  UPDATE_STATUS_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}/updating-status`),
+  DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
+  GET_PROFILE_BRAND: path(ROOTS_BRANDS, `/profile`),
+  UPDATE_PROFILE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}/profile`),
+};
+
 export const ROUTES_API_STORES = {
   CREATE_STORE: pathRoot(ROOTS_STORES),
   GET_ALL_STORE: ({
@@ -71,6 +95,30 @@ export const ROUTES_API_STORES = {
   GET_PROFILE_STORE: path(ROOTS_STORES, `/profile`),
 };
 
+export const ROUTES_API_PARTNERS = {
+  CREATE_PARTNER: pathRoot(ROOTS_PARTNERS),
+  GET_ALL_PARTNER: ({ keySearchName = '', currentPage = '', itemsPerPage = '', isGetAll = '' }: OptionParams) =>
+    path(
+      ROOTS_PARTNERS,
+      `?keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+    ),
+  GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
+  UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
+  DELETE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
+};
+
+export const ROUTES_API_STORE_PARTNERS = {
+  CREATE_STORE_PARTNER: pathRoot(ROOTS_STORE_PARTNERS),
+  GET_ALL_STORE_PARTNER: ({ searchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
+    path(ROOTS_STORE_PARTNERS, `?searchName=${searchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`),
+  GET_STORE_PARTNER_DETAIL: (storeId: number, partnerId: number) =>
+    path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),
+  UPDATE_STORE_PARTNER: (storeId: number, partnerId: number) => path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),
+  UPDATE_STORE_PARTNER_STATUS: (storeId: number, partnerId: number) =>
+    path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}/updating-status`),
+  DELETE_STORE_PARTNER: (storeId: number, partnerId: number) => path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),
+};
+
 export const ROUTES_API_CATEGORIES = {
   CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
   GET_ALL_CATEGORY: ({ type = '', keySearchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
@@ -79,12 +127,11 @@ export const ROUTES_API_CATEGORIES = {
       `?type=${type}&keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
     ),
   GET_EXTRA_CATEGORY_OF_CATEGORY: ({
-    categoryId,
     keySearchName = '',
     currentPage = '',
     itemsPerPage = '',
     idCategory = '',
-  }: any) =>
+  }: OptionParams) =>
     path(
       ROOTS_CATEGORY,
       `/${idCategory}/extra-categories?keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
@@ -116,42 +163,14 @@ export const ROUTES_API_PRODUCTS = {
   DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
 };
 
-export const ROUTES_API_PARTNERS = {
-  CREATE_PARTNER: pathRoot(ROOTS_PARTNERS),
-  GET_ALL_PARTNER: ({ keySearchName = '', currentPage = '', itemsPerPage = '', isGetAll = '' }: OptionParams) =>
-    path(
-      ROOTS_PARTNERS,
-      `?keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
-    ),
-  GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
-  UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
-  DELETE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
-};
-
-export const ROUTES_API_BRANDS = {
-  GET_ALL_BRAND: ({
-    keySearchName = '',
-    keyStatusFilter = '',
-    currentPage = '',
-    itemsPerPage = '',
-    isGetAll = '',
-  }: OptionParams) => {
-    return path(
-      ROOTS_BRANDS,
-      `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
-    );
-  },
-  CREATE_BRAND: pathRoot(ROOTS_BRANDS),
-  GET_BRAND_DETAIL: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
-  UPDATE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
-  UPDATE_STATUS_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}/updating-status`),
-  DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
-  GET_PROFILE_BRAND: path(ROOTS_BRANDS, `/profile`),
-};
-
-export const ROUTES_API_ORDERS = {
-  GET_ALL_ORDERS: pathRoot(ROOTS_PRODUCTS),
-  GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),
+export const ROUTES_API_MAPPING_PRODUCTS = {
+  CREATE_MAPPING_PRODUCT: pathRoot(ROOTS_MAPPING_PRODUCTS),
+  GET_ALL_MAPPING_PRODUCT: ({ searchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
+    path(ROOTS_MAPPING_PRODUCTS, `?searchName=${searchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`),
+  GET_MAPPING_PRODUCT_DETAIL: (productId: number, partnerId: number, storeId: number) =>
+    path(ROOTS_MAPPING_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
+  UPDATE_MAPPING_PRODUCT: (productId: number, partnerId: number, storeId: number) =>
+    path(ROOTS_MAPPING_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
 };
 
 export const ROUTES_API_CASHIERS = {
@@ -181,6 +200,11 @@ export const ROUTES_API_BANKING_ACCOUNTS = {
   UPDATE_STATUS_BANKING_ACCOUNT: (bankingAccountId: number) =>
     path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}/updating-status`),
   DELETE_BANKING_ACCOUNT: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),
+};
+
+export const ROUTES_API_ORDERS = {
+  GET_ALL_ORDERS: pathRoot(ROOTS_PRODUCTS),
+  GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),
 };
 
 export const ROUTES_API_TRANSACTIONS = {

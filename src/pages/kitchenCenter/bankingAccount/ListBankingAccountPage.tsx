@@ -122,13 +122,15 @@ function ListBankingAccountPage() {
                       {emptyRows > 0 ||
                         (bankingAccounts.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={bankingAccountHeadCells.length}
+                            colNumber={bankingAccountHeadCells.length + 2}
                             model={translate('model.lowercase.bankingAccount')}
                           />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={bankingAccountHeadCells.length} searchQuery={filterName} />}
+                  {isNotFound && (
+                    <SearchNotFound colNumber={bankingAccountHeadCells.length + 2} searchQuery={filterName} />
+                  )}
                 </Table>
               </TableContainer>
               <TablePagination

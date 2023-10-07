@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BrandProfile, KitchenCenterProfile } from '@types';
 import { getBrandInfo, getKitchenCenterInfo } from 'utils';
-import { getBrandProfileThunk, getKitchenCenterProfileThunk } from './profileThunk';
+import { getBrandProfileThunk, getKitchenCenterProfileThunk, updateBrandProfileThunk } from './profileThunk';
 
 interface ProfileState {
   isEditing: boolean;
@@ -29,11 +29,16 @@ export const getKitchenCenterProfile = createAsyncThunk(
   getKitchenCenterProfileThunk
 );
 export const getBrandProfile = createAsyncThunk('profile/get-brand-profile', getBrandProfileThunk);
+export const updateBrandProfile = createAsyncThunk('profile/update-brand-profile', updateBrandProfileThunk);
 
 const profileSlice = createSlice({
   name: 'profile',
   initialState,
-  reducers: {},
+  reducers: {
+    setEditProfile: (state) => {
+      state.isEditing = true;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getKitchenCenterProfile.pending, (state) => {
@@ -63,10 +68,24 @@ const profileSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
+      })
+      .addCase(updateBrandProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateBrandProfile.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateBrandProfile.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
       });
   },
 });
 
+export const { setEditProfile } = profileSlice.actions;
 const profileReducer = profileSlice.reducer;
 
 export default profileReducer;

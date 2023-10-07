@@ -43,8 +43,6 @@ function UpdateProductPage() {
   const { product, productParent, productsParent, isEditing, isLoading } = useAppSelector((state) => state.product);
   const { categories } = useAppSelector((state) => state.category);
 
-  console.log(product);
-
   const createProductForm = useForm<ProductToCreate>({
     defaultValues: {
       name: '',
@@ -76,8 +74,9 @@ function UpdateProductPage() {
   const sellingPrice = watch('sellingPrice');
   const discountPrice = watch('discountPrice');
   const parentProductId = watch('parentProductId');
+  const categoryId = watch('categoryId');
 
-  console.log(parentProductId);
+  console.log(categoryId);
 
   const params = useMemo(() => {
     return {

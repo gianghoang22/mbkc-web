@@ -229,8 +229,15 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
-      id: 'historicalPrice',
-      label: translate('table.historicalPrice'),
+      id: 'displayOrder',
+      label: translate('table.displayOrder'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'sellingPrice',
+      label: translate('table.sellingPrice'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,

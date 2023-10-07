@@ -61,7 +61,7 @@
     "max120": "Must not exceed 120 characters.",
     "max1000": "Must not exceed 1000 characters.",
     "sellingPriceContent": "Selling price of the product",
-    "discountPriceContent": "Reduced price of the product",
+    "discountPriceContent": "Discounted products...",
     "historicalPriceContent": "Cost of manufacturing products",
     "nameProductHelperText": "Name of child product: parent product name + selected size",
     "formatUrl": "The format of the url is not correct"

@@ -55,11 +55,13 @@ export interface ProductTable {
   image: string;
   name: string;
   code: string;
-  historicalPrice: number;
+  displayOrder: number;
+  sellingPrice: number;
   type: string;
   category: string;
   status: string;
 }
+
 export interface CashierTable {
   avatar: string;
   fullName: string;
