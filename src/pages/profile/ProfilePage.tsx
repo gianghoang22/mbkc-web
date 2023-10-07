@@ -83,7 +83,7 @@ function ProfilePage() {
         }
       >
         <Stack width="100%" height="100%" alignItems="center" justifyContent="center">
-          {!isLoading ? (
+          {isLoading ? (
             <ProfileDetailSkeleton />
           ) : (
             <Card sx={{ width: '70%' }}>

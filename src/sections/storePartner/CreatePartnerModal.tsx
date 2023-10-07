@@ -42,43 +42,23 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
     const data = { ...values };
 
     if (isEditing) {
-      if (typeof values.logo === 'string') {
-        const paramUpdate: Params<PartnerToUpdate> = {
-          data: {
-            name: data.name,
-            status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
-            logo: '',
-            webUrl: data.webUrl,
-          },
-          optionParams: {
-            currentPage: page + 1,
-            itemsPerPage: rowsPerPage,
-          },
-          idParams: {
-            partnerId: partner?.partnerId,
-          },
-          navigate,
-        };
-        dispatch(updatePartner(paramUpdate));
-      } else {
-        const paramUpdate: Params<PartnerToUpdate> = {
-          data: {
-            name: data.name,
-            status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
-            logo: data.logo,
-            webUrl: data.webUrl,
-          },
-          optionParams: {
-            currentPage: page + 1,
-            itemsPerPage: rowsPerPage,
-          },
-          idParams: {
-            partnerId: partner?.partnerId,
-          },
-          navigate,
-        };
-        dispatch(updatePartner(paramUpdate));
-      }
+      const paramUpdate: Params<PartnerToUpdate> = {
+        data: {
+          name: data.name,
+          status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+          logo: typeof values.logo === 'string' ? '' : data.logo,
+          webUrl: data.webUrl,
+        },
+        optionParams: {
+          currentPage: page + 1,
+          itemsPerPage: rowsPerPage,
+        },
+        idParams: {
+          partnerId: partner?.partnerId,
+        },
+        navigate,
+      };
+      dispatch(updatePartner(paramUpdate));
     } else {
       const paramCreate: Params<PartnerToCreate> = {
         data: data,

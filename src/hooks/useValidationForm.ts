@@ -349,6 +349,19 @@ function useValidationForm() {
     gender: yup.string().required(translate('page.validation.required', { name: translate('model.lowercase.gender') })),
   });
 
+  const schemaUpdateProfile = yup.object({
+    name: yup.string().required(
+      translate('page.validation.required', {
+        name: `${translate('page.form.nameLower')} ${translate('model.lowercase.brand')}`,
+      })
+    ),
+    address: yup.string().required(
+      translate('page.validation.required', {
+        name: translate('table.lowercase.address'),
+      })
+    ),
+  });
+
   return {
     schemaLogin,
     schemaForgotPassword,
@@ -362,6 +375,7 @@ function useValidationForm() {
     schemaPartner,
     schemaUpdatePassword,
     schemaCashier,
+    schemaUpdateProfile,
   };
 }
 

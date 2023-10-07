@@ -8,19 +8,23 @@ function InformationPageDetailSkeleton() {
           <Skeleton variant="rounded" width="100%" height={232} sx={{ borderRadius: 2 }} />
 
           <Box mt={-10}>
-            <Stack direction="row" alignItems="end" gap={2} px={4} pt={4}>
+            <Stack direction="row" alignItems="end" gap={2} pl={4} pt={4}>
               <Skeleton variant="circular" width={175} height={150} />
-              <Stack width="100%" rowGap={0.5}>
-                <Stack direction="row" alignItems="center" gap={5}>
-                  <Skeleton variant="rounded" width={222} height={28} />
-                  <Skeleton variant="rounded" width={100} height={24} />
+              <Stack direction="row" alignItems="end" justifyContent="space-between" width="100%">
+                <Stack rowGap={0.5}>
+                  <Stack direction="row" alignItems="center" gap={5}>
+                    <Skeleton variant="rounded" width={222} height={28} />
+                    <Skeleton variant="rounded" width={100} height={24} />
+                  </Stack>
+
+                  <Skeleton width={610} />
+
+                  <Skeleton width={610} />
                 </Stack>
 
-                <Skeleton width={610} />
-
-                <Skeleton width={610} />
+                <Skeleton variant="rounded" width={104} height={37} />
               </Stack>
-            </Stack>{' '}
+            </Stack>
           </Box>
         </Paper>
       </Box>

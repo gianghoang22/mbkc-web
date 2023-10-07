@@ -147,6 +147,7 @@ export const ROUTES_API_BRANDS = {
   UPDATE_STATUS_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}/updating-status`),
   DELETE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}`),
   GET_PROFILE_BRAND: path(ROOTS_BRANDS, `/profile`),
+  UPDATE_PROFILE_BRAND: (brandId: number) => path(ROOTS_BRANDS, `/${brandId}/profile`),
 };
 
 export const ROUTES_API_ORDERS = {

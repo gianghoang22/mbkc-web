@@ -15,3 +15,9 @@ export interface BrandProfile {
   status: string;
   brandManagerEmail: string;
 }
+
+export interface UpdateBrandProfile {
+  name: string;
+  address: string;
+  logo?: string;
+}
