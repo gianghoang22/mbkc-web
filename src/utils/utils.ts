@@ -1,4 +1,4 @@
-import { CategoryType, UserAuth } from '@types';
+import { BrandProfile, CategoryType, KitchenCenterProfile, UserAuth, UserInfo } from '@types';
 import { Error } from 'common/enum';
 import { StorageKeys } from 'constants/storageKeys';
 import Cookie from 'js-cookie';
@@ -23,16 +23,41 @@ export const getUserAuth = () => {
 };
 export const removeUserAuth = () => removeLocalStorage(StorageKeys.USER_AUTH);
 
-export const setUserInfo = (userAuth: UserAuth) => setLocalStorage(StorageKeys.USER_INFO, JSON.stringify(userAuth));
+export const setUserInfo = (userInfo: UserInfo) => setLocalStorage(StorageKeys.USER_INFO, JSON.stringify(userInfo));
 export const getUserInfo = () => {
   const userAuth = getLocalStorage(StorageKeys.USER_INFO);
-  if (userAuth === null) {
+  if (userAuth === null || userAuth === undefined || userAuth.toString() === 'undefined') {
     return;
+  } else {
+    const userRaw = JSON.parse(userAuth);
+    return userRaw;
   }
-  const userRaw = JSON.parse(userAuth);
-  return userRaw;
 };
 export const removeUserInfo = () => removeLocalStorage(StorageKeys.USER_INFO);
+
+export const setBrandInfo = (brandInfo: BrandProfile) =>
+  setLocalStorage(StorageKeys.BRAND_INFO, JSON.stringify(brandInfo));
+export const getBrandInfo = () => {
+  const brandInfo = getLocalStorage(StorageKeys.BRAND_INFO);
+  if (brandInfo === null) {
+    return;
+  }
+  const brandRaw = JSON.parse(brandInfo);
+  return brandRaw;
+};
+export const removeBrandInfo = () => removeLocalStorage(StorageKeys.BRAND_INFO);
+
+export const setKitchenCenterInfo = (kitchenCenterInfo: KitchenCenterProfile) =>
+  setLocalStorage(StorageKeys.KITCHEN_CENTER_INFO, JSON.stringify(kitchenCenterInfo));
+export const getKitchenCenterInfo = () => {
+  const kitchenCenterInfo = getLocalStorage(StorageKeys.KITCHEN_CENTER_INFO);
+  if (kitchenCenterInfo === null) {
+    return;
+  }
+  const kitchenCenterRaw = JSON.parse(kitchenCenterInfo);
+  return kitchenCenterRaw;
+};
+export const removeKitchenCenterInfo = () => removeLocalStorage(StorageKeys.KITCHEN_CENTER_INFO);
 
 export const setAuthenticated = () => setLocalStorage(StorageKeys.AUTHENTICATE, true);
 export const getAuthenticated = () => {

@@ -15,9 +15,11 @@ import { PATH_AUTH } from 'routes/paths';
 import {
   getAccessToken,
   getErrorMessage,
+  getUserAuth,
   removeAuthenticated,
   removeSession,
   removeUserAuth,
+  removeUserInfo,
   setAuthenticated,
   setSession,
   setUserAuth,
@@ -60,6 +62,7 @@ export const updatePasswordThunk = async (params: Params<UpdatePasswordFormApi>,
       if (response) {
         thunkAPI.dispatch(setMessageSuccess('Update Password Successfully.'));
         thunkAPI.dispatch(getUserInformation({ accountId: idParams?.accountId, navigate }));
+        thunkAPI.dispatch(getUserAuth());
       }
       return response;
     } catch (error: any) {
@@ -148,8 +151,10 @@ export const logoutThunk = async (navigate: any, thunkAPI: any) => {
   try {
     removeSession();
     removeUserAuth();
+    removeUserInfo();
     removeAuthenticated();
     navigate(PATH_AUTH.login);
+    thunkAPI.dispatch(setUserInfo);
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error);
   }

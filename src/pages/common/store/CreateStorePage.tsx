@@ -24,6 +24,7 @@ function CreateStorePage() {
   const { translate } = useLocales();
   const { schemaStore } = useValidationForm();
 
+  const { brandProfile } = useAppSelector((state) => state.profile);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { store, isEditing, isLoading } = useAppSelector((state) => state.store);
 
@@ -33,7 +34,7 @@ function CreateStorePage() {
       logo: isEditing && store ? store?.logo : '',
       storeManagerEmail: isEditing && store ? store?.storeManagerEmail : '',
       kitchenCenterId: isEditing && store ? store?.kitchenCenter.kitchenCenterId : 0,
-      brandId: 1,
+      brandId: brandProfile?.brandId,
     },
     resolver: yupResolver(schemaStore),
   });

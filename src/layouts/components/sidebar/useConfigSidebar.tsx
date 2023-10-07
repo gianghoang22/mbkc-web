@@ -73,6 +73,11 @@ function useConfigSidebar() {
           path: PATH_KITCHEN_CENTER_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
+        {
+          title: translate('model.lowercase.information'),
+          path: PATH_KITCHEN_CENTER_APP.information,
+          icon: <ContactsIcon fontSize="medium" />,
+        },
       ],
     },
     {

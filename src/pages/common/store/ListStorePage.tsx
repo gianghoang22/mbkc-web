@@ -29,6 +29,7 @@ function ListStorePage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
+  const { brandProfile } = useAppSelector((state) => state.profile);
   const { stores, numberItems, isLoading } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -72,7 +73,7 @@ function ListStorePage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchValue: debounceValue,
-        idBrand: 1, // Must edit to fix brand login
+        idBrand: brandProfile?.brandId,
       },
       navigate,
     };

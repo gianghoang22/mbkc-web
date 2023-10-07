@@ -1,22 +1,42 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Card } from '@mui/material';
-import { Role } from 'common/enum';
-import { Page } from 'components';
-import { useLocales } from 'hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+// @mui
+import {
+  Avatar,
+  Box,
+  Card,
+  Divider,
+  IconButton,
+  Popover as MUIPopover,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/material';
+// @mui icon
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+// redux
 import { getUserInformation } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+//
+import { Color, Role, Status } from 'common/enum';
+import { Label, Page } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
+import account from 'mock/account';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { UpdatePasswordModal } from 'sections/auth';
+import { UpdatePasswordModal, UpdatePasswordToUseModal } from 'sections/auth';
+import { ProfileDetailSkeleton } from 'sections/information';
 
 function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { pathname } = useLocation();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { isOpen: isOpenUpdate, handleOpen: handleOpenUpdate } = useModal();
 
-  const { userAuth, userInfo } = useAppSelector((state) => state.auth);
+  const { userAuth, userInfo, isLoading } = useAppSelector((state) => state.auth);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -40,7 +60,7 @@ function ProfilePage() {
   }, [userAuth?.accountId]);
 
   useEffect(() => {
-    if (userAuth.isConfirmed) {
+    if (userAuth?.isConfirmed) {
       dispatch(getUserInformation(paramsInfo));
     } else {
       handleOpen();
@@ -62,12 +82,98 @@ function ProfilePage() {
             : PATH_ADMIN_APP.root
         }
       >
-        <Card>
-          <Box></Box>
-        </Card>
+        <Stack width="100%" height="100%" alignItems="center" justifyContent="center">
+          {!isLoading ? (
+            <ProfileDetailSkeleton />
+          ) : (
+            <Card sx={{ width: '70%' }}>
+              <Box width="100%" height="100px" sx={{ background: '#000' }}></Box>
+              <Stack gap={1.5} p={3} mt={-8}>
+                <Stack direction="row" alignItems="end" justifyContent="space-between" spacing={2}>
+                  <Stack direction="row" alignItems="end" gap={2}>
+                    <Avatar src={account.photoURL} alt="PhuSon" sx={{ width: 100, height: 100 }} />
+                    <Stack>
+                      <Typography variant="body1" noWrap sx={{ textDecoration: 'underline' }}>
+                        {translate('header.account')}:
+                      </Typography>
+                      <Typography variant="subtitle1" noWrap>
+                        {userInfo?.email}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                  <IconButton color="inherit" onClick={handleOpenMenu}>
+                    <MoreVertIcon />
+                  </IconButton>
+                </Stack>
+
+                <Divider sx={{ my: 1.5 }} />
+
+                <Stack direction="row" alignItems="center" justifyContent="space-between">
+                  <Typography sx={{ color: (theme) => theme.palette.grey[500] }}>{translate('table.role')}:</Typography>
+                  <Typography variant="subtitle1">
+                    {userInfo?.roleName === Role.MBKC_ADMIN
+                      ? translate('role.mbkcAdmin')
+                      : userInfo?.roleName === Role.BRAND_MANAGER
+                      ? translate('role.brandManager')
+                      : userInfo?.roleName === Role.KITCHEN_CENTER_MANAGER
+                      ? translate('role.kitchenCenterManager')
+                      : userInfo?.roleName === Role.CASHIER
+                      ? translate('role.cashier')
+                      : translate('header.account')}
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" alignItems="center" justifyContent="space-between">
+                  <Typography sx={{ color: (theme) => theme.palette.grey[500] }}>
+                    {translate('table.status')}:
+                  </Typography>
+                  <Label color={userInfo?.status === Status.ACTIVE ? Color.SUCCESS : Color.ERROR}>
+                    {userInfo?.status === Status.INACTIVE
+                      ? translate('status.inactive')
+                      : userInfo?.status === Status.ACTIVE
+                      ? translate('status.active')
+                      : ''}
+                  </Label>
+                </Stack>
+              </Stack>
+            </Card>
+          )}
+        </Stack>
       </Page>
 
-      {isOpen && <UpdatePasswordModal isOpen={isOpen} handleOpen={handleOpen} handleClose={handleClose} />}
+      <MUIPopover
+        open={Boolean(open)}
+        anchorEl={open}
+        onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: {
+            p: 1,
+            mt: 0.5,
+
+            '& .MuiMenuItem-root': {
+              px: 1,
+              typography: 'body2',
+              borderRadius: 0.75,
+            },
+          },
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleOpenUpdate();
+            handleCloseMenu();
+          }}
+        >
+          <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
+          {translate('button.updatePassword')}
+        </MenuItem>
+      </MUIPopover>
+
+      {isOpenUpdate && <UpdatePasswordModal isOpen={isOpenUpdate} handleOpen={handleOpenUpdate} />}
+
+      {isOpen && <UpdatePasswordToUseModal isOpen={isOpen} handleOpen={handleOpen} handleClose={handleClose} />}
     </>
   );
 }

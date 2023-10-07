@@ -7,6 +7,10 @@ const StorageKeys = {
   USER_INFO: 'user_info',
   EMAIL_VERIFY: 'email_verify',
 
+  //
+  BRAND_INFO: 'brand_info',
+  KITCHEN_CENTER_INFO: 'kitchen_center_info',
+
   // language
   I18_LANGUAGE: 'i18nextLng',
 
