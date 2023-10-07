@@ -19,8 +19,8 @@ interface AuthState {
   isAuthenticated: boolean;
   message: string;
   email: string;
-  userAuth: UserAuth;
-  userInfo: UserInfo;
+  userAuth: UserAuth | null;
+  userInfo: UserInfo | null;
 }
 
 const getUserInStorage = getUserAuth() ? getUserAuth() : null;
@@ -67,6 +67,12 @@ const authSlice = createSlice({
       state.email = action.payload?.email;
       setEmailVerify(action.payload?.email);
     },
+    setUserAuth: (state) => {
+      state.userAuth = getUserAuth() ? getUserAuth() : null;
+    },
+    setUserInfo: (state) => {
+      state.userInfo = null;
+    },
   },
   extraReducers(builder) {
     builder
@@ -103,7 +109,7 @@ const authSlice = createSlice({
       .addCase(forgotPassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(forgotPassword.fulfilled, (state, action) => {
+      .addCase(forgotPassword.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
@@ -116,7 +122,7 @@ const authSlice = createSlice({
       .addCase(verifyOtp.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(verifyOtp.fulfilled, (state, action) => {
+      .addCase(verifyOtp.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
@@ -129,7 +135,7 @@ const authSlice = createSlice({
       .addCase(resetPassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(resetPassword.fulfilled, (state, action) => {
+      .addCase(resetPassword.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
@@ -142,7 +148,7 @@ const authSlice = createSlice({
       .addCase(updatePassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updatePassword.fulfilled, (state, action) => {
+      .addCase(updatePassword.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
@@ -168,7 +174,8 @@ const authSlice = createSlice({
   },
 });
 
-export const { setMessageSuccess, setMessageInfo, setMessageError, setEmail } = authSlice.actions;
+export const { setMessageSuccess, setMessageInfo, setMessageError, setEmail, setUserAuth, setUserInfo } =
+  authSlice.actions;
 const authReducer = authSlice.reducer;
 
 export default authReducer;

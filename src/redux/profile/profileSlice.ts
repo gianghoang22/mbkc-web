@@ -1,29 +1,34 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Profile } from '@types';
-import { getBrandProfileThunk, getKitchenCenterProfileThunk, getStoreProfileThunk } from './profileThunk';
+import { BrandProfile, KitchenCenterProfile } from '@types';
+import { getBrandInfo, getKitchenCenterInfo } from 'utils';
+import { getBrandProfileThunk, getKitchenCenterProfileThunk } from './profileThunk';
 
 interface ProfileState {
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  profile: Profile | null;
+  kitchenCenterProfile: KitchenCenterProfile | null;
+  brandProfile: BrandProfile | null;
 }
+
+const getKitchenCenterInStorage = getKitchenCenterInfo() ? getKitchenCenterInfo() : null;
+const getBrandInStorage = getBrandInfo() ? getBrandInfo() : null;
 
 const initialState: ProfileState = {
   isEditing: false,
   isLoading: false,
   isError: false,
   isSuccess: false,
-  profile: null,
+  kitchenCenterProfile: getKitchenCenterInStorage,
+  brandProfile: getBrandInStorage,
 };
 
 export const getKitchenCenterProfile = createAsyncThunk(
-  'product/get-kitchen-center-profile',
+  'profile/get-kitchen-center-profile',
   getKitchenCenterProfileThunk
 );
-export const getBrandProfile = createAsyncThunk('product/get-brand-profile', getBrandProfileThunk);
-export const getStoreProfile = createAsyncThunk('product/get-store-profile', getStoreProfileThunk);
+export const getBrandProfile = createAsyncThunk('profile/get-brand-profile', getBrandProfileThunk);
 
 const profileSlice = createSlice({
   name: 'profile',
@@ -38,14 +43,13 @@ const profileSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.profile = action.payload;
+        state.kitchenCenterProfile = action.payload;
       })
-      .addCase(getKitchenCenterProfile.rejected, (state, action) => {
+      .addCase(getKitchenCenterProfile.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
       })
-
       .addCase(getBrandProfile.pending, (state) => {
         state.isLoading = true;
       })
@@ -53,24 +57,9 @@ const profileSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.profile = action.payload;
+        state.brandProfile = action.payload;
       })
-      .addCase(getBrandProfile.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-      })
-
-      .addCase(getStoreProfile.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getStoreProfile.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-        state.profile = action.payload;
-      })
-      .addCase(getStoreProfile.rejected, (state, action) => {
+      .addCase(getBrandProfile.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

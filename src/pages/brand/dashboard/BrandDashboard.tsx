@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { Container, Grid, Typography } from '@mui/material';
 
@@ -8,9 +11,18 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 //
 import { Color } from 'common/enum';
 import { Helmet } from 'components';
+import { useAppDispatch } from 'redux/configStore';
+import { getBrandProfile } from 'redux/profile/profileSlice';
 import { AppWidgetSummary } from 'sections/dashboard';
 
 function BrandDashboard() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch<any>(getBrandProfile(navigate));
+  }, []);
+
   return (
     <>
       <Helmet title="Brand Management" />

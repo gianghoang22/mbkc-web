@@ -22,7 +22,7 @@ export const PATH_AUTH = {
 
 export const PATH_ADMIN_APP = {
   root: path(ROOTS_ADMIN_DASHBOARD, '/dashboard'),
-  information: path(ROOTS_ADMIN_DASHBOARD, '/information'),
+
   kitchenCenter: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center'),
     list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/list'),

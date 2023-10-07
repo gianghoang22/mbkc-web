@@ -4,5 +4,6 @@
   "confirmDeleteContent": "Bạn chắc chắn muốn xóa {{model}}",
   "confirmAcceptContent": "Bạn muốn chập nhận đăng ký {{model}}?",
   "confirmRejectContent": "Bạn muốn từ chối đăng ký {{model}}? Vui lòng nhập lý do...",
-  "updatePasswordContent": "Bạn cần cập nhật mật khẩu để bắt đầu sử dung tài khoản!"
+  "updatePasswordContent": "Bạn cần cập nhật mật khẩu để bắt đầu sử dung tài khoản!",
+  "updatePasswordSuccess": "Bạn đã có thể tiếp tục sử dụng App!"
 }

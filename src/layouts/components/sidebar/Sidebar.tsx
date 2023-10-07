@@ -137,7 +137,11 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
       </Box>
 
       <Stack alignItems="center" sx={{ py: 3 }}>
-        <Box width={200} component="img" src="/assets/illustrations/illustration_store.svg" />
+        {userAuth?.roleName === Role.BRAND_MANAGER ? (
+          <Box width={200} component="img" src="/assets/illustrations/mbkc_cook.svg" />
+        ) : (
+          <Box width={200} component="img" src="/assets/illustrations/illustration_store.svg" />
+        )}
       </Stack>
     </Stack>
   );

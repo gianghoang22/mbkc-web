@@ -43,10 +43,12 @@
     "menuAction": "Menu actions",
     "uploadPhoto": "Upload photo",
     "updatePhoto": "Update photo",
-    "close": "Close"
+    "close": "Close",
+    "continue": "Continue"
   },
   "common": {
     "welcome": "Hi, Welcome Back",
+    "welcomeMBKC": "Welcome to MBKC",
     "navigation": "Navigation",
     "available": "Available",
     "notAvailable": "Not available",
@@ -76,7 +78,8 @@
     "list": "List",
     "detail": "Detail",
     "update": "Update",
-    "create-new": "Create new"
+    "create-new": "Create new",
+    "information": "Information"
   },
   "error": {
     "serverTitle": "500 Internal Server Error",

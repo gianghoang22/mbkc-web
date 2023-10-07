@@ -43,10 +43,12 @@
     "menuAction": "Thao tác",
     "uploadPhoto": "Tải hình ảnh",
     "updatePhoto": "Cập nhật hình ảnh",
-    "close": "Đóng"
+    "close": "Đóng",
+    "continue": "Tiếp tục"
   },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",
+    "welcomeMBKC": "Chào mừng đến với MBKC",
     "navigation": "Điều hướng",
     "available": "Hoạt động",
     "notAvailable": "Không Hoạt động",
@@ -76,7 +78,8 @@
     "list": "Danh sách",
     "detail": "Chi tiết",
     "update": "Cập nhật",
-    "create-new": "Tạo mới"
+    "create-new": "Tạo mới",
+    "information": "Thông tin"
   },
   "error": {
     "serverTitle": "500 Lỗi Máy Chủ Nội Bộ",

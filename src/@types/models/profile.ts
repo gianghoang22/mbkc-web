@@ -1,17 +1,17 @@
-import { Brand } from './brand';
-import { KitchenCenter } from './kitchenCenter';
-
-export interface Profile {
-  kitchenCenterId?: number;
+export interface KitchenCenterProfile {
+  kitchenCenterId: Number;
   name: string;
   address: string;
-  status: string;
   logo: string;
-  brandId?: number;
-  rejectedReason?: string;
-  kitchenCenterManagerEmail?: string;
-  brandManagerEmail?: string;
-  storeManagerEmail?: string;
-  kitchenCenter?: KitchenCenter;
-  brand?: Brand;
+  status: string;
+  kitchenCenterManagerEmail: string;
+}
+
+export interface BrandProfile {
+  brandId: number;
+  name: string;
+  address: string;
+  logo: string;
+  status: string;
+  brandManagerEmail: string;
 }

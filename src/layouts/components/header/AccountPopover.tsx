@@ -2,7 +2,6 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Box } from '@mui/material';
 // @mui
 import { Avatar, Button, Divider, MenuItem, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
@@ -11,7 +10,7 @@ import { Role } from 'common/enum';
 import { MenuPopover } from 'components';
 import { useLocales, useNavigate, usePopover } from 'hooks';
 import account from 'mock/account';
-import { logout } from 'redux/auth/authSlice';
+import { logout, setUserInfo } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 
 function AccountPopover() {
@@ -31,6 +30,7 @@ function AccountPopover() {
 
   const handleLogout = () => {
     dispatch(logout(navigate));
+    dispatch(setUserInfo);
     handleCloseMenu();
   };
 
@@ -70,23 +70,13 @@ function AccountPopover() {
               ? translate('role.cashier')
               : translate('header.account')}
           </Typography>
-          <Typography variant="subtitle1" noWrap>
-            Tran Phu Son
+          <Typography variant="subtitle1" noWrap sx={{ textTransform: 'none', width: 140 }}>
+            {userAuth?.email}
           </Typography>
         </Stack>
       </Button>
 
       <MenuPopover open={open} handleCloseMenu={handleCloseMenu} sx={{ width: 180 }}>
-        <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle2" noWrap>
-            Tran Phu Son
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {userAuth?.email}
-          </Typography>
-        </Box>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
             <MenuItem
