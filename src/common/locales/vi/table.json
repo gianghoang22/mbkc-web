@@ -19,7 +19,7 @@
   "type": "Loại",
   "historicalPrice": "Giá gốc",
   "sellingPrice": "Giá bán",
-  "discountPrice": "Giá đã giảm",
+  "discountPrice": "Giảm giá",
   "code": "Mã",
   "description": "Mô tả",
   "displayOrder": "Thứ tự hiển thị",
@@ -37,7 +37,7 @@
     "status": "trạng thái",
     "historicalPrice": "giá gốc",
     "sellingPrice": "giá bán",
-    "discountPrice": "giá đã giảm"
+    "discountPrice": "giảm giá"
   },
   "uppercase": {
     "code": "MÃ"

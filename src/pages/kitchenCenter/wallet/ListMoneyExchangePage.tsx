@@ -93,13 +93,15 @@ function ListMoneyExchangePage(props: any) {
                     {emptyRows > 0 ||
                       (moneyExchanges.length === 0 && !filterName && (
                         <EmptyTable
-                          colNumber={MoneyExchangeHeadCells.length}
+                          colNumber={MoneyExchangeHeadCells.length + 2}
                           model={translate('model.lowercase.store')}
                         />
                       ))}
                   </TableBody>
 
-                  {isNotFound && <SearchNotFound colNumber={MoneyExchangeHeadCells.length} searchQuery={filterName} />}
+                  {isNotFound && (
+                    <SearchNotFound colNumber={MoneyExchangeHeadCells.length + 2} searchQuery={filterName} />
+                  )}
                 </Table>
               </TableContainer>
               <TablePagination

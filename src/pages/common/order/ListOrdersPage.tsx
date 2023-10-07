@@ -93,11 +93,11 @@ function ListOrdersPage() {
                     })}
                     {emptyRows > 0 ||
                       (orders.length === 0 && !filterName && (
-                        <EmptyTable colNumber={orders.length} model={translate('model.lowercase.store')} />
+                        <EmptyTable colNumber={orders.length + 2} model={translate('model.lowercase.order')} />
                       ))}
                   </TableBody>
 
-                  {isNotFound && <SearchNotFound colNumber={orders.length} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={orders.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination

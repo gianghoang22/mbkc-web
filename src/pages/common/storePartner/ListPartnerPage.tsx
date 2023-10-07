@@ -135,7 +135,7 @@ function ListPartnerPage() {
                       {emptyRows > 0 ||
                         (partners.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={partnerHeadCells.length}
+                            colNumber={partnerHeadCells.length + 2}
                             model={translate('model.lowercase.partner')}
                           />
                         ))}

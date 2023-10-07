@@ -118,11 +118,14 @@ function ListBrandPage() {
                       })}
                       {emptyRows > 0 ||
                         (brands.length === 0 && !filterName && (
-                          <EmptyTable colNumber={brandHeadCells.length} model={translate('model.lowercase.brand')} />
+                          <EmptyTable
+                            colNumber={brandHeadCells.length + 2}
+                            model={translate('model.lowercase.brand')}
+                          />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={brands.length} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={brands.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination

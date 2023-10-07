@@ -162,7 +162,10 @@ function ListStorePage() {
                       })}
                       {emptyRows > 0 ||
                         (stores.length === 0 && !filterName && (
-                          <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
+                          <EmptyTable
+                            colNumber={storeHeadCells.length + 2}
+                            model={translate('model.lowercase.store')}
+                          />
                         ))}
                     </TableBody>
                   )}

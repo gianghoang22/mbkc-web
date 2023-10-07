@@ -25,13 +25,16 @@ function ProductTableRowSkeleton({ length, inTab = false }: ProductTableRowSkele
           <TableCell align="left" width={!inTab ? 172 : 192}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={!inTab ? 140 : 133}>
+          <TableCell align="left" padding="none" width={!inTab ? 150 : 192}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={!inTab ? 160 : 153}>
+          <TableCell align="left" width={!inTab ? 131 : 133}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={!inTab ? 155 : 150}>
+          <TableCell align="left" width={!inTab ? 151 : 153}>
+            <Skeleton />
+          </TableCell>
+          <TableCell align="left" width={!inTab ? 106 : 150}>
             <Skeleton />
           </TableCell>
           <TableCell align="left">

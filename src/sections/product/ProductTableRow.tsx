@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Box, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
@@ -104,11 +104,14 @@ function ProductTableRow({
             {product?.code}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
-          {fCurrencyVN(product?.historicalPrice)} đ
+        <TableCell align="left" padding="none" onClick={handleNavigateDetail}>
+          <Box pl={2}> {product?.displayOrder}</Box>
         </TableCell>
         <TableCell align="left" onClick={handleNavigateDetail}>
-          {product?.categoryId}
+          {fCurrencyVN(product?.sellingPrice)} đ
+        </TableCell>
+        <TableCell align="left" onClick={handleNavigateDetail}>
+          {product?.categoryName}
         </TableCell>
         <TableCell align="left" onClick={handleNavigateDetail}>
           {product?.type}

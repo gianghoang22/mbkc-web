@@ -124,7 +124,7 @@ function ListProductPage() {
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={productHeadCells.length} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={productHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination

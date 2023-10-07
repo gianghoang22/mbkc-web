@@ -117,13 +117,13 @@ function ListCashierPage() {
                       {emptyRows > 0 ||
                         (cashiers.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={cashierHeadCells.length}
+                            colNumber={cashierHeadCells.length + 2}
                             model={translate('model.lowercase.cashier')}
                           />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={cashierHeadCells.length} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={cashierHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination

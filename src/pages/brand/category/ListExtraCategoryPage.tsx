@@ -122,13 +122,13 @@ function ListExtraCategoryPage() {
                       {emptyRows > 0 ||
                         (categories.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={categoryHeadCells.length}
+                            colNumber={categoryHeadCells.length + 2}
                             model={translate('model.lowercase.extraCategory')}
                           />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
