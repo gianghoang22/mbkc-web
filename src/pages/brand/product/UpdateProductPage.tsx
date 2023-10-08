@@ -55,7 +55,7 @@ function UpdateProductPage() {
       image: '',
       size: '',
       type: '',
-      parentProductId: 0,
+      parentProductId: Number(product?.parentProductId),
       categoryId: 0,
     },
     resolver: yupResolver(schemaProduct),
@@ -75,8 +75,6 @@ function UpdateProductPage() {
   const discountPrice = watch('discountPrice');
   const parentProductId = watch('parentProductId');
   const categoryId = watch('categoryId');
-
-  console.log(categoryId);
 
   const params = useMemo(() => {
     return {
@@ -135,9 +133,13 @@ function UpdateProductPage() {
   useEffect(() => {
     if (type === ProductTypeEnum.CHILD) {
       if (parentProductId !== undefined && parentProductId !== 0) {
+        console.log('get parent product');
         dispatch(getProductParentDetail(params));
       }
     }
+  }, [parentProductId]);
+
+  useEffect(() => {
     if (isEditing) {
       dispatch(getProductDetail(paramsEditing));
     }
@@ -164,10 +166,13 @@ function UpdateProductPage() {
   //for set name of product child
   useEffect(() => {
     if (product?.type === ProductTypeEnum.CHILD || type === ProductTypeEnum.CHILD) {
-      if (product?.name !== undefined && size !== undefined) {
-        console.log('parentProductId', parentProductId);
+      if (productParent?.name !== undefined) {
+        // console.log('parentProductId', parentProductId);
+        // const sizeChild = product?.name.split(' ').slice(-2).join(' ');
+        // console.log(productParent?.name);
         reset({
-          name: `${product?.name === undefined ? 'parent name' : product.name} - size ${size}`,
+          // name: `${product?.name === undefined ? 'parent name' : productParent?.name} ${sizeChild}`,
+          name: name,
           type: type,
           code: code,
           image: image,
@@ -178,16 +183,16 @@ function UpdateProductPage() {
           sellingPrice: sellingPrice,
           discountPrice: discountPrice,
           size: size,
-          categoryId: 0,
+          categoryId: categoryId,
         });
       }
     }
-  }, [parentProductId]);
+  }, [parentProductId, productParent]);
 
   useEffect(() => {
     if (product !== null && isEditing) {
       if (product?.type === ProductTypeEnum.SINGLE && productParent === null) {
-        console.log('set');
+        console.log('SINGLE set');
         reset({
           name: product?.name,
           code: product?.code,
@@ -204,7 +209,7 @@ function UpdateProductPage() {
         });
       }
       if (product?.type === ProductTypeEnum.PARENT && productParent === null) {
-        console.log('set');
+        console.log('PARENT set');
         reset({
           name: product?.name,
           code: product?.code,
@@ -221,7 +226,7 @@ function UpdateProductPage() {
         });
       }
       if (product?.type === ProductTypeEnum.CHILD) {
-        console.log('set');
+        console.log(' CHILD set');
         reset({
           name: product?.name,
           code: product?.code,
@@ -238,12 +243,12 @@ function UpdateProductPage() {
               ? ProductSizeEnum.MEDIUM
               : ProductSizeEnum.LARGE,
           type: ProductTypeEnum.CHILD,
-          parentProductId: Number(productParent?.parentProductId),
+          parentProductId: Number(product?.parentProductId),
           categoryId: 0,
         });
       }
       if (product?.type === ProductTypeEnum.EXTRA && productParent === null) {
-        console.log('set');
+        console.log('EXTRA set');
         reset({
           name: product?.name,
           code: product?.code,
@@ -308,7 +313,27 @@ function UpdateProductPage() {
               {translate('button.back')}
             </Button>
             <Stack direction="row" gap={2}>
-              <Button variant="contained" color="inherit" disabled={isLoading}>
+              <Button
+                variant="contained"
+                color="inherit"
+                disabled={isLoading}
+                onClick={() => {
+                  reset({
+                    name: product?.name,
+                    code: product?.code,
+                    description: product?.description,
+                    historicalPrice: product?.historicalPrice,
+                    sellingPrice: product?.sellingPrice,
+                    discountPrice: product?.discountPrice,
+                    displayOrder: product?.displayOrder,
+                    image: product?.image,
+                    size: product?.size ? product?.size : '',
+                    type: product?.type,
+                    parentProductId: Number(product?.parentProductId),
+                    categoryId: product?.categoryId,
+                  });
+                }}
+              >
                 {translate('button.reset')}
               </Button>
               <Button

@@ -6,17 +6,16 @@ import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } f
 import { MoneyExchange, MoneyExchangeTable, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { useAppSelector } from 'redux/configStore';
 
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
-import { getComparator, stableSort } from 'utils';
-import MoneyExchangeTableToolbar from 'sections/wallet/moneyExchange/moneyExchangeTableToolbar';
 import MoneyExchangeTableRow from 'sections/wallet/moneyExchange/moneyExchangeTableRow';
+import MoneyExchangeTableToolbar from 'sections/wallet/moneyExchange/moneyExchangeTableToolbar';
+import { getComparator, stableSort } from 'utils';
 
 function ListMoneyExchangePage(props: any) {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
@@ -35,10 +34,6 @@ function ListMoneyExchangePage(props: any) {
   };
 
   const handleNavigateDetail = (moneyExchange: MoneyExchange, moneyExchangeId: number) => {
-    const params = {
-      navigate,
-      moneyExchangeId,
-    };
     navigate(PATH_KITCHEN_CENTER_APP.wallet.root + `/detail/${moneyExchangeId}`);
   };
 

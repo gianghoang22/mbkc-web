@@ -76,47 +76,25 @@ function CreateCategoryPage() {
     const data = { ...values };
 
     if (isEditing) {
-      if (typeof values.imageUrl === 'string') {
-        const paramUpdate: Params<CategoryToUpdate> = {
-          data: {
-            name: data.name,
-            code: data.code,
-            displayOrder: data.displayOrder,
-            imageUrl: '',
-            description: data.description,
-            status: category?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
-          },
-          idParams: {
-            categoryId: category?.categoryId,
-          },
-          optionParams: {
-            type: category?.type,
-          },
-          pathname: pathnameToBack,
-          navigate,
-        };
-        dispatch(updateCategory(paramUpdate));
-      } else {
-        const paramUpdate: Params<CategoryToUpdate> = {
-          data: {
-            name: data.name,
-            code: data.code,
-            displayOrder: data.displayOrder,
-            imageUrl: data.imageUrl,
-            description: data.description,
-            status: category?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
-          },
-          idParams: {
-            categoryId: category?.categoryId,
-          },
-          optionParams: {
-            type: category?.type,
-          },
-          pathname: pathnameToBack,
-          navigate,
-        };
-        dispatch(updateCategory(paramUpdate));
-      }
+      const paramUpdate: Params<CategoryToUpdate> = {
+        data: {
+          name: data.name,
+          code: data.code,
+          displayOrder: data.displayOrder,
+          imageUrl: typeof values.imageUrl === 'string' ? '' : data.imageUrl,
+          description: data.description,
+          status: category?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+        },
+        idParams: {
+          categoryId: category?.categoryId,
+        },
+        optionParams: {
+          type: category?.type,
+        },
+        pathname: pathnameToBack,
+        navigate,
+      };
+      dispatch(updateCategory(paramUpdate));
     } else {
       const paramCreate: Params<CategoryToCreate> = {
         data: { ...data, brandId: 1 },
