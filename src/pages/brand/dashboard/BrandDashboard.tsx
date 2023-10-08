@@ -14,10 +14,12 @@ import { Helmet } from 'components';
 import { useAppDispatch } from 'redux/configStore';
 import { getBrandProfile } from 'redux/profile/profileSlice';
 import { AppWidgetSummary } from 'sections/dashboard';
+import { useLocales } from 'hooks';
 
 function BrandDashboard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { translate } = useLocales();
 
   useEffect(() => {
     dispatch<any>(getBrandProfile(navigate));
@@ -29,7 +31,7 @@ function BrandDashboard() {
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          {translate('common.welcome')}
         </Typography>
 
         <Grid container spacing={3}>
