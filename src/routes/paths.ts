@@ -62,6 +62,10 @@ export const PATH_BRAND_APP = {
     editById: path(ROOTS_ADMIN_DASHBOARD, '/store/update/:id'),
     newStore: path(ROOTS_ADMIN_DASHBOARD, '/store/create-new'),
   },
+  storePartner: {
+    root: path(ROOTS_BRAND_DASHBOARD, '/store-partner'),
+    list: path(ROOTS_BRAND_DASHBOARD, '/store-partner/list'),
+  },
   product: {
     root: path(ROOTS_BRAND_DASHBOARD, '/product'),
     list: path(ROOTS_BRAND_DASHBOARD, '/product/list'),
@@ -77,6 +81,10 @@ export const PATH_BRAND_APP = {
     detailById: path(ROOTS_BRAND_DASHBOARD, '/category/detail/:id'),
     editById: path(ROOTS_BRAND_DASHBOARD, '/category/update/:id'),
     newCategory: path(ROOTS_BRAND_DASHBOARD, '/category/create-new'),
+  },
+  mappingProduct: {
+    root: path(ROOTS_BRAND_DASHBOARD, '/mapping-product'),
+    list: path(ROOTS_BRAND_DASHBOARD, '/mapping-product/list'),
   },
 };
 

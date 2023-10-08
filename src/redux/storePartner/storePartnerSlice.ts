@@ -1,150 +1,138 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Store } from '@types';
+import { StorePartner } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
 import { getIsEditing, setLocalStorage } from 'utils';
 import {
-  confirmRegistrationStoreThunk,
-  createNewStoreThunk,
-  deleteStoreThunk,
-  getAllStoresThunk,
-  getStoreDetailThunk,
-  updateStatusStoreThunk,
-  updateStoreThunk,
+  createNewStorePartnerThunk,
+  deleteStorePartnerThunk,
+  getAllStorePartnersThunk,
+  getStorePartnerDetailThunk,
+  updateStatusStorePartnerThunk,
+  updateStorePartnerThunk,
 } from './storePartnerThunk';
 
-interface StoreState {
+interface StorePartnerState {
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  stores: Store[];
-  store: Store | null;
+  storePartners: StorePartner[];
+  storePartner: StorePartner | null;
   totalPage: number;
   numberItems: number;
 }
 
 const getIsEditingInStorage =
-  getIsEditing(StorageKeys.IS_EDIT_STORE) === true ? getIsEditing(StorageKeys.IS_EDIT_STORE) : false;
+  getIsEditing(StorageKeys.IS_EDIT_STORE_PARTNER) === true ? getIsEditing(StorageKeys.IS_EDIT_STORE_PARTNER) : false;
 
-const initialState: StoreState = {
+const initialState: StorePartnerState = {
   isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
-  stores: [],
-  store: null,
+  storePartners: [],
+  storePartner: null,
   totalPage: 0,
   numberItems: 5,
 };
 
-export const createNewStore = createAsyncThunk('store/create-store', createNewStoreThunk);
-export const getAllStores = createAsyncThunk('store/get-allsStores', getAllStoresThunk);
-export const getStoreDetail = createAsyncThunk('store/get-store-detail', getStoreDetailThunk);
-export const updateStore = createAsyncThunk('store/update-store', updateStoreThunk);
-export const updateStatusStore = createAsyncThunk('store/update-status-store', updateStatusStoreThunk);
-export const confirmRegistrationStore = createAsyncThunk(
-  'store/confirm-registration-store',
-  confirmRegistrationStoreThunk
+export const createNewStorePartner = createAsyncThunk('store-partner/create-store-partner', createNewStorePartnerThunk);
+export const getAllStorePartners = createAsyncThunk('store-partner/get-allsStores', getAllStorePartnersThunk);
+export const getStorePartnerDetail = createAsyncThunk(
+  'store-partner/get-store-partner-detail',
+  getStorePartnerDetailThunk
 );
-export const deleteStore = createAsyncThunk('store/delete-store', deleteStoreThunk);
+export const updateStorePartner = createAsyncThunk('store-partner/update-store-partner', updateStorePartnerThunk);
+export const updateStatusStorePartner = createAsyncThunk(
+  'store-partner/update-status-store-partner',
+  updateStatusStorePartnerThunk
+);
+export const deleteStore = createAsyncThunk('store-partner/delete-store-partner', deleteStorePartnerThunk);
 
-const storeSlice = createSlice({
-  name: 'store',
+const storePartnerSlice = createSlice({
+  name: 'storePartner',
   initialState,
   reducers: {
-    getStoreDetail_local: (state, action) => {
-      state.store = action.payload;
+    getStorePartnerDetail_local: (state, action) => {
+      state.storePartner = action.payload;
     },
-    setAddStore: (state) => {
+    setAddStorePartner: (state) => {
       state.isEditing = false;
-      setLocalStorage(StorageKeys.IS_EDIT_STORE, false);
+      setLocalStorage(StorageKeys.IS_EDIT_STORE_PARTNER, false);
     },
-    setEditStore: (state, action) => {
+    setEditStorePartner: (state, action) => {
       state.isEditing = true;
-      state.store = action.payload;
-      setLocalStorage(StorageKeys.IS_EDIT_STORE, true);
+      state.storePartner = action.payload;
+      setLocalStorage(StorageKeys.IS_EDIT_STORE_PARTNER, true);
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(createNewStore.pending, (state) => {
+      .addCase(createNewStorePartner.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createNewStore.fulfilled, (state) => {
+      .addCase(createNewStorePartner.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(createNewStore.rejected, (state) => {
+      .addCase(createNewStorePartner.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(getAllStores.pending, (state) => {
+      .addCase(getAllStorePartners.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAllStores.fulfilled, (state, action) => {
+      .addCase(getAllStorePartners.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.stores = [...action.payload?.stores];
+        state.storePartners = [...action.payload?.storePartners];
         state.totalPage = action.payload?.totalPage;
         state.numberItems = action.payload?.numberItems;
       })
-      .addCase(getAllStores.rejected, (state) => {
+      .addCase(getAllStorePartners.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(getStoreDetail.pending, (state) => {
+      .addCase(getStorePartnerDetail.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getStoreDetail.fulfilled, (state, action) => {
+      .addCase(getStorePartnerDetail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.store = { ...action.payload };
+        state.storePartner = { ...action.payload };
       })
-      .addCase(getStoreDetail.rejected, (state) => {
+      .addCase(getStorePartnerDetail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(updateStore.pending, (state) => {
+      .addCase(updateStorePartner.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateStore.fulfilled, (state) => {
+      .addCase(updateStorePartner.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(updateStore.rejected, (state) => {
+      .addCase(updateStorePartner.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(updateStatusStore.pending, (state) => {
+      .addCase(updateStatusStorePartner.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateStatusStore.fulfilled, (state) => {
+      .addCase(updateStatusStorePartner.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(updateStatusStore.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-      })
-      .addCase(confirmRegistrationStore.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(confirmRegistrationStore.fulfilled, (state) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-      })
-      .addCase(confirmRegistrationStore.rejected, (state) => {
+      .addCase(updateStatusStorePartner.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -165,7 +153,7 @@ const storeSlice = createSlice({
   },
 });
 
-export const { getStoreDetail_local, setAddStore, setEditStore } = storeSlice.actions;
-const storeReducer = storeSlice.reducer;
+export const { getStorePartnerDetail_local, setAddStorePartner, setEditStorePartner } = storePartnerSlice.actions;
+const storeReducer = storePartnerSlice.reducer;
 
 export default storeReducer;
