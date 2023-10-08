@@ -17,9 +17,9 @@ export interface OptionParams {
 }
 
 export interface IdParams {
+  kitchenCenterId?: number;
   brandId?: number;
   storeId?: number;
-  kitchenCenterId?: number;
   categoryId?: number;
   productId?: number;
   partnerId?: number;

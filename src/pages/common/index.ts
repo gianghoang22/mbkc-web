@@ -5,4 +5,4 @@ export { default as CreateStorePage } from './store/CreateStorePage';
 export { default as ListOrdersPage } from './order/ListOrdersPage';
 export { default as OrderDetailPage } from './order/OrderDetailPage';
 //
-export { default as ListPartnerPage } from './storePartner/ListPartnerPage';
+export { default as ListPartnerPage } from './partner/ListPartnerPage';

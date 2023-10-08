@@ -6,7 +6,9 @@ import {
   CreateProductPage,
   ListCategoryPage,
   ListExtraCategoryPage,
+  ListMappingProductPage,
   ListProductPage,
+  ListStorePartnerPage,
   ProductDetailPage,
   UpdateProductPage,
 } from 'pages/brand';
@@ -41,13 +43,18 @@ export const brandRoutes: Route[] = [
     index: false,
   },
   {
+    path: PATH_BRAND_APP.store.newStore,
+    component: <CreateStorePage />,
+    index: true,
+  },
+  {
     path: PATH_BRAND_APP.store.editById,
     component: <CreateStorePage />,
     index: true,
   },
   {
-    path: PATH_BRAND_APP.store.newStore,
-    component: <CreateStorePage />,
+    path: PATH_BRAND_APP.storePartner.list,
+    component: <ListStorePartnerPage />,
     index: true,
   },
   {
@@ -68,6 +75,11 @@ export const brandRoutes: Route[] = [
   {
     path: PATH_BRAND_APP.product.editById,
     component: <UpdateProductPage />,
+    index: false,
+  },
+  {
+    path: PATH_BRAND_APP.mappingProduct.list,
+    component: <ListMappingProductPage />,
     index: false,
   },
   {
