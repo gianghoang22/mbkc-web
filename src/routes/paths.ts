@@ -5,7 +5,7 @@ const ROOTS_AUTH = '/auth';
 const ROOTS_BRAND_DASHBOARD = '/brand';
 const ROOTS_KITCHEN_CENTER_DASHBOARD = '/kitchen-center';
 const ROOTS_CASHIER_DASHBOARD = '/cashier';
-const ROOTS_ADMIN_DASHBOARD = '/mbkc-admin';
+export const ROOTS_ADMIN_DASHBOARD = '/mbkc-admin';
 
 export const PATH_ERROR = {
   noPermission: path(ROOTS_ERROR, '/403'),

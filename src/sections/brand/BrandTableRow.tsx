@@ -29,13 +29,8 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = (brand: Brand, brandId: number) => {
-    const params = {
-      brandId,
-      navigate,
-    };
     navigate(PATH_ADMIN_APP.brand.root + `/detail/${brandId}`);
-    dispatch(getBrandDetail(params));
-    console.log('id', brandId);
+    dispatch(setRoutesToBack(pathname));
   };
 
   const handleEdit = () => {

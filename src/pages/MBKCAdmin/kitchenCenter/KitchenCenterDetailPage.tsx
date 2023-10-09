@@ -21,7 +21,11 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setEditKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import {
+  getKitchenCenterDetail,
+  setEditKitchenCenter,
+  setKitchenCenterToNull,
+} from 'redux/kitchenCenter/kitchenCenterSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
@@ -33,6 +37,7 @@ import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { KitchenCenterDetailPageSkeleton } from '..';
+import axios from 'axios';
 
 function KitchenCenterDetailPage() {
   const { id: kitchenCenterId } = useParams();
@@ -91,8 +96,20 @@ function KitchenCenterDetailPage() {
     };
   }, [page, rowsPerPage, debounceValue]);
 
+  const paramsDetails = useMemo(() => {
+    return {
+      kitchenCenterId,
+      navigate,
+    };
+  }, [kitchenCenterId, navigate]);
+
   useEffect(() => {
+    dispatch<any>(getKitchenCenterDetail(paramsDetails));
     dispatch<any>(getAllStores(params));
+
+    return () => {
+      dispatch(setKitchenCenterToNull());
+    };
   }, [params]);
 
   return (
@@ -141,12 +158,14 @@ function KitchenCenterDetailPage() {
                           <Typography variant="h6">{kitchenCenter?.name}</Typography>
                         </Stack>
                         <Label color={(kitchenCenter?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                          {kitchenCenter?.status}
+                          {kitchenCenter?.status === Status.INACTIVE
+                            ? translate('status.inactive')
+                            : translate('status.active')}
                         </Label>
                       </Stack>
 
                       <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                        <Typography variant="subtitle1">Address:</Typography>
+                        <Typography variant="subtitle1">{translate('table.address')}:</Typography>
                         <Typography variant="body1">{kitchenCenter?.address}</Typography>
                       </Stack>
                     </Stack>

@@ -49,6 +49,9 @@ const brandSlice = createSlice({
       state.isEditing = true;
       state.brand = action.payload;
     },
+    setBrandToNull: (state) => {
+      state.brand = null;
+    },
   },
   extraReducers(builder) {
     builder
@@ -136,7 +139,7 @@ const brandSlice = createSlice({
   },
 });
 
-export const { getBrandDetail_local, setAddBrand, setEditBrand } = brandSlice.actions;
+export const { getBrandDetail_local, setAddBrand, setEditBrand, setBrandToNull } = brandSlice.actions;
 const brandReducer = brandSlice.reducer;
 
 export default brandReducer;

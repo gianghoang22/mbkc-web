@@ -55,8 +55,6 @@ function CreateKitchenCenterPage(props: any) {
       ManagerEmail: values.ManagerEmail,
     };
 
-    console.log(updateKitchenCenterOptions);
-
     const paramsUpdate = {
       updateKitchenCenterOptions: updateKitchenCenterOptions,
       kitchenCenterId: kitchenCenter?.kitchenCenterId,

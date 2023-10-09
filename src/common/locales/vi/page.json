@@ -22,7 +22,9 @@
     "tryAgain": "Hãy thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh.",
     "productInCategory": "{{model}} trong {{name}}",
     "extraInCategory": "Danh sách extra trong danh mục",
-    "selected": "Đã chọn"
+    "selected": "Đã chọn",
+    "total": "Tổng số {{model}}",
+    "viewAll": "Xem tất cả"
   },
   "form": {
     "email": "Email",

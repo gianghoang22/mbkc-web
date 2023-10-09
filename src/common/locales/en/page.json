@@ -22,7 +22,9 @@
     "tryAgain": "Try checking for typos or using complete words.",
     "productInCategory": "{{model}} in the {{name}}",
     "extraInCategory": "Extra list in category",
-    "selected": "Selected"
+    "selected": "Selected",
+    "total": "Total {{model}}",
+    "viewAll": "View all"
   },
   "form": {
     "email": "Email",
