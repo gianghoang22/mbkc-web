@@ -7,6 +7,7 @@ interface StoreTableRowSkeletonProps {
   haveBrand?: boolean;
   haveKitchenCenter?: boolean;
   showEmail?: boolean;
+  showAction?: boolean;
 }
 
 function StoreTableRowSkeleton({
@@ -14,6 +15,7 @@ function StoreTableRowSkeleton({
   haveBrand = false,
   haveKitchenCenter = false,
   showEmail = false,
+  showAction = false,
 }: StoreTableRowSkeletonProps) {
   const { userAuth } = useAppSelector((state) => state.auth);
 
@@ -30,7 +32,7 @@ function StoreTableRowSkeleton({
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
           <TableCell
-            width={!haveKitchenCenter || !haveBrand ? 240 : !showEmail ? 240 : 180}
+            width={!haveKitchenCenter || !haveBrand ? 230 : !showEmail ? 230 : 180}
             align="left"
             padding="none"
             sx={{ pr: 2 }}
@@ -38,7 +40,7 @@ function StoreTableRowSkeleton({
             <Skeleton />
           </TableCell>
           {showEmail && (
-            <TableCell width={!haveKitchenCenter || !haveBrand ? 220 : 180} align="left">
+            <TableCell width={!haveKitchenCenter || !haveBrand ? 250 : 180} align="left">
               <Skeleton />
             </TableCell>
           )}
@@ -48,27 +50,31 @@ function StoreTableRowSkeleton({
             </TableCell>
           )}
           {haveBrand && (
-            <TableCell width={!haveKitchenCenter ? 240 : !showEmail ? 240 : 160} align="left">
+            <TableCell width={!haveKitchenCenter ? 250 : !showEmail ? 250 : 160} align="left">
               <Skeleton />
             </TableCell>
           )}
           <TableCell align="left">
             <Skeleton variant="rounded" width={100} height={24} />
           </TableCell>
-          <TableCell align="right">
-            {userAuth?.roleName === Role.BRAND_MANAGER ? (
-              <Stack direction="row" alignItems="center" justifyContent="right">
-                <Skeleton variant="rounded" width={30} height={14} />
+          {showAction && (
+            <TableCell align="right">
+              {userAuth?.roleName === Role.BRAND_MANAGER ? (
+                <Stack direction="row" alignItems="center" justifyContent="right">
+                  <Skeleton variant="rounded" width={30} height={14} />
+                  <IconButton color="inherit">
+                    <Skeleton variant="circular" width={28} height={28} />
+                  </IconButton>
+                </Stack>
+              ) : userAuth?.roleName === Role.MBKC_ADMIN ? (
                 <IconButton color="inherit">
                   <Skeleton variant="circular" width={28} height={28} />
                 </IconButton>
-              </Stack>
-            ) : (
-              <IconButton color="inherit">
-                <Skeleton variant="circular" width={28} height={28} />
-              </IconButton>
-            )}
-          </TableCell>
+              ) : (
+                <></>
+              )}
+            </TableCell>
+          )}
         </TableRow>
       ))}
     </TableBody>
