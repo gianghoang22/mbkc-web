@@ -23,7 +23,7 @@ import {
 import { ListParams, OrderSort, StoreTable } from '@types';
 import { Color, Language, PopoverType, Status } from 'common/enum';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { setEditBrand } from 'redux/brand/brandSlice';
+import { getBrandDetail, setBrandToNull, setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
@@ -86,11 +86,23 @@ function BrandDetailPage() {
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, brandId, navigate]);
+
+  const paramsDetails = useMemo(() => {
+    return {
+      brandId,
+      navigate,
+    };
+  }, [brandId, navigate]);
 
   useEffect(() => {
+    dispatch<any>(getBrandDetail(paramsDetails));
     dispatch<any>(getAllStores(params));
-  }, [params]);
+
+    return () => {
+      dispatch(setBrandToNull());
+    };
+  }, [params, dispatch, paramsDetails]);
 
   return (
     <>

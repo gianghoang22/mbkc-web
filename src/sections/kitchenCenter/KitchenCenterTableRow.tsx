@@ -24,7 +24,7 @@ interface KitchenCenterTableRowProps {
   rowsPerPage: number;
 }
 
-function StoreTableRow({ index, kitchenCenter, page, rowsPerPage }: KitchenCenterTableRowProps) {
+function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: KitchenCenterTableRowProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -84,7 +84,7 @@ function StoreTableRow({ index, kitchenCenter, page, rowsPerPage }: KitchenCente
           {kitchenCenter.name}
         </TableCell>
 
-        <TableCell align="left" onClick={handleNavigateDetail}>
+        <TableCell align="left" onClick={handleNavigateDetail} width={400}>
           {kitchenCenter.address}
         </TableCell>
         <TableCell align="left">
@@ -136,4 +136,4 @@ function StoreTableRow({ index, kitchenCenter, page, rowsPerPage }: KitchenCente
   );
 }
 
-export default StoreTableRow;
+export default KitchenCenterTableRow;

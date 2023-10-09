@@ -86,15 +86,18 @@ export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
 
 export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
   const { navigate, kitchenCenterId } = params;
+
   const options = {
     itemsPerPage: 5,
     currentPage: 1,
     keySearchName: '',
   };
+
   const params_callback = {
     optionParams: options,
     navigate,
   };
+
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);

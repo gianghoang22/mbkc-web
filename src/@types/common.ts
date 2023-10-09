@@ -63,3 +63,9 @@ export interface ListResponse<T> {
   numberItems: number;
   data: T[];
 }
+
+export interface WordLimited {
+  wordString: string;
+  lengthLimit: number;
+  end?: string;
+}
