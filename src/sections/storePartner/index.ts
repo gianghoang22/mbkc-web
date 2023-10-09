@@ -1,4 +1,4 @@
-export { default as CreatePartnerModal } from './CreatePartnerModal';
-export { default as PartnerTableRow } from './PartnerTableRow';
-export { default as PartnerTableRowSkeleton } from './PartnerTableRowSkeleton';
-export { default as PartnerTableToolbar } from './PartnerTableToolbar';
+export { default as StorePartnerForm } from './StorePartnerForm';
+export { default as StorePartnerTableRow } from './StorePartnerTableRow';
+export { default as StorePartnerTableRowSkeleton } from './StorePartnerTableRowSkeleton';
+export { default as StorePartnerTableToolbar } from './StorePartnerTableToolbar';

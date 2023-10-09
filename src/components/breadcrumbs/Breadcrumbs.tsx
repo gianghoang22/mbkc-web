@@ -73,6 +73,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('model.capitalizeOne.accountInformation')
             : nameUppercase === Breadcrumb.INFORMATION
             ? translate('breadcrumb.information')
+            : nameUppercase === Breadcrumb.STORE_PARTNER
+            ? translate('breadcrumb.storePartner')
             : nameUppercase;
         return isLast ? (
           <Typography key={name}>{nameFinal}</Typography>

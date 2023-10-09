@@ -271,7 +271,7 @@ function UpdateProductPage() {
     const data = { ...values };
     const paramsCreate: Params<ProductToUpdate> = {
       data: {
-        name: data.name,
+        name: type === ProductTypeEnum.CHILD ? '' : data.name,
         image: typeof values.image === 'string' ? '' : data.image,
         description: data.description,
         displayOrder: data.displayOrder,

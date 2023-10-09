@@ -137,7 +137,7 @@ function StoreTableRow({
           <Avatar alt={store.name} src={store.logo} />
         </TableCell>
         <TableCell
-          width={!haveKitchenCenter || !haveBrand ? 240 : !showEmail ? 240 : 180}
+          width={!haveKitchenCenter || !haveBrand ? 230 : !showEmail ? 230 : 180}
           align="left"
           padding="none"
           onClick={() => handleNavigateDetail(store.storeId)}
@@ -146,7 +146,7 @@ function StoreTableRow({
         </TableCell>
         {showEmail && (
           <TableCell
-            width={!haveKitchenCenter || !haveBrand ? 240 : 180}
+            width={!haveKitchenCenter || !haveBrand ? 250 : 180}
             align="left"
             onClick={() => handleNavigateDetail(store.storeId)}
           >
@@ -164,7 +164,7 @@ function StoreTableRow({
         )}
         {haveBrand && (
           <TableCell
-            width={!haveKitchenCenter ? 240 : !showEmail ? 240 : 180}
+            width={!haveKitchenCenter ? 250 : !showEmail ? 250 : 180}
             align="left"
             onClick={() => handleNavigateDetail(store.storeId)}
           >

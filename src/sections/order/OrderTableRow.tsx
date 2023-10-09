@@ -20,14 +20,10 @@ interface OrderTableRowProps {
 
 function OrderTableRow({ index, order, handleNavigateDetail, page, rowsPerPage }: OrderTableRowProps) {
   const { translate } = useLocales();
-  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { open, handleCloseMenu } = usePopover();
   const { handleOpen } = useModal();
 
   const [openList, setOpenList] = useState(-1);
-
-  // const handleClick = () => {
-  //   setOpenList(!openList);
-  // };
 
   return (
     <>

@@ -123,6 +123,7 @@ function ListStorePage() {
                     hideEmail={userAuth?.roleName === Role.MBKC_ADMIN}
                     showAction={userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER}
                     hideBrand={userAuth?.roleName === Role.BRAND_MANAGER}
+                    hideKitchenCenter={userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER}
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
@@ -130,12 +131,17 @@ function ListStorePage() {
                   />
                   {isLoading ? (
                     <StoreTableRowSkeleton
+                      showAction={userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER}
                       length={visibleRows.length}
-                      haveBrand={userAuth?.roleName === Role.MBKC_ADMIN}
+                      haveBrand={
+                        userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                      }
                       haveKitchenCenter={
                         userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER
                       }
-                      showEmail={userAuth?.roleName === Role.BRAND_MANAGER}
+                      showEmail={
+                        userAuth?.roleName === Role.BRAND_MANAGER || userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                      }
                     />
                   ) : (
                     <TableBody>
@@ -149,14 +155,20 @@ function ListStorePage() {
                             page={page + 1}
                             rowsPerPage={rowsPerPage}
                             length={visibleRows.length}
-                            haveBrand={userAuth?.roleName === Role.MBKC_ADMIN}
+                            haveBrand={
+                              userAuth?.roleName === Role.MBKC_ADMIN ||
+                              userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                            }
                             haveKitchenCenter={
                               userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER
                             }
                             showAction={
                               userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER
                             }
-                            showEmail={userAuth?.roleName === Role.BRAND_MANAGER}
+                            showEmail={
+                              userAuth?.roleName === Role.BRAND_MANAGER ||
+                              userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                            }
                           />
                         );
                       })}

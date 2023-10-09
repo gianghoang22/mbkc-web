@@ -43,6 +43,16 @@ export interface StoreTable {
   brand: Brand;
 }
 
+export interface PartnerTable {
+  logo: string;
+  name: string;
+  status: string;
+}
+
+export interface StorePartnerTable {
+  storeName: string;
+  kitchenCenterName: string;
+}
 export interface CategoryTable {
   imageUrl: string;
   name: string;
@@ -75,12 +85,6 @@ export interface BankingAccountTable {
   logoUrl: string;
   name: string;
   numberAccount: string;
-  status: string;
-}
-
-export interface PartnerTable {
-  logo: string;
-  name: string;
   status: string;
 }
 

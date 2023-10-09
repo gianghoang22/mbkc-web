@@ -6,13 +6,15 @@ import brandReducer from './brand/brandSlice';
 import cashierReducer from './cashier/cashierSlice';
 import categoryReducer from './category/categorySlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
+import mappingProductReducer from './mappingProduct/mappingProductSlice';
+import orderReducer from './order/orderSlice';
 import partnerReducer from './partner/partnerSlice';
 import productReducer from './product/productSlice';
+import profileReducer from './profile/profileSlice';
 import routesReducer from './routes/routesSlice';
 import storeReducer from './store/storeSlice';
-import orderReducer from './order/orderSlice';
+import storePartnerReducer from './storePartner/storePartnerSlice';
 import walletReducer from './wallet/walletSlice';
-import profileReducer from './profile/profileSlice';
 
 export const store = configureStore({
   reducer: {
@@ -29,6 +31,8 @@ export const store = configureStore({
     routes: routesReducer,
     wallet: walletReducer,
     profile: profileReducer,
+    storePartner: storePartnerReducer,
+    mappingProduct: mappingProductReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
