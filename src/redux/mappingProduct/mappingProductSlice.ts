@@ -132,6 +132,6 @@ const mappingProductSlice = createSlice({
 
 export const { setAddMappingProduct, setEditMappingProduct, getMappingProductDetail_local } =
   mappingProductSlice.actions;
-const productReducer = mappingProductSlice.reducer;
+const mappingProductReducer = mappingProductSlice.reducer;
 
-export default productReducer;
+export default mappingProductReducer;

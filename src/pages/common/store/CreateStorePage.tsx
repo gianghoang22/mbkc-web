@@ -70,37 +70,20 @@ function CreateStorePage() {
     const data = { ...values };
 
     if (isEditing) {
-      if (typeof values.logo === 'string') {
-        const paramUpdate: Params<StoreToUpdate> = {
-          data: {
-            name: data.name,
-            status: store?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
-            logo: '',
-            storeManagerEmail: data.storeManagerEmail,
-          },
-          idParams: {
-            storeId: store?.storeId,
-          },
-          pathname: pathname,
-          navigate,
-        };
-        dispatch(updateStore(paramUpdate));
-      } else {
-        const paramUpdate: Params<StoreToUpdate> = {
-          data: {
-            name: data.name,
-            status: store?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
-            logo: data.logo,
-            storeManagerEmail: data.storeManagerEmail,
-          },
-          idParams: {
-            storeId: store?.storeId,
-          },
-          pathname: pathname,
-          navigate,
-        };
-        dispatch(updateStore(paramUpdate));
-      }
+      const paramUpdate: Params<StoreToUpdate> = {
+        data: {
+          name: data.name,
+          status: store?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+          logo: typeof values.logo === 'string' ? '' : data.logo,
+          storeManagerEmail: data.storeManagerEmail,
+        },
+        idParams: {
+          storeId: store?.storeId,
+        },
+        pathname: pathname,
+        navigate,
+      };
+      dispatch(updateStore(paramUpdate));
     } else {
       const paramCreate: Params<StoreToCreate> = {
         data: data,

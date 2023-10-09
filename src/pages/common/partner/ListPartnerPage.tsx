@@ -13,15 +13,8 @@ import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import {
-  CreatePartnerModal,
-  PartnerTableRow,
-  PartnerTableRowSkeleton,
-  PartnerTableToolbar,
-} from 'sections/storePartner';
+import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton, PartnerTableToolbar } from 'sections/partner';
 import { getComparator, stableSort } from 'utils';
-
-// ----------------------------------------------------------------------
 
 function ListPartnerPage() {
   const navigate = useNavigate();
@@ -32,7 +25,6 @@ function ListPartnerPage() {
   const { partnerHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  console.log('page', page);
   const { userAuth } = useAppSelector((state) => state.auth);
   const { partners, isLoading, numberItems } = useAppSelector((state) => state.partner);
 

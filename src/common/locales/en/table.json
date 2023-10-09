@@ -25,6 +25,7 @@
   "displayOrder": "Display order",
   "rejectedReason": "Rejected reason",
   "size": "Size",
+  "userName": "User name",
   "lowercase": {
     "address": "address",
     "email": "email",

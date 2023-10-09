@@ -7,6 +7,23 @@ export interface StorePartner {
   status: string;
 }
 
+export interface PartnerTransform {
+  partnerId: number;
+  partnerName: string;
+  partnerLogo: string;
+  userName: string;
+  password: string;
+  status: string;
+}
+
+export interface StorePartnerTransform {
+  storeId: number;
+  partnerId: number;
+  storeName: string;
+  kitchenCenterName: string;
+  listPartner: PartnerTransform[];
+}
+
 export interface StorePartnerToCreate {
   storeId: number;
   partnerId: number;

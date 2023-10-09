@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { StorePartner } from '@types';
+import { StorePartnerTransform } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
+import { storePartners } from 'mock/storePartner';
 import { getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewStorePartnerThunk,
@@ -16,8 +17,8 @@ interface StorePartnerState {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  storePartners: StorePartner[];
-  storePartner: StorePartner | null;
+  storePartners: StorePartnerTransform[];
+  storePartner: StorePartnerTransform | null;
   totalPage: number;
   numberItems: number;
 }
@@ -30,7 +31,7 @@ const initialState: StorePartnerState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  storePartners: [],
+  storePartners: storePartners,
   storePartner: null,
   totalPage: 0,
   numberItems: 5,
@@ -88,7 +89,7 @@ const storePartnerSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.storePartners = [...action.payload?.storePartners];
+        // state.storePartners = [...action.payload?.storePartners];
         state.totalPage = action.payload?.totalPage;
         state.numberItems = action.payload?.numberItems;
       })
@@ -154,6 +155,6 @@ const storePartnerSlice = createSlice({
 });
 
 export const { getStorePartnerDetail_local, setAddStorePartner, setEditStorePartner } = storePartnerSlice.actions;
-const storeReducer = storePartnerSlice.reducer;
+const storePartnerReducer = storePartnerSlice.reducer;
 
-export default storeReducer;
+export default storePartnerReducer;

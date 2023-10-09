@@ -10,6 +10,7 @@ export enum Breadcrumb {
   BANKING_ACCOUNT = 'banking account',
   TRANSACTION = 'transaction',
   PARTNER = 'partner',
+  STORE_PARTNER = 'store partner',
   WALLET = 'wallet',
   LIST = 'list',
   DETAIL = 'detail',

@@ -1,5 +1,6 @@
 import { Route } from '@types';
 import {
+  AddPartnerToStorePage,
   BrandDashboard,
   CategoryDetailPage,
   CreateCategoryPage,
@@ -52,9 +53,20 @@ export const brandRoutes: Route[] = [
     component: <CreateStorePage />,
     index: true,
   },
+
   {
     path: PATH_BRAND_APP.storePartner.list,
     component: <ListStorePartnerPage />,
+    index: true,
+  },
+  {
+    path: PATH_BRAND_APP.storePartner.newStorePartner,
+    component: <AddPartnerToStorePage />,
+    index: true,
+  },
+  {
+    path: PATH_BRAND_APP.storePartner.editById,
+    component: <AddPartnerToStorePage />,
     index: true,
   },
   {

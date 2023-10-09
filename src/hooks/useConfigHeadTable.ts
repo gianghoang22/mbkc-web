@@ -9,6 +9,7 @@ import {
   OrderTable,
   PartnerTable,
   ProductTable,
+  StorePartnerTable,
   StoreTable,
 } from '@types';
 import useLocales from './useLocales';
@@ -358,6 +359,45 @@ function useConfigHeadTable() {
     },
   ];
 
+  const storePartnerHeadCells: HeadCell<StorePartnerTable>[] = [
+    {
+      id: 'storeName',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.store'),
+              name: translate('page.form.nameLower'),
+            }
+          : {
+              model: translate('page.form.name'),
+              name: translate('model.lowercase.store'),
+            }
+      ),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
+      id: 'kitchenCenterName',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.kitchenCenter'),
+              name: translate('page.form.nameLower'),
+            }
+          : {
+              model: translate('page.form.name'),
+              name: translate('model.lowercase.kitchenCenter'),
+            }
+      ),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
   const OrderHeadCells: HeadCell<OrderTable>[] = [
     {
       id: 'orderCode',
@@ -445,6 +485,7 @@ function useConfigHeadTable() {
     partnerHeadCells,
     OrderHeadCells,
     MoneyExchangeHeadCells,
+    storePartnerHeadCells,
   };
 }
 
