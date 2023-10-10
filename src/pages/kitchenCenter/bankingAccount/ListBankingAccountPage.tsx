@@ -75,7 +75,7 @@ function ListBankingAccountPage() {
   return (
     <>
       <Page
-        title="List Banking Account"
+        title={translate('page.title.list', { model: translate('model.lowercase.bankingAccount') })}
         pathname={pathname}
         navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
         actions={() => [
@@ -87,7 +87,7 @@ function ListBankingAccountPage() {
               dispatch(setAddBankingAccount());
             }}
           >
-            Add banking account
+            {translate('button.add', { model: translate('model.lowercase.bankingAccount') })}
           </Button>,
         ]}
       >

@@ -10,7 +10,7 @@ function CashierTableRow({ length }: { length: number }) {
               <Skeleton />
             </TableCell>
 
-            <TableCell scope="row" component="th" padding="none" width={80}>
+            <TableCell scope="row" component="th" padding="none" width={100}>
               <Skeleton variant="circular" width={40} height={40} />
             </TableCell>
             <TableCell component="th" scope="row">

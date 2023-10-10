@@ -339,7 +339,7 @@ function useValidationForm() {
         ),
       })
     ),
-    email: yup.string().required(translate('page.validation.required', { name: translate('model.lowercase.email') })),
+    email: yup.string().required(translate('page.validation.required', { name: translate('table.lowercase.email') })),
     citizenNumber: yup
       .string()
       .required(translate('page.validation.required', { name: translate('model.lowercase.citizenNumber') })),
