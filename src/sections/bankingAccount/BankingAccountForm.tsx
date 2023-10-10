@@ -51,7 +51,7 @@ function BankingAccountForm() {
                     }
                   : {
                       model: translate('page.form.name'),
-                      name: translate('model.lowercase.brand'),
+                      name: translate('model.lowercase.bankingAccount'),
                     }
               )}
             />

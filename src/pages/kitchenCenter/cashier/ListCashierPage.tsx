@@ -70,7 +70,7 @@ function ListCashierPage() {
   return (
     <>
       <Page
-        title="List Cashier"
+        title={translate('page.title.list', { model: translate('model.lowercase.cashier') })}
         pathname={pathname}
         navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
         actions={() => [
@@ -82,7 +82,7 @@ function ListCashierPage() {
               dispatch(setAddCashier());
             }}
           >
-            Add cashier
+            {translate('button.add', { model: translate('model.lowercase.cashier') })}
           </Button>,
         ]}
       >

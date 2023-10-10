@@ -14,15 +14,6 @@ import { useDispatch } from 'react-redux';
 import { createNewCashier, updateCashier } from 'redux/cashier/cashierSlice';
 import { useValidationForm } from 'hooks';
 
-// const schema = yup.object({
-//   email: yup.string().required('Please enter Cashier Email'),
-//   fullName: yup.string().required('Please enter Cashier Full Name'),
-//   gender: yup.string().required('Please select Cashier Gender'),
-//   dateOfBirth: yup.string().required('Please enter the Cashier date of birth'),
-//   avatar: yup.string(),
-//   citizenNumber: yup.string().required('Please select Cashier citizen number'),
-// });
-
 function CreateCashierPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

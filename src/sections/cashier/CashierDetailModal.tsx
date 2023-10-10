@@ -51,7 +51,11 @@ function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: 
         <Dialog maxWidth="md" fullWidth open={isOpen} onClose={handleOpen}>
           <DialogContent>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <Typography variant="h4">Cashier Detail</Typography>
+              <Typography variant="h4">
+                {translate('page.title.detail', {
+                  model: translate('model.lowercase.cashier'),
+                })}
+              </Typography>
 
               <IconButton onClick={handleOpen}>
                 <CloseIcon />
@@ -83,14 +87,20 @@ function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: 
                       <Typography variant="h4">{cashier.fullName}</Typography>
                     </Box>
 
-                    <ContentSpace title="Email" content={cashier.email} />
-                    <ContentSpace title="Phone" content={cashier.citizenNumber} />
-                    <ContentSpace title="Date of birthday" content={cashier.dateOfBirth.toString()} />
-                    <ContentSpace title="Citizen number" content={cashier.citizenNumber} />
-                    <ContentSpace title="Gender" content={cashier.gender} />
+                    <ContentSpace title={translate('table.email')} content={cashier.email} />
+                    <ContentSpace title={translate('model.capitalizeOne.phone')} content={cashier.citizenNumber} />
+                    <ContentSpace
+                      title={translate('model.capitalizeOne.dateOfBirth')}
+                      content={cashier.dateOfBirth.toString()}
+                    />
+                    <ContentSpace
+                      title={translate('model.capitalizeOne.citizenNumber')}
+                      content={cashier.citizenNumber}
+                    />
+                    <ContentSpace title={translate('model.capitalizeOne.gender')} content={cashier.gender} />
 
                     <ContentLabel
-                      title="Status"
+                      title={translate('table.status')}
                       color={
                         cashier?.status === Status.ACTIVE
                           ? Color.SUCCESS

@@ -30,7 +30,8 @@
     "accountInformation": "Thông tin tài khoản",
     "citizenNumber": "Số chứng minh nhân dân",
     "dateOfBirth": "Ngày tháng năm sinh",
-    "gender": "Giới tính"
+    "gender": "Giới tính",
+    "phone": "Số điện thoại"
   },
   "capitalize": {
     "overview": "Tổng Quan",
@@ -63,7 +64,8 @@
     "accountInformation": "Thông Tin Tài Khoản",
     "citizenNumber": "Số Chứng Minh Nhân Dân",
     "dateOfBirth": "Ngày Tháng Năm Sinh",
-    "gender": "Giới Tính"
+    "gender": "Giới Tính",
+    "phone": "Số Điện Thoại"
   },
   "lowercase": {
     "overview": "tổng quan",
@@ -96,6 +98,7 @@
     "accountInformation": "thông tin tài khoản",
     "citizenNumber": "số chứng minh nhân dân",
     "dateOfBirth": "ngày tháng năm sinh",
-    "gender": "giới tính"
+    "gender": "giới tính",
+    "phone": "số điện thoại"
   }
 }

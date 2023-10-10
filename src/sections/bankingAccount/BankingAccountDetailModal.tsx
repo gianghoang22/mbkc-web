@@ -5,10 +5,9 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
 //
 import { BankingAccount } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Language, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { StatusWithIcon } from 'components/StatusWithIcon';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -29,7 +28,7 @@ function BankingAccountDetailModal({
   page,
   rowsPerPage,
 }: BankingAccountDetailModalProps) {
-  const { translate } = useLocales();
+  const { translate, currentLang } = useLocales();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { open, handleCloseMenu } = usePopover();
@@ -62,7 +61,14 @@ function BankingAccountDetailModal({
         <Dialog maxWidth="md" fullWidth open={isOpen} onClose={handleOpen}>
           <DialogContent>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <Typography variant="h4">Banking Account Detail</Typography>
+              <Typography variant="h4">
+                {translate('page.title.detail', {
+                  model:
+                    currentLang.value === Language.ENGLISH
+                      ? translate('model.capitalizeOne.bankingAccount')
+                      : translate('model.lowercase.bankingAccount'),
+                })}
+              </Typography>
 
               <IconButton onClick={handleOpen}>
                 <CloseIcon />
@@ -88,18 +94,19 @@ function BankingAccountDetailModal({
                       <IconButton style={{ marginRight: 4 }} onClick={handleEdit}>
                         <EditOutlinedIcon />
                       </IconButton>
-
-                      {/* <StatusWithIcon status={bankingAccount?.status} /> */}
                     </Stack>
 
                     <Box>
                       <Typography variant="h4">{bankingAccount?.name}</Typography>
                     </Box>
 
-                    <ContentSpace title="Number Account" content={String(bankingAccount?.numberAccount)} />
+                    <ContentSpace
+                      title={translate('model.capitalize.numberAccount')}
+                      content={String(bankingAccount?.numberAccount)}
+                    />
 
                     <ContentLabel
-                      title="Status"
+                      title={translate('table.status')}
                       color={
                         bankingAccount?.status === Status.ACTIVE
                           ? Color.SUCCESS
