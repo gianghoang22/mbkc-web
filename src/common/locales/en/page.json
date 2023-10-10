@@ -24,7 +24,8 @@
     "extraInCategory": "Extra list in category",
     "selected": "Selected",
     "total": "Total {{model}}",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "selectStore": "Select a store to add a partner"
   },
   "form": {
     "email": "Email",
@@ -47,7 +48,13 @@
     "parentProduct": "Parent product",
     "productSize": "Product size",
     "webUrl": "Web URL",
-    "webUrlLower": "web URL"
+    "webUrlLower": "web URL",
+    "userName": "User name",
+    "accountPartner": "Account partner",
+    "lowercase": {
+      "userName": "user name",
+      "password": "password"
+    }
   },
   "validation": {
     "required": "Please enter {{name}}",

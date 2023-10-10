@@ -5,18 +5,26 @@ function StorePartnerTableRowSkeleton() {
     <TableBody>
       {Array.from({ length: 5 }).map((_, index: any) => (
         <TableRow key={index}>
-          <TableCell width={80} align="center">
+          <TableCell width={120} align="center">
             <Stack direction="row" alignItems="center" justifyContent="center">
               <Skeleton width={20} />
             </Stack>
           </TableCell>
 
-          <TableCell width={435.36} align="left">
+          <TableCell width={268} align="left" sx={{ pr: 5 }}>
             <Skeleton />
           </TableCell>
 
-          <TableCell width={452.19} align="left">
+          <TableCell width={360} align="left" sx={{ pr: 10 }}>
             <Skeleton />
+          </TableCell>
+
+          <TableCell width={270} align="left">
+            <Stack direction="row">
+              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton variant="circular" width={40} height={40} sx={{ ml: -1.5 }} />
+              <Skeleton variant="circular" width={40} height={40} sx={{ ml: -1.5 }} />
+            </Stack>
           </TableCell>
 
           <TableCell align="right">

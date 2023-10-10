@@ -362,6 +362,19 @@ function useValidationForm() {
     ),
   });
 
+  const schemaUpdateStorePartner = yup.object({
+    userName: yup.string().required(
+      translate('page.validation.required', {
+        name: `${translate('page.form.lowercase.userName')}`,
+      })
+    ),
+    password: yup.string().required(
+      translate('page.validation.required', {
+        name: translate('page.form.lowercase.password'),
+      })
+    ),
+  });
+
   return {
     schemaLogin,
     schemaForgotPassword,
@@ -376,6 +389,7 @@ function useValidationForm() {
     schemaUpdatePassword,
     schemaCashier,
     schemaUpdateProfile,
+    schemaUpdateStorePartner,
   };
 }
 

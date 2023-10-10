@@ -1,48 +1,71 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 // @mui
-import { Collapse, IconButton, Stack, TableCell, TableRow } from '@mui/material';
+import { Collapse, IconButton, Stack, TableCell, TableRow, AvatarGroup, Avatar } from '@mui/material';
 // @mui icon
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 // redux
-import { useAppDispatch } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { StorePartnerTransform } from '@types';
 import { PATH_BRAND_APP } from 'routes/paths';
 import OnlyPartnerRow from './OnlyPartnerRow';
+import { Store } from '@types';
+import { getAllStorePartnersByStoreId } from 'redux/storePartner/storePartnerSlice';
+import OnlyPartnerRowSkeleton from './OnlyPartnerRowSkeleton';
 
 interface StorePartnerTableRowProps {
-  storePartner: StorePartnerTransform;
+  store: Store;
   index: number;
 }
 
-function StorePartnerTableRow({ index, storePartner }: StorePartnerTableRowProps) {
+function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
 
+  const { storePartners, isLoading } = useAppSelector((state) => state.storePartner);
+  console.log(storePartners);
   const [openList, setOpenList] = useState(-1);
 
   const handleNavigateDetail = (storeId: number) => {
-    navigate(PATH_BRAND_APP.storePartner.root + `/detail/${storeId}`);
+    navigate(PATH_BRAND_APP.store.root + `/detail/${storeId}`);
     dispatch(setRoutesToBack(pathname));
   };
+
+  const params = useMemo(() => {
+    return {
+      storeId: store.storeId,
+      navigate,
+    };
+  }, [store.storeId, navigate]);
+
+  useEffect(() => {
+    dispatch(getAllStorePartnersByStoreId(params));
+  }, [dispatch, navigate, params]);
 
   return (
     <>
       <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={100} align="center" onClick={() => handleNavigateDetail(storePartner.storeId)}>
+        <TableCell width={120} align="center" onClick={() => handleNavigateDetail(store.storeId)}>
           {index + 1}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(storePartner.storeId)}>
-          {storePartner.storeName}
+        <TableCell align="left" padding="none" onClick={() => handleNavigateDetail(store.storeId)}>
+          {store.name}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(storePartner.storeId)}>
-          {storePartner.kitchenCenterName}
+        <TableCell align="left" onClick={() => handleNavigateDetail(store.storeId)}>
+          {store.kitchenCenter.name}
+        </TableCell>
+
+        <TableCell align="left" onClick={() => handleNavigateDetail(store.storeId)}>
+          <AvatarGroup max={4} sx={{ justifyContent: 'left' }}>
+            {storePartners?.storePartners.map((partner) => (
+              <Avatar key={partner.partnerName} alt={partner.partnerName} src={partner.partnerLogo} />
+            ))}
+          </AvatarGroup>
         </TableCell>
 
         <TableCell align="right">
@@ -53,13 +76,19 @@ function StorePartnerTableRow({ index, storePartner }: StorePartnerTableRowProps
       </TableRow>
 
       <TableRow sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TableCell colSpan={7} sx={{ py: 0, pl: 8 }}>
+        <TableCell colSpan={7} sx={{ py: 0, pl: 7 }}>
           <Collapse in={openList === index} timeout="auto" unmountOnExit>
-            <Stack direction="column">
-              {storePartner.listPartner.map((partner) => (
-                <OnlyPartnerRow key={partner.partnerName} partner={partner} />
-              ))}
-            </Stack>
+            {isLoading ? (
+              <Stack direction="column">
+                <OnlyPartnerRowSkeleton />
+              </Stack>
+            ) : (
+              <Stack direction="column">
+                {storePartners?.storePartners.map((partner) => (
+                  <OnlyPartnerRow key={partner.partnerName} partner={partner} storeId={store.storeId} />
+                ))}
+              </Stack>
+            )}
           </Collapse>
         </TableCell>
       </TableRow>

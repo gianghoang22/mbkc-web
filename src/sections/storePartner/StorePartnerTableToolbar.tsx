@@ -46,7 +46,7 @@ function StorePartnerTableToolbar(props: StorePartnerTableToolbarProps) {
         size="small"
         value={filterName}
         onChange={onFilterName}
-        placeholder={translate('page.title.search', { model: translate('model.lowercase.partner') })}
+        placeholder={translate('page.title.search', { model: translate('model.lowercase.store') })}
         startAdornment={
           <InputAdornment position="start">
             <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />

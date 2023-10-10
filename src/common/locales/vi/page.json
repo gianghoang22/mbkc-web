@@ -24,7 +24,8 @@
     "extraInCategory": "Danh sách extra trong danh mục",
     "selected": "Đã chọn",
     "total": "Tổng số {{model}}",
-    "viewAll": "Xem tất cả"
+    "viewAll": "Xem tất cả",
+    "selectStore": "Chọn cửa hàng để thêm đối tác"
   },
   "form": {
     "email": "Email",
@@ -47,7 +48,13 @@
     "parentProduct": "Sản phẩm cha",
     "productSize": "Kích cỡ sản phẩm",
     "webUrl": "Web URL",
-    "webUrlLower": "web URL"
+    "webUrlLower": "web URL",
+    "userName": "Tên tài khoản",
+    "accountPartner": "tài khoản đối tác",
+    "lowercase": {
+      "userName": "tên tài khoản",
+      "password": "mật khẩu"
+    }
   },
   "validation": {
     "required": "Vui lòng nhập {{name}}",

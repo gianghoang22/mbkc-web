@@ -111,6 +111,7 @@ export const ROUTES_API_STORE_PARTNERS = {
   CREATE_STORE_PARTNER: pathRoot(ROOTS_STORE_PARTNERS),
   GET_ALL_STORE_PARTNER: ({ searchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
     path(ROOTS_STORE_PARTNERS, `?searchName=${searchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`),
+  GET_ALL_STORE_PARTNER_BY_STORE_ID: (storeId: number) => path(ROOTS_STORE_PARTNERS, `/${storeId}`),
   GET_STORE_PARTNER_DETAIL: (storeId: number, partnerId: number) =>
     path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),
   UPDATE_STORE_PARTNER: (storeId: number, partnerId: number) => path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),

@@ -8,14 +8,14 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { getAllStorePartners, setAddStorePartner } from 'redux/storePartner/storePartnerSlice';
+import { setAddStorePartner } from 'redux/storePartner/storePartnerSlice';
+import { getAllStores } from 'redux/store/storeSlice';
 //
-import { ListParams, OrderSort, StorePartnerTable } from '@types';
+import { ListParams, OrderSort, StoreTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { StoreTableToolbar } from 'sections/store';
-import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
+import { StorePartnerTableRow, StorePartnerTableRowSkeleton, StorePartnerTableToolbar } from 'sections/storePartner';
 import { getComparator, stableSort } from 'utils';
 
 function ListStorePartnerPage() {
@@ -23,17 +23,18 @@ function ListStorePartnerPage() {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const { storePartnerHeadCells } = useConfigHeadTable();
+  const { storeHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { userAuth } = useAppSelector((state) => state.auth);
-  const { storePartners, numberItems, isLoading } = useAppSelector((state) => state.storePartner);
+  const { brandProfile } = useAppSelector((state) => state.profile);
+  const { isLoading: isLoadingStorePartner } = useAppSelector((state) => state.storePartner);
+  const { stores, numberItems, isLoading: isLoadingStore } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StorePartnerTable>('storeName');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StorePartnerTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -47,10 +48,7 @@ function ListStorePartnerPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(storePartners, getComparator(order, orderBy)),
-    [order, orderBy, storePartners]
-  );
+  const visibleRows = useMemo(() => stableSort(stores, getComparator(order, orderBy)), [order, orderBy, stores]);
 
   const isNotFound = !visibleRows.length && !!filterName;
 
@@ -61,14 +59,15 @@ function ListStorePartnerPage() {
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        searchName: debounceValue,
+        searchValue: debounceValue,
+        idBrand: brandProfile?.brandId,
       },
       navigate,
     };
   }, [page, rowsPerPage, debounceValue]);
 
   useEffect(() => {
-    dispatch<any>(getAllStorePartners(paramsBrandRole));
+    dispatch<any>(getAllStores(paramsBrandRole));
   }, [paramsBrandRole]);
 
   return (
@@ -94,42 +93,39 @@ function ListStorePartnerPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <StorePartnerTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<StorePartnerTable>
+                  <CommonTableHead<StoreTable>
+                    hideStatus
+                    hideLogo
+                    hideEmail
+                    hideBrand
                     showAction
-                    headCells={storePartnerHeadCells}
+                    showPartner
+                    headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  {isLoading ? (
+                  {isLoadingStore && isLoadingStorePartner ? (
                     <StorePartnerTableRowSkeleton />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((storePartner, index) => {
-                        return (
-                          <StorePartnerTableRow
-                            key={storePartner.partnerId}
-                            index={index}
-                            storePartner={storePartner}
-                          />
-                        );
+                      {visibleRows.map((store, index) => {
+                        return <StorePartnerTableRow key={store.storeId} index={index} store={store} />;
                       })}
                       {emptyRows > 0 ||
-                        (storePartners.length === 0 && !filterName && (
+                        (stores.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={storePartnerHeadCells.length + 2}
+                            colNumber={storeHeadCells.length + 2}
                             model={translate('model.lowercase.storePartner')}
                           />
                         ))}
                     </TableBody>
                   )}
 
-                  {isNotFound && (
-                    <SearchNotFound colNumber={storePartnerHeadCells.length + 2} searchQuery={filterName} />
-                  )}
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
