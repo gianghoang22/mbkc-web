@@ -9,9 +9,12 @@ interface CommonTableHeadProps<T> {
   rowCount?: number;
   checkbox?: boolean;
   showAction?: boolean;
+  showPartner?: boolean;
   hideKitchenCenter?: boolean;
   hideBrand?: boolean;
   hideEmail?: boolean;
+  hideLogo?: boolean;
+  hideStatus?: boolean;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
   onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: OrderSort;
@@ -25,9 +28,12 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     rowCount = 0,
     checkbox = false,
     showAction = false,
+    showPartner = false,
     hideKitchenCenter = false,
     hideBrand = false,
     hideEmail = false,
+    hideLogo = false,
+    hideStatus = false,
     onSelectAllClick,
     headCells,
     order,
@@ -39,6 +45,10 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
 
   const filterHeadCells = hideKitchenCenter
     ? headCells.filter((col) => col.id !== 'kitchenCenter')
+    : hideBrand && hideEmail && hideLogo && hideStatus
+    ? headCells.filter(
+        (col) => col.id !== 'brand' && col.id !== 'storeManagerEmail' && col.id !== 'logo' && col.id !== 'status'
+      )
     : hideBrand
     ? headCells.filter((col) => col.id !== 'brand')
     : hideEmail
@@ -96,6 +106,7 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
             )}
           </TableCell>
         ))}
+        {showPartner && <TableCell>{translate('table.partners')}</TableCell>}
         {showAction && <TableCell></TableCell>}
       </TableRow>
     </TableHead>

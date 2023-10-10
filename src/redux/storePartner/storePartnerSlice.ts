@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { StorePartnerTransform } from '@types';
+import { StorePartner, StorePartnerDetail } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
-import { storePartners } from 'mock/storePartner';
 import { getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewStorePartnerThunk,
   deleteStorePartnerThunk,
+  getAllStorePartnersByStoreIdThunk,
   getAllStorePartnersThunk,
   getStorePartnerDetailThunk,
   updateStatusStorePartnerThunk,
@@ -17,8 +17,8 @@ interface StorePartnerState {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  storePartners: StorePartnerTransform[];
-  storePartner: StorePartnerTransform | null;
+  storePartners: StorePartner | null;
+  storePartner: StorePartnerDetail | null;
   totalPage: number;
   numberItems: number;
 }
@@ -31,14 +31,18 @@ const initialState: StorePartnerState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  storePartners: storePartners,
+  storePartners: null,
   storePartner: null,
   totalPage: 0,
   numberItems: 5,
 };
 
 export const createNewStorePartner = createAsyncThunk('store-partner/create-store-partner', createNewStorePartnerThunk);
-export const getAllStorePartners = createAsyncThunk('store-partner/get-allsStores', getAllStorePartnersThunk);
+export const getAllStorePartners = createAsyncThunk('store-partner/get-all-store-partner', getAllStorePartnersThunk);
+export const getAllStorePartnersByStoreId = createAsyncThunk(
+  'store-partner/get-all-partner-by-store-id',
+  getAllStorePartnersByStoreIdThunk
+);
 export const getStorePartnerDetail = createAsyncThunk(
   'store-partner/get-store-partner-detail',
   getStorePartnerDetailThunk
@@ -48,7 +52,7 @@ export const updateStatusStorePartner = createAsyncThunk(
   'store-partner/update-status-store-partner',
   updateStatusStorePartnerThunk
 );
-export const deleteStore = createAsyncThunk('store-partner/delete-store-partner', deleteStorePartnerThunk);
+export const deleteStorePartner = createAsyncThunk('store-partner/delete-store-partner', deleteStorePartnerThunk);
 
 const storePartnerSlice = createSlice({
   name: 'storePartner',
@@ -89,11 +93,22 @@ const storePartnerSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        // state.storePartners = [...action.payload?.storePartners];
-        state.totalPage = action.payload?.totalPage;
-        state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllStorePartners.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getAllStorePartnersByStoreId.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllStorePartnersByStoreId.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.storePartners = { ...action.payload };
+      })
+      .addCase(getAllStorePartnersByStoreId.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -138,15 +153,15 @@ const storePartnerSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(deleteStore.pending, (state) => {
+      .addCase(deleteStorePartner.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteStore.fulfilled, (state) => {
+      .addCase(deleteStorePartner.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(deleteStore.rejected, (state) => {
+      .addCase(deleteStorePartner.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
