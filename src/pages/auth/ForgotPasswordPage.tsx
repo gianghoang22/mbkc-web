@@ -6,6 +6,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Box, Button, Card, LinearProgress, Link as MuiLink, Stack, Typography } from '@mui/material';
 //
 import { EmailForm } from '@types';
+import images from 'assets';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { forgotPassword, setEmail } from 'redux/auth/authSlice';
@@ -63,7 +64,7 @@ function ForgotPasswordPage() {
               <Stack direction="column" alignItems="center" justifyContent="center" gap={5}>
                 <Stack direction="column" alignItems="center" textAlign="center" gap={1} px={3}>
                   <Box px={10}>
-                    <img src="/assets/illustrations/illustration_email.svg" alt="email" />
+                    <img src={images.illustrations.email} alt="email" />
                   </Box>
                   <Typography variant="h3">{translate('auth.forgotPassword.title')}</Typography>
                   <Typography variant="body2" color="GrayText">

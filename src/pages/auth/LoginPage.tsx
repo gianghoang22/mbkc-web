@@ -1,4 +1,4 @@
-import { Box, Container, Typography, LinearProgress } from '@mui/material';
+import { Box, Container, LinearProgress, Typography } from '@mui/material';
 // hooks
 import useResponsive from 'hooks/useResponsive';
 // // components
@@ -6,9 +6,10 @@ import { Helmet, Logo } from 'components';
 // sections
 import { LoginForm } from 'sections/auth';
 //style
-import { StyledContent, StyledRootLogin, StyledSection } from './styles';
-import { useAppSelector } from 'redux/configStore';
+import images from 'assets';
 import { useLocales } from 'hooks';
+import { useAppSelector } from 'redux/configStore';
+import { StyledContent, StyledRootLogin, StyledSection } from './styles';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +44,7 @@ export default function LoginPage() {
               {translate('common.welcome')}
             </Typography>
             <Box sx={{ px: 7 }}>
-              <img src="/assets/images/kitchen/kitchen_login.png" alt="login" />
+              <img src={images.illustrations.kitchen_login} alt="login" />
             </Box>
           </StyledSection>
         )}

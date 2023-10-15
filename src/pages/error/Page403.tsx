@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Button, Container, Typography } from '@mui/material';
 //
-import { Helmet } from 'components';
-import { useLocales } from 'hooks';
 import { logout } from 'redux/auth/authSlice';
 import { useAppDispatch } from 'redux/configStore';
+//
+import images from 'assets';
+import { Helmet } from 'components';
+import { useLocales } from 'hooks';
 import { StyledContent } from './styles';
 
 // ----------------------------------------------------------------------
@@ -33,7 +35,8 @@ function Page403() {
 
           <Box
             component="img"
-            src="/assets/illustrations/illustration_403.svg"
+            alt="No permissions"
+            src={images.illustrations.no_permission}
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 

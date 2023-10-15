@@ -7,6 +7,7 @@ import { useResponsive } from 'hooks';
 // components
 import { Logo, NavSection } from 'components';
 //
+import images from 'assets';
 import { Role } from 'common/enum';
 import { useAppSelector } from 'redux/configStore';
 import { useConfigSidebar } from './useConfigSidebar';
@@ -138,9 +139,9 @@ function Sidebar({ openNav, onCloseNav }: SidebarProps) {
 
       <Stack alignItems="center" sx={{ py: 3 }}>
         {userAuth?.roleName === Role.BRAND_MANAGER ? (
-          <Box width={200} component="img" src="/assets/illustrations/mbkc_cook.svg" />
+          <Box width={200} component="img" src={images.illustrations.mbkc_cook} alt="cook" />
         ) : (
-          <Box width={200} component="img" src="/assets/illustrations/illustration_store.svg" />
+          <Box width={200} component="img" src={images.illustrations.kitchen_login} />
         )}
       </Stack>
     </Stack>

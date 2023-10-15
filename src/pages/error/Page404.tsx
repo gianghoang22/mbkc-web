@@ -1,6 +1,7 @@
 // @mui
 import { Box, Button, Container, Typography } from '@mui/material';
 //
+import images from 'assets';
 import { Helmet } from 'components';
 import { useLocales, useNavigate } from 'hooks';
 import { StyledContent } from './styles';
@@ -25,7 +26,8 @@ function Page404() {
 
           <Box
             component="img"
-            src="/assets/illustrations/illustration_404.svg"
+            alt="Not found"
+            src={images.illustrations.not_found}
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 

@@ -6,6 +6,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Box, Button, Card, LinearProgress, Link as MuiLink, Stack, Typography } from '@mui/material';
 //
 import { VerificationForm } from '@types';
+import images from 'assets';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { forgotPassword, verifyOtp } from 'redux/auth/authSlice';
@@ -71,7 +72,7 @@ function VerificationOtpPage() {
               <Stack direction="column" alignItems="center" justifyContent="center" gap={5}>
                 <Stack direction="column" alignItems="center" textAlign="center" gap={1}>
                   <Box px={18}>
-                    <img src="/assets/illustrations/illustration_otp.svg" alt="email" />
+                    <img src={images.illustrations.otp} alt="email" />
                   </Box>
                   <Typography variant="h3">{translate('auth.verify.title')}</Typography>
                   <Typography variant="body2">{translate('auth.verify.content', { email })}</Typography>
