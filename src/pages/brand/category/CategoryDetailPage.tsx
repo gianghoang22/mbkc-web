@@ -16,6 +16,7 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryDetailSkeleton, CategoryTableTab } from 'sections/category';
 import { ProductTableTab } from 'sections/product';
+import images from 'assets';
 
 function CategoryDetailPage() {
   const { id: categoryId } = useParams();
@@ -163,7 +164,7 @@ function CategoryDetailPage() {
           )}
           {mdUp && (
             <Box width={700}>
-              <img src="/assets/illustrations/mbkc_cook.svg" alt="login" />
+              <Box component="img" src={images.illustrations.mbkc_cook} alt="cook" />
             </Box>
           )}
         </Stack>

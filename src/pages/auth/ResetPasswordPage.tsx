@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 //
 import { ResetForm } from '@types';
+import images from 'assets';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { resetPassword } from 'redux/auth/authSlice';
@@ -81,7 +82,7 @@ function ResetPasswordPage() {
               <Stack direction="column" alignItems="center" justifyContent="center" gap={5}>
                 <Stack direction="column" alignItems="center" textAlign="center" gap={1} px={5}>
                   <Box px={14}>
-                    <img src="/assets/illustrations/illustration_otp.svg" alt="email" />
+                    <img src={images.illustrations.otp} alt="email" />
                   </Box>
                   <Typography variant="h3">{translate('auth.resetPassword.title')}</Typography>
                   <Typography variant="body2">{translate('auth.resetPassword.content')}</Typography>

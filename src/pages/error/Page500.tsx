@@ -1,6 +1,8 @@
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Button, Typography, Container, Box } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
+//
+import images from 'assets';
 import { Helmet } from 'components';
 import { useLocales } from 'hooks';
 import { StyledContent } from './styles';
@@ -24,7 +26,8 @@ function Page500() {
 
           <Box
             component="img"
-            src="/assets/illustrations/illustration_500.svg"
+            alt="Server error"
+            src={images.illustrations.server_error}
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 

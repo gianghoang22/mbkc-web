@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 // @mui
 import { enUS, viVN } from '@mui/material/locale';
 import { getLanguage } from 'utils';
+import images from 'assets';
 
 // ----------------------------------------------------------------------
 
@@ -10,13 +11,13 @@ const LANGS = [
     label: 'Eng',
     value: 'en',
     systemValue: enUS,
-    flag: '/assets/icons/ic_flag_en.svg',
+    flag: images.language.english,
   },
   {
     label: 'Vie',
     value: 'vi',
     systemValue: viVN,
-    flag: '/assets/icons/ic_flag_vn.svg',
+    flag: images.language.vietnamese,
   },
 ];
 
