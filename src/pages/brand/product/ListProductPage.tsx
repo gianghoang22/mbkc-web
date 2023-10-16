@@ -10,8 +10,8 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { ListParams, OrderSort, ProductTable } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { ListParams, OrderSort, PRODUCT_TYPE_OPTIONS, ProductTable, ProductTypeEnum } from '@types';
+import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
@@ -29,6 +29,11 @@ function ListProductPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
   const [filterName, setFilterName] = useState<string>('');
+  const [productType, setProductType] = useState<string>('');
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setProductType(newValue);
+  };
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -54,10 +59,11 @@ function ListProductPage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchName: debounceValue,
+        type: productType,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, productType]);
 
   useEffect(() => {
     dispatch<any>(getAllProducts(params));
@@ -88,6 +94,13 @@ function ListProductPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
+              <CustomTabs<ProductTypeEnum>
+                length={numberItems}
+                isLoading={isLoading}
+                value={productType}
+                handleChange={handleChange}
+                options={PRODUCT_TYPE_OPTIONS}
+              />
               <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">

@@ -16,6 +16,7 @@ export { default as SearchNotFound } from './table/SearchNotFound';
 export { default as EmptyTable } from './table/EmptyTable';
 export { default as UploadAvatar } from './upload/UploadAvatar';
 export { default as Tabs } from './tabs/Tabs';
+export { default as CustomTabs } from './tabs/CustomTabs';
 
 //form
 export { default as AutoCompleteField } from './form/AutoCompleteField';
