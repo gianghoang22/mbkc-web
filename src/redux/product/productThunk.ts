@@ -101,7 +101,6 @@ export const createNewProductThunk = async (params: Params<ProductToCreateParams
 
 export const updateProductThunk = async (params: Params<ProductToUpdate>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
-  console.log(params);
   const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {

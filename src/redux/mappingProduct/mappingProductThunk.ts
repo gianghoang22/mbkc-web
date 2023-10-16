@@ -73,7 +73,6 @@ export const createNewMappingProductThunk = async (params: Params<ProductToCreat
 
 export const updateMappingProductThunk = async (params: Params<ProductToUpdate>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
-  console.log(params);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);

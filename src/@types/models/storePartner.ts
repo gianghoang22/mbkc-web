@@ -8,6 +8,10 @@ export interface StorePartnerDetail {
   status: string;
 }
 
+export interface StorePartnerToList {
+  storeId: number;
+  storePartners: PartnerInStore[];
+}
 export interface StorePartner {
   storeId: number;
   storeName: string;

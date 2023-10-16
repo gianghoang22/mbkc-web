@@ -95,43 +95,46 @@ function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: stri
                 </>
               ))}
 
-            <>
-              <Divider />
-              {/* Role = 'MBKC Admin' */}
-              <Stack direction="row" alignItems="start" gap={2}>
-                <Skeleton width={!mdUp ? 150 : 120} />
-                <Stack direction="row" alignItems="start" gap={2}>
-                  <Stack
-                    direction="row"
-                    gap={1}
-                    sx={(theme) => ({
-                      p: 1.2,
-                      borderRadius: 1,
-                      backgroundColor: theme.palette.grey[200],
-                    })}
-                  >
-                    <Skeleton variant="rounded" width={45} height={45} />
-                    <Stack>
-                      <Skeleton width={100} />
+            {userAuth?.roleName === Role.MBKC_ADMIN ||
+              (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER && (
+                <>
+                  <Divider />
+                  {/* Role = 'MBKC Admin' */}
+                  <Stack direction="row" alignItems="start" gap={2}>
+                    <Skeleton width={!mdUp ? 150 : 120} />
+                    <Stack direction="row" alignItems="start" gap={2}>
+                      <Stack
+                        direction="row"
+                        gap={1}
+                        sx={(theme) => ({
+                          p: 1.2,
+                          borderRadius: 1,
+                          backgroundColor: theme.palette.grey[200],
+                        })}
+                      >
+                        <Skeleton variant="rounded" width={45} height={45} />
+                        <Stack>
+                          <Skeleton width={100} />
+                        </Stack>
+                      </Stack>
+                      <Stack
+                        direction="row"
+                        gap={1}
+                        sx={(theme) => ({
+                          p: 1.2,
+                          borderRadius: 1,
+                          backgroundColor: theme.palette.grey[200],
+                        })}
+                      >
+                        <Skeleton variant="rounded" width={45} height={45} />
+                        <Stack>
+                          <Skeleton width={100} />
+                        </Stack>
+                      </Stack>
                     </Stack>
                   </Stack>
-                  <Stack
-                    direction="row"
-                    gap={1}
-                    sx={(theme) => ({
-                      p: 1.2,
-                      borderRadius: 1,
-                      backgroundColor: theme.palette.grey[200],
-                    })}
-                  >
-                    <Skeleton variant="rounded" width={45} height={45} />
-                    <Stack>
-                      <Skeleton width={100} />
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </Stack>
-            </>
+                </>
+              ))}
           </Stack>
         </Grid>
       </Grid>

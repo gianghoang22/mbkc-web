@@ -44,16 +44,12 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  console.log(categoryId);
   const { categories, isLoading, numberItems } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [filterName, setFilterName] = useState<string>('');
-
-  console.log('categories', categories);
-  console.log('selected', selected);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
     const isAsc = orderBy === property && order === 'asc';

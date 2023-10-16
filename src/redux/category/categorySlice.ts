@@ -72,7 +72,6 @@ const categorySlice = createSlice({
       setLocalStorage(StorageKeys.CATEGORY_TYPE, action.payload);
     },
     getCategoryDetail_local: (state, action) => {
-      console.log(action);
       state.category = action.payload;
     },
   },

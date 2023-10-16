@@ -41,8 +41,6 @@ function CategoryTableRow({
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  console.log(categoryType);
-
   const handleNavigateDetail = () => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${category.categoryId}`);
     dispatch(setCategoryType(categoryType));

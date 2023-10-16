@@ -59,7 +59,6 @@ function AddPartnerToStorePage() {
   const { handleSubmit, reset, watch } = createStoreForm;
 
   const storeId = watch('storeId');
-  console.log(storeId);
 
   const paramsStoreDetail = useMemo(() => {
     return {

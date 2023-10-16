@@ -55,8 +55,6 @@ function StorePartnerForm() {
 
   const storeId = watch('storeId');
 
-  console.log('storeId', storeId);
-
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {

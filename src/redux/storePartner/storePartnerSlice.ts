@@ -20,6 +20,7 @@ interface StorePartnerState {
   isSuccess: boolean;
   storeId: number;
   store: Store | null;
+  listStorePartners: StorePartnerDetail[];
   storePartners: StorePartner | null;
   storePartner: StorePartnerDetail | null;
   totalPage: number;
@@ -38,6 +39,7 @@ const initialState: StorePartnerState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
+  listStorePartners: [],
   storePartners: null,
   storePartner: null,
   store: null,
@@ -102,6 +104,7 @@ const storePartnerSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.listStorePartners = action.payload.storePartners;
       })
       .addCase(getAllStorePartners.rejected, (state) => {
         state.isLoading = false;
