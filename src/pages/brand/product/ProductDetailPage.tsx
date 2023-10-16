@@ -31,8 +31,6 @@ function ProductDetailPage() {
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { isLoading, product } = useAppSelector((state) => state.product);
 
-  console.log(product);
-
   const params = useMemo(() => {
     return {
       productId,

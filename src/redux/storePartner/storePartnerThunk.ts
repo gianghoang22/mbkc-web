@@ -22,7 +22,7 @@ export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
-      const response: ListResponse<StorePartner> = await axiosClient.get(
+      const response: ListResponse<StorePartnerDetail> = await axiosClient.get(
         ROUTES_API_STORE_PARTNERS.GET_ALL_STORE_PARTNER(optionParams)
       );
       return response;
@@ -42,7 +42,6 @@ export const getAllStorePartnersByStoreIdThunk = async (params: any, thunkAPI: a
       const response: ListResponse<StorePartner> = await axiosClient.get(
         ROUTES_API_STORE_PARTNERS.GET_ALL_STORE_PARTNER_BY_STORE_ID(storeId)
       );
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);

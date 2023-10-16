@@ -34,7 +34,6 @@ function ForgotPasswordPage() {
       data: { ...values },
       navigate,
     };
-    console.log(params);
     dispatch(setEmail(values));
     dispatch(forgotPassword(params));
   };

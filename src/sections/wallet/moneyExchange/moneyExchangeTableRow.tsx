@@ -57,7 +57,7 @@ function MoneyExchangeTableRow({ index, moneyExchange, handleNavigateDetail }: M
               ? translate('status.inactive')
               : moneyExchange?.status === Status.ACTIVE
               ? translate('status.active')
-              : translate('status.deactive')}
+              : translate('status.deActive')}
           </Label>
         </TableCell>
       </TableRow>

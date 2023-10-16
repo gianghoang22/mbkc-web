@@ -84,7 +84,7 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
               ? translate('status.inactive')
               : bankingAccount?.status === Status.ACTIVE
               ? translate('status.active')
-              : translate('status.deactive')}
+              : translate('status.deActive')}
           </Label>
         </TableCell>
         <TableCell align="right">

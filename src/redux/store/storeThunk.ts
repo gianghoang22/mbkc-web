@@ -79,7 +79,6 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
 
 export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
-  console.log(params);
   const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {
@@ -121,7 +120,6 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
 
 export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
-  console.log(params);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);

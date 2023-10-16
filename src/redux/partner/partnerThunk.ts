@@ -7,13 +7,11 @@ import { getAllPartners } from './partnerSlice';
 
 export const getAllPartnersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
-  console.log(optionParams);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(ROUTES_API_PARTNERS.GET_ALL_PARTNER(optionParams));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -30,7 +28,6 @@ export const getPartnerDetailThunk = async (params: any, thunkAPI: any) => {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(ROUTES_API_PARTNERS.GET_PARTNER_DETAIL(partnerId));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);

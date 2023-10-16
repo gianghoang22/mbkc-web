@@ -82,7 +82,6 @@ export const createNewCategoryThunk = async (params: Params<CategoryToCreate>, t
       }
       return response;
     } catch (error: any) {
-      console.log(error);
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);
@@ -114,7 +113,6 @@ export const addExtraCategoryThunk = async (params: Params<AddExtraCategory>, th
       }
       return response;
     } catch (error: any) {
-      console.log(error);
       const errorMessage = getErrorMessage(error, navigate);
       thunkAPI.dispatch(setMessageError(errorMessage));
       return thunkAPI.rejectWithValue(error);

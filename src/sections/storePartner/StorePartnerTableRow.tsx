@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
 // @mui
-import { Collapse, IconButton, Stack, TableCell, TableRow, AvatarGroup, Avatar } from '@mui/material';
+import { Avatar, AvatarGroup, Collapse, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -9,10 +9,10 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
+
+import { Store, StorePartnerDetail, StorePartnerToList } from '@types';
 import { PATH_BRAND_APP } from 'routes/paths';
 import OnlyPartnerRow from './OnlyPartnerRow';
-import { Store } from '@types';
-import { getAllStorePartnersByStoreId } from 'redux/storePartner/storePartnerSlice';
 import OnlyPartnerRowSkeleton from './OnlyPartnerRowSkeleton';
 
 interface StorePartnerTableRowProps {
@@ -25,25 +25,42 @@ function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
 
-  const { storePartners, isLoading } = useAppSelector((state) => state.storePartner);
-  console.log(storePartners);
+  const { listStorePartners, isLoading } = useAppSelector((state) => state.storePartner);
+
   const [openList, setOpenList] = useState(-1);
+  const [transformedData, setTransformedData] = useState<StorePartnerToList[]>([]);
 
   const handleNavigateDetail = (storeId: number) => {
     navigate(PATH_BRAND_APP.store.root + `/detail/${storeId}`);
     dispatch(setRoutesToBack(pathname));
   };
 
-  const params = useMemo(() => {
-    return {
-      storeId: store.storeId,
-      navigate,
-    };
-  }, [store.storeId, navigate]);
-
   useEffect(() => {
-    dispatch(getAllStorePartnersByStoreId(params));
-  }, [dispatch, navigate, params]);
+    const transformData = (data: StorePartnerDetail[]) => {
+      const transformedData: StorePartnerToList[] = [];
+
+      data?.forEach((partner) => {
+        const { storeId, ...rest } = partner;
+        const existingStore = transformedData.find((item) => item.storeId === storeId);
+
+        if (existingStore) {
+          existingStore.storePartners.push({ ...rest });
+        } else {
+          transformedData.push({
+            storeId,
+            storePartners: [{ ...rest }],
+          });
+        }
+      });
+
+      return transformedData;
+    };
+
+    const updatedData = transformData(listStorePartners);
+    setTransformedData(updatedData);
+  }, [listStorePartners]);
+
+  const listPartners = transformedData.filter((item) => item.storeId === store.storeId);
 
   return (
     <>
@@ -61,15 +78,19 @@ function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
         </TableCell>
 
         <TableCell align="left" onClick={() => handleNavigateDetail(store.storeId)}>
-          <AvatarGroup max={4} sx={{ justifyContent: 'left' }}>
-            {storePartners?.storePartners.map((partner) => (
-              <Avatar key={partner.partnerName} alt={partner.partnerName} src={partner.partnerLogo} />
-            ))}
-          </AvatarGroup>
+          {listPartners.length === 0 ? (
+            <Typography variant="body2">Chưa có đối tác</Typography>
+          ) : (
+            <AvatarGroup max={4} sx={{ justifyContent: 'left' }}>
+              {listPartners[0]?.storePartners.map((partner) => (
+                <Avatar key={partner.partnerName} alt={partner.partnerName} src={partner.partnerLogo} />
+              ))}
+            </AvatarGroup>
+          )}
         </TableCell>
 
         <TableCell align="right">
-          <IconButton onClick={() => setOpenList(openList === index ? -1 : index)}>
+          <IconButton disabled={listPartners.length === 0} onClick={() => setOpenList(openList === index ? -1 : index)}>
             {openList === index ? <ExpandLess /> : <ExpandMore />}
           </IconButton>
         </TableCell>
@@ -84,7 +105,7 @@ function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
               </Stack>
             ) : (
               <Stack direction="column">
-                {storePartners?.storePartners.map((partner) => (
+                {listPartners[0]?.storePartners?.map((partner) => (
                   <OnlyPartnerRow key={partner.partnerName} partner={partner} storeId={store.storeId} />
                 ))}
               </Stack>

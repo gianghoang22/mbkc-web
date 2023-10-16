@@ -99,7 +99,7 @@ function PartnerTableRow({ lengthPartners, index, partner, showAction = false, s
               ? translate('status.inactive')
               : partner?.status === Status.ACTIVE
               ? translate('status.active')
-              : translate('status.deactive')}
+              : translate('status.deActive')}
           </Label>
         </TableCell>
         {showAction && (

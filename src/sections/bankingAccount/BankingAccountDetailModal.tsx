@@ -49,8 +49,6 @@ function BankingAccountDetailModal({
   //   return { bankingAccountId: bankingAccountId, navigate };
   // }, [bankingAccountId, navigate]);
 
-  // console.log(params);
-
   // useEffect(() => {
   //   dispatch<any>(getBankingAccountDetails(params));
   // }, []);

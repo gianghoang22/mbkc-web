@@ -8,7 +8,7 @@
   "status": {
     "active": "Active",
     "inactive": "Inactive",
-    "deactive": "Deactive",
+    "deActive": "Deactive",
     "beConfirming": "Confirming",
     "reject": "Reject"
   },

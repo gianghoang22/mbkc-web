@@ -42,8 +42,6 @@ function UpdatePasswordToUseModal({ isOpen, handleOpen, handleClose }: UpdatePas
 
   const { userAuth, userInfo, isLoading } = useAppSelector((state) => state.auth);
 
-  console.log(userAuth?.isConfirmed);
-
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
 

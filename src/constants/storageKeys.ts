@@ -25,6 +25,7 @@ const StorageKeys = {
   IS_EDIT_MAPPING_PRODUCT: 'isEditingProduct',
   IS_EDIT_PARTNER: 'isEditingPartner',
   IS_EDIT_KITCHEN_CENTER: 'isEditingKitchenCenter',
+  IS_ADD_FORM_DETAIL: 'isAddFormDetail',
 
   // pagination
   PAGE: 'page',
@@ -32,6 +33,9 @@ const StorageKeys = {
 
   // category
   CATEGORY_TYPE: 'categoryType',
+
+  //id
+  STORE_ID: 'storeId',
 };
 
 export { StorageKeys };

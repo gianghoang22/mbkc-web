@@ -41,8 +41,6 @@ function CategoryTableRow({
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  console.log(categoryType);
-
   const handleNavigateDetail = () => {
     navigate(PATH_BRAND_APP.category.root + `/detail/${category.categoryId}`);
     dispatch(setCategoryType(categoryType));
@@ -137,7 +135,7 @@ function CategoryTableRow({
               ? translate('status.inactive')
               : category?.status === Status.ACTIVE
               ? translate('status.active')
-              : translate('status.deactive')}
+              : translate('status.deActive')}
           </Label>
         </TableCell>
         {!showAction && (

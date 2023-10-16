@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { StorePartner, StorePartnerDetail } from '@types';
+import { Store, StorePartner, StorePartnerDetail } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
-import { getIsEditing, setLocalStorage } from 'utils';
+import { getIdInStorage, getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewStorePartnerThunk,
   deleteStorePartnerThunk,
@@ -13,10 +13,14 @@ import {
 } from './storePartnerThunk';
 
 interface StorePartnerState {
+  isAddFormDetail: boolean;
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
+  storeId: number;
+  store: Store | null;
+  listStorePartners: StorePartnerDetail[];
   storePartners: StorePartner | null;
   storePartner: StorePartnerDetail | null;
   totalPage: number;
@@ -25,14 +29,21 @@ interface StorePartnerState {
 
 const getIsEditingInStorage =
   getIsEditing(StorageKeys.IS_EDIT_STORE_PARTNER) === true ? getIsEditing(StorageKeys.IS_EDIT_STORE_PARTNER) : false;
+const getIsAddFormDetailInStorage =
+  getIsEditing(StorageKeys.IS_ADD_FORM_DETAIL) === true ? getIsEditing(StorageKeys.IS_ADD_FORM_DETAIL) : false;
+const getStoreIdlInStorage = getIdInStorage(StorageKeys.STORE_ID);
 
 const initialState: StorePartnerState = {
+  isAddFormDetail: getIsAddFormDetailInStorage,
   isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
+  listStorePartners: [],
   storePartners: null,
   storePartner: null,
+  store: null,
+  storeId: getStoreIdlInStorage,
   totalPage: 0,
   numberItems: 5,
 };
@@ -93,6 +104,7 @@ const storePartnerSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.listStorePartners = action.payload.storePartners;
       })
       .addCase(getAllStorePartners.rejected, (state) => {
         state.isLoading = false;
