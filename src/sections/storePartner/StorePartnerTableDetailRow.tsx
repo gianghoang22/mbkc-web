@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, InputBase, Stack, Switch, Typography } from '@mui/material';
-// @mui icon
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Avatar, IconButton, InputBase, Stack, Switch, TableCell, TableRow } from '@mui/material';
 // redux
 import { useAppDispatch } from 'redux/configStore';
 import {
@@ -21,19 +19,20 @@ import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import UpdateStorePartnerModal from './UpdateStorePartnerModal';
 
-interface OnlyPartnerRowProps {
-  storeId: number;
+interface StorePartnerTableDetailRowProps {
   partner: PartnerInStore;
+  storeId: number;
+  index: number;
 }
 
-function OnlyPartnerRow({ partner, storeId }: OnlyPartnerRowProps) {
+function StorePartnerTableDetailRow({ index, partner, storeId }: StorePartnerTableDetailRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { translate } = useLocales();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
   const { handleOpen, isOpen } = useModal();
   const { handleOpen: handleOpenUpdate, isOpen: isOpenUpdate } = useModal();
-  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -46,7 +45,7 @@ function OnlyPartnerRow({ partner, storeId }: OnlyPartnerRowProps) {
     handleOpen();
     dispatch(
       deleteStorePartner({
-        idParams: { storeId: storeId, partnerId: partner.partnerId },
+        idParams: { storeId, partnerId: partner.partnerId },
         pathname: pathname,
         navigate,
       })
@@ -70,46 +69,34 @@ function OnlyPartnerRow({ partner, storeId }: OnlyPartnerRowProps) {
 
   return (
     <>
-      <Stack direction="row" alignItems="center" sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <Stack width={30}>
-          <FiberManualRecordIcon sx={{ fontSize: 10, color: (theme) => theme.palette.grey[500] }} />
-        </Stack>
-        <Stack width={60}>
+      <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
+        <TableCell width={80} align="center">
+          {index + 1}
+        </TableCell>
+
+        <TableCell component="th" scope="row" width={100}>
           <Avatar alt={partner.partnerName} src={partner.partnerLogo} />
-        </Stack>
-        <Stack width={170} px={2}>
-          <Typography variant="subtitle2" noWrap>
-            {partner.partnerName}
-          </Typography>
-        </Stack>
-        <Stack width={170} px={2}>
-          <Typography variant="caption" sx={{ color: (theme) => theme.palette.grey[500] }}>
-            {translate('page.form.userName')}
-          </Typography>
-          <Typography variant="body2" lineHeight={2.286} noWrap>
-            {partner.userName}
-          </Typography>
-        </Stack>
-        <Stack>
-          <Stack direction="row" alignItems="end" gap={5} width={380} px={2}>
+        </TableCell>
+
+        <TableCell align="left">{partner.partnerName}</TableCell>
+
+        <TableCell align="left">{partner.userName}</TableCell>
+        <TableCell align="left">
+          <Stack direction="row" alignItems="center" gap={3}>
             <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
               {showPassword ? <VisibilityIcon fontSize="small" /> : <VisibilityOffIcon fontSize="small" />}
             </IconButton>
 
             <Stack>
-              <Typography variant="caption" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                {translate('page.form.password')}
-              </Typography>
               <InputBase
-                readOnly
                 value={showPassword ? partner.password : '888888888'}
                 type={showPassword ? 'text' : 'password'}
-                sx={{ mb: 0.4 }}
               />
             </Stack>
           </Stack>
-        </Stack>
-        <Stack>
+        </TableCell>
+
+        <TableCell align="left">
           <Label
             color={
               partner?.status === Status.ACTIVE
@@ -125,8 +112,9 @@ function OnlyPartnerRow({ partner, storeId }: OnlyPartnerRowProps) {
               ? translate('status.active')
               : translate('status.deActive')}
           </Label>
-        </Stack>
-        <Stack direction="row" alignItems="center" justifyContent="right" sx={{ ml: 'auto' }}>
+        </TableCell>
+
+        <TableCell align="right">
           <Switch
             size="small"
             onClick={handleUpdateStatus}
@@ -138,11 +126,10 @@ function OnlyPartnerRow({ partner, storeId }: OnlyPartnerRowProps) {
           <IconButton color="inherit" disabled={partner.status === Status.DEACTIVE} onClick={handleOpenMenu}>
             <MoreVertIcon />
           </IconButton>
-        </Stack>
-      </Stack>
+        </TableCell>
+      </TableRow>
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
-
       {isOpenUpdate && (
         <UpdateStorePartnerModal
           isOpen={isOpenUpdate}
@@ -170,4 +157,4 @@ function OnlyPartnerRow({ partner, storeId }: OnlyPartnerRowProps) {
   );
 }
 
-export default OnlyPartnerRow;
+export default StorePartnerTableDetailRow;

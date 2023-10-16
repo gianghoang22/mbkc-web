@@ -9,6 +9,7 @@ import {
   OrderTable,
   PartnerTable,
   ProductTable,
+  StorePartnerDetailTable,
   StorePartnerTable,
   StoreTable,
 } from '@types';
@@ -391,6 +392,55 @@ function useConfigHeadTable() {
     },
   ];
 
+  const storePartnerDetailHeadCells: HeadCell<StorePartnerDetailTable>[] = [
+    {
+      id: 'partnerLogo',
+      label: translate('table.logo'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
+      id: 'partnerName',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.partner'),
+              name: translate('page.form.nameLower'),
+            }
+          : {
+              model: translate('page.form.name'),
+              name: translate('model.lowercase.partner'),
+            }
+      ),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
+      id: 'userName',
+      label: translate('page.form.userName'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
+      id: 'password',
+      label: translate('page.form.password'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: translate('table.status'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+  ];
+
   const OrderHeadCells: HeadCell<OrderTable>[] = [
     {
       id: 'orderCode',
@@ -479,6 +529,7 @@ function useConfigHeadTable() {
     OrderHeadCells,
     MoneyExchangeHeadCells,
     storePartnerHeadCells,
+    storePartnerDetailHeadCells,
   };
 }
 

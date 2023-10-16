@@ -8,14 +8,15 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { setAddStorePartner } from 'redux/storePartner/storePartnerSlice';
 import { getAllStores } from 'redux/store/storeSlice';
+import { setAddStorePartner } from 'redux/storePartner/storePartnerSlice';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { StorePartnerTableRow, StorePartnerTableRowSkeleton, StorePartnerTableToolbar } from 'sections/storePartner';
+import { StoreTableToolbar } from 'sections/store';
+import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
 import { getComparator, stableSort } from 'utils';
 
 function ListStorePartnerPage() {
@@ -93,7 +94,7 @@ function ListStorePartnerPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <StorePartnerTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>

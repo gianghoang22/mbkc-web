@@ -53,6 +53,14 @@ export interface StorePartnerTable {
   storeName: string;
   kitchenCenterName: string;
 }
+
+export interface StorePartnerDetailTable {
+  partnerName: string;
+  partnerLogo: string;
+  userName: string;
+  password: string;
+  status: string;
+}
 export interface CategoryTable {
   imageUrl: string;
   name: string;

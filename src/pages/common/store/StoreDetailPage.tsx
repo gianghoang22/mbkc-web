@@ -1,19 +1,41 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-// @mui
+// @mui icon
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Box, Button, Divider, Grid, Popover as MUIPopover, MenuItem, Stack, Typography } from '@mui/material';
-//
-import { Color, Language, PopoverType, Role, Status } from 'common/enum';
-import { ConfirmDialog, Label, Page, Popover } from 'components';
-import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
+// @mui
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  Divider,
+  Grid,
+  Popover as MUIPopover,
+  MenuItem,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TablePagination,
+  Typography,
+} from '@mui/material';
+// redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { deleteStore, getStoreDetail, setEditStore } from 'redux/store/storeSlice';
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { getAllStorePartnersByStoreId } from 'redux/storePartner/storePartnerSlice';
+// section
 import { ConfirmRegistrationStore, StoreDetailPageSkeleton } from 'sections/store';
+import { StorePartnerTableDetailRow, StorePartnerTableDetailRowSkeleton } from 'sections/storePartner';
+//
+import { OrderSort, StorePartnerDetailTable } from '@types';
+import { Color, Language, PopoverType, Role, Status } from 'common/enum';
+import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover } from 'components';
+import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 function StoreDetailPage() {
   const { id: storeId } = useParams();
@@ -23,9 +45,11 @@ function StoreDetailPage() {
   const mdSm = useResponsive('up', 'md', 'md');
   const mdXs = useResponsive('up', 'xs', 'xs');
   const { translate, currentLang } = useLocales();
+  const { storePartnerDetailHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal();
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
   const {
     open: openConfirm,
     handleOpenMenu: handleOpenMenuConfirm,
@@ -34,11 +58,21 @@ function StoreDetailPage() {
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
-  const { isLoading, store } = useAppSelector((state) => state.store);
+  const { isLoading: isLoadingStore, store } = useAppSelector((state) => state.store);
+  const { storePartners, isLoading: isLoadingStorePartner } = useAppSelector((state) => state.storePartner);
 
   const [status, setStatus] = useState<Status>(Status.ACTIVE);
 
-  const params = useMemo(() => {
+  const [order, setOrder] = useState<OrderSort>('asc');
+  const [orderBy, setOrderBy] = useState<keyof StorePartnerDetailTable>('partnerName');
+
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StorePartnerDetailTable) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const paramsStoreDetail = useMemo(() => {
     return {
       storeId,
       navigate,
@@ -46,8 +80,8 @@ function StoreDetailPage() {
   }, [storeId, navigate]);
 
   useEffect(() => {
-    dispatch(getStoreDetail(params));
-  }, [dispatch, navigate, params]);
+    dispatch(getStoreDetail(paramsStoreDetail));
+  }, [dispatch, navigate, paramsStoreDetail]);
 
   const handleDelete = () => {
     handleOpenModal(store?.name);
@@ -59,6 +93,17 @@ function StoreDetailPage() {
       })
     );
   };
+
+  const params = useMemo(() => {
+    return {
+      storeId,
+      navigate,
+    };
+  }, [storeId, navigate]);
+
+  useEffect(() => {
+    dispatch(getAllStorePartnersByStoreId(params));
+  }, [dispatch, navigate, params]);
 
   return (
     <>
@@ -122,7 +167,7 @@ function StoreDetailPage() {
           return listAction;
         }}
       >
-        {isLoading ? (
+        {isLoadingStore ? (
           <StoreDetailPageSkeleton rejectedReason={store?.rejectedReason} />
         ) : (
           <>
@@ -163,7 +208,7 @@ function StoreDetailPage() {
                         ? translate('status.beConfirming')
                         : store?.status === Status.REJECTED
                         ? translate('status.reject')
-                        : translate('status.deactive')}
+                        : translate('status.deActive')}
                     </Label>
                   </Stack>
 
@@ -185,104 +230,163 @@ function StoreDetailPage() {
                     <Typography variant="body1">{store?.storeManagerEmail}</Typography>
                   </Stack>
 
-                  <Divider />
+                  {userAuth?.roleName === Role.MBKC_ADMIN ||
+                    (userAuth?.roleName === Role.BRAND_MANAGER && (
+                      <>
+                        <Divider />
 
-                  <Stack direction="row" alignItems="start" gap={2}>
-                    <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
-                      {translate('table.kitchenCenter')}
-                    </Typography>
-                    <Stack direction="row" alignItems="start" gap={1}>
-                      <img src={store?.kitchenCenter.logo} alt={store?.kitchenCenter.name} height={120} width={120} />
-                      <Stack gap={0.5}>
-                        <Typography variant="subtitle1">
-                          {translate('table.name')}:{' '}
-                          <Typography component="span" variant="body1">
-                            {store?.kitchenCenter.name}
+                        <Stack direction="row" alignItems="start" gap={2}>
+                          <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
+                            {translate('table.kitchenCenter')}
                           </Typography>
-                        </Typography>
+                          <Stack direction="row" alignItems="start" gap={1}>
+                            <img
+                              src={store?.kitchenCenter.logo}
+                              alt={store?.kitchenCenter.name}
+                              height={120}
+                              width={120}
+                            />
+                            <Stack gap={0.5}>
+                              <Typography variant="subtitle1">
+                                {translate('table.name')}:{' '}
+                                <Typography component="span" variant="body1">
+                                  {store?.kitchenCenter.name}
+                                </Typography>
+                              </Typography>
 
-                        <Typography variant="subtitle1">
-                          {translate('table.address')}:{' '}
-                          <Typography component="span" variant="body1">
-                            {store?.kitchenCenter.address}
+                              <Typography variant="subtitle1">
+                                {translate('table.address')}:{' '}
+                                <Typography component="span" variant="body1">
+                                  {store?.kitchenCenter.address}
+                                </Typography>
+                              </Typography>
+                            </Stack>
+                          </Stack>
+                        </Stack>
+                      </>
+                    ))}
+
+                  {userAuth?.roleName === Role.MBKC_ADMIN ||
+                    (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER && (
+                      <>
+                        <Divider />
+
+                        {/* Role = 'MBKC Admin' */}
+                        <Stack direction="row" alignItems="start" gap={2}>
+                          <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
+                            {translate('table.brand')}
                           </Typography>
-                        </Typography>
-                      </Stack>
-                    </Stack>
-                  </Stack>
+                          <Stack direction="row" alignItems="start" gap={1}>
+                            <Box sx={{ border: 1, borderColor: (theme) => theme.palette.primary.main }}>
+                              <img src={store?.brand.logo} alt={store?.brand.name} height={120} width={120} />
+                            </Box>
+                            <Stack gap={0.5}>
+                              <Typography variant="subtitle1">
+                                {translate('table.name')}:{' '}
+                                <Typography component="span" variant="body1">
+                                  {store?.brand.name}
+                                </Typography>
+                              </Typography>
+                            </Stack>
+                          </Stack>
+                        </Stack>
+                      </>
+                    ))}
 
-                  <Divider />
+                  {userAuth?.roleName === Role.MBKC_ADMIN ||
+                    (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER && (
+                      <>
+                        <Divider />
 
-                  {/* Role = 'MBKC Admin' */}
-                  <Stack direction="row" alignItems="start" gap={2}>
-                    <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
-                      {translate('table.brand')}
-                    </Typography>
-                    <Stack direction="row" alignItems="start" gap={1}>
-                      <Box sx={{ border: 1, borderColor: (theme) => theme.palette.primary.main }}>
-                        <img src={store?.brand.logo} alt={store?.brand.name} height={120} width={120} />
-                      </Box>
-                      <Stack gap={0.5}>
-                        <Typography variant="subtitle1">
-                          {translate('table.name')}:{' '}
-                          <Typography component="span" variant="body1">
-                            {store?.brand.name}
+                        <Stack direction="row" alignItems="start" gap={2}>
+                          <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
+                            {translate('table.partner')}
                           </Typography>
-                        </Typography>
-                      </Stack>
-                    </Stack>
-                  </Stack>
-
-                  {/* <Divider /> */}
-
-                  {/* <Stack direction="row" alignItems="start">
-                  <Typography variant="subtitle1" width="150px">
-                    {translate('table.partner')}
-                  </Typography>
-                  <Stack direction="row" gap={2.5}>
-                    <Stack direction="row" gap={3}>
-                      <Stack
-                        direction="row"
-                        gap={1}
-                        sx={(theme) => ({
-                          p: 1.2,
-                          borderRadius: 1,
-                          backgroundColor: theme.palette.grey[200],
-                        })}
-                      >
-                        <Avatar
-                          src="/assets/images/avatars/avatar_1.jpg"
-                          alt="partner"
-                          variant="rounded"
-                          sx={{ width: 45, height: 45 }}
-                        />
-                        <Typography variant="subtitle2">Shoppe Food</Typography>
-                      </Stack>
-                    </Stack>
-                    <Stack direction="row" gap={3}>
-                      <Stack
-                        direction="row"
-                        gap={1}
-                        sx={(theme) => ({
-                          p: 1.2,
-                          borderRadius: 1,
-                          backgroundColor: theme.palette.grey[200],
-                        })}
-                      >
-                        <Avatar
-                          src="/assets/images/avatars/avatar_1.jpg"
-                          alt="partner"
-                          variant="rounded"
-                          sx={{ width: 45, height: 45 }}
-                        />
-                        <Typography variant="subtitle2">Shoppe Food</Typography>
-                      </Stack>
-                    </Stack>
-                  </Stack>
-                </Stack> */}
+                          <Stack direction="row" gap={3}>
+                            {storePartners?.storePartners?.map((partner) => (
+                              <Stack
+                                key={partner.partnerId}
+                                direction="row"
+                                gap={1}
+                                sx={(theme) => ({
+                                  p: 1.2,
+                                  borderRadius: 1,
+                                  backgroundColor: theme.palette.grey[200],
+                                })}
+                              >
+                                <Avatar
+                                  src={partner.partnerLogo}
+                                  alt="partner"
+                                  variant="rounded"
+                                  sx={{ width: 45, height: 45 }}
+                                />
+                                <Typography variant="subtitle2">{partner.partnerName}</Typography>
+                              </Stack>
+                            ))}
+                          </Stack>
+                        </Stack>
+                      </>
+                    ))}
                 </Stack>
               </Grid>
             </Grid>
+
+            {userAuth?.roleName === Role.BRAND_MANAGER && (
+              <Card sx={{ mt: 7 }}>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={1.5}>
+                  <Typography variant="h6" textTransform="capitalize">
+                    {translate('model.lowercase.storePartner')}
+                  </Typography>
+                </Stack>
+
+                <Box sx={{ width: '100%' }}>
+                  <Paper sx={{ width: '100%', mb: 2 }}>
+                    <TableContainer>
+                      <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                        <CommonTableHead<StorePartnerDetailTable>
+                          showAction
+                          order={order}
+                          orderBy={orderBy}
+                          headCells={storePartnerDetailHeadCells}
+                          onRequestSort={handleRequestSort}
+                        />
+                        {isLoadingStorePartner ? (
+                          <StorePartnerTableDetailRowSkeleton />
+                        ) : (
+                          <TableBody>
+                            {storePartners?.storePartners?.map((partner, index) => {
+                              return (
+                                <StorePartnerTableDetailRow
+                                  key={partner.partnerId}
+                                  index={index}
+                                  partner={partner}
+                                  storeId={Number(storeId)}
+                                />
+                              );
+                            })}
+                            {storePartners?.storePartners?.length === 0 && (
+                              <EmptyTable
+                                colNumber={storePartnerDetailHeadCells.length + 2}
+                                model={translate('model.lowercase.storePartner')}
+                              />
+                            )}
+                          </TableBody>
+                        )}
+                      </Table>
+                    </TableContainer>
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      component="div"
+                      count={storePartners?.storePartners ? storePartners?.storePartners?.length : 5}
+                      page={page}
+                      rowsPerPage={rowsPerPage}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </Paper>
+                </Box>
+              </Card>
+            )}
 
             <Box mt={10} textAlign="right">
               <Button color="inherit" variant="outlined" onClick={() => navigate(pathnameToBack)}>

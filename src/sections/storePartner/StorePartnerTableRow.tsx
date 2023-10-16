@@ -26,7 +26,7 @@ function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
   const { pathname } = useLocation();
 
   const { storePartners, isLoading } = useAppSelector((state) => state.storePartner);
-  console.log(storePartners);
+
   const [openList, setOpenList] = useState(-1);
 
   const handleNavigateDetail = (storeId: number) => {

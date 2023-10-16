@@ -91,7 +91,7 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
               ? translate('status.inactive')
               : cashier?.status === Status.ACTIVE
               ? translate('status.active')
-              : translate('status.deactive')}
+              : translate('status.deActive')}
           </Label>
         </TableCell>
         <TableCell align="right">

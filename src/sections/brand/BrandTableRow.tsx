@@ -94,7 +94,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
               ? translate('status.inactive')
               : brand?.status === Status.ACTIVE
               ? translate('status.active')
-              : translate('status.deactive')}
+              : translate('status.deActive')}
           </Label>
         </TableCell>
         <TableCell align="right">

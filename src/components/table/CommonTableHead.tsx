@@ -17,8 +17,8 @@ interface CommonTableHeadProps<T> {
   hideStatus?: boolean;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
   onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: OrderSort;
-  orderBy: string;
+  order?: OrderSort;
+  orderBy?: string;
   headCells: HeadCell<T>[];
 }
 

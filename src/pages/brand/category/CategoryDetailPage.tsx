@@ -138,7 +138,7 @@ function CategoryDetailPage() {
                             ? translate('status.inactive')
                             : category?.status === Status.ACTIVE
                             ? translate('status.active')
-                            : translate('status.deactive')}
+                            : translate('status.deActive')}
                         </Label>
                       </Stack>
 

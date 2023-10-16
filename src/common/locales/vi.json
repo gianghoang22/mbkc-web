@@ -8,7 +8,7 @@
   "status": {
     "active": "Hoạt động",
     "inactive": "Không hoạt động",
-    "deactive": "Vô hiệu hóa",
+    "deActive": "Vô hiệu hóa",
     "beConfirming": "Đang xác nhận",
     "reject": "Từ chối"
   },

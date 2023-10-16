@@ -193,7 +193,7 @@ function StoreTableRow({
               ? translate('status.beConfirming')
               : store?.status === Status.REJECTED
               ? translate('status.reject')
-              : translate('status.deactive')}
+              : translate('status.deActive')}
           </Label>
         </TableCell>
 
