@@ -25,7 +25,7 @@ import {
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { deleteStore, getStoreDetail, setEditStore } from 'redux/store/storeSlice';
+import { deleteStore, getStoreDetail, setAddFormDetail, setEditStore } from 'redux/store/storeSlice';
 import { getAllStorePartnersByStoreId } from 'redux/storePartner/storePartnerSlice';
 // section
 import { ConfirmRegistrationStore, StoreDetailPageSkeleton } from 'sections/store';
@@ -333,10 +333,20 @@ function StoreDetailPage() {
 
             {userAuth?.roleName === Role.BRAND_MANAGER && (
               <Card sx={{ mt: 7 }}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={1.5}>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
                   <Typography variant="h6" textTransform="capitalize">
-                    {translate('model.lowercase.storePartner')}
+                    {translate('model.capitalizeOne.storePartner')}
                   </Typography>
+
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      navigate(PATH_BRAND_APP.storePartner.newStorePartner);
+                      dispatch(setAddFormDetail(store));
+                    }}
+                  >
+                    {translate('button.add', { model: translate('model.lowercase.partner') })}
+                  </Button>
                 </Stack>
 
                 <Box sx={{ width: '100%' }}>

@@ -8,16 +8,17 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { getAllStores } from 'redux/store/storeSlice';
-import { setAddStorePartner } from 'redux/storePartner/storePartnerSlice';
+import { getAllStores, setAddFormList } from 'redux/store/storeSlice';
+// section
+import { StoreTableToolbar } from 'sections/store';
+import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { StoreTableToolbar } from 'sections/store';
-import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
-import { getComparator, stableSort } from 'utils';
+import { getComparator, removeLocalStorage, stableSort } from 'utils';
 
 function ListStorePartnerPage() {
   const navigate = useNavigate();
@@ -83,7 +84,8 @@ function ListStorePartnerPage() {
             onClick={() => {
               navigate(PATH_BRAND_APP.storePartner.newStorePartner);
               dispatch(setRoutesToBack(pathname));
-              dispatch(setAddStorePartner());
+              dispatch(setAddFormList());
+              removeLocalStorage(StorageKeys.STORE_ID);
             }}
             startIcon={<AddRoundedIcon />}
           >

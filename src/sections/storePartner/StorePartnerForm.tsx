@@ -11,21 +11,18 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 //
-import { ListParams, StorePartnerToCreate } from '@types';
+import { ListParams } from '@types';
 import { Language } from 'common/enum';
 import { AutoCompleteField, InputField } from 'components';
 import { useLocales } from 'hooks';
+import { CircularProgress } from '@mui/material';
 
-interface StorePartnerFormProps {
-  defaultValues: StorePartnerToCreate;
-}
-
-function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
+function StorePartnerForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
 
-  const { stores } = useAppSelector((state) => state.store);
+  const { stores, store, isLoading } = useAppSelector((state) => state.store);
   const { partners } = useAppSelector((state) => state.partner);
 
   const storeOptions = stores.map((store) => ({
@@ -50,11 +47,15 @@ function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
     return option;
   };
 
-  const { control, getValues, setValue } = useFormContext();
+  const { control, getValues, setValue, watch } = useFormContext();
   const { fields, remove } = useFieldArray({
     control,
     name: 'partnerAccountRequests',
   });
+
+  const storeId = watch('storeId');
+
+  console.log('storeId', storeId);
 
   const params: ListParams = useMemo(() => {
     return {
@@ -101,6 +102,61 @@ function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
             type="text"
             label={translate('model.capitalizeOne.store')}
           />
+
+          <Stack
+            p={1}
+            width="100%"
+            height="120px"
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              borderRadius: '6px',
+              border: 2,
+              borderStyle: 'dashed',
+              borderColor: 'divider',
+            }}
+          >
+            {storeId === 0 || storeId === undefined ? (
+              <Typography>Selected store</Typography>
+            ) : (
+              <>
+                {isLoading ? (
+                  <CircularProgress size={26} />
+                ) : (
+                  <Stack direction="row" gap={1}>
+                    <Box
+                      component="img"
+                      src={store?.logo}
+                      alt={store?.name}
+                      style={{ borderRadius: 6, width: 100, height: 100 }}
+                    />
+
+                    <Stack>
+                      <Typography variant="subtitle1">
+                        {translate('table.name')}:{' '}
+                        <Typography component="span" variant="body1">
+                          {store?.name}
+                        </Typography>
+                      </Typography>
+                      <Typography variant="subtitle1">
+                        {translate('table.kitchenCenter')}:{' '}
+                        <Typography component="span" variant="body1">
+                          {store?.kitchenCenter.name}
+                        </Typography>
+                      </Typography>
+                      <Typography variant="subtitle1">
+                        {translate('table.address')}:{' '}
+                        <Typography component="span" variant="body1">
+                          {store?.kitchenCenter.address}
+                        </Typography>
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                )}
+              </>
+            )}
+          </Stack>
         </Stack>
       </Grid>
       <Grid item md={7} sm={12}>

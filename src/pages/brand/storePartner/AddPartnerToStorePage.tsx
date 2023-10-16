@@ -12,6 +12,8 @@ import { Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { StorePartnerForm } from 'sections/storePartner';
+import { useEffect, useMemo } from 'react';
+import { getStoreDetail } from 'redux/store/storeSlice';
 
 function AddPartnerToStorePage() {
   const navigate = useNavigate();
@@ -22,9 +24,10 @@ function AddPartnerToStorePage() {
 
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { isLoading } = useAppSelector((state) => state.storePartner);
+  const { store, isAddFormDetail, storeId: storeIdInStorage } = useAppSelector((state) => state.store);
 
   const defaultValues = {
-    storeId: 0,
+    storeId: isAddFormDetail ? (store?.storeId !== null ? store?.storeId : storeIdInStorage) : 0,
     partnerAccountRequests: [
       {
         partnerId: 0,
@@ -53,11 +56,26 @@ function AddPartnerToStorePage() {
     // ),
   });
 
-  const { handleSubmit, reset } = createStoreForm;
+  const { handleSubmit, reset, watch } = createStoreForm;
+
+  const storeId = watch('storeId');
+  console.log(storeId);
+
+  const paramsStoreDetail = useMemo(() => {
+    return {
+      storeId,
+      navigate,
+    };
+  }, [storeId, navigate]);
+
+  useEffect(() => {
+    if (storeId !== 0 && storeId !== undefined) {
+      dispatch(getStoreDetail(paramsStoreDetail));
+    }
+  }, [dispatch, navigate, paramsStoreDetail]);
 
   const onSubmit = async (values: StorePartnerToCreate) => {
     const data = { ...values };
-    console.log('data', data);
     const paramCreate: Params<StorePartnerToCreate> = {
       data: data,
       navigate,
@@ -74,7 +92,7 @@ function AddPartnerToStorePage() {
       >
         <FormProvider {...createStoreForm}>
           <Card sx={{ p: 3 }}>
-            <StorePartnerForm defaultValues={defaultValues} />
+            <StorePartnerForm />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
             <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>

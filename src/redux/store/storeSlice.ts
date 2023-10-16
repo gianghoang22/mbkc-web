@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Store } from '@types';
 import { StorageKeys } from 'constants/storageKeys';
-import { getIsEditing, setLocalStorage } from 'utils';
+import { getIdInStorage, getIsEditing, setLocalStorage } from 'utils';
 import {
   confirmRegistrationStoreThunk,
   createNewStoreThunk,
@@ -13,26 +13,33 @@ import {
 } from './storeThunk';
 
 interface StoreState {
+  isAddFormDetail: boolean;
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
   stores: Store[];
   store: Store | null;
+  storeId: number;
   totalPage: number;
   numberItems: number;
 }
 
 const getIsEditingInStorage =
   getIsEditing(StorageKeys.IS_EDIT_STORE) === true ? getIsEditing(StorageKeys.IS_EDIT_STORE) : false;
+const getIsAddFormDetailInStorage =
+  getIsEditing(StorageKeys.IS_ADD_FORM_DETAIL) === true ? getIsEditing(StorageKeys.IS_ADD_FORM_DETAIL) : false;
+const getStoreIdlInStorage = getIdInStorage(StorageKeys.STORE_ID);
 
 const initialState: StoreState = {
+  isAddFormDetail: getIsAddFormDetailInStorage,
   isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
   stores: [],
   store: null,
+  storeId: getStoreIdlInStorage,
   totalPage: 0,
   numberItems: 5,
 };
@@ -63,6 +70,16 @@ const storeSlice = createSlice({
       state.isEditing = true;
       state.store = action.payload;
       setLocalStorage(StorageKeys.IS_EDIT_STORE, true);
+    },
+    setAddFormDetail: (state, action) => {
+      state.isAddFormDetail = true;
+      state.store = action.payload;
+      setLocalStorage(StorageKeys.IS_ADD_FORM_DETAIL, true);
+      setLocalStorage(StorageKeys.STORE_ID, action.payload?.storeId);
+    },
+    setAddFormList: (state) => {
+      state.isAddFormDetail = false;
+      setLocalStorage(StorageKeys.IS_ADD_FORM_DETAIL, false);
     },
   },
   extraReducers(builder) {
@@ -165,7 +182,7 @@ const storeSlice = createSlice({
   },
 });
 
-export const { getStoreDetail_local, setAddStore, setEditStore } = storeSlice.actions;
+export const { getStoreDetail_local, setAddStore, setEditStore, setAddFormDetail, setAddFormList } = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 
 export default storeReducer;

@@ -137,8 +137,10 @@ function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: stri
       </Grid>
 
       <Card sx={{ mt: 7 }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={1.5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
           <Skeleton variant="rounded" width={156} height={28} />
+
+          <Skeleton variant="rounded" width={124} height={36} />
         </Stack>
 
         <Box sx={{ width: '100%' }}>

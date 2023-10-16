@@ -120,6 +120,14 @@ export const getNumberInStorage = (name: string) => {
   return Number(number);
 };
 
+export const getIdInStorage = (name: string) => {
+  const number = getLocalStorage(name);
+  if (number === null || number === undefined) {
+    return 0;
+  }
+  return Number(number);
+};
+
 // cookie
 export const setAccessToken = (accessToken: string) => Cookie.set(StorageKeys.ACCESS_TOKEN, accessToken);
 export const getAccessToken = () =>
