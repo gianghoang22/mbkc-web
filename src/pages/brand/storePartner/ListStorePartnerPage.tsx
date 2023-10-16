@@ -12,6 +12,7 @@ import { getAllStores, setAddFormList } from 'redux/store/storeSlice';
 // section
 import { StoreTableToolbar } from 'sections/store';
 import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
+import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
@@ -71,6 +72,21 @@ function ListStorePartnerPage() {
   useEffect(() => {
     dispatch<any>(getAllStores(paramsBrandRole));
   }, [paramsBrandRole]);
+
+  const paramsStorePartner: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchName: debounceValue,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue]);
+
+  useEffect(() => {
+    dispatch<any>(getAllStorePartners(paramsStorePartner));
+  }, [paramsStorePartner]);
 
   return (
     <>
