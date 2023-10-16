@@ -9,7 +9,6 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-
 import { Store, StorePartnerDetail, StorePartnerToList } from '@types';
 import { PATH_BRAND_APP } from 'routes/paths';
 import OnlyPartnerRow from './OnlyPartnerRow';

@@ -98,7 +98,7 @@ export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCr
 };
 
 export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdate>, thunkAPI: any) => {
-  const { data, idParams, navigate } = params;
+  const { data, idParams, navigate, pathname } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
@@ -111,11 +111,30 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
         data
       );
       if (response) {
-        const paramsCallback = {
-          storeId: idParams?.storeId ? idParams?.storeId : 0,
-          navigate,
-        };
-        await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
+        if (
+          pathname
+            ?.split('/')
+            .slice(2)
+            .filter((x) => x)[1] === 'detail'
+        ) {
+          console.log('Detail');
+          const paramsCallback = {
+            storeId: idParams?.storeId ? idParams?.storeId : 0,
+            navigate,
+          };
+          await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
+        } else {
+          console.log('List');
+          await thunkAPI.dispatch(
+            getAllStorePartners({
+              optionParams: {
+                itemsPerPage: 5,
+                currentPage: 1,
+              },
+              navigate,
+            })
+          );
+        }
         thunkAPI.dispatch(setMessageSuccess('Update store partner successfully'));
       }
       return response;
@@ -128,7 +147,7 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
 };
 
 export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
-  const { data, idParams, navigate } = params;
+  const { data, idParams, navigate, pathname } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
@@ -141,11 +160,30 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
         data
       );
       if (response) {
-        const paramsCallback = {
-          storeId: idParams?.storeId ? idParams?.storeId : 0,
-          navigate,
-        };
-        await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
+        if (
+          pathname
+            ?.split('/')
+            .slice(2)
+            .filter((x) => x)[1] === 'detail'
+        ) {
+          console.log('Detail');
+          const paramsCallback = {
+            storeId: idParams?.storeId ? idParams?.storeId : 0,
+            navigate,
+          };
+          await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
+        } else {
+          console.log('List');
+          await thunkAPI.dispatch(
+            getAllStorePartners({
+              optionParams: {
+                itemsPerPage: 5,
+                currentPage: 1,
+              },
+              navigate,
+            })
+          );
+        }
         thunkAPI.dispatch(setMessageSuccess('Update store partner status successfully'));
       }
       return response;
@@ -158,7 +196,7 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
 };
 
 export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thunkAPI: any) => {
-  const { idParams, navigate } = params;
+  const { idParams, navigate, pathname } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
@@ -170,11 +208,30 @@ export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thun
         )
       );
       if (response) {
-        const paramsCallback = {
-          storeId: idParams?.storeId ? idParams?.storeId : 0,
-          navigate,
-        };
-        await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
+        if (
+          pathname
+            ?.split('/')
+            .slice(2)
+            .filter((x) => x)[1] === 'detail'
+        ) {
+          console.log('Detail');
+          const paramsCallback = {
+            storeId: idParams?.storeId ? idParams?.storeId : 0,
+            navigate,
+          };
+          await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
+        } else {
+          console.log('List');
+          await thunkAPI.dispatch(
+            getAllStorePartners({
+              optionParams: {
+                itemsPerPage: 5,
+                currentPage: 1,
+              },
+              navigate,
+            })
+          );
+        }
         thunkAPI.dispatch(setMessageSuccess('Deleted store partner successfully'));
       }
       return response;

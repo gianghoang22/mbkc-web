@@ -25,7 +25,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeSlice';
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import ConfirmRegistrationStore from './ConfirmRegistrationStore';
 
 interface StoreTableRowProps {
@@ -74,6 +74,8 @@ function StoreTableRow({
     navigate(
       userAuth?.roleName === Role.BRAND_MANAGER
         ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
+        : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+        ? PATH_KITCHEN_CENTER_APP.store.root + `/detail/${storeId}`
         : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
     );
     dispatch(setRoutesToBack(pathname));

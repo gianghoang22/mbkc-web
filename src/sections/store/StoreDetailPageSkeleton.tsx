@@ -139,85 +139,87 @@ function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: stri
         </Grid>
       </Grid>
 
-      <Card sx={{ mt: 7 }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
-          <Skeleton variant="rounded" width={156} height={28} />
+      {userAuth?.roleName === Role.BRAND_MANAGER && (
+        <Card sx={{ mt: 7 }}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
+            <Skeleton variant="rounded" width={156} height={28} />
 
-          <Skeleton variant="rounded" width={124} height={36} />
-        </Stack>
+            <Skeleton variant="rounded" width={124} height={36} />
+          </Stack>
 
-        <Box sx={{ width: '100%' }}>
-          <Paper sx={{ width: '100%', mb: 2 }}>
-            <TableContainer>
-              <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                <CommonTableHead<StorePartnerDetailTable>
-                  showAction
-                  headCells={storePartnerDetailHeadCells}
-                  onRequestSort={() => {}}
-                />
+          <Box sx={{ width: '100%' }}>
+            <Paper sx={{ width: '100%', mb: 2 }}>
+              <TableContainer>
+                <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                  <CommonTableHead<StorePartnerDetailTable>
+                    showAction
+                    headCells={storePartnerDetailHeadCells}
+                    onRequestSort={() => {}}
+                  />
 
-                <TableBody>
-                  {Array.from({ length: 2 }).map((_, index: any) => (
-                    <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
-                      <TableCell width={80} align="center">
-                        <Stack direction="row" alignItems="center" justifyContent="center">
-                          <Skeleton width={20} />
-                        </Stack>
-                      </TableCell>
-
-                      <TableCell component="th" scope="row" width={100}>
-                        <Skeleton variant="circular" width={40} height={40} />
-                      </TableCell>
-
-                      <TableCell align="left" width={150}>
-                        <Skeleton />
-                      </TableCell>
-
-                      <TableCell align="left" width={165}>
-                        <Skeleton />
-                      </TableCell>
-
-                      <TableCell align="left" width={354}>
-                        <Stack direction="row" alignItems="center" gap={3}>
-                          <IconButton color="inherit">
-                            <Skeleton variant="circular" width={28} height={28} />
-                          </IconButton>
-
-                          <Stack>
-                            <Skeleton width={200} />
+                  <TableBody>
+                    {Array.from({ length: 2 }).map((_, index: any) => (
+                      <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
+                        <TableCell width={80} align="center">
+                          <Stack direction="row" alignItems="center" justifyContent="center">
+                            <Skeleton width={20} />
                           </Stack>
-                        </Stack>
-                      </TableCell>
+                        </TableCell>
 
-                      <TableCell align="left">
-                        <Skeleton variant="rounded" width={100} height={24} />
-                      </TableCell>
+                        <TableCell component="th" scope="row" width={100}>
+                          <Skeleton variant="circular" width={40} height={40} />
+                        </TableCell>
 
-                      <TableCell align="right">
-                        <Stack direction="row" alignItems="center" justifyContent="right">
-                          <Skeleton variant="rounded" width={30} height={14} />
-                          <IconButton color="inherit">
-                            <Skeleton variant="circular" width={28} height={28} />
-                          </IconButton>
-                        </Stack>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={5}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper>
-        </Box>
-      </Card>
+                        <TableCell align="left" width={150}>
+                          <Skeleton />
+                        </TableCell>
+
+                        <TableCell align="left" width={165}>
+                          <Skeleton />
+                        </TableCell>
+
+                        <TableCell align="left" width={354}>
+                          <Stack direction="row" alignItems="center" gap={3}>
+                            <IconButton color="inherit">
+                              <Skeleton variant="circular" width={28} height={28} />
+                            </IconButton>
+
+                            <Stack>
+                              <Skeleton width={200} />
+                            </Stack>
+                          </Stack>
+                        </TableCell>
+
+                        <TableCell align="left">
+                          <Skeleton variant="rounded" width={100} height={24} />
+                        </TableCell>
+
+                        <TableCell align="right">
+                          <Stack direction="row" alignItems="center" justifyContent="right">
+                            <Skeleton variant="rounded" width={30} height={14} />
+                            <IconButton color="inherit">
+                              <Skeleton variant="circular" width={28} height={28} />
+                            </IconButton>
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={5}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+          </Box>
+        </Card>
+      )}
 
       <Stack direction="row" justifyContent="right" mt={10}>
         <Skeleton variant="rounded" width={79} height={36} />
