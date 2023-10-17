@@ -59,82 +59,79 @@ function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: stri
               <Skeleton variant="rounded" width={100} height={24} />
             </Stack>
 
-            {userAuth?.roleName === Role.MBKC_ADMIN ||
-              (userAuth?.roleName === Role.BRAND_MANAGER && (
-                <>
-                  <Divider />
+            {(userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER) && (
+              <>
+                <Divider />
 
+                <Stack direction="row" alignItems="start" gap={2}>
+                  <Skeleton width={!mdUp ? 150 : 120} />
+                  <Stack direction="row" alignItems="start" gap={1}>
+                    <Skeleton variant="rectangular" width={120} height={120} />
+                    <Stack gap={0.5}>
+                      <Skeleton width={!mdUp ? 290 : 480} />
+                      <Skeleton width={!mdUp ? 290 : 480} />
+                      {!mdUp && <Skeleton width={290} />}
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </>
+            )}
+
+            {(userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) && (
+              <>
+                <Divider />
+                {/* Role = 'MBKC Admin' */}
+                <Stack direction="row" alignItems="start" gap={2}>
+                  <Skeleton width={!mdUp ? 150 : 120} />
+                  <Stack direction="row" alignItems="start" gap={1}>
+                    <Skeleton variant="rectangular" width={120} height={120} />
+                    <Stack gap={0.5}>
+                      <Skeleton width={!mdUp ? 290 : 480} />
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </>
+            )}
+
+            {(userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) && (
+              <>
+                <Divider />
+                {/* Role = 'MBKC Admin' */}
+                <Stack direction="row" alignItems="start" gap={2}>
+                  <Skeleton width={!mdUp ? 150 : 120} />
                   <Stack direction="row" alignItems="start" gap={2}>
-                    <Skeleton width={!mdUp ? 150 : 120} />
-                    <Stack direction="row" alignItems="start" gap={1}>
-                      <Skeleton variant="rectangular" width={120} height={120} />
-                      <Stack gap={0.5}>
-                        <Skeleton width={!mdUp ? 290 : 480} />
-                        <Skeleton width={!mdUp ? 290 : 480} />
-                        {!mdUp && <Skeleton width={290} />}
+                    <Stack
+                      direction="row"
+                      gap={1}
+                      sx={(theme) => ({
+                        p: 1.2,
+                        borderRadius: 1,
+                        backgroundColor: theme.palette.grey[200],
+                      })}
+                    >
+                      <Skeleton variant="rounded" width={45} height={45} />
+                      <Stack>
+                        <Skeleton width={100} />
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      gap={1}
+                      sx={(theme) => ({
+                        p: 1.2,
+                        borderRadius: 1,
+                        backgroundColor: theme.palette.grey[200],
+                      })}
+                    >
+                      <Skeleton variant="rounded" width={45} height={45} />
+                      <Stack>
+                        <Skeleton width={100} />
                       </Stack>
                     </Stack>
                   </Stack>
-                </>
-              ))}
-
-            {userAuth?.roleName === Role.MBKC_ADMIN ||
-              (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER && (
-                <>
-                  <Divider />
-                  {/* Role = 'MBKC Admin' */}
-                  <Stack direction="row" alignItems="start" gap={2}>
-                    <Skeleton width={!mdUp ? 150 : 120} />
-                    <Stack direction="row" alignItems="start" gap={1}>
-                      <Skeleton variant="rectangular" width={120} height={120} />
-                      <Stack gap={0.5}>
-                        <Skeleton width={!mdUp ? 290 : 480} />
-                      </Stack>
-                    </Stack>
-                  </Stack>
-                </>
-              ))}
-
-            {userAuth?.roleName === Role.MBKC_ADMIN ||
-              (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER && (
-                <>
-                  <Divider />
-                  {/* Role = 'MBKC Admin' */}
-                  <Stack direction="row" alignItems="start" gap={2}>
-                    <Skeleton width={!mdUp ? 150 : 120} />
-                    <Stack direction="row" alignItems="start" gap={2}>
-                      <Stack
-                        direction="row"
-                        gap={1}
-                        sx={(theme) => ({
-                          p: 1.2,
-                          borderRadius: 1,
-                          backgroundColor: theme.palette.grey[200],
-                        })}
-                      >
-                        <Skeleton variant="rounded" width={45} height={45} />
-                        <Stack>
-                          <Skeleton width={100} />
-                        </Stack>
-                      </Stack>
-                      <Stack
-                        direction="row"
-                        gap={1}
-                        sx={(theme) => ({
-                          p: 1.2,
-                          borderRadius: 1,
-                          backgroundColor: theme.palette.grey[200],
-                        })}
-                      >
-                        <Skeleton variant="rounded" width={45} height={45} />
-                        <Stack>
-                          <Skeleton width={100} />
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Stack>
-                </>
-              ))}
+                </Stack>
+              </>
+            )}
           </Stack>
         </Grid>
       </Grid>

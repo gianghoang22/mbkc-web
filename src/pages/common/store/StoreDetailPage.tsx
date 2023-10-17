@@ -61,6 +61,8 @@ function StoreDetailPage() {
   const { isLoading: isLoadingStore, store } = useAppSelector((state) => state.store);
   const { storePartners, isLoading: isLoadingStorePartner } = useAppSelector((state) => state.storePartner);
 
+  console.log('storePartners', storePartners);
+
   const [status, setStatus] = useState<Status>(Status.ACTIVE);
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -230,78 +232,78 @@ function StoreDetailPage() {
                     <Typography variant="body1">{store?.storeManagerEmail}</Typography>
                   </Stack>
 
-                  {userAuth?.roleName === Role.MBKC_ADMIN ||
-                    (userAuth?.roleName === Role.BRAND_MANAGER && (
-                      <>
-                        <Divider />
+                  {(userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER) && (
+                    <>
+                      <Divider />
 
-                        <Stack direction="row" alignItems="start" gap={2}>
-                          <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
-                            {translate('table.kitchenCenter')}
-                          </Typography>
-                          <Stack direction="row" alignItems="start" gap={1}>
-                            <img
-                              src={store?.kitchenCenter.logo}
-                              alt={store?.kitchenCenter.name}
-                              height={120}
-                              width={120}
-                            />
-                            <Stack gap={0.5}>
-                              <Typography variant="subtitle1">
-                                {translate('table.name')}:{' '}
-                                <Typography component="span" variant="body1">
-                                  {store?.kitchenCenter.name}
-                                </Typography>
+                      <Stack direction="row" alignItems="start" gap={2}>
+                        <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
+                          {translate('table.kitchenCenter')}
+                        </Typography>
+                        <Stack direction="row" alignItems="start" gap={1}>
+                          <img
+                            src={store?.kitchenCenter.logo}
+                            alt={store?.kitchenCenter.name}
+                            height={120}
+                            width={120}
+                          />
+                          <Stack gap={0.5}>
+                            <Typography variant="subtitle1">
+                              {translate('table.name')}:{' '}
+                              <Typography component="span" variant="body1">
+                                {store?.kitchenCenter.name}
                               </Typography>
+                            </Typography>
 
-                              <Typography variant="subtitle1">
-                                {translate('table.address')}:{' '}
-                                <Typography component="span" variant="body1">
-                                  {store?.kitchenCenter.address}
-                                </Typography>
+                            <Typography variant="subtitle1">
+                              {translate('table.address')}:{' '}
+                              <Typography component="span" variant="body1">
+                                {store?.kitchenCenter.address}
                               </Typography>
-                            </Stack>
+                            </Typography>
                           </Stack>
                         </Stack>
-                      </>
-                    ))}
+                      </Stack>
+                    </>
+                  )}
 
-                  {userAuth?.roleName === Role.MBKC_ADMIN ||
-                    (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER && (
-                      <>
-                        <Divider />
+                  {(userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) && (
+                    <>
+                      <Divider />
 
-                        {/* Role = 'MBKC Admin' */}
-                        <Stack direction="row" alignItems="start" gap={2}>
-                          <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
-                            {translate('table.brand')}
-                          </Typography>
-                          <Stack direction="row" alignItems="start" gap={1}>
-                            <Box sx={{ border: 1, borderColor: (theme) => theme.palette.primary.main }}>
-                              <img src={store?.brand.logo} alt={store?.brand.name} height={120} width={120} />
-                            </Box>
-                            <Stack gap={0.5}>
-                              <Typography variant="subtitle1">
-                                {translate('table.name')}:{' '}
-                                <Typography component="span" variant="body1">
-                                  {store?.brand.name}
-                                </Typography>
+                      {/* Role = 'MBKC Admin' */}
+                      <Stack direction="row" alignItems="start" gap={2}>
+                        <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
+                          {translate('table.brand')}
+                        </Typography>
+                        <Stack direction="row" alignItems="start" gap={1}>
+                          <Box sx={{ border: 1, borderColor: (theme) => theme.palette.primary.main }}>
+                            <img src={store?.brand.logo} alt={store?.brand.name} height={120} width={120} />
+                          </Box>
+                          <Stack gap={0.5}>
+                            <Typography variant="subtitle1">
+                              {translate('table.name')}:{' '}
+                              <Typography component="span" variant="body1">
+                                {store?.brand.name}
                               </Typography>
-                            </Stack>
+                            </Typography>
                           </Stack>
                         </Stack>
-                      </>
-                    ))}
+                      </Stack>
+                    </>
+                  )}
 
-                  {userAuth?.roleName === Role.MBKC_ADMIN ||
-                    (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER && (
-                      <>
-                        <Divider />
+                  {(userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) && (
+                    <>
+                      <Divider />
 
-                        <Stack direction="row" alignItems="start" gap={2}>
-                          <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
-                            {translate('table.partner')}
-                          </Typography>
+                      <Stack direction="row" alignItems="start" gap={2}>
+                        <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
+                          {translate('table.partner')}
+                        </Typography>
+                        {storePartners?.storePartners?.length === 0 ? (
+                          <Typography variant="body2">Chưa có đối tác</Typography>
+                        ) : (
                           <Stack direction="row" gap={3}>
                             {storePartners?.storePartners?.map((partner) => (
                               <Stack
@@ -324,9 +326,10 @@ function StoreDetailPage() {
                               </Stack>
                             ))}
                           </Stack>
-                        </Stack>
-                      </>
-                    ))}
+                        )}
+                      </Stack>
+                    </>
+                  )}
                 </Stack>
               </Grid>
             </Grid>
