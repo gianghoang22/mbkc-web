@@ -71,6 +71,7 @@ export enum ProductSizeEnum {
 }
 
 export enum ProductTypeEnum {
+  ALL = '',
   PARENT = 'PARENT',
   CHILD = 'CHILD',
   SINGLE = 'SINGLE',
@@ -78,6 +79,34 @@ export enum ProductTypeEnum {
 }
 
 export const PRODUCT_TYPE_OPTIONS = [
+  {
+    value: ProductTypeEnum.PARENT,
+    label: 'Parent Product',
+    id: 'Fat',
+  },
+  {
+    value: ProductTypeEnum.CHILD,
+    label: 'Child Product',
+    id: 'Chi',
+  },
+  {
+    value: ProductTypeEnum.SINGLE,
+    label: 'Single Product',
+    id: 'Sin',
+  },
+  {
+    value: ProductTypeEnum.EXTRA,
+    label: 'Extra Product',
+    id: 'Ext',
+  },
+];
+
+export const PRODUCT_TYPE_TABS = [
+  {
+    value: ProductTypeEnum.ALL,
+    label: 'All Products',
+    id: 'All',
+  },
   {
     value: ProductTypeEnum.PARENT,
     label: 'Parent Product',

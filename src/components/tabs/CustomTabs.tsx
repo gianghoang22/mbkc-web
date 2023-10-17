@@ -1,8 +1,11 @@
 import React from 'react';
-import { Tabs, Tab } from '@mui/material';
-import Label from 'components/label/Label';
+// @mui
+import { CircularProgress, Fade, Tab, Tabs } from '@mui/material';
+//
+import { ProductTypeEnum } from '@types';
 import { Color } from 'common/enum';
-import { CircularProgress } from '@mui/material';
+import Label from 'components/label/Label';
+import { useLocales } from 'hooks';
 
 interface Option<T> {
   label: string;
@@ -25,22 +28,38 @@ function CustomTabs<T extends string | number>({
   isLoading,
   length,
 }: CustomTabsProps<T>) {
+  const { translate } = useLocales();
+
   return (
     <Tabs value={value} onChange={handleChange} sx={{ height: 50, borderBottom: 1, borderColor: 'divider' }}>
       {options.map((option) => (
         <Tab
           key={option.id}
           value={option.value}
-          label={option.label}
+          label={
+            option.value === ProductTypeEnum.PARENT
+              ? translate('productType.parent')
+              : option.value === ProductTypeEnum.CHILD
+              ? translate('productType.child')
+              : option.value === ProductTypeEnum.SINGLE
+              ? translate('productType.single')
+              : option.value === ProductTypeEnum.EXTRA
+              ? translate('productType.extra')
+              : translate('productType.all')
+          }
           icon={
             value === option.value && isLoading ? (
-              <CircularProgress size={15} sx={{ ml: 3 }} />
+              <Fade in={value === option.value && isLoading}>
+                <CircularProgress size={15} sx={{ ml: 3, display: 'block' }} />
+              </Fade>
             ) : (
               <>
                 {value === option.value ? (
-                  <Label color={value === option.value ? Color.PRIMARY : Color.DEFAULT} sx={{ ml: 1 }}>
-                    {length}
-                  </Label>
+                  <Fade in={value === option.value && !isLoading}>
+                    <Label color={value === option.value ? Color.PRIMARY : Color.DEFAULT} sx={{ ml: 1 }}>
+                      {length}
+                    </Label>
+                  </Fade>
                 ) : (
                   <></>
                 )}

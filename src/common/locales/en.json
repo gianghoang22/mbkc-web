@@ -83,6 +83,13 @@
     "create-new": "Create new",
     "information": "Information"
   },
+  "productType": {
+    "all": "All Products",
+    "parent": "Parent Product",
+    "child": "Child Product",
+    "single": "Single Product",
+    "extra": "Extra Product"
+  },
   "error": {
     "serverTitle": "500 Internal Server Error",
     "serverContent": "There was an error, please try again later.",

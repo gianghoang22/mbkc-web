@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { ListParams, OrderSort, PRODUCT_TYPE_OPTIONS, ProductTable, ProductTypeEnum } from '@types';
+import { ListParams, OrderSort, PRODUCT_TYPE_TABS, ProductTable, ProductTypeEnum } from '@types';
 import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -35,15 +35,15 @@ function ListProductPage() {
     setProductType(newValue);
   };
 
+  const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(0);
+    setFilterName(event.target.value);
+  };
+
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setFilterName(event.target.value);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -99,7 +99,7 @@ function ListProductPage() {
                 isLoading={isLoading}
                 value={productType}
                 handleChange={handleChange}
-                options={PRODUCT_TYPE_OPTIONS}
+                options={PRODUCT_TYPE_TABS}
               />
               <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
