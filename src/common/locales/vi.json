@@ -83,6 +83,13 @@
     "create-new": "Tạo mới",
     "information": "Thông tin"
   },
+  "productType": {
+    "all": "Tất cả sản phẩm",
+    "parent": "Sản phẩm cha",
+    "child": "Sản phẩm con",
+    "single": "Sản phẩm đơn",
+    "extra": "Sản phẩm extra"
+  },
   "error": {
     "serverTitle": "500 Lỗi Máy Chủ Nội Bộ",
     "serverContent": "Đã xảy ra lỗi, xin thử lại sau.",
