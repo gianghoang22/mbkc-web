@@ -27,6 +27,7 @@ import { Color } from 'common/enum';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { hashPasswordMD5 } from 'utils';
+import images from 'assets';
 
 interface UpdatePasswordToUseModalProps {
   isOpen: boolean;
@@ -87,7 +88,7 @@ function UpdatePasswordToUseModal({ isOpen, handleOpen, handleClose }: UpdatePas
 
               <Stack alignItems="center" pt={3} pb={1}>
                 <Stack alignItems="center" gap={4} py={3}>
-                  <Box width={300} component="img" src="/assets/illustrations/illustration_store.svg" />
+                  <Box width={300} component="img" src={images.illustrations.kitchen_login} alt="store" />
                   {userInfo?.isConfirmed ? (
                     <Stack direction="column" alignItems="center" gap={2}>
                       <Typography variant="h6" sx={{ color: (theme) => theme.palette.success.main }}>

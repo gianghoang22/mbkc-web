@@ -90,6 +90,14 @@
     "single": "Sản phẩm đơn",
     "extra": "Sản phẩm extra"
   },
+  "orderType": {
+    "all": "Tất cả đơn hàng",
+    "ready": "Sẵn sàng",
+    "prepared": "Đang chuẩn bị",
+    "waiting": "Chờ lấy hàng",
+    "done": "Hoàn thành",
+    "cancel": "Đã hủy"
+  },
   "error": {
     "serverTitle": "500 Lỗi Máy Chủ Nội Bộ",
     "serverContent": "Đã xảy ra lỗi, xin thử lại sau.",

@@ -1,39 +1,39 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-//
-import { CommonTableHead, EmptyTable, Page, SearchNotFound, Tabs } from 'components';
-import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { OrderTableRow, OrderTableToolbar } from 'sections/order';
-import { Order, OrderSort, OrderTable } from '@types';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { useMemo, useState } from 'react';
-import { getComparator, stableSort } from 'utils';
+import { useLocation, useNavigate } from 'react-router-dom';
+// @mui
+import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+// redux
 import { useAppSelector } from 'redux/configStore';
-
-// mui
-import { Box, Card, Table, TableBody, TableContainer, TablePagination, Paper } from '@mui/material';
+//
+import { ORDER_TYPE_TABS, OrderSort, OrderTable, OrderTypeEnum } from '@types';
+import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { PATH_CASHIER_APP } from 'routes/paths';
+import { OrderTableRow, OrderTableToolbar } from 'sections/order';
+import { getComparator, stableSort } from 'utils';
 
 function ListOrdersPage() {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const navigate = useNavigate();
   const { OrderHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { orders } = useAppSelector((state) => state.order);
+  const { orders, isLoading } = useAppSelector((state) => state.order);
 
   const [orderSortTable, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof OrderTable>('customerName');
   const [filterName, setFilterName] = useState<string>('');
+  const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.ALL);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: OrderTypeEnum) => {
+    setOrderType(newValue);
+  };
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderTable) => {
     const isAsc = orderBy === property && orderSortTable === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (order: Order, orderId: number) => {
-    console.log(order);
-    navigate(PATH_KITCHEN_CENTER_APP.order.root + `/detail/${orderId}`);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,21 +57,26 @@ function ListOrdersPage() {
 
   return (
     <>
-      <Page title="List Order" pathname={pathname} navigateDashboard={PATH_CASHIER_APP.root}>
-        <Card>
-          <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2, paddingLeft: 2 }}>
-              <Tabs />
-            </Paper>
-          </Box>
-        </Card>
+      <Page
+        pathname={pathname}
+        title={translate('page.title.list', { model: translate('model.lowercase.order') })}
+        navigateDashboard={PATH_CASHIER_APP.root}
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
+              <CustomTabs<OrderTypeEnum>
+                length={visibleRows.length}
+                isLoading={isLoading}
+                value={orderType}
+                handleChange={handleChange}
+                options={ORDER_TYPE_TABS}
+              />
               <OrderTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<OrderTable>
+                    showAction
                     headCells={OrderHeadCells}
                     order={orderSortTable}
                     orderBy={orderBy}
@@ -81,14 +86,7 @@ function ListOrdersPage() {
                   <TableBody>
                     {visibleRows.map((order, index) => {
                       return (
-                        <OrderTableRow
-                          key={index}
-                          index={index}
-                          page={page}
-                          rowsPerPage={rowsPerPage}
-                          order={order}
-                          handleNavigateDetail={handleNavigateDetail}
-                        />
+                        <OrderTableRow key={index} index={index} page={page} rowsPerPage={rowsPerPage} order={order} />
                       );
                     })}
                     {emptyRows > 0 ||

@@ -38,3 +38,45 @@ export interface OrderToCreate {
   StoreId: number;
   OrderCode: string;
 }
+
+export enum OrderTypeEnum {
+  ALL = 'AL_ORDER',
+  READY = 'READY',
+  BEING_PREPARED = 'BEING_PREPARED',
+  WAITING_FOR_GOODS = 'WAITING_FOR_GOODS',
+  DONE = 'DONE',
+  CANCEL = 'CANCEL',
+}
+
+export const ORDER_TYPE_TABS = [
+  {
+    value: OrderTypeEnum.ALL,
+    label: 'All Orders',
+    id: 'All',
+  },
+  {
+    value: OrderTypeEnum.READY,
+    label: 'Ready',
+    id: 'Rea',
+  },
+  {
+    value: OrderTypeEnum.BEING_PREPARED,
+    label: 'Being Prepared',
+    id: 'Pre',
+  },
+  {
+    value: OrderTypeEnum.WAITING_FOR_GOODS,
+    label: 'Waiting for goods',
+    id: 'Good',
+  },
+  {
+    value: OrderTypeEnum.DONE,
+    label: 'Done',
+    id: 'Don',
+  },
+  {
+    value: OrderTypeEnum.CANCEL,
+    label: 'Cancel',
+    id: 'Can',
+  },
+];
