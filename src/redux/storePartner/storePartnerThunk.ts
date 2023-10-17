@@ -33,6 +33,7 @@ export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any
     }
   }
 };
+
 export const getAllStorePartnersByStoreIdThunk = async (params: any, thunkAPI: any) => {
   const { storeId, navigate } = params;
   const accessToken = getAccessToken();
