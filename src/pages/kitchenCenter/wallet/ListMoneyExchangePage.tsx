@@ -104,6 +104,7 @@ function ListMoneyExchangePage(props: any) {
                 component="div"
                 count={moneyExchanges.length}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}

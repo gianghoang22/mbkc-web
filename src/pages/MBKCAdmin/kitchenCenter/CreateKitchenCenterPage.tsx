@@ -13,6 +13,7 @@ import { useAppSelector } from 'redux/configStore';
 import { createNewKitchenCenter, updateKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
+import { useLocales } from 'hooks';
 
 const schema = yup.object({
   Name: yup.string().required('Please enter brand name'),
@@ -23,6 +24,7 @@ const schema = yup.object({
 function CreateKitchenCenterPage(props: any) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { translate } = useLocales();
   const dispatch = useDispatch();
   const { isEditing, kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
 
@@ -70,7 +72,11 @@ function CreateKitchenCenterPage(props: any) {
 
   return (
     <Page
-      title={isEditing ? 'Update Kitchen Center' : 'Create New Kitchen Center'}
+      title={
+        isEditing
+          ? translate('page.title.update', { model: translate('model.lowercase.kitchenCenter') })
+          : translate('page.title.create', { model: translate('model.lowercase.kitchenCenter') })
+      }
       pathname={pathname}
       navigateDashboard={PATH_ADMIN_APP.root}
     >
@@ -80,19 +86,21 @@ function CreateKitchenCenterPage(props: any) {
         </Card>
         <Stack direction="row" justifyContent="space-between" mt={12}>
           <Button variant="outlined" color="inherit" onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.list)}>
-            Back
+            {translate('button.back')}
           </Button>
           <Stack direction="row" gap={2}>
-            <Button variant="contained" color="inherit">
-              Reset
-            </Button>
+            {isEditing && (
+              <Button variant="contained" color="inherit">
+                {translate('button.reset')}
+              </Button>
+            )}
             <Button
               variant="contained"
               color={isEditing ? Color.WARNING : Color.PRIMARY}
               type="submit"
               onClick={handleSubmit(onSubmit)}
             >
-              {isEditing ? 'Update' : 'Create'}
+              {isEditing ? translate('button.update') : translate('button.create')}
             </Button>
           </Stack>
         </Stack>

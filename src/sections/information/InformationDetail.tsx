@@ -1,10 +1,10 @@
 import { Avatar, Stack, Typography, Button } from '@mui/material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import { Color, Status } from 'common/enum';
+import { Color, Role, Status } from 'common/enum';
 import { Label } from 'components';
 import { useLocales, useModal } from 'hooks';
 import UpdateInformationModal from './UpdateInformationModal';
-import { useAppDispatch } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setEditProfile } from 'redux/profile/profileSlice';
 
 interface InformationCardProps {
@@ -19,6 +19,7 @@ function InformationCard({ logo, name, address, managerEmail, status }: Informat
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
+  const { userAuth } = useAppSelector((state) => state.auth);
 
   return (
     <>
@@ -52,17 +53,19 @@ function InformationCard({ logo, name, address, managerEmail, status }: Informat
             </Typography>
           </Stack>
 
-          <Button
-            variant="outlined"
-            color="inherit"
-            startIcon={<SettingsOutlinedIcon />}
-            onClick={() => {
-              handleOpen();
-              dispatch(setEditProfile);
-            }}
-          >
-            {translate('button.setting')}
-          </Button>
+          {userAuth?.roleName === Role.BRAND_MANAGER && (
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<SettingsOutlinedIcon />}
+              onClick={() => {
+                handleOpen();
+                dispatch(setEditProfile);
+              }}
+            >
+              {translate('button.setting')}
+            </Button>
+          )}
         </Stack>
       </Stack>
 

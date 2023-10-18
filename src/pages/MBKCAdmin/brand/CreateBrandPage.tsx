@@ -21,8 +21,8 @@ function CreateBrandPage() {
   const { translate } = useLocales();
   const { schemaBrand } = useValidationForm();
 
-  const { pathnameToBack } = useAppSelector((state) => state.routes);
-  const { isEditing, brand } = useAppSelector((state) => state.brand);
+  const { pathnameToBack } = useAppSelector((state: any) => state.routes);
+  const { isEditing, brand } = useAppSelector((state: any) => state.brand);
 
   const createBrandForm = useForm<BrandToCreate>({
     defaultValues: {

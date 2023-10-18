@@ -70,7 +70,7 @@ function ListCashierPage() {
   return (
     <>
       <Page
-        title={translate('page.title.list', { model: translate('model.lowercase.cashier') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.cashiers') })}
         pathname={pathname}
         navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
         actions={() => [
@@ -131,6 +131,7 @@ function ListCashierPage() {
                 component="div"
                 count={cashiers.length}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}

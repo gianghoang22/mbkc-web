@@ -393,6 +393,7 @@ function StoreDetailPage() {
                       count={storePartners?.storePartners ? storePartners?.storePartners?.length : 5}
                       page={page}
                       rowsPerPage={rowsPerPage}
+                      labelRowsPerPage={translate('table.rowsPerPage')}
                       onPageChange={handleChangePage}
                       onRowsPerPageChange={handleChangeRowsPerPage}
                     />

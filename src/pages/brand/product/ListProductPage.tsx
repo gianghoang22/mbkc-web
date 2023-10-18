@@ -145,6 +145,7 @@ function ListProductPage() {
                 component="div"
                 count={numberItems}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
