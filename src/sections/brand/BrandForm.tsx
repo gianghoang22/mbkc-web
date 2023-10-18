@@ -1,15 +1,15 @@
 // @mui
-import { Grid, Stack, Typography } from '@mui/material'
-import { Language } from 'common/enum'
+import { Grid, Stack, Typography } from '@mui/material';
+import { Language } from 'common/enum';
 //
-import { InputField, UploadImageField } from 'components'
-import { useLocales } from 'hooks'
-import { useAppSelector } from 'redux/configStore'
+import { InputField, UploadImageField } from 'components';
+import { useLocales } from 'hooks';
+import { useAppSelector } from 'redux/configStore';
 
 function BrandForm() {
-  const { translate, currentLang } = useLocales()
+  const { translate, currentLang } = useLocales();
 
-  const { isEditing } = useAppSelector((state) => state.brand)
+  const { isEditing } = useAppSelector((state) => state.brand);
 
   return (
     <Grid container columnSpacing={3}>
@@ -61,7 +61,7 @@ function BrandForm() {
         </Stack>
       </Grid>
     </Grid>
-  )
+  );
 }
 
-export default BrandForm
+export default BrandForm;

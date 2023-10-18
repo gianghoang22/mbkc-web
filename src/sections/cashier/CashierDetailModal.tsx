@@ -1,38 +1,38 @@
 // @mui
-import CloseIcon from '@mui/icons-material/Close'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
 //
-import { Cashier } from '@types'
-import { Color, Status } from 'common/enum'
-import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components'
-import { useLocales, useModal, usePopover } from 'hooks'
+import { Cashier } from '@types';
+import { Color, Status } from 'common/enum';
+import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
 
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { deleteCashier, setEditCashier } from 'redux/cashier/cashierSlice'
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteCashier, setEditCashier } from 'redux/cashier/cashierSlice';
 
 interface CashierDetailModalProps {
-  isOpen: boolean
-  handleOpen: (title: any) => void
-  cashier: Cashier
-  page: number
-  rowsPerPage: number
+  isOpen: boolean;
+  handleOpen: (title: any) => void;
+  cashier: Cashier;
+  page: number;
+  rowsPerPage: number;
 }
 
 function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: CashierDetailModalProps) {
-  const { translate } = useLocales()
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const { open, handleCloseMenu } = usePopover()
-  const { isOpen: isOpenModalDelete, handleOpen: HandleOpenModalDelete } = useModal()
+  const { translate } = useLocales();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { open, handleCloseMenu } = usePopover();
+  const { isOpen: isOpenModalDelete, handleOpen: HandleOpenModalDelete } = useModal();
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/update/${cashier.accountId}`)
-    dispatch(setEditCashier(cashier))
-  }
+    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/update/${cashier.accountId}`);
+    dispatch(setEditCashier(cashier));
+  };
 
   const handleDelete = () => {
     const params = {
@@ -40,10 +40,10 @@ function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: 
       navigate,
       page: page + 1,
       rowsPerPage: rowsPerPage,
-    }
+    };
 
-    dispatch<any>(deleteCashier(params))
-  }
+    dispatch<any>(deleteCashier(params));
+  };
 
   return (
     <>
@@ -136,7 +136,7 @@ function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: 
         />
       )}
     </>
-  )
+  );
 }
 
-export default CashierDetailModal
+export default CashierDetailModal;

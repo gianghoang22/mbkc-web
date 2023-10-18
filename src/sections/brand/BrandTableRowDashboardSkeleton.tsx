@@ -1,4 +1,4 @@
-import { Skeleton, TableCell, TableRow, Typography } from '@mui/material'
+import { Skeleton, TableCell, TableRow, Typography } from '@mui/material';
 
 function BrandTableRowDashboardSkeleton({ length = 3 }: { length: number }) {
   return (
@@ -25,7 +25,7 @@ function BrandTableRowDashboardSkeleton({ length = 3 }: { length: number }) {
         </TableRow>
       ))}
     </>
-  )
+  );
 }
 
-export default BrandTableRowDashboardSkeleton
+export default BrandTableRowDashboardSkeleton;

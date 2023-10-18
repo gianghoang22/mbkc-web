@@ -1,57 +1,57 @@
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material'
+import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { KitchenCenter, Params, ToUpdateStatus } from '@types'
-import { Color, Status } from 'common/enum'
-import { ConfirmDialog, Label, Popover } from 'components'
-import { useLocales, useModal, usePopover } from 'hooks'
-import { useDispatch } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { KitchenCenter, Params, ToUpdateStatus } from '@types';
+import { Color, Status } from 'common/enum';
+import { ConfirmDialog, Label, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   deleteKitchenCenter,
   setEditKitchenCenter,
   updateStatusKitchenCenter,
-} from 'redux/kitchenCenter/kitchenCenterSlice'
-import { setRoutesToBack } from 'redux/routes/routesSlice'
-import { PATH_ADMIN_APP } from 'routes/paths'
+} from 'redux/kitchenCenter/kitchenCenterSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface KitchenCenterTableRowProps {
-  kitchenCenter: KitchenCenter
-  index: number
-  page: number
-  rowsPerPage: number
+  kitchenCenter: KitchenCenter;
+  index: number;
+  page: number;
+  rowsPerPage: number;
 }
 
 function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: KitchenCenterTableRowProps) {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const { translate } = useLocales()
-  const { handleOpen, isOpen } = useModal()
-  const { open, handleOpenMenu, handleCloseMenu } = usePopover()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { translate } = useLocales();
+  const { handleOpen, isOpen } = useModal();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = () => {
-    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/${kitchenCenter.kitchenCenterId}`)
-    dispatch(setRoutesToBack(pathname))
-  }
+    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/${kitchenCenter.kitchenCenterId}`);
+    dispatch(setRoutesToBack(pathname));
+  };
 
   const handleDelete = () => {
-    const kitchenCenterId = kitchenCenter.kitchenCenterId
+    const kitchenCenterId = kitchenCenter.kitchenCenterId;
     const params = {
       kitchenCenterId,
       navigate,
-    }
+    };
 
-    dispatch<any>(deleteKitchenCenter(params))
-  }
+    dispatch<any>(deleteKitchenCenter(params));
+  };
 
   const handleEdit = () => {
-    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenter.kitchenCenterId}`)
-    dispatch(setEditKitchenCenter(kitchenCenter))
-    dispatch(setRoutesToBack(pathname))
-  }
+    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenter.kitchenCenterId}`);
+    dispatch(setEditKitchenCenter(kitchenCenter));
+    dispatch(setRoutesToBack(pathname));
+  };
 
   const handleChangeStatus = () => {
     const paramUpdateStatus: Params<ToUpdateStatus> = {
@@ -67,9 +67,9 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
       },
       pathname: pathname,
       navigate,
-    }
-    dispatch<any>(updateStatusKitchenCenter(paramUpdateStatus))
-  }
+    };
+    dispatch<any>(updateStatusKitchenCenter(paramUpdateStatus));
+  };
 
   return (
     <>
@@ -133,7 +133,7 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
         />
       )}
     </>
-  )
+  );
 }
 
-export default KitchenCenterTableRow
+export default KitchenCenterTableRow;

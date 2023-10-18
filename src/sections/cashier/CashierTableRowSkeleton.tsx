@@ -1,4 +1,4 @@
-import { Skeleton, TableCell, TableRow, Typography } from '@mui/material'
+import { Skeleton, TableCell, TableRow, Typography } from '@mui/material';
 
 function CashierTableRow({ length }: { length: number }) {
   return (
@@ -32,7 +32,7 @@ function CashierTableRow({ length }: { length: number }) {
         </>
       ))}
     </>
-  )
+  );
 }
 
-export default CashierTableRow
+export default CashierTableRow;

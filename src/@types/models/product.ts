@@ -1,67 +1,67 @@
-import { Brand } from './brand'
+import { Brand } from './brand';
 
 export interface Product {
-  productId: number
-  code: string
-  name: string
-  description: string
-  sellingPrice: number
-  discountPrice: number
-  historicalPrice: number
-  type: string
-  image: string
-  status: string
-  size: string | null
-  displayOrder: number
-  parentProductId: string | null
-  childrenProducts: ChildrenProduct[]
-  categoryId: number
-  categoryName: string
-  brand: Brand
+  productId: number;
+  code: string;
+  name: string;
+  description: string;
+  sellingPrice: number;
+  discountPrice: number;
+  historicalPrice: number;
+  type: string;
+  image: string;
+  status: string;
+  size: string | null;
+  displayOrder: number;
+  parentProductId: string | null;
+  childrenProducts: ChildrenProduct[];
+  categoryId: number;
+  categoryName: string;
+  brand: Brand;
 }
 
 export interface ChildrenProduct extends Product {}
 export interface ProductToCreate {
-  name: string
-  code: string
-  description: string
-  historicalPrice: number
-  sellingPrice: number
-  discountPrice: number
-  displayOrder: number
-  size: string
-  type: string
-  image?: File | string
-  parentProductId: number
-  categoryId: number
+  name: string;
+  code: string;
+  description: string;
+  historicalPrice: number;
+  sellingPrice: number;
+  discountPrice: number;
+  displayOrder: number;
+  size: string;
+  type: string;
+  image?: File | string;
+  parentProductId: number;
+  categoryId: number;
 }
 
 export interface ProductToCreateParams {
-  name: string
-  code: string
-  description: string
-  historicalPrice: number | null | string
-  sellingPrice: number | null | string
-  discountPrice: number | null | string
-  displayOrder: number
-  size: string | null | undefined
-  type: string
-  image?: File | string
-  parentProductId: number | null | string
-  categoryId: number | null | string
+  name: string;
+  code: string;
+  description: string;
+  historicalPrice: number | null | string;
+  sellingPrice: number | null | string;
+  discountPrice: number | null | string;
+  displayOrder: number;
+  size: string | null | undefined;
+  type: string;
+  image?: File | string;
+  parentProductId: number | null | string;
+  categoryId: number | null | string;
 }
 
 export interface ProductToUpdate {
-  name: string | null
-  description: string
-  historicalPrice: number | null | string
-  sellingPrice: number | null | string
-  discountPrice: number | null | string
-  image?: File | string
-  displayOrder: number
-  parentProductId: number | null | string
-  categoryId: number | null | string
-  status: string
+  name: string | null;
+  description: string;
+  historicalPrice: number | null | string;
+  sellingPrice: number | null | string;
+  discountPrice: number | null | string;
+  image?: File | string;
+  displayOrder: number;
+  parentProductId: number | null | string;
+  categoryId: number | null | string;
+  status: string;
 }
 
 export enum ProductSizeEnum {
@@ -99,7 +99,7 @@ export const PRODUCT_TYPE_OPTIONS = [
     label: 'Extra Product',
     id: 'Ext',
   },
-]
+];
 
 export const PRODUCT_TYPE_TABS = [
   {
@@ -127,7 +127,7 @@ export const PRODUCT_TYPE_TABS = [
     label: 'Extra Product',
     id: 'Ext',
   },
-]
+];
 
 export const PRODUCT_SIZE_OPTIONS = [
   {
@@ -145,4 +145,4 @@ export const PRODUCT_SIZE_OPTIONS = [
     label: 'Size L',
     id: 'l',
   },
-]
+];

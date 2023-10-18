@@ -1,141 +1,141 @@
-import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient'
-import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice'
-import { getAccessToken, getErrorMessage } from 'utils'
-import { getAllBrands } from './brandSlice'
-import { ListParams } from '@types'
-import { PATH_ADMIN_APP } from 'routes/paths'
-import { ROUTES_API_BRANDS } from 'constants/routesApiKeys'
+import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
+import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
+import { getAccessToken, getErrorMessage } from 'utils';
+import { getAllBrands } from './brandSlice';
+import { ListParams } from '@types';
+import { PATH_ADMIN_APP } from 'routes/paths';
+import { ROUTES_API_BRANDS } from 'constants/routesApiKeys';
 
 export const getAllBrandsThunk = async (params: ListParams, thunkAPI: any) => {
-  const { navigate, optionParams } = params
-  const accessToken = getAccessToken()
+  const { navigate, optionParams } = params;
+  const accessToken = getAccessToken();
   if (accessToken) {
-    setHeaderAuth(accessToken)
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.get(ROUTES_API_BRANDS.GET_ALL_BRAND(optionParams))
-      return response
+      const response = await axiosClient.get(ROUTES_API_BRANDS.GET_ALL_BRAND(optionParams));
+      return response;
     } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate)
-      thunkAPI.dispatch(setMessageError(errorMessage))
-      return thunkAPI.rejectWithValue(error)
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
     }
   }
-}
+};
 
 export const getBrandDetailThunk = async (params: any, thunkAPI: any) => {
-  const { brandId, navigate } = params
-  const accessToken = getAccessToken()
+  const { brandId, navigate } = params;
+  const accessToken = getAccessToken();
   if (accessToken) {
     try {
-      const response = await axiosClient.get(`/brands/${brandId}`)
-      console.log(response)
-      return response
+      const response = await axiosClient.get(`/brands/${brandId}`);
+      console.log(response);
+      return response;
     } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate)
-      thunkAPI.dispatch(setMessageError(errorMessage))
-      return thunkAPI.rejectWithValue(error)
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
     }
   }
-}
+};
 
 export const createNewBrandThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, newBrand } = params
-  const accessToken = getAccessToken()
+  const { navigate, newBrand } = params;
+  const accessToken = getAccessToken();
   if (accessToken) {
-    setHeaderAuth(accessToken)
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosFormData.post('/brands', newBrand)
+      const response = await axiosFormData.post('/brands', newBrand);
       if (response) {
-        params.navigate(PATH_ADMIN_APP.brand.list)
-        thunkAPI.dispatch(setMessageSuccess('Created new brand successfully'))
+        params.navigate(PATH_ADMIN_APP.brand.list);
+        thunkAPI.dispatch(setMessageSuccess('Created new brand successfully'));
       }
-      return response
+      return response;
     } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate)
-      thunkAPI.dispatch(setMessageError(errorMessage))
-      return thunkAPI.rejectWithValue(error)
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
     }
   }
-}
+};
 
 export const updateBrandThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, brandId, updateBrandOptions } = params
-  const accessToken = getAccessToken()
+  const { navigate, brandId, updateBrandOptions } = params;
+  const accessToken = getAccessToken();
   if (accessToken) {
-    setHeaderAuth(accessToken)
+    setHeaderAuth(accessToken);
     try {
-      const response = await axiosFormData.put(`/brands/${brandId}`, updateBrandOptions)
+      const response = await axiosFormData.put(`/brands/${brandId}`, updateBrandOptions);
       if (response) {
-        thunkAPI.dispatch(setMessageSuccess('Update brand successfully'))
+        thunkAPI.dispatch(setMessageSuccess('Update brand successfully'));
       }
-      return response
+      return response;
     } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate)
-      thunkAPI.dispatch(setMessageError(errorMessage))
-      return thunkAPI.rejectWithValue(error)
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
     }
   }
-}
+};
 
 export const deleteBrandThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, brandId, page, rowsPerPage } = params
+  const { navigate, brandId, page, rowsPerPage } = params;
   const options = {
     keySearchName: '',
     keyStatusFilter: 'Active',
     currentPage: page,
     itemsPerPage: rowsPerPage,
-  }
+  };
   const params_callback: ListParams = {
     optionParams: options,
     navigate,
-  }
-  const accessToken = getAccessToken()
+  };
+  const accessToken = getAccessToken();
   if (accessToken) {
-    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     try {
-      const response = await axiosClient.delete(`/brands/${brandId}`)
+      const response = await axiosClient.delete(`/brands/${brandId}`);
       if (response) {
-        thunkAPI.dispatch(setMessageSuccess('Deleted Brand Successfully'))
-        thunkAPI.dispatch(getAllBrands(params_callback))
+        thunkAPI.dispatch(setMessageSuccess('Deleted Brand Successfully'));
+        thunkAPI.dispatch(getAllBrands(params_callback));
       }
-      return response
+      return response;
     } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate)
-      thunkAPI.dispatch(setMessageError(errorMessage))
-      return thunkAPI.rejectWithValue(error)
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
     }
   }
-}
+};
 
 export const updateStatusBrandThunk = async (params: any, thunkAPI: any) => {
-  const { brandId, navigate, status, page, rowsPerPage } = params
+  const { brandId, navigate, status, page, rowsPerPage } = params;
   const options = {
     keySearchName: '',
     currentPage: page,
     itemsPerPage: rowsPerPage,
-  }
+  };
 
   const paramsCallback: ListParams = {
     optionParams: options,
     navigate,
-  }
+  };
 
-  const accessToken = getAccessToken()
+  const accessToken = getAccessToken();
   if (accessToken) {
-    setHeaderAuth(accessToken)
+    setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.put(ROUTES_API_BRANDS.UPDATE_STATUS_BRAND(brandId), {
         status: status,
-      })
+      });
       if (response) {
-        await thunkAPI.dispatch(getAllBrands(paramsCallback))
-        thunkAPI.dispatch(setMessageSuccess('Update status brand successfully'))
+        await thunkAPI.dispatch(getAllBrands(paramsCallback));
+        thunkAPI.dispatch(setMessageSuccess('Update status brand successfully'));
       }
-      return response
+      return response;
     } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate)
-      thunkAPI.dispatch(setMessageError(errorMessage))
-      return thunkAPI.rejectWithValue(error)
+      const errorMessage = getErrorMessage(error, navigate);
+      thunkAPI.dispatch(setMessageError(errorMessage));
+      return thunkAPI.rejectWithValue(error);
     }
   }
-}
+};

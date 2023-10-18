@@ -1,5 +1,5 @@
 // @mui
-import { IconButton, Skeleton, TableCell, TableRow } from '@mui/material'
+import { IconButton, Skeleton, TableCell, TableRow } from '@mui/material';
 
 function BrandTableRowSkeleton({ length }: { length: number }) {
   return (
@@ -36,7 +36,7 @@ function BrandTableRowSkeleton({ length }: { length: number }) {
         </>
       ))}
     </>
-  )
+  );
 }
 
-export default BrandTableRowSkeleton
+export default BrandTableRowSkeleton;

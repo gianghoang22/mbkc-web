@@ -1,57 +1,57 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material'
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
-import AddRoundedIcon from '@mui/icons-material/AddRounded'
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
-import { useAppDispatch, useAppSelector } from 'redux/configStore'
-import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/productSlice'
-import { setRoutesToBack } from 'redux/routes/routesSlice'
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/productSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { ListParams, OrderSort, PRODUCT_TYPE_TABS, ProductTable, ProductTypeEnum } from '@types'
-import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components'
-import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks'
-import { PATH_BRAND_APP } from 'routes/paths'
-import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product'
+import { ListParams, OrderSort, PRODUCT_TYPE_TABS, ProductTable, ProductTypeEnum } from '@types';
+import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { PATH_BRAND_APP } from 'routes/paths';
+import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
 
 function ListProductPage() {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const { translate } = useLocales()
-  const { pathname } = useLocation()
-  const { productHeadCells } = useConfigHeadTable()
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { translate } = useLocales();
+  const { pathname } = useLocation();
+  const { productHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { products, isLoading, numberItems } = useAppSelector((state) => state.product)
+  const { products, isLoading, numberItems } = useAppSelector((state) => state.product);
 
-  const [order, setOrder] = useState<OrderSort>('asc')
-  const [orderBy, setOrderBy] = useState<keyof ProductTable>('name')
-  const [filterName, setFilterName] = useState<string>('')
-  const [productType, setProductType] = useState<string>('')
+  const [order, setOrder] = useState<OrderSort>('asc');
+  const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
+  const [filterName, setFilterName] = useState<string>('');
+  const [productType, setProductType] = useState<string>('');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setProductType(newValue)
-  }
+    setProductType(newValue);
+  };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0)
-    setFilterName(event.target.value)
-  }
+    setPage(0);
+    setFilterName(event.target.value);
+  };
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
-  const isNotFound = !products.length && !!filterName
+  const isNotFound = !products.length && !!filterName;
 
-  const debounceValue = useDebounce(filterName, 500)
+  const debounceValue = useDebounce(filterName, 500);
 
   const params: ListParams = useMemo(() => {
     return {
@@ -62,12 +62,12 @@ function ListProductPage() {
         type: productType,
       },
       navigate,
-    }
-  }, [page, rowsPerPage, debounceValue, productType])
+    };
+  }, [page, rowsPerPage, debounceValue, productType]);
 
   useEffect(() => {
-    dispatch<any>(getAllProducts(params))
-  }, [params])
+    dispatch<any>(getAllProducts(params));
+  }, [params]);
 
   return (
     <>
@@ -81,10 +81,10 @@ function ListProductPage() {
             variant="contained"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
-              navigate(PATH_BRAND_APP.product.newProduct)
-              dispatch(setRoutesToBack(pathname))
-              dispatch(setAddProduct())
-              dispatch(getProductEmpty())
+              navigate(PATH_BRAND_APP.product.newProduct);
+              dispatch(setRoutesToBack(pathname));
+              dispatch(setAddProduct());
+              dispatch(getProductEmpty());
             }}
           >
             {translate('button.add', { model: translate('model.lowercase.product') })}
@@ -126,7 +126,7 @@ function ListProductPage() {
                             index={index}
                             product={product}
                           />
-                        )
+                        );
                       })}
                       {emptyRows > 0 ||
                         (products.length === 0 && !filterName && (
@@ -155,7 +155,7 @@ function ListProductPage() {
         </Card>
       </Page>
     </>
-  )
+  );
 }
 
-export default ListProductPage
+export default ListProductPage;

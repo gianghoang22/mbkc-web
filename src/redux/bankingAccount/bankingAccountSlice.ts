@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { BankingAccount } from '@types'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { BankingAccount } from '@types';
 import {
   createNewBankingAccountThunk,
   deleteBankingAccountThunk,
@@ -7,15 +7,15 @@ import {
   getBankingAccountDetailThunk,
   updateBankingAccountThunk,
   updateStatusBankingAccountThunk,
-} from './bankingAccountThunk'
+} from './bankingAccountThunk';
 
 interface BankingAccountState {
-  isEditing: boolean
-  isLoading: boolean
-  isError: boolean
-  isSuccess: boolean
-  bankingAccounts: BankingAccount[]
-  bankingAccount: BankingAccount | null
+  isEditing: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  bankingAccounts: BankingAccount[];
+  bankingAccount: BankingAccount | null;
 }
 
 const initialState: BankingAccountState = {
@@ -25,129 +25,129 @@ const initialState: BankingAccountState = {
   isSuccess: false,
   bankingAccounts: [],
   bankingAccount: null,
-}
+};
 
 export const createNewBankingAccount = createAsyncThunk(
   'BankingAccount/create-BankingAccount',
   createNewBankingAccountThunk
-)
+);
 export const getAllBankingAccounts = createAsyncThunk(
   'BankingAccount/get-all-BankingAccounts',
   getAllBankingAccountsThunk
-)
+);
 export const getBankingAccountDetails = createAsyncThunk(
   'BankingAccount/get-BankingAccount-details',
   getBankingAccountDetailThunk
-)
-export const updateBankingAccount = createAsyncThunk('BankingAccount/update-BankingAccount', updateBankingAccountThunk)
+);
+export const updateBankingAccount = createAsyncThunk('BankingAccount/update-BankingAccount', updateBankingAccountThunk);
 export const updateStatusBankingAccount = createAsyncThunk(
   'BankingAccount/update-status-BankingAccount',
   updateStatusBankingAccountThunk
-)
-export const deleteBankingAccount = createAsyncThunk('BankingAccount/delete-BankingAccount', deleteBankingAccountThunk)
+);
+export const deleteBankingAccount = createAsyncThunk('BankingAccount/delete-BankingAccount', deleteBankingAccountThunk);
 
 const BankingAccountSlice = createSlice({
   name: 'BankingAccount',
   initialState,
   reducers: {
     setAddBankingAccount: (state) => {
-      state.isEditing = false
+      state.isEditing = false;
     },
     setEditBankingAccount: (state, action) => {
-      state.isEditing = true
-      state.bankingAccount = action.payload
+      state.isEditing = true;
+      state.bankingAccount = action.payload;
     },
     getBankingAccountDetail_local: (state, action) => {
-      state.bankingAccount = action.payload
+      state.bankingAccount = action.payload;
     },
   },
   extraReducers(builder) {
     builder
       .addCase(createNewBankingAccount.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(createNewBankingAccount.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
       })
       .addCase(createNewBankingAccount.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
       })
       .addCase(getAllBankingAccounts.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(getAllBankingAccounts.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
-        state.bankingAccounts = [...action.payload?.bankingAccounts]
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.bankingAccounts = [...action.payload?.bankingAccounts];
       })
       .addCase(getAllBankingAccounts.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
       })
       .addCase(getBankingAccountDetails.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(getBankingAccountDetails.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
-        state.bankingAccount = action.payload
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.bankingAccount = action.payload;
       })
       .addCase(getBankingAccountDetails.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
       })
       .addCase(updateBankingAccount.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(updateBankingAccount.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
       })
       .addCase(updateBankingAccount.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
       })
       .addCase(updateStatusBankingAccount.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(updateStatusBankingAccount.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
       })
       .addCase(updateStatusBankingAccount.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
       })
       .addCase(deleteBankingAccount.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(deleteBankingAccount.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
       })
       .addCase(deleteBankingAccount.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
-      })
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      });
   },
-})
+});
 
 export const { setAddBankingAccount, setEditBankingAccount, getBankingAccountDetail_local } =
-  BankingAccountSlice.actions
-const BankingAccountReducer = BankingAccountSlice.reducer
+  BankingAccountSlice.actions;
+const BankingAccountReducer = BankingAccountSlice.reducer;
 
-export default BankingAccountReducer
+export default BankingAccountReducer;

@@ -1,9 +1,9 @@
-import { ReactNode, useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui icon
-import CheckIcon from '@mui/icons-material/Check'
-import ClearIcon from '@mui/icons-material/Clear'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // @mui
 import {
   Avatar,
@@ -21,91 +21,91 @@ import {
   TableContainer,
   TablePagination,
   Typography,
-} from '@mui/material'
+} from '@mui/material';
 // redux
-import { useAppDispatch, useAppSelector } from 'redux/configStore'
-import { setRoutesToBack } from 'redux/routes/routesSlice'
-import { deleteStore, getStoreDetail, setAddFormDetail, setEditStore } from 'redux/store/storeSlice'
-import { getAllStorePartnersByStoreId } from 'redux/storePartner/storePartnerSlice'
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { deleteStore, getStoreDetail, setAddFormDetail, setEditStore } from 'redux/store/storeSlice';
+import { getAllStorePartnersByStoreId } from 'redux/storePartner/storePartnerSlice';
 // section
-import { ConfirmRegistrationStore, StoreDetailPageSkeleton } from 'sections/store'
-import { StorePartnerTableDetailRow, StorePartnerTableDetailRowSkeleton } from 'sections/storePartner'
+import { ConfirmRegistrationStore, StoreDetailPageSkeleton } from 'sections/store';
+import { StorePartnerTableDetailRow, StorePartnerTableDetailRowSkeleton } from 'sections/storePartner';
 //
-import { OrderSort, StorePartnerDetailTable } from '@types'
-import { Color, Language, PopoverType, Role, Status } from 'common/enum'
-import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover } from 'components'
-import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks'
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths'
+import { OrderSort, StorePartnerDetailTable } from '@types';
+import { Color, Language, PopoverType, Role, Status } from 'common/enum';
+import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover } from 'components';
+import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 function StoreDetailPage() {
-  const { id: storeId } = useParams()
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const { pathname } = useLocation()
-  const mdSm = useResponsive('up', 'md', 'md')
-  const mdXs = useResponsive('up', 'xs', 'xs')
-  const { translate, currentLang } = useLocales()
-  const { storePartnerDetailHeadCells } = useConfigHeadTable()
-  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal()
-  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover()
-  const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal()
-  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination()
+  const { id: storeId } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
+  const mdSm = useResponsive('up', 'md', 'md');
+  const mdXs = useResponsive('up', 'xs', 'xs');
+  const { translate, currentLang } = useLocales();
+  const { storePartnerDetailHeadCells } = useConfigHeadTable();
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal();
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
   const {
     open: openConfirm,
     handleOpenMenu: handleOpenMenuConfirm,
     handleCloseMenu: handleCloseMenuConfirm,
-  } = usePopover()
+  } = usePopover();
 
-  const { userAuth } = useAppSelector((state) => state.auth)
-  const { pathnameToBack } = useAppSelector((state) => state.routes)
-  const { isLoading: isLoadingStore, store } = useAppSelector((state) => state.store)
-  const { storePartners, isLoading: isLoadingStorePartner } = useAppSelector((state) => state.storePartner)
+  const { userAuth } = useAppSelector((state) => state.auth);
+  const { pathnameToBack } = useAppSelector((state) => state.routes);
+  const { isLoading: isLoadingStore, store } = useAppSelector((state) => state.store);
+  const { storePartners, isLoading: isLoadingStorePartner } = useAppSelector((state) => state.storePartner);
 
-  console.log('storePartners', storePartners)
+  console.log('storePartners', storePartners);
 
-  const [status, setStatus] = useState<Status>(Status.ACTIVE)
+  const [status, setStatus] = useState<Status>(Status.ACTIVE);
 
-  const [order, setOrder] = useState<OrderSort>('asc')
-  const [orderBy, setOrderBy] = useState<keyof StorePartnerDetailTable>('partnerName')
+  const [order, setOrder] = useState<OrderSort>('asc');
+  const [orderBy, setOrderBy] = useState<keyof StorePartnerDetailTable>('partnerName');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StorePartnerDetailTable) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const paramsStoreDetail = useMemo(() => {
     return {
       storeId,
       navigate,
-    }
-  }, [storeId, navigate])
+    };
+  }, [storeId, navigate]);
 
   useEffect(() => {
-    dispatch(getStoreDetail(paramsStoreDetail))
-  }, [dispatch, navigate, paramsStoreDetail])
+    dispatch(getStoreDetail(paramsStoreDetail));
+  }, [dispatch, navigate, paramsStoreDetail]);
 
   const handleDelete = () => {
-    handleOpenModal(store?.name)
+    handleOpenModal(store?.name);
     dispatch(
       deleteStore({
         idParams: { storeId: store?.storeId },
         pathname: pathname,
         navigate,
       })
-    )
-  }
+    );
+  };
 
   const params = useMemo(() => {
     return {
       storeId,
       navigate,
-    }
-  }, [storeId, navigate])
+    };
+  }, [storeId, navigate]);
 
   useEffect(() => {
-    dispatch(getAllStorePartnersByStoreId(params))
-  }, [dispatch, navigate, params])
+    dispatch(getAllStorePartnersByStoreId(params));
+  }, [dispatch, navigate, params]);
 
   return (
     <>
@@ -165,8 +165,8 @@ function StoreDetailPage() {
                     {translate('button.menuAction')}
                   </Button>,
                 ]
-              : []
-          return listAction
+              : [];
+          return listAction;
         }}
       >
         {isLoadingStore ? (
@@ -344,8 +344,8 @@ function StoreDetailPage() {
                   <Button
                     variant="outlined"
                     onClick={() => {
-                      navigate(PATH_BRAND_APP.storePartner.newStorePartner)
-                      dispatch(setAddFormDetail(store))
+                      navigate(PATH_BRAND_APP.storePartner.newStorePartner);
+                      dispatch(setAddFormDetail(store));
                     }}
                   >
                     {translate('button.add', { model: translate('model.lowercase.partner') })}
@@ -375,7 +375,7 @@ function StoreDetailPage() {
                                   partner={partner}
                                   storeId={Number(storeId)}
                                 />
-                              )
+                              );
                             })}
                             {storePartners?.storePartners?.length === 0 && (
                               <EmptyTable
@@ -417,9 +417,9 @@ function StoreDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.store.root + `/update/${storeId}`)
-          dispatch(setRoutesToBack(pathname))
-          dispatch(setEditStore(store))
+          navigate(PATH_ADMIN_APP.store.root + `/update/${storeId}`);
+          dispatch(setRoutesToBack(pathname));
+          dispatch(setEditStore(store));
         }}
       />
 
@@ -455,8 +455,8 @@ function StoreDetailPage() {
       >
         <MenuItem
           onClick={() => {
-            setStatus(Status.ACTIVE)
-            handleOpenConfirm(Status.ACTIVE)
+            setStatus(Status.ACTIVE);
+            handleOpenConfirm(Status.ACTIVE);
           }}
         >
           <CheckIcon fontSize="small" sx={{ mr: 2 }} />
@@ -466,8 +466,8 @@ function StoreDetailPage() {
         <MenuItem
           sx={{ color: 'error.main' }}
           onClick={() => {
-            setStatus(Status.REJECTED)
-            handleOpenConfirm(Status.REJECTED)
+            setStatus(Status.REJECTED);
+            handleOpenConfirm(Status.REJECTED);
           }}
         >
           <ClearIcon fontSize="small" sx={{ mr: 2 }} />
@@ -485,7 +485,7 @@ function StoreDetailPage() {
         />
       )}
     </>
-  )
+  );
 }
 
-export default StoreDetailPage
+export default StoreDetailPage;

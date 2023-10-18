@@ -1,4 +1,4 @@
-import { Skeleton, TableCell, TableRow, Typography } from '@mui/material'
+import { Skeleton, TableCell, TableRow, Typography } from '@mui/material';
 
 function KitchenCenterTableRowDashboardSkeleton({ length = 3 }: { length: number }) {
   return (
@@ -22,7 +22,7 @@ function KitchenCenterTableRowDashboardSkeleton({ length = 3 }: { length: number
         </TableRow>
       ))}
     </>
-  )
+  );
 }
 
-export default KitchenCenterTableRowDashboardSkeleton
+export default KitchenCenterTableRowDashboardSkeleton;

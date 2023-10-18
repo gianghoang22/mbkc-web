@@ -1,52 +1,52 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material'
+import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { Brand } from '@types'
-import { Color, Status } from 'common/enum'
-import { ConfirmDialog, Label, Popover } from 'components'
-import { useLocales, useModal, usePopover } from 'hooks'
-import { deleteBrand, getBrandDetail, setEditBrand, updateStatusBrand } from 'redux/brand/brandSlice'
-import { useAppDispatch } from 'redux/configStore'
-import { setRoutesToBack } from 'redux/routes/routesSlice'
-import { PATH_ADMIN_APP } from 'routes/paths'
+import { Brand } from '@types';
+import { Color, Status } from 'common/enum';
+import { ConfirmDialog, Label, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
+import { deleteBrand, getBrandDetail, setEditBrand, updateStatusBrand } from 'redux/brand/brandSlice';
+import { useAppDispatch } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface BrandTableRowProps {
-  index: number
-  brand: Brand
-  page: number
-  rowsPerPage: number
+  index: number;
+  brand: Brand;
+  page: number;
+  rowsPerPage: number;
 }
 
 function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const { pathname } = useLocation()
-  const { translate } = useLocales()
-  const { handleOpen, isOpen } = useModal()
-  const { open, handleOpenMenu, handleCloseMenu } = usePopover()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
+  const { translate } = useLocales();
+  const { handleOpen, isOpen } = useModal();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = (brand: Brand, brandId: number) => {
-    navigate(PATH_ADMIN_APP.brand.root + `/${brandId}`)
-    dispatch(setRoutesToBack(pathname))
-  }
+    navigate(PATH_ADMIN_APP.brand.root + `/${brandId}`);
+    dispatch(setRoutesToBack(pathname));
+  };
 
   const handleEdit = () => {
-    navigate(PATH_ADMIN_APP.brand.root + `/update/${brand.brandId}`)
-    dispatch(setRoutesToBack(pathname))
-    dispatch(setEditBrand(brand))
-  }
+    navigate(PATH_ADMIN_APP.brand.root + `/update/${brand.brandId}`);
+    dispatch(setRoutesToBack(pathname));
+    dispatch(setEditBrand(brand));
+  };
 
   const handleDelete = async () => {
-    const brandId = brand.brandId
+    const brandId = brand.brandId;
     const params = {
       brandId,
       navigate,
-    }
-    dispatch(deleteBrand(params))
-  }
+    };
+    dispatch(deleteBrand(params));
+  };
 
   const handleChangeStatus = () => {
     const updateStatusParams = {
@@ -55,10 +55,10 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
       status: `${brand.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
       page: page + 1,
       rowsPerPage: rowsPerPage,
-    }
+    };
 
-    dispatch<any>(updateStatusBrand(updateStatusParams))
-  }
+    dispatch<any>(updateStatusBrand(updateStatusParams));
+  };
 
   return (
     <>
@@ -124,7 +124,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
         />
       )}
     </>
-  )
+  );
 }
 
-export default BrandTableRow
+export default BrandTableRow;

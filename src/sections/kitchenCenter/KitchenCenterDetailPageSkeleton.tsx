@@ -1,4 +1,4 @@
-import { Card, Grid, Stack, Typography, Skeleton } from '@mui/material'
+import { Card, Grid, Stack, Typography, Skeleton } from '@mui/material';
 
 function KitchenCenterDetailPageSkeleton() {
   return (
@@ -31,7 +31,7 @@ function KitchenCenterDetailPageSkeleton() {
         </Stack>
       </Card>
     </>
-  )
+  );
 }
 
-export default KitchenCenterDetailPageSkeleton
+export default KitchenCenterDetailPageSkeleton;

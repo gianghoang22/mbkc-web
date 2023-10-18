@@ -1,59 +1,59 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { ReactNode, useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import AddRoundedIcon from '@mui/icons-material/AddRounded'
-import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material'
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // redux
-import { useAppDispatch, useAppSelector } from 'redux/configStore'
-import { getAllPartners, setAddPartner } from 'redux/partner/partnerSlice'
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllPartners, setAddPartner } from 'redux/partner/partnerSlice';
 //
-import { ListParams, OrderSort, PartnerTable } from '@types'
-import { Role } from 'common/enum'
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components'
-import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks'
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths'
-import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton, PartnerTableToolbar } from 'sections/partner'
-import { getComparator, stableSort } from 'utils'
+import { ListParams, OrderSort, PartnerTable } from '@types';
+import { Role } from 'common/enum';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
+import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton, PartnerTableToolbar } from 'sections/partner';
+import { getComparator, stableSort } from 'utils';
 
 function ListPartnerPage() {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const { translate } = useLocales()
-  const { pathname } = useLocation()
-  const { handleOpen, isOpen } = useModal()
-  const { partnerHeadCells } = useConfigHeadTable()
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { translate } = useLocales();
+  const { pathname } = useLocation();
+  const { handleOpen, isOpen } = useModal();
+  const { partnerHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { userAuth } = useAppSelector((state) => state.auth)
-  const { partners, isLoading, numberItems } = useAppSelector((state) => state.partner)
+  const { userAuth } = useAppSelector((state) => state.auth);
+  const { partners, isLoading, numberItems } = useAppSelector((state) => state.partner);
 
-  const [order, setOrder] = useState<OrderSort>('asc')
-  const [orderBy, setOrderBy] = useState<keyof PartnerTable>('name')
-  const [filterName, setFilterName] = useState<string>('')
+  const [order, setOrder] = useState<OrderSort>('asc');
+  const [orderBy, setOrderBy] = useState<keyof PartnerTable>('name');
+  const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof PartnerTable) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0)
-    setFilterName(event.target.value)
-  }
+    setPage(0);
+    setFilterName(event.target.value);
+  };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - partners.length) : 0
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - partners.length) : 0;
 
   const visibleRows = useMemo(
     () => stableSort(partners, getComparator(order, orderBy)),
     [order, orderBy, page, rowsPerPage, partners]
-  )
+  );
 
-  const isNotFound = !visibleRows.length && !!filterName
+  const isNotFound = !visibleRows.length && !!filterName;
 
-  const debounceValue = useDebounce(filterName, 500)
+  const debounceValue = useDebounce(filterName, 500);
 
   const params: ListParams = useMemo(() => {
     return {
@@ -63,12 +63,12 @@ function ListPartnerPage() {
         keySearchName: debounceValue,
       },
       navigate,
-    }
-  }, [page, rowsPerPage, debounceValue])
+    };
+  }, [page, rowsPerPage, debounceValue]);
 
   useEffect(() => {
-    dispatch(getAllPartners(params))
-  }, [params])
+    dispatch(getAllPartners(params));
+  }, [params]);
 
   return (
     <>
@@ -83,16 +83,16 @@ function ListPartnerPage() {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      handleOpen('create partner')
-                      dispatch(setAddPartner())
+                      handleOpen('create partner');
+                      dispatch(setAddPartner());
                     }}
                     startIcon={<AddRoundedIcon />}
                   >
                     {translate('button.add', { model: translate('model.lowercase.partner') })}
                   </Button>,
                 ]
-              : []
-          return listAction
+              : [];
+          return listAction;
         }}
       >
         <Card>
@@ -122,7 +122,7 @@ function ListPartnerPage() {
                             lengthPartners={partners.length}
                             setPage={setPage}
                           />
-                        )
+                        );
                       })}
                       {emptyRows > 0 ||
                         (partners.length === 0 && !filterName && (
@@ -153,7 +153,7 @@ function ListPartnerPage() {
 
       {isOpen && <CreatePartnerModal page={page} rowsPerPage={rowsPerPage} isOpen={isOpen} handleOpen={handleOpen} />}
     </>
-  )
+  );
 }
 
-export default ListPartnerPage
+export default ListPartnerPage;
