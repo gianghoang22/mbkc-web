@@ -1,48 +1,48 @@
-import { useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 // @mui
-import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material'
 // redux
-import { useAppSelector } from 'redux/configStore';
+import { useAppSelector } from 'redux/configStore'
 //
-import { ORDER_TYPE_TABS, OrderSort, OrderTable, OrderTypeEnum } from '@types';
-import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { PATH_CASHIER_APP } from 'routes/paths';
-import { OrderTableRow, OrderTableToolbar } from 'sections/order';
-import { getComparator, stableSort } from 'utils';
+import { ORDER_TYPE_TABS, OrderSort, OrderTable, OrderTypeEnum } from '@types'
+import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components'
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks'
+import { PATH_CASHIER_APP } from 'routes/paths'
+import { OrderTableRow, OrderTableToolbar } from 'sections/order'
+import { getComparator, stableSort } from 'utils'
 
 function ListOrdersPage() {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { translate } = useLocales();
-  const { OrderHeadCells } = useConfigHeadTable();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const { translate } = useLocales()
+  const { OrderHeadCells } = useConfigHeadTable()
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination()
 
-  const { orders, isLoading } = useAppSelector((state) => state.order);
+  const { orders, isLoading } = useAppSelector((state) => state.order)
 
-  const [orderSortTable, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof OrderTable>('customerName');
-  const [filterName, setFilterName] = useState<string>('');
-  const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.ALL);
+  const [orderSortTable, setOrder] = useState<OrderSort>('asc')
+  const [orderBy, setOrderBy] = useState<keyof OrderTable>('customerName')
+  const [filterName, setFilterName] = useState<string>('')
+  const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.ALL)
 
   const handleChange = (event: React.SyntheticEvent, newValue: OrderTypeEnum) => {
-    setOrderType(newValue);
-  };
+    setOrderType(newValue)
+  }
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderTable) => {
-    const isAsc = orderBy === property && orderSortTable === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && orderSortTable === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
+    setPage(0)
+    setFilterName(event.target.value)
+  }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - orders.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - orders.length) : 0
 
   const visibleRows = useMemo(
     () =>
@@ -51,9 +51,9 @@ function ListOrdersPage() {
         page * rowsPerPage + rowsPerPage
       ),
     [orderSortTable, orderBy, page, rowsPerPage, orders]
-  );
+  )
 
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !visibleRows.length && !!filterName
 
   return (
     <>
@@ -87,7 +87,7 @@ function ListOrdersPage() {
                     {visibleRows.map((order, index) => {
                       return (
                         <OrderTableRow key={index} index={index} page={page} rowsPerPage={rowsPerPage} order={order} />
-                      );
+                      )
                     })}
                     {emptyRows > 0 ||
                       (orders.length === 0 && !filterName && (
@@ -103,6 +103,7 @@ function ListOrdersPage() {
                 component="div"
                 count={orders.length}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
@@ -112,7 +113,7 @@ function ListOrdersPage() {
         </Card>
       </Page>
     </>
-  );
+  )
 }
 
-export default ListOrdersPage;
+export default ListOrdersPage

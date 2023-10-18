@@ -1,6 +1,8 @@
 export enum Breadcrumb {
   BRAND = 'brand',
+  BRANDS = 'brands',
   KITCHEN_CENTER = 'kitchen center',
+  KITCHEN_CENTERS = 'kitchen centers',
   STORE = 'store',
   CATEGORY = 'category',
   EXTRA_CATEGORY = 'extra category',
@@ -10,6 +12,7 @@ export enum Breadcrumb {
   BANKING_ACCOUNT = 'banking account',
   TRANSACTION = 'transaction',
   PARTNER = 'partner',
+  PARTNERS = 'partners',
   STORE_PARTNER = 'store partner',
   WALLET = 'wallet',
   LIST = 'list',

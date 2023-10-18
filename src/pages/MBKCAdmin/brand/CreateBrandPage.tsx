@@ -1,28 +1,28 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useLocation, useNavigate } from 'react-router-dom'
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Button, Card, Stack } from '@mui/material'
 //
-import { BrandToCreate, BrandToUpdate } from '@types';
-import { Color } from 'common/enum';
-import { Page } from 'components';
-import { useLocales, useValidationForm } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
-import { PATH_ADMIN_APP } from 'routes/paths';
-import BrandForm from 'sections/brand/BrandForm';
-import { useDispatch } from 'react-redux';
-import { createNewBrand, updateBrand } from 'redux/brand/brandSlice';
+import { BrandToCreate, BrandToUpdate } from '@types'
+import { Color } from 'common/enum'
+import { Page } from 'components'
+import { useLocales, useValidationForm } from 'hooks'
+import { useAppSelector } from 'redux/configStore'
+import { PATH_ADMIN_APP } from 'routes/paths'
+import BrandForm from 'sections/brand/BrandForm'
+import { useDispatch } from 'react-redux'
+import { createNewBrand, updateBrand } from 'redux/brand/brandSlice'
 
 function CreateBrandPage() {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const dispatch = useDispatch();
-  const { translate } = useLocales();
-  const { schemaBrand } = useValidationForm();
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const dispatch = useDispatch()
+  const { translate } = useLocales()
+  const { schemaBrand } = useValidationForm()
 
-  const { pathnameToBack } = useAppSelector((state) => state.routes);
-  const { isEditing, brand } = useAppSelector((state) => state.brand);
+  const { pathnameToBack } = useAppSelector((state: any) => state.routes)
+  const { isEditing, brand } = useAppSelector((state: any) => state.brand)
 
   const createBrandForm = useForm<BrandToCreate>({
     defaultValues: {
@@ -32,17 +32,17 @@ function CreateBrandPage() {
       Logo: isEditing ? brand?.logo : '',
     },
     resolver: yupResolver(schemaBrand),
-  });
+  })
 
-  const { handleSubmit } = createBrandForm;
+  const { handleSubmit } = createBrandForm
 
   const onSubmit = async (values: BrandToCreate) => {
     // Create a brand
-    const data = { ...values };
+    const data = { ...values }
     const params = {
       newBrand: data,
       navigate,
-    };
+    }
 
     // Update a brand
     const BrandToUpdate: BrandToUpdate = {
@@ -51,21 +51,21 @@ function CreateBrandPage() {
       Address: values.Address,
       Logo: values.Logo,
       BrandManagerEmail: values.ManagerEmail,
-    };
+    }
 
     const updateBrandParams = {
       updateBrandOptions: BrandToUpdate,
       brandId: brand?.brandId,
       navigate,
-    };
+    }
 
     // Actions
     if (isEditing) {
-      dispatch<any>(updateBrand(updateBrandParams));
+      dispatch<any>(updateBrand(updateBrandParams))
     } else {
-      dispatch<any>(createNewBrand(params));
+      dispatch<any>(createNewBrand(params))
     }
-  };
+  }
 
   return (
     <Page
@@ -103,7 +103,7 @@ function CreateBrandPage() {
         </Stack>
       </FormProvider>
     </Page>
-  );
+  )
 }
 
-export default CreateBrandPage;
+export default CreateBrandPage

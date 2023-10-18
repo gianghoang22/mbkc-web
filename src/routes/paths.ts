@@ -25,22 +25,22 @@ export const PATH_ADMIN_APP = {
 
   kitchenCenter: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/detail/:id'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-centers'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/:id'),
     editById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/update/:id'),
     newKitchenCenter: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/create-new'),
   },
   brand: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/brand'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/brand/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/brand/detail/:id'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/brands'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/brand/:id'),
     editById: path(ROOTS_ADMIN_DASHBOARD, '/brand/update/:id'),
     newBrand: path(ROOTS_ADMIN_DASHBOARD, '/brand/create-new'),
   },
   partner: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/partner'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/partner/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/partner/detail/:id'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/partners'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/partner/:id'),
     editById: path(ROOTS_ADMIN_DASHBOARD, '/partner/update/:id'),
     newPartner: path(ROOTS_ADMIN_DASHBOARD, '/partner/create-new'),
   },

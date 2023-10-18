@@ -1,30 +1,32 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useLocation, useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Button, Card, Stack } from '@mui/material'
 //
-import { CreateKitchenCenterParams, KitchenCenterToAdd, KitchenCenterToUpdate } from '@types';
-import { Color } from 'common/enum';
-import { Page } from 'components';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from 'redux/configStore';
-import { createNewKitchenCenter, updateKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { PATH_ADMIN_APP } from 'routes/paths';
-import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
+import { CreateKitchenCenterParams, KitchenCenterToAdd, KitchenCenterToUpdate } from '@types'
+import { Color } from 'common/enum'
+import { Page } from 'components'
+import { useDispatch } from 'react-redux'
+import { useAppSelector } from 'redux/configStore'
+import { createNewKitchenCenter, updateKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice'
+import { PATH_ADMIN_APP } from 'routes/paths'
+import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm'
+import { useLocales } from 'hooks'
 
 const schema = yup.object({
   Name: yup.string().required('Please enter brand name'),
   Address: yup.string().required('Please enter kitchen center address'),
   ManagerEmail: yup.string().email('Email is not valid').required(),
-});
+})
 
 function CreateKitchenCenterPage(props: any) {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const dispatch = useDispatch();
-  const { isEditing, kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const { translate } = useLocales()
+  const dispatch = useDispatch()
+  const { isEditing, kitchenCenter } = useAppSelector((state) => state.kitchenCenter)
 
   const createKitchenCenterForm = useForm<KitchenCenterToAdd>({
     defaultValues: {
@@ -34,17 +36,17 @@ function CreateKitchenCenterPage(props: any) {
       ManagerEmail: isEditing ? kitchenCenter?.kitchenCenterManagerEmail : '',
     },
     resolver: yupResolver(schema),
-  });
+  })
 
-  const { handleSubmit } = createKitchenCenterForm;
+  const { handleSubmit } = createKitchenCenterForm
 
   const onSubmit = async (values: KitchenCenterToAdd) => {
     // Create a kitchen center
-    const data = { ...values };
+    const data = { ...values }
     const params: CreateKitchenCenterParams = {
       newKitchenCenter: data,
       navigate,
-    };
+    }
 
     // Update a kitchen center
     const updateKitchenCenterOptions: KitchenCenterToUpdate = {
@@ -53,24 +55,28 @@ function CreateKitchenCenterPage(props: any) {
       Status: 'ACTIVE',
       Logo: values.Logo,
       ManagerEmail: values.ManagerEmail,
-    };
+    }
 
     const paramsUpdate = {
       updateKitchenCenterOptions: updateKitchenCenterOptions,
       kitchenCenterId: kitchenCenter?.kitchenCenterId,
       navigate,
-    };
+    }
 
     if (isEditing) {
-      dispatch<any>(updateKitchenCenter(paramsUpdate));
+      dispatch<any>(updateKitchenCenter(paramsUpdate))
     } else {
-      dispatch<any>(createNewKitchenCenter(params));
+      dispatch<any>(createNewKitchenCenter(params))
     }
-  };
+  }
 
   return (
     <Page
-      title={isEditing ? 'Update Kitchen Center' : 'Create New Kitchen Center'}
+      title={
+        isEditing
+          ? translate('page.title.update', { model: translate('model.lowercase.kitchenCenter') })
+          : translate('page.title.create', { model: translate('model.lowercase.kitchenCenter') })
+      }
       pathname={pathname}
       navigateDashboard={PATH_ADMIN_APP.root}
     >
@@ -80,25 +86,27 @@ function CreateKitchenCenterPage(props: any) {
         </Card>
         <Stack direction="row" justifyContent="space-between" mt={12}>
           <Button variant="outlined" color="inherit" onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.list)}>
-            Back
+            {translate('button.back')}
           </Button>
           <Stack direction="row" gap={2}>
-            <Button variant="contained" color="inherit">
-              Reset
-            </Button>
+            {isEditing && (
+              <Button variant="contained" color="inherit">
+                {translate('button.reset')}
+              </Button>
+            )}
             <Button
               variant="contained"
               color={isEditing ? Color.WARNING : Color.PRIMARY}
               type="submit"
               onClick={handleSubmit(onSubmit)}
             >
-              {isEditing ? 'Update' : 'Create'}
+              {isEditing ? translate('button.update') : translate('button.create')}
             </Button>
           </Stack>
         </Stack>
       </FormProvider>
     </Page>
-  );
+  )
 }
 
-export default CreateKitchenCenterPage;
+export default CreateKitchenCenterPage

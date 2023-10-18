@@ -1,73 +1,73 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 // @mui
-import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material'
 //@mui Icons
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded'
 //
-import { BrandTable, OrderSort } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { PATH_ADMIN_APP } from 'routes/paths';
-import { BrandTableRow, BrandTableRowSkeleton, BrandTableToolbar } from 'sections/brand';
-import { getComparator, stableSort } from 'utils';
+import { BrandTable, OrderSort } from '@types'
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components'
+import { useConfigHeadTable, useLocales, usePagination } from 'hooks'
+import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice'
+import { useAppDispatch, useAppSelector } from 'redux/configStore'
+import { PATH_ADMIN_APP } from 'routes/paths'
+import { BrandTableRow, BrandTableRowSkeleton, BrandTableToolbar } from 'sections/brand'
+import { getComparator, stableSort } from 'utils'
 
 function ListBrandPage() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { translate } = useLocales();
-  const { pathname } = useLocation();
-  const { brandHeadCells } = useConfigHeadTable();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { translate } = useLocales()
+  const { pathname } = useLocation()
+  const { brandHeadCells } = useConfigHeadTable()
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination()
 
-  const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof BrandTable>('name');
-  const [filterName, setFilterName] = useState<string>('');
+  const [order, setOrder] = useState<OrderSort>('asc')
+  const [orderBy, setOrderBy] = useState<keyof BrandTable>('name')
+  const [filterName, setFilterName] = useState<string>('')
 
-  const { brands, isLoading } = useAppSelector((state) => state.brand);
+  const { brands, isLoading } = useAppSelector((state) => state.brand)
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BrandTable) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
+    setPage(0)
+    setFilterName(event.target.value)
+  }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - brands.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - brands.length) : 0
 
   const visibleRows = useMemo(
     () => stableSort(brands, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [order, orderBy, page, rowsPerPage, brands]
-  );
+  )
 
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !visibleRows.length && !!filterName
 
   const options = {
     keySearchName: filterName,
     keyStatusFilter: 'active',
     currentPage: page + 1,
     itemsPerPage: rowsPerPage,
-  };
+  }
 
   const params = {
     optionParams: options,
     navigate,
-  };
+  }
 
   useEffect(() => {
-    dispatch(getAllBrands(params));
+    dispatch(getAllBrands(params))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterName, page, rowsPerPage]);
+  }, [filterName, page, rowsPerPage])
 
-  console.log(brands);
+  console.log(brands)
 
   return (
     <>
@@ -80,8 +80,8 @@ function ListBrandPage() {
             variant="contained"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
-              navigate(PATH_ADMIN_APP.brand.newBrand);
-              dispatch(setAddBrand());
+              navigate(PATH_ADMIN_APP.brand.newBrand)
+              dispatch(setAddBrand())
             }}
           >
             {translate('button.add', { model: translate('model.lowercase.brand') })}
@@ -114,7 +114,7 @@ function ListBrandPage() {
                             page={page}
                             rowsPerPage={rowsPerPage}
                           />
-                        );
+                        )
                       })}
                       {emptyRows > 0 ||
                         (brands.length === 0 && !filterName && (
@@ -133,6 +133,7 @@ function ListBrandPage() {
                 component="div"
                 count={brands.length}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
@@ -142,7 +143,7 @@ function ListBrandPage() {
         </Card>
       </Page>
     </>
-  );
+  )
 }
 
-export default ListBrandPage;
+export default ListBrandPage

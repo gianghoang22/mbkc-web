@@ -1,6 +1,6 @@
 {
   "title": {
-    "list": "List {{model}}",
+    "list": "List of {{model}}",
     "create": "Create new {{model}}",
     "update": "Update {{model}}",
     "detail": "{{model}} detail",

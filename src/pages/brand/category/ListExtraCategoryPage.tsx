@@ -1,57 +1,54 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 // @mui
-import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material'
 // @mui icon
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded'
 //
-import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import { getAllCategories, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { PATH_BRAND_APP } from 'routes/paths';
-import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
-import { getComparator, stableSort } from 'utils';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types'
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components'
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks'
+import { getAllCategories, setAddCategory, setCategoryType } from 'redux/category/categorySlice'
+import { useAppDispatch, useAppSelector } from 'redux/configStore'
+import { PATH_BRAND_APP } from 'routes/paths'
+import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category'
+import { getComparator, stableSort } from 'utils'
+import { setRoutesToBack } from 'redux/routes/routesSlice'
 
 function ListExtraCategoryPage() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { translate } = useLocales();
-  const { pathname } = useLocation();
-  const { categoryHeadCells } = useConfigHeadTable();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { translate } = useLocales()
+  const { pathname } = useLocation()
+  const { categoryHeadCells } = useConfigHeadTable()
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination()
 
-  const { categories, isLoading } = useAppSelector((state) => state.category);
+  const { categories, isLoading } = useAppSelector((state) => state.category)
 
-  const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
-  const [filterName, setFilterName] = useState<string>('');
+  const [order, setOrder] = useState<OrderSort>('asc')
+  const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name')
+  const [filterName, setFilterName] = useState<string>('')
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
+    setPage(0)
+    setFilterName(event.target.value)
+  }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0
 
-  const visibleRows = useMemo(
-    () => stableSort(categories, getComparator(order, orderBy)),
-    [order, orderBy, categories]
-  );
+  const visibleRows = useMemo(() => stableSort(categories, getComparator(order, orderBy)), [order, orderBy, categories])
 
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !visibleRows.length && !!filterName
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName, 500)
 
   const params: ListParams = useMemo(() => {
     return {
@@ -62,12 +59,12 @@ function ListExtraCategoryPage() {
         keySearchName: debounceValue,
       },
       navigate,
-    };
-  }, [page, rowsPerPage, debounceValue]);
+    }
+  }, [page, rowsPerPage, debounceValue])
 
   useEffect(() => {
-    dispatch<any>(getAllCategories(params));
-  }, [params]);
+    dispatch<any>(getAllCategories(params))
+  }, [params])
 
   return (
     <>
@@ -80,10 +77,10 @@ function ListExtraCategoryPage() {
             variant="contained"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
-              navigate(PATH_BRAND_APP.category.newCategory);
-              dispatch(setCategoryType(CategoryType.EXTRA));
-              dispatch(setRoutesToBack(pathname));
-              dispatch(setAddCategory());
+              navigate(PATH_BRAND_APP.category.newCategory)
+              dispatch(setCategoryType(CategoryType.EXTRA))
+              dispatch(setRoutesToBack(pathname))
+              dispatch(setAddCategory())
             }}
           >
             {translate('button.add', { model: translate('model.lowercase.extraCategory') })}
@@ -117,7 +114,7 @@ function ListExtraCategoryPage() {
                             length={visibleRows.length}
                             setPage={setPage}
                           />
-                        );
+                        )
                       })}
                       {emptyRows > 0 ||
                         (categories.length === 0 && !filterName && (
@@ -137,6 +134,7 @@ function ListExtraCategoryPage() {
                 count={categories.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
@@ -145,7 +143,7 @@ function ListExtraCategoryPage() {
         </Card>
       </Page>
     </>
-  );
+  )
 }
 
-export default ListExtraCategoryPage;
+export default ListExtraCategoryPage

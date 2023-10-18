@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from 'react';
-import { useLocation } from 'react-router';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router'
+import { useNavigate, useParams } from 'react-router-dom'
 // @mui
 import {
   Avatar,
@@ -16,73 +16,73 @@ import {
   TableContainer,
   TablePagination,
   Typography,
-} from '@mui/material';
+} from '@mui/material'
 // @mui icon
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 // redux
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore'
 import {
   getKitchenCenterDetail,
   setEditKitchenCenter,
   setKitchenCenterToNull,
-} from 'redux/kitchenCenter/kitchenCenterSlice';
-import { getAllStores } from 'redux/store/storeSlice';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
+} from 'redux/kitchenCenter/kitchenCenterSlice'
+import { getAllStores } from 'redux/store/storeSlice'
+import { setRoutesToBack } from 'redux/routes/routesSlice'
 //
-import { ListParams, OrderSort, StoreTable } from '@types';
-import { Color, Status } from 'common/enum';
-import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { PATH_ADMIN_APP } from 'routes/paths';
-import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
-import { getComparator, stableSort } from 'utils';
-import { KitchenCenterDetailPageSkeleton } from '..';
-import axios from 'axios';
+import { ListParams, OrderSort, StoreTable } from '@types'
+import { Color, Language, Status } from 'common/enum'
+import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components'
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks'
+import { PATH_ADMIN_APP } from 'routes/paths'
+import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store'
+import { getComparator, stableSort } from 'utils'
+import { KitchenCenterDetailPageSkeleton } from '..'
+import axios from 'axios'
 
 function KitchenCenterDetailPage() {
-  const { id: kitchenCenterId } = useParams();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { storeHeadCells } = useConfigHeadTable();
-  const { translate } = useLocales();
-  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
-  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { id: kitchenCenterId } = useParams()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const { storeHeadCells } = useConfigHeadTable()
+  const { translate, currentLang } = useLocales()
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal()
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover()
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination()
 
-  const { kitchenCenter, isLoading } = useAppSelector((state) => state.kitchenCenter);
-  const { stores, isLoading: isLoadingStores, numberItems } = useAppSelector((state) => state.store);
+  const { kitchenCenter, isLoading } = useAppSelector((state) => state.kitchenCenter)
+  const { stores, isLoading: isLoadingStores, numberItems } = useAppSelector((state) => state.store)
 
-  const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
-  const [filterName, setFilterName] = useState<string>('');
+  const [order, setOrder] = useState<OrderSort>('asc')
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name')
+  const [filterName, setFilterName] = useState<string>('')
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
+    setPage(0)
+    setFilterName(event.target.value)
+  }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0
 
   const visibleRows = useMemo(
     () => stableSort(stores, getComparator(order, orderBy)),
     [order, orderBy, page, rowsPerPage, stores]
-  );
+  )
 
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !visibleRows.length && !!filterName
 
   const handleDelete = () => {
-    console.log('Handel delete clicked');
-  };
+    console.log('Handel delete clicked')
+  }
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName, 500)
 
   const params: ListParams = useMemo(() => {
     return {
@@ -93,31 +93,34 @@ function KitchenCenterDetailPage() {
         idKitchenCenter: kitchenCenterId,
       },
       navigate,
-    };
-  }, [page, rowsPerPage, debounceValue]);
+    }
+  }, [page, rowsPerPage, debounceValue])
 
   const paramsDetails = useMemo(() => {
     return {
       kitchenCenterId,
       navigate,
-    };
-  }, [kitchenCenterId, navigate]);
+    }
+  }, [kitchenCenterId, navigate])
 
   useEffect(() => {
-    dispatch<any>(getKitchenCenterDetail(paramsDetails));
-    dispatch<any>(getAllStores(params));
+    dispatch<any>(getKitchenCenterDetail(paramsDetails))
+    dispatch<any>(getAllStores(params))
 
     return () => {
-      dispatch(setKitchenCenterToNull());
-    };
-  }, [params]);
+      dispatch(setKitchenCenterToNull())
+    }
+  }, [params])
 
   return (
     <>
       <Page
-        title={translate('page.title.detail', {
-          model: translate('model.lowercase.kitchenCenter'),
-        })}
+        title={translate(
+          'page.title.detail',
+          currentLang.value === Language.ENGLISH
+            ? { model: translate('model.capitalizeOne.kitchenCenter') }
+            : { model: translate('model.lowercase.kitchenCenter') }
+        )}
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [
@@ -203,11 +206,11 @@ function KitchenCenterDetailPage() {
                               haveBrand={true}
                               showEmail
                             />
-                          );
+                          )
                         })}
                         {emptyRows > 0 ||
                           (stores.length === 0 && !filterName && (
-                            <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
+                            <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.stores')} />
                           ))}
                       </TableBody>
                     )}
@@ -219,6 +222,7 @@ function KitchenCenterDetailPage() {
                   component="div"
                   count={numberItems}
                   rowsPerPage={rowsPerPage}
+                  labelRowsPerPage={translate('table.rowsPerPage')}
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
@@ -234,9 +238,9 @@ function KitchenCenterDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenterId}`);
-          dispatch(setEditKitchenCenter(kitchenCenter));
-          dispatch(setRoutesToBack(pathname));
+          navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenterId}`)
+          dispatch(setEditKitchenCenter(kitchenCenter))
+          dispatch(setRoutesToBack(pathname))
         }}
       />
 
@@ -252,7 +256,7 @@ function KitchenCenterDetailPage() {
         />
       )}
     </>
-  );
+  )
 }
 
-export default KitchenCenterDetailPage;
+export default KitchenCenterDetailPage
