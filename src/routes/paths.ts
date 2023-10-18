@@ -1,24 +1,24 @@
-import { path } from 'utils'
+import { path } from 'utils';
 
-const ROOTS_ERROR = '/error'
-const ROOTS_AUTH = '/auth'
-const ROOTS_BRAND_DASHBOARD = '/brand'
-const ROOTS_KITCHEN_CENTER_DASHBOARD = '/kitchen-center'
-const ROOTS_CASHIER_DASHBOARD = '/cashier'
-export const ROOTS_ADMIN_DASHBOARD = '/mbkc-admin'
+const ROOTS_ERROR = '/error';
+const ROOTS_AUTH = '/auth';
+const ROOTS_BRAND_DASHBOARD = '/brand';
+const ROOTS_KITCHEN_CENTER_DASHBOARD = '/kitchen-center';
+const ROOTS_CASHIER_DASHBOARD = '/cashier';
+export const ROOTS_ADMIN_DASHBOARD = '/mbkc-admin';
 
 export const PATH_ERROR = {
   noPermission: path(ROOTS_ERROR, '/403'),
   notFound: path(ROOTS_ERROR, '/404'),
   serverError: path(ROOTS_ERROR, '/500'),
-}
+};
 
 export const PATH_AUTH = {
   login: path(ROOTS_AUTH, '/login'),
   forgotPassword: path(ROOTS_AUTH, '/forgot-password'),
   verificationOTP: path(ROOTS_AUTH, '/verification-otp'),
   resetPassword: path(ROOTS_AUTH, '/reset-password'),
-}
+};
 
 export const PATH_ADMIN_APP = {
   root: path(ROOTS_ADMIN_DASHBOARD, '/dashboard'),
@@ -49,7 +49,7 @@ export const PATH_ADMIN_APP = {
     list: path(ROOTS_ADMIN_DASHBOARD, '/stores'),
     detailById: path(ROOTS_ADMIN_DASHBOARD, '/store/:id'),
   },
-}
+};
 
 export const PATH_BRAND_APP = {
   root: path(ROOTS_BRAND_DASHBOARD, '/dashboard'),
@@ -89,7 +89,7 @@ export const PATH_BRAND_APP = {
     root: path(ROOTS_BRAND_DASHBOARD, '/mapping-product'),
     list: path(ROOTS_BRAND_DASHBOARD, '/mapping-product/list'),
   },
-}
+};
 
 export const PATH_KITCHEN_CENTER_APP = {
   root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/dashboard'),
@@ -97,33 +97,33 @@ export const PATH_KITCHEN_CENTER_APP = {
   information: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/information'),
   store: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store'),
-    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store/list'),
-    detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store/detail/:id'),
+    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/stores'),
+    detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store/:id'),
   },
   cashier: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier'),
-    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/list'),
+    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashiers'),
     editById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/update/:id'),
     newCashier: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/create-new'),
   },
   order: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/order'),
-    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/order/list'),
-    detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/order/detail/:id'),
+    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/orders'),
+    detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/order/:id'),
   },
   bankingAccount: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account'),
-    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/list'),
-    detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/detail/:id'),
+    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-accounts'),
+    detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/:id'),
     editById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/update/:id'),
     newBankingAccount: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/create-new'),
   },
   wallet: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet'),
-    shipperPayments: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/list-shipper-payment'),
-    moneyExchanges: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/list-money-exchange'),
+    shipperPayments: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/shipper-payments'),
+    moneyExchanges: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/money-exchanges'),
   },
-}
+};
 
 export const PATH_CASHIER_APP = {
   root: path(ROOTS_CASHIER_DASHBOARD, '/dashboard'),
@@ -131,11 +131,11 @@ export const PATH_CASHIER_APP = {
   information: path(ROOTS_CASHIER_DASHBOARD, '/information'),
   order: {
     root: path(ROOTS_CASHIER_DASHBOARD, '/order'),
-    list: path(ROOTS_CASHIER_DASHBOARD, '/order/list'),
-    detailById: path(ROOTS_CASHIER_DASHBOARD, '/order/detail/:id'),
+    list: path(ROOTS_CASHIER_DASHBOARD, '/orders'),
+    detailById: path(ROOTS_CASHIER_DASHBOARD, '/order/:id'),
   },
   transaction: {
     root: path(ROOTS_CASHIER_DASHBOARD, '/transaction'),
-    list: path(ROOTS_CASHIER_DASHBOARD, '/transaction/list'),
+    list: path(ROOTS_CASHIER_DASHBOARD, '/transactions'),
   },
-}
+};

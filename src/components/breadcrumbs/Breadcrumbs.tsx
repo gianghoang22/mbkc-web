@@ -57,10 +57,14 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.product')
             : nameUppercase === Breadcrumb.CASHIER
             ? translate('breadcrumb.cashier')
+            : nameUppercase === Breadcrumb.CASHIERS
+            ? translate('breadcrumb.cashiers')
             : nameUppercase === Breadcrumb.ORDER
             ? translate('breadcrumb.order')
             : nameUppercase === Breadcrumb.BANKING_ACCOUNT
             ? translate('breadcrumb.banking-account')
+            : nameUppercase === Breadcrumb.BANKING_ACCOUNTS
+            ? translate('breadcrumb.banking-accounts')
             : nameUppercase === Breadcrumb.TRANSACTION
             ? translate('breadcrumb.transaction')
             : nameUppercase === Breadcrumb.PARTNERS

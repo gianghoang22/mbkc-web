@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Avatar,
@@ -10,35 +10,35 @@ import {
   TableCell,
   TableRow,
   Tooltip,
-} from '@mui/material'
+} from '@mui/material';
 // @mui icon
-import CheckIcon from '@mui/icons-material/Check'
-import ClearIcon from '@mui/icons-material/Clear'
-import GraphicEqIcon from '@mui/icons-material/GraphicEq'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 //
-import { Params, Store, ToUpdateStatus } from '@types'
-import { Color, PopoverType, Role, Status } from 'common/enum'
-import { ConfirmDialog, Label, Popover } from 'components'
-import { useLocales, useModal, usePopover } from 'hooks'
-import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from 'redux/configStore'
-import { setRoutesToBack } from 'redux/routes/routesSlice'
-import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeSlice'
-import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths'
-import ConfirmRegistrationStore from './ConfirmRegistrationStore'
+import { Params, Store, ToUpdateStatus } from '@types';
+import { Color, PopoverType, Role, Status } from 'common/enum';
+import { ConfirmDialog, Label, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeSlice';
+import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import ConfirmRegistrationStore from './ConfirmRegistrationStore';
 
 interface StoreTableRowProps {
-  store: Store
-  index: number
-  length?: number
-  page?: number
-  rowsPerPage?: number
-  showAction?: boolean
-  haveBrand?: boolean
-  haveKitchenCenter?: boolean
-  showEmail?: boolean
-  setPage?: any
+  store: Store;
+  index: number;
+  length?: number;
+  page?: number;
+  rowsPerPage?: number;
+  showAction?: boolean;
+  haveBrand?: boolean;
+  haveKitchenCenter?: boolean;
+  showEmail?: boolean;
+  setPage?: any;
 }
 
 function StoreTableRow({
@@ -53,44 +53,44 @@ function StoreTableRow({
   length,
   setPage,
 }: StoreTableRowProps) {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const { pathname } = useLocation()
-  const { translate } = useLocales()
-  const { handleOpen, isOpen } = useModal()
-  const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
+  const { translate } = useLocales();
+  const { handleOpen, isOpen } = useModal();
+  const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal();
   const {
     open: openConfirm,
     handleOpenMenu: handleOpenMenuConfirm,
     handleCloseMenu: handleCloseMenuConfirm,
-  } = usePopover()
-  const { open, handleOpenMenu, handleCloseMenu } = usePopover()
+  } = usePopover();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const { userAuth } = useAppSelector((state) => state.auth)
+  const { userAuth } = useAppSelector((state) => state.auth);
 
-  const [status, setStatus] = useState<Status>(Status.ACTIVE)
+  const [status, setStatus] = useState<Status>(Status.ACTIVE);
 
   const handleNavigateDetail = (storeId: number) => {
     navigate(
       userAuth?.roleName === Role.BRAND_MANAGER
         ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
         : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-        ? PATH_KITCHEN_CENTER_APP.store.root + `/detail/${storeId}`
+        ? PATH_KITCHEN_CENTER_APP.store.root + `/${storeId}`
         : PATH_ADMIN_APP.store.root + `/${storeId}`
-    )
-    dispatch(setRoutesToBack(pathname))
-  }
+    );
+    dispatch(setRoutesToBack(pathname));
+  };
 
   const handleEdit = () => {
-    navigate(PATH_ADMIN_APP.store.root + `/update/${store.storeId}`)
-    dispatch(setRoutesToBack(pathname))
-    dispatch(setEditStore(store))
-  }
+    navigate(PATH_ADMIN_APP.store.root + `/update/${store.storeId}`);
+    dispatch(setRoutesToBack(pathname));
+    dispatch(setEditStore(store));
+  };
 
   const handleDelete = () => {
-    handleOpen(store.name)
+    handleOpen(store.name);
     if (length === 1) {
-      setPage(0)
+      setPage(0);
     }
     dispatch(
       deleteStore({
@@ -102,8 +102,8 @@ function StoreTableRow({
         pathname: pathname,
         navigate,
       })
-    )
-  }
+    );
+  };
 
   const handleUpdateStatus = () => {
     const paramUpdate: Params<ToUpdateStatus> = {
@@ -119,9 +119,9 @@ function StoreTableRow({
       },
       pathname: pathname,
       navigate,
-    }
-    dispatch(updateStatusStore(paramUpdate))
-  }
+    };
+    dispatch(updateStatusStore(paramUpdate));
+  };
 
   return (
     <>
@@ -287,8 +287,8 @@ function StoreTableRow({
       >
         <MenuItem
           onClick={() => {
-            setStatus(Status.ACTIVE)
-            handleOpenConfirm(Status.ACTIVE)
+            setStatus(Status.ACTIVE);
+            handleOpenConfirm(Status.ACTIVE);
           }}
         >
           <CheckIcon fontSize="small" sx={{ mr: 2 }} />
@@ -298,8 +298,8 @@ function StoreTableRow({
         <MenuItem
           sx={{ color: 'error.main' }}
           onClick={() => {
-            setStatus(Status.REJECTED)
-            handleOpenConfirm(Status.REJECTED)
+            setStatus(Status.REJECTED);
+            handleOpenConfirm(Status.REJECTED);
           }}
         >
           <ClearIcon fontSize="small" sx={{ mr: 2 }} />
@@ -328,7 +328,7 @@ function StoreTableRow({
         />
       )}
     </>
-  )
+  );
 }
 
-export default StoreTableRow
+export default StoreTableRow;

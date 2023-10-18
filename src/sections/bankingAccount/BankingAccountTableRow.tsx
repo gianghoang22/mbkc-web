@@ -33,7 +33,7 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.editById);
+    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/update/${bankingAccount?.bankingAccountId}`);
     dispatch(setEditBankingAccount(bankingAccount));
   };
 
@@ -66,7 +66,7 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
           <Avatar alt={bankingAccount.name} src={bankingAccount.logoUrl} />
         </TableCell>
         <TableCell component="th" scope="row" onClick={handleOpenModalDetail}>
-          <Typography variant="subtitle2" sx={{ width: 80 }} noWrap>
+          <Typography variant="subtitle2" sx={{ width: 100 }} noWrap>
             {bankingAccount.name}
           </Typography>
         </TableCell>
