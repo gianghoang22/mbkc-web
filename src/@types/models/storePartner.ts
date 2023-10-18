@@ -1,51 +1,51 @@
 export interface StorePartnerDetail {
-  storeId: number;
-  partnerId: number;
-  partnerLogo: string;
-  partnerName: string;
-  userName: string;
-  password: string;
-  status: string;
+  storeId: number
+  partnerId: number
+  partnerLogo: string
+  partnerName: string
+  userName: string
+  password: string
+  status: string
 }
 
 export interface StorePartnerToList {
-  storeId: number;
-  storePartners: PartnerInStore[];
+  storeId: number
+  storePartners: PartnerInStore[]
 }
 export interface StorePartner {
-  storeId: number;
-  storeName: string;
-  kitchenCenterName: string;
-  storePartners: PartnerInStore[];
+  storeId: number
+  storeName: string
+  kitchenCenterName: string
+  storePartners: PartnerInStore[]
 }
 
 export interface PartnerInStore {
-  partnerId: number;
-  partnerName: string;
-  partnerLogo: string;
-  userName: string;
-  password: string;
-  status: string;
+  partnerId: number
+  partnerName: string
+  partnerLogo: string
+  userName: string
+  password: string
+  status: string
 }
 
 export interface StorePartnerToCreate {
-  storeId: number;
-  partnerAccountRequests: PartnerAccount[];
+  storeId: number
+  partnerAccountRequests: PartnerAccount[]
 }
 
 interface PartnerAccount {
-  partnerId: number;
-  userName: string;
-  password: string;
+  partnerId: number
+  userName: string
+  password: string
 }
 
 export interface StorePartnerToUpdate {
-  userName: string;
-  password: string;
+  userName: string
+  password: string
 }
 
 export interface StorePartnerToUpdateApi {
-  userName: string;
-  password: string;
-  status: string;
+  userName: string
+  password: string
+  status: string
 }

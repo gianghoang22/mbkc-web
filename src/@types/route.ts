@@ -1,5 +1,5 @@
 export interface Route {
-  path: string;
-  component: React.ReactNode;
-  index: boolean;
+  path: string
+  component: React.ReactNode
+  index: boolean
 }

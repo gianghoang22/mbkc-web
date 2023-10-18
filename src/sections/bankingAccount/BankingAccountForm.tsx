@@ -1,15 +1,15 @@
 // @mui
-import { Grid, Stack, Typography } from '@mui/material';
-import { Language } from 'common/enum';
+import { Grid, Stack, Typography } from '@mui/material'
+import { Language } from 'common/enum'
 //
-import { InputField, UploadImageField } from 'components';
-import { useLocales } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
+import { InputField, UploadImageField } from 'components'
+import { useLocales } from 'hooks'
+import { useAppSelector } from 'redux/configStore'
 
 function BankingAccountForm() {
-  const { translate, currentLang } = useLocales();
+  const { translate, currentLang } = useLocales()
 
-  const { isEditing } = useAppSelector((state) => state.brand);
+  const { isEditing } = useAppSelector((state) => state.brand)
 
   return (
     <Grid container columnSpacing={3}>
@@ -60,7 +60,7 @@ function BankingAccountForm() {
         </Stack>
       </Grid>
     </Grid>
-  );
+  )
 }
 
-export default BankingAccountForm;
+export default BankingAccountForm

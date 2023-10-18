@@ -1,17 +1,17 @@
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { IconButton, InputAdornment, Tooltip } from '@mui/material';
-import { StyledRoot, StyledSearch } from '../styles';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import ReplayIcon from '@mui/icons-material/Replay'
+import { IconButton, InputAdornment, Tooltip } from '@mui/material'
+import { StyledRoot, StyledSearch } from '../styles'
 
 // ----------------------------------------------------------------------
 
 interface BankingAccountTableToolbarProps {
-  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  filterName: string;
+  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void
+  filterName: string
 }
 
 function BankingAccountTableToolbar(props: BankingAccountTableToolbarProps) {
-  const { filterName, onFilterName } = props;
+  const { filterName, onFilterName } = props
 
   return (
     <StyledRoot>
@@ -33,7 +33,7 @@ function BankingAccountTableToolbar(props: BankingAccountTableToolbarProps) {
         </IconButton>
       </Tooltip>
     </StyledRoot>
-  );
+  )
 }
 
-export default BankingAccountTableToolbar;
+export default BankingAccountTableToolbar

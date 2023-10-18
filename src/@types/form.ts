@@ -1,33 +1,33 @@
 export interface LoginForm {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 export interface EmailForm {
-  email: string;
+  email: string
 }
 
 export interface VerificationForm {
-  email: string;
-  otpCode: string;
+  email: string
+  otpCode: string
 }
 
 export interface ResetForm {
-  email: string;
-  newPassword: string;
-  confirmPassword: string;
+  email: string
+  newPassword: string
+  confirmPassword: string
 }
 
 export interface UpdatePasswordForm {
-  newPassword: string;
-  confirmPassword: string;
+  newPassword: string
+  confirmPassword: string
 }
 
 export interface UpdatePasswordFormApi {
-  newPassword: string;
+  newPassword: string
 }
 
 export interface ResetFormApi {
-  email: string;
-  newPassword: string;
+  email: string
+  newPassword: string
 }

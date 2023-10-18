@@ -73,7 +73,7 @@ function ListBrandPage() {
     <>
       <Page
         pathname={pathname}
-        title={translate('page.title.list', { model: translate('model.lowercase.brand') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.brands') })}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [
           <Button

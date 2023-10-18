@@ -1,37 +1,37 @@
-import { Status } from 'common/enum';
+import { Status } from 'common/enum'
 
 export interface Category {
-  categoryId: number;
-  code: string;
-  name: string;
-  type: string;
-  displayOrder: number;
-  description: string;
-  imageUrl: string;
-  status: string;
+  categoryId: number
+  code: string
+  name: string
+  type: string
+  displayOrder: number
+  description: string
+  imageUrl: string
+  status: string
 }
 
 export interface CategoryToCreate {
-  name: string;
-  code: string;
-  type: string;
-  displayOrder: number;
-  description: string;
-  imageUrl?: File | string;
-  brandId?: number;
+  name: string
+  code: string
+  type: string
+  displayOrder: number
+  description: string
+  imageUrl?: File | string
+  brandId?: number
 }
 
 export interface CategoryToUpdate {
-  name: string;
-  code: string;
-  displayOrder: number;
-  description: string;
-  imageUrl?: File | string;
-  status: Status;
+  name: string
+  code: string
+  displayOrder: number
+  description: string
+  imageUrl?: File | string
+  status: Status
 }
 
 export interface AddExtraCategory {
-  extraCategoryIds: number[];
+  extraCategoryIds: number[]
 }
 
 export enum CategoryType {
@@ -50,4 +50,4 @@ export const CATEGORY_TYPE_OPTIONS = [
     label: 'Extra',
     id: 'Ext',
   },
-];
+]

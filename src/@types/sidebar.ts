@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 
 export interface NavSection {
-  missions: string;
-  listNav: Array<NavItem>;
+  missions: string
+  listNav: Array<NavItem>
 }
 
 export interface NavItem {
-  title: string;
-  path: string;
-  icon: ReactNode;
+  title: string
+  path: string
+  icon: ReactNode
 }

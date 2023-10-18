@@ -47,6 +47,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.kitchen-center')
             : nameUppercase === Breadcrumb.STORE
             ? translate('breadcrumb.store')
+            : nameUppercase === Breadcrumb.STORES
+            ? translate('breadcrumb.stores')
             : nameUppercase === Breadcrumb.CATEGORY
             ? translate('breadcrumb.category')
             : nameUppercase === Breadcrumb.EXTRA_CATEGORY

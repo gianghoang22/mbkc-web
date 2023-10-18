@@ -1,12 +1,12 @@
-import { Grid, Stack, Typography } from '@mui/material';
-import { GENDER_OPTIONS, Gender } from 'common/enum';
-import { DatePickerField, InputField, SelectField, UploadImageField } from 'components';
-import { useLocales } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
+import { Grid, Stack, Typography } from '@mui/material'
+import { GENDER_OPTIONS, Gender } from 'common/enum'
+import { DatePickerField, InputField, SelectField, UploadImageField } from 'components'
+import { useLocales } from 'hooks'
+import { useAppSelector } from 'redux/configStore'
 
 function CashierForm() {
-  const { isEditing } = useAppSelector((state) => state.category);
-  const { translate } = useLocales();
+  const { isEditing } = useAppSelector((state) => state.category)
+  const { translate } = useLocales()
 
   return (
     <Grid container columnSpacing={3}>
@@ -47,7 +47,7 @@ function CashierForm() {
         </Stack>
       </Grid>
     </Grid>
-  );
+  )
 }
 
-export default CashierForm;
+export default CashierForm

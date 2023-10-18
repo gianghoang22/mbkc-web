@@ -1,5 +1,5 @@
 // @mui
-import { TableRow, Skeleton, TableCell, IconButton } from '@mui/material';
+import { TableRow, Skeleton, TableCell, IconButton } from '@mui/material'
 
 function KitchenCenterTableRowSkeleton({ length }: { length: number }) {
   return (
@@ -34,7 +34,7 @@ function KitchenCenterTableRowSkeleton({ length }: { length: number }) {
         </TableRow>
       ))}
     </>
-  );
+  )
 }
 
-export default KitchenCenterTableRowSkeleton;
+export default KitchenCenterTableRowSkeleton

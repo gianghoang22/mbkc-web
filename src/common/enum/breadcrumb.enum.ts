@@ -4,6 +4,7 @@ export enum Breadcrumb {
   KITCHEN_CENTER = 'kitchen center',
   KITCHEN_CENTERS = 'kitchen centers',
   STORE = 'store',
+  STORES = 'stores',
   CATEGORY = 'category',
   EXTRA_CATEGORY = 'extra category',
   PRODUCT = 'product',

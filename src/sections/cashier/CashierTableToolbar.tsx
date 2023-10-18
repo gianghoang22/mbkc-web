@@ -1,18 +1,17 @@
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { IconButton, InputAdornment, Tooltip } from '@mui/material';
-import { StyledRoot, StyledSearch } from '../styles';
-import { SelectField } from 'components';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import ReplayIcon from '@mui/icons-material/Replay'
+import { IconButton, InputAdornment, Tooltip } from '@mui/material'
+import { StyledRoot, StyledSearch } from '../styles'
 
 // ----------------------------------------------------------------------
 
 interface CashierTableToolbarProps {
-  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  filterName: string;
+  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void
+  filterName: string
 }
 
 function CashierTableToolbar(props: CashierTableToolbarProps) {
-  const { filterName, onFilterName } = props;
+  const { filterName, onFilterName } = props
 
   return (
     <StyledRoot>
@@ -34,7 +33,7 @@ function CashierTableToolbar(props: CashierTableToolbarProps) {
         </IconButton>
       </Tooltip>
     </StyledRoot>
-  );
+  )
 }
 
-export default CashierTableToolbar;
+export default CashierTableToolbar

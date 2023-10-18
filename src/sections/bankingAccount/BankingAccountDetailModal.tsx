@@ -1,24 +1,24 @@
 // @mui
-import CloseIcon from '@mui/icons-material/Close';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material'
 //
-import { BankingAccount } from '@types';
-import { Color, Language, Status } from 'common/enum';
-import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
+import { BankingAccount } from '@types'
+import { Color, Language, Status } from 'common/enum'
+import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components'
+import { useLocales, useModal, usePopover } from 'hooks'
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice'
 
 interface BankingAccountDetailModalProps {
-  isOpen: boolean;
-  handleOpen: (title: any) => void;
-  bankingAccount: BankingAccount;
-  page: number;
-  rowsPerPage: number;
+  isOpen: boolean
+  handleOpen: (title: any) => void
+  bankingAccount: BankingAccount
+  page: number
+  rowsPerPage: number
 }
 
 function BankingAccountDetailModal({
@@ -28,22 +28,22 @@ function BankingAccountDetailModal({
   page,
   rowsPerPage,
 }: BankingAccountDetailModalProps) {
-  const { translate, currentLang } = useLocales();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { open, handleCloseMenu } = usePopover();
-  const { isOpen: isOpenModalDelete, handleOpen: handleOpenModalDelete } = useModal();
+  const { translate, currentLang } = useLocales()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { open, handleCloseMenu } = usePopover()
+  const { isOpen: isOpenModalDelete, handleOpen: handleOpenModalDelete } = useModal()
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/update/${bankingAccount?.bankingAccountId}`);
-    dispatch(setEditBankingAccount(bankingAccount));
-  };
+    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/update/${bankingAccount?.bankingAccountId}`)
+    dispatch(setEditBankingAccount(bankingAccount))
+  }
 
-  const deleteParams = { bankingAccountId: bankingAccount?.bankingAccountId, navigate, page, rowsPerPage };
+  const deleteParams = { bankingAccountId: bankingAccount?.bankingAccountId, navigate, page, rowsPerPage }
 
   const handleDelete = () => {
-    dispatch<any>(deleteBankingAccount(deleteParams));
-  };
+    dispatch<any>(deleteBankingAccount(deleteParams))
+  }
 
   // const params = useMemo(() => {
   //   return { bankingAccountId: bankingAccountId, navigate };
@@ -140,7 +140,7 @@ function BankingAccountDetailModal({
         />
       )}
     </>
-  );
+  )
 }
 
-export default BankingAccountDetailModal;
+export default BankingAccountDetailModal

@@ -1,37 +1,37 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material'
 // @mui icon
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 //
-import { Cashier } from '@types';
-import { Color, Status } from 'common/enum';
-import { ConfirmDialog, Label, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
-import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashier/cashierSlice';
-import { useAppDispatch } from 'redux/configStore';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import CashierDetailModal from './CashierDetailModal';
+import { Cashier } from '@types'
+import { Color, Status } from 'common/enum'
+import { ConfirmDialog, Label, Popover } from 'components'
+import { useLocales, useModal, usePopover } from 'hooks'
+import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashier/cashierSlice'
+import { useAppDispatch } from 'redux/configStore'
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths'
+import CashierDetailModal from './CashierDetailModal'
 
 interface CashierTableRowProps {
-  index: number;
-  cashier: Cashier;
-  page: number;
-  rowsPerPage: number;
+  index: number
+  cashier: Cashier
+  page: number
+  rowsPerPage: number
 }
 
 function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowProps) {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { translate } = useLocales();
-  const { handleOpen, isOpen } = useModal();
-  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
-  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { translate } = useLocales()
+  const { handleOpen, isOpen } = useModal()
+  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal()
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover()
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/update/${cashier.accountId}`);
-    dispatch(setEditCashier(cashier));
-  };
+    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/update/${cashier.accountId}`)
+    dispatch(setEditCashier(cashier))
+  }
 
   const handleDelete = () => {
     const params = {
@@ -39,10 +39,10 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
       navigate,
       page: page,
       rowsPerPage,
-    };
+    }
 
-    dispatch(deleteCashier(params));
-  };
+    dispatch(deleteCashier(params))
+  }
 
   const handleChangeStatus = () => {
     const updateStatusParams = {
@@ -51,10 +51,10 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
       status: `${cashier.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
       page: page + 1,
       rowsPerPage: rowsPerPage,
-    };
+    }
 
-    dispatch<any>(updateCashierStatus(updateStatusParams));
-  };
+    dispatch<any>(updateCashierStatus(updateStatusParams))
+  }
 
   return (
     <>
@@ -131,7 +131,7 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
         />
       )}
     </>
-  );
+  )
 }
 
-export default CashierTableRow;
+export default CashierTableRow

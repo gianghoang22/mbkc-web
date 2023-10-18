@@ -1,47 +1,47 @@
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material'
 // @mui icon
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 //
-import { BankingAccount } from '@types';
-import { Color, Status } from 'common/enum';
-import { ConfirmDialog, Label, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
+import { BankingAccount } from '@types'
+import { Color, Status } from 'common/enum'
+import { ConfirmDialog, Label, Popover } from 'components'
+import { useLocales, useModal, usePopover } from 'hooks'
 import {
   deleteBankingAccount,
   setEditBankingAccount,
   updateStatusBankingAccount,
-} from 'redux/bankingAccount/bankingAccountSlice';
-import { useAppDispatch } from 'redux/configStore';
-import { useNavigate } from 'react-router-dom';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import BankingAccountDetailModal from './BankingAccountDetailModal';
+} from 'redux/bankingAccount/bankingAccountSlice'
+import { useAppDispatch } from 'redux/configStore'
+import { useNavigate } from 'react-router-dom'
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths'
+import BankingAccountDetailModal from './BankingAccountDetailModal'
 
 interface BankingAccountTableRowProps {
-  index: number;
-  bankingAccount: BankingAccount;
-  page: number;
-  rowsPerPage: number;
+  index: number
+  bankingAccount: BankingAccount
+  page: number
+  rowsPerPage: number
 }
 
 function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: BankingAccountTableRowProps) {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { translate } = useLocales();
-  const { handleOpen, isOpen } = useModal();
-  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
-  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { translate } = useLocales()
+  const { handleOpen, isOpen } = useModal()
+  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal()
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover()
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.editById);
-    dispatch(setEditBankingAccount(bankingAccount));
-  };
+    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.editById)
+    dispatch(setEditBankingAccount(bankingAccount))
+  }
 
-  const deleteParams = { bankingAccountId: bankingAccount.bankingAccountId, navigate, page, rowsPerPage };
+  const deleteParams = { bankingAccountId: bankingAccount.bankingAccountId, navigate, page, rowsPerPage }
 
   const handleDelete = () => {
-    dispatch(deleteBankingAccount(deleteParams));
-  };
+    dispatch(deleteBankingAccount(deleteParams))
+  }
 
   const handleChangeStatus = () => {
     const updateStatusParams = {
@@ -50,10 +50,10 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
       status: `${bankingAccount.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
       page: page,
       rowsPerPage: rowsPerPage,
-    };
+    }
 
-    dispatch(updateStatusBankingAccount(updateStatusParams));
-  };
+    dispatch(updateStatusBankingAccount(updateStatusParams))
+  }
 
   return (
     <>
@@ -127,7 +127,7 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
         />
       )}
     </>
-  );
+  )
 }
 
-export default BankingAccountTableRow;
+export default BankingAccountTableRow

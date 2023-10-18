@@ -1,24 +1,24 @@
-import { path } from 'utils';
+import { path } from 'utils'
 
-const ROOTS_ERROR = '/error';
-const ROOTS_AUTH = '/auth';
-const ROOTS_BRAND_DASHBOARD = '/brand';
-const ROOTS_KITCHEN_CENTER_DASHBOARD = '/kitchen-center';
-const ROOTS_CASHIER_DASHBOARD = '/cashier';
-export const ROOTS_ADMIN_DASHBOARD = '/mbkc-admin';
+const ROOTS_ERROR = '/error'
+const ROOTS_AUTH = '/auth'
+const ROOTS_BRAND_DASHBOARD = '/brand'
+const ROOTS_KITCHEN_CENTER_DASHBOARD = '/kitchen-center'
+const ROOTS_CASHIER_DASHBOARD = '/cashier'
+export const ROOTS_ADMIN_DASHBOARD = '/mbkc-admin'
 
 export const PATH_ERROR = {
   noPermission: path(ROOTS_ERROR, '/403'),
   notFound: path(ROOTS_ERROR, '/404'),
   serverError: path(ROOTS_ERROR, '/500'),
-};
+}
 
 export const PATH_AUTH = {
   login: path(ROOTS_AUTH, '/login'),
   forgotPassword: path(ROOTS_AUTH, '/forgot-password'),
   verificationOTP: path(ROOTS_AUTH, '/verification-otp'),
   resetPassword: path(ROOTS_AUTH, '/reset-password'),
-};
+}
 
 export const PATH_ADMIN_APP = {
   root: path(ROOTS_ADMIN_DASHBOARD, '/dashboard'),
@@ -46,10 +46,10 @@ export const PATH_ADMIN_APP = {
   },
   store: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/store'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/store/list'),
-    detailById: path(ROOTS_ADMIN_DASHBOARD, '/store/detail/:id'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/stores'),
+    detailById: path(ROOTS_ADMIN_DASHBOARD, '/store/:id'),
   },
-};
+}
 
 export const PATH_BRAND_APP = {
   root: path(ROOTS_BRAND_DASHBOARD, '/dashboard'),
@@ -89,7 +89,7 @@ export const PATH_BRAND_APP = {
     root: path(ROOTS_BRAND_DASHBOARD, '/mapping-product'),
     list: path(ROOTS_BRAND_DASHBOARD, '/mapping-product/list'),
   },
-};
+}
 
 export const PATH_KITCHEN_CENTER_APP = {
   root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/dashboard'),
@@ -123,7 +123,7 @@ export const PATH_KITCHEN_CENTER_APP = {
     shipperPayments: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/list-shipper-payment'),
     moneyExchanges: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/list-money-exchange'),
   },
-};
+}
 
 export const PATH_CASHIER_APP = {
   root: path(ROOTS_CASHIER_DASHBOARD, '/dashboard'),
@@ -138,4 +138,4 @@ export const PATH_CASHIER_APP = {
     root: path(ROOTS_CASHIER_DASHBOARD, '/transaction'),
     list: path(ROOTS_CASHIER_DASHBOARD, '/transaction/list'),
   },
-};
+}

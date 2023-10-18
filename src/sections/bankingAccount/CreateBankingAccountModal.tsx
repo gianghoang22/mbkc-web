@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function CreateBankingAccountModal() {
-  return <div>CreateBankingAccountModal</div>;
+  return <div>CreateBankingAccountModal</div>
 }
 
-export default CreateBankingAccountModal;
+export default CreateBankingAccountModal

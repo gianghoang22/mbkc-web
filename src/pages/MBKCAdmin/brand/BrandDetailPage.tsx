@@ -1,10 +1,10 @@
-import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { PATH_ADMIN_APP } from 'routes/paths';
+import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { PATH_ADMIN_APP } from 'routes/paths'
 //mui
-import DescriptionIcon from '@mui/icons-material/Description';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import DescriptionIcon from '@mui/icons-material/Description'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
   Avatar,
   Box,
@@ -18,63 +18,64 @@ import {
   TableContainer,
   TablePagination,
   Typography,
-} from '@mui/material';
+} from '@mui/material'
 //
-import { ListParams, OrderSort, StoreTable } from '@types';
-import { Color, Language, PopoverType, Status } from 'common/enum';
-import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { getBrandDetail, setBrandToNull, setEditBrand } from 'redux/brand/brandSlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
-import { getComparator, stableSort } from 'utils';
-import BrandDetailPageSkeleton from './BrandDetailPageSkeleton';
-import { getAllStores } from 'redux/store/storeSlice';
+import { ListParams, OrderSort, StoreTable } from '@types'
+import { Color, Language, PopoverType, Role, Status } from 'common/enum'
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks'
+import { getBrandDetail, setBrandToNull, setEditBrand } from 'redux/brand/brandSlice'
+import { useAppDispatch, useAppSelector } from 'redux/configStore'
+import { setRoutesToBack } from 'redux/routes/routesSlice'
+import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store'
+import { getComparator, stableSort } from 'utils'
+import BrandDetailPageSkeleton from './BrandDetailPageSkeleton'
+import { getAllStores } from 'redux/store/storeSlice'
 
 function BrandDetailPage() {
-  const { id: brandId } = useParams();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { translate, currentLang } = useLocales();
-  const { pathname } = useLocation();
-  const { storeHeadCells } = useConfigHeadTable();
-  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
-  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { id: brandId } = useParams()
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { translate, currentLang } = useLocales()
+  const { pathname } = useLocation()
+  const { storeHeadCells } = useConfigHeadTable()
+  const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal()
+  const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover()
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination()
 
-  const { brand, isLoading } = useAppSelector((state) => state.brand);
-  const { stores, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
+  const { brand, isLoading } = useAppSelector((state) => state.brand)
+  const { stores, numberItems, isLoading: isLoadingStores } = useAppSelector((state) => state.store)
 
-  const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
-  const [filterName, setFilterName] = useState<string>('');
+  const [order, setOrder] = useState<OrderSort>('asc')
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name')
+  const [filterName, setFilterName] = useState<string>('')
+  const { userAuth } = useAppSelector((state) => state.auth)
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
+    setPage(0)
+    setFilterName(event.target.value)
+  }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0
 
   const visibleRows = useMemo(
     () => stableSort(stores, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [order, orderBy, page, rowsPerPage, stores]
-  );
+  )
 
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !visibleRows.length && !!filterName
 
   const handleDelete = () => {
-    console.log('Deleting');
-  };
+    console.log('Deleting')
+  }
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName, 500)
 
   const params: ListParams = useMemo(() => {
     return {
@@ -85,24 +86,24 @@ function BrandDetailPage() {
         idBrand: brandId,
       },
       navigate,
-    };
-  }, [page, rowsPerPage, debounceValue, brandId, navigate]);
+    }
+  }, [page, rowsPerPage, debounceValue, brandId, navigate])
 
   const paramsDetails = useMemo(() => {
     return {
       brandId,
       navigate,
-    };
-  }, [brandId, navigate]);
+    }
+  }, [brandId, navigate])
 
   useEffect(() => {
-    dispatch<any>(getBrandDetail(paramsDetails));
-    dispatch<any>(getAllStores(params));
+    dispatch<any>(getBrandDetail(paramsDetails))
+    dispatch<any>(getAllStores(params))
 
     return () => {
-      dispatch(setBrandToNull());
-    };
-  }, [params, dispatch, paramsDetails]);
+      dispatch(setBrandToNull())
+    }
+  }, [params, dispatch, paramsDetails])
 
   return (
     <>
@@ -152,7 +153,7 @@ function BrandDetailPage() {
                 <DescriptionIcon fontSize="small" />
               </Stack>
             </Stack>
-            {isLoading ? (
+            {isLoadingStores ? (
               <BrandDetailPageSkeleton />
             ) : (
               <Stack sx={{ px: 3.5, py: 3 }}>
@@ -187,67 +188,57 @@ function BrandDetailPage() {
         </Stack>
 
         <Card>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            sx={{
-              px: 3,
-              py: 1.5,
-              borderBottom: 1,
-              borderColor: 'divider',
-            }}
-          >
-            <Typography variant="h6">
-              {translate('page.content.storeOfBrand', {
-                model: translate('model.lowercase.store'),
-                name: translate('model.lowercase.brand'),
-              })}
-            </Typography>
-          </Stack>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>
-                    hideBrand
+                    hideBrand={true}
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  {isLoadingStores ? (
-                    <StoreTableRowSkeleton haveKitchenCenter={true} length={visibleRows.length} />
+                  {isLoading ? (
+                    <StoreTableRowSkeleton showEmail length={visibleRows.length} haveKitchenCenter />
                   ) : (
                     <TableBody>
                       {visibleRows.map((store, index) => {
                         return (
                           <StoreTableRow
-                            showAction={false}
                             key={store.storeId}
                             index={index}
                             store={store}
+                            setPage={setPage}
+                            page={page + 1}
+                            rowsPerPage={rowsPerPage}
+                            length={visibleRows.length}
                             haveKitchenCenter
                             showEmail
                           />
-                        );
+                        )
                       })}
                       {emptyRows > 0 ||
                         (stores.length === 0 && !filterName && (
-                          <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
+                          <EmptyTable
+                            colNumber={storeHeadCells.length + 2}
+                            model={translate('model.lowercase.store')}
+                          />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={stores.length}
-                rowsPerPage={rowsPerPage}
+                count={numberItems}
                 page={page}
+                rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
@@ -262,9 +253,9 @@ function BrandDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.brand.newBrand);
-          dispatch(setRoutesToBack(pathname));
-          dispatch(setEditBrand(brand));
+          navigate(PATH_ADMIN_APP.brand.newBrand)
+          dispatch(setRoutesToBack(pathname))
+          dispatch(setEditBrand(brand))
         }}
       />
 
@@ -278,7 +269,7 @@ function BrandDetailPage() {
         />
       )}
     </>
-  );
+  )
 }
 
-export default BrandDetailPage;
+export default BrandDetailPage

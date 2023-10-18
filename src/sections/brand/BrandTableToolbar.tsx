@@ -1,19 +1,19 @@
-import ReplayIcon from '@mui/icons-material/Replay';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { IconButton, InputAdornment, Tooltip } from '@mui/material';
+import ReplayIcon from '@mui/icons-material/Replay'
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import { IconButton, InputAdornment, Tooltip } from '@mui/material'
 //
-import { useLocales } from 'hooks';
-import { StyledRoot, StyledSearch } from '../styles';
+import { useLocales } from 'hooks'
+import { StyledRoot, StyledSearch } from '../styles'
 
 // ----------------------------------------------------------------------
 
 interface StoreTableToolbarProps {
-  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  filterName: string;
+  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void
+  filterName: string
 }
 
 function StoreTableToolbar({ filterName, onFilterName }: StoreTableToolbarProps) {
-  const { translate } = useLocales();
+  const { translate } = useLocales()
 
   return (
     <StyledRoot>
@@ -35,7 +35,7 @@ function StoreTableToolbar({ filterName, onFilterName }: StoreTableToolbarProps)
         </IconButton>
       </Tooltip>
     </StyledRoot>
-  );
+  )
 }
 
-export default StoreTableToolbar;
+export default StoreTableToolbar
