@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // redux
@@ -13,7 +13,6 @@ import { OrderTableRow, OrderTableToolbar } from 'sections/order';
 import { getComparator, stableSort } from 'utils';
 
 function ListOrdersPage() {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { OrderHeadCells } = useConfigHeadTable();

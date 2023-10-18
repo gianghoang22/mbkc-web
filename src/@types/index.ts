@@ -14,6 +14,7 @@ export * from './models/profile';
 export * from './models/store';
 export * from './models/storePartner';
 export * from './models/user';
+export * from './models/token';
 export * from './route';
 export * from './sidebar';
 export * from './table';
