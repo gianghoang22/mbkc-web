@@ -27,6 +27,7 @@
   "rejectedReason": "Rejected reason",
   "size": "Size",
   "userName": "User name",
+  "rowsPerPage": "Rows per page",
   "lowercase": {
     "address": "address",
     "email": "email",

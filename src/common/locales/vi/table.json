@@ -27,6 +27,7 @@
   "rejectedReason": "Lý do từ chối",
   "size": "Kích cỡ",
   "userName": "Tên tài khoản",
+  "rowsPerPage": "Số hàng mỗi trang",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

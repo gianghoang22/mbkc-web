@@ -53,7 +53,7 @@ function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: 
             <Stack direction="row" alignItems="center" justifyContent="space-between">
               <Typography variant="h4">
                 {translate('page.title.detail', {
-                  model: translate('model.lowercase.cashier'),
+                  model: translate('model.capitalizeOne.cashier'),
                 })}
               </Typography>
 

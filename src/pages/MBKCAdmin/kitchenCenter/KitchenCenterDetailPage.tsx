@@ -30,7 +30,7 @@ import { getAllStores } from 'redux/store/storeSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Language, Status } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -45,7 +45,7 @@ function KitchenCenterDetailPage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { storeHeadCells } = useConfigHeadTable();
-  const { translate } = useLocales();
+  const { translate, currentLang } = useLocales();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -115,9 +115,12 @@ function KitchenCenterDetailPage() {
   return (
     <>
       <Page
-        title={translate('page.title.detail', {
-          model: translate('model.lowercase.kitchenCenter'),
-        })}
+        title={translate(
+          'page.title.detail',
+          currentLang.value === Language.ENGLISH
+            ? { model: translate('model.capitalizeOne.kitchenCenter') }
+            : { model: translate('model.lowercase.kitchenCenter') }
+        )}
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [
@@ -207,7 +210,7 @@ function KitchenCenterDetailPage() {
                         })}
                         {emptyRows > 0 ||
                           (stores.length === 0 && !filterName && (
-                            <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
+                            <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.stores')} />
                           ))}
                       </TableBody>
                     )}
@@ -219,6 +222,7 @@ function KitchenCenterDetailPage() {
                   component="div"
                   count={numberItems}
                   rowsPerPage={rowsPerPage}
+                  labelRowsPerPage={translate('table.rowsPerPage')}
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}

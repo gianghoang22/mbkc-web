@@ -75,7 +75,7 @@ function ListBankingAccountPage() {
   return (
     <>
       <Page
-        title={translate('page.title.list', { model: translate('model.lowercase.bankingAccount') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.bankingAccounts') })}
         pathname={pathname}
         navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
         actions={() => [
@@ -138,6 +138,7 @@ function ListBankingAccountPage() {
                 component="div"
                 count={bankingAccounts.length}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}

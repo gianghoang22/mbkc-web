@@ -1,5 +1,5 @@
-import { Route } from '@types';
-import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common';
+import { Route } from '@types'
+import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common'
 import {
   CreateBankingAccount,
   CreateCashierPage,
@@ -9,9 +9,9 @@ import {
   ListMoneyExchangePage,
   ListShipperPaymentPage,
   WalletPage,
-} from 'pages/kitchenCenter';
-import { InformationPage, ProfilePage } from 'pages/profile';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+} from 'pages/kitchenCenter'
+import { InformationPage, ProfilePage } from 'pages/profile'
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths'
 
 export const kitchenCenterRoutes: Route[] = [
   {
@@ -94,4 +94,4 @@ export const kitchenCenterRoutes: Route[] = [
     component: <ListMoneyExchangePage />,
     index: false,
   },
-];
+]

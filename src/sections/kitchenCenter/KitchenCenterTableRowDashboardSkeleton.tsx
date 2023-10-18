@@ -1,6 +1,6 @@
 import { Skeleton, TableCell, TableRow, Typography } from '@mui/material';
 
-function KitchenCenterTableRowDashboardSkeleton({ length }: { length: number }) {
+function KitchenCenterTableRowDashboardSkeleton({ length = 3 }: { length: number }) {
   return (
     <>
       {Array.from({ length }).map((_, index) => (

@@ -103,6 +103,7 @@ function ListOrdersPage() {
                 component="div"
                 count={orders.length}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}

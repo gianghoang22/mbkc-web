@@ -137,6 +137,7 @@ function ListCategoryPage() {
                 count={categories.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

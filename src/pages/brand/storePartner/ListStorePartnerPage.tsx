@@ -153,6 +153,7 @@ function ListStorePartnerPage() {
                 count={numberItems}
                 page={page}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

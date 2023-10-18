@@ -91,7 +91,7 @@ function ListStorePage() {
     <>
       <Page
         pathname={pathname}
-        title={translate('page.title.list', { model: translate('model.lowercase.store') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.stores') })}
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
         actions={() => {
           const listAction: ReactNode[] =
@@ -191,6 +191,7 @@ function ListStorePage() {
                 count={numberItems}
                 page={page}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

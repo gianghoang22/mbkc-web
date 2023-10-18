@@ -12,7 +12,7 @@ import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { CashierForm } from 'sections/cashier';
 import { useDispatch } from 'react-redux';
 import { createNewCashier, updateCashier } from 'redux/cashier/cashierSlice';
-import { useValidationForm } from 'hooks';
+import { useLocales, useValidationForm } from 'hooks';
 
 function CreateCashierPage() {
   const navigate = useNavigate();
@@ -20,6 +20,7 @@ function CreateCashierPage() {
   const { pathname } = useLocation();
   const { isEditing, cashier } = useAppSelector((state) => state.cashier);
   const { schemaCashier } = useValidationForm();
+  const { translate } = useLocales();
 
   const createCashierForm = useForm<CashierToCreate>({
     defaultValues: {
@@ -69,7 +70,11 @@ function CreateCashierPage() {
   return (
     <>
       <Page
-        title={isEditing ? `Update Cashier` : `Create Cashier`}
+        title={
+          isEditing
+            ? translate('page.title.update', { model: translate('model.lowercase.cashier') })
+            : translate('page.title.create', { model: translate('model.lowercase.cashier') })
+        }
         pathname={pathname}
         navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
       >

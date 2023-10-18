@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
-import { Color, Language, PopoverType, Status } from 'common/enum';
+import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { getBrandDetail, setBrandToNull, setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -43,11 +43,12 @@ function BrandDetailPage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { brand, isLoading } = useAppSelector((state) => state.brand);
-  const { stores, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
+  const { stores, numberItems, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
+  const { userAuth } = useAppSelector((state) => state.auth);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -152,7 +153,7 @@ function BrandDetailPage() {
                 <DescriptionIcon fontSize="small" />
               </Stack>
             </Stack>
-            {isLoading ? (
+            {isLoadingStores ? (
               <BrandDetailPageSkeleton />
             ) : (
               <Stack sx={{ px: 3.5, py: 3 }}>
@@ -187,47 +188,32 @@ function BrandDetailPage() {
         </Stack>
 
         <Card>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            sx={{
-              px: 3,
-              py: 1.5,
-              borderBottom: 1,
-              borderColor: 'divider',
-            }}
-          >
-            <Typography variant="h6">
-              {translate('page.content.storeOfBrand', {
-                model: translate('model.lowercase.store'),
-                name: translate('model.lowercase.brand'),
-              })}
-            </Typography>
-          </Stack>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>
-                    hideBrand
+                    hideBrand={true}
                     headCells={storeHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  {isLoadingStores ? (
-                    <StoreTableRowSkeleton haveKitchenCenter={true} length={visibleRows.length} />
+                  {isLoading ? (
+                    <StoreTableRowSkeleton showEmail length={visibleRows.length} haveKitchenCenter />
                   ) : (
                     <TableBody>
                       {visibleRows.map((store, index) => {
                         return (
                           <StoreTableRow
-                            showAction={false}
                             key={store.storeId}
                             index={index}
                             store={store}
+                            setPage={setPage}
+                            page={page + 1}
+                            rowsPerPage={rowsPerPage}
+                            length={visibleRows.length}
                             haveKitchenCenter
                             showEmail
                           />
@@ -235,19 +221,24 @@ function BrandDetailPage() {
                       })}
                       {emptyRows > 0 ||
                         (stores.length === 0 && !filterName && (
-                          <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.store')} />
+                          <EmptyTable
+                            colNumber={storeHeadCells.length + 2}
+                            model={translate('model.lowercase.store')}
+                          />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={stores.length}
-                rowsPerPage={rowsPerPage}
+                count={numberItems}
                 page={page}
+                rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

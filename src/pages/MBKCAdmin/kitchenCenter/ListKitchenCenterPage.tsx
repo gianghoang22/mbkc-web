@@ -77,7 +77,7 @@ function ListKitchenCenterPage(props: any) {
   return (
     <>
       <Page
-        title={translate('page.title.list', { model: translate('model.lowercase.kitchenCenter') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.kitchenCenters') })}
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
         actions={() => [
@@ -141,6 +141,7 @@ function ListKitchenCenterPage(props: any) {
                 count={kitchenCenters.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

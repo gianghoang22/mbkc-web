@@ -74,7 +74,7 @@ function ListPartnerPage() {
     <>
       <Page
         pathname={pathname}
-        title={translate('page.title.list', { model: translate('model.lowercase.partner') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.partners') })}
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
         actions={() => {
           const listAction: ReactNode[] =
@@ -141,6 +141,7 @@ function ListPartnerPage() {
                 component="div"
                 count={numberItems}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
