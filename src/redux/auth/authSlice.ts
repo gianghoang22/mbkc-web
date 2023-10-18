@@ -24,6 +24,8 @@ interface AuthState {
 }
 
 const getUserInStorage = getUserAuth() ? getUserAuth() : null;
+console.log(getUserAuth());
+console.log(getUserInStorage);
 const getUserInfoInStorage = getUserInfo() ? getUserInfo() : null;
 const getIsAuthenticated = getAuthenticated() ? getAuthenticated() : false;
 const getEmailInStorage = getEmailVerify() ? getEmailVerify() : '';
