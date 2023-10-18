@@ -9,6 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 //redux
 import { Provider } from 'react-redux';
 import { store } from 'redux/configStore';
+//
+import setupAxiosClient from 'api/setupClientInterceptors';
+import setupAxiosFormData from 'api/setupFormDataInterceptors';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -18,6 +21,9 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
+
+setupAxiosClient(store);
+setupAxiosFormData(store);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

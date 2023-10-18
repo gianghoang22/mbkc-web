@@ -8,7 +8,7 @@ import { Brand } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { deleteBrand, getBrandDetail, setEditBrand, updateStatusBrand } from 'redux/brand/brandSlice';
+import { deleteBrand, setEditBrand, updateStatusBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -52,7 +52,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
     const updateStatusParams = {
       brandId: brand.brandId,
       navigate,
-      status: `${brand.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
+      status: `${brand.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE}`,
       page: page + 1,
       rowsPerPage: rowsPerPage,
     };
