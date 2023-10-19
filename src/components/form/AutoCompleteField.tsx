@@ -1,9 +1,13 @@
+import { Box, Stack, Typography } from '@mui/material';
 import { Autocomplete, FormHelperText, TextField } from '@mui/material';
+import { useLocales } from 'hooks';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface Option {
   label: string;
   value: number;
+  image?: string;
+  address?: string;
 }
 
 interface AutoCompleteFieldProps {
@@ -37,6 +41,8 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
   isOptionEqualToValue,
   ...props
 }) => {
+  const { translate } = useLocales();
+
   const { control } = useFormContext();
 
   return (
@@ -52,11 +58,36 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
           fullWidth
           size={size}
           options={options.map((option) => ({
+            key: option.value.toString(),
             label: option.label,
             value: option.value,
-            key: option.value.toString(), // Đảm bảo key là duy nhất
+            address: option.address,
+            image: option.image,
           }))}
           getOptionLabel={getOptionLabel}
+          renderOption={(props, option) => (
+            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+              <Stack direction="row" alignItems="center" gap={1}>
+                {option.image && (
+                  <Box
+                    component="img"
+                    src={option.image}
+                    alt={option.label}
+                    sx={{ width: 40, height: 40, borderRadius: '8px' }}
+                  />
+                )}
+
+                <Stack direction="column">
+                  <Typography>{option.label}</Typography>
+                  {option.address && (
+                    <Typography variant="body2" color="GrayText">
+                      {translate('table.address')}: {option.address}
+                    </Typography>
+                  )}
+                </Stack>
+              </Stack>
+            </Box>
+          )}
           isOptionEqualToValue={isOptionEqualToValue}
           value={field.value ? field.value : multiple ? [] : null}
           // inputValue={field.value ? field.value : multiple ? [] : ''}

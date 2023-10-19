@@ -15,11 +15,12 @@ export const removeLocalStorage = (key: any) => localStorage.removeItem(key);
 export const setUserAuth = (userAuth: UserAuth) => setLocalStorage(StorageKeys.USER_AUTH, JSON.stringify(userAuth));
 export const getUserAuth = () => {
   const userAuth = getLocalStorage(StorageKeys.USER_AUTH);
-  if (userAuth === null) {
+  if (userAuth === null || userAuth === undefined || userAuth.toString() === 'undefined') {
     return;
+  } else {
+    const userRaw = JSON.parse(userAuth);
+    return userRaw;
   }
-  const userRaw = JSON.parse(userAuth);
-  return userRaw;
 };
 export const removeUserAuth = () => removeLocalStorage(StorageKeys.USER_AUTH);
 

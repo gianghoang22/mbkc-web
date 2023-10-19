@@ -73,6 +73,7 @@ const authSlice = createSlice({
     setUserInfo: (state) => {
       state.userInfo = null;
     },
+    setRefreshToken: (state, action) => {},
   },
   extraReducers(builder) {
     builder

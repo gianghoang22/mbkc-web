@@ -22,6 +22,8 @@ function StoreForm() {
   const kitchenCenterOptions = kitchenCenters.map((kitchenCenter) => ({
     label: kitchenCenter.name,
     value: kitchenCenter.kitchenCenterId,
+    address: kitchenCenter.address,
+    image: kitchenCenter.logo,
   }));
 
   const getOpObjKitchenCenter = (option: any) => {

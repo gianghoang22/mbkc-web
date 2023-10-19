@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*';
@@ -34,16 +34,14 @@ axiosClient.interceptors.request.use(
   }
 );
 
-// Add a response interceptor
-axiosClient.interceptors.response.use(
-  function (response: AxiosResponse) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    return response.data;
+// Add a request interceptor
+axiosFormData.interceptors.request.use(
+  function (config) {
+    // Do something before request is sent
+    return config;
   },
   function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+    // Do something with request error
     return Promise.reject(error);
   }
 );
