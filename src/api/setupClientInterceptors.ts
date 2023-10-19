@@ -15,9 +15,9 @@ const setupAxiosClient = (store: any) => {
 
       if (
         (originalConfig.url !== ROUTES_API_AUTH.LOGIN ||
-          ROUTES_API_AUTH.FORGOT_PASSWORD ||
-          ROUTES_API_AUTH.RESET_PASSWORD ||
-          ROUTES_API_AUTH.VERIFY_OTP) &&
+          originalConfig.url !== ROUTES_API_AUTH.FORGOT_PASSWORD ||
+          originalConfig.url !== ROUTES_API_AUTH.RESET_PASSWORD ||
+          originalConfig.url !== ROUTES_API_AUTH.VERIFY_OTP) &&
         err.response
       ) {
         // Access Token was expired
