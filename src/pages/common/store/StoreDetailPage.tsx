@@ -90,7 +90,6 @@ function StoreDetailPage() {
     dispatch(
       deleteStore({
         idParams: { storeId: store?.storeId },
-        pathname: pathname,
         navigate,
       })
     );

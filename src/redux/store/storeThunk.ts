@@ -190,7 +190,7 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
 };
 
 export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => {
-  const { idParams, optionParams, pathname, navigate } = params;
+  const { idParams, optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
@@ -207,7 +207,7 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
           navigate,
         };
         await thunkAPI.dispatch(getAllStores(paramsCallback));
-        navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
+        navigate(PATH_BRAND_APP.store.list);
         thunkAPI.dispatch(setMessageSuccess('Deleted store successfully'));
       }
       return response;
