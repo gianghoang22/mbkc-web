@@ -19,12 +19,10 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Avatar,
 } from '@mui/material';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import images from 'assets';
 
 function WalletPage() {
   const { pathname } = useLocation();

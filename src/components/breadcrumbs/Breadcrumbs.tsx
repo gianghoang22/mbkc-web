@@ -69,6 +69,10 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.banking-accounts')
             : nameUppercase === Breadcrumb.TRANSACTION
             ? translate('breadcrumb.transaction')
+            : nameUppercase === Breadcrumb.MONEY_EXCHANGES
+            ? translate('breadcrumb.moneyExchanges')
+            : nameUppercase === Breadcrumb.SHIPPER_PAYMENTS
+            ? translate('breadcrumb.shipperPayments')
             : nameUppercase === Breadcrumb.PARTNERS
             ? translate('breadcrumb.partners')
             : nameUppercase === Breadcrumb.WALLET

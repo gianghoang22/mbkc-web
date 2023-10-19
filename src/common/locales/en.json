@@ -81,6 +81,8 @@
     "banking-account": "Banking account",
     "banking-accounts": "Banking accounts",
     "transaction": "Transaction",
+    "moneyExchanges": "Money exchanges",
+    "shipperPayments": "Shipper payments",
     "partner": "Partner",
     "partners": "Partners",
     "wallet": "Wallet",
