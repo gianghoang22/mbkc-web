@@ -11,6 +11,7 @@ export enum Breadcrumb {
   CASHIER = 'cashier',
   CASHIERS = 'cashiers',
   ORDER = 'order',
+  ORDERS = 'orders',
   BANKING_ACCOUNT = 'banking account',
   BANKING_ACCOUNTS = 'banking accounts',
   TRANSACTION = 'transaction',

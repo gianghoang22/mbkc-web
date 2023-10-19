@@ -61,6 +61,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.cashiers')
             : nameUppercase === Breadcrumb.ORDER
             ? translate('breadcrumb.order')
+            : nameUppercase === Breadcrumb.ORDERS
+            ? translate('breadcrumb.orders')
             : nameUppercase === Breadcrumb.BANKING_ACCOUNT
             ? translate('breadcrumb.banking-account')
             : nameUppercase === Breadcrumb.BANKING_ACCOUNTS

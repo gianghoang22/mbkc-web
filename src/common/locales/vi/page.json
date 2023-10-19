@@ -5,7 +5,8 @@
     "update": "Cập nhật {{model}}",
     "detail": "Chi tiết {{model}}",
     "search": "Tìm kiếm {{model}}...",
-    "registration": "Từ chối đăng kí {{model}}"
+    "registration": "Từ chối đăng kí {{model}}",
+    "wallet": "Ví {{model}}"
   },
   "content": {
     "logo": "Logo",
