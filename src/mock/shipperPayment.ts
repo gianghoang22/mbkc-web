@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { MoneyExchange, ShipperPayment } from '@types';
+import { ShipperPayment } from '@types';
 import { sample } from 'lodash'; // random in array
 
 // ----------------------------------------------------------------------
