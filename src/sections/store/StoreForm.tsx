@@ -1,23 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 // @mui
-import { Grid, Skeleton, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
+// redux
+import { useAppSelector } from 'redux/configStore';
 //
-import { ListParams } from '@types';
 import { Language } from 'common/enum';
 import { AutoCompleteField, InputField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 function StoreForm() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
 
   const { isEditing } = useAppSelector((state) => state.store);
-  const { isLoading: isLoadingKitchenCenter, kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
+  const { kitchenCenters } = useAppSelector((state) => state.kitchenCenter);
 
   const kitchenCenterOptions = kitchenCenters.map((kitchenCenter) => ({
     label: kitchenCenter.name,
@@ -31,21 +26,6 @@ function StoreForm() {
     if (!option.value) return kitchenCenterOptions.find((opt) => opt.value === option);
     return option;
   };
-
-  const params: ListParams = useMemo(() => {
-    return {
-      optionParams: {
-        isGetAll: true,
-      },
-      navigate,
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isEditing) {
-      dispatch(getAllKitchenCenters(params));
-    }
-  }, [params]);
 
   return (
     <Grid container columnSpacing={3}>
@@ -96,24 +76,20 @@ function StoreForm() {
             <InputField fullWidth name="storeManagerEmail" label={translate('page.form.managerEmail')} />
             {!isEditing && (
               <Stack direction="row" alignItems="start" gap={2} width="100%">
-                {isLoadingKitchenCenter ? (
-                  <Skeleton variant="rounded" width={728} sx={{ height: 40 }} />
-                ) : (
-                  <AutoCompleteField
-                    options={kitchenCenterOptions}
-                    getOptionLabel={(value: any) => {
-                      return getOpObjKitchenCenter(value)?.label;
-                    }}
-                    isOptionEqualToValue={(option: any, value: any) => {
-                      if (!option) return option;
-                      return option.value === getOpObjKitchenCenter(value)?.value;
-                    }}
-                    transformValue={(opt: any) => opt.value}
-                    name="kitchenCenterId"
-                    type="text"
-                    label={translate('model.capitalizeOne.kitchenCenter')}
-                  />
-                )}
+                <AutoCompleteField
+                  options={kitchenCenterOptions}
+                  getOptionLabel={(value: any) => {
+                    return getOpObjKitchenCenter(value)?.label;
+                  }}
+                  isOptionEqualToValue={(option: any, value: any) => {
+                    if (!option) return option;
+                    return option.value === getOpObjKitchenCenter(value)?.value;
+                  }}
+                  transformValue={(opt: any) => opt.value}
+                  name="kitchenCenterId"
+                  type="text"
+                  label={translate('model.capitalizeOne.kitchenCenter')}
+                />
               </Stack>
             )}
           </Stack>

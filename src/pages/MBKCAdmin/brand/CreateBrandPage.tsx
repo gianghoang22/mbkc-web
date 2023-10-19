@@ -6,13 +6,14 @@ import { Button, Card, Stack } from '@mui/material';
 //
 import { BrandToCreate, BrandToUpdate } from '@types';
 import { Color } from 'common/enum';
-import { Page } from 'components';
+import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import BrandForm from 'sections/brand/BrandForm';
 import { useDispatch } from 'react-redux';
 import { createNewBrand, updateBrand } from 'redux/brand/brandSlice';
+import { Box } from '@mui/material';
 
 function CreateBrandPage() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function CreateBrandPage() {
   const { schemaBrand } = useValidationForm();
 
   const { pathnameToBack } = useAppSelector((state: any) => state.routes);
-  const { isEditing, brand } = useAppSelector((state: any) => state.brand);
+  const { isEditing, isLoading, brand } = useAppSelector((state: any) => state.brand);
 
   const createBrandForm = useForm<BrandToCreate>({
     defaultValues: {
@@ -68,41 +69,53 @@ function CreateBrandPage() {
   };
 
   return (
-    <Page
-      title={
-        isEditing
-          ? translate('page.title.update', { model: translate('model.lowercase.brand') })
-          : translate('page.title.create', { model: translate('model.lowercase.brand') })
-      }
-      pathname={pathname}
-      navigateDashboard={PATH_ADMIN_APP.root}
-    >
-      <FormProvider {...createBrandForm}>
-        <Card sx={{ p: 3 }}>
-          <BrandForm />
-        </Card>
-        <Stack direction="row" justifyContent="space-between" mt={12}>
-          <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
-            {translate('button.back')}
-          </Button>
-          <Stack direction="row" gap={2}>
-            {isEditing && (
-              <Button variant="contained" color="inherit">
-                {translate('button.reset')}
-              </Button>
-            )}
-            <Button
-              variant="contained"
-              type="submit"
-              color={isEditing ? Color.WARNING : Color.PRIMARY}
-              onClick={handleSubmit(onSubmit)}
-            >
-              {isEditing ? translate('button.update') : translate('button.create')}
+    <>
+      {isEditing && (
+        <>
+          {isLoading && (
+            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+              <LoadingScreen />
+            </Box>
+          )}
+        </>
+      )}
+
+      <Page
+        title={
+          isEditing
+            ? translate('page.title.update', { model: translate('model.lowercase.brand') })
+            : translate('page.title.create', { model: translate('model.lowercase.brand') })
+        }
+        pathname={pathname}
+        navigateDashboard={PATH_ADMIN_APP.root}
+      >
+        <FormProvider {...createBrandForm}>
+          <Card sx={{ p: 3 }}>
+            <BrandForm />
+          </Card>
+          <Stack direction="row" justifyContent="space-between" mt={12}>
+            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
+              {translate('button.back')}
             </Button>
+            <Stack direction="row" gap={2}>
+              {isEditing && (
+                <Button variant="contained" color="inherit">
+                  {translate('button.reset')}
+                </Button>
+              )}
+              <Button
+                variant="contained"
+                type="submit"
+                color={isEditing ? Color.WARNING : Color.PRIMARY}
+                onClick={handleSubmit(onSubmit)}
+              >
+                {isEditing ? translate('button.update') : translate('button.create')}
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </FormProvider>
-    </Page>
+        </FormProvider>
+      </Page>
+    </>
   );
 }
 

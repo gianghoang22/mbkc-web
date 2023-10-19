@@ -106,6 +106,7 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
                   <InputField
                     fullWidth
                     name="name"
+                    disabled={isEditing}
                     label={translate(
                       'page.form.nameExchange',
                       currentLang.value === Language.ENGLISH

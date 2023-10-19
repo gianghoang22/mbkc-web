@@ -8,12 +8,13 @@ import { Button, Card, Stack } from '@mui/material';
 //
 import { CategoryToCreate, CategoryToUpdate, CategoryType, Params } from '@types';
 import { Color, Status } from 'common/enum';
-import { Page } from 'components';
+import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { createNewCategory, getCategoryDetail, updateCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { CategoryForm } from 'sections/category';
+import { Box } from '@mui/material';
 
 function CreateCategoryPage() {
   const { id: categoryId } = useParams();
@@ -105,66 +106,78 @@ function CreateCategoryPage() {
   };
 
   return (
-    <Page
-      title={
-        isEditing
-          ? translate('page.title.update', {
-              model:
-                categoryType === CategoryType.NORMAL
-                  ? translate('model.lowercase.category')
-                  : translate('model.lowercase.extraCategory'),
-            })
-          : translate('page.title.create', {
-              model:
-                categoryType === CategoryType.NORMAL
-                  ? translate('model.lowercase.category')
-                  : translate('model.lowercase.extraCategory'),
-            })
-      }
-      pathname={pathname}
-      navigateDashboard={PATH_BRAND_APP.root}
-    >
-      <FormProvider {...createCategoryForm}>
-        <Card sx={{ p: 3 }}>
-          <CategoryForm />
-        </Card>
-        <Stack direction="row" justifyContent="space-between" mt={12}>
-          <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
-            {translate('button.back')}
-          </Button>
-          <Stack direction="row" gap={2}>
-            {isEditing && (
-              <Button
-                variant="contained"
-                color="inherit"
-                disabled={isLoading}
-                onClick={() => {
-                  reset({
-                    name: category?.name,
-                    code: category?.code,
-                    type: categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA,
-                    displayOrder: category?.displayOrder,
-                    description: category?.description,
-                    imageUrl: category?.imageUrl,
-                  });
-                }}
-              >
-                {translate('button.reset')}
-              </Button>
-            )}
-            <Button
-              disabled={isLoading}
-              variant="contained"
-              color={isEditing ? Color.WARNING : Color.PRIMARY}
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
-            >
-              {isEditing ? translate('button.update') : translate('button.create')}
+    <>
+      {isEditing && (
+        <>
+          {isLoading && (
+            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+              <LoadingScreen />
+            </Box>
+          )}
+        </>
+      )}
+
+      <Page
+        title={
+          isEditing
+            ? translate('page.title.update', {
+                model:
+                  categoryType === CategoryType.NORMAL
+                    ? translate('model.lowercase.category')
+                    : translate('model.lowercase.extraCategory'),
+              })
+            : translate('page.title.create', {
+                model:
+                  categoryType === CategoryType.NORMAL
+                    ? translate('model.lowercase.category')
+                    : translate('model.lowercase.extraCategory'),
+              })
+        }
+        pathname={pathname}
+        navigateDashboard={PATH_BRAND_APP.root}
+      >
+        <FormProvider {...createCategoryForm}>
+          <Card sx={{ p: 3 }}>
+            <CategoryForm />
+          </Card>
+          <Stack direction="row" justifyContent="space-between" mt={12}>
+            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
+              {translate('button.back')}
             </Button>
+            <Stack direction="row" gap={2}>
+              {isEditing && (
+                <Button
+                  variant="contained"
+                  color="inherit"
+                  disabled={isLoading}
+                  onClick={() => {
+                    reset({
+                      name: category?.name,
+                      code: category?.code,
+                      type: categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA,
+                      displayOrder: category?.displayOrder,
+                      description: category?.description,
+                      imageUrl: category?.imageUrl,
+                    });
+                  }}
+                >
+                  {translate('button.reset')}
+                </Button>
+              )}
+              <Button
+                disabled={isLoading}
+                variant="contained"
+                color={isEditing ? Color.WARNING : Color.PRIMARY}
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                {isEditing ? translate('button.update') : translate('button.create')}
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </FormProvider>
-    </Page>
+        </FormProvider>
+      </Page>
+    </>
   );
 }
 

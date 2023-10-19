@@ -25,28 +25,28 @@ export const PATH_ADMIN_APP = {
 
   kitchenCenter: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-centers'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/list'),
     detailById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/:id'),
     editById: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/update/:id'),
     newKitchenCenter: path(ROOTS_ADMIN_DASHBOARD, '/kitchen-center/create-new'),
   },
   brand: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/brand'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/brands'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/brand/list'),
     detailById: path(ROOTS_ADMIN_DASHBOARD, '/brand/:id'),
     editById: path(ROOTS_ADMIN_DASHBOARD, '/brand/update/:id'),
     newBrand: path(ROOTS_ADMIN_DASHBOARD, '/brand/create-new'),
   },
   partner: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/partner'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/partners'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/partner/list'),
     detailById: path(ROOTS_ADMIN_DASHBOARD, '/partner/:id'),
     editById: path(ROOTS_ADMIN_DASHBOARD, '/partner/update/:id'),
     newPartner: path(ROOTS_ADMIN_DASHBOARD, '/partner/create-new'),
   },
   store: {
     root: path(ROOTS_ADMIN_DASHBOARD, '/store'),
-    list: path(ROOTS_ADMIN_DASHBOARD, '/stores'),
+    list: path(ROOTS_ADMIN_DASHBOARD, '/store/list'),
     detailById: path(ROOTS_ADMIN_DASHBOARD, '/store/:id'),
   },
 };
@@ -97,30 +97,30 @@ export const PATH_KITCHEN_CENTER_APP = {
   information: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/information'),
   store: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store'),
-    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/stores'),
+    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store/list'),
     detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/store/:id'),
   },
   cashier: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier'),
-    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashiers'),
+    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/list'),
     editById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/update/:id'),
     newCashier: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/create-new'),
   },
   order: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/order'),
-    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/orders'),
+    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/order/list'),
     detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/order/:id'),
   },
   bankingAccount: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account'),
-    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-accounts'),
+    list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/list'),
     detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/:id'),
     editById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/update/:id'),
     newBankingAccount: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/banking-account/create-new'),
   },
   wallet: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet'),
-    shipperPayments: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/shipper-payments'),
+    shipperPayments: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/shipper-payment/list'),
     moneyExchanges: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/money-exchanges'),
   },
 };
@@ -131,11 +131,11 @@ export const PATH_CASHIER_APP = {
   information: path(ROOTS_CASHIER_DASHBOARD, '/information'),
   order: {
     root: path(ROOTS_CASHIER_DASHBOARD, '/order'),
-    list: path(ROOTS_CASHIER_DASHBOARD, '/orders'),
+    list: path(ROOTS_CASHIER_DASHBOARD, '/order/list'),
     detailById: path(ROOTS_CASHIER_DASHBOARD, '/order/:id'),
   },
   transaction: {
     root: path(ROOTS_CASHIER_DASHBOARD, '/transaction'),
-    list: path(ROOTS_CASHIER_DASHBOARD, '/transactions'),
+    list: path(ROOTS_CASHIER_DASHBOARD, '/transaction/list'),
   },
 };
