@@ -5,7 +5,8 @@
     "update": "Update {{model}}",
     "detail": "{{model}} detail",
     "search": "Search {{model}}...",
-    "registration": "Reject registration {{model}}"
+    "registration": "Reject registration {{model}}",
+    "wallet": "{{model}} wallet"
   },
   "content": {
     "logo": "Logo",

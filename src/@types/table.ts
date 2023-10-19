@@ -103,3 +103,13 @@ export interface MoneyExchangeTable {
   receiver: string;
   status: string;
 }
+
+export interface ShipperPaymentTable {
+  order: string;
+  createdDate: string;
+  createdBy: string;
+  amount: number;
+  paymentMethod: string;
+  KCBankingAccount: string;
+  status: string;
+}

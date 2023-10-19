@@ -1,3 +1,4 @@
+import { ShipperPaymentTable } from './../@types/table';
 import {
   BankingAccountTable,
   BrandTable,
@@ -517,6 +518,58 @@ function useConfigHeadTable() {
     },
   ];
 
+  const ShipperPaymentHeadCells: HeadCell<ShipperPaymentTable>[] = [
+    {
+      id: 'order',
+      label: 'Order',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'createdDate',
+      label: 'Created Date',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'createdBy',
+      label: 'Created By',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'amount',
+      label: 'Amount',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'paymentMethod',
+      label: 'Payment Method',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'KCBankingAccount',
+      label: 'Banking Account',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
   return {
     kitchenCenterHeadCells,
     brandHeadCells,
@@ -530,6 +583,7 @@ function useConfigHeadTable() {
     MoneyExchangeHeadCells,
     storePartnerHeadCells,
     storePartnerDetailHeadCells,
+    ShipperPaymentHeadCells,
   };
 }
 
