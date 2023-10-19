@@ -4,16 +4,11 @@ import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
 // redux
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import {
-  getAllProductsParent,
-  getProductDetail,
-  getProductParentDetail,
-  updateProduct,
-} from 'redux/product/productSlice';
 import { getAllCategories } from 'redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllProductsParent, getProductDetail, updateProduct } from 'redux/product/productSlice';
 //
 import {
   CategoryType,
@@ -25,7 +20,7 @@ import {
   ProductTypeEnum,
 } from '@types';
 import { Color, Status } from 'common/enum';
-import { Page } from 'components';
+import { LoadingScreen, Page } from 'components';
 import { useLocales, usePagination, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductForm } from 'sections/product';
@@ -76,12 +71,12 @@ function UpdateProductPage() {
   const parentProductId = watch('parentProductId');
   const categoryId = watch('categoryId');
 
-  const params = useMemo(() => {
-    return {
-      productId: parentProductId,
-      navigate,
-    };
-  }, [parentProductId]);
+  // const params = useMemo(() => {
+  //   return {
+  //     productId: parentProductId,
+  //     navigate,
+  //   };
+  // }, [parentProductId]);
 
   const paramsEditing = useMemo(() => {
     return {
@@ -130,14 +125,14 @@ function UpdateProductPage() {
     }
   }, [type]);
 
-  useEffect(() => {
-    if (type === ProductTypeEnum.CHILD) {
-      if (parentProductId !== undefined && parentProductId !== 0) {
-        console.log('get parent product');
-        dispatch(getProductParentDetail(params));
-      }
-    }
-  }, [parentProductId]);
+  // useEffect(() => {
+  //   if (type === ProductTypeEnum.CHILD) {
+  //     if (parentProductId !== undefined && parentProductId !== 0) {
+  //       console.log('get parent product');
+  //       dispatch(getProductParentDetail(params));
+  //     }
+  //   }
+  // }, [parentProductId]);
 
   useEffect(() => {
     if (isEditing) {
@@ -298,6 +293,16 @@ function UpdateProductPage() {
 
   return (
     <>
+      {isEditing && (
+        <>
+          {isLoading && (
+            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+              <LoadingScreen />
+            </Box>
+          )}
+        </>
+      )}
+
       <Page
         containerWidth="xl"
         title={translate('page.title.update', { model: translate('model.lowercase.product') })}

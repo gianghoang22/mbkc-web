@@ -4,16 +4,17 @@ import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
 //
-import { Params, StoreToCreate, StoreToUpdate } from '@types';
+import { ListParams, Params, StoreToCreate, StoreToUpdate } from '@types';
 import { Color, Status } from 'common/enum';
-import { Page } from 'components';
+import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { createNewStore, getStoreDetail, updateStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreForm } from 'sections/store';
+import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 function CreateStorePage() {
   const { id: storeId } = useParams();
@@ -27,6 +28,8 @@ function CreateStorePage() {
   const { brandProfile } = useAppSelector((state) => state.profile);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { store, isEditing, isLoading } = useAppSelector((state) => state.store);
+  const { isLoading: isLoadingKitchenCenters } = useAppSelector((state) => state.kitchenCenter);
+  console.log('isLoadingKitchenCenters', isLoadingKitchenCenters);
 
   const createStoreForm = useForm<StoreToCreate>({
     defaultValues: {
@@ -40,6 +43,21 @@ function CreateStorePage() {
   });
 
   const { handleSubmit, reset } = createStoreForm;
+
+  const paramsKitchenCenter: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        isGetAll: true,
+      },
+      navigate,
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isEditing) {
+      dispatch(getAllKitchenCenters(paramsKitchenCenter));
+    }
+  }, [paramsKitchenCenter]);
 
   const params = useMemo(() => {
     return {
@@ -95,6 +113,24 @@ function CreateStorePage() {
 
   return (
     <>
+      {isEditing ? (
+        <>
+          {isLoading && (
+            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+              <LoadingScreen />
+            </Box>
+          )}
+        </>
+      ) : (
+        <>
+          {isLoadingKitchenCenters && (
+            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+              <LoadingScreen />
+            </Box>
+          )}
+        </>
+      )}
+
       <Page
         title={
           isEditing
@@ -108,6 +144,7 @@ function CreateStorePage() {
           <Card sx={{ p: 3 }}>
             <StoreForm />
           </Card>
+
           <Stack direction="row" justifyContent="space-between" mt={12}>
             <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
               {translate('button.back')}

@@ -15,6 +15,7 @@ export { default as CommonTableHead } from './table/CommonTableHead';
 export { default as SearchNotFound } from './table/SearchNotFound';
 export { default as EmptyTable } from './table/EmptyTable';
 export { default as UploadAvatar } from './upload/UploadAvatar';
+export { default as LoadingScreen } from './upload/LoadingScreen';
 export { default as Tabs } from './tabs/Tabs';
 export { default as CustomTabs } from './tabs/CustomTabs';
 

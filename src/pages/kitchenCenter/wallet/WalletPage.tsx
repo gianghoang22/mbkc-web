@@ -1,12 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
-import { Label, Page } from 'components';
-import { useLocales } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color } from 'common/enum';
-import MainBalanceCard from 'sections/wallet/wallet/MainBalanceCard';
-import TotalDaily from 'sections/wallet/wallet/TotalDaily';
-
-// mui
+// @mui
 import {
   Grid,
   Card,
@@ -23,6 +16,12 @@ import {
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+//
+import { Label, Page } from 'components';
+import { useLocales } from 'hooks';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { Color } from 'common/enum';
+import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 
 function WalletPage() {
   const { pathname } = useLocation();
