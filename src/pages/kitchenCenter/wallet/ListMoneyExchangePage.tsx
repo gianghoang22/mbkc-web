@@ -34,7 +34,7 @@ function ListMoneyExchangePage(props: any) {
   };
 
   const handleNavigateDetail = (moneyExchange: MoneyExchange, moneyExchangeId: number) => {
-    navigate(PATH_KITCHEN_CENTER_APP.wallet.root + `/detail/${moneyExchangeId}`);
+    navigate(PATH_KITCHEN_CENTER_APP.wallet.root + `/${moneyExchangeId}`);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {

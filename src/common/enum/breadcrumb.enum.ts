@@ -14,6 +14,8 @@ export enum Breadcrumb {
   ORDERS = 'orders',
   BANKING_ACCOUNT = 'banking account',
   BANKING_ACCOUNTS = 'banking accounts',
+  MONEY_EXCHANGES = 'money exchanges',
+  SHIPPER_PAYMENTS = 'shipper payments',
   TRANSACTION = 'transaction',
   PARTNER = 'partner',
   PARTNERS = 'partners',
