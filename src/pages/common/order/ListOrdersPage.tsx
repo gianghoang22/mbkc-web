@@ -59,7 +59,7 @@ function ListOrdersPage() {
     <>
       <Page
         pathname={pathname}
-        title={translate('page.title.list', { model: translate('model.lowercase.order') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.orders') })}
         navigateDashboard={PATH_CASHIER_APP.root}
       >
         <Card>

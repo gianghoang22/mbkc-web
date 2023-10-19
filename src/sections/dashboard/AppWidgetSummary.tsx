@@ -8,7 +8,7 @@ import { Color } from 'common/enum';
 
 // ----------------------------------------------------------------------
 
-const StyledIcon = styled('div')(({ theme }) => ({
+export const StyledIcon = styled('div')(({ theme }) => ({
   margin: 'auto',
   display: 'flex',
   borderRadius: '50%',
