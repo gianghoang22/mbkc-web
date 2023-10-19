@@ -15,7 +15,6 @@ export const removeLocalStorage = (key: any) => localStorage.removeItem(key);
 export const setUserAuth = (userAuth: UserAuth) => setLocalStorage(StorageKeys.USER_AUTH, JSON.stringify(userAuth));
 export const getUserAuth = () => {
   const userAuth = getLocalStorage(StorageKeys.USER_AUTH);
-  console.log(userAuth);
   if (userAuth === null || userAuth === undefined || userAuth.toString() === 'undefined') {
     return;
   } else {
