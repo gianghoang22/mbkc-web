@@ -1,16 +1,16 @@
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
-import { StyledRoot, StyledSearch } from '../../styles';
+import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
 
-interface MoneyExchangeTableToolbarProps {
+interface ShipperPaymentTableToolbarProps {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filterName: string;
 }
 
-function MoneyExchangeTableToolbar(props: MoneyExchangeTableToolbarProps) {
+function ShipperPaymentTableToolbar(props: ShipperPaymentTableToolbarProps) {
   const { filterName, onFilterName } = props;
 
   return (
@@ -19,7 +19,7 @@ function MoneyExchangeTableToolbar(props: MoneyExchangeTableToolbarProps) {
         size="small"
         value={filterName}
         onChange={onFilterName}
-        placeholder="Search user..."
+        placeholder="Search shipper payment..."
         startAdornment={
           <InputAdornment position="start">
             <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
@@ -36,4 +36,4 @@ function MoneyExchangeTableToolbar(props: MoneyExchangeTableToolbarProps) {
   );
 }
 
-export default MoneyExchangeTableToolbar;
+export default ShipperPaymentTableToolbar;

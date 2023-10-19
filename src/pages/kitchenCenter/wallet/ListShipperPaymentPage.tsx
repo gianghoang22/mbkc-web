@@ -11,8 +11,8 @@ import { useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 import { getComparator, stableSort } from 'utils';
-import ShipperPaymentTableRow from 'sections/wallet/shipperPayment/ShipperPaymentTableRow';
-import ShipperPaymentTableToolbar from 'sections/wallet/shipperPayment/ShipperPaymentTableToolbar';
+import ShipperPaymentTableRow from 'sections/shipperPayment/ShipperPaymentTableRow';
+import ShipperPaymentTableToolbar from 'sections/shipperPayment/ShipperPaymentTableToolbar';
 
 function ListShipperPaymentPage(props: any) {
   const navigate = useNavigate();

@@ -10,11 +10,11 @@ import { useAppSelector } from 'redux/configStore';
 
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
-import MoneyExchangeTableRow from 'sections/wallet/moneyExchange/moneyExchangeTableRow';
-import MoneyExchangeTableToolbar from 'sections/wallet/moneyExchange/moneyExchangeTableToolbar';
+import MoneyExchangeTableRow from 'sections/moneyExchange/moneyExchangeTableRow';
+import MoneyExchangeTableToolbar from 'sections/moneyExchange/moneyExchangeTableToolbar';
 import { getComparator, stableSort } from 'utils';
 
-function ListMoneyExchangePage(props: any) {
+function ListMoneyExchangePage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { translate } = useLocales();
