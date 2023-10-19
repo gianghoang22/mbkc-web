@@ -4,13 +4,13 @@ import { BrandProfile, KitchenCenterProfile, Params, UpdateBrandProfile } from '
 import { axiosClient, axiosFormData, setHeaderAuth } from 'api/axiosClient';
 import { ROUTES_API_BRANDS, ROUTES_API_KITCHEN_CENTER } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { appendData, getAccessToken, getErrorMessage, setAccessToken, setBrandInfo, setKitchenCenterInfo } from 'utils';
+import { appendData, getAccessToken, getErrorMessage, setBrandInfo, setKitchenCenterInfo } from 'utils';
 import { getBrandProfile } from './profileSlice';
 
 export const getKitchenCenterProfileThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
   const accessToken = getAccessToken();
   if (accessToken) {
-    setAccessToken(accessToken);
+    setHeaderAuth(accessToken);
     try {
       const response: KitchenCenterProfile = await axiosClient.get(
         ROUTES_API_KITCHEN_CENTER.GET_PROFILE_KITCHEN_CENTER
@@ -30,7 +30,7 @@ export const getKitchenCenterProfileThunk = async (navigate: NavigateFunction, t
 export const getBrandProfileThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
   const accessToken = getAccessToken();
   if (accessToken) {
-    setAccessToken(accessToken);
+    setHeaderAuth(accessToken);
     try {
       const response: BrandProfile = await axiosClient.get(ROUTES_API_BRANDS.GET_PROFILE_BRAND);
       if (response) {
