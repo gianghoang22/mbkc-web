@@ -71,21 +71,3 @@ export interface WordLimited {
   lengthLimit: number;
   end?: string;
 }
-
-export enum StatusType {
-  ACTIVE = 'Active',
-  INACTIVE = 'Inactive',
-}
-
-export const STATUS_TYPE_OPTIONS = [
-  {
-    value: StatusType.ACTIVE,
-    label: 'Active',
-    id: 'Ac',
-  },
-  {
-    value: StatusType.INACTIVE,
-    label: 'Inactive',
-    id: 'In',
-  },
-];
