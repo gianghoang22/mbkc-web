@@ -42,7 +42,7 @@ function ProductTableRow({
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = () => {
-    navigate(PATH_BRAND_APP.product.root + `/detail/${product?.productId}`);
+    navigate(PATH_BRAND_APP.product.root + `/${product?.productId}`);
     dispatch(setRoutesToBack(pathname));
     dispatch(getProductDetail_local(product));
   };
