@@ -37,22 +37,22 @@ function useConfigSidebar() {
       missions: translate('model.lowercase.manage'),
       listNav: [
         {
-          title: translate('model.lowercase.kitchenCenter'),
+          title: translate('model.lowercase.kitchenCenters'),
           path: PATH_ADMIN_APP.kitchenCenter.list,
           icon: <BusinessIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.brand'),
+          title: translate('model.lowercase.brands'),
           path: PATH_ADMIN_APP.brand.list,
           icon: <BrandingWatermarkOutlinedIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.store'),
+          title: translate('model.lowercase.stores'),
           path: PATH_ADMIN_APP.store.list,
           icon: <StoreIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.partner'),
+          title: translate('model.lowercase.partners'),
           path: PATH_ADMIN_APP.partner.list,
           icon: <HandshakeIcon fontSize="medium" />,
         },
@@ -133,27 +133,27 @@ function useConfigSidebar() {
       missions: translate('model.lowercase.manage'),
       listNav: [
         {
-          title: translate('model.lowercase.store'),
+          title: translate('model.lowercase.stores'),
           path: PATH_KITCHEN_CENTER_APP.store.list,
           icon: <RestaurantMenuIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.cashier'),
+          title: translate('model.lowercase.cashiers'),
           path: PATH_KITCHEN_CENTER_APP.cashier.list,
           icon: <AssignmentIndIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.banking'),
+          title: translate('model.lowercase.bankingAccounts'),
           path: PATH_KITCHEN_CENTER_APP.bankingAccount.list,
           icon: <AssignmentIndIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.order'),
+          title: translate('model.lowercase.orders'),
           path: PATH_KITCHEN_CENTER_APP.order.list,
           icon: <ListAltIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.wallet'),
+          title: translate('model.lowercase.wallets'),
           path: PATH_KITCHEN_CENTER_APP.wallet.root,
           icon: <WalletIcon fontSize="medium" />,
         },
