@@ -58,10 +58,11 @@ function ListCashierPage() {
         searchValue: debounceValue,
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, navigate]);
+  }, [page, rowsPerPage, debounceValue, navigate, orderBy, order]);
 
   useEffect(() => {
     dispatch(getAllCashiers(params));
