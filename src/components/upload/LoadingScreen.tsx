@@ -84,7 +84,7 @@ export default function LoadingScreen({ ...other }) {
             repeat: Infinity,
           }}
         >
-          <Box component="img" alt="logo" src={images.logo.logo_mbkc} sx={{ width: 64, height: 64 }} />
+          <Box component="img" alt="logo" src={images.logo.logo_mbkc_no_bg} sx={{ width: 80, height: 80 }} />
         </motion.div>
 
         <Box

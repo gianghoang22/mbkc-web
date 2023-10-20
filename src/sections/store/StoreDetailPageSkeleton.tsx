@@ -156,7 +156,7 @@ function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: stri
 
                   <TableBody>
                     {Array.from({ length: 2 }).map((_, index: any) => (
-                      <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
+                      <TableRow key={index} hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
                         <TableCell width={80} align="center">
                           <Stack direction="row" alignItems="center" justifyContent="center">
                             <Skeleton width={20} />

@@ -15,6 +15,7 @@ const images = {
   },
   logo: {
     logo_mbkc: require('assets/logos/logo_mbkc.png'),
+    logo_mbkc_no_bg: require('assets/logos/logo_mbkc_no_background.png'),
     logo_mbkc_text: require('assets/logos/text_mbkc_1.png'),
   },
   language: {

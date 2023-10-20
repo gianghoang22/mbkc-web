@@ -3,6 +3,12 @@ import { KitchenCenter } from './models/kitchenCenter';
 
 export type OrderSort = 'asc' | 'desc';
 
+export enum OrderSortBy {
+  NAME = 'name',
+  PARTNER_NAME = 'partnerName',
+  STATUS = 'status',
+}
+
 export interface HeadCell<T> {
   id: keyof T;
   label: string;

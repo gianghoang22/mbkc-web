@@ -8,12 +8,13 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { createNewStorePartner } from 'redux/storePartner/storePartnerSlice';
 //
 import { Params, StorePartnerToCreate } from '@types';
-import { Page } from 'components';
+import { LoadingScreen, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { StorePartnerForm } from 'sections/storePartner';
 import { useEffect, useMemo } from 'react';
 import { getStoreDetail } from 'redux/store/storeSlice';
+import { Box } from '@mui/material';
 
 function AddPartnerToStorePage() {
   const navigate = useNavigate();
@@ -84,6 +85,12 @@ function AddPartnerToStorePage() {
 
   return (
     <>
+      {isLoading && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
+      )}
+
       <Page
         title={translate('page.title.create', { model: translate('model.lowercase.storePartner') })}
         pathname={pathname}
