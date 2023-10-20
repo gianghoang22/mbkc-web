@@ -41,7 +41,6 @@ export const getCashierDetailThunk = async (params: any, thunkAPI: any) => {
 
 export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
   const { navigate, newCashierOptions } = params;
-  console.log(newCashierOptions);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
@@ -86,8 +85,6 @@ export const deleteCashierThunk = async (params: any, thunkAPI: any) => {
     itemsPerPage: rowsPerPage,
     currentPage: page,
   };
-
-  console.log(options);
 
   const paramsCallback: ListParams = {
     optionParams: options,

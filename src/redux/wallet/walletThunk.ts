@@ -12,7 +12,6 @@ export const getAllMoneyExchangeThunk = async (params: ListParams, thunkAPI: any
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -29,7 +28,6 @@ export const getAllShipperPaymentThunk = async (params: ListParams, thunkAPI: an
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);

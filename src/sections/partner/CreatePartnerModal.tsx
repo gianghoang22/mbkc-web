@@ -27,8 +27,6 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
 
   const { partner, isEditing, isLoading } = useAppSelector((state) => state.partner);
 
-  console.log(partner);
-
   const createPartnerForm = useForm<PartnerToCreate>({
     defaultValues: {
       name: isEditing && partner ? partner?.name : '',

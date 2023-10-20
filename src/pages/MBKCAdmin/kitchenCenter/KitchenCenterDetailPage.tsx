@@ -37,7 +37,6 @@ import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import { KitchenCenterDetailPageSkeleton } from '..';
-import axios from 'axios';
 
 function KitchenCenterDetailPage() {
   const { id: kitchenCenterId } = useParams();
