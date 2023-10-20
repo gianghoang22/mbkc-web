@@ -33,7 +33,7 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = () => {
-    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/${kitchenCenter.kitchenCenterId}`);
+    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/detail/${kitchenCenter.kitchenCenterId}`);
     dispatch(setRoutesToBack(pathname));
   };
 

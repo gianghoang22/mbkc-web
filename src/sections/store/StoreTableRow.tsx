@@ -75,8 +75,8 @@ function StoreTableRow({
       userAuth?.roleName === Role.BRAND_MANAGER
         ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
         : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-        ? PATH_KITCHEN_CENTER_APP.store.root + `/${storeId}`
-        : PATH_ADMIN_APP.store.root + `/${storeId}`
+        ? PATH_KITCHEN_CENTER_APP.store.root + `/detail/${storeId}`
+        : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
     );
     dispatch(setRoutesToBack(pathname));
   };

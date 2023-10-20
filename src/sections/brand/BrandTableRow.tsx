@@ -29,7 +29,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = (brand: Brand, brandId: number) => {
-    navigate(PATH_ADMIN_APP.brand.root + `/${brandId}`);
+    navigate(PATH_ADMIN_APP.brand.root + `/detail/${brandId}`);
     dispatch(setRoutesToBack(pathname));
   };
 
