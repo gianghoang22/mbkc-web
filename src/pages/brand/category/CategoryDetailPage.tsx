@@ -229,7 +229,11 @@ function CategoryDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_BRAND_APP.category.root + `/update/${categoryId}`);
+          if (categoryType === CategoryType.NORMAL) {
+            navigate(PATH_BRAND_APP.category.root + `/update/${categoryId}`);
+          } else {
+            navigate(PATH_BRAND_APP.category.rootExtra + `/update/${categoryId}`);
+          }
           dispatch(setRoutesToBack(pathname));
           dispatch(setCategoryType(categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA));
           dispatch(setEditCategory(category));
