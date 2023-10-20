@@ -1,10 +1,15 @@
+import { AxiosResponse } from 'axios';
+// redux
+import { setIsLogout } from 'redux/auth/authSlice';
+//
 import { TokenResponse } from '@types';
 import { ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { getAccessToken, getRefreshToken, setSession } from 'utils';
 import { axiosClient, axiosFormData } from './axiosClient';
-import { AxiosResponse } from 'axios';
 
 const setupAxiosFormData = (store: any) => {
+  const { dispatch } = store;
+
   axiosFormData.interceptors.response.use(
     (response: AxiosResponse) => {
       return response.data;
@@ -38,6 +43,7 @@ const setupAxiosFormData = (store: any) => {
 
             return axiosFormData(originalConfig);
           } catch (_error) {
+            dispatch(setIsLogout);
             return Promise.reject(_error);
           }
         }

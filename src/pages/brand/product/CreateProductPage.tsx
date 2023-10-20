@@ -130,7 +130,7 @@ function CreateProductPage() {
     if (type === ProductTypeEnum.CHILD && type !== undefined && productParent?.name !== undefined) {
       console.log('type', type);
       reset({
-        name: `${productParent?.name === undefined ? 'Tên sản phẩm cha' : productParent.name} size ${size}`,
+        name: `${productParent?.name === undefined ? 'Tên sản phẩm cha' : productParent.name} - Size ${size}`,
         type: type,
         code: code,
         image: image,
@@ -168,7 +168,7 @@ function CreateProductPage() {
     if (type === ProductTypeEnum.PARENT) {
       initialValues = {
         type: type,
-        name: name,
+        name: '',
         code: code,
         image: image,
         description: description,
@@ -189,7 +189,7 @@ function CreateProductPage() {
         image: image,
         description: description,
         displayOrder: displayOrder,
-        name: `Tên sản phẩm cha + size`,
+        name: `Tên sản phẩm cha - Size`,
         historicalPrice: '',
         sellingPrice: '',
         discountPrice: '',

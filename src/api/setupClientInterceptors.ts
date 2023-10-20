@@ -1,10 +1,11 @@
-import { TokenResponse } from '@types';
 import { AxiosResponse } from 'axios';
+// redux
+import { setIsLogout } from 'redux/auth/authSlice';
 //
+import { TokenResponse } from '@types';
 import { ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { getAccessToken, getRefreshToken, setSession } from 'utils';
 import { axiosClient } from './axiosClient';
-import { logout } from 'redux/auth/authSlice';
 
 const setupAxiosClient = (store: any) => {
   const { dispatch } = store;
@@ -37,12 +38,13 @@ const setupAxiosClient = (store: any) => {
 
           try {
             const response: TokenResponse = await axiosClient.post(ROUTES_API_AUTH.REFRESH_TOKEN, data);
-
+            console.log('response new', response);
             setSession(response.accessToken, response.refreshToken);
 
             return axiosClient(originalConfig);
           } catch (_error) {
-            dispatch(logout);
+            console.log(_error);
+            dispatch(setIsLogout());
             return Promise.reject(_error);
           }
         }

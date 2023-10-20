@@ -75,7 +75,9 @@ const authSlice = createSlice({
     setUserInfo: (state) => {
       state.userInfo = null;
     },
-    setRefreshToken: (state, action) => {},
+    setIsLogout: (state) => {
+      state.isLogout = !state.isLogout;
+    },
   },
   extraReducers(builder) {
     builder
@@ -177,7 +179,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setMessageSuccess, setMessageInfo, setMessageError, setEmail, setUserAuth, setUserInfo } =
+export const { setMessageSuccess, setMessageInfo, setMessageError, setEmail, setUserAuth, setUserInfo, setIsLogout } =
   authSlice.actions;
 const authReducer = authSlice.reducer;
 

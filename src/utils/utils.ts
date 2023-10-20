@@ -140,11 +140,14 @@ export const getAccessToken = () =>
 export const removeAccessToken = () => Cookie.remove(StorageKeys.ACCESS_TOKEN);
 
 export const setRefreshToken = (refreshToken: string) => Cookie.set(StorageKeys.REFRESH_TOKEN, refreshToken);
-export const getRefreshToken = () =>
-  document.cookie
-    .split('; ')
-    .find((row) => row.startsWith(StorageKeys.REFRESH_TOKEN))
-    ?.split('=')[1];
+export const getRefreshToken = () => {
+  const refreshToken = document.cookie.split('; ').find((row) => row.startsWith(StorageKeys.REFRESH_TOKEN));
+  const equalIndex = refreshToken?.indexOf('=');
+  if (equalIndex !== -1) {
+    var result = refreshToken?.substring(equalIndex ? equalIndex : 0 + 1);
+    return result?.replace(/^=/, '');
+  }
+};
 export const removeRefreshToken = () => Cookie.remove(StorageKeys.REFRESH_TOKEN);
 
 // hash password

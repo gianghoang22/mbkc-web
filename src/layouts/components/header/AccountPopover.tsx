@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 // @mui icon
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -7,13 +8,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar, Button, Divider, MenuItem, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 // redux
-import { logout, setUserInfo } from 'redux/auth/authSlice';
+import { logout, setIsLogout, setUserInfo } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { Role } from 'common/enum';
 import { MenuPopover } from 'components';
 import { useLocales, useNavigate, usePopover } from 'hooks';
 import account from 'mock/account';
+import { PATH_AUTH } from 'routes/paths';
 
 function AccountPopover() {
   const { navigate, handleNavigateProfile } = useNavigate();
@@ -32,15 +34,16 @@ function AccountPopover() {
 
   const handleLogout = () => {
     dispatch(logout(navigate));
-    dispatch(setUserInfo);
     handleCloseMenu();
+    dispatch(setIsLogout);
+    dispatch(setUserInfo);
   };
 
   useEffect(() => {
     if (isLogout) {
-      dispatch(logout(navigate));
+      handleLogout();
     }
-  }, [isLogout, dispatch, navigate]);
+  }, [isLogout]);
 
   return (
     <>
