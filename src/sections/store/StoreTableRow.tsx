@@ -73,10 +73,10 @@ function StoreTableRow({
   const handleNavigateDetail = (storeId: number) => {
     navigate(
       userAuth?.roleName === Role.BRAND_MANAGER
-        ? PATH_BRAND_APP.store.root + `/detail/${storeId}`
+        ? PATH_BRAND_APP.store.root + `/${storeId}`
         : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-        ? PATH_KITCHEN_CENTER_APP.store.root + `/detail/${storeId}`
-        : PATH_ADMIN_APP.store.root + `/detail/${storeId}`
+        ? PATH_KITCHEN_CENTER_APP.store.root + `/${storeId}`
+        : PATH_ADMIN_APP.store.root + `/${storeId}`
     );
     dispatch(setRoutesToBack(pathname));
   };

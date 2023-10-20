@@ -42,7 +42,7 @@ function CategoryTableRow({
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = () => {
-    navigate(PATH_BRAND_APP.category.root + `/detail/${category.categoryId}`);
+    navigate(PATH_BRAND_APP.category.root + `/${category.categoryId}`);
     dispatch(setCategoryType(categoryType));
     dispatch(setRoutesToBack(pathname));
   };
