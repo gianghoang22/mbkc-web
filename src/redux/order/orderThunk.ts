@@ -10,7 +10,6 @@ export const getAllOrdersThunk = async (params: any, thunkAPI: any) => {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(ROUTES_API_ORDERS.GET_ALL_ORDERS);
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -27,7 +26,6 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(ROUTES_API_ORDERS.GET_ORDER_DETAIL(orderId));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);

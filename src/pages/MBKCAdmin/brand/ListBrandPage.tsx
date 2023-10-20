@@ -67,8 +67,6 @@ function ListBrandPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterName, page, rowsPerPage]);
 
-  console.log(brands);
-
   return (
     <>
       <Page

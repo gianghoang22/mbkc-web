@@ -28,7 +28,6 @@ export const getBrandDetailThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     try {
       const response = await axiosClient.get(`/brands/${brandId}`);
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);

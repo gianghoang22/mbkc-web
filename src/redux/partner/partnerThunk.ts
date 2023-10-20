@@ -67,7 +67,6 @@ export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thu
 
 export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkAPI: any) => {
   const { data, idParams, optionParams, navigate } = params;
-  console.log(optionParams);
   const formData = appendData(data);
   const accessToken = getAccessToken();
   if (accessToken) {

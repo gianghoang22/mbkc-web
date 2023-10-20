@@ -202,10 +202,10 @@ function useConfigHeadTable() {
         currentLang.value === Language.ENGLISH
           ? {
               model: translate('model.capitalizeOne.product'),
-              name: translate('page.form.codeLower'),
+              name: translate('page.form.nameLower'),
             }
           : {
-              model: translate('page.form.code'),
+              model: translate('page.form.name'),
               name: translate('model.lowercase.product'),
             }
       ),

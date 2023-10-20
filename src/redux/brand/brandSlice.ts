@@ -39,7 +39,6 @@ const brandSlice = createSlice({
   initialState,
   reducers: {
     getBrandDetail_local: (state, action) => {
-      console.log(action);
       state.brand = action.payload;
     },
     setAddBrand: (state) => {

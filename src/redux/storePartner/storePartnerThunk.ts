@@ -118,7 +118,6 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
             .slice(2)
             .filter((x) => x)[1] === 'detail'
         ) {
-          console.log('Detail');
           const paramsCallback: ListParams = {
             optionParams: {
               idStore: idParams?.storeId ? idParams?.storeId : 0,
@@ -127,7 +126,6 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
           };
           await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
         } else {
-          console.log('List');
           await thunkAPI.dispatch(
             getAllStorePartners({
               optionParams: {
@@ -169,7 +167,6 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
             .slice(2)
             .filter((x) => x)[1] === 'detail'
         ) {
-          console.log('Detail');
           const paramsCallback: ListParams = {
             optionParams: {
               idStore: idParams?.storeId ? idParams?.storeId : 0,
@@ -178,7 +175,6 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
           };
           await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
         } else {
-          console.log('List');
           await thunkAPI.dispatch(
             getAllStorePartners({
               optionParams: {
@@ -219,7 +215,6 @@ export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thun
             .slice(2)
             .filter((x) => x)[1] === 'detail'
         ) {
-          console.log('Detail');
           const paramsCallback: ListParams = {
             optionParams: {
               idStore: idParams?.storeId ? idParams?.storeId : 0,
@@ -228,7 +223,6 @@ export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thun
           };
           await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
         } else {
-          console.log('List');
           await thunkAPI.dispatch(
             getAllStorePartners({
               optionParams: {

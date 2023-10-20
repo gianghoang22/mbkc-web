@@ -12,8 +12,6 @@ function Tabs() {
     setValue(newValue);
   };
 
-  console.log(value);
-
   return (
     <TabsMui value={value} onChange={handleChange} aria-label="tabs">
       <Tab

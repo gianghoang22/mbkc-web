@@ -13,7 +13,6 @@ export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: a
     setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
-      console.log(response);
       return response;
     } catch (error: any) {
       const errorMessage = getErrorMessage(error, navigate);
@@ -64,7 +63,6 @@ export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) =
 
 export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
   const { bankingAccountId, navigate, updateBankingAccountOptions } = params;
-  console.log(updateBankingAccountOptions);
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);

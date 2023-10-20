@@ -173,12 +173,6 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
             .slice(2)
             .filter((x) => x)[1] === 'detail'
         ) {
-          console.log(
-            pathname
-              ?.split('/')
-              .slice(2)
-              .filter((x) => x)[1] === 'detail'
-          );
           await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
         } else {
           await thunkAPI.dispatch(getAllStores(paramsCallback));
