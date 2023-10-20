@@ -82,8 +82,11 @@ export const PATH_BRAND_APP = {
     list: path(ROOTS_BRAND_DASHBOARD, '/categories'),
     extraList: path(ROOTS_BRAND_DASHBOARD, '/extra-categories'),
     detailById: path(ROOTS_BRAND_DASHBOARD, '/category/:id'),
+    extraDetailById: path(ROOTS_BRAND_DASHBOARD, '/extra-category/:id'),
     editById: path(ROOTS_BRAND_DASHBOARD, '/category/update/:id'),
+    extraEditById: path(ROOTS_BRAND_DASHBOARD, '/extra-category/update/:id'),
     newCategory: path(ROOTS_BRAND_DASHBOARD, '/category/create-new'),
+    newCategoryExtra: path(ROOTS_BRAND_DASHBOARD, '/extra-category/create-new'),
   },
   mappingProduct: {
     root: path(ROOTS_BRAND_DASHBOARD, '/mapping-product'),

@@ -112,12 +112,11 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
         data
       );
       if (response) {
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
+        const pathToBack = pathname
+          ?.split('/')
+          .slice(2)
+          .filter((x) => x)[1];
+        if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
           const paramsCallback: ListParams = {
             optionParams: {
               idStore: idParams?.storeId ? idParams?.storeId : 0,
@@ -161,12 +160,11 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
         data
       );
       if (response) {
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
+        const pathToBack = pathname
+          ?.split('/')
+          .slice(2)
+          .filter((x) => x)[1];
+        if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
           const paramsCallback: ListParams = {
             optionParams: {
               idStore: idParams?.storeId ? idParams?.storeId : 0,
@@ -209,12 +207,11 @@ export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thun
         )
       );
       if (response) {
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
+        const pathToBack = pathname
+          ?.split('/')
+          .slice(2)
+          .filter((x) => x)[1];
+        if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
           const paramsCallback: ListParams = {
             optionParams: {
               idStore: idParams?.storeId ? idParams?.storeId : 0,

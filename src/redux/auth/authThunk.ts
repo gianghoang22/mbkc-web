@@ -79,6 +79,7 @@ export const getUserInfoThunk = async (params: any, thunkAPI: any) => {
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
+      console.log('call again');
       const response: UserInfo = await axiosClient.get(ROUTES_API_ACCOUNT.ACCOUNT_INFORMATION(accountId));
       if (response) {
         const userStorage = {
@@ -149,11 +150,12 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
 
 export const logoutThunk = async (navigate: any, thunkAPI: any) => {
   try {
+    navigate(PATH_AUTH.login);
     removeSession();
     removeUserAuth();
     removeUserInfo();
     removeAuthenticated();
-    navigate(PATH_AUTH.login);
+    localStorage.clear();
     thunkAPI.dispatch(setUserInfo);
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error);

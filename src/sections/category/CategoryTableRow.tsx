@@ -42,13 +42,21 @@ function CategoryTableRow({
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = () => {
-    navigate(PATH_BRAND_APP.category.root + `/${category.categoryId}`);
+    if (categoryType === CategoryType.NORMAL) {
+      navigate(PATH_BRAND_APP.category.root + `/${category.categoryId}`);
+    } else {
+      navigate(PATH_BRAND_APP.category.rootExtra + `/${category.categoryId}`);
+    }
     dispatch(setCategoryType(categoryType));
     dispatch(setRoutesToBack(pathname));
   };
 
   const handleEdit = () => {
-    navigate(PATH_BRAND_APP.category.root + `/update/${category.categoryId}`);
+    if (categoryType === CategoryType.NORMAL) {
+      navigate(PATH_BRAND_APP.category.root + `/update/${category.categoryId}`);
+    } else {
+      navigate(PATH_BRAND_APP.category.rootExtra + `/update/${category.categoryId}`);
+    }
     dispatch(setCategoryType(categoryType));
     dispatch(setEditCategory(category));
     dispatch(setRoutesToBack(pathname));

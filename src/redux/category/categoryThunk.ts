@@ -140,12 +140,11 @@ export const updateCategoryThunk = async (params: Params<CategoryToUpdate>, thun
           },
           navigate,
         };
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
+        const pathToBack = pathname
+          ?.split('/')
+          .slice(2)
+          .filter((x) => x)[1];
+        if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
           await thunkAPI.dispatch(getCategoryDetail({ categoryId: idParams?.categoryId, navigate }));
         } else {
           await thunkAPI.dispatch(getAllCategories(paramsCallback));
@@ -180,16 +179,7 @@ export const deleteCategoryThunk = async (params: Params<Category>, thunkAPI: an
           },
           navigate,
         };
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
-          await thunkAPI.dispatch(getCategoryDetail({ categoryId: idParams?.categoryId, navigate }));
-        } else {
-          await thunkAPI.dispatch(getAllCategories(paramsCallback));
-        }
+        await thunkAPI.dispatch(getAllCategories(paramsCallback));
         navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.category.list);
         thunkAPI.dispatch(setMessageSuccess('Deleted category successfully'));
       }

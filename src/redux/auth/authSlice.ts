@@ -13,6 +13,7 @@ import {
 } from './authThunk';
 
 interface AuthState {
+  isLogout: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -29,6 +30,7 @@ const getIsAuthenticated = getAuthenticated() ? getAuthenticated() : false;
 const getEmailInStorage = getEmailVerify() ? getEmailVerify() : '';
 
 const initialState: AuthState = {
+  isLogout: false,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -73,7 +75,9 @@ const authSlice = createSlice({
     setUserInfo: (state) => {
       state.userInfo = null;
     },
-    setRefreshToken: (state, action) => {},
+    setIsLogout: (state) => {
+      state.isLogout = !state.isLogout;
+    },
   },
   extraReducers(builder) {
     builder
@@ -175,7 +179,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setMessageSuccess, setMessageInfo, setMessageError, setEmail, setUserAuth, setUserInfo } =
+export const { setMessageSuccess, setMessageInfo, setMessageError, setEmail, setUserAuth, setUserInfo, setIsLogout } =
   authSlice.actions;
 const authReducer = authSlice.reducer;
 

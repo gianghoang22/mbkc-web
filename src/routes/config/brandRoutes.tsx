@@ -105,17 +105,32 @@ export const brandRoutes: Route[] = [
     index: false,
   },
   {
-    path: PATH_BRAND_APP.category.extraList,
-    component: <ListExtraCategoryPage />,
-    index: false,
-  },
-  {
     path: PATH_BRAND_APP.category.newCategory,
     component: <CreateCategoryPage />,
     index: false,
   },
   {
     path: PATH_BRAND_APP.category.editById,
+    component: <CreateCategoryPage />,
+    index: false,
+  },
+  {
+    path: PATH_BRAND_APP.category.extraList,
+    component: <ListExtraCategoryPage />,
+    index: false,
+  },
+  {
+    path: PATH_BRAND_APP.category.extraDetailById,
+    component: <CategoryDetailPage />,
+    index: false,
+  },
+  {
+    path: PATH_BRAND_APP.category.newCategoryExtra,
+    component: <CreateCategoryPage />,
+    index: false,
+  },
+  {
+    path: PATH_BRAND_APP.category.extraEditById,
     component: <CreateCategoryPage />,
     index: false,
   },

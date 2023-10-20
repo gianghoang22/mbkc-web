@@ -96,12 +96,11 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
           },
           navigate,
         };
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
+        const pathToBack = pathname
+          ?.split('/')
+          .slice(2)
+          .filter((x) => x)[1];
+        if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
           await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
         } else {
           await thunkAPI.dispatch(getAllStores(paramsCallback));
@@ -167,12 +166,11 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
           },
           navigate,
         };
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
+        const pathToBack = pathname
+          ?.split('/')
+          .slice(2)
+          .filter((x) => x)[1];
+        if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
           await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
         } else {
           await thunkAPI.dispatch(getAllStores(paramsCallback));
