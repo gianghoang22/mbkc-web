@@ -40,7 +40,7 @@ function ExtraToCategoryRow({
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = (category: Category, categoryId: number) => {
-    navigate(PATH_BRAND_APP.category.root + `/detail/${categoryId}`);
+    navigate(PATH_BRAND_APP.category.root + `/${categoryId}`);
     dispatch(setCategoryType(categoryType));
     dispatch(setRoutesToBack(pathname));
   };

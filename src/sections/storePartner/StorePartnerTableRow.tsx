@@ -30,7 +30,7 @@ function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
   const [transformedData, setTransformedData] = useState<StorePartnerToList[]>([]);
 
   const handleNavigateDetail = (storeId: number) => {
-    navigate(PATH_BRAND_APP.store.root + `/detail/${storeId}`);
+    navigate(PATH_BRAND_APP.store.root + `/${storeId}`);
     dispatch(setRoutesToBack(pathname));
   };
 

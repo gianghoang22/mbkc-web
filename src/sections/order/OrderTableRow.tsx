@@ -37,8 +37,8 @@ function OrderTableRow({ index, order, page, rowsPerPage }: OrderTableRowProps) 
   const handleNavigateDetail = (orderId: number) => {
     navigate(
       userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-        ? PATH_KITCHEN_CENTER_APP.order.root + `/detail/${orderId}`
-        : PATH_CASHIER_APP.order.root + `/detail/${orderId}`
+        ? PATH_KITCHEN_CENTER_APP.order.root + `/${orderId}`
+        : PATH_CASHIER_APP.order.root + `/${orderId}`
     );
     dispatch(setRoutesToBack(pathname));
   };
