@@ -416,7 +416,7 @@ function useConfigHeadTable() {
             }
       ),
       numeric: false,
-      hideSortIcon: true,
+      hideSortIcon: false,
       disablePadding: false,
     },
     {
@@ -437,7 +437,7 @@ function useConfigHeadTable() {
       id: 'status',
       label: translate('table.status'),
       numeric: false,
-      hideSortIcon: true,
+      hideSortIcon: false,
       disablePadding: false,
     },
   ];

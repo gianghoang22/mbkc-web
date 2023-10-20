@@ -39,16 +39,10 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
         const nameFinal =
           nameUppercase === Breadcrumb.BRAND
             ? translate('breadcrumb.brand')
-            : nameUppercase === Breadcrumb.BRANDS
-            ? translate('breadcrumb.brands')
-            : nameUppercase === Breadcrumb.KITCHEN_CENTERS
-            ? translate('breadcrumb.kitchen-centers')
             : nameUppercase === Breadcrumb.KITCHEN_CENTER
             ? translate('breadcrumb.kitchen-center')
             : nameUppercase === Breadcrumb.STORE
             ? translate('breadcrumb.store')
-            : nameUppercase === Breadcrumb.STORES
-            ? translate('breadcrumb.stores')
             : nameUppercase === Breadcrumb.CATEGORY
             ? translate('breadcrumb.category')
             : nameUppercase === Breadcrumb.EXTRA_CATEGORY
@@ -57,16 +51,10 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.product')
             : nameUppercase === Breadcrumb.CASHIER
             ? translate('breadcrumb.cashier')
-            : nameUppercase === Breadcrumb.CASHIERS
-            ? translate('breadcrumb.cashiers')
             : nameUppercase === Breadcrumb.ORDER
             ? translate('breadcrumb.order')
-            : nameUppercase === Breadcrumb.ORDERS
-            ? translate('breadcrumb.orders')
             : nameUppercase === Breadcrumb.BANKING_ACCOUNT
             ? translate('breadcrumb.banking-account')
-            : nameUppercase === Breadcrumb.BANKING_ACCOUNTS
-            ? translate('breadcrumb.banking-accounts')
             : nameUppercase === Breadcrumb.TRANSACTION
             ? translate('breadcrumb.transaction')
             : nameUppercase === Breadcrumb.MONEY_EXCHANGES

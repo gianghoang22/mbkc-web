@@ -34,14 +34,14 @@ export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any
   }
 };
 
-export const getAllStorePartnersByStoreIdThunk = async (params: any, thunkAPI: any) => {
-  const { storeId, navigate } = params;
+export const getAllStorePartnersByStoreIdThunk = async (params: ListParams, thunkAPI: any) => {
+  const { optionParams, navigate } = params;
   const accessToken = getAccessToken();
   if (accessToken) {
     setHeaderAuth(accessToken);
     try {
       const response: ListResponse<StorePartner> = await axiosClient.get(
-        ROUTES_API_STORE_PARTNERS.GET_ALL_STORE_PARTNER_BY_STORE_ID(storeId)
+        ROUTES_API_STORE_PARTNERS.GET_ALL_STORE_PARTNER_BY_STORE_ID(optionParams)
       );
       return response;
     } catch (error: any) {
@@ -119,8 +119,10 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
             .filter((x) => x)[1] === 'detail'
         ) {
           console.log('Detail');
-          const paramsCallback = {
-            storeId: idParams?.storeId ? idParams?.storeId : 0,
+          const paramsCallback: ListParams = {
+            optionParams: {
+              idStore: idParams?.storeId ? idParams?.storeId : 0,
+            },
             navigate,
           };
           await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
@@ -168,8 +170,10 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
             .filter((x) => x)[1] === 'detail'
         ) {
           console.log('Detail');
-          const paramsCallback = {
-            storeId: idParams?.storeId ? idParams?.storeId : 0,
+          const paramsCallback: ListParams = {
+            optionParams: {
+              idStore: idParams?.storeId ? idParams?.storeId : 0,
+            },
             navigate,
           };
           await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
@@ -216,8 +220,10 @@ export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thun
             .filter((x) => x)[1] === 'detail'
         ) {
           console.log('Detail');
-          const paramsCallback = {
-            storeId: idParams?.storeId ? idParams?.storeId : 0,
+          const paramsCallback: ListParams = {
+            optionParams: {
+              idStore: idParams?.storeId ? idParams?.storeId : 0,
+            },
             navigate,
           };
           await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));

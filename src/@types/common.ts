@@ -14,6 +14,8 @@ export interface OptionParams {
   idCategory?: null | number | string;
   idStore?: null | number | string;
   sortBy?: string | null;
+  keySortName?: string | null;
+  keySortStatus?: string | null;
 }
 
 export interface IdParams {

@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+// @mui icon
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllPartners } from 'redux/partner/partnerSlice';
+import { getAllPartners, setAddPartner } from 'redux/partner/partnerSlice';
 //
-import { ListParams, OrderSort, PartnerTable } from '@types';
+import { ListParams, OrderSort, OrderSortBy, PartnerTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton, PartnerTableToolbar } from 'sections/partner';
-import { getComparator, stableSort } from 'utils';
 
 function ListPartnerPage() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function ListPartnerPage() {
   const { partners, isLoading, numberItems } = useAppSelector((state) => state.partner);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof PartnerTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof PartnerTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof PartnerTable) => {
@@ -45,12 +46,7 @@ function ListPartnerPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - partners.length) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(partners, getComparator(order, orderBy)),
-    [order, orderBy, page, rowsPerPage, partners]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !partners.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -60,10 +56,12 @@ function ListPartnerPage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         keySearchName: debounceValue,
+        keySortName: orderBy === OrderSortBy.NAME ? order : '',
+        keySortStatus: orderBy === OrderSortBy.STATUS ? order : '',
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
     dispatch(getAllPartners(params));
@@ -75,6 +73,24 @@ function ListPartnerPage() {
         pathname={pathname}
         title={translate('page.title.list', { model: translate('model.lowercase.partners') })}
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
+        actions={() => {
+          const listAction: ReactNode[] =
+            userAuth?.roleName === Role.MBKC_ADMIN
+              ? [
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      handleOpen('create partner');
+                      dispatch(setAddPartner());
+                    }}
+                    startIcon={<AddRoundedIcon />}
+                  >
+                    {translate('button.add', { model: translate('model.lowercase.partner') })}
+                  </Button>,
+                ]
+              : [];
+          return listAction;
+        }}
       >
         <Card>
           <Box sx={{ width: '100%' }}>
@@ -90,10 +106,10 @@ function ListPartnerPage() {
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (
-                    <PartnerTableRowSkeleton length={visibleRows.length} />
+                    <PartnerTableRowSkeleton length={partners.length} />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((partner, index) => {
+                      {partners.map((partner, index) => {
                         return (
                           <PartnerTableRow
                             showAction={userAuth?.roleName === Role.MBKC_ADMIN}

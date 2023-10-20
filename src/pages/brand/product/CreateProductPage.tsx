@@ -4,11 +4,11 @@ import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
 // redux
+import { getAllCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { createNewProduct, getAllProductsParent, getProductParentDetail } from 'redux/product/productSlice';
-import { getAllCategories } from 'redux/category/categorySlice';
 //
 import {
   CategoryType,
@@ -20,7 +20,7 @@ import {
   ProductTypeEnum,
 } from '@types';
 import { Color } from 'common/enum';
-import { Page } from 'components';
+import { LoadingScreen, Page } from 'components';
 import { useLocales, usePagination, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductForm } from 'sections/product';
@@ -252,6 +252,12 @@ function CreateProductPage() {
 
   return (
     <>
+      {isLoading && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
+      )}
+
       <Page
         containerWidth="xl"
         title={translate('page.title.create', { model: translate('model.lowercase.product') })}

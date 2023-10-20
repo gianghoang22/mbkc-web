@@ -121,7 +121,7 @@ export const PATH_KITCHEN_CENTER_APP = {
   wallet: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet'),
     shipperPayments: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/shipper-payment/list'),
-    moneyExchanges: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/money-exchanges'),
+    moneyExchanges: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/wallet/money-exchange/list'),
   },
 };
 

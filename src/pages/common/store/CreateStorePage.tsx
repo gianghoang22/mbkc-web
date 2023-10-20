@@ -29,7 +29,6 @@ function CreateStorePage() {
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { store, isEditing, isLoading } = useAppSelector((state) => state.store);
   const { isLoading: isLoadingKitchenCenters } = useAppSelector((state) => state.kitchenCenter);
-  console.log('isLoadingKitchenCenters', isLoadingKitchenCenters);
 
   const createStoreForm = useForm<StoreToCreate>({
     defaultValues: {
@@ -98,7 +97,7 @@ function CreateStorePage() {
         idParams: {
           storeId: store?.storeId,
         },
-        pathname: pathname,
+        pathname: pathnameToBack,
         navigate,
       };
       dispatch(updateStore(paramUpdate));
@@ -124,6 +123,16 @@ function CreateStorePage() {
       ) : (
         <>
           {isLoadingKitchenCenters && (
+            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+              <LoadingScreen />
+            </Box>
+          )}
+        </>
+      )}
+
+      {!isEditing && (
+        <>
+          {isLoading && (
             <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
               <LoadingScreen />
             </Box>

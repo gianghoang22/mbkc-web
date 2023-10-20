@@ -97,10 +97,17 @@ export const ROUTES_API_STORES = {
 
 export const ROUTES_API_PARTNERS = {
   CREATE_PARTNER: pathRoot(ROOTS_PARTNERS),
-  GET_ALL_PARTNER: ({ keySearchName = '', currentPage = '', itemsPerPage = '', isGetAll = '' }: OptionParams) =>
+  GET_ALL_PARTNER: ({
+    keySearchName = '',
+    keySortName = '',
+    keySortStatus = '',
+    currentPage = '',
+    itemsPerPage = '',
+    isGetAll = '',
+  }: OptionParams) =>
     path(
       ROOTS_PARTNERS,
-      `?keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+      `?keySearchName=${keySearchName}&keySortName=${keySortName}&keySortStatus=${keySortStatus}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
     ),
   GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
   UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
@@ -111,7 +118,8 @@ export const ROUTES_API_STORE_PARTNERS = {
   CREATE_STORE_PARTNER: pathRoot(ROOTS_STORE_PARTNERS),
   GET_ALL_STORE_PARTNER: ({ searchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
     path(ROOTS_STORE_PARTNERS, `?searchName=${searchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`),
-  GET_ALL_STORE_PARTNER_BY_STORE_ID: (storeId: number) => path(ROOTS_STORE_PARTNERS, `/${storeId}`),
+  GET_ALL_STORE_PARTNER_BY_STORE_ID: ({ idStore = 0, keySortName = '', keySortStatus = '' }: OptionParams) =>
+    path(ROOTS_STORE_PARTNERS, `/${idStore}?keySortName=${keySortName}&keySortStatus=${keySortStatus}`),
   GET_STORE_PARTNER_DETAIL: (storeId: number, partnerId: number) =>
     path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),
   UPDATE_STORE_PARTNER: (storeId: number, partnerId: number) => path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),

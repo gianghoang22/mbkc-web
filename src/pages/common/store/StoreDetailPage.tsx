@@ -31,7 +31,7 @@ import { getAllStorePartnersByStoreId } from 'redux/storePartner/storePartnerSli
 import { ConfirmRegistrationStore, StoreDetailPageSkeleton } from 'sections/store';
 import { StorePartnerTableDetailRow, StorePartnerTableDetailRowSkeleton } from 'sections/storePartner';
 //
-import { OrderSort, StorePartnerDetailTable } from '@types';
+import { ListParams, OrderSort, OrderSortBy, StorePartnerDetailTable } from '@types';
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
@@ -61,12 +61,10 @@ function StoreDetailPage() {
   const { isLoading: isLoadingStore, store } = useAppSelector((state) => state.store);
   const { storePartners, isLoading: isLoadingStorePartner } = useAppSelector((state) => state.storePartner);
 
-  console.log('storePartners', storePartners);
-
   const [status, setStatus] = useState<Status>(Status.ACTIVE);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StorePartnerDetailTable>('partnerName');
+  const [orderBy, setOrderBy] = useState<keyof StorePartnerDetailTable>(OrderSortBy.PARTNER_NAME);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StorePartnerDetailTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -90,18 +88,21 @@ function StoreDetailPage() {
     dispatch(
       deleteStore({
         idParams: { storeId: store?.storeId },
-        pathname: pathname,
         navigate,
       })
     );
   };
 
-  const params = useMemo(() => {
+  const params: ListParams = useMemo(() => {
     return {
-      storeId,
+      optionParams: {
+        idStore: storeId,
+        keySortName: orderBy === OrderSortBy.PARTNER_NAME ? order : '',
+        keySortStatus: orderBy === OrderSortBy.STATUS ? order : '',
+      },
       navigate,
     };
-  }, [storeId, navigate]);
+  }, [storeId, orderBy, order, navigate]);
 
   useEffect(() => {
     dispatch(getAllStorePartnersByStoreId(params));
