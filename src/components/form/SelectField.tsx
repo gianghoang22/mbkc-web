@@ -37,7 +37,6 @@ function SelectField<T extends string | number>({
   ...props
 }: SelectFieldProps<T>) {
   const { control } = useFormContext();
-
   return (
     <Controller
       render={({ field, fieldState }) => (

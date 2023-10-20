@@ -1,13 +1,6 @@
 /* eslint-disable react/prop-types */
-import {
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  FormLabel,
-  Radio,
-  RadioGroup
-} from '@mui/material';
-import React from 'react';
+import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from '@mui/material';
+
 import { Controller, useFormContext } from 'react-hook-form';
 
 const RadioGroupField = (props) => {

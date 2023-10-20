@@ -6,7 +6,7 @@ import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagina
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
-import { BrandTable, OrderSort } from '@types';
+import { BrandTable, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
@@ -26,6 +26,7 @@ function ListBrandPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BrandTable>('name');
   const [filterName, setFilterName] = useState<string>('');
+  const [status, setStatus] = useState<string>('');
 
   const { brands, isLoading } = useAppSelector((state) => state.brand);
 
@@ -50,22 +51,23 @@ function ListBrandPage() {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
-  const options = {
-    keySearchName: filterName,
-    keyStatusFilter: 'active',
-    currentPage: page + 1,
-    itemsPerPage: rowsPerPage,
-  };
-
-  const params = {
-    optionParams: options,
-    navigate,
-  };
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        keySearchName: filterName,
+        keyStatusFilter: status,
+        currentPage: page + 1,
+        itemsPerPage: rowsPerPage,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, filterName, navigate, status]);
 
   useEffect(() => {
     dispatch(getAllBrands(params));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterName, page, rowsPerPage]);
+  }, [dispatch, navigate, params]);
+
+  console.log(status);
 
   return (
     <>
@@ -89,7 +91,12 @@ function ListBrandPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <BrandTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <BrandTableToolbar
+                status={status}
+                setStatus={setStatus}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<BrandTable>
