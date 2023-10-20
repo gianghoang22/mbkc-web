@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 // @mui icon
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -5,13 +6,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 // @mui
 import { Avatar, Button, Divider, MenuItem, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+// redux
+import { logout, setUserInfo } from 'redux/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { Role } from 'common/enum';
 import { MenuPopover } from 'components';
 import { useLocales, useNavigate, usePopover } from 'hooks';
 import account from 'mock/account';
-import { logout, setUserInfo } from 'redux/auth/authSlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
 
 function AccountPopover() {
   const { navigate, handleNavigateProfile } = useNavigate();
@@ -19,7 +21,7 @@ function AccountPopover() {
   const { translate } = useLocales();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const { userAuth } = useAppSelector((state) => state.auth);
+  const { userAuth, isLogout } = useAppSelector((state) => state.auth);
 
   const MENU_OPTIONS = [
     {
@@ -33,6 +35,12 @@ function AccountPopover() {
     dispatch(setUserInfo);
     handleCloseMenu();
   };
+
+  useEffect(() => {
+    if (isLogout) {
+      dispatch(logout(navigate));
+    }
+  }, [isLogout, dispatch, navigate]);
 
   return (
     <>

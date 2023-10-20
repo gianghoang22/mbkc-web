@@ -13,6 +13,7 @@ import {
 } from './authThunk';
 
 interface AuthState {
+  isLogout: boolean;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -29,6 +30,7 @@ const getIsAuthenticated = getAuthenticated() ? getAuthenticated() : false;
 const getEmailInStorage = getEmailVerify() ? getEmailVerify() : '';
 
 const initialState: AuthState = {
+  isLogout: false,
   isLoading: false,
   isError: false,
   isSuccess: false,

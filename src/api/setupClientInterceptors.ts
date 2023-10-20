@@ -4,8 +4,11 @@ import { AxiosResponse } from 'axios';
 import { ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { getAccessToken, getRefreshToken, setSession } from 'utils';
 import { axiosClient } from './axiosClient';
+import { logout } from 'redux/auth/authSlice';
 
 const setupAxiosClient = (store: any) => {
+  const { dispatch } = store;
+
   axiosClient.interceptors.response.use(
     (response: AxiosResponse) => {
       return response.data;
@@ -39,6 +42,7 @@ const setupAxiosClient = (store: any) => {
 
             return axiosClient(originalConfig);
           } catch (_error) {
+            dispatch(logout);
             return Promise.reject(_error);
           }
         }

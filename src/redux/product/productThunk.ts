@@ -118,12 +118,11 @@ export const updateProductThunk = async (params: Params<ProductToUpdate>, thunkA
           },
           navigate,
         };
-        if (
-          pathname
-            ?.split('/')
-            .slice(2)
-            .filter((x) => x)[1] === 'detail'
-        ) {
+        const pathToBack = pathname
+          ?.split('/')
+          .slice(2)
+          .filter((x) => x)[1];
+        if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
           await thunkAPI.dispatch(getProductDetail({ productId: idParams?.productId, navigate }));
         } else {
           await thunkAPI.dispatch(getAllProducts(paramsCallback));
