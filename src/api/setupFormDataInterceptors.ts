@@ -43,7 +43,7 @@ const setupAxiosFormData = (store: any) => {
 
             return axiosFormData(originalConfig);
           } catch (_error) {
-            dispatch(setIsLogout);
+            dispatch(setIsLogout(true));
             return Promise.reject(_error);
           }
         }

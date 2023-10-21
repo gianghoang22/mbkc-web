@@ -8,18 +8,19 @@ import { ROUTES_API_PRODUCTS } from 'constants/routesApiKeys';
 
 export const getAllProductsThunk = async (params: any, thunkAPI: any) => {
   const { optionParams, navigate } = params;
-  const accessToken = getAccessToken();
-  if (accessToken) {
-    setHeaderAuth(accessToken);
-    try {
-      const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_ALL_PRODUCT(optionParams));
-      return response;
-    } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate);
-      thunkAPI.dispatch(setMessageError(errorMessage));
-      return thunkAPI.rejectWithValue(error);
-    }
+  // const accessToken = getAccessToken();
+  // if (accessToken) {
+  //   console.log('accessToken', accessToken);
+  //   setHeaderAuth(accessToken);
+  try {
+    const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_ALL_PRODUCT(optionParams));
+    return response;
+  } catch (error: any) {
+    const errorMessage = getErrorMessage(error, navigate);
+    thunkAPI.dispatch(setMessageError(errorMessage));
+    return thunkAPI.rejectWithValue(error);
   }
+  // }
 };
 
 export const getAllProductsParentThunk = async (params: any, thunkAPI: any) => {

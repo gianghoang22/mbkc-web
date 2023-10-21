@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios';
 // redux
-import { setIsLogout } from 'redux/auth/authSlice';
+import { removeToken, setIsLogout, updateLocalAccessToken } from 'redux/auth/authSlice';
 //
 import { TokenResponse } from '@types';
 import { ROUTES_API_AUTH } from 'constants/routesApiKeys';
-import { getAccessToken, getRefreshToken, setSession } from 'utils';
+import { getAccessToken, getRefreshToken } from 'utils';
 import { axiosClient } from './axiosClient';
 
 const setupAxiosClient = (store: any) => {
@@ -36,15 +36,29 @@ const setupAxiosClient = (store: any) => {
             refreshToken,
           };
 
+          console.log('data', data);
+
           try {
             const response: TokenResponse = await axiosClient.post(ROUTES_API_AUTH.REFRESH_TOKEN, data);
             console.log('response new', response);
-            setSession(response.accessToken, response.refreshToken);
+
+            delete axiosClient.defaults.headers.common.Authorization;
+
+            await dispatch(removeToken());
+
+            await dispatch(
+              updateLocalAccessToken({
+                accessToken: response.accessToken,
+                refreshToken: response.refreshToken,
+              })
+            );
+
+            axiosClient.defaults.headers.common.Authorization = `Bearer ${response.accessToken}`;
 
             return axiosClient(originalConfig);
           } catch (_error) {
             console.log(_error);
-            dispatch(setIsLogout());
+            dispatch(setIsLogout(true));
             return Promise.reject(_error);
           }
         }

@@ -12,7 +12,7 @@ import { Button } from '@mui/material';
 import { LoginForm as LoginFormType } from '@types';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { login } from 'redux/auth/authSlice';
+import { login, setIsLogout } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { hashPasswordMD5 } from 'utils';
@@ -23,7 +23,9 @@ function LoginForm() {
   const { translate } = useLocales();
   const { schemaLogin } = useValidationForm();
 
-  const { isLoading } = useAppSelector((state) => state.auth);
+  const { isLoading, isLogout } = useAppSelector((state) => state.auth);
+
+  console.log('login screen', isLogout);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -41,6 +43,7 @@ function LoginForm() {
       navigate,
     };
     dispatch(login(params));
+    dispatch(setIsLogout(false));
   };
 
   return (

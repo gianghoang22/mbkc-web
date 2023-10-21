@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getAccessToken } from 'utils';
 
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*';
@@ -25,7 +26,10 @@ const setHeaderAuth = (accessToken: string) => {
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    }
     return config;
   },
   function (error) {

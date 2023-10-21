@@ -17,11 +17,11 @@ import {
   getErrorMessage,
   getUserAuth,
   removeAuthenticated,
-  removeSession,
   removeUserAuth,
   removeUserInfo,
+  setAccessToken,
   setAuthenticated,
-  setSession,
+  setRefreshToken,
   setUserAuth,
   setUserInfo,
 } from 'utils';
@@ -37,7 +37,8 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
       roleName: response?.roleName,
       isConfirmed: response?.isConfirmed,
     };
-    setSession(response.tokens.accessToken, response.tokens.refreshToken);
+    setAccessToken(response.tokens.accessToken);
+    setRefreshToken(response.tokens.refreshToken);
     setUserAuth(userStorage);
     setAuthenticated();
     thunkAPI.dispatch(setMessageSuccess('Login successfully'));
@@ -150,8 +151,7 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
 
 export const logoutThunk = async (navigate: any, thunkAPI: any) => {
   try {
-    navigate(PATH_AUTH.login);
-    removeSession();
+    await navigate(PATH_AUTH.login);
     removeUserAuth();
     removeUserInfo();
     removeAuthenticated();
