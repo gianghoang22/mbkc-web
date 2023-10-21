@@ -48,7 +48,7 @@ function ProductTableRow({
   };
 
   const handleEdit = () => {
-    navigate(PATH_BRAND_APP.product.root + `/update/${product?.productId}`);
+    navigate(PATH_BRAND_APP.product.root + `/updation/${product?.productId}`);
     dispatch(setEditProduct(product));
     dispatch(setRoutesToBack(pathname));
   };

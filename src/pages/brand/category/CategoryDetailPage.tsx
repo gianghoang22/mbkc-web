@@ -5,18 +5,20 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Avatar, Box, Button, Card, Grid, Stack, Tab, Typography } from '@mui/material';
-//
-import { CategoryType } from '@types';
-import { Color, Language, PopoverType, Status } from 'common/enum';
-import { ConfirmDialog, Label, Page, Popover } from 'components';
-import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
+//redux
 import { getCategoryDetail, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { PATH_BRAND_APP } from 'routes/paths';
+// section
 import { CategoryDetailSkeleton, CategoryTableTab } from 'sections/category';
 import { ProductTableTab } from 'sections/product';
+//
+import { CategoryType } from '@types';
 import images from 'assets';
+import { Color, Language, PopoverType, Status } from 'common/enum';
+import { ConfirmDialog, Label, Page, Popover } from 'components';
+import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
+import { PATH_BRAND_APP } from 'routes/paths';
 
 function CategoryDetailPage() {
   const { id: categoryId } = useParams();
@@ -230,9 +232,9 @@ function CategoryDetailPage() {
         onDelete={handleOpenModal}
         onEdit={() => {
           if (categoryType === CategoryType.NORMAL) {
-            navigate(PATH_BRAND_APP.category.root + `/update/${categoryId}`);
+            navigate(PATH_BRAND_APP.category.root + `/updation/${categoryId}`);
           } else {
-            navigate(PATH_BRAND_APP.category.rootExtra + `/update/${categoryId}`);
+            navigate(PATH_BRAND_APP.category.rootExtra + `/updation/${categoryId}`);
           }
           dispatch(setRoutesToBack(pathname));
           dispatch(setCategoryType(categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA));

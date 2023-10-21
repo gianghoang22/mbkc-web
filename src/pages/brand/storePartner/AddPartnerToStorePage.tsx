@@ -1,20 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FormProvider, useForm } from 'react-hook-form';
+import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { createNewStorePartner } from 'redux/storePartner/storePartnerSlice';
+import { getStoreDetail } from 'redux/store/storeSlice';
+// section
+import { StorePartnerForm } from 'sections/storePartner';
 //
 import { Params, StorePartnerToCreate } from '@types';
 import { LoadingScreen, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { StorePartnerForm } from 'sections/storePartner';
-import { useEffect, useMemo } from 'react';
-import { getStoreDetail } from 'redux/store/storeSlice';
-import { Box } from '@mui/material';
 
 function AddPartnerToStorePage() {
   const navigate = useNavigate();

@@ -5,16 +5,18 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+// redux
+import { getAllCategories, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+// section
+import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
 //
 import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import { getAllCategories, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function ListExtraCategoryPage() {
   const navigate = useNavigate();

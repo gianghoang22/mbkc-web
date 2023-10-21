@@ -1,7 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UserAuth, UserInfo } from '@types';
 import { toast } from 'react-toastify';
-import { getAuthenticated, getEmailVerify, getUserAuth, getUserInfo, setEmailVerify } from 'utils';
+import {
+  getAuthenticated,
+  getEmailVerify,
+  getUserAuth,
+  getUserInfo,
+  removeAccessToken,
+  removeRefreshToken,
+  setAccessToken,
+  setEmailVerify,
+  setRefreshToken,
+} from 'utils';
 import {
   forgotPasswordThunk,
   getUserInfoThunk,
@@ -75,8 +85,16 @@ const authSlice = createSlice({
     setUserInfo: (state) => {
       state.userInfo = null;
     },
-    setIsLogout: (state) => {
-      state.isLogout = !state.isLogout;
+    setIsLogout: (state, action) => {
+      state.isLogout = action.payload;
+    },
+    updateLocalAccessToken: (state, action) => {
+      setAccessToken(action.payload.accessToken);
+      setRefreshToken(action.payload.refreshToken);
+    },
+    removeToken: () => {
+      removeAccessToken();
+      removeRefreshToken();
     },
   },
   extraReducers(builder) {
@@ -179,8 +197,17 @@ const authSlice = createSlice({
   },
 });
 
-export const { setMessageSuccess, setMessageInfo, setMessageError, setEmail, setUserAuth, setUserInfo, setIsLogout } =
-  authSlice.actions;
+export const {
+  setMessageSuccess,
+  setMessageInfo,
+  setMessageError,
+  setEmail,
+  setUserAuth,
+  setUserInfo,
+  setIsLogout,
+  updateLocalAccessToken,
+  removeToken,
+} = authSlice.actions;
 const authReducer = authSlice.reducer;
 
 export default authReducer;

@@ -53,9 +53,9 @@ function CategoryTableRow({
 
   const handleEdit = () => {
     if (categoryType === CategoryType.NORMAL) {
-      navigate(PATH_BRAND_APP.category.root + `/update/${category.categoryId}`);
+      navigate(PATH_BRAND_APP.category.root + `/updation/${category.categoryId}`);
     } else {
-      navigate(PATH_BRAND_APP.category.rootExtra + `/update/${category.categoryId}`);
+      navigate(PATH_BRAND_APP.category.rootExtra + `/updation/${category.categoryId}`);
     }
     dispatch(setCategoryType(categoryType));
     dispatch(setEditCategory(category));

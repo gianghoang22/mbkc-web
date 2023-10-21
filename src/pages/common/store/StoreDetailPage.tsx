@@ -418,7 +418,7 @@ function StoreDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.store.root + `/update/${storeId}`);
+          navigate(PATH_ADMIN_APP.store.root + `/updation/${storeId}`);
           dispatch(setRoutesToBack(pathname));
           dispatch(setEditStore(store));
         }}

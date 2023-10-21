@@ -34,7 +34,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
   };
 
   const handleEdit = () => {
-    navigate(PATH_ADMIN_APP.brand.root + `/update/${brand.brandId}`);
+    navigate(PATH_ADMIN_APP.brand.root + `/updation/${brand.brandId}`);
     dispatch(setRoutesToBack(pathname));
     dispatch(setEditBrand(brand));
   };

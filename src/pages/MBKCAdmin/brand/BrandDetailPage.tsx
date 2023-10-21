@@ -21,15 +21,15 @@ import {
 } from '@mui/material';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
-import { Color, Language, PopoverType, Role, Status } from 'common/enum';
+import { Color, Language, PopoverType, Status } from 'common/enum';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { getBrandDetail, setBrandToNull, setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { getAllStores } from 'redux/store/storeSlice';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 import BrandDetailPageSkeleton from './BrandDetailPageSkeleton';
-import { getAllStores } from 'redux/store/storeSlice';
 
 function BrandDetailPage() {
   const { id: brandId } = useParams();
@@ -48,7 +48,6 @@ function BrandDetailPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
-  const { userAuth } = useAppSelector((state) => state.auth);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';

@@ -1,13 +1,26 @@
 import { AxiosResponse } from 'axios';
 // redux
-import { setIsLogout } from 'redux/auth/authSlice';
+import { removeToken, setIsLogout, updateLocalAccessToken } from 'redux/auth/authSlice';
 //
 import { TokenResponse } from '@types';
 import { ROUTES_API_AUTH } from 'constants/routesApiKeys';
-import { getAccessToken, getRefreshToken, setSession } from 'utils';
+import { getAccessToken, getRefreshToken } from 'utils';
 import { axiosClient, axiosFormData } from './axiosClient';
 
 const setupAxiosFormData = (store: any) => {
+  axiosFormData.interceptors.request.use(
+    async (config) => {
+      const accessToken = getAccessToken();
+      if (accessToken !== null) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
   const { dispatch } = store;
 
   axiosFormData.interceptors.response.use(
@@ -36,14 +49,29 @@ const setupAxiosFormData = (store: any) => {
             refreshToken,
           };
 
+          console.log('data', data);
+
           try {
             const response: TokenResponse = await axiosClient.post(ROUTES_API_AUTH.REFRESH_TOKEN, data);
+            console.log('response new', response);
 
-            setSession(response.accessToken, response.refreshToken);
+            delete axiosFormData.defaults.headers.common.Authorization;
+
+            await dispatch(removeToken());
+
+            await dispatch(
+              updateLocalAccessToken({
+                accessToken: response.accessToken,
+                refreshToken: response.refreshToken,
+              })
+            );
+
+            axiosFormData.defaults.headers.common.Authorization = `Bearer ${response.accessToken}`;
 
             return axiosFormData(originalConfig);
           } catch (_error) {
-            dispatch(setIsLogout);
+            console.log(_error);
+            dispatch(setIsLogout(true));
             return Promise.reject(_error);
           }
         }

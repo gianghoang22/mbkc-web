@@ -28,8 +28,9 @@ export enum Breadcrumb {
   WALLET = 'wallet',
   LIST = 'list',
   DETAIL = 'detail',
-  UPDATE = 'update',
-  CREATE = 'create-new',
+  REGISTER = 'registration',
+  UPDATE = 'updation',
+  CREATE = 'creation',
   PROFILE = 'profile',
   INFORMATION = 'information',
 }

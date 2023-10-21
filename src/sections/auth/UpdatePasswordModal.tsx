@@ -1,5 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -14,15 +16,14 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+// redux
+import { updatePassword } from 'redux/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { Params, UpdatePasswordForm, UpdatePasswordFormApi } from '@types';
 import { Color } from 'common/enum';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { updatePassword } from 'redux/auth/authSlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { hashPasswordMD5 } from 'utils';
 
 interface UpdatePasswordModalProps {
