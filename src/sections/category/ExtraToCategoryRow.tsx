@@ -46,7 +46,7 @@ function ExtraToCategoryRow({
   };
 
   const handleEdit = () => {
-    navigate(PATH_BRAND_APP.category.root + `/update/${category.categoryId}`);
+    navigate(PATH_BRAND_APP.category.root + `/updation/${category.categoryId}`);
     dispatch(setCategoryType(categoryType));
     dispatch(setEditCategory(category));
     dispatch(setRoutesToBack(pathname));

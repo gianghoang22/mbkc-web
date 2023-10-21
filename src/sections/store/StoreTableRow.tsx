@@ -82,7 +82,7 @@ function StoreTableRow({
   };
 
   const handleEdit = () => {
-    navigate(PATH_ADMIN_APP.store.root + `/update/${store.storeId}`);
+    navigate(PATH_ADMIN_APP.store.root + `/updation/${store.storeId}`);
     dispatch(setRoutesToBack(pathname));
     dispatch(setEditStore(store));
   };

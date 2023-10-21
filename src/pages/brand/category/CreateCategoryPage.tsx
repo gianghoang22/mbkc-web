@@ -4,17 +4,18 @@ import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
+// redux
+import { createNewCategory, getCategoryDetail, updateCategory } from 'redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+// section
+import { CategoryForm } from 'sections/category';
 //
 import { CategoryToCreate, CategoryToUpdate, CategoryType, Params } from '@types';
 import { Color, Status } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { createNewCategory, getCategoryDetail, updateCategory } from 'redux/category/categorySlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { CategoryForm } from 'sections/category';
-import { Box } from '@mui/material';
 
 function CreateCategoryPage() {
   const { id: categoryId } = useParams();

@@ -5,10 +5,11 @@ import useResponsive from 'hooks/useResponsive';
 import { Helmet, Logo } from 'components';
 // sections
 import { LoginForm } from 'sections/auth';
-//style
+// redux
+import { useAppSelector } from 'redux/configStore';
+//
 import images from 'assets';
 import { useLocales } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
 import { StyledContent, StyledRootLogin, StyledSection } from './styles';
 
 // ----------------------------------------------------------------------

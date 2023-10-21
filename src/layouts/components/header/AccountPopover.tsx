@@ -24,8 +24,6 @@ function AccountPopover() {
 
   const { userAuth, isLogout } = useAppSelector((state) => state.auth);
 
-  console.log('loginEd', isLogout);
-
   const MENU_OPTIONS = [
     {
       label: translate('header.account'),

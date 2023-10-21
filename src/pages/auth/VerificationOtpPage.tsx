@@ -4,13 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 // @mui
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Box, Button, Card, LinearProgress, Link as MuiLink, Stack, Typography } from '@mui/material';
+// redux
+import { forgotPassword, verifyOtp } from 'redux/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { VerificationForm } from '@types';
 import images from 'assets';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { forgotPassword, verifyOtp } from 'redux/auth/authSlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { StyledContent, StyledRoot } from './styles';
 

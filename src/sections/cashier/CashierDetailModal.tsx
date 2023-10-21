@@ -30,7 +30,7 @@ function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: 
   const { isOpen: isOpenModalDelete, handleOpen: HandleOpenModalDelete } = useModal();
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/update/${cashier.accountId}`);
+    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/updation/${cashier.accountId}`);
     dispatch(setEditCashier(cashier));
   };
 

@@ -9,10 +9,10 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { getAllStores, setAddFormList } from 'redux/store/storeSlice';
+import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 // section
 import { StoreTableToolbar } from 'sections/store';
 import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
-import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';

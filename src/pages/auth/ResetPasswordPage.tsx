@@ -17,13 +17,14 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+// redux
+import { resetPassword } from 'redux/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { ResetForm } from '@types';
 import images from 'assets';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { resetPassword } from 'redux/auth/authSlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_AUTH } from 'routes/paths';
 import { hashPasswordMD5 } from 'utils';
 import { StyledContent, StyledRoot } from './styles';

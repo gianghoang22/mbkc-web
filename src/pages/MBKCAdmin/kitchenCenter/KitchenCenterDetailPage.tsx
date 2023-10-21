@@ -237,7 +237,7 @@ function KitchenCenterDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenterId}`);
+          navigate(PATH_ADMIN_APP.kitchenCenter.root + `/updation/${kitchenCenterId}`);
           dispatch(setEditKitchenCenter(kitchenCenter));
           dispatch(setRoutesToBack(pathname));
         }}

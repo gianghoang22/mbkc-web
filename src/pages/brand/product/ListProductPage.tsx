@@ -9,12 +9,13 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+// section
+import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
 //
 import { ListParams, OrderSort, PRODUCT_TYPE_TABS, ProductTable, ProductTypeEnum } from '@types';
 import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
 
 function ListProductPage() {
   const navigate = useNavigate();

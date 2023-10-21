@@ -8,6 +8,19 @@ import { getAccessToken, getRefreshToken } from 'utils';
 import { axiosClient } from './axiosClient';
 
 const setupAxiosClient = (store: any) => {
+  axiosClient.interceptors.request.use(
+    async (config) => {
+      const accessToken = getAccessToken();
+      if (accessToken !== null) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
   const { dispatch } = store;
 
   axiosClient.interceptors.response.use(

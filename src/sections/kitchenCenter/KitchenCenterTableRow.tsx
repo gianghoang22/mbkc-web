@@ -48,7 +48,7 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
   };
 
   const handleEdit = () => {
-    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/update/${kitchenCenter.kitchenCenterId}`);
+    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/updation/${kitchenCenter.kitchenCenterId}`);
     dispatch(setEditKitchenCenter(kitchenCenter));
     dispatch(setRoutesToBack(pathname));
   };

@@ -35,7 +35,7 @@ function BankingAccountDetailModal({
   const { isOpen: isOpenModalDelete, handleOpen: handleOpenModalDelete } = useModal();
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/update/${bankingAccount?.bankingAccountId}`);
+    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/updation/${bankingAccount?.bankingAccountId}`);
     dispatch(setEditBankingAccount(bankingAccount));
   };
 

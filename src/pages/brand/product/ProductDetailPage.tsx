@@ -6,15 +6,16 @@ import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { deleteProduct, getProductDetail, setEditProduct } from 'redux/product/productSlice';
+// section
+import { ProductDetailPageSkeleton } from 'sections/product';
 //
+import { ProductTypeEnum } from '@types';
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, ContentSpace, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
-import { deleteProduct, getProductDetail, setEditProduct } from 'redux/product/productSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { ProductDetailPageSkeleton } from 'sections/product';
 import { fCurrencyVN } from 'utils';
-import { ProductTypeEnum } from '@types';
 
 function ProductDetailPage() {
   const { id: productId } = useParams();
@@ -183,7 +184,7 @@ function ProductDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_BRAND_APP.product.root + `/update/${productId}`);
+          navigate(PATH_BRAND_APP.product.root + `/updation/${productId}`);
           dispatch(setRoutesToBack(pathname));
           dispatch(setEditProduct(product));
         }}

@@ -9,11 +9,10 @@ import {
   UserInfo,
   VerificationForm,
 } from '@types';
-import { axiosClient, setHeaderAuth } from 'api/axiosClient';
+import { axiosClient } from 'api/axiosClient';
 import { ROUTES_API_ACCOUNT, ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { PATH_AUTH } from 'routes/paths';
 import {
-  getAccessToken,
   getErrorMessage,
   getUserAuth,
   removeAuthenticated,
@@ -52,52 +51,46 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
 
 export const updatePasswordThunk = async (params: Params<UpdatePasswordFormApi>, thunkAPI: any) => {
   const { data, idParams, navigate } = params;
-  const accessToken = getAccessToken();
-  if (accessToken) {
-    setHeaderAuth(accessToken);
-    try {
-      const response: MessageResponse = await axiosClient.put(
-        ROUTES_API_ACCOUNT.UPDATE_PASSWORD(idParams?.accountId ? idParams?.accountId : 0),
-        data
-      );
-      if (response) {
-        thunkAPI.dispatch(setMessageSuccess('Update Password Successfully.'));
-        thunkAPI.dispatch(getUserInformation({ accountId: idParams?.accountId, navigate }));
-        thunkAPI.dispatch(getUserAuth());
-      }
-      return response;
-    } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate);
-      thunkAPI.dispatch(setMessageError(errorMessage));
-      return thunkAPI.rejectWithValue(error);
+
+  try {
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_ACCOUNT.UPDATE_PASSWORD(idParams?.accountId ? idParams?.accountId : 0),
+      data
+    );
+    if (response) {
+      thunkAPI.dispatch(setMessageSuccess('Update Password Successfully.'));
+      thunkAPI.dispatch(getUserInformation({ accountId: idParams?.accountId, navigate }));
+      thunkAPI.dispatch(getUserAuth());
     }
+    return response;
+  } catch (error: any) {
+    const errorMessage = getErrorMessage(error, navigate);
+    thunkAPI.dispatch(setMessageError(errorMessage));
+    return thunkAPI.rejectWithValue(error);
   }
 };
 
 export const getUserInfoThunk = async (params: any, thunkAPI: any) => {
   const { accountId, navigate } = params;
-  const accessToken = getAccessToken();
-  if (accessToken) {
-    setHeaderAuth(accessToken);
-    try {
-      console.log('call again');
-      const response: UserInfo = await axiosClient.get(ROUTES_API_ACCOUNT.ACCOUNT_INFORMATION(accountId));
-      if (response) {
-        const userStorage = {
-          accountId: response?.accountId,
-          email: response?.email,
-          roleName: response?.roleName,
-          isConfirmed: response?.isConfirmed,
-        };
-        setUserAuth(userStorage);
-        setUserInfo(response);
-      }
-      return response;
-    } catch (error: any) {
-      const errorMessage = getErrorMessage(error, navigate);
-      thunkAPI.dispatch(setMessageError(errorMessage));
-      return thunkAPI.rejectWithValue(error);
+
+  try {
+    console.log('call again');
+    const response: UserInfo = await axiosClient.get(ROUTES_API_ACCOUNT.ACCOUNT_INFORMATION(accountId));
+    if (response) {
+      const userStorage = {
+        accountId: response?.accountId,
+        email: response?.email,
+        roleName: response?.roleName,
+        isConfirmed: response?.isConfirmed,
+      };
+      setUserAuth(userStorage);
+      setUserInfo(response);
     }
+    return response;
+  } catch (error: any) {
+    const errorMessage = getErrorMessage(error, navigate);
+    thunkAPI.dispatch(setMessageError(errorMessage));
+    return thunkAPI.rejectWithValue(error);
   }
 };
 

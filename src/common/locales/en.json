@@ -93,8 +93,9 @@
     "wallet": "Wallet",
     "list": "List",
     "detail": "Detail",
-    "update": "Update",
-    "create-new": "Create new",
+    "update": "Updation",
+    "create-new": "Creation",
+    "registration": "Registration",
     "information": "Information"
   },
   "productType": {

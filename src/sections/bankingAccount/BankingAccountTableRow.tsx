@@ -33,7 +33,7 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/update/${bankingAccount?.bankingAccountId}`);
+    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/updation/${bankingAccount?.bankingAccountId}`);
     dispatch(setEditBankingAccount(bankingAccount));
   };
 
