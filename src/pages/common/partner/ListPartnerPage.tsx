@@ -8,13 +8,14 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners, setAddPartner } from 'redux/partner/partnerSlice';
+// section
+import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton, PartnerTableToolbar } from 'sections/partner';
 //
 import { ListParams, OrderSort, OrderSortBy, PartnerTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton, PartnerTableToolbar } from 'sections/partner';
 
 function ListPartnerPage() {
   const navigate = useNavigate();
