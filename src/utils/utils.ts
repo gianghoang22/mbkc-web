@@ -12,13 +12,13 @@ export const setLocalStorage = (name: string, value: any) => {
 export const getLocalStorage = (name: string) => localStorage.getItem(name);
 export const removeLocalStorage = (key: any) => localStorage.removeItem(key);
 
-export const setAccessToken = (accessToken: string) => localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken);
-export const getAccessToken = () => localStorage.getItem(StorageKeys.ACCESS_TOKEN);
-export const removeAccessToken = () => localStorage.removeItem(StorageKeys.ACCESS_TOKEN);
+// export const setAccessToken = (accessToken: string) => localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken);
+// export const getAccessToken = () => localStorage.getItem(StorageKeys.ACCESS_TOKEN);
+// export const removeAccessToken = () => localStorage.removeItem(StorageKeys.ACCESS_TOKEN);
 
-export const setRefreshToken = (refreshToken: string) => localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken);
-export const getRefreshToken = () => localStorage.getItem(StorageKeys.REFRESH_TOKEN);
-export const removeRefreshToken = () => localStorage.removeItem(StorageKeys.REFRESH_TOKEN);
+// export const setRefreshToken = (refreshToken: string) => localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken);
+// export const getRefreshToken = () => localStorage.getItem(StorageKeys.REFRESH_TOKEN);
+// export const removeRefreshToken = () => localStorage.removeItem(StorageKeys.REFRESH_TOKEN);
 
 export const setUserAuth = (userAuth: UserAuth) => setLocalStorage(StorageKeys.USER_AUTH, JSON.stringify(userAuth));
 export const getUserAuth = () => {
@@ -138,17 +138,17 @@ export const getIdInStorage = (name: string) => {
 };
 
 // cookie
-export const setAccessTokenCookie = (accessToken: string) => Cookie.set(StorageKeys.ACCESS_TOKEN, accessToken);
-export const getAccessTokenCookie = () =>
+export const setAccessToken = (accessToken: string) => Cookie.set(StorageKeys.ACCESS_TOKEN, accessToken);
+export const getAccessToken = () =>
   document.cookie
     .split('; ')
     .find((row) => row.startsWith(StorageKeys.ACCESS_TOKEN))
     ?.split('=')[1];
 
-export const removeAccessTokenCookie = () => Cookie.remove(StorageKeys.ACCESS_TOKEN);
+export const removeAccessToken = () => Cookie.remove(StorageKeys.ACCESS_TOKEN);
 
-export const setRefreshTokenCookie = (refreshToken: string) => Cookie.set(StorageKeys.REFRESH_TOKEN, refreshToken);
-export const getRefreshTokenCookie = () => {
+export const setRefreshToken = (refreshToken: string) => Cookie.set(StorageKeys.REFRESH_TOKEN, refreshToken);
+export const getRefreshToken = () => {
   const refreshToken = document.cookie.split('; ').find((row) => row.startsWith(StorageKeys.REFRESH_TOKEN));
   const equalIndex = refreshToken?.indexOf('=');
   if (equalIndex !== -1) {
@@ -156,7 +156,7 @@ export const getRefreshTokenCookie = () => {
     return result?.replace(/^=/, '');
   }
 };
-export const removeRefreshTokenCookie = () => Cookie.remove(StorageKeys.REFRESH_TOKEN);
+export const removeRefreshToken = () => Cookie.remove(StorageKeys.REFRESH_TOKEN);
 
 // hash password
 export const hashPasswordMD5 = (password: string) => Md5.hashStr(password);

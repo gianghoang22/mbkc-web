@@ -119,7 +119,7 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             : path === Breadcrumb.CREATE
             ? translate('breadcrumb.create-new')
             : path === Breadcrumb.REGISTER
-            ? translate('breadcrumb.create-new')
+            ? translate('breadcrumb.registration')
             : path === Breadcrumb.PROFILE
             ? translate('model.capitalizeOne.accountInformation')
             : path === Breadcrumb.INFORMATION

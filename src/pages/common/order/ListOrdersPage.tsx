@@ -4,12 +4,13 @@ import { useLocation } from 'react-router-dom';
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // redux
 import { useAppSelector } from 'redux/configStore';
+// section
+import { OrderTableRow, OrderTableToolbar } from 'sections/order';
 //
 import { ORDER_TYPE_TABS, OrderSort, OrderTable, OrderTypeEnum } from '@types';
 import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_CASHIER_APP } from 'routes/paths';
-import { OrderTableRow, OrderTableToolbar } from 'sections/order';
 import { getComparator, stableSort } from 'utils';
 
 function ListOrdersPage() {

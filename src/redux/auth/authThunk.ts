@@ -16,8 +16,7 @@ import {
   getErrorMessage,
   getUserAuth,
   removeAuthenticated,
-  removeUserAuth,
-  removeUserInfo,
+  removeSession,
   setAccessToken,
   setAuthenticated,
   setRefreshToken,
@@ -144,10 +143,9 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
 
 export const logoutThunk = async (navigate: any, thunkAPI: any) => {
   try {
-    await navigate(PATH_AUTH.login);
-    removeUserAuth();
-    removeUserInfo();
     removeAuthenticated();
+    removeSession();
+    await navigate(PATH_AUTH.login);
     localStorage.clear();
     thunkAPI.dispatch(setUserInfo);
   } catch (error: any) {

@@ -1,29 +1,28 @@
-import { useLocation } from 'react-router-dom';
-
-//
-import { Label, Page } from 'components';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-
-// mui
-import {
-  Box,
-  Card,
-  Grid,
-  Stack,
-  Typography,
-  Avatar,
-  Divider,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
-  Button,
-} from '@mui/material';
-import { Color } from 'common/enum';
-import { Paper } from '@mui/material';
-import { OrderItem, OrderKitchenHead } from 'sections/order';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+// @mui
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  Divider,
+  Grid,
+  Paper,
+  Stack,
+  Step,
+  StepContent,
+  StepLabel,
+  Stepper,
+  Typography,
+} from '@mui/material';
+// section
+import { OrderItem, OrderKitchenHead } from 'sections/order';
+//
+import { Color } from 'common/enum';
+import { Label, Page } from 'components';
 import { useLocales } from 'hooks';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 const steps = [
   {

@@ -90,7 +90,7 @@ function useConfigSidebar() {
           icon: <HandshakeIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.categories'),
+          title: translate('model.lowercase.normalCategories'),
           path: PATH_BRAND_APP.category.list,
           icon: <SummarizeIcon fontSize="medium" />,
         },
