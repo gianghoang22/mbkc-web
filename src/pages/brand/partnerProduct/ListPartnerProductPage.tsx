@@ -7,50 +7,50 @@ import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagina
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/productSlice';
+import { getAllPartnerProducts } from 'redux/partnerProduct/partnerProductSlice';
+import { getProductEmpty, setAddProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
-import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
+import {
+  PartnerProductTableRow,
+  PartnerProductTableRowSkeleton,
+  PartnerProductTableToolbar,
+} from 'sections/partnerProduct';
 //
-import { ListParams, OrderSort, PRODUCT_TYPE_TABS, ProductTable, ProductTypeEnum } from '@types';
-import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
+import { ListParams, OrderSort, OrderSortBy, PartnerProductTable } from '@types';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
-function ListProductPage() {
+function ListPartnerProductPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { pathname } = useLocation();
-  const { productHeadCells } = useConfigHeadTable();
+  const { partnerProductHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { products, isLoading, numberItems } = useAppSelector((state) => state.product);
+  const { partnerProducts, isLoading, numberItems } = useAppSelector((state) => state.partnerProduct);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof PartnerProductTable>(OrderSortBy.PRODUCT_NAME);
   const [filterName, setFilterName] = useState<string>('');
-  const [productType, setProductType] = useState<string>('');
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setProductType(newValue);
-  };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setFilterName(event.target.value);
   };
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof PartnerProductTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - partnerProducts.length) : 0;
 
-  const isNotFound = !products.length && !!filterName;
+  const isNotFound = !partnerProducts.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -59,22 +59,22 @@ function ListProductPage() {
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        searchName: debounceValue,
-        type: productType,
+        searchValue: debounceValue,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, productType]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
-    dispatch<any>(getAllProducts(params));
+    dispatch<any>(getAllPartnerProducts(params));
   }, [params]);
 
   return (
     <>
       <Page
         containerWidth="xl"
-        title={translate('page.title.list', { model: translate('model.lowercase.product') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.partnerProduct') })}
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
@@ -95,52 +95,45 @@ function ListProductPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <CustomTabs<ProductTypeEnum>
-                length={numberItems}
-                isLoading={isLoading}
-                value={productType}
-                handleChange={handleChange}
-                options={PRODUCT_TYPE_TABS}
-              />
-              <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <PartnerProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<ProductTable>
-                    hideDiscountPrice
-                    hideHistoricalPrice
+                  <CommonTableHead<PartnerProductTable>
                     showAction
-                    headCells={productHeadCells}
+                    headCells={partnerProductHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (
-                    <ProductTableRowSkeleton length={products.length} />
+                    <PartnerProductTableRowSkeleton length={partnerProducts.length} />
                   ) : (
                     <TableBody>
-                      {products.map((product, index) => {
+                      {partnerProducts?.map((partnerProduct, index) => {
                         return (
-                          <ProductTableRow
-                            key={product.productId}
+                          <PartnerProductTableRow
+                            key={partnerProduct.productId}
                             setPage={setPage}
                             page={page + 1}
                             rowsPerPage={rowsPerPage}
-                            length={products.length}
+                            length={partnerProducts.length}
                             index={index}
-                            product={product}
+                            partnerProduct={partnerProduct}
                           />
                         );
                       })}
                       {emptyRows > 0 ||
-                        (products.length === 0 && !filterName && (
+                        (partnerProducts.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={productHeadCells.length + 2}
+                            colNumber={partnerProductHeadCells.length + 2}
                             model={translate('model.lowercase.product')}
                           />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={productHeadCells.length + 2} searchQuery={filterName} />}
+                  {isNotFound && (
+                    <SearchNotFound colNumber={partnerProductHeadCells.length + 2} searchQuery={filterName} />
+                  )}
                 </Table>
               </TableContainer>
               <TablePagination
@@ -161,4 +154,4 @@ function ListProductPage() {
   );
 }
 
-export default ListProductPage;
+export default ListPartnerProductPage;

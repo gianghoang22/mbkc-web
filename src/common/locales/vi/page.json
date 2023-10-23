@@ -26,7 +26,8 @@
     "selected": "Đã chọn",
     "total": "Tổng số {{model}}",
     "viewAll": "Xem tất cả",
-    "selectStore": "Chọn cửa hàng để thêm đối tác"
+    "selectStore": "Chọn cửa hàng để thêm đối tác",
+    "productInPartner": "Sản phẩm có trong các đối tác"
   },
   "form": {
     "email": "Email",

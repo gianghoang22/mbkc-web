@@ -11,7 +11,7 @@ import {
   updateStatusProductThunk,
 } from './productThunk';
 import { StorageKeys } from 'constants/storageKeys';
-import { getIsEditing, setLocalStorage } from 'utils';
+import { getIsEditing, getProductType, setLocalStorage } from 'utils';
 
 interface ProductState {
   isEditing: boolean;
@@ -30,13 +30,14 @@ interface ProductState {
 const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_PRODUCT)
   ? getIsEditing(StorageKeys.IS_EDIT_PRODUCT)
   : false;
+const getProductTypeInStorage = getProductType() ? getProductType() : ProductTypeEnum.SINGLE;
 
 const initialState: ProductState = {
   isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
-  productType: ProductTypeEnum.SINGLE,
+  productType: getProductTypeInStorage,
   products: [],
   productsParent: [],
   product: null,
@@ -75,6 +76,10 @@ const productSlice = createSlice({
     },
     getProductDetail_local: (state, action) => {
       state.product = action.payload;
+    },
+    setProductType: (state, action) => {
+      state.productType = action.payload;
+      setLocalStorage(StorageKeys.PRODUCT_TYPE, action.payload);
     },
   },
   extraReducers(builder) {
@@ -194,7 +199,8 @@ const productSlice = createSlice({
   },
 });
 
-export const { setAddProduct, setEditProduct, getProductDetail_local, getProductEmpty } = productSlice.actions;
+export const { setAddProduct, setEditProduct, getProductDetail_local, getProductEmpty, setProductType } =
+  productSlice.actions;
 const productReducer = productSlice.reducer;
 
 export default productReducer;

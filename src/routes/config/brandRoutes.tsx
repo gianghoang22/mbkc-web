@@ -7,7 +7,7 @@ import {
   CreateProductPage,
   ListCategoryPage,
   ListExtraCategoryPage,
-  ListMappingProductPage,
+  ListPartnerProductPage,
   ListProductPage,
   ListStorePartnerPage,
   ProductDetailPage,
@@ -90,8 +90,8 @@ export const brandRoutes: Route[] = [
     index: false,
   },
   {
-    path: PATH_BRAND_APP.mappingProduct.list,
-    component: <ListMappingProductPage />,
+    path: PATH_BRAND_APP.partnerProduct.list,
+    component: <ListPartnerProductPage />,
     index: false,
   },
   {

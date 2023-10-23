@@ -1,4 +1,12 @@
-import { BrandProfile, CategoryType, KitchenCenterProfile, UserAuth, UserInfo } from '@types';
+import {
+  BrandProfile,
+  CategoryType,
+  KitchenCenterProfile,
+  PartnerProduct,
+  ProductTypeEnum,
+  UserAuth,
+  UserInfo,
+} from '@types';
 import { Error } from 'common/enum';
 import { StorageKeys } from 'constants/storageKeys';
 import Cookie from 'js-cookie';
@@ -106,6 +114,34 @@ export const getCategoryType = () => {
   }
   const type = categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA;
   return type;
+};
+
+export const getProductType = () => {
+  const productType = getLocalStorage(StorageKeys.PRODUCT_TYPE);
+  if (productType === null || productType === undefined) {
+    return ProductTypeEnum.PARENT;
+  }
+  const type =
+    productType === ProductTypeEnum.PARENT
+      ? ProductTypeEnum.PARENT
+      : productType === ProductTypeEnum.CHILD
+      ? ProductTypeEnum.CHILD
+      : productType === ProductTypeEnum.EXTRA
+      ? ProductTypeEnum.EXTRA
+      : ProductTypeEnum.SINGLE;
+  return type;
+};
+
+export const setPartnerProduct = (partnerProduct: PartnerProduct) =>
+  setLocalStorage(StorageKeys.PARTNER_PRODUCT, JSON.stringify(partnerProduct));
+export const getPartnerProduct = () => {
+  const partnerProduct = getLocalStorage(StorageKeys.PARTNER_PRODUCT);
+  if (partnerProduct === null || partnerProduct === undefined || partnerProduct.toString() === 'undefined') {
+    return;
+  } else {
+    const product = JSON.parse(partnerProduct);
+    return product;
+  }
 };
 
 export const getIsEditing = (key: string) => {

@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Link, Breadcrumbs as MUIBreadcrumbs, Stack, Typography } from '@mui/material';
 //
+import { Breadcrumb, Role } from 'common/enum';
 import { useLocales } from 'hooks';
-import { Breadcrumb } from 'common/enum';
+import { useAppSelector } from 'redux/configStore';
+import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 interface BreadcrumbsProps {
   sx?: object;
@@ -15,6 +17,9 @@ interface BreadcrumbsProps {
 function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
   const navigate = useNavigate();
   const { translate } = useLocales();
+
+  const { userAuth } = useAppSelector((state) => state.auth);
+
   const pathnames = pathname
     .split('/')
     .slice(2)
@@ -32,13 +37,48 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
       pathnames[0] === Breadcrumb.CATEGORIES ||
       pathnames[0] === Breadcrumb.EXTRA_CATEGORIES ||
       pathnames[0] === Breadcrumb.PRODUCTS ||
+      pathnames[0] === Breadcrumb.PARTNER_PRODUCTS ||
       pathnames[0] === Breadcrumb.CASHIERS ||
       pathnames[0] === Breadcrumb.ORDERS ||
       pathnames[0] === Breadcrumb.BANKING_ACCOUNTS ||
-      pathnames[0] === Breadcrumb.TRANSACTIONS ||
-      pathnames[0] === Breadcrumb.BRANDS
+      pathnames[0] === Breadcrumb.TRANSACTIONS
     ? [...pathnames, Breadcrumb.LIST]
     : pathnames;
+
+  const routeTo =
+    pathnames[0] === Breadcrumb.BRANDS || pathnames[0] === Breadcrumb.BRAND
+      ? PATH_ADMIN_APP.brand.list
+      : pathnames[0] === Breadcrumb.KITCHEN_CENTERS || pathnames[0] === Breadcrumb.KITCHEN_CENTER
+      ? PATH_ADMIN_APP.kitchenCenter.list
+      : pathnames[0] === Breadcrumb.STORES || pathnames[0] === Breadcrumb.STORE
+      ? userAuth?.roleName === Role.MBKC_ADMIN
+        ? PATH_ADMIN_APP.store.list
+        : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+        ? PATH_KITCHEN_CENTER_APP.store.list
+        : PATH_BRAND_APP.store.list
+      : pathnames[0] === Breadcrumb.PARTNERS || pathnames[0] === Breadcrumb.PARTNER
+      ? PATH_BRAND_APP.storePartner.list
+      : pathnames[0] === Breadcrumb.STORE_PARTNERS || pathnames[0] === Breadcrumb.STORE_PARTNER
+      ? PATH_BRAND_APP.storePartner.list
+      : pathnames[0] === Breadcrumb.CATEGORIES || pathnames[0] === Breadcrumb.CATEGORY
+      ? PATH_BRAND_APP.category.list
+      : pathnames[0] === Breadcrumb.EXTRA_CATEGORIES || pathnames[0] === Breadcrumb.EXTRA_CATEGORY
+      ? PATH_BRAND_APP.category.extraList
+      : pathnames[0] === Breadcrumb.PRODUCTS || pathnames[0] === Breadcrumb.PRODUCT
+      ? PATH_BRAND_APP.product.list
+      : pathnames[0] === Breadcrumb.PARTNER_PRODUCTS || pathnames[0] === Breadcrumb.PARTNER_PRODUCT
+      ? PATH_BRAND_APP.partnerProduct.list
+      : pathnames[0] === Breadcrumb.CASHIERS || pathnames[0] === Breadcrumb.CASHIER
+      ? PATH_KITCHEN_CENTER_APP.cashier.list
+      : pathnames[0] === Breadcrumb.ORDERS || pathnames[0] === Breadcrumb.ORDER
+      ? userAuth?.roleName === Role.CASHIER
+        ? PATH_CASHIER_APP.order.list
+        : PATH_KITCHEN_CENTER_APP.order.list
+      : pathnames[0] === Breadcrumb.BANKING_ACCOUNTS || pathnames[0] === Breadcrumb.BANKING_ACCOUNT
+      ? PATH_KITCHEN_CENTER_APP.bankingAccount.list
+      : pathnames[0] === Breadcrumb.TRANSACTIONS || pathnames[0] === Breadcrumb.TRANSACTION
+      ? PATH_CASHIER_APP.transaction.list
+      : '';
 
   return (
     <MUIBreadcrumbs separator={<FiberManualRecordIcon sx={{ fontSize: 8 }} />} aria-label="breadcrumb">
@@ -52,9 +92,7 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
         <Typography>{translate('breadcrumb.dashboard')}</Typography>
       )}
       {pathnameBread.map((path, index) => {
-        const routeTo = `/${pathnameBread.slice(0, index + 1).join('/')}`;
         const isLast = index === pathnameBread.length - 1;
-        // const nameUppercase = path.split('-').join(' ');
         const nameFinal =
           path === Breadcrumb.BRAND
             ? translate('breadcrumb.brand')
@@ -80,6 +118,10 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.product')
             : path === Breadcrumb.PRODUCTS
             ? translate('breadcrumb.products')
+            : path === Breadcrumb.PARTNER_PRODUCT
+            ? translate('breadcrumb.partnerProduct')
+            : path === Breadcrumb.PARTNER_PRODUCTS
+            ? translate('breadcrumb.partnerProducts')
             : path === Breadcrumb.CASHIER
             ? translate('breadcrumb.cashier')
             : path === Breadcrumb.CASHIERS

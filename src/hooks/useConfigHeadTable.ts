@@ -13,6 +13,7 @@ import {
   StorePartnerDetailTable,
   StorePartnerTable,
   StoreTable,
+  PartnerProductTable,
 } from '@types';
 import useLocales from './useLocales';
 import { Language } from 'common/enum';
@@ -246,6 +247,20 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
+      id: 'discountPrice',
+      label: translate('table.discountPrice'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'historicalPrice',
+      label: translate('table.historicalPrice'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
       id: 'category',
       label: translate('model.capitalizeOne.category'),
       numeric: false,
@@ -255,6 +270,88 @@ function useConfigHeadTable() {
     {
       id: 'type',
       label: translate('table.type'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: translate('table.status'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const partnerProductHeadCells: HeadCell<PartnerProductTable>[] = [
+    {
+      id: 'productName',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.product'),
+              name: translate('page.form.nameLower'),
+            }
+          : {
+              model: translate('page.form.name'),
+              name: translate('model.lowercase.product'),
+            }
+      ),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'productCode',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.product'),
+              name: translate('page.form.codeLower'),
+            }
+          : {
+              model: translate('page.form.code'),
+              name: translate('model.lowercase.product'),
+            }
+      ),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'partnerName',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.partner'),
+              name: translate('page.form.nameLower'),
+            }
+          : {
+              model: translate('page.form.name'),
+              name: translate('model.lowercase.partner'),
+            }
+      ),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'storeName',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.store'),
+              name: translate('page.form.nameLower'),
+            }
+          : {
+              model: translate('page.form.name'),
+              name: translate('model.lowercase.store'),
+            }
+      ),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -584,6 +681,7 @@ function useConfigHeadTable() {
     storePartnerHeadCells,
     storePartnerDetailHeadCells,
     ShipperPaymentHeadCells,
+    partnerProductHeadCells,
   };
 }
 

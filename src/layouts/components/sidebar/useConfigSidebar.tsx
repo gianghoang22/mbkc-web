@@ -105,8 +105,8 @@ function useConfigSidebar() {
           icon: <DinnerDiningIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.mappingProducts'),
-          path: PATH_BRAND_APP.mappingProduct.list,
+          title: translate('model.lowercase.partnerProducts'),
+          path: PATH_BRAND_APP.partnerProduct.list,
           icon: <LinkIcon fontSize="medium" />,
         },
       ],

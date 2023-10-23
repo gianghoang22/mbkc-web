@@ -1,16 +1,17 @@
-import { MessageResponse, Params, ProductToCreateParams, ProductToUpdate } from '@types';
+import { MessageResponse, Params, ProductToCreateParams, ProductToUpdate, ToUpdateStatus } from '@types';
 import { axiosClient } from 'api/axiosClient';
-import { ROUTES_API_MAPPING_PRODUCTS } from 'constants/routesApiKeys';
+import { ROUTES_API_PARTNER_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { getErrorMessage } from 'utils';
-import { getAllMappingProducts, getMappingProductDetail } from './mappingProductSlice';
+import { getAllPartnerProducts, getPartnerProductDetail } from './partnerProductSlice';
 
-export const getAllMappingProductsThunk = async (params: any, thunkAPI: any) => {
+export const getAllPartnerProductsThunk = async (params: any, thunkAPI: any) => {
   const { optionParams, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_MAPPING_PRODUCTS.GET_ALL_MAPPING_PRODUCT(optionParams));
+    const response = await axiosClient.get(ROUTES_API_PARTNER_PRODUCTS.GET_ALL_PARTNER_PRODUCT(optionParams));
+    console.log(response);
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -19,12 +20,12 @@ export const getAllMappingProductsThunk = async (params: any, thunkAPI: any) => 
   }
 };
 
-export const getMappingProductDetailThunk = async (params: any, thunkAPI: any) => {
+export const getPartnerProductDetailThunk = async (params: any, thunkAPI: any) => {
   const { productId, partnerId, storeId, navigate } = params;
 
   try {
     const response = await axiosClient.get(
-      ROUTES_API_MAPPING_PRODUCTS.GET_MAPPING_PRODUCT_DETAIL(productId, partnerId, storeId)
+      ROUTES_API_PARTNER_PRODUCTS.GET_PARTNER_PRODUCT_DETAIL(productId, partnerId, storeId)
     );
     return response;
   } catch (error: any) {
@@ -34,11 +35,11 @@ export const getMappingProductDetailThunk = async (params: any, thunkAPI: any) =
   }
 };
 
-export const createNewMappingProductThunk = async (params: Params<ProductToCreateParams>, thunkAPI: any) => {
+export const createNewPartnerProductThunk = async (params: Params<ProductToCreateParams>, thunkAPI: any) => {
   const { data, optionParams, navigate } = params;
 
   try {
-    const response: MessageResponse = await axiosClient.post(ROUTES_API_MAPPING_PRODUCTS.CREATE_MAPPING_PRODUCT, data);
+    const response: MessageResponse = await axiosClient.post(ROUTES_API_PARTNER_PRODUCTS.CREATE_PARTNER_PRODUCT, data);
     if (response) {
       const paramsCallback = {
         optionParams: {
@@ -47,7 +48,7 @@ export const createNewMappingProductThunk = async (params: Params<ProductToCreat
         },
         navigate,
       };
-      thunkAPI.dispatch(getAllMappingProducts(paramsCallback));
+      thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       navigate(PATH_BRAND_APP.product.list);
       thunkAPI.dispatch(setMessageSuccess('Created new product successfully'));
     }
@@ -59,12 +60,12 @@ export const createNewMappingProductThunk = async (params: Params<ProductToCreat
   }
 };
 
-export const updateMappingProductThunk = async (params: Params<ProductToUpdate>, thunkAPI: any) => {
+export const updatePartnerProductThunk = async (params: Params<ProductToUpdate>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
 
   try {
     const response: MessageResponse = await axiosClient.put(
-      ROUTES_API_MAPPING_PRODUCTS.UPDATE_MAPPING_PRODUCT(
+      ROUTES_API_PARTNER_PRODUCTS.UPDATE_PARTNER_PRODUCT(
         idParams?.productId ? idParams?.productId : 0,
         idParams?.partnerId ? idParams?.partnerId : 0,
         idParams?.storeId ? idParams?.storeId : 0
@@ -85,12 +86,44 @@ export const updateMappingProductThunk = async (params: Params<ProductToUpdate>,
           .slice(2)
           .filter((x) => x)[1] === 'detail'
       ) {
-        await thunkAPI.dispatch(getMappingProductDetail({ productId: idParams?.productId, navigate }));
+        await thunkAPI.dispatch(getPartnerProductDetail({ productId: idParams?.productId, navigate }));
       } else {
-        await thunkAPI.dispatch(getAllMappingProducts(paramsCallback));
+        await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
       thunkAPI.dispatch(setMessageSuccess('Update mapping product successfully'));
+    }
+    return response;
+  } catch (error: any) {
+    const errorMessage = getErrorMessage(error, navigate);
+    thunkAPI.dispatch(setMessageError(errorMessage));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const updateStatusPartnerProductThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
+  const { data, idParams, pathname, optionParams, navigate } = params;
+
+  try {
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_PARTNER_PRODUCTS.UPDATE_PARTNER_PRODUCT_STATUS(
+        idParams?.productId ? idParams?.productId : 0,
+        idParams?.partnerId ? idParams?.partnerId : 0,
+        idParams?.storeId ? idParams?.storeId : 0
+      ),
+      data
+    );
+    if (response) {
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage,
+          currentPage: optionParams?.currentPage,
+        },
+        navigate,
+      };
+      await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
+      navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.partnerProduct.list);
+      thunkAPI.dispatch(setMessageSuccess('Update partner product status successfully'));
     }
     return response;
   } catch (error: any) {

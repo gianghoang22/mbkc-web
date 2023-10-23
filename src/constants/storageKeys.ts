@@ -22,7 +22,7 @@ const StorageKeys = {
   IS_EDIT_STORE_PARTNER: 'isEditingStorePartner',
   IS_EDIT_CATEGORY: 'isEditingCategory',
   IS_EDIT_PRODUCT: 'isEditingProduct',
-  IS_EDIT_MAPPING_PRODUCT: 'isEditingProduct',
+  IS_EDIT_PARTNER_PRODUCT: 'isEditingProduct',
   IS_EDIT_PARTNER: 'isEditingPartner',
   IS_EDIT_KITCHEN_CENTER: 'isEditingKitchenCenter',
   IS_ADD_FORM_DETAIL: 'isAddFormDetail',
@@ -33,6 +33,8 @@ const StorageKeys = {
 
   // category
   CATEGORY_TYPE: 'categoryType',
+  PRODUCT_TYPE: 'productType',
+  PARTNER_PRODUCT: 'partnerProduct',
 
   //id
   STORE_ID: 'storeId',
