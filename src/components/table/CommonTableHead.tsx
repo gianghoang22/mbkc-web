@@ -15,6 +15,10 @@ interface CommonTableHeadProps<T> {
   hideEmail?: boolean;
   hideLogo?: boolean;
   hideStatus?: boolean;
+  hideCategory?: boolean;
+  hideDiscountPrice?: boolean;
+  hideHistoricalPrice?: boolean;
+  hideType?: boolean;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
   onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order?: OrderSort;
@@ -34,6 +38,10 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     hideEmail = false,
     hideLogo = false,
     hideStatus = false,
+    hideCategory = false,
+    hideType = false,
+    hideHistoricalPrice = false,
+    hideDiscountPrice = false,
     onSelectAllClick,
     headCells,
     order,
@@ -53,6 +61,10 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     ? headCells.filter((col) => col.id !== 'brand')
     : hideEmail
     ? headCells.filter((col) => col.id !== 'storeManagerEmail')
+    : hideType && hideCategory
+    ? headCells.filter((col) => col.id !== 'category' && col.id !== 'type')
+    : hideDiscountPrice && hideHistoricalPrice
+    ? headCells.filter((col) => col.id !== 'discountPrice' && col.id !== 'historicalPrice')
     : headCells;
 
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {

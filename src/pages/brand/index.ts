@@ -13,4 +13,4 @@ export { default as ListExtraCategoryPage } from './category/ListExtraCategoryPa
 export { default as ListStorePartnerPage } from './storePartner/ListStorePartnerPage';
 export { default as AddPartnerToStorePage } from './storePartner/AddPartnerToStorePage';
 //
-export { default as ListMappingProductPage } from './mappingProduct/ListMappingProductPage';
+export { default as ListPartnerProductPage } from './partnerProduct/ListPartnerProductPage';

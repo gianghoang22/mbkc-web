@@ -88,9 +88,9 @@ export const PATH_BRAND_APP = {
     newCategory: path(ROOTS_BRAND_DASHBOARD, '/category/creation'),
     newCategoryExtra: path(ROOTS_BRAND_DASHBOARD, '/extra-category/creation'),
   },
-  mappingProduct: {
-    root: path(ROOTS_BRAND_DASHBOARD, '/mapping-product'),
-    list: path(ROOTS_BRAND_DASHBOARD, '/mapping-products'),
+  partnerProduct: {
+    root: path(ROOTS_BRAND_DASHBOARD, '/partner-product'),
+    list: path(ROOTS_BRAND_DASHBOARD, '/partner-products'),
   },
 };
 

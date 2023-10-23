@@ -151,11 +151,9 @@ function StoreDetailPage() {
                   <Button
                     color="inherit"
                     endIcon={<KeyboardArrowDownIcon />}
-                    style={{
+                    sx={{
                       backgroundColor: '#000',
                       color: '#fff',
-                    }}
-                    sx={{
                       '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
                         backgroundColor: 'rgba(145, 158, 171, 0.08)',
                       },

@@ -139,7 +139,7 @@ export const updateStatusProductThunk = async (params: Params<ToUpdateStatus>, t
       };
 
       await thunkAPI.dispatch(getAllProducts(paramsCallback));
-      navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.store.list);
+      navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
       thunkAPI.dispatch(setMessageSuccess('Update product status successfully'));
     }
     return response;
