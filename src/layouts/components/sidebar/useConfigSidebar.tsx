@@ -3,17 +3,18 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
 import BusinessIcon from '@mui/icons-material/Business';
+import ContactsIcon from '@mui/icons-material/Contacts';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import HandshakeIcon from '@mui/icons-material/Handshake';
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
+import LinkIcon from '@mui/icons-material/Link';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import StoreIcon from '@mui/icons-material/Store';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
-import StoreIcon from '@mui/icons-material/Store';
-import ContactsIcon from '@mui/icons-material/Contacts';
-import HandshakeIcon from '@mui/icons-material/Handshake';
-import LinkIcon from '@mui/icons-material/Link';
 //
 import { NavSection } from '@types';
 import useLocales from 'hooks/useLocales';
@@ -169,6 +170,11 @@ function useConfigSidebar() {
           title: translate('model.lowercase.dashboard'),
           path: PATH_CASHIER_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
+        },
+        {
+          title: translate('model.lowercase.endOfShift'),
+          path: PATH_CASHIER_APP.endOfShift,
+          icon: <PendingActionsIcon fontSize="medium" />,
         },
       ],
     },
