@@ -276,24 +276,57 @@ function useValidationForm() {
   });
 
   const schemaBrand = yup.object({
-    Name: yup.string().required(
-      translate('page.validation.required', {
-        name: translate(
-          'page.form.nameExchange',
-          currentLang.value === Language.ENGLISH
-            ? {
-                model: translate('model.lowercase.brand'),
-                name: translate('page.form.nameLower'),
-              }
-            : {
-                model: translate('page.form.nameLower'),
-                name: translate('model.lowercase.brand'),
-              }
-        ),
-      })
-    ),
+    Name: yup
+      .string()
+      .max(100, translate('page.validation.max100'))
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.lowercase.brand'),
+                  name: translate('page.form.nameLower'),
+                }
+              : {
+                  model: translate('page.form.nameLower'),
+                  name: translate('model.lowercase.brand'),
+                }
+          ),
+        })
+      ),
     ManagerEmail: yup
       .string()
+      .email(translate('page.validation.emailFormat'))
+      .required(translate('page.validation.required', { name: translate('model.lowercase.managerEmail') })),
+    Address: yup
+      .string()
+      .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
+  });
+
+  const schemaKitchenCenter = yup.object({
+    Name: yup
+      .string()
+      .max(100, translate('page.validation.max100'))
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.lowercase.kitchenCenter'),
+                  name: translate('page.form.nameLower'),
+                }
+              : {
+                  model: translate('page.form.nameLower'),
+                  name: translate('model.lowercase.kitchenCenter'),
+                }
+          ),
+        })
+      ),
+    ManagerEmail: yup
+      .string()
+      .email(translate('page.validation.emailFormat'))
       .required(translate('page.validation.required', { name: translate('model.lowercase.managerEmail') })),
     Address: yup
       .string()
@@ -339,7 +372,10 @@ function useValidationForm() {
         ),
       })
     ),
-    email: yup.string().required(translate('page.validation.required', { name: translate('table.lowercase.email') })),
+    email: yup
+      .string()
+      .email(translate('page.validation.emailFormat'))
+      .required(translate('page.validation.required', { name: translate('table.lowercase.email') })),
     citizenNumber: yup
       .string()
       .required(translate('page.validation.required', { name: translate('model.lowercase.citizenNumber') })),
@@ -389,6 +425,7 @@ function useValidationForm() {
     schemaUpdatePassword,
     schemaCashier,
     schemaUpdateProfile,
+    schemaKitchenCenter,
     schemaUpdateStorePartner,
   };
 }

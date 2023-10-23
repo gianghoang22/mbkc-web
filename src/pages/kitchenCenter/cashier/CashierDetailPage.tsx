@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 //
-import { Color, Language, PopoverType } from 'common/enum';
+import { Color, Language, PopoverType, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
@@ -106,31 +106,34 @@ function CashierDetailPage() {
                 <Typography variant="h3">{cashier?.fullName}</Typography>
 
                 <Stack direction="row" justifyContent="space-between" paddingTop={1} paddingBottom={1}>
-                  <Typography variant="subtitle1">Status</Typography>
-                  <Label color={Color.SUCCESS}>{cashier?.status}</Label>
+                  <Typography variant="subtitle1">{translate('common.status')}</Typography>
+
+                  <Label color={(cashier?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
+                    {cashier?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
+                  </Label>
                 </Stack>
                 <Divider />
 
                 <Stack direction="row" justifyContent="space-between" paddingTop={2} paddingBottom={1}>
-                  <Typography variant="subtitle1">Email</Typography>
+                  <Typography variant="subtitle1">{translate('page.form.email')}</Typography>
                   <Typography>{cashier?.email}</Typography>
                 </Stack>
                 <Divider />
 
                 <Stack direction="row" justifyContent="space-between" paddingTop={2} paddingBottom={1}>
-                  <Typography variant="subtitle1">Citizen Number</Typography>
+                  <Typography variant="subtitle1">{translate('model.capitalizeOne.citizenNumber')}</Typography>
                   <Typography>{cashier?.citizenNumber}</Typography>
                 </Stack>
                 <Divider />
 
                 <Stack direction="row" justifyContent="space-between" paddingTop={2} paddingBottom={1}>
-                  <Typography variant="subtitle1">Date of birth</Typography>
+                  <Typography variant="subtitle1">{translate('model.capitalizeOne.dateOfBirth')}</Typography>
                   <Typography>{moment(cashier?.dateOfBirth).format('DD/MM/yyyy')}</Typography>
                 </Stack>
                 <Divider />
 
                 <Stack direction="row" justifyContent="space-between" paddingTop={2} paddingBottom={1}>
-                  <Typography variant="subtitle1">Gender</Typography>
+                  <Typography variant="subtitle1">{translate('model.capitalizeOne.gender')}</Typography>
                   <Typography>{cashier?.gender}</Typography>
                 </Stack>
                 <Divider />
