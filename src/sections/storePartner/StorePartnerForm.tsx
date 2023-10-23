@@ -15,19 +15,20 @@ import { ListParams } from '@types';
 import { Language } from 'common/enum';
 import { AutoCompleteField, InputField } from 'components';
 import { useLocales } from 'hooks';
-import { CircularProgress } from '@mui/material';
 
 function StorePartnerForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
 
-  const { stores, store, isLoading } = useAppSelector((state) => state.store);
+  const { stores } = useAppSelector((state) => state.store);
   const { partners } = useAppSelector((state) => state.partner);
 
   const storeOptions = stores.map((store) => ({
     label: store.name,
     value: store.storeId,
+    center: store.kitchenCenter.name,
+    image: store.logo,
   }));
 
   const getOpObjStore = (option: any) => {
@@ -39,6 +40,7 @@ function StorePartnerForm() {
   const partnerOptions = partners.map((partner) => ({
     label: partner.name,
     value: partner.partnerId,
+    image: partner.logo,
   }));
 
   const getOpObjPartner = (option: any) => {
@@ -47,13 +49,11 @@ function StorePartnerForm() {
     return option;
   };
 
-  const { control, getValues, setValue, watch } = useFormContext();
+  const { control, getValues, setValue } = useFormContext();
   const { fields, remove } = useFieldArray({
     control,
     name: 'partnerAccountRequests',
   });
-
-  const storeId = watch('storeId');
 
   const params: ListParams = useMemo(() => {
     return {
@@ -101,7 +101,7 @@ function StorePartnerForm() {
             label={translate('model.capitalizeOne.store')}
           />
 
-          <Stack
+          {/* <Stack
             p={1}
             width="100%"
             height="120px"
@@ -154,7 +154,7 @@ function StorePartnerForm() {
                 )}
               </>
             )}
-          </Stack>
+          </Stack> */}
         </Stack>
       </Grid>
       <Grid item md={7} sm={12}>

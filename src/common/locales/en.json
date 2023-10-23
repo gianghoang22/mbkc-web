@@ -6,11 +6,12 @@
     "cashier": "Cashier"
   },
   "status": {
+    "all": "All",
     "active": "Active",
     "inactive": "Inactive",
     "deActive": "Deactive",
     "beConfirming": "Confirming",
-    "reject": "Reject"
+    "reject": "Rejected"
   },
   "header": {
     "account": "Account",

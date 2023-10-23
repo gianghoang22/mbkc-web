@@ -6,6 +6,7 @@
     "cashier": "Nhân viên thu ngân"
   },
   "status": {
+    "all": "Tất cả",
     "active": "Hoạt động",
     "inactive": "Không hoạt động",
     "deActive": "Vô hiệu hóa",

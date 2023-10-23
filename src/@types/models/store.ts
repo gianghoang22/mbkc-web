@@ -37,11 +37,26 @@ export interface StoreToConfirm {
   rejectedReason: string;
 }
 
-export const STORE_STATUS_OPTIONS = [
+export const STORE_STATUS_TABS = [
+  {
+    value: Status.ALL,
+    label: 'All',
+    id: 'all',
+  },
   {
     value: Status.ACTIVE,
     label: 'Active',
     id: 'Act',
+  },
+  {
+    value: Status.INACTIVE,
+    label: 'Inactive',
+    id: 'Ina',
+  },
+  {
+    value: Status.BE_CONFIRMING,
+    label: 'Be Confirming',
+    id: 'Con',
   },
   {
     value: Status.REJECTED,

@@ -81,10 +81,11 @@ export const ROUTES_API_STORES = {
     searchValue = '',
     idBrand = '',
     idKitchenCenter = '',
+    status = '',
   }: OptionParams) => {
     return path(
       ROOTS_STORES,
-      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}`
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}&status=${status}`
     );
   },
   GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
