@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
@@ -10,9 +10,9 @@ import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashier/cashierSlice';
 import { useAppDispatch } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import CashierDetailModal from './CashierDetailModal';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 interface CashierTableRowProps {
   index: number;

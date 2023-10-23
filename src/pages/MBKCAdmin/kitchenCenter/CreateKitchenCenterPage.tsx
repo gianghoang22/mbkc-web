@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 // @mui
 import { Box, Button, Card, Stack } from '@mui/material';
 // redux
