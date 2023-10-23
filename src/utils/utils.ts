@@ -96,6 +96,7 @@ export const getEmailVerify = () => {
 };
 export const removeEmailVerify = () => removeLocalStorage(StorageKeys.EMAIL_VERIFY);
 
+export const setLanguage = (language: string) => setLocalStorage(StorageKeys.I18_LANGUAGE, language);
 export const getLanguage = () => getLocalStorage(StorageKeys.I18_LANGUAGE);
 export const removeLanguage = () => removeLocalStorage(StorageKeys.I18_LANGUAGE);
 

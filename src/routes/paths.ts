@@ -106,6 +106,7 @@ export const PATH_KITCHEN_CENTER_APP = {
   cashier: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier'),
     list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashiers'),
+    detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/:id'),
     editById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/updation/:id'),
     newCashier: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/creation'),
   },
@@ -131,7 +132,7 @@ export const PATH_KITCHEN_CENTER_APP = {
 export const PATH_CASHIER_APP = {
   root: path(ROOTS_CASHIER_DASHBOARD, '/dashboard'),
   profile: path(ROOTS_CASHIER_DASHBOARD, '/profile'),
-  information: path(ROOTS_CASHIER_DASHBOARD, '/information'),
+  endOfShift: path(ROOTS_CASHIER_DASHBOARD, '/end-of-shift'),
   order: {
     root: path(ROOTS_CASHIER_DASHBOARD, '/order'),
     list: path(ROOTS_CASHIER_DASHBOARD, '/orders'),

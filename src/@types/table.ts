@@ -7,6 +7,7 @@ export enum OrderSortBy {
   NAME = 'name',
   PRODUCT_NAME = 'productName',
   PRODUCT_CODE = 'productCode',
+  CODE = 'code',
   PARTNER_NAME = 'partnerName',
   STORE_NAME = 'storeName',
   STATUS = 'status',

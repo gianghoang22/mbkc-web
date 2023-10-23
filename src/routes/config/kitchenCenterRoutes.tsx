@@ -1,6 +1,7 @@
-import { Route } from '@types'
-import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common'
+import { Route } from '@types';
+import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common';
 import {
+  CashierDetailPage,
   CreateBankingAccount,
   CreateCashierPage,
   KitchenCenterDashboard,
@@ -9,9 +10,9 @@ import {
   ListMoneyExchangePage,
   ListShipperPaymentPage,
   WalletPage,
-} from 'pages/kitchenCenter'
-import { InformationPage, ProfilePage } from 'pages/profile'
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths'
+} from 'pages/kitchenCenter';
+import { InformationPage, ProfilePage } from 'pages/profile';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 export const kitchenCenterRoutes: Route[] = [
   {
@@ -42,6 +43,11 @@ export const kitchenCenterRoutes: Route[] = [
   {
     path: PATH_KITCHEN_CENTER_APP.cashier.list,
     component: <ListCashierPage />,
+    index: false,
+  },
+  {
+    path: PATH_KITCHEN_CENTER_APP.cashier.detailById,
+    component: <CashierDetailPage />,
     index: false,
   },
   {
@@ -94,4 +100,4 @@ export const kitchenCenterRoutes: Route[] = [
     component: <ListMoneyExchangePage />,
     index: false,
   },
-]
+];

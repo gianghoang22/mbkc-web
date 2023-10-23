@@ -11,21 +11,16 @@ import { createNewKitchenCenter, updateKitchenCenter } from 'redux/kitchenCenter
 import { CreateKitchenCenterParams, KitchenCenterToAdd, KitchenCenterToUpdate } from '@types';
 import { Color } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
 
-const schema = yup.object({
-  Name: yup.string().required('Please enter brand name'),
-  Address: yup.string().required('Please enter kitchen center address'),
-  ManagerEmail: yup.string().email('Email is not valid').required(),
-});
-
-function CreateKitchenCenterPage(props: any) {
+function CreateKitchenCenterPage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const dispatch = useAppDispatch();
+  const { schemaKitchenCenter } = useValidationForm();
   const { isEditing, isLoading, kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
 
   const createKitchenCenterForm = useForm<KitchenCenterToAdd>({
@@ -35,7 +30,7 @@ function CreateKitchenCenterPage(props: any) {
       Logo: isEditing ? kitchenCenter?.logo : '',
       ManagerEmail: isEditing ? kitchenCenter?.kitchenCenterManagerEmail : '',
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaKitchenCenter),
   });
 
   const { handleSubmit } = createKitchenCenterForm;

@@ -12,11 +12,10 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
 //
-import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
+import { CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 
 function ListExtraCategoryPage() {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ function ListExtraCategoryPage() {
   const { categories, isLoading } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
@@ -46,12 +45,7 @@ function ListExtraCategoryPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(categories, getComparator(order, orderBy)),
-    [order, orderBy, categories]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !categories.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -62,6 +56,9 @@ function ListExtraCategoryPage() {
         pageSize: rowsPerPage,
         pageNumber: page + 1,
         keySearchName: debounceValue,
+        keySortName: orderBy === OrderSortBy.NAME ? order : '',
+        keySortCode: orderBy === OrderSortBy.CODE ? order : '',
+        keySortStatus: orderBy === OrderSortBy.STATUS ? order : '',
       },
       navigate,
     };
@@ -106,17 +103,17 @@ function ListExtraCategoryPage() {
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (
-                    <CategoryTableRowSkeleton length={visibleRows.length} />
+                    <CategoryTableRowSkeleton length={categories.length} />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((extraCategory, index) => {
+                      {categories.map((extraCategory, index) => {
                         return (
                           <CategoryTableRow
                             key={extraCategory.categoryId}
                             index={index}
                             category={extraCategory}
                             categoryType={CategoryType.EXTRA}
-                            length={visibleRows.length}
+                            length={categories.length}
                             setPage={setPage}
                           />
                         );
