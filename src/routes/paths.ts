@@ -132,7 +132,7 @@ export const PATH_KITCHEN_CENTER_APP = {
 export const PATH_CASHIER_APP = {
   root: path(ROOTS_CASHIER_DASHBOARD, '/dashboard'),
   profile: path(ROOTS_CASHIER_DASHBOARD, '/profile'),
-  information: path(ROOTS_CASHIER_DASHBOARD, '/information'),
+  endOfShift: path(ROOTS_CASHIER_DASHBOARD, '/end-of-shift'),
   order: {
     root: path(ROOTS_CASHIER_DASHBOARD, '/order'),
     list: path(ROOTS_CASHIER_DASHBOARD, '/orders'),
