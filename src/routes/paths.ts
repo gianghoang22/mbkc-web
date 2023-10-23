@@ -106,6 +106,7 @@ export const PATH_KITCHEN_CENTER_APP = {
   cashier: {
     root: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier'),
     list: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashiers'),
+    detailById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/:id'),
     editById: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/updation/:id'),
     newCashier: path(ROOTS_KITCHEN_CENTER_DASHBOARD, '/cashier/creation'),
   },

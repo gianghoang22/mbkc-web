@@ -30,6 +30,7 @@ function CashierForm() {
         <Stack gap={3}>
           <Stack width="100%">
             <Typography variant="subtitle1">Detail</Typography>
+
             <Typography variant="body2" color="grey.600">
               Email, {translate('table.fullName')}, {translate('table.gender')},...
             </Typography>

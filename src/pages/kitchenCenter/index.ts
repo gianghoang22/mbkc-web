@@ -2,6 +2,7 @@ export { default as KitchenCenterDashboard } from './dashboard/KitchenCenterDash
 //
 export { default as CreateCashierPage } from './cashier/CreateCashierPage';
 export { default as ListCashierPage } from './cashier/ListCashierPage';
+export { default as CashierDetailPage } from './cashier/CashierDetailPage';
 //
 export { default as ListBankingAccountPage } from './bankingAccount/ListBankingAccountPage';
 export { default as CreateBankingAccount } from './bankingAccount/CreateBankingAccount';
