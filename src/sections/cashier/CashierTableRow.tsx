@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
@@ -12,6 +12,7 @@ import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashie
 import { useAppDispatch } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import CashierDetailModal from './CashierDetailModal';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 interface CashierTableRowProps {
   index: number;
@@ -23,6 +24,7 @@ interface CashierTableRowProps {
 function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
@@ -31,6 +33,11 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
   const handleEdit = () => {
     navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/updation/${cashier.accountId}`);
     dispatch(setEditCashier(cashier));
+  };
+
+  const handleNavigateDetail = (cashierId: number) => {
+    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/${cashierId}`);
+    dispatch(setRoutesToBack(pathname));
   };
 
   const handleDelete = () => {
@@ -63,18 +70,24 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
           {index + 1}
         </TableCell>
 
-        <TableCell scope="row" component="th" padding="none" width={90} onClick={handleOpenModalDetail}>
+        <TableCell
+          scope="row"
+          component="th"
+          padding="none"
+          width={90}
+          onClick={() => handleNavigateDetail(cashier.accountId)}
+        >
           <Avatar alt={cashier.fullName} src={cashier.avatar} />
         </TableCell>
-        <TableCell component="th" scope="row" onClick={handleOpenModalDetail}>
+        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail(cashier.accountId)}>
           <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
             {cashier.fullName}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={handleOpenModalDetail}>
+        <TableCell align="left" onClick={() => handleNavigateDetail(cashier.accountId)}>
           {cashier.email}
         </TableCell>
-        <TableCell align="left" onClick={handleOpenModalDetail}>
+        <TableCell align="left" onClick={() => handleNavigateDetail(cashier.accountId)}>
           {cashier.gender}
         </TableCell>
         <TableCell align="left">
