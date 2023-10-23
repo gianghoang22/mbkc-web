@@ -4,9 +4,8 @@ import ListRoundedIcon from '@mui/icons-material/ListRounded';
 import { Box, IconButton, Stack } from '@mui/material';
 //
 import AccountPopover from './AccountPopover';
-import { StyledRoot, StyledToolbar } from './styles';
-import NotificationsPopover from './NotificationsPopover';
 import LanguagePopover from './LanguagePopover';
+import { StyledRoot, StyledToolbar } from './styles';
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +47,7 @@ function Header({ onOpenNav }: HeaderProps) {
               sm: 3.5,
             }}
           >
-            <NotificationsPopover />
+            {/* <NotificationsPopover /> */}
             <AccountPopover />
           </Stack>
         </Stack>

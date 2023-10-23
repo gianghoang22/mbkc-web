@@ -8,6 +8,7 @@ interface Option {
   value: number;
   image?: string;
   address?: string;
+  center?: string;
 }
 
 interface AutoCompleteFieldProps {
@@ -62,6 +63,7 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
             label: option.label,
             value: option.value,
             address: option.address,
+            center: option.center,
             image: option.image,
           }))}
           getOptionLabel={getOptionLabel}
@@ -73,7 +75,7 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
                     component="img"
                     src={option.image}
                     alt={option.label}
-                    sx={{ width: 40, height: 40, borderRadius: '8px' }}
+                    sx={{ width: 40, height: 40, borderRadius: '8px', objectFit: 'cover' }}
                   />
                 )}
 
@@ -82,6 +84,11 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
                   {option.address && (
                     <Typography variant="body2" color="GrayText">
                       {translate('table.address')}: {option.address}
+                    </Typography>
+                  )}
+                  {option.center && (
+                    <Typography variant="body2" color="GrayText">
+                      {translate('table.kitchenCenter')}: {option.center}
                     </Typography>
                   )}
                 </Stack>
