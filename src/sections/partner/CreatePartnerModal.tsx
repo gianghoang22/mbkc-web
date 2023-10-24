@@ -97,6 +97,8 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
               <Stack alignItems="center" pt={3} pb={1}>
                 <UploadImageField
                   label={translate('page.content.dragDrop')}
+                  subLabel={translate('page.content.imageAllowed')}
+                  margin="auto"
                   name="logo"
                   defaultValue=""
                   isEditing={isEditing}

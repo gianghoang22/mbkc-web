@@ -15,7 +15,7 @@ import { useLocales } from 'hooks';
 const RootStyle = styled('div')(({ theme }) => ({
   width: 200,
   height: 200,
-  margin: 'auto',
+  // margin: 'auto',
   borderRadius: '50%',
   padding: theme.spacing(1),
   border: `1px dashed ${theme.palette.grey[500_32]}`,
@@ -71,6 +71,7 @@ interface UploadAvatarProps extends DropzoneOptions {
   caption?: ReactNode;
   sx?: SxProps<Theme>;
   onChange?: Function;
+  captionWidth?: number;
 }
 
 export default function UploadAvatar({
@@ -81,6 +82,7 @@ export default function UploadAvatar({
   value,
   caption,
   sx,
+  captionWidth,
   ...other
 }: UploadAvatarProps) {
   const { translate } = useLocales();
@@ -97,7 +99,9 @@ export default function UploadAvatar({
     async (acceptedFiles: any) => {
       const file = acceptedFiles[0];
       console.log(file);
-      setImageUrl(URL.createObjectURL(file));
+      if (file) {
+        setImageUrl(URL.createObjectURL(file));
+      }
       if (onFormChange) {
         onFormChange(file);
       }
@@ -107,6 +111,10 @@ export default function UploadAvatar({
 
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: false,
+    accept: {
+      file: ['.png', '.jpg', '.jpeg'],
+    },
+    maxFiles: 1,
     onDrop,
     ...other,
   });
@@ -177,7 +185,14 @@ export default function UploadAvatar({
         </DropZoneStyle>
       </RootStyle>
 
-      <Stack direction="row" alignItems="center" justifyContent="center" gap={0.5} mt={value ? 0 : 1}>
+      <Stack
+        direction="row"
+        width={captionWidth}
+        alignItems="center"
+        justifyContent="center"
+        gap={0.5}
+        mt={value ? 0 : 1}
+      >
         {value && (
           <IconButton
             onClick={() => {

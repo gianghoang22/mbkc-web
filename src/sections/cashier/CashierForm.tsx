@@ -11,7 +11,7 @@ function CashierForm() {
   return (
     <Grid container columnSpacing={3}>
       <Grid item md={4} sm={12}>
-        <Stack alignItems="center" gap={3}>
+        <Stack alignItems="start" gap={3}>
           <Stack width="100%">
             <Typography variant="subtitle1">{translate('table.image')}</Typography>
             <Typography variant="body2" color="grey.600">
@@ -20,7 +20,9 @@ function CashierForm() {
           </Stack>
           <UploadImageField
             label={translate('page.content.dragDrop')}
+            subLabel={translate('page.content.imageAllowed')}
             name="avatar"
+            captionWidth={200}
             defaultValue=""
             isEditing={isEditing}
           />

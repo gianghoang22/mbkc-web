@@ -14,7 +14,7 @@ function BankingAccountForm() {
   return (
     <Grid container columnSpacing={3}>
       <Grid item md={4} sm={12}>
-        <Stack alignItems="center" gap={3}>
+        <Stack alignItems="start" gap={3}>
           <Stack width="100%">
             <Typography variant="subtitle1">{translate('page.content.logo')}</Typography>
             <Typography variant="body2" color="grey.600">
@@ -23,6 +23,8 @@ function BankingAccountForm() {
           </Stack>
           <UploadImageField
             label={translate('page.content.dragDrop')}
+            subLabel={translate('page.content.imageAllowed')}
+            captionWidth={200}
             name="BankLogo"
             defaultValue=""
             isEditing={isEditing}
