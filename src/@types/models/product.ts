@@ -1,4 +1,5 @@
 import { Brand } from './brand';
+import { Category } from './category';
 
 export interface Product {
   productId: number;
@@ -18,6 +19,7 @@ export interface Product {
   categoryId: number;
   categoryName: string;
   brand: Brand;
+  category: Category;
 }
 
 export interface ChildrenProduct extends Product {}

@@ -17,32 +17,35 @@ import {
   Typography,
 } from '@mui/material';
 // redux
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { deleteProduct, getProductDetail, setEditProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getPartnerProductDetail } from 'redux/partnerProduct/partnerProductSlice';
+import { deleteProduct, getProductDetail, setEditProduct } from 'redux/product/productSlice';
 // section
-import { ProductDetailPageSkeleton, ProductTableRow } from 'sections/product';
 import { StorePartnerTableDetailRowSkeleton } from 'sections/storePartner';
+import { ProductDetailPageSkeleton, ProductTableRow } from 'sections/product';
 //
+import { PATH_BRAND_APP } from 'routes/paths';
+import { fCurrencyVN, getComparator, stableSort } from 'utils';
 import { OrderSort, ProductTable, ProductTypeEnum } from '@types';
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
-import { CommonTableHead, ConfirmDialog, ContentLabel, ContentSpace, EmptyTable, Page, Popover } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
-import { PATH_BRAND_APP } from 'routes/paths';
-import { fCurrencyVN } from 'utils';
+import { CommonTableHead, ConfirmDialog, ContentLabel, ContentSpace, EmptyTable, Page, Popover } from 'components';
 
 function ProductDetailPage() {
   const { id: productId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { pathname } = useLocation();
+
   const mdSm = useResponsive('up', 'md', 'md');
   const mdXs = useResponsive('up', 'xs', 'xs');
+
+  const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
+  const { productHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
-  const { productHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
@@ -58,6 +61,20 @@ function ProductDetailPage() {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+
+  const childProductList =
+    product?.childrenProducts && product.type === ProductTypeEnum.PARENT ? product?.childrenProducts : [];
+
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - childProductList.length) : 0;
+
+  const childProductRows = useMemo(
+    () =>
+      stableSort(childProductList, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
+    [order, orderBy, page, rowsPerPage, childProductList]
+  );
 
   const paramPartnerProduct = useMemo(() => {
     return {
@@ -134,7 +151,7 @@ function ProductDetailPage() {
         }}
       >
         {isLoading ? (
-          <ProductDetailPageSkeleton />
+          <ProductDetailPageSkeleton lengthChildProducts={childProductRows?.length} />
         ) : (
           <>
             <Grid container columnSpacing={5} rowSpacing={5}>
@@ -228,32 +245,29 @@ function ProductDetailPage() {
                           headCells={productHeadCells}
                           onRequestSort={handleRequestSort}
                         />
-                        {isLoading ? (
-                          <StorePartnerTableDetailRowSkeleton />
-                        ) : (
-                          <TableBody>
-                            {product?.childrenProducts?.map((productChild, index) => {
-                              return (
-                                <ProductTableRow
-                                  index={index}
-                                  key={productChild.productId}
-                                  setPage={setPage}
-                                  page={page + 1}
-                                  rowsPerPage={rowsPerPage}
-                                  length={product?.childrenProducts?.length}
-                                  product={productChild}
-                                  isInDetail
-                                />
-                              );
-                            })}
-                            {product?.childrenProducts?.length === 0 && (
+                        <TableBody>
+                          {childProductRows?.map((productChild, index) => {
+                            return (
+                              <ProductTableRow
+                                index={index}
+                                key={productChild.productId}
+                                setPage={setPage}
+                                page={page + 1}
+                                rowsPerPage={rowsPerPage}
+                                length={childProductRows?.length}
+                                product={productChild}
+                                isInDetail
+                              />
+                            );
+                          })}
+                          {emptyRows > 0 ||
+                            (childProductRows?.length === 0 && (
                               <EmptyTable
                                 colNumber={productHeadCells.length + 2}
                                 model={translate('model.lowercase.childProduct')}
                               />
-                            )}
-                          </TableBody>
-                        )}
+                            ))}
+                        </TableBody>
                       </Table>
                     </TableContainer>
                     <TablePagination
