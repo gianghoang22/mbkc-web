@@ -22,7 +22,7 @@ function ListCashierPage() {
   const { cashierHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { cashiers, isLoading } = useAppSelector((state) => state.cashier);
+  const { cashiers, isLoading, numberItems } = useAppSelector((state) => state.cashier);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CashierTable>('fullName');
@@ -40,13 +40,9 @@ function ListCashierPage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - cashiers.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      stableSort(cashiers, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, cashiers]
-  );
+  const visibleRows = useMemo(() => stableSort(cashiers, getComparator(order, orderBy)), [order, orderBy, cashiers]);
 
   const isNotFound = !visibleRows.length && !!filterName;
 
@@ -130,7 +126,7 @@ function ListCashierPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={cashiers.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
                 labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}

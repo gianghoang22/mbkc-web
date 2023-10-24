@@ -25,7 +25,9 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
   const { kitchenCenterId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_KITCHEN_CENTER.GET_KITCHEN_CENTER_DETAIL(kitchenCenterId));
+    const response: KitchenCenter = await axiosClient.get(
+      ROUTES_API_KITCHEN_CENTER.GET_KITCHEN_CENTER_DETAIL(kitchenCenterId)
+    );
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);

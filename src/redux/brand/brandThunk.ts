@@ -1,4 +1,4 @@
-import { ListParams, MessageResponse } from '@types';
+import { Brand, ListParams, ListResponse, MessageResponse } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_BRANDS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -10,7 +10,7 @@ export const getAllBrandsThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_BRANDS.GET_ALL_BRAND(optionParams));
+    const response: ListResponse<Brand> = await axiosClient.get(ROUTES_API_BRANDS.GET_ALL_BRAND(optionParams));
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -23,7 +23,7 @@ export const getBrandDetailThunk = async (params: any, thunkAPI: any) => {
   const { brandId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(`/brands/${brandId}`);
+    const response: Brand = await axiosClient.get(`/brands/${brandId}`);
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);

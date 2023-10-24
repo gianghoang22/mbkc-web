@@ -1,4 +1,4 @@
-import { ListParams, MessageResponse } from '@types';
+import { Cashier, ListParams, ListResponse, MessageResponse } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 
 import { ROUTES_API_CASHIERS } from 'constants/routesApiKeys';
@@ -11,7 +11,7 @@ export const getAllCashiersThunk = async (params: ListParams, thunkAPI: any) => 
   const { navigate, optionParams } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_CASHIERS.GET_ALL_CASHIERS(optionParams));
+    const response: ListResponse<Cashier> = await axiosClient.get(ROUTES_API_CASHIERS.GET_ALL_CASHIERS(optionParams));
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -24,7 +24,7 @@ export const getCashierDetailThunk = async (params: any, thunkAPI: any) => {
   const { cashierId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_CASHIERS.GET_CASHIER_DETAIL(cashierId));
+    const response: Cashier = await axiosClient.get(ROUTES_API_CASHIERS.GET_CASHIER_DETAIL(cashierId));
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);

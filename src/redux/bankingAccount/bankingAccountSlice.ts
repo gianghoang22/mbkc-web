@@ -16,6 +16,7 @@ interface BankingAccountState {
   isSuccess: boolean;
   bankingAccounts: BankingAccount[];
   bankingAccount: BankingAccount | null;
+  numberItems: number;
 }
 
 const initialState: BankingAccountState = {
@@ -25,6 +26,7 @@ const initialState: BankingAccountState = {
   isSuccess: false,
   bankingAccounts: [],
   bankingAccount: null,
+  numberItems: 0,
 };
 
 export const createNewBankingAccount = createAsyncThunk(
@@ -84,6 +86,7 @@ const BankingAccountSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.bankingAccounts = [...action.payload?.bankingAccounts];
+        state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllBankingAccounts.rejected, (state, action) => {
         state.isLoading = false;

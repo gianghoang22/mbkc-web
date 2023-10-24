@@ -1,4 +1,4 @@
-import { ListParams, MessageResponse } from '@types';
+import { BankingAccount, ListParams, ListResponse, MessageResponse } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -10,7 +10,9 @@ export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: a
   const { navigate, optionParams } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
+    const response: ListResponse<BankingAccount> = await axiosClient.get(
+      ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams)
+    );
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -23,7 +25,9 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
   const { bankingAccountId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_BANKING_ACCOUNT_DETAIL(bankingAccountId));
+    const response: BankingAccount = await axiosClient.get(
+      ROUTES_API_BANKING_ACCOUNTS.GET_BANKING_ACCOUNT_DETAIL(bankingAccountId)
+    );
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
