@@ -6,7 +6,7 @@ import brandReducer from './brand/brandSlice';
 import cashierReducer from './cashier/cashierSlice';
 import categoryReducer from './category/categorySlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
-import mappingProductReducer from './mappingProduct/mappingProductSlice';
+import partnerProductReducer from './partnerProduct/partnerProductSlice';
 import orderReducer from './order/orderSlice';
 import partnerReducer from './partner/partnerSlice';
 import productReducer from './product/productSlice';
@@ -32,7 +32,7 @@ export const store = configureStore({
     wallet: walletReducer,
     profile: profileReducer,
     storePartner: storePartnerReducer,
-    mappingProduct: mappingProductReducer,
+    partnerProduct: partnerProductReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

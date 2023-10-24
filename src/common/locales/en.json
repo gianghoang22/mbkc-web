@@ -6,11 +6,12 @@
     "cashier": "Cashier"
   },
   "status": {
+    "all": "All",
     "active": "Active",
     "inactive": "Inactive",
     "deActive": "Deactive",
     "beConfirming": "Confirming",
-    "reject": "Reject"
+    "reject": "Rejected"
   },
   "header": {
     "account": "Account",
@@ -78,6 +79,8 @@
     "extra-categories": "Extra categories",
     "product": "Product",
     "products": "Products",
+    "partnerProduct": "Partner Product",
+    "partnerProducts": "Partner Products",
     "partner": "Partner",
     "partners": "Partners",
     "cashier": "Cashier",

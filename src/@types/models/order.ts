@@ -40,7 +40,7 @@ export interface OrderToCreate {
 }
 
 export enum OrderTypeEnum {
-  ALL = 'AL_ORDER',
+  ALL = 'ALL_ORDER',
   READY = 'READY',
   BEING_PREPARED = 'BEING_PREPARED',
   WAITING_FOR_GOODS = 'WAITING_FOR_GOODS',

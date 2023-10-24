@@ -9,13 +9,14 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
+// section
+import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 //
 import { ListParams, OrderSort, StoreTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
 
 // ----------------------------------------------------------------------
@@ -35,6 +36,7 @@ function ListStorePage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
+  const [storeStatus, setStoreStatus] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -62,10 +64,11 @@ function ListStorePage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchValue: debounceValue,
+        status: storeStatus,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, storeStatus]);
 
   const paramsBrandRole: ListParams = useMemo(() => {
     return {
@@ -73,11 +76,12 @@ function ListStorePage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchValue: debounceValue,
+        status: storeStatus,
         idBrand: brandProfile?.brandId,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, storeStatus]);
 
   useEffect(() => {
     if (userAuth?.roleName === Role.MBKC_ADMIN) {
@@ -116,7 +120,13 @@ function ListStorePage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <StoreTableToolbar
+                haveSelectStatus
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                status={storeStatus}
+                setStatus={setStoreStatus}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>

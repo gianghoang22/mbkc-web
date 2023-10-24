@@ -6,6 +6,7 @@
     "cashier": "Nhân viên thu ngân"
   },
   "status": {
+    "all": "Tất cả",
     "active": "Hoạt động",
     "inactive": "Không hoạt động",
     "deActive": "Vô hiệu hóa",
@@ -78,6 +79,8 @@
     "extra-categories": "Danh mục Extra",
     "product": "Sản phẩm",
     "products": "Sản phẩm",
+    "partnerProduct": "Sản phẩm đối tác",
+    "partnerProducts": "Sản phẩm đối tác",
     "partner": "Đối tác",
     "partners": "Đối tác",
     "cashier": "Nhân viên thu ngân",

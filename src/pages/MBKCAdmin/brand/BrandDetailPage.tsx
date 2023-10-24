@@ -48,6 +48,7 @@ function BrandDetailPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
+  const [storeStatus, setStoreStatus] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -189,7 +190,13 @@ function BrandDetailPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <StoreTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <StoreTableToolbar
+                haveSelectStatus
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                status={storeStatus}
+                setStatus={setStoreStatus}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<StoreTable>

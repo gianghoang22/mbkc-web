@@ -26,7 +26,8 @@
     "selected": "Selected",
     "total": "Total {{model}}",
     "viewAll": "View all",
-    "selectStore": "Select a store to add a partner"
+    "selectStore": "Select a store to add a partner",
+    "productInPartner": "Products available in partners"
   },
   "form": {
     "email": "Email",

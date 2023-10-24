@@ -1,4 +1,4 @@
-export interface MappingProduct {
+export interface PartnerProduct {
   productId: number;
   partnerId: number;
   storeId: number;
@@ -6,15 +6,16 @@ export interface MappingProduct {
   partnerName: string;
   storeName: string;
   productCode: string;
+  status: string;
 }
 
-export interface MappingProductToCreate {
+export interface PartnerProductToCreate {
   productId: number;
   partnerId: number;
   storeId: number;
   productCode: string;
 }
 
-export interface MappingProductToUpdate {
+export interface PartnerProductToUpdate {
   productCode: string;
 }

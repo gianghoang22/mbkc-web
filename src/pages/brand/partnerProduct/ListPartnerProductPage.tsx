@@ -6,137 +6,143 @@ import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagina
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
-import { getAllCategories, setAddCategory, setCategoryType } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllPartnerProducts } from 'redux/partnerProduct/partnerProductSlice';
+import { getProductEmpty, setAddProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
-import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
+import {
+  PartnerProductTableRow,
+  PartnerProductTableRowSkeleton,
+  PartnerProductTableToolbar,
+} from 'sections/partnerProduct';
 //
-import { CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy } from '@types';
+import { ListParams, OrderSort, OrderSortBy, PartnerProductTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
-function ListCategoryPage() {
+function ListPartnerProductPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { pathname } = useLocation();
-  const { categoryHeadCells } = useConfigHeadTable();
+  const { partnerProductHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { categories, isLoading } = useAppSelector((state) => state.category);
+  const { partnerProducts, isLoading, numberItems } = useAppSelector((state) => state.partnerProduct);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
+  const [orderBy, setOrderBy] = useState<keyof PartnerProductTable>(OrderSortBy.PRODUCT_NAME);
   const [filterName, setFilterName] = useState<string>('');
-
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setFilterName(event.target.value);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof PartnerProductTable) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
-  const isNotFound = !categories.length && !!filterName;
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - partnerProducts.length) : 0;
+
+  const isNotFound = !partnerProducts.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
-        type: CategoryType.NORMAL,
-        pageSize: rowsPerPage,
-        pageNumber: page + 1,
-        keySearchName: debounceValue,
-        keySortName: orderBy === OrderSortBy.NAME ? order : '',
-        keySortCode: orderBy === OrderSortBy.CODE ? order : '',
-        keySortStatus: orderBy === OrderSortBy.STATUS ? order : '',
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
   }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
-    dispatch<any>(getAllCategories(params));
+    dispatch<any>(getAllPartnerProducts(params));
   }, [params]);
 
   return (
     <>
       <Page
+        containerWidth="xl"
+        title={translate('page.title.list', { model: translate('model.lowercase.partnerProduct') })}
         pathname={pathname}
-        title={translate('page.title.list', { model: translate('model.lowercase.normalCategory') })}
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => [
           <Button
             variant="contained"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
-              navigate(PATH_BRAND_APP.category.newCategory);
-              dispatch(setCategoryType(CategoryType.NORMAL));
+              navigate(PATH_BRAND_APP.product.newProduct);
               dispatch(setRoutesToBack(pathname));
-              dispatch(setAddCategory());
+              dispatch(setAddProduct());
+              dispatch(getProductEmpty());
             }}
           >
-            {translate('button.add', { model: translate('model.lowercase.normalCategory') })}
+            {translate('button.add', { model: translate('model.lowercase.product') })}
           </Button>,
         ]}
       >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <CategoryTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <PartnerProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<CategoryTable>
+                  <CommonTableHead<PartnerProductTable>
                     showAction
-                    headCells={categoryHeadCells}
+                    headCells={partnerProductHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (
-                    <CategoryTableRowSkeleton length={categories.length} />
+                    <PartnerProductTableRowSkeleton length={partnerProducts.length} />
                   ) : (
                     <TableBody>
-                      {categories.map((category, index) => {
+                      {partnerProducts?.map((partnerProduct, index) => {
                         return (
-                          <CategoryTableRow
-                            key={category.categoryId}
-                            index={index}
-                            category={category}
-                            categoryType={CategoryType.NORMAL}
-                            length={categories.length}
+                          <PartnerProductTableRow
+                            key={partnerProduct.productId}
                             setPage={setPage}
+                            page={page + 1}
+                            rowsPerPage={rowsPerPage}
+                            length={partnerProducts.length}
+                            index={index}
+                            partnerProduct={partnerProduct}
                           />
                         );
                       })}
                       {emptyRows > 0 ||
-                        (categories.length === 0 && !filterName && (
+                        (partnerProducts.length === 0 && !filterName && (
                           <EmptyTable
-                            colNumber={categoryHeadCells.length + 2}
-                            model={translate('model.lowercase.category')}
+                            colNumber={partnerProductHeadCells.length + 2}
+                            model={translate('model.lowercase.product')}
                           />
                         ))}
                     </TableBody>
                   )}
-                  {isNotFound && <SearchNotFound colNumber={categoryHeadCells.length + 2} searchQuery={filterName} />}
+                  {isNotFound && (
+                    <SearchNotFound colNumber={partnerProductHeadCells.length + 2} searchQuery={filterName} />
+                  )}
                 </Table>
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={categories.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
-                page={page}
                 labelRowsPerPage={translate('table.rowsPerPage')}
+                page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
@@ -148,4 +154,4 @@ function ListCategoryPage() {
   );
 }
 
-export default ListCategoryPage;
+export default ListPartnerProductPage;

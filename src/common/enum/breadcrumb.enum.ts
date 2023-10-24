@@ -15,6 +15,8 @@ export enum Breadcrumb {
   EXTRA_CATEGORIES = 'extra-categories',
   PRODUCT = 'product',
   PRODUCTS = 'products',
+  PARTNER_PRODUCT = 'partner-product',
+  PARTNER_PRODUCTS = 'partner-products',
   CASHIER = 'cashier',
   CASHIERS = 'cashiers',
   ORDER = 'order',

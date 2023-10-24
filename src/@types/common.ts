@@ -8,6 +8,7 @@ export interface OptionParams {
   itemsPerPage?: number | null | string;
   currentPage?: number | null | string;
   isGetAll?: boolean | null | string;
+  status?: boolean | null | string;
   type?: boolean | null | string;
   idBrand?: null | number | string;
   idKitchenCenter?: null | number | string;
@@ -15,6 +16,7 @@ export interface OptionParams {
   idStore?: null | number | string;
   sortBy?: string | null;
   keySortName?: string | null;
+  keySortCode?: string | null;
   keySortStatus?: string | null;
 }
 

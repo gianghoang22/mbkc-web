@@ -5,7 +5,11 @@ export type OrderSort = 'asc' | 'desc';
 
 export enum OrderSortBy {
   NAME = 'name',
+  PRODUCT_NAME = 'productName',
+  PRODUCT_CODE = 'productCode',
+  CODE = 'code',
   PARTNER_NAME = 'partnerName',
+  STORE_NAME = 'storeName',
   STATUS = 'status',
 }
 
@@ -60,6 +64,14 @@ export interface StorePartnerTable {
   kitchenCenterName: string;
 }
 
+export interface PartnerProductTable {
+  productName: string;
+  productCode: string;
+  partnerName: string;
+  storeName: string;
+  status: string;
+}
+
 export interface StorePartnerDetailTable {
   partnerName: string;
   partnerLogo: string;
@@ -81,6 +93,8 @@ export interface ProductTable {
   code: string;
   displayOrder: number;
   sellingPrice: number;
+  discountPrice: number;
+  historicalPrice: number;
   type: string;
   category: string;
   status: string;

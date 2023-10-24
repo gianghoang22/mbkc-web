@@ -106,6 +106,8 @@ function ListProductPage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<ProductTable>
+                    hideDiscountPrice
+                    hideHistoricalPrice
                     showAction
                     headCells={productHeadCells}
                     order={order}

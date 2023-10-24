@@ -86,22 +86,25 @@ function AccountPopover() {
       </Button>
 
       <MenuPopover open={open} handleCloseMenu={handleCloseMenu} sx={{ width: 180 }}>
-        <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
-            <MenuItem
-              key={option.label}
-              onClick={() => {
-                handleCloseMenu();
-                handleNavigateProfile();
-              }}
-            >
-              {option.icon}
-              {option.label}
-            </MenuItem>
-          ))}
-        </Stack>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        {userAuth?.roleName !== Role.MBKC_ADMIN && (
+          <>
+            <Stack sx={{ p: 1 }}>
+              {MENU_OPTIONS.map((option) => (
+                <MenuItem
+                  key={option.label}
+                  onClick={() => {
+                    handleCloseMenu();
+                    handleNavigateProfile();
+                  }}
+                >
+                  {option.icon}
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Stack>
+            <Divider sx={{ borderStyle: 'dashed' }} />
+          </>
+        )}
 
         <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           <LogoutIcon sx={{ mr: 1 }} />

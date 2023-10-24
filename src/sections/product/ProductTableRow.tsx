@@ -5,7 +5,13 @@ import { Avatar, Box, IconButton, Switch, TableCell, TableRow, Typography } from
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { useAppDispatch } from 'redux/configStore';
-import { deleteProduct, getProductDetail_local, setEditProduct, updateStatusProduct } from 'redux/product/productSlice';
+import {
+  deleteProduct,
+  getProductDetail_local,
+  setEditProduct,
+  setProductType,
+  updateStatusProduct,
+} from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { Params, Product, ToUpdateStatus } from '@types';
@@ -19,6 +25,7 @@ interface ProductTableRowProps {
   product: Product;
   index: number;
   inTab?: boolean;
+  isInDetail?: boolean;
   page?: number;
   rowsPerPage?: number;
   length: number;
@@ -29,6 +36,7 @@ function ProductTableRow({
   index,
   product,
   inTab = false,
+  isInDetail = false,
   page = 1,
   rowsPerPage = 5,
   length,
@@ -45,6 +53,7 @@ function ProductTableRow({
     navigate(PATH_BRAND_APP.product.root + `/${product?.productId}`);
     dispatch(setRoutesToBack(pathname));
     dispatch(getProductDetail_local(product));
+    dispatch(setProductType(product.type));
   };
 
   const handleEdit = () => {
@@ -100,7 +109,7 @@ function ProductTableRow({
           </Typography>
         </TableCell>
         <TableCell align="left" width={150} onClick={handleNavigateDetail}>
-          <Typography variant="body2" width={140} noWrap>
+          <Typography variant="body2" width={!isInDetail ? 140 : 120} noWrap>
             {product?.code}
           </Typography>
         </TableCell>
@@ -110,12 +119,27 @@ function ProductTableRow({
         <TableCell align="left" onClick={handleNavigateDetail}>
           {fCurrencyVN(product?.sellingPrice)} đ
         </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
-          {product?.categoryName}
-        </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
-          {product?.type}
-        </TableCell>
+        {isInDetail && (
+          <>
+            <TableCell align="left" onClick={handleNavigateDetail}>
+              {fCurrencyVN(product?.discountPrice)} đ
+            </TableCell>
+            <TableCell align="left" onClick={handleNavigateDetail}>
+              {fCurrencyVN(product?.historicalPrice)} đ
+            </TableCell>
+          </>
+        )}
+        {!isInDetail && (
+          <>
+            <TableCell align="left" onClick={handleNavigateDetail}>
+              {product?.categoryName}
+            </TableCell>
+            <TableCell align="left" onClick={handleNavigateDetail}>
+              {product?.type}
+            </TableCell>
+          </>
+        )}
+
         <TableCell align="left" onClick={handleNavigateDetail}>
           <Label
             color={

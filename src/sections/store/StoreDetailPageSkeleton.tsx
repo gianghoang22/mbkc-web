@@ -1,18 +1,29 @@
 // @mui
-import { Box, IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material';
-import { Card } from '@mui/material';
-import { TablePagination } from '@mui/material';
-import { Paper } from '@mui/material';
-import { TableContainer } from '@mui/material';
-import { Divider, Grid, Skeleton, Stack } from '@mui/material';
+import {
+  Box,
+  Card,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Skeleton,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TablePagination,
+  TableRow,
+} from '@mui/material';
 import { StorePartnerDetailTable } from '@types';
 //
 import { Role } from 'common/enum';
 import { CommonTableHead } from 'components';
-import { useConfigHeadTable, usePagination, useResponsive } from 'hooks';
+import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 
 function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: string | null | undefined }) {
+  const { translate } = useLocales();
   const mdUp = useResponsive('up', 'lg', 'lg');
   const { storePartnerDetailHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -210,6 +221,7 @@ function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: stri
                 count={5}
                 page={page}
                 rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

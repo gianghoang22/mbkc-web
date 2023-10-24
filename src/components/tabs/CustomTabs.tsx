@@ -3,7 +3,7 @@ import React from 'react';
 import { CircularProgress, Fade, Tab, Tabs } from '@mui/material';
 //
 import { OrderTypeEnum, ProductTypeEnum } from '@types';
-import { Color } from 'common/enum';
+import { Color, Status } from 'common/enum';
 import Label from 'components/label/Label';
 import { useLocales } from 'hooks';
 
@@ -57,6 +57,16 @@ function CustomTabs<T extends string | number>({
               ? translate('orderType.done')
               : option.value === OrderTypeEnum.CANCEL
               ? translate('orderType.cancel')
+              : option.value === Status.ACTIVE
+              ? translate('status.active')
+              : option.value === Status.INACTIVE
+              ? translate('status.inactive')
+              : option.value === Status.BE_CONFIRMING
+              ? translate('status.beConfirming')
+              : option.value === Status.REJECTED
+              ? translate('status.reject')
+              : option.value === Status.ALL
+              ? translate('status.all')
               : translate('productType.all')
           }
           icon={

@@ -11,7 +11,7 @@ const ROOTS_PARTNERS = '/partners';
 const ROOTS_STORE_PARTNERS = '/store-partners';
 const ROOTS_CATEGORY = '/categories';
 const ROOTS_PRODUCTS = '/products';
-const ROOTS_MAPPING_PRODUCTS = '/mapping-products';
+const ROOTS_PARTNER_PRODUCTS = '/partner-products';
 const ROOTS_ORDERS = '/orders';
 const ROOTS_CASHIERS = '/cashiers';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
@@ -81,10 +81,11 @@ export const ROUTES_API_STORES = {
     searchValue = '',
     idBrand = '',
     idKitchenCenter = '',
+    status = '',
   }: OptionParams) => {
     return path(
       ROOTS_STORES,
-      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}`
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}&status=${status}`
     );
   },
   GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
@@ -130,10 +131,18 @@ export const ROUTES_API_STORE_PARTNERS = {
 
 export const ROUTES_API_CATEGORIES = {
   CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
-  GET_ALL_CATEGORY: ({ type = '', keySearchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
+  GET_ALL_CATEGORY: ({
+    type = '',
+    keySearchName = '',
+    currentPage = '',
+    itemsPerPage = '',
+    keySortName = '',
+    keySortCode = '',
+    keySortStatus = '',
+  }: OptionParams) =>
     path(
       ROOTS_CATEGORY,
-      `?type=${type}&keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+      `?type=${type}&keySearchName=${keySearchName}&keySortName=${keySortName}&keySortCode=${keySortCode}&keySortStatus=${keySortStatus}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
     ),
   GET_EXTRA_CATEGORY_OF_CATEGORY: ({
     keySearchName = '',
@@ -172,14 +181,20 @@ export const ROUTES_API_PRODUCTS = {
   DELETE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
 };
 
-export const ROUTES_API_MAPPING_PRODUCTS = {
-  CREATE_MAPPING_PRODUCT: pathRoot(ROOTS_MAPPING_PRODUCTS),
-  GET_ALL_MAPPING_PRODUCT: ({ searchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
-    path(ROOTS_MAPPING_PRODUCTS, `?searchName=${searchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`),
-  GET_MAPPING_PRODUCT_DETAIL: (productId: number, partnerId: number, storeId: number) =>
-    path(ROOTS_MAPPING_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
-  UPDATE_MAPPING_PRODUCT: (productId: number, partnerId: number, storeId: number) =>
-    path(ROOTS_MAPPING_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
+export const ROUTES_API_PARTNER_PRODUCTS = {
+  CREATE_PARTNER_PRODUCT: pathRoot(ROOTS_PARTNER_PRODUCTS),
+  GET_ALL_PARTNER_PRODUCT: ({ searchValue = '', currentPage = '', itemsPerPage = '', sortBy = '' }: OptionParams) =>
+    path(
+      ROOTS_PARTNER_PRODUCTS,
+      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sortBy}`
+    ),
+  GET_PARTNER_PRODUCT_DETAIL: (productId: number, partnerId: number, storeId: number) =>
+    path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
+  UPDATE_PARTNER_PRODUCT: (productId: number, partnerId: number, storeId: number) =>
+    path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
+  UPDATE_PARTNER_PRODUCT_STATUS: (productId: number, partnerId: number, storeId: number) =>
+    path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}/updating-status`),
+  DELETE_PARTNER_PRODUCT: (productId: number) => path(ROOTS_PARTNER_PRODUCTS, `/${productId}`),
 };
 
 export const ROUTES_API_CASHIERS = {

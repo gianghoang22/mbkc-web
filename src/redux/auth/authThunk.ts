@@ -14,11 +14,13 @@ import { ROUTES_API_ACCOUNT, ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { PATH_AUTH } from 'routes/paths';
 import {
   getErrorMessage,
+  getLanguage,
   getUserAuth,
   removeAuthenticated,
   removeSession,
   setAccessToken,
   setAuthenticated,
+  setLanguage,
   setRefreshToken,
   setUserAuth,
   setUserInfo,
@@ -143,10 +145,12 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
 
 export const logoutThunk = async (navigate: any, thunkAPI: any) => {
   try {
+    const currentLanguage = getLanguage();
     removeAuthenticated();
     removeSession();
     await navigate(PATH_AUTH.login);
     localStorage.clear();
+    setLanguage(currentLanguage ? currentLanguage : '');
     thunkAPI.dispatch(setUserInfo);
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error);

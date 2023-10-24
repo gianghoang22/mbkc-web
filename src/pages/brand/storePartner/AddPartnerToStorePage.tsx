@@ -1,14 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FormProvider, useForm } from 'react-hook-form';
-import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack } from '@mui/material';
-import { Box } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { createNewStorePartner } from 'redux/storePartner/storePartnerSlice';
-import { getStoreDetail } from 'redux/store/storeSlice';
 // section
 import { StorePartnerForm } from 'sections/storePartner';
 //
@@ -58,22 +55,7 @@ function AddPartnerToStorePage() {
     // ),
   });
 
-  const { handleSubmit, reset, watch } = createStoreForm;
-
-  const storeId = watch('storeId');
-
-  const paramsStoreDetail = useMemo(() => {
-    return {
-      storeId,
-      navigate,
-    };
-  }, [storeId, navigate]);
-
-  useEffect(() => {
-    if (storeId !== 0 && storeId !== undefined) {
-      dispatch(getStoreDetail(paramsStoreDetail));
-    }
-  }, [dispatch, navigate, paramsStoreDetail]);
+  const { handleSubmit, reset } = createStoreForm;
 
   const onSubmit = async (values: StorePartnerToCreate) => {
     const data = { ...values };

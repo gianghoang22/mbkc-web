@@ -1,9 +1,35 @@
 // @mui
-import { Divider, Grid, Skeleton, Stack, Box } from '@mui/material';
-import { useResponsive } from 'hooks';
+import {
+  Box,
+  Card,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Skeleton,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TablePagination,
+  Typography,
+  TableRow,
+} from '@mui/material';
+// redux
+import { useAppSelector } from 'redux/configStore';
+//
+import { CommonTableHead } from 'components';
+import { ProductTable, ProductTypeEnum } from '@types';
+import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
 
-function ProductDetailPageSkeleton() {
+function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProducts: number }) {
+  const { translate } = useLocales();
   const mdUp = useResponsive('up', 'lg', 'lg');
+  const { productHeadCells } = useConfigHeadTable();
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+
+  const { productType } = useAppSelector((state) => state.product);
 
   return (
     <>
@@ -50,34 +76,113 @@ function ProductDetailPageSkeleton() {
               <Skeleton width={150} />
             </Stack>
 
-            <Divider />
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Skeleton width={120} />
-              <Skeleton width={150} />
-            </Stack>
-
-            <Divider />
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Skeleton width={120} />
-              <Skeleton width={150} />
-            </Stack>
-
-            <Divider />
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Skeleton width={120} />
-              <Skeleton width={150} />
-            </Stack>
-
-            <Divider />
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Skeleton width={120} />
-              <Skeleton width={150} />
-            </Stack>
-
-            <Divider />
+            {productType !== ProductTypeEnum.PARENT && (
+              <>
+                <Divider />
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Skeleton width={120} />
+                  <Skeleton width={150} />
+                </Stack>
+                <Divider />
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Skeleton width={120} />
+                  <Skeleton width={150} />
+                </Stack>
+                <Divider />
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Skeleton width={120} />
+                  <Skeleton width={150} />
+                </Stack>
+                <Divider />
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Skeleton width={120} />
+                  <Skeleton width={150} />
+                </Stack>
+              </>
+            )}
           </Stack>
         </Grid>
       </Grid>
+
+      {productType === ProductTypeEnum.PARENT && (
+        <Card sx={{ mt: 7 }}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
+            <Typography variant="h6">{translate('page.content.productInPartner')}</Typography>
+          </Stack>
+
+          <Box sx={{ width: '100%' }}>
+            <Paper sx={{ width: '100%', mb: 2 }}>
+              <TableContainer>
+                <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                  <CommonTableHead<ProductTable>
+                    hideCategory
+                    hideType
+                    showAction
+                    headCells={productHeadCells}
+                    onRequestSort={() => {}}
+                  />
+
+                  <TableBody>
+                    {Array.from({ length: lengthChildProducts }).map((_, index) => {
+                      return (
+                        <TableRow key={index} hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
+                          <TableCell width={60} align="center">
+                            <Stack direction="row" alignItems="center" justifyContent="center">
+                              <Skeleton width={20} />
+                            </Stack>
+                          </TableCell>
+                          <TableCell component="th" padding="none" align="center" width={80}>
+                            <Skeleton variant="circular" width={40} height={40} />
+                          </TableCell>
+                          <TableCell component="th" scope="row" padding="none" width={160}>
+                            <Skeleton />
+                          </TableCell>
+                          <TableCell align="left" width={152}>
+                            <Skeleton />
+                          </TableCell>
+                          <TableCell align="left" width={125}>
+                            <Skeleton />
+                          </TableCell>
+                          <TableCell align="left" width={110}>
+                            <Skeleton />
+                          </TableCell>
+                          <TableCell align="left" width={117}>
+                            <Skeleton />
+                          </TableCell>
+                          <TableCell align="left" width={110}>
+                            <Skeleton />
+                          </TableCell>
+                          <TableCell align="left">
+                            <Skeleton variant="rounded" width={120} height={24} />
+                          </TableCell>
+                          <TableCell align="right">
+                            <Stack direction="row" alignItems="center" justifyContent="right">
+                              <Skeleton variant="rounded" width={30} height={14} />
+                              <IconButton color="inherit">
+                                <Skeleton variant="circular" width={28} height={28} />
+                              </IconButton>
+                            </Stack>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={5}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+          </Box>
+        </Card>
+      )}
 
       <Stack direction="row" justifyContent="right" mt={10}>
         <Skeleton variant="rounded" width={79} height={36} />
