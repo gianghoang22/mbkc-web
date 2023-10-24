@@ -10,12 +10,13 @@ import {
   VerificationForm,
 } from '@types';
 import { axiosClient } from 'api/axiosClient';
+import { Language } from 'common/enum';
 import { ROUTES_API_ACCOUNT, ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { PATH_AUTH } from 'routes/paths';
 import {
   getErrorMessage,
   getLanguage,
-  getUserAuth,
+  handleResponseMessage,
   removeAuthenticated,
   removeSession,
   setAccessToken,
@@ -26,6 +27,8 @@ import {
   setUserInfo,
 } from 'utils';
 import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
+
+const currentLanguage = getLanguage();
 
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
   const { data, navigate } = params;
@@ -41,7 +44,9 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
     setRefreshToken(response.tokens.refreshToken);
     setUserAuth(userStorage);
     setAuthenticated();
-    thunkAPI.dispatch(setMessageSuccess('Login successfully'));
+    thunkAPI.dispatch(
+      setMessageSuccess(currentLanguage === Language.ENGLISH ? 'Login successfully.' : 'Đăng nhập thành công.')
+    );
     return userStorage;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -59,11 +64,10 @@ export const updatePasswordThunk = async (params: Params<UpdatePasswordFormApi>,
       data
     );
     if (response) {
-      thunkAPI.dispatch(setMessageSuccess('Update Password Successfully.'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
       thunkAPI.dispatch(getUserInformation({ accountId: idParams?.accountId, navigate }));
-      thunkAPI.dispatch(getUserAuth());
     }
-    return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
     thunkAPI.dispatch(setMessageError(errorMessage));
@@ -75,7 +79,6 @@ export const getUserInfoThunk = async (params: any, thunkAPI: any) => {
   const { accountId, navigate } = params;
 
   try {
-    console.log('call again');
     const response: UserInfo = await axiosClient.get(ROUTES_API_ACCOUNT.ACCOUNT_INFORMATION(accountId));
     if (response) {
       const userStorage = {
@@ -101,7 +104,8 @@ export const forgotPasswordThunk = async (params: Params<EmailForm>, thunkAPI: a
     const response: MessageResponse = await axiosClient.post(ROUTES_API_AUTH.FORGOT_PASSWORD, data);
     if (response) {
       navigate(PATH_AUTH.verificationOTP);
-      thunkAPI.dispatch(setMessageSuccess('Sent email confirmation successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -117,7 +121,8 @@ export const verifyOtpThunk = async (params: Params<VerificationForm>, thunkAPI:
     const response: MessageResponse = await axiosClient.post(ROUTES_API_AUTH.VERIFY_OTP, data);
     if (response) {
       navigate(PATH_AUTH.resetPassword);
-      thunkAPI.dispatch(setMessageSuccess('Confirmed OTP Code Successfully.'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -133,7 +138,8 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
     const response: MessageResponse = await axiosClient.put(ROUTES_API_AUTH.RESET_PASSWORD, data);
     if (response) {
       navigate(PATH_AUTH.login);
-      thunkAPI.dispatch(setMessageSuccess('Reset Password Successfully.'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

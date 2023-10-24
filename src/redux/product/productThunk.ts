@@ -3,7 +3,7 @@ import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { appendData, getErrorMessage } from 'utils';
+import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllProducts, getProductDetail } from './productSlice';
 
 export const getAllProductsThunk = async (params: any, thunkAPI: any) => {
@@ -74,7 +74,8 @@ export const createNewProductThunk = async (params: Params<ProductToCreateParams
       };
       thunkAPI.dispatch(getAllProducts(paramsCallback));
       navigate(PATH_BRAND_APP.product.list);
-      thunkAPI.dispatch(setMessageSuccess('Created new product successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -111,7 +112,8 @@ export const updateProductThunk = async (params: Params<ProductToUpdate>, thunkA
         await thunkAPI.dispatch(getAllProducts(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
-      thunkAPI.dispatch(setMessageSuccess('Update product successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -140,7 +142,8 @@ export const updateStatusProductThunk = async (params: Params<ToUpdateStatus>, t
 
       await thunkAPI.dispatch(getAllProducts(paramsCallback));
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
-      thunkAPI.dispatch(setMessageSuccess('Update product status successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -167,7 +170,8 @@ export const deleteProductThunk = async (params: Params<Product>, thunkAPI: any)
       };
       await thunkAPI.dispatch(getAllProducts(paramsCallback));
       navigate(PATH_BRAND_APP.product.list);
-      thunkAPI.dispatch(setMessageSuccess('Deleted product successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

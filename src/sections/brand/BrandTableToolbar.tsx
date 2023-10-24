@@ -1,16 +1,15 @@
 import ReplayIcon from '@mui/icons-material/Replay';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { Language } from 'common/enum';
 
-import { IconButton, InputAdornment, Tooltip, Stack, TextField, MenuItem } from '@mui/material';
+import { IconButton, InputAdornment, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 //
-import { useDebounce, useLocales, usePagination } from 'hooks';
-import { StyledRoot, StyledSearch } from '../styles';
-import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import { ListParams } from '@types';
+import { useLocales, usePagination } from 'hooks';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllBrands } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
+import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +21,7 @@ interface StoreTableToolbarProps {
 }
 
 function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: StoreTableToolbarProps) {
-  const { translate, currentLang } = useLocales();
+  const { translate } = useLocales();
   const { page, rowsPerPage } = usePagination();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

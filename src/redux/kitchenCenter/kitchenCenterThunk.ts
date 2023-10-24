@@ -3,7 +3,7 @@ import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_KITCHEN_CENTER } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { getErrorMessage } from 'utils';
+import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllKitchenCenters } from './kitchenCenterSlice';
 
 export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: any) => {
@@ -44,7 +44,8 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
     );
     if (response) {
       navigate(PATH_ADMIN_APP.kitchenCenter.list);
-      thunkAPI.dispatch(setMessageSuccess('Create kitchen center successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -63,7 +64,8 @@ export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
       updateKitchenCenterOptions
     );
     if (response) {
-      thunkAPI.dispatch(setMessageSuccess('Update kitchen center successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -88,10 +90,13 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
   };
 
   try {
-    const response = await axiosClient.delete(ROUTES_API_KITCHEN_CENTER.DELETE_KITCHEN_CENTER(kitchenCenterId));
+    const response: MessageResponse = await axiosClient.delete(
+      ROUTES_API_KITCHEN_CENTER.DELETE_KITCHEN_CENTER(kitchenCenterId)
+    );
     if (response) {
       thunkAPI.dispatch(getAllKitchenCenters(params_callback));
-      thunkAPI.dispatch(setMessageSuccess('Deleted kitchen center successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -115,12 +120,16 @@ export const updateStatusKitchenCenterThunk = async (params: any, thunkAPI: any)
   };
 
   try {
-    const response = await axiosClient.put(ROUTES_API_KITCHEN_CENTER.UPDATE_STATUS_KITCHEN_CENTER(kitchenCenterId), {
-      status: status,
-    });
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_KITCHEN_CENTER.UPDATE_STATUS_KITCHEN_CENTER(kitchenCenterId),
+      {
+        status: status,
+      }
+    );
     if (response) {
       await thunkAPI.dispatch(getAllKitchenCenters(paramsCallback));
-      thunkAPI.dispatch(setMessageSuccess('Update status kitchen center successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

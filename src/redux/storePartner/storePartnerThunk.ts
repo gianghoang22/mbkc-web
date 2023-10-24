@@ -13,7 +13,7 @@ import { axiosClient } from 'api/axiosClient';
 import { ROUTES_API_STORE_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { getErrorMessage } from 'utils';
+import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllStorePartners, getAllStorePartnersByStoreId } from './storePartnerSlice';
 
 export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any) => {
@@ -76,7 +76,8 @@ export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCr
       };
       thunkAPI.dispatch(getAllStorePartners(params));
       navigate(PATH_BRAND_APP.storePartner.list);
-      thunkAPI.dispatch(setMessageSuccess('Created new store partner successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -121,7 +122,8 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
           })
         );
       }
-      thunkAPI.dispatch(setMessageSuccess('Update store partner successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -166,7 +168,8 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
           })
         );
       }
-      thunkAPI.dispatch(setMessageSuccess('Update store partner status successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -210,7 +213,8 @@ export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thun
           })
         );
       }
-      thunkAPI.dispatch(setMessageSuccess('Deleted store partner successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

@@ -1,10 +1,10 @@
 import { NavigateFunction } from 'react-router-dom';
 //
-import { BrandProfile, KitchenCenterProfile, Params, UpdateBrandProfile } from '@types';
+import { BrandProfile, KitchenCenterProfile, MessageResponse, Params, UpdateBrandProfile } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_BRANDS, ROUTES_API_KITCHEN_CENTER } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { appendData, getErrorMessage, setBrandInfo, setKitchenCenterInfo } from 'utils';
+import { appendData, getErrorMessage, handleResponseMessage, setBrandInfo, setKitchenCenterInfo } from 'utils';
 import { getBrandProfile } from './profileSlice';
 
 export const getKitchenCenterProfileThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
@@ -40,13 +40,14 @@ export const updateBrandProfileThunk = async (params: Params<UpdateBrandProfile>
   const formData = appendData(data);
 
   try {
-    const response = await axiosFormData.put(
+    const response: MessageResponse = await axiosFormData.put(
       ROUTES_API_BRANDS.UPDATE_PROFILE_BRAND(idParams?.brandId ? idParams?.brandId : 0),
       formData
     );
     if (response) {
       await thunkAPI.dispatch(getBrandProfile(navigate));
-      thunkAPI.dispatch(setMessageSuccess('Update brand information successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

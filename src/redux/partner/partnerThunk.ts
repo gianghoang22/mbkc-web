@@ -1,8 +1,8 @@
-import { ListParams, Params, Partner, PartnerToCreate, PartnerToUpdate } from '@types';
+import { ListParams, MessageResponse, Params, Partner, PartnerToCreate, PartnerToUpdate } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { appendData, getErrorMessage } from 'utils';
+import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllPartners } from './partnerSlice';
 
 export const getAllPartnersThunk = async (params: ListParams, thunkAPI: any) => {
@@ -36,7 +36,7 @@ export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thu
   const formData = appendData(data);
 
   try {
-    const response = await axiosFormData.post(ROUTES_API_PARTNERS.CREATE_PARTNER, formData);
+    const response: MessageResponse = await axiosFormData.post(ROUTES_API_PARTNERS.CREATE_PARTNER, formData);
     if (response) {
       const paramsCallback = {
         optionParams: {
@@ -46,7 +46,8 @@ export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thu
         navigate,
       };
       await thunkAPI.dispatch(getAllPartners(paramsCallback));
-      thunkAPI.dispatch(setMessageSuccess('Created new partner successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -61,7 +62,7 @@ export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkA
   const formData = appendData(data);
 
   try {
-    const response = await axiosFormData.put(
+    const response: MessageResponse = await axiosFormData.put(
       ROUTES_API_PARTNERS.UPDATE_PARTNER(idParams?.partnerId ? idParams.partnerId : 0),
       formData
     );
@@ -74,7 +75,8 @@ export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkA
         navigate,
       };
       await thunkAPI.dispatch(getAllPartners(paramsCallback));
-      thunkAPI.dispatch(setMessageSuccess('Update partner successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -88,7 +90,7 @@ export const deletePartnerThunk = async (params: Params<Partner>, thunkAPI: any)
   const { idParams, optionParams, navigate } = params;
 
   try {
-    const response = await axiosClient.delete(
+    const response: MessageResponse = await axiosClient.delete(
       ROUTES_API_PARTNERS.DELETE_PARTNER(idParams?.partnerId ? idParams.partnerId : 0)
     );
     if (response) {
@@ -100,7 +102,8 @@ export const deletePartnerThunk = async (params: Params<Partner>, thunkAPI: any)
         navigate,
       };
       await thunkAPI.dispatch(getAllPartners(paramsCallback));
-      thunkAPI.dispatch(setMessageSuccess('Deleted partner successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
