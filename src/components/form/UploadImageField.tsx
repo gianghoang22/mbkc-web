@@ -1,18 +1,30 @@
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 // @mui
-import { Box, FormHelperText, Typography } from '@mui/material';
+import { Box, FormHelperText, Typography, Stack } from '@mui/material';
 //
 import UploadAvatar from '../upload/UploadAvatar';
 
 interface UploadImageFieldProps {
   name: string;
   label: string;
+  subLabel?: string;
   defaultValue?: any;
   isEditing: boolean;
+  margin?: string;
+  captionWidth?: number;
 }
 
-const UploadImageField: FC<UploadImageFieldProps> = ({ name, label, defaultValue = '', isEditing, ...others }) => {
+const UploadImageField: FC<UploadImageFieldProps> = ({
+  name,
+  label,
+  subLabel,
+  defaultValue = '',
+  isEditing,
+  margin,
+  captionWidth,
+  ...others
+}) => {
   const { control } = useFormContext();
 
   return (
@@ -23,6 +35,8 @@ const UploadImageField: FC<UploadImageFieldProps> = ({ name, label, defaultValue
       render={({ field, fieldState }) => (
         <Box sx={{ mb: 5, width: 'fit-content' }} {...others}>
           <UploadAvatar
+            sx={{ margin }}
+            captionWidth={captionWidth}
             caption={
               <Typography
                 variant="caption"
@@ -32,6 +46,19 @@ const UploadImageField: FC<UploadImageFieldProps> = ({ name, label, defaultValue
                 }}
               >
                 {label}
+                {subLabel && (
+                  <Stack>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        mt: 0.5,
+                        color: 'text.secondary',
+                      }}
+                    >
+                      {subLabel}
+                    </Typography>
+                  </Stack>
+                )}
               </Typography>
             }
             error={Boolean(fieldState.error)}

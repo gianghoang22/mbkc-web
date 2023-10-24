@@ -14,6 +14,7 @@
     "detail": "Chi tiết",
     "contentLogo": "Chọn file logo của {{model}}",
     "contentImage": "Chọn file hỉnh ảnh của {{model}}",
+    "imageAllowed": "Cho phép *.jpeg, *.jpg, *.png.",
     "dragDrop": "Kéo và thả hoặc chọn tập tin",
     "generalInformation": "Thông tin chung",
     "storeOfBrand": "Danh sách {{model}} của {{name}}",

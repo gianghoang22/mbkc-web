@@ -14,6 +14,7 @@
     "detail": "Detail",
     "contentLogo": "Select the file of the {{model}}'s logo",
     "contentImage": "Select the file of the {{model}}'s image",
+    "imageAllowed": "Allowed *.jpeg, *.jpg, *.png.",
     "dragDrop": "Drag and drop or select files",
     "generalInformation": "General information",
     "storeOfBrand": "List {{model}} of {{name}}",

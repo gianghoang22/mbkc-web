@@ -44,18 +44,7 @@ function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: Stor
       <Stack direction="row" gap={2}>
         <Stack width={170}>
           <TextField
-            label={translate(
-              'page.form.nameExchange',
-              currentLang.value === Language.ENGLISH
-                ? {
-                    model: translate('table.status'),
-                    name: translate('table.lowercase.type'),
-                  }
-                : {
-                    model: translate('page.form.name'),
-                    name: translate('table.lowercase.status'),
-                  }
-            )}
+            label={translate('table.status')}
             select
             size="small"
             value={status}
@@ -63,8 +52,8 @@ function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: Stor
             fullWidth
           >
             <MenuItem value="">None</MenuItem>
-            <MenuItem value="Active">Active</MenuItem>
-            <MenuItem value="Inactive">Inactive</MenuItem>
+            <MenuItem value="Active">{translate('status.active')}</MenuItem>
+            <MenuItem value="Inactive">{translate('status.inactive')}</MenuItem>
           </TextField>
         </Stack>
         <Stack>

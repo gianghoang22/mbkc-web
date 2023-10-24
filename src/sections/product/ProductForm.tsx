@@ -65,6 +65,8 @@ function ProductForm({ productsParent, categories }: ProductFormProps) {
           </Stack>
           <UploadImageField
             label={translate('page.content.dragDrop')}
+            subLabel={translate('page.content.imageAllowed')}
+            margin="auto"
             name="image"
             defaultValue=""
             isEditing={isEditing}

@@ -22,6 +22,8 @@ function CategoryForm() {
           </Stack>
           <UploadImageField
             label={translate('page.content.dragDrop')}
+            subLabel={translate('page.content.imageAllowed')}
+            margin="auto"
             name="imageUrl"
             defaultValue=""
             isEditing={isEditing}

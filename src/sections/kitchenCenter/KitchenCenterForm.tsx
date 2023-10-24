@@ -20,6 +20,8 @@ function KitchenCenterForm() {
           </Stack>
           <UploadImageField
             label={translate('page.content.dragDrop')}
+            subLabel={translate('page.content.imageAllowed')}
+            captionWidth={200}
             name="Logo"
             defaultValue=""
             isEditing={isEditing}
