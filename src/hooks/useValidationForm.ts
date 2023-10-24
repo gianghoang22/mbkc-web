@@ -378,7 +378,8 @@ function useValidationForm() {
       .required(translate('page.validation.required', { name: translate('table.lowercase.email') })),
     citizenNumber: yup
       .string()
-      .required(translate('page.validation.required', { name: translate('model.lowercase.citizenNumber') })),
+      .required(translate('page.validation.required', { name: translate('model.lowercase.citizenNumber') }))
+      .matches(/^[0-9]{12}$/, translate('page.validation.citizenNumberLimit12Number')),
     dateOfBirth: yup
       .string()
       .required(translate('page.validation.required', { name: translate('model.lowercase.dateOfBirth') })),

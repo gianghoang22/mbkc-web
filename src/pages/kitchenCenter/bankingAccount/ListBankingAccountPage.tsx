@@ -7,7 +7,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { BankingAccount, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { getAllBankingAccounts, setAddBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
@@ -57,16 +57,18 @@ function ListBankingAccountPage() {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const debounceValue = useDebounce(filterName, 500);
+
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        searchValue: filterName,
+        searchValue: debounceValue,
       },
       navigate,
     };
-  }, [page, rowsPerPage, filterName, navigate]);
+  }, [page, rowsPerPage, navigate, debounceValue]);
 
   useEffect(() => {
     dispatch(getAllBankingAccounts(params));

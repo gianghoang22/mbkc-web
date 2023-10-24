@@ -84,12 +84,12 @@ function CreateCashierPage() {
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
             <Button variant="outlined" color="inherit" onClick={() => navigate(PATH_KITCHEN_CENTER_APP.cashier.list)}>
-              Back
+              {translate('button.back')}
             </Button>
             <Stack direction="row" gap={2}>
               {isEditing && (
                 <Button variant="contained" color="inherit">
-                  Reset
+                  {translate('button.reset')}
                 </Button>
               )}
               <Button
@@ -98,7 +98,7 @@ function CreateCashierPage() {
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
               >
-                {isEditing ? 'Update' : 'Create'}
+                {isEditing ? translate('button.update') : translate('button.create')}
               </Button>
             </Stack>
           </Stack>
