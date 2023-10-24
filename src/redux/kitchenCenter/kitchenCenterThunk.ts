@@ -25,7 +25,9 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
   const { kitchenCenterId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_KITCHEN_CENTER.GET_KITCHEN_CENTER_DETAIL(kitchenCenterId));
+    const response: KitchenCenter = await axiosClient.get(
+      ROUTES_API_KITCHEN_CENTER.GET_KITCHEN_CENTER_DETAIL(kitchenCenterId)
+    );
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -88,7 +90,9 @@ export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
   };
 
   try {
-    const response = await axiosClient.delete(ROUTES_API_KITCHEN_CENTER.DELETE_KITCHEN_CENTER(kitchenCenterId));
+    const response: MessageResponse = await axiosClient.delete(
+      ROUTES_API_KITCHEN_CENTER.DELETE_KITCHEN_CENTER(kitchenCenterId)
+    );
     if (response) {
       thunkAPI.dispatch(getAllKitchenCenters(params_callback));
       thunkAPI.dispatch(setMessageSuccess('Deleted kitchen center successfully'));
@@ -115,9 +119,12 @@ export const updateStatusKitchenCenterThunk = async (params: any, thunkAPI: any)
   };
 
   try {
-    const response = await axiosClient.put(ROUTES_API_KITCHEN_CENTER.UPDATE_STATUS_KITCHEN_CENTER(kitchenCenterId), {
-      status: status,
-    });
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_KITCHEN_CENTER.UPDATE_STATUS_KITCHEN_CENTER(kitchenCenterId),
+      {
+        status: status,
+      }
+    );
     if (response) {
       await thunkAPI.dispatch(getAllKitchenCenters(paramsCallback));
       thunkAPI.dispatch(setMessageSuccess('Update status kitchen center successfully'));

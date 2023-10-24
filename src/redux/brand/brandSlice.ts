@@ -16,6 +16,7 @@ interface BrandState {
   isSuccess: boolean;
   brands: Brand[];
   brand: Brand | null;
+  numberItems: number;
 }
 
 const initialState: BrandState = {
@@ -25,6 +26,7 @@ const initialState: BrandState = {
   isSuccess: false,
   brands: [],
   brand: null,
+  numberItems: 0,
 };
 
 export const createNewBrand = createAsyncThunk('brand/create-brand', createNewBrandThunk);
@@ -75,6 +77,7 @@ const brandSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.brands = [...action.payload?.brands];
+        state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllBrands.rejected, (state, action) => {
         state.isLoading = false;
