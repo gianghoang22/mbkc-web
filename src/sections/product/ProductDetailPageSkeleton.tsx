@@ -16,12 +16,14 @@ import {
   Typography,
   TableRow,
 } from '@mui/material';
-import { ProductTable, ProductTypeEnum } from '@types';
-import { CommonTableHead } from 'components';
-import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
+// redux
 import { useAppSelector } from 'redux/configStore';
+//
+import { CommonTableHead } from 'components';
+import { ProductTable, ProductTypeEnum } from '@types';
+import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
 
-function ProductDetailPageSkeleton() {
+function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProducts: number }) {
   const { translate } = useLocales();
   const mdUp = useResponsive('up', 'lg', 'lg');
   const { productHeadCells } = useConfigHeadTable();
@@ -121,7 +123,7 @@ function ProductDetailPageSkeleton() {
                   />
 
                   <TableBody>
-                    {Array.from({ length: 3 }).map((productChild, index) => {
+                    {Array.from({ length: lengthChildProducts }).map((_, index) => {
                       return (
                         <TableRow key={index} hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
                           <TableCell width={60} align="center">

@@ -39,11 +39,6 @@ export interface StoreToConfirm {
 
 export const STORE_STATUS_TABS = [
   {
-    value: Status.ALL,
-    label: 'All',
-    id: 'all',
-  },
-  {
     value: Status.ACTIVE,
     label: 'Active',
     id: 'Act',
