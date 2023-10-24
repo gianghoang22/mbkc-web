@@ -3,7 +3,7 @@ import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_BRANDS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { getErrorMessage } from 'utils';
+import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllBrands } from './brandSlice';
 
 export const getAllBrandsThunk = async (params: ListParams, thunkAPI: any) => {
@@ -38,8 +38,9 @@ export const createNewBrandThunk = async (params: any, thunkAPI: any) => {
   try {
     const response: MessageResponse = await axiosFormData.post('/brands', newBrand);
     if (response) {
-      params.navigate(PATH_ADMIN_APP.brand.list);
-      thunkAPI.dispatch(setMessageSuccess('Created new brand successfully'));
+      navigate(PATH_ADMIN_APP.brand.list);
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -55,7 +56,8 @@ export const updateBrandThunk = async (params: any, thunkAPI: any) => {
   try {
     const response: MessageResponse = await axiosFormData.put(`/brands/${brandId}`, updateBrandOptions);
     if (response) {
-      thunkAPI.dispatch(setMessageSuccess('Update brand successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -81,7 +83,8 @@ export const deleteBrandThunk = async (params: any, thunkAPI: any) => {
   try {
     const response: MessageResponse = await axiosClient.delete(`/brands/${brandId}`);
     if (response) {
-      thunkAPI.dispatch(setMessageSuccess('Deleted Brand Successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
       thunkAPI.dispatch(getAllBrands(params_callback));
     }
     return response;
@@ -111,7 +114,8 @@ export const updateStatusBrandThunk = async (params: any, thunkAPI: any) => {
     });
     if (response) {
       await thunkAPI.dispatch(getAllBrands(paramsCallback));
-      thunkAPI.dispatch(setMessageSuccess('Update status brand successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

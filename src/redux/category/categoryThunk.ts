@@ -13,7 +13,7 @@ import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_CATEGORIES } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { appendData, getErrorMessage } from 'utils';
+import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllCategories, getAllExtraCategoriesInCategory, getCategoryDetail } from './categorySlice';
 
 export const getAllCategoriesThunk = async (params: ListParams, thunkAPI: any) => {
@@ -67,7 +67,8 @@ export const createNewCategoryThunk = async (params: Params<CategoryToCreate>, t
     const response: MessageResponse = await axiosFormData.post(ROUTES_API_CATEGORIES.CREATE_CATEGORY, formData);
     if (response) {
       navigate(data?.type === CategoryType.NORMAL ? PATH_BRAND_APP.category.list : PATH_BRAND_APP.category.extraList);
-      thunkAPI.dispatch(setMessageSuccess('Created new category successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -95,7 +96,8 @@ export const addExtraCategoryThunk = async (params: Params<AddExtraCategory>, th
         navigate,
       };
       await thunkAPI.dispatch(getAllExtraCategoriesInCategory(paramsCallback));
-      thunkAPI.dispatch(setMessageSuccess('Add extra category successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -133,7 +135,8 @@ export const updateCategoryThunk = async (params: Params<CategoryToUpdate>, thun
         await thunkAPI.dispatch(getAllCategories(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.category.list);
-      thunkAPI.dispatch(setMessageSuccess('Update category successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -161,7 +164,8 @@ export const deleteCategoryThunk = async (params: Params<Category>, thunkAPI: an
       };
       await thunkAPI.dispatch(getAllCategories(paramsCallback));
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.category.list);
-      thunkAPI.dispatch(setMessageSuccess('Deleted category successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

@@ -3,7 +3,7 @@ import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getErrorMessage } from 'utils';
+import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllBankingAccounts } from './bankingAccountSlice';
 
 export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: any) => {
@@ -45,8 +45,9 @@ export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) =
       newBankingAccountOptions
     );
     if (response) {
-      params.navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.list);
-      thunkAPI.dispatch(setMessageSuccess('Created new banking account successfully'));
+      navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.list);
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -65,7 +66,8 @@ export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
       updateBankingAccountOptions
     );
     if (response) {
-      thunkAPI.dispatch(setMessageSuccess('Update banking account successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -94,7 +96,8 @@ export const deleteBankingAccountThunk = async (params: any, thunkAPI: any) => {
     );
     if (response) {
       thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
-      thunkAPI.dispatch(setMessageSuccess('Deleted banking account successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -126,7 +129,8 @@ export const updateStatusBankingAccountThunk = async (params: any, thunkAPI: any
     );
     if (response) {
       await thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
-      thunkAPI.dispatch(setMessageSuccess('Update status banking account successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

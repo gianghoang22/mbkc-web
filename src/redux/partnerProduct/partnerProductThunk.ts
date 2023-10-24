@@ -10,7 +10,7 @@ import { axiosClient } from 'api/axiosClient';
 import { ROUTES_API_PARTNER_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { getErrorMessage } from 'utils';
+import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllPartnerProducts, getPartnerProductDetail } from './partnerProductSlice';
 
 export const getAllPartnerProductsThunk = async (params: any, thunkAPI: any) => {
@@ -55,7 +55,8 @@ export const createNewPartnerProductThunk = async (params: Params<PartnerProduct
       };
       thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       navigate(PATH_BRAND_APP.partnerProduct.list);
-      thunkAPI.dispatch(setMessageSuccess('Created new product successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -95,7 +96,8 @@ export const updatePartnerProductThunk = async (params: Params<PartnerProductToU
         await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
-      thunkAPI.dispatch(setMessageSuccess('Update mapping product successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -127,7 +129,8 @@ export const updateStatusPartnerProductThunk = async (params: Params<ToUpdateSta
       };
       await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.partnerProduct.list);
-      thunkAPI.dispatch(setMessageSuccess('Update partner product status successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -167,7 +170,8 @@ export const deletePartnerProductThunk = async (params: Params<PartnerProduct>, 
       }
       await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       navigate(PATH_BRAND_APP.product.list);
-      thunkAPI.dispatch(setMessageSuccess('Deleted partner product successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {

@@ -13,7 +13,7 @@ import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_STORES } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { appendData, getErrorMessage } from 'utils';
+import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllStores, getStoreDetail } from './storeSlice';
 
 export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
@@ -58,7 +58,8 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
       };
       thunkAPI.dispatch(getAllStores(params));
       navigate(PATH_BRAND_APP.store.list);
-      thunkAPI.dispatch(setMessageSuccess('Created new store successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -95,7 +96,8 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
         await thunkAPI.dispatch(getAllStores(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
-      thunkAPI.dispatch(setMessageSuccess('Update store successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -123,7 +125,8 @@ export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thu
       };
       await thunkAPI.dispatch(getAllStores(paramsCallback));
       navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
-      thunkAPI.dispatch(setMessageSuccess('Update store status successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -159,7 +162,8 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
         await thunkAPI.dispatch(getAllStores(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
-      thunkAPI.dispatch(setMessageSuccess('Confirm store successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
@@ -186,7 +190,8 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
       };
       await thunkAPI.dispatch(getAllStores(paramsCallback));
       navigate(PATH_BRAND_APP.store.list);
-      thunkAPI.dispatch(setMessageSuccess('Deleted store successfully'));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
     }
     return response;
   } catch (error: any) {
