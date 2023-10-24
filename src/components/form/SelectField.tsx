@@ -1,5 +1,8 @@
 /* eslint-disable react/prop-types */
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
+import { CategoryType, PartnerProductStatusEnum, ProductTypeEnum } from '@types';
+import { Status } from 'common/enum';
+import { useLocales } from 'hooks';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface Option<T> {
@@ -36,6 +39,8 @@ function SelectField<T extends string | number>({
   helperText,
   ...props
 }: SelectFieldProps<T>) {
+  const { translate } = useLocales();
+
   const { control } = useFormContext();
   return (
     <Controller
@@ -60,7 +65,33 @@ function SelectField<T extends string | number>({
             {children ??
               options?.map(({ label, value }) => (
                 <MenuItem value={value} key={`${value}`}>
-                  {label}
+                  {label === PartnerProductStatusEnum.IN_STOCK
+                    ? translate('status.inStock')
+                    : label === PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
+                    ? translate('status.outOfStockToday')
+                    : label === PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY
+                    ? translate('status.outOfStockIndefinitely')
+                    : label === Status.ACTIVE
+                    ? translate('status.active')
+                    : label === Status.INACTIVE
+                    ? translate('status.inactive')
+                    : label === Status.BE_CONFIRMING
+                    ? translate('status.beConfirming')
+                    : label === Status.REJECTED
+                    ? translate('status.reject')
+                    : value === ProductTypeEnum.PARENT
+                    ? translate('productType.parent')
+                    : value === ProductTypeEnum.CHILD
+                    ? translate('productType.child')
+                    : value === ProductTypeEnum.SINGLE
+                    ? translate('productType.single')
+                    : value === ProductTypeEnum.EXTRA
+                    ? translate('productType.extra')
+                    : value === CategoryType.NORMAL
+                    ? translate('categoryType.normal')
+                    : value === CategoryType.EXTRA
+                    ? translate('categoryType.extra')
+                    : label}
                 </MenuItem>
               ))}
             {!children && !options?.length && (

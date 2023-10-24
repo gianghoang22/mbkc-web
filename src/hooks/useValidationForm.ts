@@ -259,6 +259,38 @@ function useValidationForm() {
       .required(translate('page.validation.select', { name: translate('model.lowercase.category') })),
   });
 
+  const schemaPartnerProduct = yup.object({
+    productId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.product') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.product') })),
+    partnerId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.partner') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.partner') })),
+    storeId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.store') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.store') })),
+    status: yup.string().required(translate('page.validation.select', { name: translate('table.status') })),
+    productCode: yup.string().required(
+      translate('page.validation.required', {
+        name: translate(
+          'page.form.nameExchange',
+          currentLang.value === Language.ENGLISH
+            ? {
+                model: translate('model.lowercase.product'),
+                name: translate('page.form.codeLower'),
+              }
+            : {
+                model: translate('page.form.codeLower'),
+                name: translate('model.lowercase.product'),
+              }
+        ),
+      })
+    ),
+  });
+
   const schemaPartner = yup.object({
     name: yup.string().required(
       translate('page.validation.required', {
@@ -427,6 +459,7 @@ function useValidationForm() {
     schemaUpdateProfile,
     schemaKitchenCenter,
     schemaUpdateStorePartner,
+    schemaPartnerProduct,
   };
 }
 

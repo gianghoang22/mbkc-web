@@ -322,36 +322,14 @@ function useConfigHeadTable() {
     },
     {
       id: 'partnerName',
-      label: translate(
-        'page.form.nameExchange',
-        currentLang.value === Language.ENGLISH
-          ? {
-              model: translate('model.capitalizeOne.partner'),
-              name: translate('page.form.nameLower'),
-            }
-          : {
-              model: translate('page.form.name'),
-              name: translate('model.lowercase.partner'),
-            }
-      ),
+      label: translate('model.capitalizeOne.partner'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: true,
     },
     {
       id: 'storeName',
-      label: translate(
-        'page.form.nameExchange',
-        currentLang.value === Language.ENGLISH
-          ? {
-              model: translate('model.capitalizeOne.store'),
-              name: translate('page.form.nameLower'),
-            }
-          : {
-              model: translate('page.form.name'),
-              name: translate('model.lowercase.store'),
-            }
-      ),
+      label: translate('model.capitalizeOne.store'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
