@@ -16,6 +16,7 @@ interface CashierState {
   isSuccess: boolean;
   cashiers: Cashier[];
   cashier: Cashier | null;
+  numberItems: number;
 }
 
 const initialState: CashierState = {
@@ -25,6 +26,7 @@ const initialState: CashierState = {
   isSuccess: false,
   cashiers: [],
   cashier: null,
+  numberItems: 0,
 };
 
 export const createNewCashier = createAsyncThunk('cashier/create-cashier', createNewCashierThunk);
@@ -72,6 +74,7 @@ const CashierSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.cashiers = [...action.payload?.cashiers];
+        state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllCashiers.rejected, (state, action) => {
         state.isLoading = false;

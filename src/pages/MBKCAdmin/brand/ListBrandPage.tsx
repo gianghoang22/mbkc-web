@@ -28,7 +28,7 @@ function ListBrandPage() {
   const [filterName, setFilterName] = useState<string>('');
   const [status, setStatus] = useState<string>('');
 
-  const { brands, isLoading } = useAppSelector((state) => state.brand);
+  const { brands, isLoading, numberItems } = useAppSelector((state) => state.brand);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BrandTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -42,12 +42,9 @@ function ListBrandPage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - brands.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(brands, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, brands]
-  );
+  const visibleRows = useMemo(() => stableSort(brands, getComparator(order, orderBy)), [order, orderBy, brands]);
 
   const isNotFound = !visibleRows.length && !!filterName;
 
@@ -136,7 +133,7 @@ function ListBrandPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={brands.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
                 labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}

@@ -1,4 +1,4 @@
-import { ListParams } from '@types';
+import { BankingAccount, ListParams, ListResponse, MessageResponse } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -10,7 +10,9 @@ export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: a
   const { navigate, optionParams } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
+    const response: ListResponse<BankingAccount> = await axiosClient.get(
+      ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams)
+    );
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -23,7 +25,9 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
   const { bankingAccountId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_BANKING_ACCOUNT_DETAIL(bankingAccountId));
+    const response: BankingAccount = await axiosClient.get(
+      ROUTES_API_BANKING_ACCOUNTS.GET_BANKING_ACCOUNT_DETAIL(bankingAccountId)
+    );
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -36,7 +40,7 @@ export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) =
   const { navigate, newBankingAccountOptions } = params;
 
   try {
-    const response = await axiosFormData.post(
+    const response: MessageResponse = await axiosFormData.post(
       ROUTES_API_BANKING_ACCOUNTS.CREATE_BANKING_ACCOUNT,
       newBankingAccountOptions
     );
@@ -56,7 +60,7 @@ export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
   const { bankingAccountId, navigate, updateBankingAccountOptions } = params;
 
   try {
-    const response = await axiosFormData.put(
+    const response: MessageResponse = await axiosFormData.put(
       ROUTES_API_BANKING_ACCOUNTS.UPDATE_BANKING_ACCOUNT(bankingAccountId),
       updateBankingAccountOptions
     );
@@ -85,7 +89,9 @@ export const deleteBankingAccountThunk = async (params: any, thunkAPI: any) => {
   };
 
   try {
-    const response = await axiosClient.delete(ROUTES_API_BANKING_ACCOUNTS.DELETE_BANKING_ACCOUNT(bankingAccountId));
+    const response: MessageResponse = await axiosClient.delete(
+      ROUTES_API_BANKING_ACCOUNTS.DELETE_BANKING_ACCOUNT(bankingAccountId)
+    );
     if (response) {
       thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
       thunkAPI.dispatch(setMessageSuccess('Deleted banking account successfully'));
@@ -112,7 +118,7 @@ export const updateStatusBankingAccountThunk = async (params: any, thunkAPI: any
   };
 
   try {
-    const response = await axiosClient.put(
+    const response: MessageResponse = await axiosClient.put(
       ROUTES_API_BANKING_ACCOUNTS.UPDATE_STATUS_BANKING_ACCOUNT(bankingAccountId),
       {
         status: status,

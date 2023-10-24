@@ -26,7 +26,7 @@ function ListBankingAccountPage() {
   const { bankingAccountHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { bankingAccounts, isLoading } = useAppSelector((state) => state.bankingAccount);
+  const { bankingAccounts, isLoading, numberItems } = useAppSelector((state) => state.bankingAccount);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BankingAccount>('name');
@@ -44,15 +44,11 @@ function ListBankingAccountPage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bankingAccounts.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(bankingAccounts, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, bankingAccounts]
+    () => stableSort(bankingAccounts, getComparator(order, orderBy)),
+    [order, orderBy, bankingAccounts]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
@@ -138,7 +134,7 @@ function ListBankingAccountPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={bankingAccounts.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
                 labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}

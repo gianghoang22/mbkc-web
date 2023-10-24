@@ -32,7 +32,7 @@ function ListKitchenCenterPage(props: any) {
   const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>('name');
   const [filterName, setFilterName] = useState<string>('');
 
-  const { kitchenCenters, isLoading } = useAppSelector((state) => state.kitchenCenter);
+  const { kitchenCenters, isLoading, numberItems } = useAppSelector((state) => state.kitchenCenter);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenCenterTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -46,15 +46,11 @@ function ListKitchenCenterPage(props: any) {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - kitchenCenters.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(kitchenCenters, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, kitchenCenters]
+    () => stableSort(kitchenCenters, getComparator(order, orderBy)),
+    [order, orderBy, kitchenCenters]
   );
 
   const isNotFound = !visibleRows.length && !!filterName;
@@ -140,7 +136,7 @@ function ListKitchenCenterPage(props: any) {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={kitchenCenters.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 labelRowsPerPage={translate('table.rowsPerPage')}

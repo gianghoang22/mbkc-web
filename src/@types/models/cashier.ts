@@ -1,4 +1,5 @@
 import { Gender, Status } from 'common/enum';
+import { KitchenCenter } from './kitchenCenter';
 
 export interface Cashier {
   accountId: number;
@@ -9,14 +10,7 @@ export interface Cashier {
   avatar: string;
   citizenNumber: string;
   status: Status;
-  kitchenCenter?: {
-    kitchenCenterId: number;
-    name: string;
-    address: string;
-    status: string;
-    logo: string;
-    kitchenCenterManagerEmail: string;
-  };
+  kitchenCenter: KitchenCenter;
 }
 
 export interface CashierToCreate {
