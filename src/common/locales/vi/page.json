@@ -74,6 +74,7 @@
     "discountPriceContent": "Sản phẩm được giảm giá...",
     "historicalPriceContent": "Chi phí sản xuất sản phẩm",
     "nameProductHelperText": "Tên của sản phẩm con: tên sản phẩm cha + size được chọn",
-    "formatUrl": "Chưa đúng format của url"
+    "formatUrl": "Chưa đúng format của url",
+    "citizenNumberLimit9Number": "Số chứng minh nhân dân phải đủ 9 chữ số"
   }
 }

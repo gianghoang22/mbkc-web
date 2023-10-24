@@ -8,7 +8,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //
 import { BrandTable, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -51,23 +51,23 @@ function ListBrandPage() {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const debounceValue = useDebounce(filterName, 500);
+
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
-        keySearchName: filterName,
+        keySearchName: debounceValue,
         keyStatusFilter: status,
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
       },
       navigate,
     };
-  }, [page, rowsPerPage, filterName, navigate, status]);
+  }, [page, rowsPerPage, debounceValue, navigate, status]);
 
   useEffect(() => {
     dispatch(getAllBrands(params));
   }, [dispatch, navigate, params]);
-
-  console.log(status);
 
   return (
     <>

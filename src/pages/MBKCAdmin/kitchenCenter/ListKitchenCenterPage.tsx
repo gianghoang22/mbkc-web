@@ -11,7 +11,7 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { KitchenCenterTable, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import {
   KitchenCenterTableRow,
@@ -59,16 +59,18 @@ function ListKitchenCenterPage(props: any) {
 
   const isNotFound = !visibleRows.length && !!filterName;
 
+  const debounceValue = useDebounce(filterName, 500);
+
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        keySearchName: filterName,
+        keySearchName: debounceValue,
       },
       navigate,
     };
-  }, [page, rowsPerPage, filterName, navigate]);
+  }, [page, rowsPerPage, debounceValue, navigate]);
 
   useEffect(() => {
     dispatch(getAllKitchenCenters(params));

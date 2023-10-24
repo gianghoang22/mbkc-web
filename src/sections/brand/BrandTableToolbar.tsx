@@ -4,9 +4,13 @@ import { Language } from 'common/enum';
 
 import { IconButton, InputAdornment, Tooltip, Stack, TextField, MenuItem } from '@mui/material';
 //
-import { useLocales } from 'hooks';
+import { useDebounce, useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
+import { ListParams } from '@types';
+import { useNavigate } from 'react-router-dom';
+import { getAllBrands } from 'redux/brand/brandSlice';
+import { useAppDispatch } from 'redux/configStore';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +23,21 @@ interface StoreTableToolbarProps {
 
 function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: StoreTableToolbarProps) {
   const { translate, currentLang } = useLocales();
+  const { page, rowsPerPage } = usePagination();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        keySearchName: filterName,
+        keyStatusFilter: status,
+        currentPage: page + 1,
+        itemsPerPage: rowsPerPage,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, navigate, status, filterName]);
 
   return (
     <StyledRoot>
@@ -64,7 +83,7 @@ function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: Stor
       </Stack>
 
       <Tooltip title={translate('button.reload')}>
-        <IconButton>
+        <IconButton onClick={() => dispatch(getAllBrands(params))}>
           <ReplayIcon />
         </IconButton>
       </Tooltip>
