@@ -11,7 +11,10 @@
     "inactive": "Inactive",
     "deActive": "Deactive",
     "beConfirming": "Confirming",
-    "reject": "Rejected"
+    "reject": "Rejected",
+    "inStock": "In Stock",
+    "outOfStockToday": "Out of stock today",
+    "outOfStockIndefinitely": "Out of stock indefinitely"
   },
   "header": {
     "account": "Account",
@@ -46,7 +49,9 @@
     "updatePhoto": "Update photo",
     "close": "Close",
     "continue": "Continue",
-    "setting": "Setting"
+    "setting": "Setting",
+    "createProductLink": "Create product links",
+    "updateProductLink": "Update product links"
   },
   "common": {
     "welcome": "Hi, Welcome Back",
@@ -100,6 +105,10 @@
     "create-new": "Creation",
     "registration": "Registration",
     "information": "Information"
+  },
+  "categoryType": {
+    "normal": "Normal",
+    "extra": "Extra"
   },
   "productType": {
     "all": "All Products",

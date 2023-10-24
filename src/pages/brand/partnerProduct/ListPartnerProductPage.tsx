@@ -4,22 +4,21 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import LinkIcon from '@mui/icons-material/Link';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllPartnerProducts } from 'redux/partnerProduct/partnerProductSlice';
-import { getProductEmpty, setAddProduct } from 'redux/product/productSlice';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { getAllPartnerProducts, setAddPartnerProduct } from 'redux/partnerProduct/partnerProductSlice';
 // section
 import {
+  CreatePartnerProductModal,
   PartnerProductTableRow,
   PartnerProductTableRowSkeleton,
   PartnerProductTableToolbar,
 } from 'sections/partnerProduct';
 //
 import { ListParams, OrderSort, OrderSortBy, PartnerProductTable } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { CommonTableHead, EmptyTable, LoadingScreen, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
 function ListPartnerProductPage() {
@@ -27,10 +26,16 @@ function ListPartnerProductPage() {
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
   const { pathname } = useLocation();
+  const { handleOpen, isOpen } = useModal();
   const { partnerProductHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { isLoading: isLoadingStore } = useAppSelector((state) => state.store);
+  const { isLoading: isLoadingPartner } = useAppSelector((state) => state.partner);
+  const { isLoading: isLoadingProduct } = useAppSelector((state) => state.product);
   const { partnerProducts, isLoading, numberItems } = useAppSelector((state) => state.partnerProduct);
+
+  console.log('partnerProducts', partnerProducts);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof PartnerProductTable>(OrderSortBy.PRODUCT_NAME);
@@ -72,6 +77,12 @@ function ListPartnerProductPage() {
 
   return (
     <>
+      {(isLoadingStore || isLoadingPartner || isLoadingProduct) && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
+      )}
+
       <Page
         containerWidth="xl"
         title={translate('page.title.list', { model: translate('model.lowercase.partnerProduct') })}
@@ -80,15 +91,13 @@ function ListPartnerProductPage() {
         actions={() => [
           <Button
             variant="contained"
-            startIcon={<AddRoundedIcon />}
+            startIcon={<LinkIcon />}
             onClick={() => {
-              navigate(PATH_BRAND_APP.product.newProduct);
-              dispatch(setRoutesToBack(pathname));
-              dispatch(setAddProduct());
-              dispatch(getProductEmpty());
+              handleOpen();
+              dispatch(setAddPartnerProduct());
             }}
           >
-            {translate('button.add', { model: translate('model.lowercase.product') })}
+            {translate('button.createProductLink')}
           </Button>,
         ]}
       >
@@ -150,6 +159,8 @@ function ListPartnerProductPage() {
           </Box>
         </Card>
       </Page>
+
+      {isOpen && <CreatePartnerProductModal isOpen={isOpen} handleOpen={handleOpen} />}
     </>
   );
 }

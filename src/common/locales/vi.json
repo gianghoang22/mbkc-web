@@ -11,7 +11,10 @@
     "inactive": "Không hoạt động",
     "deActive": "Vô hiệu hóa",
     "beConfirming": "Đang xác nhận",
-    "reject": "Từ chối"
+    "reject": "Từ chối",
+    "inStock": "Còn hàng",
+    "outOfStockToday": "Hết hàng hôm nay",
+    "outOfStockIndefinitely": "Hết hàng vô thời hạn"
   },
   "header": {
     "account": "Tài khoản",
@@ -46,7 +49,9 @@
     "updatePhoto": "Cập nhật hình ảnh",
     "close": "Đóng",
     "continue": "Tiếp tục",
-    "setting": "Cài đặt"
+    "setting": "Cài đặt",
+    "createProductLink": "Tạo liên kết sản phẩm",
+    "updateProductLink": "Cập nhật liên kết sản phẩm"
   },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",
@@ -100,6 +105,10 @@
     "registration": "Đăng ký",
     "create-new": "Tạo mới",
     "information": "Thông tin"
+  },
+  "categoryType": {
+    "normal": "Thường",
+    "extra": "Extra"
   },
   "productType": {
     "all": "Tất cả sản phẩm",

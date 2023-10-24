@@ -95,6 +95,11 @@ export const brandRoutes: Route[] = [
     index: false,
   },
   {
+    path: PATH_BRAND_APP.partnerProduct.detailById,
+    component: <ProductDetailPage />,
+    index: false,
+  },
+  {
     path: PATH_BRAND_APP.category.list,
     component: <ListCategoryPage />,
     index: false,

@@ -181,6 +181,19 @@ function KitchenCenterDetailPage() {
           <Card>
             <Box sx={{ width: '100%' }}>
               <Paper sx={{ width: '100%', mb: 2 }}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  px={3}
+                  py={2}
+                  sx={{ borderBottom: 1, borderColor: 'divider' }}
+                >
+                  <Typography variant="h6">
+                    {translate('page.title.list', { model: translate('model.lowercase.store') })}
+                  </Typography>
+                </Stack>
+
                 <StoreTableToolbar
                   haveSelectStatus
                   filterName={filterName}

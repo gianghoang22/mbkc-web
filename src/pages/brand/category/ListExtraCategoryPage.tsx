@@ -79,7 +79,7 @@ function ListExtraCategoryPage() {
             variant="contained"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
-              navigate(PATH_BRAND_APP.category.newCategory);
+              navigate(PATH_BRAND_APP.category.newCategoryExtra);
               dispatch(setCategoryType(CategoryType.EXTRA));
               dispatch(setRoutesToBack(pathname));
               dispatch(setAddCategory());
