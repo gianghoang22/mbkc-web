@@ -82,10 +82,11 @@ export const ROUTES_API_STORES = {
     idBrand = '',
     idKitchenCenter = '',
     status = '',
+    isGetAll = '',
   }: OptionParams) => {
     return path(
       ROOTS_STORES,
-      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}&status=${status}`
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}&status=${status}&isGetAll=${isGetAll}`
     );
   },
   GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
@@ -194,7 +195,8 @@ export const ROUTES_API_PARTNER_PRODUCTS = {
     path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
   UPDATE_PARTNER_PRODUCT_STATUS: (productId: number, partnerId: number, storeId: number) =>
     path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}/updating-status`),
-  DELETE_PARTNER_PRODUCT: (productId: number) => path(ROOTS_PARTNER_PRODUCTS, `/${productId}`),
+  DELETE_PARTNER_PRODUCT: (productId: number, partnerId: number, storeId: number) =>
+    path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
 };
 
 export const ROUTES_API_CASHIERS = {

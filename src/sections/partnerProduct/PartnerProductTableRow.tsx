@@ -5,19 +5,20 @@ import { IconButton, Switch, TableCell, TableRow, Typography } from '@mui/materi
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { useAppDispatch } from 'redux/configStore';
-import { deleteProduct } from 'redux/product/productSlice';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 import {
+  deletePartnerProduct,
   getPartnerProductDetail_local,
   setEditPartnerProduct,
   updateStatusPartnerProduct,
 } from 'redux/partnerProduct/partnerProductSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { Params, PartnerProduct, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
+import CreatePartnerProductModal from './CreatePartnerProductModal';
 
 interface PartnerProductTableRowProps {
   partnerProduct: PartnerProduct;
@@ -41,16 +42,17 @@ function PartnerProductTableRow({
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
+  const { handleOpen: handleOpenUpdate, isOpen: isOpenUpdate } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = () => {
-    navigate(PATH_BRAND_APP.product.root + `/${partnerProduct?.productId}`);
+    navigate(PATH_BRAND_APP.partnerProduct.root + `/${partnerProduct?.productId}`);
     dispatch(getPartnerProductDetail_local(partnerProduct));
     dispatch(setRoutesToBack(pathname));
   };
 
   const handleEdit = () => {
-    navigate(PATH_BRAND_APP.partnerProduct.root + `/updation/${partnerProduct?.productId}`);
+    handleOpenUpdate();
     dispatch(setEditPartnerProduct(partnerProduct));
     dispatch(setRoutesToBack(pathname));
   };
@@ -61,7 +63,7 @@ function PartnerProductTableRow({
       setPage(0);
     }
     dispatch(
-      deleteProduct({
+      deletePartnerProduct({
         idParams: {
           productId: partnerProduct?.productId,
           partnerId: partnerProduct.partnerId,
@@ -150,6 +152,14 @@ function PartnerProductTableRow({
       </TableRow>
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+
+      {isOpenUpdate && (
+        <CreatePartnerProductModal
+          isOpen={isOpenUpdate}
+          handleOpen={handleOpenUpdate}
+          partnerProduct={partnerProduct}
+        />
+      )}
 
       {isOpen && (
         <ConfirmDialog

@@ -91,6 +91,9 @@ export const PATH_BRAND_APP = {
   partnerProduct: {
     root: path(ROOTS_BRAND_DASHBOARD, '/partner-product'),
     list: path(ROOTS_BRAND_DASHBOARD, '/partner-products'),
+    detailById: path(ROOTS_BRAND_DASHBOARD, '/partner-product/:id'),
+    editById: path(ROOTS_BRAND_DASHBOARD, '/partner-product/updation/:id'),
+    newPartnerProduct: path(ROOTS_BRAND_DASHBOARD, '/partner-product/creation'),
   },
 };
 

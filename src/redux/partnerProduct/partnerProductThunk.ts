@@ -1,4 +1,11 @@
-import { MessageResponse, Params, ProductToCreateParams, ProductToUpdate, ToUpdateStatus } from '@types';
+import {
+  MessageResponse,
+  Params,
+  PartnerProduct,
+  PartnerProductToCreate,
+  PartnerProductToUpdate,
+  ToUpdateStatus,
+} from '@types';
 import { axiosClient } from 'api/axiosClient';
 import { ROUTES_API_PARTNER_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -11,7 +18,6 @@ export const getAllPartnerProductsThunk = async (params: any, thunkAPI: any) => 
 
   try {
     const response = await axiosClient.get(ROUTES_API_PARTNER_PRODUCTS.GET_ALL_PARTNER_PRODUCT(optionParams));
-    console.log(response);
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -35,21 +41,20 @@ export const getPartnerProductDetailThunk = async (params: any, thunkAPI: any) =
   }
 };
 
-export const createNewPartnerProductThunk = async (params: Params<ProductToCreateParams>, thunkAPI: any) => {
+export const createNewPartnerProductThunk = async (params: Params<PartnerProductToCreate>, thunkAPI: any) => {
   const { data, optionParams, navigate } = params;
-
   try {
     const response: MessageResponse = await axiosClient.post(ROUTES_API_PARTNER_PRODUCTS.CREATE_PARTNER_PRODUCT, data);
     if (response) {
       const paramsCallback = {
         optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
         navigate,
       };
       thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
-      navigate(PATH_BRAND_APP.product.list);
+      navigate(PATH_BRAND_APP.partnerProduct.list);
       thunkAPI.dispatch(setMessageSuccess('Created new product successfully'));
     }
     return response;
@@ -60,7 +65,7 @@ export const createNewPartnerProductThunk = async (params: Params<ProductToCreat
   }
 };
 
-export const updatePartnerProductThunk = async (params: Params<ProductToUpdate>, thunkAPI: any) => {
+export const updatePartnerProductThunk = async (params: Params<PartnerProductToUpdate>, thunkAPI: any) => {
   const { data, idParams, pathname, optionParams, navigate } = params;
 
   try {
@@ -75,17 +80,16 @@ export const updatePartnerProductThunk = async (params: Params<ProductToUpdate>,
     if (response) {
       const paramsCallback = {
         optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
         navigate,
       };
-      if (
-        pathname
-          ?.split('/')
-          .slice(2)
-          .filter((x) => x)[1] === 'detail'
-      ) {
+      const pathToBack = pathname
+        ?.split('/')
+        .slice(2)
+        .filter((x) => x)[1];
+      if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
         await thunkAPI.dispatch(getPartnerProductDetail({ productId: idParams?.productId, navigate }));
       } else {
         await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
@@ -124,6 +128,46 @@ export const updateStatusPartnerProductThunk = async (params: Params<ToUpdateSta
       await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.partnerProduct.list);
       thunkAPI.dispatch(setMessageSuccess('Update partner product status successfully'));
+    }
+    return response;
+  } catch (error: any) {
+    const errorMessage = getErrorMessage(error, navigate);
+    thunkAPI.dispatch(setMessageError(errorMessage));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const deletePartnerProductThunk = async (params: Params<PartnerProduct>, thunkAPI: any) => {
+  const { idParams, optionParams, pathname, navigate } = params;
+
+  try {
+    const response: MessageResponse = await axiosClient.delete(
+      ROUTES_API_PARTNER_PRODUCTS.DELETE_PARTNER_PRODUCT(
+        idParams?.productId ? idParams?.productId : 0,
+        idParams?.partnerId ? idParams?.partnerId : 0,
+        idParams?.storeId ? idParams?.storeId : 0
+      )
+    );
+    if (response) {
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+        },
+        navigate,
+      };
+      const pathToBack = pathname
+        ?.split('/')
+        .slice(2)
+        .filter((x) => x)[1];
+      if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
+        await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
+      } else {
+        await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
+      }
+      await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
+      navigate(PATH_BRAND_APP.product.list);
+      thunkAPI.dispatch(setMessageSuccess('Deleted partner product successfully'));
     }
     return response;
   } catch (error: any) {

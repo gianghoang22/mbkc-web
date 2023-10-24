@@ -4,6 +4,7 @@ import { StorageKeys } from 'constants/storageKeys';
 import { getIsEditing, getPartnerProduct, setLocalStorage, setPartnerProduct } from 'utils';
 import {
   createNewPartnerProductThunk,
+  deletePartnerProductThunk,
   getAllPartnerProductsThunk,
   getPartnerProductDetailThunk,
   updatePartnerProductThunk,
@@ -57,6 +58,10 @@ export const updateStatusPartnerProduct = createAsyncThunk(
   'partner-product/update-status-partner-product',
   updateStatusPartnerProductThunk
 );
+export const deletePartnerProduct = createAsyncThunk(
+  'partner-product/delete-status-partner-product',
+  deletePartnerProductThunk
+);
 
 const partnerProductSlice = createSlice({
   name: 'partnerProduct',
@@ -68,11 +73,11 @@ const partnerProductSlice = createSlice({
     },
     setEditPartnerProduct: (state, action) => {
       state.isEditing = true;
-      state.partnerProducts = action.payload;
+      state.partnerProduct = action.payload;
       setLocalStorage(StorageKeys.IS_EDIT_PARTNER_PRODUCT, true);
     },
     getPartnerProductDetail_local: (state, action) => {
-      state.partnerProducts = action.payload;
+      state.partnerProduct = action.payload;
       setPartnerProduct(action.payload);
     },
   },
@@ -143,6 +148,19 @@ const partnerProductSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(updateStatusPartnerProduct.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(deletePartnerProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deletePartnerProduct.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(deletePartnerProduct.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

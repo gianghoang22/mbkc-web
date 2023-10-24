@@ -9,6 +9,7 @@ interface Option {
   image?: string;
   address?: string;
   center?: string;
+  category?: string;
 }
 
 interface AutoCompleteFieldProps {
@@ -64,6 +65,7 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
             value: option.value,
             address: option.address,
             center: option.center,
+            category: option.category,
             image: option.image,
           }))}
           getOptionLabel={getOptionLabel}
@@ -89,6 +91,11 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
                   {option.center && (
                     <Typography variant="body2" color="GrayText">
                       {translate('table.kitchenCenter')}: {option.center}
+                    </Typography>
+                  )}
+                  {option.category && (
+                    <Typography variant="body2" color="GrayText">
+                      {translate('model.capitalizeOne.category')}: {option.category}
                     </Typography>
                   )}
                 </Stack>
