@@ -1,9 +1,10 @@
 export const EngMessageConstant = {
+  LoginSuccessfully: 'Login Successfully.',
   ResetPasswordSuccessfully: 'Reset Password Successfully.',
-
   UpdateAccountSuccessfully: 'Updated Account Successfully.',
   SentEmailConfirmationSuccessfully: 'Sent Email Confirmation Successfully.',
   ConfirmedOTPCodeSuccessfully: 'Confirmed OTP Code Successfully.',
+
   CreatedNewKitchenCenterSuccessfully: 'Created New Kitchen Center Successfully.',
   UpdatedKitchenCenterSuccessfully: 'Updated Kitchen Center Information Successfully.',
   UpdatedKitchenCenterStatusSuccessfully: 'Updated Kitchen Center Status Successfully.',

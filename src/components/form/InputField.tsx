@@ -12,6 +12,7 @@ interface InputFieldProps {
   fullWidth?: boolean;
   className?: string | null;
   size?: 'small' | 'medium' | 'large';
+  autoComplete?: string;
   isHidden?: boolean;
   required?: boolean;
   helperText?: string;
@@ -31,6 +32,7 @@ const InputField = ({
   fullWidth = false,
   className = null,
   size = 'small',
+  autoComplete,
   isHidden = false,
   required = false,
   multiline = false,

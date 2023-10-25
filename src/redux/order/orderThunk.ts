@@ -1,7 +1,7 @@
 import { axiosClient } from 'api/axiosClient';
 import { ROUTES_API_ORDERS } from 'constants/routesApiKeys';
 import { setMessageError } from 'redux/auth/authSlice';
-import { getErrorMessage } from 'utils';
+import { getErrorMessage, handleResponseMessage } from 'utils';
 
 export const getAllOrdersThunk = async (params: any, thunkAPI: any) => {
   const { navigate } = params;
@@ -11,7 +11,8 @@ export const getAllOrdersThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -24,7 +25,8 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
