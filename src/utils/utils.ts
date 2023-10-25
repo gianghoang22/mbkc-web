@@ -202,24 +202,17 @@ export const hashPasswordMD5 = (password: string) => Md5.hashStr(password);
 export const getErrorMessage = (error: any, navigate: any) => {
   console.log(error);
 
-  // const errorMessage = error?.response.data.Message[0].DescriptionError[0];
-  // const errorStatus = error?.response.status;
-
   if (error?.code === Error.SERVER_ERROR) {
     console.log(error);
     navigate(PATH_ERROR.serverError);
     return;
   }
 
-  // if (errorStatus === 401) {
-  //   navigate(PATH_AUTH.login);
-  // }
+  if (error?.data.StatusCode === 403) {
+    navigate(PATH_ERROR.noPermission);
+  }
 
-  // if (errorStatus === 403) {
-  //   navigate(PATH_ERROR.noPermission);
-  // }
-
-  return error?.response.data.Message[0].DescriptionError[0];
+  return error?.data.Message[0].DescriptionError[0];
 };
 
 // appendData
