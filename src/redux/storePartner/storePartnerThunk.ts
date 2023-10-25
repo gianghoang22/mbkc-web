@@ -5,7 +5,7 @@ import {
   Params,
   StorePartner,
   StorePartnerDetail,
-  StorePartnerToCreate,
+  StorePartnerToCreateAPI,
   StorePartnerToUpdate,
   ToUpdateStatus,
 } from '@types';
@@ -15,6 +15,7 @@ import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllStorePartners, getAllStorePartnersByStoreId } from './storePartnerSlice';
+import { getAllStores } from 'redux/store/storeSlice';
 
 export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -64,7 +65,7 @@ export const getStorePartnerDetailThunk = async (params: any, thunkAPI: any) => 
   }
 };
 
-export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCreate>, thunkAPI: any) => {
+export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCreateAPI>, thunkAPI: any) => {
   const { data, navigate } = params;
 
   try {
@@ -77,7 +78,8 @@ export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCr
         },
         navigate,
       };
-      thunkAPI.dispatch(getAllStorePartners(params));
+      await thunkAPI.dispatch(getAllStores(params));
+      // thunkAPI.dispatch(getAllStorePartners(params));
       navigate(PATH_BRAND_APP.storePartner.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));

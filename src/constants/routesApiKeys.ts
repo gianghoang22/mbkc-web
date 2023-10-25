@@ -113,6 +113,7 @@ export const ROUTES_API_PARTNERS = {
     ),
   GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
   UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
+  UPDATE_STATUS_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}/updating-status`),
   DELETE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
 };
 

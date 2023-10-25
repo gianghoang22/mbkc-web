@@ -112,7 +112,7 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
 };
 
 export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
-  const { data, idParams, pathname, optionParams, navigate } = params;
+  const { data, idParams, optionParams, navigate } = params;
 
   try {
     const response: MessageResponse = await axiosClient.put(
@@ -128,7 +128,6 @@ export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thu
         navigate,
       };
       await thunkAPI.dispatch(getAllStores(paramsCallback));
-      navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

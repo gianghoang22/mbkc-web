@@ -49,6 +49,7 @@ function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: Upd
     defaultValues: {
       userName: storePartner?.userName,
       password: storePartner?.password,
+      commission: storePartner?.commission,
     },
     resolver: yupResolver(schemaUpdateStorePartner),
   });

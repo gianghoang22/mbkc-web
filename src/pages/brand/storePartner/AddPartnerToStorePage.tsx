@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -7,11 +8,11 @@ import { Box, Button, Card, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { createNewStorePartner } from 'redux/storePartner/storePartnerSlice';
 // section
-import { StorePartnerForm } from 'sections/storePartner';
+import { AddStorePartnerConfirm, StorePartnerForm } from 'sections/storePartner';
 //
-import { Params, StorePartnerToCreate } from '@types';
+import { Params, StorePartnerToCreate, StorePartnerToCreateAPI } from '@types';
 import { LoadingScreen, Page } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useModal, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
 function AddPartnerToStorePage() {
@@ -20,51 +21,48 @@ function AddPartnerToStorePage() {
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
+  const { handleOpen, isOpen } = useModal();
+  const { schemaStorePartner } = useValidationForm();
 
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { isLoading } = useAppSelector((state) => state.storePartner);
-  const { store, isAddFormDetail, storeId: storeIdInStorage } = useAppSelector((state) => state.store);
 
   const defaultValues = {
-    storeId: isAddFormDetail ? (store?.storeId !== null ? store?.storeId : storeIdInStorage) : 0,
-    partnerAccountRequests: [
+    storeId: 0,
+    partnerAccounts: [
       {
         partnerId: 0,
         userName: '',
         password: '',
+        commission: 0,
       },
     ],
   };
 
   const createStoreForm = useForm<StorePartnerToCreate>({
     defaultValues,
-    // resolver: yupResolver(
-    //   yup.object({
-    //     storeId: yup
-    //       .number()
-    //       .typeError(translate('page.validation.select', { name: translate('model.lowercase.store') }))
-    //       .required(translate('page.validation.select', { name: translate('model.lowercase.store') })),
-    //     partnerAccountRequests: yup.array().of(
-    //       yup.object({
-    //         partnerId: yup.number(),
-    //         userName: yup.string(),
-    //         password: yup.string(),
-    //       })
-    //     ),
-    //   })
-    // ),
+    resolver: yupResolver(schemaStorePartner),
   });
 
-  const { handleSubmit, reset } = createStoreForm;
+  const { handleSubmit } = createStoreForm;
 
-  const onSubmit = async (values: StorePartnerToCreate) => {
+  const onSubmit = handleSubmit((values: StorePartnerToCreate) => {
     const data = { ...values };
-    const paramCreate: Params<StorePartnerToCreate> = {
-      data: data,
+    const paramCreate: Params<StorePartnerToCreateAPI> = {
+      data: { ...data, isMappingProducts: false },
       navigate,
     };
     dispatch(createNewStorePartner(paramCreate));
-  };
+  });
+
+  const onSubmitToLink = handleSubmit((values: StorePartnerToCreate) => {
+    const data = { ...values };
+    const paramCreate: Params<StorePartnerToCreateAPI> = {
+      data: { ...data, isMappingProducts: true },
+      navigate,
+    };
+    dispatch(createNewStorePartner(paramCreate));
+  });
 
   return (
     <>
@@ -81,23 +79,29 @@ function AddPartnerToStorePage() {
       >
         <FormProvider {...createStoreForm}>
           <Card sx={{ p: 3 }}>
-            <StorePartnerForm />
+            <StorePartnerForm defaultValues={defaultValues} />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
             <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
               {translate('button.back')}
             </Button>
             <Stack direction="row" gap={1.5}>
-              <Button variant="contained" color="inherit" disabled={isLoading} onClick={() => reset(defaultValues)}>
-                {translate('button.reset')}
-              </Button>
-              <Button type="submit" variant="contained" disabled={isLoading} onClick={handleSubmit(onSubmit)}>
+              <Button type="submit" variant="contained" disabled={isLoading} onClick={handleOpen}>
                 {translate('button.create')}
               </Button>
             </Stack>
           </Stack>
         </FormProvider>
       </Page>
+
+      {isOpen && (
+        <AddStorePartnerConfirm
+          isOpen={isOpen}
+          handleOpen={handleOpen}
+          onSubmit={onSubmit}
+          onSubmitToLink={onSubmitToLink}
+        />
+      )}
     </>
   );
 }

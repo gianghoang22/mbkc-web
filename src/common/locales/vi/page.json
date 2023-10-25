@@ -6,7 +6,8 @@
     "detail": "Chi tiết {{model}}",
     "search": "Tìm kiếm {{model}}...",
     "registration": "Từ chối đăng kí {{model}}",
-    "wallet": "Ví {{model}}"
+    "wallet": "Ví {{model}}",
+    "confirmLink": "Xác nhận liên kết"
   },
   "content": {
     "logo": "Logo",
@@ -28,7 +29,8 @@
     "total": "Tổng số {{model}}",
     "viewAll": "Xem tất cả",
     "selectStore": "Chọn cửa hàng để thêm đối tác",
-    "productInPartner": "Sản phẩm có trong các đối tác"
+    "productInPartner": "Sản phẩm có trong các đối tác",
+    "confirmLink": "Bạn có muốn hệ thông MBKC tự động liên kết sản phẩm với các đối tác bạn vừa chọn hay không?"
   },
   "form": {
     "email": "Email",
@@ -54,6 +56,7 @@
     "webUrlLower": "web URL",
     "userName": "Tên tài khoản",
     "accountPartner": "tài khoản đối tác",
+    "commission": "Phần trăm hoa hồng",
     "lowercase": {
       "userName": "tên tài khoản",
       "password": "mật khẩu"
@@ -77,6 +80,7 @@
     "historicalPriceContent": "Chi phí sản xuất sản phẩm",
     "nameProductHelperText": "Tên của sản phẩm con: tên sản phẩm cha + size được chọn",
     "formatUrl": "Chưa đúng format của url",
-    "citizenNumberLimit12Number": "Số chứng minh nhân dân phải đủ 12 chữ số"
+    "citizenNumberLimit12Number": "Số chứng minh nhân dân phải đủ 12 chữ số",
+    "commissionLimit100": "Phần trăm hoa hồng không được nhiều hơn 100%"
   }
 }

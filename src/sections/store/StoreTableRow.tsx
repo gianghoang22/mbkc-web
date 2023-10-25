@@ -117,7 +117,6 @@ function StoreTableRow({
         itemsPerPage: rowsPerPage,
         currentPage: page,
       },
-      pathname: pathname,
       navigate,
     };
     dispatch(updateStatusStore(paramUpdate));

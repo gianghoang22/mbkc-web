@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { Avatar, IconButton, InputBase, Stack, Switch, TableCell, TableRow } from '@mui/material';
+import { Avatar, IconButton, InputBase, Stack, Switch, TableCell, TableRow, Box } from '@mui/material';
 // redux
 import { useAppDispatch } from 'redux/configStore';
 import {
@@ -80,6 +80,9 @@ function StorePartnerTableDetailRow({ index, partner, storeId }: StorePartnerTab
 
         <TableCell align="left">{partner.partnerName}</TableCell>
 
+        <TableCell align="left">
+          <Box pl={2}>{partner.commission} %</Box>
+        </TableCell>
         <TableCell align="left">{partner.userName}</TableCell>
         <TableCell align="left">
           <Stack direction="row" alignItems="center" gap={3}>

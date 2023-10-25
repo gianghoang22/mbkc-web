@@ -77,12 +77,12 @@ function OnlyPartnerRow({ partner, storeId }: OnlyPartnerRowProps) {
         <Stack width={60}>
           <Avatar alt={partner.partnerName} src={partner.partnerLogo} />
         </Stack>
-        <Stack width={170} px={2}>
+        <Stack width={140} px={2}>
           <Typography variant="subtitle2" noWrap>
             {partner.partnerName}
           </Typography>
         </Stack>
-        <Stack width={170} px={2}>
+        <Stack width={140} px={2}>
           <Typography variant="caption" sx={{ color: (theme) => theme.palette.grey[500] }}>
             {translate('page.form.userName')}
           </Typography>
@@ -90,8 +90,16 @@ function OnlyPartnerRow({ partner, storeId }: OnlyPartnerRowProps) {
             {partner.userName}
           </Typography>
         </Stack>
+        <Stack width={160} px={2}>
+          <Typography variant="caption" sx={{ color: (theme) => theme.palette.grey[500] }}>
+            {translate('page.form.commission')}
+          </Typography>
+          <Typography variant="body2" lineHeight={2.286} noWrap>
+            {partner.commission} %
+          </Typography>
+        </Stack>
         <Stack>
-          <Stack direction="row" alignItems="end" gap={5} width={380} px={2}>
+          <Stack direction="row" alignItems="end" gap={5} width={330} px={2}>
             <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
               {showPassword ? <VisibilityIcon fontSize="small" /> : <VisibilityOffIcon fontSize="small" />}
             </IconButton>
