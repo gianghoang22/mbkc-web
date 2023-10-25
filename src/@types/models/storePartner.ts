@@ -6,6 +6,7 @@ export interface StorePartnerDetail {
   userName: string;
   password: string;
   status: string;
+  commission: number;
 }
 
 export interface StorePartnerToList {
@@ -26,26 +27,36 @@ export interface PartnerInStore {
   userName: string;
   password: string;
   status: string;
+  commission: number;
 }
 
 export interface StorePartnerToCreate {
   storeId: number;
-  partnerAccountRequests: PartnerAccount[];
+  partnerAccounts: PartnerAccount[];
+}
+
+export interface StorePartnerToCreateAPI {
+  storeId: number;
+  partnerAccounts: PartnerAccount[];
+  isMappingProducts: boolean;
 }
 
 interface PartnerAccount {
   partnerId: number;
   userName: string;
   password: string;
+  commission: number;
 }
 
 export interface StorePartnerToUpdate {
   userName: string;
   password: string;
+  commission: number;
 }
 
 export interface StorePartnerToUpdateApi {
   userName: string;
   password: string;
+  commission: number;
   status: string;
 }

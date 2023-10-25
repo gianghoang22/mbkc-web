@@ -1,28 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-// @mui
+// @mui icon
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+// @mui
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Box, Button, Grid, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Stack, Typography, InputAdornment } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 //
-import { ListParams } from '@types';
+import { ListParams, StorePartnerToCreate } from '@types';
 import { Language } from 'common/enum';
 import { AutoCompleteField, InputField } from 'components';
 import { useLocales } from 'hooks';
 
-function StorePartnerForm() {
+interface StorePartnerFormProps {
+  defaultValues: StorePartnerToCreate;
+}
+
+function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate, currentLang } = useLocales();
 
   const { stores } = useAppSelector((state) => state.store);
   const { partners } = useAppSelector((state) => state.partner);
+  const { isLoading } = useAppSelector((state) => state.storePartner);
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const storeOptions = stores.map((store) => ({
     label: store.name,
@@ -49,10 +59,10 @@ function StorePartnerForm() {
     return option;
   };
 
-  const { control, getValues, setValue } = useFormContext();
+  const { control, getValues, setValue, reset } = useFormContext();
   const { fields, remove } = useFieldArray({
     control,
-    name: 'partnerAccountRequests',
+    name: 'partnerAccounts',
   });
 
   const params: ListParams = useMemo(() => {
@@ -100,61 +110,6 @@ function StorePartnerForm() {
             type="text"
             label={translate('model.capitalizeOne.store')}
           />
-
-          {/* <Stack
-            p={1}
-            width="100%"
-            height="120px"
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            sx={{
-              borderRadius: '6px',
-              border: 2,
-              borderStyle: 'dashed',
-              borderColor: 'divider',
-            }}
-          >
-            {storeId === 0 || storeId === undefined ? (
-              <Typography>Selected store</Typography>
-            ) : (
-              <>
-                {isLoading ? (
-                  <CircularProgress size={26} />
-                ) : (
-                  <Stack direction="row" gap={1}>
-                    <Box
-                      component="img"
-                      src={store?.logo}
-                      alt={store?.name}
-                      style={{ borderRadius: 6, width: 100, height: 100 }}
-                    />
-
-                    <Stack>
-                      <Typography variant="subtitle1">
-                        {translate('table.name')}:{' '}
-                        <Typography component="span" variant="body1">
-                          {store?.name}
-                        </Typography>
-                      </Typography>
-                      <Typography variant="subtitle1">
-                        {translate('table.kitchenCenter')}:{' '}
-                        <Typography component="span" variant="body1">
-                          {store?.kitchenCenter.name}
-                        </Typography>
-                      </Typography>
-                      <Typography variant="subtitle1">
-                        {translate('table.address')}:{' '}
-                        <Typography component="span" variant="body1">
-                          {store?.kitchenCenter.address}
-                        </Typography>
-                      </Typography>
-                    </Stack>
-                  </Stack>
-                )}
-              </>
-            )}
-          </Stack> */}
         </Stack>
       </Grid>
       <Grid item md={7} sm={12}>
@@ -190,7 +145,7 @@ function StorePartnerForm() {
               )}
             </Stack>
 
-            <Stack spacing={2}>
+            <Stack spacing={2.2}>
               <AutoCompleteField
                 options={partnerOptions}
                 getOptionLabel={(value: any) => {
@@ -201,39 +156,64 @@ function StorePartnerForm() {
                   return option.value === getOpObjPartner(value)?.value;
                 }}
                 transformValue={(opt: any) => opt.value}
-                name={`partnerAccountRequests.${index}.partnerId`}
+                name={`partnerAccounts.${index}.partnerId`}
                 type="text"
                 label={translate('model.capitalizeOne.partner')}
               />
 
               <InputField
                 fullWidth
-                name={`partnerAccountRequests.${index}.userName`}
+                name={`partnerAccounts.${index}.userName`}
                 label={translate('page.form.userName')}
               />
               <InputField
                 fullWidth
-                name={`partnerAccountRequests.${index}.password`}
+                name={`partnerAccounts.${index}.password`}
                 label={translate('page.form.password')}
+                type={showPassword ? 'text' : 'password'}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                        {showPassword ? <VisibilityIcon fontSize="small" /> : <VisibilityOffIcon fontSize="small" />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <InputField
+                fullWidth
+                type="number"
+                name={`partnerAccounts.${index}.commission`}
+                label={translate('page.form.commission')}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                }}
               />
             </Stack>
           </Stack>
         ))}
         <Box textAlign="right" mt={3}>
+          <Button variant="outlined" color="secondary" disabled={isLoading} onClick={() => reset(defaultValues)}>
+            {translate('button.reset')}
+          </Button>
           <Button
+            disabled={isLoading}
             variant="outlined"
             color="secondary"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
-              setValue('partnerAccountRequests', [
-                ...(getValues().partnerAccountRequests || []),
+              setValue('partnerAccounts', [
+                ...(getValues().partnerAccounts || []),
                 {
                   partnerId: 0,
                   userName: '',
                   password: '',
+                  commission: 0,
                 },
               ]);
             }}
+            sx={{ ml: 1.5 }}
           >
             {translate('button.add', { model: translate('model.lowercase.partner') })}
           </Button>

@@ -1,4 +1,4 @@
-import { ListParams, MessageResponse, Params, Partner, PartnerToCreate, PartnerToUpdate } from '@types';
+import { ListParams, MessageResponse, Params, Partner, PartnerToCreate, PartnerToUpdate, ToUpdateStatus } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -74,6 +74,36 @@ export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkA
         optionParams: {
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+        },
+        navigate,
+      };
+      await thunkAPI.dispatch(getAllPartners(paramsCallback));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
+    }
+    return response;
+  } catch (error: any) {
+    const errorMessage = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const updateStatusPartnerThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
+  console.log(params);
+  const { data, idParams, optionParams, navigate } = params;
+
+  try {
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_PARTNERS.UPDATE_STATUS_PARTNER(idParams?.partnerId ? idParams?.partnerId : 0),
+      data
+    );
+    if (response) {
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage,
+          currentPage: optionParams?.currentPage,
         },
         navigate,
       };

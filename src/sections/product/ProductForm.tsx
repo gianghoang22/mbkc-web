@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useFormContext } from 'react-hook-form';
 //
-import { Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography, InputAdornment } from '@mui/material';
 // redux
 import { useAppSelector } from 'redux/configStore';
 //
@@ -183,6 +183,9 @@ function ProductForm({ productsParent, categories }: ProductFormProps) {
                   name="sellingPrice"
                   label={translate('table.sellingPrice') + '*'}
                   helperText={translate('page.validation.sellingPriceContent')}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">đ</InputAdornment>,
+                  }}
                 />
                 <InputField
                   fullWidth
@@ -190,6 +193,9 @@ function ProductForm({ productsParent, categories }: ProductFormProps) {
                   name="discountPrice"
                   label={translate('table.discountPrice') + '*'}
                   helperText={translate('page.validation.discountPriceContent')}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">đ</InputAdornment>,
+                  }}
                 />
                 <InputField
                   fullWidth
@@ -197,6 +203,9 @@ function ProductForm({ productsParent, categories }: ProductFormProps) {
                   name="historicalPrice"
                   label={translate('table.historicalPrice') + '*'}
                   helperText={translate('page.validation.historicalPriceContent')}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">đ</InputAdornment>,
+                  }}
                 />
               </Stack>
             )}

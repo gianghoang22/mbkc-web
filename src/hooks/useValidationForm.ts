@@ -83,6 +83,7 @@ function useValidationForm() {
     kitchenCenterId: yup
       .number()
       .typeError(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
+      .min(1, translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
       .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
     brandId: yup
       .number()
@@ -291,6 +292,38 @@ function useValidationForm() {
     ),
   });
 
+  const schemaStorePartner = yup.object().shape({
+    storeId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.store') }))
+      .min(1, translate('page.validation.select', { name: translate('model.lowercase.store') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.store') })),
+    partnerAccounts: yup
+      .array()
+      .of(
+        yup.object().shape({
+          partnerId: yup
+            .number()
+            .typeError(translate('page.validation.select', { name: translate('model.lowercase.partner') }))
+            .min(1, translate('page.validation.select', { name: translate('model.lowercase.partner') }))
+            .required(translate('page.validation.select', { name: translate('model.lowercase.partner') })),
+          userName: yup
+            .string()
+            .required(translate('page.validation.required', { name: translate('page.form.userName') })),
+          password: yup
+            .string()
+            .required(translate('page.validation.required', { name: translate('page.form.password') })),
+          commission: yup
+            .number()
+            .typeError(translate('page.validation.required', { name: translate('page.form.commission') }))
+            .required(translate('page.validation.required', { name: translate('page.form.commission') }))
+            .max(100, translate('page.validation.commissionLimit100')),
+        })
+      )
+      .required('Must have fields')
+      .min(1, 'Minimum of 1 field'),
+  });
+
   const schemaPartner = yup.object({
     name: yup.string().required(
       translate('page.validation.required', {
@@ -442,6 +475,10 @@ function useValidationForm() {
         name: translate('page.form.lowercase.password'),
       })
     ),
+    commission: yup
+      .number()
+      .typeError(translate('page.validation.required', { name: translate('page.form.commission') }))
+      .required(translate('page.validation.required', { name: translate('page.form.commission') })),
   });
 
   return {
@@ -461,6 +498,7 @@ function useValidationForm() {
     schemaKitchenCenter,
     schemaUpdateStorePartner,
     schemaPartnerProduct,
+    schemaStorePartner,
   };
 }
 

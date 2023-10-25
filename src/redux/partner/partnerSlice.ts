@@ -6,6 +6,7 @@ import {
   getAllPartnersThunk,
   getPartnerDetailThunk,
   updatePartnerThunk,
+  updateStatusPartnerThunk,
 } from './partnerThunk';
 import { StorageKeys } from 'constants/storageKeys';
 import { getIsEditing, setLocalStorage } from 'utils';
@@ -36,11 +37,12 @@ const initialState: PartnerState = {
   numberItems: 5,
 };
 
-export const createNewPartner = createAsyncThunk('partner/create-Partner', createNewPartnerThunk);
-export const getAllPartners = createAsyncThunk('partner/get-all-Partners', getAllPartnersThunk);
-export const getPartnerDetail = createAsyncThunk('partner/get-Partner-detail', getPartnerDetailThunk);
-export const updatePartner = createAsyncThunk('partner/update-Partner', updatePartnerThunk);
-export const deletePartner = createAsyncThunk('partner/delete-Partner', deletePartnerThunk);
+export const createNewPartner = createAsyncThunk('partner/create-partner', createNewPartnerThunk);
+export const getAllPartners = createAsyncThunk('partner/get-all-partners', getAllPartnersThunk);
+export const getPartnerDetail = createAsyncThunk('partner/get-partner-detail', getPartnerDetailThunk);
+export const updatePartner = createAsyncThunk('partner/update-partner', updatePartnerThunk);
+export const updateStatusPartner = createAsyncThunk('partner/update-status-partner', updateStatusPartnerThunk);
+export const deletePartner = createAsyncThunk('partner/delete-partner', deletePartnerThunk);
 
 const partnerSlice = createSlice({
   name: 'partner',

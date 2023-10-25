@@ -26,7 +26,7 @@ export default function useLocales() {
   const langStorage = getLanguage();
   const currentLang = LANGS.find((_lang) => _lang.value === langStorage) || LANGS[1];
 
-  const handleChangeLanguage = (newLang: string) => {
+  const handleChangeLanguage = (newLang: string): any => {
     i18n.changeLanguage(newLang, () => console.log('Changed language'));
   };
 

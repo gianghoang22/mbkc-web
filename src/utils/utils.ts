@@ -200,7 +200,7 @@ export const hashPasswordMD5 = (password: string) => Md5.hashStr(password);
 
 // get API error message
 export const getErrorMessage = (error: any, navigate: any) => {
-  console.log(error);
+  console.log('API_ERROR:', error);
 
   if (error?.code === Error.SERVER_ERROR) {
     console.log(error);

@@ -495,6 +495,13 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
+      id: 'commission',
+      label: translate('page.form.commission'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
       id: 'userName',
       label: translate('page.form.userName'),
       numeric: false,

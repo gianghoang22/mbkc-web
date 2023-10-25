@@ -51,7 +51,9 @@
     "continue": "Tiếp tục",
     "setting": "Cài đặt",
     "createProductLink": "Tạo liên kết sản phẩm",
-    "updateProductLink": "Cập nhật liên kết sản phẩm"
+    "updateProductLink": "Cập nhật liên kết sản phẩm",
+    "yes": "Có",
+    "no": "Không"
   },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",
