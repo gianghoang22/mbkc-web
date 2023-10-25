@@ -10,7 +10,6 @@ import {
   VerificationForm,
 } from '@types';
 import { axiosClient } from 'api/axiosClient';
-import { Language } from 'common/enum';
 import { ROUTES_API_ACCOUNT, ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { PATH_AUTH } from 'routes/paths';
 import {
@@ -28,8 +27,6 @@ import {
 } from 'utils';
 import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
 
-const currentLanguage = getLanguage();
-
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
   const { data, navigate } = params;
   try {
@@ -44,13 +41,13 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
     setRefreshToken(response.tokens.refreshToken);
     setUserAuth(userStorage);
     setAuthenticated();
-    thunkAPI.dispatch(
-      setMessageSuccess(currentLanguage === Language.ENGLISH ? 'Login successfully.' : 'Đăng nhập thành công.')
-    );
+    const message = handleResponseMessage('Login Successfully.');
+    thunkAPI.dispatch(setMessageSuccess(message));
     return userStorage;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -70,7 +67,8 @@ export const updatePasswordThunk = async (params: Params<UpdatePasswordFormApi>,
     }
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -93,7 +91,8 @@ export const getUserInfoThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -110,7 +109,8 @@ export const forgotPasswordThunk = async (params: Params<EmailForm>, thunkAPI: a
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -127,7 +127,8 @@ export const verifyOtpThunk = async (params: Params<VerificationForm>, thunkAPI:
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -144,7 +145,8 @@ export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI:
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };

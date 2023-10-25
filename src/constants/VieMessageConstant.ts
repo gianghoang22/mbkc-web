@@ -1,9 +1,10 @@
 export const VieMessageConstant = {
+  LoginSuccessfully: 'Đăng nhập thành công.',
   ResetPasswordSuccessfully: 'Đặt lại mật khẩu thành công.',
-
   UpdateAccountSuccessfully: 'Cập nhật tài khoản thành công.',
   SentEmailConfirmationSuccessfully: 'Đã gửi xác nhận email thành công.',
   ConfirmedOTPCodeSuccessfully: 'Xác nhận mã OTP thành công.',
+
   CreatedNewKitchenCenterSuccessfully: 'Tạo bếp trung tâm mới thành công.',
   UpdatedKitchenCenterSuccessfully: 'Cập nhật thông tin bếp trung tâm thành công.',
   UpdatedKitchenCenterStatusSuccessfully: 'Cập nhật trạng thái bếp trung tâm thành công.',

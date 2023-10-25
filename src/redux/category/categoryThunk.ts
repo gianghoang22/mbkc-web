@@ -26,7 +26,8 @@ export const getAllCategoriesThunk = async (params: ListParams, thunkAPI: any) =
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -41,7 +42,8 @@ export const getAllExtraCategoriesInCategoryThunk = async (params: ListParams, t
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -54,7 +56,8 @@ export const getCategoryDetailThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -73,7 +76,8 @@ export const createNewCategoryThunk = async (params: Params<CategoryToCreate>, t
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -102,7 +106,8 @@ export const addExtraCategoryThunk = async (params: Params<AddExtraCategory>, th
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -141,7 +146,8 @@ export const updateCategoryThunk = async (params: Params<CategoryToUpdate>, thun
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -170,7 +176,8 @@ export const deleteCategoryThunk = async (params: Params<Category>, thunkAPI: an
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };

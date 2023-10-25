@@ -16,7 +16,8 @@ export const getKitchenCenterProfileThunk = async (navigate: NavigateFunction, t
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -30,7 +31,8 @@ export const getBrandProfileThunk = async (navigate: NavigateFunction, thunkAPI:
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -52,7 +54,8 @@ export const updateBrandProfileThunk = async (params: Params<UpdateBrandProfile>
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };

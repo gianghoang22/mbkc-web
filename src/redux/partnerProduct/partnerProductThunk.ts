@@ -21,7 +21,8 @@ export const getAllPartnerProductsThunk = async (params: any, thunkAPI: any) => 
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -36,7 +37,8 @@ export const getPartnerProductDetailThunk = async (params: any, thunkAPI: any) =
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -61,7 +63,8 @@ export const createNewPartnerProductThunk = async (params: Params<PartnerProduct
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -102,7 +105,8 @@ export const updatePartnerProductThunk = async (params: Params<PartnerProductToU
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -135,7 +139,8 @@ export const updateStatusPartnerProductThunk = async (params: Params<ToUpdateSta
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -176,7 +181,8 @@ export const deletePartnerProductThunk = async (params: Params<PartnerProduct>, 
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };

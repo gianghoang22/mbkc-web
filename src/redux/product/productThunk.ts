@@ -14,7 +14,8 @@ export const getAllProductsThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -27,7 +28,8 @@ export const getAllProductsParentThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -40,7 +42,8 @@ export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -53,7 +56,8 @@ export const getProductParentDetailThunk = async (params: any, thunkAPI: any) =>
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -80,7 +84,8 @@ export const createNewProductThunk = async (params: Params<ProductToCreateParams
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -118,7 +123,8 @@ export const updateProductThunk = async (params: Params<ProductToUpdate>, thunkA
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -148,7 +154,8 @@ export const updateStatusProductThunk = async (params: Params<ToUpdateStatus>, t
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
@@ -176,7 +183,8 @@ export const deleteProductThunk = async (params: Params<Product>, thunkAPI: any)
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
-    thunkAPI.dispatch(setMessageError(errorMessage));
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
