@@ -1,4 +1,6 @@
 export const VieErrorMessageConstant = {
+  imageIsNotNull: 'Hình ảnh không được để trống.',
+  logoIsNotNull: 'Logo không được để trống.',
   NotExistEmail: 'Email không tồn tại trong hệ thống.',
   AlreadyExistEmail: 'Email đã tồn tại trong hệ thống.',
   AlreadyExistCitizenNumber: 'Số căn cước công dân đã tồn tại trong hệ thống.',
