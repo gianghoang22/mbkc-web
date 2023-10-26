@@ -11,7 +11,7 @@ import { getAllStores } from 'redux/store/storeSlice';
 //
 import { ListParams, STORE_STATUS_TABS } from '@types';
 import { Status } from 'common/enum';
-import { useDebounce, useLocales, usePagination } from 'hooks';
+import { useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
@@ -30,18 +30,16 @@ function StoreTableToolbar({ filterName, onFilterName, status, setStatus, haveSe
   const { translate } = useLocales();
   const { page, rowsPerPage } = usePagination();
 
-  const debounceValue = useDebounce(filterName, 500);
-
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        searchValue: debounceValue,
+        searchValue: filterName,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage]);
 
   return (
     <StyledRoot>

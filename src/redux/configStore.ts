@@ -1,14 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import addressReducer from './address/addressSlice';
 import authReducer from './auth/authSlice';
 import BankingAccountReducer from './bankingAccount/bankingAccountSlice';
 import brandReducer from './brand/brandSlice';
 import cashierReducer from './cashier/cashierSlice';
 import categoryReducer from './category/categorySlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
-import partnerProductReducer from './partnerProduct/partnerProductSlice';
 import orderReducer from './order/orderSlice';
 import partnerReducer from './partner/partnerSlice';
+import partnerProductReducer from './partnerProduct/partnerProductSlice';
 import productReducer from './product/productSlice';
 import profileReducer from './profile/profileSlice';
 import routesReducer from './routes/routesSlice';
@@ -33,6 +34,7 @@ export const store = configureStore({
     profile: profileReducer,
     storePartner: storePartnerReducer,
     partnerProduct: partnerProductReducer,
+    address: addressReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

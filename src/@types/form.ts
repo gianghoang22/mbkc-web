@@ -31,3 +31,13 @@ export interface ResetFormApi {
   email: string;
   newPassword: string;
 }
+
+export interface AddressFormInterface {
+  logo?: string;
+  name: string;
+  managerEmail: string;
+  address: string;
+  provinceId: string;
+  districtId: string;
+  wardId: string;
+}

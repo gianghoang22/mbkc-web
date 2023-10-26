@@ -84,7 +84,7 @@ function StoreDetailPage() {
   }, [dispatch, navigate, paramsStoreDetail]);
 
   const handleDelete = () => {
-    handleOpenModal(store?.name);
+    handleOpenModal();
     dispatch(
       deleteStore({
         idParams: { storeId: store?.storeId },

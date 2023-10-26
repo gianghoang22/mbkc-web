@@ -29,6 +29,7 @@ export interface IdParams {
   partnerId?: number;
   accountId?: number;
 }
+
 export interface ListParams {
   optionParams: OptionParams;
   navigate: NavigateFunction;
@@ -66,6 +67,10 @@ export interface ListResponse<T> {
   totalPage: number;
   numberItems: number;
   data: T[];
+}
+
+export interface ListResponseAddress<T> {
+  results: T[];
 }
 
 export interface WordLimited {

@@ -16,6 +16,7 @@ const ROOTS_ORDERS = '/orders';
 const ROOTS_CASHIERS = '/cashiers';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
+const ROOTS_ADDRESS = '/province';
 
 export const ROUTES_API_AUTH = {
   LOGIN: path(ROOTS_AUTH, `/login`),
@@ -28,6 +29,12 @@ export const ROUTES_API_AUTH = {
 export const ROUTES_API_ACCOUNT = {
   ACCOUNT_INFORMATION: (accountId: number) => path(ROOTS_ACCOUNT, `/${accountId}`),
   UPDATE_PASSWORD: (accountId: number) => path(ROOTS_ACCOUNT, `/${accountId}`),
+};
+
+export const ROUTES_API_ADDRESS = {
+  GET_ALL_PROVINCE: pathRoot(ROOTS_ADDRESS),
+  GET_ALL_DISTRICT_BY_PROVINCE_ID: (provinceId: number) => path(ROOTS_ADDRESS, `/district/${provinceId}`),
+  GET_ALL_WARD_BY_DISTRICT_ID: (districtId: number) => path(ROOTS_ADDRESS, `/ward/${districtId}`),
 };
 
 export const ROUTES_API_KITCHEN_CENTER = {
@@ -58,10 +65,11 @@ export const ROUTES_API_BRANDS = {
     currentPage = '',
     itemsPerPage = '',
     isGetAll = '',
+    keySortName = '',
   }: OptionParams) => {
     return path(
       ROOTS_BRANDS,
-      `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+      `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&keySortName=${keySortName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
     );
   },
   CREATE_BRAND: pathRoot(ROOTS_BRANDS),

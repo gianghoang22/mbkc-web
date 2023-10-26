@@ -1,83 +1,167 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
+// redux
+import { createNewBrand, getBrandDetail, updateBrand } from 'redux/brand/brandSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+// section
+import { BrandForm } from 'sections/brand';
 //
-import { BrandToCreate, BrandToUpdate } from '@types';
-import { Color } from 'common/enum';
+import { AddressFormInterface, BrandToCreate, BrandToUpdate, Params } from '@types';
+import { Color, Status } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import BrandForm from 'sections/brand/BrandForm';
-import { useDispatch } from 'react-redux';
-import { createNewBrand, updateBrand } from 'redux/brand/brandSlice';
-import { Box } from '@mui/material';
 
 function CreateBrandPage() {
+  const { id: brandId } = useParams();
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
   const { translate } = useLocales();
   const { schemaBrand } = useValidationForm();
 
   const { pathnameToBack } = useAppSelector((state: any) => state.routes);
+  const { provinces, districts, wards } = useAppSelector((state) => state.address);
   const { isEditing, isLoading, brand } = useAppSelector((state: any) => state.brand);
 
-  const createBrandForm = useForm<BrandToCreate>({
+  const createBrandForm = useForm<AddressFormInterface>({
     defaultValues: {
-      Name: isEditing ? brand?.name : '',
-      Address: isEditing ? brand?.address : '',
-      ManagerEmail: isEditing ? brand?.brandManagerEmail : '',
-      Logo: isEditing ? brand?.logo : '',
+      name: isEditing ? brand?.name : '',
+      address: isEditing
+        ? brand?.address
+          ? brand?.address
+              .split(', ')
+              .slice(0, brand?.address.split(', ').length - 6)
+              .join(', ')
+          : brand?.address
+        : '',
+      logo: isEditing ? brand?.logo : '',
+      managerEmail: isEditing ? brand?.brandManagerEmail : '',
+      provinceId: isEditing ? brand?.address.split(', ').slice(-3)[2] : '',
+      districtId: isEditing ? brand?.address.split(', ').slice(-3)[1] : '',
+      wardId: isEditing ? brand?.address.split(', ').slice(-3)[0] : '',
     },
     resolver: yupResolver(schemaBrand),
   });
 
-  const { handleSubmit } = createBrandForm;
+  const { handleSubmit, watch, reset } = createBrandForm;
 
-  const onSubmit = async (values: BrandToCreate) => {
-    // Create a brand
-    const data = { ...values };
-    const params = {
-      newBrand: data,
+  const name = watch('name');
+  const address = watch('address');
+  const logo = watch('logo');
+  const managerEmail = watch('managerEmail');
+  const provinceId = watch('provinceId');
+  const districtId = watch('districtId');
+  const wardId = watch('wardId');
+
+  const province = provinces.find((opt) => opt.province_id.toString() === provinceId);
+  const district = districts.find((opt) => opt.district_id.toString() === districtId);
+  const ward = wards.find((opt) => opt.ward_id.toString() === wardId);
+
+  useEffect(() => {
+    if (isEditing === true) {
+      reset({
+        name: brand?.name,
+        address: brand?.address
+          ? brand?.address
+              .split(', ')
+              .slice(0, brand?.address.split(', ').length - 6)
+              .join(', ')
+          : brand?.address,
+        logo: brand?.logo,
+        managerEmail: brand?.brandManagerEmail,
+        provinceId: brand?.address.split(', ').slice(-3)[2],
+        districtId: brand?.address.split(', ').slice(-3)[1],
+        wardId: brand?.address.split(', ').slice(-3)[0],
+      });
+    }
+  }, [brand]);
+
+  const params = useMemo(() => {
+    return {
+      brandId,
       navigate,
     };
+  }, [brandId, navigate]);
 
-    // Update a brand
-    const BrandToUpdate: BrandToUpdate = {
-      Name: values.Name,
-      Status: 'ACTIVE',
-      Address: values.Address,
-      Logo: values.Logo,
-      BrandManagerEmail: values.ManagerEmail,
-    };
-
-    const updateBrandParams = {
-      updateBrandOptions: BrandToUpdate,
-      brandId: brand?.brandId,
-      navigate,
-    };
-
-    // Actions
+  useEffect(() => {
     if (isEditing) {
-      dispatch<any>(updateBrand(updateBrandParams));
+      dispatch(getBrandDetail(params));
+    }
+  }, [params]);
+
+  useEffect(() => {
+    reset({
+      name: name,
+      address: address,
+      logo: logo,
+      managerEmail: managerEmail,
+      provinceId: provinceId,
+      districtId: '',
+      wardId: '',
+    });
+  }, [provinceId]);
+
+  useEffect(() => {
+    reset({
+      name: name,
+      address: address,
+      logo: logo,
+      managerEmail: managerEmail,
+      provinceId: provinceId,
+      districtId: districtId,
+      wardId: wardId !== undefined ? wardId : '',
+    });
+  }, [districtId]);
+
+  const onSubmit = (values: AddressFormInterface) => {
+    const data = { ...values };
+
+    if (isEditing) {
+      const paramUpdate: Params<BrandToUpdate> = {
+        data: {
+          name: data.name,
+          address: `${data.address}, ${ward?.ward_name}, ${district?.district_name}, ${province?.province_name}, ${ward?.ward_id}, ${district?.district_id}, ${province?.province_id}`,
+          status: Status.ACTIVE,
+          logo: typeof values.logo === 'string' ? '' : data.logo,
+          brandManagerEmail: data.managerEmail,
+        },
+        idParams: {
+          brandId: brand?.brandId,
+        },
+        pathname: pathnameToBack,
+        navigate,
+      };
+      dispatch<any>(updateBrand(paramUpdate));
     } else {
-      dispatch<any>(createNewBrand(params));
+      const createBrand: Params<BrandToCreate> = {
+        data: {
+          Name: data.name,
+          Address: `${data.address}, ${ward?.ward_name}, ${district?.district_name}, ${province?.province_name}, ${ward?.ward_id}, ${district?.district_id}, ${province?.province_id}`,
+          Logo: data.logo,
+          ManagerEmail: data.managerEmail,
+        },
+        navigate,
+      };
+
+      console.log(createBrand);
+      dispatch<any>(createNewBrand(createBrand));
     }
   };
 
   return (
     <>
-      {isEditing && (
-        <>
-          {isLoading && (
-            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
-              <LoadingScreen />
-            </Box>
-          )}
-        </>
+      {isLoading && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
       )}
 
       <Page
@@ -99,13 +183,14 @@ function CreateBrandPage() {
             </Button>
             <Stack direction="row" gap={2}>
               {isEditing && (
-                <Button variant="contained" color="inherit">
+                <Button variant="contained" disabled={isLoading} color="inherit">
                   {translate('button.reset')}
                 </Button>
               )}
               <Button
-                variant="contained"
                 type="submit"
+                variant="contained"
+                disabled={isLoading}
                 color={isEditing ? Color.WARNING : Color.PRIMARY}
                 onClick={handleSubmit(onSubmit)}
               >

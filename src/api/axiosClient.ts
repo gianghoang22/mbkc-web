@@ -1,10 +1,17 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*';
 
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+const axiosServiceAddress = axios.create({
+  baseURL: 'https://vapi.vnappmob.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,4 +29,22 @@ const setHeaderAuth = (accessToken: string) => {
   axiosFormData.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 };
 
-export { axiosClient, axiosFormData, setHeaderAuth };
+axiosServiceAddress.interceptors.request.use(
+  function (config) {
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+axiosServiceAddress.interceptors.response.use(
+  function (response: AxiosResponse) {
+    return response.data;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+export { axiosClient, axiosServiceAddress, axiosFormData, setHeaderAuth };

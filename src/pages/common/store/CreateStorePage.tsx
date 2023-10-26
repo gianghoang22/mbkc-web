@@ -18,6 +18,7 @@ import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 function CreateStorePage() {
   const { id: storeId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

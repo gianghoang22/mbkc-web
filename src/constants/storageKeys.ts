@@ -38,6 +38,12 @@ const StorageKeys = {
 
   //id
   STORE_ID: 'storeId',
+  KC_PROVINCE_ID: 'KCProvinceId',
+  KC_DISTRICT_ID: 'KCDistrictId',
+  KC_WARD_ID: 'KCWardId',
+  BRAND_PROVINCE_ID: 'BrandProvinceId',
+  BRAND_DISTRICT_ID: 'BrandDistrictId',
+  BRAND_WARD_ID: 'BrandWardId',
 };
 
 export { StorageKeys };

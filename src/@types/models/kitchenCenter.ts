@@ -1,5 +1,3 @@
-import { NavigateFunction } from 'react-router-dom';
-
 export interface KitchenCentersData {
   no: number;
   kitchenCenter: string;
@@ -16,27 +14,16 @@ export interface KitchenCenter {
 }
 
 export interface KitchenCenterToAdd {
-  Name: string;
-  Address: string;
-  Logo?: string;
-  ManagerEmail: string;
+  name: string;
+  address: string;
+  logo?: string;
+  managerEmail: string;
 }
 
 export interface KitchenCenterToUpdate {
-  Name: string;
-  Address: string;
-  Logo?: string;
-  ManagerEmail: string;
-  Status: string;
-}
-
-export interface KitchenCenterOptions {
-  itemsPerPage: number;
-  currentPage: number;
-  searchValue?: string;
-}
-
-export interface CreateKitchenCenterParams {
-  newKitchenCenter: KitchenCenterToAdd;
-  navigate: NavigateFunction;
+  name: string;
+  address: string;
+  logo?: string;
+  managerEmail: string;
+  status: string;
 }

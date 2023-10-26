@@ -17,10 +17,12 @@ import { useLocales, useValidationForm } from 'hooks';
 function CreateCashierPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { pathname } = useLocation();
-  const { isEditing, cashier } = useAppSelector((state) => state.cashier);
-  const { schemaCashier } = useValidationForm();
   const { translate } = useLocales();
+  const { schemaCashier } = useValidationForm();
+
+  const { isEditing, isLoading, cashier } = useAppSelector((state) => state.cashier);
 
   const createCashierForm = useForm<CashierToCreate>({
     defaultValues: {
@@ -88,7 +90,7 @@ function CreateCashierPage() {
             </Button>
             <Stack direction="row" gap={2}>
               {isEditing && (
-                <Button variant="contained" color="inherit">
+                <Button variant="contained" disabled={isLoading} color="inherit">
                   {translate('button.reset')}
                 </Button>
               )}

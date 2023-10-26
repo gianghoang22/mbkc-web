@@ -44,6 +44,7 @@
     "nameLower": "tên",
     "nameExchange": "{{model}} {{name}}",
     "address": "Địa chỉ",
+    "addressDetail": "Địa chỉ chi tiết",
     "code": "Mã",
     "codeLower": "mã",
     "content": "Nội dung",
@@ -57,6 +58,9 @@
     "userName": "Tên tài khoản",
     "accountPartner": "tài khoản đối tác",
     "commission": "Phần trăm hoa hồng",
+    "province": "Tỉnh",
+    "district": "Quận - Huyện",
+    "ward": "Phường",
     "lowercase": {
       "userName": "tên tài khoản",
       "password": "mật khẩu"

@@ -27,6 +27,7 @@ interface KitchenCenterTableRowProps {
 function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: KitchenCenterTableRowProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
@@ -38,13 +39,13 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
   };
 
   const handleDelete = () => {
-    const kitchenCenterId = kitchenCenter.kitchenCenterId;
-    const params = {
-      kitchenCenterId,
-      navigate,
-    };
-
-    dispatch<any>(deleteKitchenCenter(params));
+    handleOpen();
+    dispatch<any>(
+      deleteKitchenCenter({
+        idParams: { kitchenCenterId: kitchenCenter?.kitchenCenterId },
+        navigate,
+      })
+    );
   };
 
   const handleEdit = () => {
@@ -65,7 +66,6 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
       },
-      pathname: pathname,
       navigate,
     };
     dispatch<any>(updateStatusKitchenCenter(paramUpdateStatus));
@@ -77,7 +77,7 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
         <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" onClick={handleNavigateDetail}>
+        <TableCell component="th" scope="row" onClick={handleNavigateDetail} width={80}>
           <Avatar alt={kitchenCenter.name} src={kitchenCenter.logo} />
         </TableCell>
         <TableCell align="left" onClick={handleNavigateDetail}>
@@ -85,7 +85,10 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
         </TableCell>
 
         <TableCell align="left" onClick={handleNavigateDetail} width={400}>
-          {kitchenCenter.address}
+          {kitchenCenter?.address
+            .split(', ')
+            .slice(0, kitchenCenter?.address.split(', ').length - 3)
+            .join(', ')}
         </TableCell>
         <TableCell align="left">
           <Label
@@ -128,6 +131,7 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
+          model={kitchenCenter?.name}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.kitchenCenter') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.kitchenCenter') })}
         />

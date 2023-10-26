@@ -4,23 +4,24 @@ import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import { StyledRoot, StyledSearch } from '../styles';
 import { ListParams } from '@types';
 import { useMemo } from 'react';
-import { usePagination } from 'hooks';
+import { useLocales, usePagination } from 'hooks';
 import { useNavigate } from 'react-router-dom';
 import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { useDispatch } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
-interface StoreTableToolbarProps {
+interface KitchenCenterTableToolbarProps {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filterName: string;
 }
 
-function StoreTableToolbar(props: StoreTableToolbarProps) {
-  const { filterName, onFilterName } = props;
-  const { page, rowsPerPage } = usePagination();
+function KitchenCenterTableToolbar({ filterName, onFilterName }: KitchenCenterTableToolbarProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { translate } = useLocales();
+  const { page, rowsPerPage } = usePagination();
 
   const params: ListParams = useMemo(() => {
     return {
@@ -39,7 +40,7 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
         size="small"
         value={filterName}
         onChange={onFilterName}
-        placeholder="Search user..."
+        placeholder={translate('page.title.search', { model: translate('model.lowercase.kitchenCenter') })}
         startAdornment={
           <InputAdornment position="start">
             <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
@@ -56,4 +57,4 @@ function StoreTableToolbar(props: StoreTableToolbarProps) {
   );
 }
 
-export default StoreTableToolbar;
+export default KitchenCenterTableToolbar;

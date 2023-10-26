@@ -7,4 +7,3 @@ export { default as BrandDetailPage } from './brand/BrandDetailPage';
 export { default as CreateKitchenCenterPage } from './kitchenCenter/CreateKitchenCenterPage';
 export { default as ListKitchenCenterPage } from './kitchenCenter/ListKitchenCenterPage';
 export { default as KitchenCenterDetailPage } from './kitchenCenter/KitchenCenterDetailPage';
-export { default as KitchenCenterDetailPageSkeleton } from '../../sections/kitchenCenter/KitchenCenterDetailPageSkeleton';
