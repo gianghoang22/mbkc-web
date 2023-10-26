@@ -1,13 +1,16 @@
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { IconButton, InputAdornment, Tooltip } from '@mui/material';
-import { StyledRoot, StyledSearch } from '../styles';
-import { useDebounce, usePagination } from 'hooks';
-import { ListParams } from '@types';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+// @mui
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { IconButton, InputAdornment, Tooltip } from '@mui/material';
+// redux
 import { getAllCashiers } from 'redux/cashier/cashierSlice';
+//
+import { StyledRoot, StyledSearch } from '../styles';
+import { useDebounce, usePagination } from 'hooks';
+import { ListParams } from '@types';
 
 // ----------------------------------------------------------------------
 
@@ -16,11 +19,11 @@ interface CashierTableToolbarProps {
   filterName: string;
 }
 
-function CashierTableToolbar(props: CashierTableToolbarProps) {
-  const { filterName, onFilterName } = props;
-  const { page, rowsPerPage } = usePagination();
+function CashierTableToolbar({ filterName, onFilterName }: CashierTableToolbarProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { page, rowsPerPage } = usePagination();
 
   const debounceValue = useDebounce(filterName, 500);
 

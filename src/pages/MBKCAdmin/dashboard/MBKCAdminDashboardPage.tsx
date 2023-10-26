@@ -1,3 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Avatar,
@@ -13,36 +17,34 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-
 // @mui icon
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
 import BusinessIcon from '@mui/icons-material/Business';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import StoreIcon from '@mui/icons-material/Store';
-
-//
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
+// redux
 import { getAllBrands } from 'redux/brand/brandSlice';
 import { useAppSelector } from 'redux/configStore';
+import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { getAllStores } from 'redux/store/storeSlice';
+// section
+import { BrandTableRowDashboardSkeleton } from 'sections/brand';
+import { AppWidgetSummary } from 'sections/dashboard';
+import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
+//
+import { ListParams, WordLimited } from '@types';
 import { Color } from 'common/enum';
 import { Helmet } from 'components';
-import { PATH_ADMIN_APP } from 'routes/paths';
-import { AppWidgetSummary } from 'sections/dashboard';
 import { useLocales } from 'hooks';
-import { ListParams, WordLimited } from '@types';
-import { getAllStores } from 'redux/store/storeSlice';
-import { BrandTableRowDashboardSkeleton } from 'sections/brand';
-import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 // ----------------------------------------------------------------------
 
 function MBKCAdminDashboardPage() {
-  const { translate } = useLocales();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { translate } = useLocales();
 
   const { brands, isLoading: isLoadingBrands } = useAppSelector((state) => state.brand);
   const { kitchenCenters, isLoading: isLoadingKitchenCenters } = useAppSelector((state) => state.kitchenCenter);
@@ -69,7 +71,6 @@ function MBKCAdminDashboardPage() {
     dispatch<any>(getAllKitchenCenters(params));
     dispatch<any>(getAllBrands(params));
     dispatch<any>(getAllStores(params));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

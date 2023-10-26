@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -16,17 +17,18 @@ import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeSlice';
+// section
+import ConfirmRegistrationStore from './ConfirmRegistrationStore';
 //
 import { Params, Store, ToUpdateStatus } from '@types';
 import { Color, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import ConfirmRegistrationStore from './ConfirmRegistrationStore';
 
 interface StoreTableRowProps {
   store: Store;
@@ -55,6 +57,7 @@ function StoreTableRow({
 }: StoreTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();

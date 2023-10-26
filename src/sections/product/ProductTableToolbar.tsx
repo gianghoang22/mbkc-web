@@ -8,12 +8,11 @@ import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 // redux
 import { useAppDispatch } from 'redux/configStore';
 import { getAllProducts } from 'redux/product/productSlice';
-
+// section
+import { StyledRoot, StyledSearch } from 'sections/styles';
+//
 import { ListParams } from '@types';
 import { useDebounce, useLocales, usePagination } from 'hooks';
-import { StyledRoot, StyledSearch } from 'sections/styles';
-
-// ----------------------------------------------------------------------
 
 interface ProductTableToolbarProps {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;

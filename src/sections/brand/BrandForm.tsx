@@ -15,6 +15,7 @@ import { useLocales } from 'hooks';
 function BrandForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate, currentLang } = useLocales();
 
   const { isEditing } = useAppSelector((state) => state.brand);

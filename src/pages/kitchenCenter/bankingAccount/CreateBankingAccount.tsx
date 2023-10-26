@@ -1,29 +1,32 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Box, Button, Card, Stack } from '@mui/material';
-//
-import { BankingAccountToCreate, BankingAccountToUpdate } from '@types';
-import { Color } from 'common/enum';
-import { LoadingScreen, Page } from 'components';
-import { useLocales, useValidationForm } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { useDispatch } from 'react-redux';
-import BankingAccountForm from 'sections/bankingAccount/BankingAccountForm';
+// redux
 import {
   createNewBankingAccount,
   getBankingAccountDetails,
   updateBankingAccount,
 } from 'redux/bankingAccount/bankingAccountSlice';
-import { useEffect, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+// section
+import { BankingAccountForm } from 'sections/bankingAccount';
+//
+import { BankingAccountToCreate, BankingAccountToUpdate } from '@types';
+import { Color, Status } from 'common/enum';
+import { LoadingScreen, Page } from 'components';
+import { useLocales, useValidationForm } from 'hooks';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function CreateBankingAccountPage() {
   const { id: bankingAccountId } = useParams();
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
   const { translate } = useLocales();
   const { schemaBankingAccount } = useValidationForm();
 
@@ -49,10 +52,9 @@ function CreateBankingAccountPage() {
       navigate,
     };
 
-    // Update a brand
     const BankingAccountToUpdate: BankingAccountToUpdate = {
       BankName: values.BankName,
-      Status: 'ACTIVE',
+      Status: Status.ACTIVE,
       BankLogo: values.BankLogo,
     };
 

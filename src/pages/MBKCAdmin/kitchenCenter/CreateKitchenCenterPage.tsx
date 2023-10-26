@@ -37,20 +37,13 @@ function CreateKitchenCenterPage() {
 
   const createKitchenCenterForm = useForm<AddressFormInterface>({
     defaultValues: {
-      name: isEditing ? kitchenCenter?.name : '',
-      address: isEditing
-        ? kitchenCenter?.address
-          ? kitchenCenter?.address
-              .split(', ')
-              .slice(0, kitchenCenter?.address.split(', ').length - 6)
-              .join(', ')
-          : kitchenCenter?.address
-        : '',
-      logo: isEditing ? kitchenCenter?.logo : '',
-      managerEmail: isEditing ? kitchenCenter?.kitchenCenterManagerEmail : '',
-      provinceId: isEditing ? kitchenCenter?.address.split(', ').slice(-3)[2] : '',
-      districtId: isEditing ? kitchenCenter?.address.split(', ').slice(-3)[1] : '',
-      wardId: isEditing ? kitchenCenter?.address.split(', ').slice(-3)[0] : '',
+      name: '',
+      address: '',
+      logo: '',
+      managerEmail: '',
+      provinceId: '',
+      districtId: '',
+      wardId: '',
     },
     resolver: yupResolver(schemaKitchenCenter),
   });
@@ -69,37 +62,18 @@ function CreateKitchenCenterPage() {
   const district = districts.find((opt) => opt.district_id.toString() === districtId);
   const ward = wards.find((opt) => opt.ward_id.toString() === wardId);
 
-  // useEffect(() => {
-  //   if (kitchenCenter !== null && isEditing === true) {
-  //     reset({
-  //       name: kitchenCenter?.name,
-  //       address: kitchenCenter?.address
-  //         ? kitchenCenter?.address
-  //             .split(', ')
-  //             .slice(0, kitchenCenter?.address.split(', ').length - 6)
-  //             .join(', ')
-  //         : kitchenCenter?.address,
-  //       logo: kitchenCenter?.logo,
-  //       managerEmail: kitchenCenter?.kitchenCenterManagerEmail,
-  //       provinceId: kitchenCenter?.address.split(', ').slice(-3)[2],
-  //       districtId: kitchenCenter?.address.split(', ').slice(-3)[1],
-  //       wardId: kitchenCenter?.address.split(', ').slice(-3)[0],
-  //     });
-  //   }
-  // }, [kitchenCenter]);
-
   useEffect(() => {
     if (kitchenCenter !== null && isEditing === true) {
-      setValue('name', kitchenCenter?.name);
+      setValue('name', kitchenCenter?.name as string);
       setValue(
         'address',
         kitchenCenter?.address
           .split(', ')
           .slice(0, kitchenCenter?.address.split(', ').length - 6)
-          .join(', ')
+          .join(', ') as string
       );
-      setValue('logo', kitchenCenter?.logo);
-      setValue('managerEmail', kitchenCenter?.kitchenCenterManagerEmail);
+      setValue('logo', kitchenCenter?.logo as string);
+      setValue('managerEmail', kitchenCenter?.kitchenCenterManagerEmail as string);
       setValue('provinceId', kitchenCenter?.address.split(', ').slice(-3)[2] as string);
       setValue('districtId', kitchenCenter?.address.split(', ').slice(-3)[1] as string);
       setValue('wardId', kitchenCenter?.address.split(', ').slice(-3)[0] as string);

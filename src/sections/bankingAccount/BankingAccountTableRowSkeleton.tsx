@@ -1,4 +1,3 @@
-// @mui
 import { Skeleton, TableCell, TableRow, Typography } from '@mui/material';
 
 function BankingAccountTableRow({ length = 5 }: { length: number }) {

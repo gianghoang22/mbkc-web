@@ -1,4 +1,3 @@
-// @mui
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
 function PartnerTableRowSkeleton({ length }: { length: number }) {

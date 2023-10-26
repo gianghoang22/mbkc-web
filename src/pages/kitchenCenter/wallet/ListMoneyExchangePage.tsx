@@ -2,30 +2,30 @@ import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
-
+//redux
+import { useAppSelector } from 'redux/configStore';
+// section
+import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/moneyExchange';
+//
 import { MoneyExchange, MoneyExchangeTable, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
-
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-
-import MoneyExchangeTableRow from 'sections/moneyExchange/moneyExchangeTableRow';
-import MoneyExchangeTableToolbar from 'sections/moneyExchange/moneyExchangeTableToolbar';
 import { getComparator, stableSort } from 'utils';
 
 function ListMoneyExchangePage() {
   const navigate = useNavigate();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { moneyExchanges } = useAppSelector((state) => state.wallet);
+
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('sender');
   const [filterName, setFilterName] = useState<string>('');
-
-  const { moneyExchanges } = useAppSelector((state) => state.wallet);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof MoneyExchangeTable) => {
     const isAsc = orderBy === property && order === 'asc';

@@ -6,13 +6,14 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { useAppDispatch } from 'redux/configStore';
 import { deletePartner, setEditPartner, updateStatusPartner } from 'redux/partner/partnerSlice';
+// section
+import CreatePartnerModal from './CreatePartnerModal';
+import PartnerDetailModal from './PartnerDetailModal';
 //
 import { Params, Partner, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePagination, usePopover } from 'hooks';
-import CreatePartnerModal from './CreatePartnerModal';
-import PartnerDetailModal from './PartnerDetailModal';
 
 interface PartnerTableRowProps {
   partner: Partner;
@@ -25,6 +26,7 @@ interface PartnerTableRowProps {
 function PartnerTableRow({ lengthPartners, index, partner, showAction = false, setPage }: PartnerTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { page, rowsPerPage } = usePagination();

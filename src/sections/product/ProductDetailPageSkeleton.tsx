@@ -24,8 +24,9 @@ import { ProductTable, ProductTypeEnum } from '@types';
 import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
 
 function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProducts: number }) {
-  const { translate } = useLocales();
   const mdUp = useResponsive('up', 'lg', 'lg');
+
+  const { translate } = useLocales();
   const { productHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 

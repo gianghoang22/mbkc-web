@@ -16,12 +16,13 @@ import {
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+// section
+import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 //
 import { Label, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { Color } from 'common/enum';
-import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 
 function WalletPage() {
   const { pathname } = useLocation();

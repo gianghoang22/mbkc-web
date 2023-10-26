@@ -38,6 +38,7 @@ interface UpdateStorePartnerModalProps {
 function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: UpdateStorePartnerModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { schemaUpdateStorePartner } = useValidationForm();
 

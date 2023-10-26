@@ -1,10 +1,11 @@
 // @mui
 import { Grid, Stack, Typography } from '@mui/material';
-import { Language } from 'common/enum';
+// redux
+import { useAppSelector } from 'redux/configStore';
 //
+import { Language } from 'common/enum';
 import { InputField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
 
 function BankingAccountForm() {
   const { translate, currentLang } = useLocales();

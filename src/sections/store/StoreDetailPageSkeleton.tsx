@@ -16,11 +16,12 @@ import {
   TableRow,
 } from '@mui/material';
 import { StorePartnerDetailTable } from '@types';
+// redux
+import { useAppSelector } from 'redux/configStore';
 //
 import { Role } from 'common/enum';
 import { CommonTableHead } from 'components';
 import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
 
 function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: string | null | undefined }) {
   const { translate } = useLocales();

@@ -8,11 +8,12 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+// section
+import OnlyPartnerRow from './OnlyPartnerRow';
+import OnlyPartnerRowSkeleton from './OnlyPartnerRowSkeleton';
 //
 import { Store, StorePartnerDetail, StorePartnerToList } from '@types';
 import { PATH_BRAND_APP } from 'routes/paths';
-import OnlyPartnerRow from './OnlyPartnerRow';
-import OnlyPartnerRowSkeleton from './OnlyPartnerRowSkeleton';
 
 interface StorePartnerTableRowProps {
   store: Store;

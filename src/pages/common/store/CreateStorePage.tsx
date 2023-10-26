@@ -5,16 +5,17 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Box, Button, Card, Stack } from '@mui/material';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { createNewStore, getStoreDetail, updateStore } from 'redux/store/storeSlice';
 //
 import { ListParams, Params, StoreToCreate, StoreToUpdate } from '@types';
 import { Color, Status } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { createNewStore, getStoreDetail, updateStore } from 'redux/store/storeSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreForm } from 'sections/store';
-import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 
 function CreateStorePage() {
   const { id: storeId } = useParams();

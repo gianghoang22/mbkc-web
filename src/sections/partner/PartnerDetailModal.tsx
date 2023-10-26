@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 // @mui
 import {
   Avatar,
@@ -12,15 +13,16 @@ import {
 } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+// redux
+import { useAppDispatch } from 'redux/configStore';
+import { deletePartner, setEditPartner } from 'redux/partner/partnerSlice';
+// section
+import CreatePartnerModal from './CreatePartnerModal';
 //
 import { Partner } from '@types';
 import { Color, Language, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, Popover } from 'components';
 import { useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { useNavigate } from 'react-router-dom';
-import { deletePartner, setEditPartner } from 'redux/partner/partnerSlice';
-import { useAppDispatch } from 'redux/configStore';
-import CreatePartnerModal from './CreatePartnerModal';
 
 interface PartnerDetailModalProps {
   partner?: Partner | null;
@@ -31,6 +33,7 @@ interface PartnerDetailModalProps {
 function PartnerDetailModal({ partner, isOpen, handleOpen }: PartnerDetailModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { page, rowsPerPage } = usePagination();
   const { translate, currentLang } = useLocales();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();

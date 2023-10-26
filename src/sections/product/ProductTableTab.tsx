@@ -6,18 +6,21 @@ import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProducts } from 'redux/product/productSlice';
+// section
+import ProductTableRow from './ProductTableRow';
+import ProductTableRowSkeleton from './ProductTableRowSkeleton';
+import ProductTableToolbar from './ProductTableToolbar';
 //
 import { ListParams, OrderSort, ProductTable } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import ProductTableRow from './ProductTableRow';
-import ProductTableRowSkeleton from './ProductTableRowSkeleton';
-import ProductTableToolbar from './ProductTableToolbar';
 
 function ProductTableTab() {
   const { id: categoryId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { productHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -41,12 +44,6 @@ function ProductTableTab() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
-
-  // const visibleRows = useMemo(
-  //   () =>
-  //     stableSort(products, getComparator(order, orderBy))
-  //   [order, orderBy, page, rowsPerPage, products]
-  // );
 
   const isNotFound = !products.length && !!filterName;
 

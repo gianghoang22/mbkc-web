@@ -1,14 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { IconButton, InputAdornment, Tooltip, Stack, Button } from '@mui/material';
-import { StyledRoot, StyledSearch } from '../styles';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from 'redux/configStore';
-import { useDebounce, useLocales, usePagination } from 'hooks';
-import { ListParams } from '@types';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+// @mui
+import ReplayIcon from '@mui/icons-material/Replay';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { Button, IconButton, InputAdornment, Stack, Tooltip } from '@mui/material';
+// redux
 import { getAllCategories } from 'redux/category/categorySlice';
+import { useAppDispatch } from 'redux/configStore';
+//
+import { ListParams } from '@types';
+import { useDebounce, useLocales, usePagination } from 'hooks';
+import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +28,7 @@ function CategoryTableToolbar(props: CategoryTableToolbarProps) {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { page, rowsPerPage } = usePagination();
 

@@ -1,20 +1,21 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-//
-import { KitchenCenter, Params, ToUpdateStatus } from '@types';
-import { Color, Status } from 'common/enum';
-import { ConfirmDialog, Label, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
-import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+// redux
+import { useAppDispatch } from 'redux/configStore';
 import {
   deleteKitchenCenter,
   setEditKitchenCenter,
   updateStatusKitchenCenter,
 } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+//
+import { KitchenCenter, Params, ToUpdateStatus } from '@types';
+import { Color, Status } from 'common/enum';
+import { ConfirmDialog, Label, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface KitchenCenterTableRowProps {
@@ -25,8 +26,8 @@ interface KitchenCenterTableRowProps {
 }
 
 function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: KitchenCenterTableRowProps) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { pathname } = useLocation();
   const { translate } = useLocales();

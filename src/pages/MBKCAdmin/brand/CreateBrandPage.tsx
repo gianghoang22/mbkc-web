@@ -33,20 +33,13 @@ function CreateBrandPage() {
 
   const createBrandForm = useForm<AddressFormInterface>({
     defaultValues: {
-      name: isEditing ? brand?.name : '',
-      address: isEditing
-        ? brand?.address
-          ? brand?.address
-              .split(', ')
-              .slice(0, brand?.address.split(', ').length - 6)
-              .join(', ')
-          : brand?.address
-        : '',
-      logo: isEditing ? brand?.logo : '',
-      managerEmail: isEditing ? brand?.brandManagerEmail : '',
-      provinceId: isEditing ? brand?.address.split(', ').slice(-3)[2] : '',
-      districtId: isEditing ? brand?.address.split(', ').slice(-3)[1] : '',
-      wardId: isEditing ? brand?.address.split(', ').slice(-3)[0] : '',
+      name: '',
+      address: '',
+      logo: '',
+      managerEmail: '',
+      provinceId: '',
+      districtId: '',
+      wardId: '',
     },
     resolver: yupResolver(schemaBrand),
   });
@@ -66,23 +59,22 @@ function CreateBrandPage() {
   const ward = wards.find((opt) => opt.ward_id.toString() === wardId);
 
   useEffect(() => {
-    if (isEditing === true) {
-      reset({
-        name: brand?.name,
-        address: brand?.address
-          ? brand?.address
-              .split(', ')
-              .slice(0, brand?.address.split(', ').length - 6)
-              .join(', ')
-          : brand?.address,
-        logo: brand?.logo,
-        managerEmail: brand?.brandManagerEmail,
-        provinceId: brand?.address.split(', ').slice(-3)[2],
-        districtId: brand?.address.split(', ').slice(-3)[1],
-        wardId: brand?.address.split(', ').slice(-3)[0],
-      });
+    if (brand !== null && isEditing === true) {
+      setValue('name', brand?.name as string);
+      setValue(
+        'address',
+        brand?.address
+          .split(', ')
+          .slice(0, brand?.address.split(', ').length - 6)
+          .join(', ') as string
+      );
+      setValue('logo', brand?.logo as string);
+      setValue('managerEmail', brand?.brandManagerEmail as string);
+      setValue('provinceId', brand?.address.split(', ').slice(-3)[2] as string);
+      setValue('districtId', brand?.address.split(', ').slice(-3)[1] as string);
+      setValue('wardId', brand?.address.split(', ').slice(-3)[0] as string);
     }
-  }, [brand]);
+  }, [brand, isEditing, setValue]);
 
   const params = useMemo(() => {
     return {

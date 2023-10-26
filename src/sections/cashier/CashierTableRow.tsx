@@ -3,14 +3,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+// redux
+import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashier/cashierSlice';
+import { useAppDispatch } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { Cashier } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashier/cashierSlice';
-import { useAppDispatch } from 'redux/configStore';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import CashierDetailModal from './CashierDetailModal';
 
@@ -24,6 +25,7 @@ interface CashierTableRowProps {
 function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
@@ -55,7 +57,7 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
     const updateStatusParams = {
       cashierId: cashier.accountId,
       navigate,
-      status: `${cashier.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
+      status: `${cashier.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE}`,
       page: page + 1,
       rowsPerPage: rowsPerPage,
     };

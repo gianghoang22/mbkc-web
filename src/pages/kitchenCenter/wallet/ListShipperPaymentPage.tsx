@@ -2,20 +2,20 @@ import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
-
+// redux
+import { useAppSelector } from 'redux/configStore';
+// section
+import { ShipperPaymentTableRow, ShipperPaymentTableToolbar } from 'sections/shipperPayment';
+//
 import { OrderSort, ShipperPayment, ShipperPaymentTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
-
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-
 import { getComparator, stableSort } from 'utils';
-import ShipperPaymentTableRow from 'sections/shipperPayment/ShipperPaymentTableRow';
-import ShipperPaymentTableToolbar from 'sections/shipperPayment/ShipperPaymentTableToolbar';
 
-function ListShipperPaymentPage(props: any) {
+function ListShipperPaymentPage() {
   const navigate = useNavigate();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { ShipperPaymentHeadCells } = useConfigHeadTable();

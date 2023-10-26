@@ -1,16 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { createNewPartner, updatePartner } from 'redux/partner/partnerSlice';
 //
 import { Params, PartnerToCreate, PartnerToUpdate } from '@types';
 import { Color, Language, Status } from 'common/enum';
 import { InputField, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { useNavigate } from 'react-router-dom';
-import { createNewPartner, updatePartner } from 'redux/partner/partnerSlice';
 
 interface CreatePartnerModalProps {
   page: number;
