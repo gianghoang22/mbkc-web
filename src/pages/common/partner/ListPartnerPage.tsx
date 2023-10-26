@@ -19,6 +19,7 @@ import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 function ListPartnerPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { pathname } = useLocation();
   const { handleOpen, isOpen } = useModal();

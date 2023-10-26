@@ -22,9 +22,9 @@ export interface BrandToCreate {
 }
 
 export interface BrandToUpdate {
-  Name: string;
-  Address: string;
-  BrandManagerEmail: string;
-  Logo?: string;
-  Status: string;
+  name: string;
+  address: string;
+  brandManagerEmail: string;
+  logo?: string;
+  status: string;
 }

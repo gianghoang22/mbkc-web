@@ -2,11 +2,12 @@ import { Language } from 'common/enum';
 import * as yup from 'yup';
 import { ref } from 'yup';
 import useLocales from './useLocales';
+import { LoginForm } from '@types';
 
 function useValidationForm() {
   const { translate, currentLang } = useLocales();
 
-  const schemaLogin = yup.object({
+  const schemaLogin: yup.ObjectSchema<LoginForm> = yup.object({
     email: yup
       .string()
       .required(translate('page.validation.required', { name: 'email' }))
@@ -341,7 +342,7 @@ function useValidationForm() {
   });
 
   const schemaBrand = yup.object({
-    Name: yup
+    name: yup
       .string()
       .max(100, translate('page.validation.max100'))
       .required(
@@ -360,17 +361,20 @@ function useValidationForm() {
           ),
         })
       ),
-    ManagerEmail: yup
+    managerEmail: yup
       .string()
       .email(translate('page.validation.emailFormat'))
       .required(translate('page.validation.required', { name: translate('model.lowercase.managerEmail') })),
-    Address: yup
+    address: yup
       .string()
       .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
+    provinceId: yup.string().required(translate('page.validation.select', { name: translate('page.form.province') })),
+    districtId: yup.string().required(translate('page.validation.select', { name: translate('page.form.district') })),
+    wardId: yup.string().required(translate('page.validation.select', { name: translate('page.form.ward') })),
   });
 
   const schemaKitchenCenter = yup.object({
-    Name: yup
+    name: yup
       .string()
       .max(100, translate('page.validation.max100'))
       .required(
@@ -389,13 +393,16 @@ function useValidationForm() {
           ),
         })
       ),
-    ManagerEmail: yup
+    managerEmail: yup
       .string()
       .email(translate('page.validation.emailFormat'))
       .required(translate('page.validation.required', { name: translate('model.lowercase.managerEmail') })),
-    Address: yup
+    address: yup
       .string()
       .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
+    provinceId: yup.string().required(translate('page.validation.select', { name: translate('page.form.province') })),
+    districtId: yup.string().required(translate('page.validation.select', { name: translate('page.form.district') })),
+    wardId: yup.string().required(translate('page.validation.select', { name: translate('page.form.ward') })),
   });
 
   const schemaBankingAccount = yup.object({

@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
@@ -10,63 +12,167 @@ import {
   getKitchenCenterDetail,
   updateKitchenCenter,
 } from 'redux/kitchenCenter/kitchenCenterSlice';
+// section
+import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
 //
-import { CreateKitchenCenterParams, KitchenCenterToAdd, KitchenCenterToUpdate } from '@types';
-import { Color } from 'common/enum';
+import { AddressFormInterface, KitchenCenterToAdd, KitchenCenterToUpdate, Params } from '@types';
+import { Color, Status } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
-import { useEffect, useMemo } from 'react';
 
 function CreateKitchenCenterPage() {
   const { id: kitchenCenterId } = useParams();
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const dispatch = useAppDispatch();
   const { schemaKitchenCenter } = useValidationForm();
+
+  const { pathnameToBack } = useAppSelector((state) => state.routes);
+  const { provinces, districts, wards } = useAppSelector((state) => state.address);
   const { isEditing, isLoading, kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
 
-  const createKitchenCenterForm = useForm<KitchenCenterToAdd>({
+  const createKitchenCenterForm = useForm<AddressFormInterface>({
     defaultValues: {
-      Name: '',
-      Address: '',
-      Logo: '',
-      ManagerEmail: '',
+      name: isEditing ? kitchenCenter?.name : '',
+      address: isEditing
+        ? kitchenCenter?.address
+          ? kitchenCenter?.address
+              .split(', ')
+              .slice(0, kitchenCenter?.address.split(', ').length - 6)
+              .join(', ')
+          : kitchenCenter?.address
+        : '',
+      logo: isEditing ? kitchenCenter?.logo : '',
+      managerEmail: isEditing ? kitchenCenter?.kitchenCenterManagerEmail : '',
+      provinceId: isEditing ? kitchenCenter?.address.split(', ').slice(-3)[2] : '',
+      districtId: isEditing ? kitchenCenter?.address.split(', ').slice(-3)[1] : '',
+      wardId: isEditing ? kitchenCenter?.address.split(', ').slice(-3)[0] : '',
     },
     resolver: yupResolver(schemaKitchenCenter),
   });
 
-  const { handleSubmit, setValue } = createKitchenCenterForm;
+  const { handleSubmit, watch, reset, setValue } = createKitchenCenterForm;
 
-  const onSubmit = async (values: KitchenCenterToAdd) => {
-    // Create a kitchen center
+  const name = watch('name');
+  const address = watch('address');
+  const logo = watch('logo');
+  const managerEmail = watch('managerEmail');
+  const provinceId = watch('provinceId');
+  const districtId = watch('districtId');
+  const wardId = watch('wardId');
+
+  const province = provinces.find((opt) => opt.province_id.toString() === provinceId);
+  const district = districts.find((opt) => opt.district_id.toString() === districtId);
+  const ward = wards.find((opt) => opt.ward_id.toString() === wardId);
+
+  // useEffect(() => {
+  //   if (kitchenCenter !== null && isEditing === true) {
+  //     reset({
+  //       name: kitchenCenter?.name,
+  //       address: kitchenCenter?.address
+  //         ? kitchenCenter?.address
+  //             .split(', ')
+  //             .slice(0, kitchenCenter?.address.split(', ').length - 6)
+  //             .join(', ')
+  //         : kitchenCenter?.address,
+  //       logo: kitchenCenter?.logo,
+  //       managerEmail: kitchenCenter?.kitchenCenterManagerEmail,
+  //       provinceId: kitchenCenter?.address.split(', ').slice(-3)[2],
+  //       districtId: kitchenCenter?.address.split(', ').slice(-3)[1],
+  //       wardId: kitchenCenter?.address.split(', ').slice(-3)[0],
+  //     });
+  //   }
+  // }, [kitchenCenter]);
+
+  useEffect(() => {
+    if (kitchenCenter !== null && isEditing === true) {
+      setValue('name', kitchenCenter?.name);
+      setValue(
+        'address',
+        kitchenCenter?.address
+          .split(', ')
+          .slice(0, kitchenCenter?.address.split(', ').length - 6)
+          .join(', ')
+      );
+      setValue('logo', kitchenCenter?.logo);
+      setValue('managerEmail', kitchenCenter?.kitchenCenterManagerEmail);
+      setValue('provinceId', kitchenCenter?.address.split(', ').slice(-3)[2] as string);
+      setValue('districtId', kitchenCenter?.address.split(', ').slice(-3)[1] as string);
+      setValue('wardId', kitchenCenter?.address.split(', ').slice(-3)[0] as string);
+    }
+  }, [kitchenCenter, isEditing, setValue]);
+
+  const params = useMemo(() => {
+    return {
+      kitchenCenterId,
+      navigate,
+    };
+  }, [kitchenCenterId, navigate]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch(getKitchenCenterDetail(params));
+    }
+  }, [dispatch, navigate, params]);
+
+  useEffect(() => {
+    reset({
+      name: name,
+      address: address,
+      logo: logo,
+      managerEmail: managerEmail,
+      provinceId: provinceId,
+      districtId: '',
+      wardId: '',
+    });
+  }, [provinceId]);
+
+  useEffect(() => {
+    reset({
+      name: name,
+      address: address,
+      logo: logo,
+      managerEmail: managerEmail,
+      provinceId: provinceId,
+      districtId: districtId,
+      wardId: wardId !== undefined ? wardId : '',
+    });
+  }, [districtId]);
+
+  const onSubmit = async (values: AddressFormInterface) => {
     const data = { ...values };
-    const params: CreateKitchenCenterParams = {
-      newKitchenCenter: data,
-      navigate,
-    };
-
-    // Update a kitchen center
-    const updateKitchenCenterOptions: KitchenCenterToUpdate = {
-      Name: values.Name,
-      Address: values.Address,
-      Status: 'ACTIVE',
-      Logo: values.Logo,
-      ManagerEmail: values.ManagerEmail,
-    };
-
-    const paramsUpdate = {
-      updateKitchenCenterOptions: updateKitchenCenterOptions,
-      kitchenCenterId: kitchenCenter?.kitchenCenterId,
-      navigate,
-    };
 
     if (isEditing) {
-      dispatch<any>(updateKitchenCenter(paramsUpdate));
+      const paramUpdate: Params<KitchenCenterToUpdate> = {
+        data: {
+          name: data.name,
+          address: `${data.address}, ${ward?.ward_name}, ${district?.district_name}, ${province?.province_name}, ${ward?.ward_id}, ${district?.district_id}, ${province?.province_id}`,
+          status: Status.ACTIVE,
+          logo: typeof values.logo === 'string' ? '' : data.logo,
+          managerEmail: data.managerEmail,
+        },
+        idParams: {
+          kitchenCenterId: kitchenCenter?.kitchenCenterId,
+        },
+        pathname: pathnameToBack,
+        navigate,
+      };
+      dispatch<any>(updateKitchenCenter(paramUpdate));
     } else {
-      dispatch<any>(createNewKitchenCenter(params));
+      const createKitchenCenter: Params<KitchenCenterToAdd> = {
+        data: {
+          name: data.name,
+          address: `${data.address}, ${ward?.ward_name}, ${district?.district_name}, ${province?.province_name}, ${ward?.ward_id}, ${district?.district_id}, ${province?.province_id}`,
+          logo: data.logo,
+          managerEmail: data.managerEmail,
+        },
+        navigate,
+      };
+      dispatch<any>(createNewKitchenCenter(createKitchenCenter));
     }
   };
 
@@ -82,15 +188,6 @@ function CreateKitchenCenterPage() {
       dispatch<any>(getKitchenCenterDetail(paramsDetail));
     }
   }, [dispatch, navigate, paramsDetail, isEditing]);
-
-  useEffect(() => {
-    if (kitchenCenter !== null && isEditing === true) {
-      setValue('Name', kitchenCenter?.name as string);
-      setValue('Address', kitchenCenter?.address as string);
-      setValue('Logo', kitchenCenter?.logo as string);
-      setValue('ManagerEmail', kitchenCenter?.kitchenCenterManagerEmail as string);
-    }
-  }, [kitchenCenter, isEditing, setValue]);
 
   return (
     <>
@@ -119,15 +216,36 @@ function CreateKitchenCenterPage() {
             </Button>
             <Stack direction="row" gap={2}>
               {isEditing && (
-                <Button variant="contained" color="inherit">
+                <Button
+                  variant="contained"
+                  disabled={isLoading}
+                  color="inherit"
+                  onClick={() => {
+                    reset({
+                      name: kitchenCenter?.name,
+                      address: kitchenCenter?.address
+                        ? kitchenCenter?.address
+                            .split(', ')
+                            .slice(0, kitchenCenter?.address.split(', ').length - 6)
+                            .join(', ')
+                        : kitchenCenter?.address,
+                      logo: kitchenCenter?.logo,
+                      managerEmail: kitchenCenter?.kitchenCenterManagerEmail,
+                      provinceId: kitchenCenter?.address.split(', ').slice(-3)[2],
+                      districtId: kitchenCenter?.address.split(', ').slice(-3)[1],
+                      wardId: kitchenCenter?.address.split(', ').slice(-3)[0],
+                    });
+                  }}
+                >
                   {translate('button.reset')}
                 </Button>
               )}
               <Button
-                variant="contained"
-                color={isEditing ? Color.WARNING : Color.PRIMARY}
                 type="submit"
+                variant="contained"
+                disabled={isLoading}
                 onClick={handleSubmit(onSubmit)}
+                color={isEditing ? Color.WARNING : Color.PRIMARY}
               >
                 {isEditing ? translate('button.update') : translate('button.create')}
               </Button>
@@ -138,5 +256,4 @@ function CreateKitchenCenterPage() {
     </>
   );
 }
-
 export default CreateKitchenCenterPage;

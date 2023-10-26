@@ -5,26 +5,28 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //@mui Icons
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-//
-import { BrandTable, ListParams, OrderSort } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+// redux
 import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { PATH_ADMIN_APP } from 'routes/paths';
+// section
 import { BrandTableRow, BrandTableRowSkeleton, BrandTableToolbar } from 'sections/brand';
-import { getComparator, stableSort } from 'utils';
+//
+import { BrandTable, ListParams, OrderSort, OrderSortBy } from '@types';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 function ListBrandPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { pathname } = useLocation();
   const { brandHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof BrandTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof BrandTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [status, setStatus] = useState<string>('');
 
@@ -44,9 +46,7 @@ function ListBrandPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(() => stableSort(brands, getComparator(order, orderBy)), [order, orderBy, brands]);
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !brands.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -57,14 +57,15 @@ function ListBrandPage() {
         keyStatusFilter: status,
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
+        keySortName: orderBy === OrderSortBy.NAME ? order : '',
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, navigate, status]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order, status]);
 
   useEffect(() => {
     dispatch(getAllBrands(params));
-  }, [dispatch, navigate, params]);
+  }, [params]);
 
   return (
     <>
@@ -104,12 +105,13 @@ function ListBrandPage() {
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (
-                    <BrandTableRowSkeleton length={visibleRows.length} />
+                    <BrandTableRowSkeleton length={brands.length} />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((brand, index) => {
+                      {brands.map((brand, index) => {
                         return (
                           <BrandTableRow
+                            status={status}
                             key={index}
                             index={index}
                             brand={brand}

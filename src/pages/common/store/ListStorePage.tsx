@@ -12,7 +12,7 @@ import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 // section
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 //
-import { ListParams, OrderSort, StoreTable } from '@types';
+import { ListParams, OrderSort, OrderSortBy, StoreTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
@@ -34,7 +34,7 @@ function ListStorePage() {
   const { stores, numberItems, isLoading } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [storeStatus, setStoreStatus] = useState<string>('');
 

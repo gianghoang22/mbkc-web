@@ -1,16 +1,17 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow, Stack } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-//
-import { Brand } from '@types';
-import { Color, Status } from 'common/enum';
-import { ConfirmDialog, Label, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
+// redux
 import { deleteBrand, setEditBrand, updateStatusBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+//
+import { Brand, Params, ToUpdateStatus } from '@types';
+import { Color, Status } from 'common/enum';
+import { ConfirmDialog, Label, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 interface BrandTableRowProps {
@@ -18,18 +19,20 @@ interface BrandTableRowProps {
   brand: Brand;
   page: number;
   rowsPerPage: number;
+  status: string;
 }
 
-function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) {
+function BrandTableRow({ index, brand, page, rowsPerPage, status }: BrandTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleNavigateDetail = (brand: Brand, brandId: number) => {
-    navigate(PATH_ADMIN_APP.brand.root + `/${brandId}`);
+  const handleNavigateDetail = () => {
+    navigate(PATH_ADMIN_APP.brand.root + `/${brand.brandId}`);
     dispatch(setRoutesToBack(pathname));
   };
 
@@ -39,46 +42,52 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
     dispatch(setEditBrand(brand));
   };
 
-  const handleDelete = async () => {
-    const brandId = brand.brandId;
-    const params = {
-      brandId,
-      navigate,
-    };
-    dispatch(deleteBrand(params));
+  const handleDelete = () => {
+    handleOpen();
+    dispatch<any>(
+      deleteBrand({
+        optionParams: { keyStatusFilter: status },
+        idParams: { brandId: brand?.brandId },
+        navigate,
+      })
+    );
   };
 
   const handleChangeStatus = () => {
-    const updateStatusParams = {
-      brandId: brand.brandId,
+    const paramUpdateStatus: Params<ToUpdateStatus> = {
+      data: {
+        status: brand.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
+      },
+      idParams: {
+        brandId: brand?.brandId,
+      },
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+      },
       navigate,
-      status: `${brand.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE}`,
-      page: page + 1,
-      rowsPerPage: rowsPerPage,
     };
-
-    dispatch<any>(updateStatusBrand(updateStatusParams));
+    dispatch<any>(updateStatusBrand(paramUpdateStatus));
   };
 
   return (
     <>
       <TableRow hover tabIndex={-1} key={brand.name} sx={{ cursor: 'pointer' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
+        <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          sx={{ width: 80 }}
-          onClick={() => handleNavigateDetail(brand, brand.brandId)}
-        >
+        <TableCell component="th" scope="row" sx={{ width: 80 }} onClick={handleNavigateDetail}>
           <Avatar alt={brand.name} src={brand.logo} />
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
+        <TableCell align="left" onClick={handleNavigateDetail}>
           {brand.name}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(brand, brand.brandId)}>
-          {brand.address}
+        <TableCell align="left" onClick={handleNavigateDetail}>
+          {brand?.address}
+          {/* {brand?.address
+            .split(', ')
+            .slice(0, brand?.address.split(', ').length - 3)
+            .join(', ')} */}
         </TableCell>
         <TableCell align="left">
           <Label
@@ -98,17 +107,19 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
           </Label>
         </TableCell>
         <TableCell align="right">
-          <Switch
-            onChange={handleChangeStatus}
-            size="small"
-            inputProps={{ 'aria-label': 'controlled' }}
-            disabled={brand.status === Status.DEACTIVE}
-            checked={brand.status === Status.INACTIVE || brand.status === Status.DEACTIVE ? false : true}
-            color={brand?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
-          />
-          <IconButton color="inherit" onClick={handleOpenMenu}>
-            <MoreVertIcon />
-          </IconButton>
+          <Stack direction="row" alignItems="center" justifyContent="right">
+            <Switch
+              onChange={handleChangeStatus}
+              size="small"
+              inputProps={{ 'aria-label': 'controlled' }}
+              disabled={brand.status === Status.DEACTIVE}
+              checked={brand.status === Status.INACTIVE || brand.status === Status.DEACTIVE ? false : true}
+              color={brand?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+            />
+            <IconButton color="inherit" onClick={handleOpenMenu}>
+              <MoreVertIcon />
+            </IconButton>{' '}
+          </Stack>
         </TableCell>
       </TableRow>
 
@@ -119,6 +130,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
+          model={brand?.name}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.brand') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.brand') })}
         />

@@ -1,30 +1,32 @@
-import ReplayIcon from '@mui/icons-material/Replay';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-
-import { IconButton, InputAdornment, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
-//
-import { ListParams } from '@types';
-import { useLocales, usePagination } from 'hooks';
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+// @mui icon
+import ReplayIcon from '@mui/icons-material/Replay';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+// @mui
+import { IconButton, InputAdornment, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
+// redux
 import { getAllBrands } from 'redux/brand/brandSlice';
 import { useAppDispatch } from 'redux/configStore';
+//
+import { ListParams } from '@types';
+import { Status } from 'common/enum';
+import { useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
 
-// ----------------------------------------------------------------------
-
-interface StoreTableToolbarProps {
-  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
+interface BrandTableToolbarProps {
   filterName: string;
   status: string;
   setStatus: Dispatch<SetStateAction<string>>;
+  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: StoreTableToolbarProps) {
-  const { translate } = useLocales();
-  const { page, rowsPerPage } = usePagination();
+function BrandTableToolbar({ filterName, onFilterName, setStatus, status }: BrandTableToolbarProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const { translate } = useLocales();
+  const { page, rowsPerPage } = usePagination();
 
   const params: ListParams = useMemo(() => {
     return {
@@ -41,7 +43,7 @@ function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: Stor
   return (
     <StyledRoot>
       <Stack direction="row" gap={2}>
-        <Stack width={170}>
+        <Stack width={180}>
           <TextField
             label={translate('table.status')}
             select
@@ -50,9 +52,8 @@ function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: Stor
             onChange={(event) => setStatus(event.target.value)}
             fullWidth
           >
-            <MenuItem value="">None</MenuItem>
-            <MenuItem value="Active">{translate('status.active')}</MenuItem>
-            <MenuItem value="Inactive">{translate('status.inactive')}</MenuItem>
+            <MenuItem value={Status.ACTIVE}>{translate('status.active')}</MenuItem>
+            <MenuItem value={Status.INACTIVE}>{translate('status.inactive')}</MenuItem>
           </TextField>
         </Stack>
         <Stack>
@@ -79,4 +80,4 @@ function StoreTableToolbar({ filterName, onFilterName, setStatus, status }: Stor
   );
 }
 
-export default StoreTableToolbar;
+export default BrandTableToolbar;

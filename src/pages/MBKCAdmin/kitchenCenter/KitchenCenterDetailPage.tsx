@@ -18,32 +18,34 @@ import {
   Typography,
 } from '@mui/material';
 // @mui icon
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DescriptionIcon from '@mui/icons-material/Description';
-
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import {
+  deleteKitchenCenter,
   getKitchenCenterDetail,
   setEditKitchenCenter,
-  setKitchenCenterToNull,
 } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { getAllStores } from 'redux/store/storeSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { getAllStores } from 'redux/store/storeSlice';
+// section
+import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
+import { BrandDetailPageSkeleton } from 'sections/brand';
 //
-import { ListParams, OrderSort, StoreTable } from '@types';
+import { ListParams, OrderSort, OrderSortBy, StoreTable } from '@types';
 import { Color, Language, Status } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { getComparator, stableSort } from 'utils';
-import { KitchenCenterDetailPageSkeleton } from '..';
 
 function KitchenCenterDetailPage() {
   const { id: kitchenCenterId } = useParams();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const { pathname } = useLocation();
   const { storeHeadCells } = useConfigHeadTable();
   const { translate, currentLang } = useLocales();
@@ -55,7 +57,7 @@ function KitchenCenterDetailPage() {
   const { stores, isLoading: isLoadingStores, numberItems } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [storeStatus, setStoreStatus] = useState<string>('');
 
@@ -81,7 +83,13 @@ function KitchenCenterDetailPage() {
   const isNotFound = !visibleRows.length && !!filterName;
 
   const handleDelete = () => {
-    console.log('Handel delete clicked');
+    handleOpenModal();
+    dispatch<any>(
+      deleteKitchenCenter({
+        idParams: { kitchenCenterId: kitchenCenter?.kitchenCenterId },
+        navigate,
+      })
+    );
   };
 
   const debounceValue = useDebounce(filterName, 500);
@@ -103,16 +111,12 @@ function KitchenCenterDetailPage() {
       kitchenCenterId,
       navigate,
     };
-  }, [kitchenCenterId, navigate]);
+  }, [kitchenCenterId]);
 
   useEffect(() => {
     dispatch<any>(getKitchenCenterDetail(paramsDetails));
     dispatch<any>(getAllStores(params));
-
-    return () => {
-      dispatch(setKitchenCenterToNull());
-    };
-  }, [params]);
+  }, [params, paramsDetails]);
 
   return (
     <>
@@ -144,55 +148,141 @@ function KitchenCenterDetailPage() {
           </Button>,
         ]}
       >
-        <Stack spacing={5} mb={10} width="65%">
-          <Card>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              sx={{
-                px: 3,
-                py: 1.5,
-                borderBottom: 1,
-                borderColor: 'divider',
-              }}
-            >
-              <Stack direction="row" alignItems="center" gap={0.5}>
-                <Typography variant="h6">{translate('page.content.generalInformation')}</Typography>
+        <Stack spacing={5} mb={7} width="100%">
+          <Stack spacing={5} mb={10} width="65%">
+            <Card>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                sx={{
+                  px: 3,
+                  py: 1.5,
+                  borderBottom: 1,
+                  borderColor: 'divider',
+                }}
+              >
+                <Stack direction="row" alignItems="center" gap={0.5}>
+                  <Typography variant="h6">{translate('page.content.generalInformation')}</Typography>
+                  <DescriptionIcon fontSize="small" />
+                </Stack>
               </Stack>
-            </Stack>
-            {isLoading ? (
-              <KitchenCenterDetailPageSkeleton />
-            ) : (
-              <Stack sx={{ px: 3, py: 3 }}>
-                <Grid container columnSpacing={2} alignItems="center">
-                  <Grid item md={3} sm={12}>
-                    <Stack width="100%" alignItems="center">
-                      <Avatar src={kitchenCenter?.logo} alt={kitchenCenter?.name} sx={{ width: 150, height: 150 }} />
-                    </Stack>
-                  </Grid>
-                  <Grid item md={9} sm={12}>
-                    <Stack gap={1}>
-                      <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Stack direction="row" alignItems="center" gap={0.5}>
-                          <Typography variant="h6">{kitchenCenter?.name}</Typography>
-                        </Stack>
-                        <Label color={(kitchenCenter?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                          {kitchenCenter?.status === Status.INACTIVE
-                            ? translate('status.inactive')
-                            : translate('status.active')}
-                        </Label>
+              {isLoading ? (
+                <BrandDetailPageSkeleton />
+              ) : (
+                <Stack sx={{ px: 3, py: 3 }}>
+                  <Grid container columnSpacing={2}>
+                    <Grid item md={3} sm={12}>
+                      <Stack width="100%" alignItems="center">
+                        <Avatar src={kitchenCenter?.logo} alt={kitchenCenter?.name} sx={{ width: 150, height: 150 }} />
                       </Stack>
+                    </Grid>
+                    <Grid item md={9} sm={12}>
+                      <Stack width="100%" alignItems="start" gap={1}>
+                        <Typography variant="h5">{kitchenCenter?.name}</Typography>
 
-                      <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                        <Typography variant="subtitle1">{translate('table.address')}:</Typography>
-                        <Typography variant="body1">{kitchenCenter?.address}</Typography>
+                        <Stack
+                          width="100%"
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
+                          gap={0.5}
+                        >
+                          <Typography variant="subtitle1">{translate('table.status')}:</Typography>
+                          <Label color={(kitchenCenter?.status === Status.INACTIVE && Color.WARNING) || Color.SUCCESS}>
+                            {kitchenCenter?.status === Status.INACTIVE
+                              ? translate('status.inactive')
+                              : translate('status.active')}
+                          </Label>
+                        </Stack>
+
+                        <Typography variant="subtitle1">
+                          {translate('table.address')}:{' '}
+                          <Typography variant="body1" component="span">
+                            {kitchenCenter?.address
+                              .split(', ')
+                              .slice(0, kitchenCenter?.address.split(', ').length - 3)
+                              .join(', ')}
+                          </Typography>
+                        </Typography>
                       </Stack>
-                    </Stack>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Stack>
-            )}
+                </Stack>
+              )}
+            </Card>
+          </Stack>
+
+          <Card>
+            <Box sx={{ width: '100%' }}>
+              <Paper sx={{ width: '100%', mb: 2 }}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  px={3}
+                  py={2}
+                  sx={{ borderBottom: 1, borderColor: 'divider' }}
+                >
+                  <Typography variant="h6">
+                    {translate('page.title.list', { model: translate('model.lowercase.store') })}
+                  </Typography>
+                </Stack>
+
+                <StoreTableToolbar
+                  haveSelectStatus
+                  filterName={filterName}
+                  onFilterName={handleFilterByName}
+                  status={storeStatus}
+                  setStatus={setStoreStatus}
+                />
+                <TableContainer>
+                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                    <CommonTableHead<StoreTable>
+                      hideKitchenCenter
+                      headCells={storeHeadCells}
+                      order={order}
+                      orderBy={orderBy}
+                      onRequestSort={handleRequestSort}
+                    />
+                    {isLoadingStores ? (
+                      <StoreTableRowSkeleton showEmail haveBrand={true} length={visibleRows.length} />
+                    ) : (
+                      <TableBody>
+                        {visibleRows.map((store, index) => {
+                          return (
+                            <StoreTableRow
+                              key={store.storeId}
+                              store={store}
+                              showAction={false}
+                              index={index}
+                              length={visibleRows.length}
+                              haveBrand={true}
+                              showEmail
+                            />
+                          );
+                        })}
+                        {emptyRows > 0 ||
+                          (stores.length === 0 && !filterName && (
+                            <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.stores')} />
+                          ))}
+                      </TableBody>
+                    )}
+                    {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={numberItems}
+                  rowsPerPage={rowsPerPage}
+                  labelRowsPerPage={translate('table.rowsPerPage')}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>
+            </Box>
           </Card>
         </Stack>
 
@@ -285,6 +375,7 @@ function KitchenCenterDetailPage() {
           open={isOpenModal}
           onAction={handleDelete}
           onClose={handleOpenModal}
+          model={kitchenCenter?.name}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.kitchenCenter') })}
           description={translate('dialog.confirmDeleteContent', {
             model: translate('model.lowercase.kitchenCenter'),

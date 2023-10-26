@@ -74,9 +74,6 @@ const kitchenCenterSlice = createSlice({
       state.kitchenCenter = action.payload;
       setLocalStorage(StorageKeys.IS_EDIT_KITCHEN_CENTER, true);
     },
-    setKitchenCenterToNull: (state) => {
-      state.kitchenCenter = null;
-    },
   },
   extraReducers(builder) {
     builder
@@ -165,7 +162,7 @@ const kitchenCenterSlice = createSlice({
   },
 });
 
-export const { setKitchenCenterToNull, setAddKitchenCenter, setEditKitchenCenter } = kitchenCenterSlice.actions;
+export const { setAddKitchenCenter, setEditKitchenCenter } = kitchenCenterSlice.actions;
 const kitchenCenterReducer = kitchenCenterSlice.reducer;
 
 export default kitchenCenterReducer;

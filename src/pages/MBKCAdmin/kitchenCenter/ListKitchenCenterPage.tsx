@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -8,28 +9,30 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllKitchenCenters, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-//
-import { KitchenCenterTable, ListParams, OrderSort } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import { PATH_ADMIN_APP } from 'routes/paths';
+// section
 import {
   KitchenCenterTableRow,
   KitchenCenterTableRowSkeleton,
   KitchenCenterTableToolbar,
 } from 'sections/kitchenCenter';
+//
+import { KitchenCenterTable, ListParams, OrderSort, OrderSortBy } from '@types';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { PATH_ADMIN_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
 
-function ListKitchenCenterPage(props: any) {
+function ListKitchenCenterPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { kitchenCenterHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
 
   const { kitchenCenters, isLoading, numberItems } = useAppSelector((state) => state.kitchenCenter);
@@ -45,7 +48,6 @@ function ListKitchenCenterPage(props: any) {
     setFilterName(event.target.value);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const visibleRows = useMemo(
@@ -66,11 +68,11 @@ function ListKitchenCenterPage(props: any) {
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, navigate]);
+  }, [page, rowsPerPage, debounceValue]);
 
   useEffect(() => {
     dispatch(getAllKitchenCenters(params));
-  }, [dispatch, navigate, params]);
+  }, [params]);
 
   return (
     <>
@@ -99,9 +101,10 @@ function ListKitchenCenterPage(props: any) {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<KitchenCenterTable>
-                    headCells={kitchenCenterHeadCells}
+                    showAction
                     order={order}
                     orderBy={orderBy}
+                    headCells={kitchenCenterHeadCells}
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (

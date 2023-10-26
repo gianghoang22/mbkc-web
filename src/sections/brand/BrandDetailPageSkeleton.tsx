@@ -1,9 +1,6 @@
-import { Grid, Skeleton, Stack, Typography } from '@mui/material';
-import { useLocales } from 'hooks';
+import { Grid, Skeleton, Stack } from '@mui/material';
 
 function BrandDetailPage() {
-  const { translate } = useLocales();
-
   return (
     <>
       <Stack sx={{ px: 3.5, py: 3 }}>
@@ -15,15 +12,15 @@ function BrandDetailPage() {
           </Grid>
           <Grid item md={9} sm={12}>
             <Stack width="100%" alignItems="start" gap={1}>
-              <Skeleton width={215} />
+              <Skeleton variant="rounded" width={200} height={30} />
 
               <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                <Typography variant="subtitle1">{translate('table.status')}:</Typography>
-                <Skeleton width={55} />
+                <Skeleton width={82} />
+                <Skeleton variant="rounded" width={120} height={24} />
               </Stack>
-              <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                <Typography variant="subtitle1">{translate('table.address')}:</Typography>
-                <Skeleton width={425} />
+              <Stack direction="column" gap={0.5}>
+                <Skeleton width={515} />
+                <Skeleton width={515} />
               </Stack>
             </Stack>
           </Grid>

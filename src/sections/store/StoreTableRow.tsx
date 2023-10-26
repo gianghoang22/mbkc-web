@@ -88,7 +88,7 @@ function StoreTableRow({
   };
 
   const handleDelete = () => {
-    handleOpen(store.name);
+    handleOpen();
     if (length === 1) {
       setPage(0);
     }
@@ -99,7 +99,6 @@ function StoreTableRow({
           itemsPerPage: rowsPerPage,
           currentPage: length === 1 ? 1 : page,
         },
-        pathname: pathname,
         navigate,
       })
     );

@@ -1,9 +1,18 @@
-import { CreateKitchenCenterParams, KitchenCenter, ListParams, ListResponse, MessageResponse } from '@types';
+import {
+  KitchenCenter,
+  KitchenCenterToAdd,
+  KitchenCenterToUpdate,
+  ListParams,
+  ListResponse,
+  MessageResponse,
+  Params,
+  ToUpdateStatus,
+} from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_KITCHEN_CENTER } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { getErrorMessage, handleResponseMessage } from 'utils';
+import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllKitchenCenters } from './kitchenCenterSlice';
 
 export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: any) => {
@@ -38,15 +47,24 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
   }
 };
 
-export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterParams, thunkAPI: any) => {
-  const { navigate } = params;
+export const createNewKitchenCenterThunk = async (params: Params<KitchenCenterToAdd>, thunkAPI: any) => {
+  const { data, optionParams, navigate } = params;
+  const formData = appendData(data);
 
   try {
     const response: MessageResponse = await axiosFormData.post(
       ROUTES_API_KITCHEN_CENTER.CREATE_KITCHEN_CENTER,
-      params.newKitchenCenter
+      formData
     );
     if (response) {
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage,
+          currentPage: optionParams?.currentPage,
+        },
+        navigate,
+      };
+      await thunkAPI.dispatch(getAllKitchenCenters(paramsCallback));
       navigate(PATH_ADMIN_APP.kitchenCenter.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
@@ -60,15 +78,16 @@ export const createNewKitchenCenterThunk = async (params: CreateKitchenCenterPar
   }
 };
 
-export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, updateKitchenCenterOptions, kitchenCenterId } = params;
-
+export const updateKitchenCenterThunk = async (params: Params<KitchenCenterToUpdate>, thunkAPI: any) => {
+  const { data, idParams, pathname, navigate } = params;
+  const formData = appendData(data);
   try {
     const response: MessageResponse = await axiosFormData.put(
-      ROUTES_API_KITCHEN_CENTER.UPDATE_KITCHEN_CENTER(kitchenCenterId),
-      updateKitchenCenterOptions
+      ROUTES_API_KITCHEN_CENTER.UPDATE_KITCHEN_CENTER(idParams?.kitchenCenterId ? idParams?.kitchenCenterId : 0),
+      formData
     );
     if (response) {
+      navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.kitchenCenter.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
@@ -81,59 +100,51 @@ export const updateKitchenCenterThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const deleteKitchenCenterThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, kitchenCenterId } = params;
-
-  const options = {
-    itemsPerPage: 5,
-    currentPage: 1,
-    keySearchName: '',
-  };
-
-  const params_callback = {
-    optionParams: options,
-    navigate,
-  };
-
-  try {
-    const response: MessageResponse = await axiosClient.delete(
-      ROUTES_API_KITCHEN_CENTER.DELETE_KITCHEN_CENTER(kitchenCenterId)
-    );
-    if (response) {
-      thunkAPI.dispatch(getAllKitchenCenters(params_callback));
-      const message = handleResponseMessage(response.message);
-      thunkAPI.dispatch(setMessageSuccess(message));
-    }
-    return response;
-  } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
-    thunkAPI.dispatch(setMessageError(messageMultiLang));
-    return thunkAPI.rejectWithValue(error);
-  }
-};
-
-export const updateStatusKitchenCenterThunk = async (params: any, thunkAPI: any) => {
-  const { kitchenCenterId, navigate, status, page, rowsPerPage } = params;
-  const options = {
-    keySearchName: '',
-    currentPage: page,
-    itemsPerPage: rowsPerPage,
-  };
-
-  const paramsCallback: ListParams = {
-    optionParams: options,
-    navigate,
-  };
+export const updateStatusKitchenCenterThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
+  const { data, idParams, optionParams, navigate } = params;
 
   try {
     const response: MessageResponse = await axiosClient.put(
-      ROUTES_API_KITCHEN_CENTER.UPDATE_STATUS_KITCHEN_CENTER(kitchenCenterId),
-      {
-        status: status,
-      }
+      ROUTES_API_KITCHEN_CENTER.UPDATE_STATUS_KITCHEN_CENTER(idParams?.kitchenCenterId ? idParams?.kitchenCenterId : 0),
+      data
     );
     if (response) {
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage,
+          currentPage: optionParams?.currentPage,
+        },
+        navigate,
+      };
+      await thunkAPI.dispatch(getAllKitchenCenters(paramsCallback));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
+    }
+    return response;
+  } catch (error: any) {
+    const errorMessage = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorMessage);
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const deleteKitchenCenterThunk = async (params: Params<KitchenCenter>, thunkAPI: any) => {
+  const { idParams, optionParams, navigate } = params;
+
+  try {
+    const response: MessageResponse = await axiosClient.delete(
+      ROUTES_API_KITCHEN_CENTER.DELETE_KITCHEN_CENTER(idParams?.kitchenCenterId ? idParams?.kitchenCenterId : 0)
+    );
+    if (response) {
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+        },
+        navigate,
+      };
+      navigate(PATH_ADMIN_APP.kitchenCenter.list);
       await thunkAPI.dispatch(getAllKitchenCenters(paramsCallback));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));

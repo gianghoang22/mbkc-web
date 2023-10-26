@@ -1,8 +1,7 @@
-import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { PATH_ADMIN_APP } from 'routes/paths';
-//mui
+// @mui
 import DescriptionIcon from '@mui/icons-material/Description';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {
@@ -19,24 +18,30 @@ import {
   TablePagination,
   Typography,
 } from '@mui/material';
-//
-import { ListParams, OrderSort, StoreTable } from '@types';
-import { Color, Language, PopoverType, Status } from 'common/enum';
-import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { getBrandDetail, setBrandToNull, setEditBrand } from 'redux/brand/brandSlice';
+// redux
+import { deleteBrand, getBrandDetail, setEditBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { getAllStores } from 'redux/store/storeSlice';
+// section
+import { BrandDetailPageSkeleton } from 'sections/brand';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
+//
+import { ListParams, OrderSort, OrderSortBy, StoreTable } from '@types';
+import { Color, Language, PopoverType, Status } from 'common/enum';
+import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
+import { PATH_ADMIN_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
-import BrandDetailPageSkeleton from './BrandDetailPageSkeleton';
 
 function BrandDetailPage() {
   const { id: brandId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { translate, currentLang } = useLocales();
+
   const { pathname } = useLocation();
+  const { translate, currentLang } = useLocales();
   const { storeHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
@@ -46,7 +51,7 @@ function BrandDetailPage() {
   const { stores, numberItems, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [storeStatus, setStoreStatus] = useState<string>('');
 
@@ -68,7 +73,13 @@ function BrandDetailPage() {
   const isNotFound = !visibleRows.length && !!filterName;
 
   const handleDelete = () => {
-    console.log('Deleting');
+    handleOpenModal();
+    dispatch<any>(
+      deleteBrand({
+        idParams: { brandId: brand?.brandId },
+        navigate,
+      })
+    );
   };
 
   const debounceValue = useDebounce(filterName, 500);
@@ -90,16 +101,12 @@ function BrandDetailPage() {
       brandId,
       navigate,
     };
-  }, [brandId, navigate]);
+  }, [brandId]);
 
   useEffect(() => {
     dispatch<any>(getBrandDetail(paramsDetails));
     dispatch<any>(getAllStores(params));
-
-    // return () => {
-    //   dispatch(setBrandToNull());
-    // };
-  }, [params, dispatch, paramsDetails]);
+  }, [params, paramsDetails]);
 
   return (
     <>
@@ -164,7 +171,7 @@ function BrandDetailPage() {
 
                       <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
                         <Typography variant="subtitle1">{translate('table.status')}:</Typography>
-                        <Label color={(brand?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
+                        <Label color={(brand?.status === Status.INACTIVE && Color.WARNING) || Color.SUCCESS}>
                           {brand?.status === Status.INACTIVE
                             ? translate('status.inactive')
                             : translate('status.active')}
@@ -278,6 +285,7 @@ function BrandDetailPage() {
           open={isOpenModal}
           onClose={handleOpenModal}
           onAction={handleDelete}
+          model={brand?.name}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.brand') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.brand') })}
         />

@@ -44,6 +44,7 @@
     "nameLower": "name",
     "nameExchange": "{{model}} {{name}}",
     "address": "Address",
+    "addressDetail": "Address detail",
     "code": "Code",
     "codeLower": "code",
     "content": "Content",
@@ -57,6 +58,9 @@
     "userName": "User name",
     "accountPartner": "Account partner",
     "commission": "Commission",
+    "province": "Province",
+    "district": "District",
+    "ward": "Ward",
     "lowercase": {
       "userName": "user name",
       "password": "password"
