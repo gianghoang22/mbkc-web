@@ -9,7 +9,7 @@ import { useAppSelector } from 'redux/configStore';
 function BankingAccountForm() {
   const { translate, currentLang } = useLocales();
 
-  const { isEditing } = useAppSelector((state) => state.brand);
+  const { isEditing } = useAppSelector((state) => state.bankingAccount);
 
   return (
     <Grid container columnSpacing={3}>

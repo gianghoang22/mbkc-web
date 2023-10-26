@@ -8,6 +8,12 @@ import {
   updateBankingAccountThunk,
   updateStatusBankingAccountThunk,
 } from './bankingAccountThunk';
+import { getIsEditing, setLocalStorage } from 'utils';
+import { StorageKeys } from 'constants/storageKeys';
+
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_BANKING_ACCOUNT)
+  ? getIsEditing(StorageKeys.IS_EDIT_BANKING_ACCOUNT)
+  : false;
 
 interface BankingAccountState {
   isEditing: boolean;
@@ -20,7 +26,7 @@ interface BankingAccountState {
 }
 
 const initialState: BankingAccountState = {
-  isEditing: false,
+  isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -53,11 +59,13 @@ const BankingAccountSlice = createSlice({
   initialState,
   reducers: {
     setAddBankingAccount: (state) => {
+      setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, false);
       state.isEditing = false;
     },
     setEditBankingAccount: (state, action) => {
       state.isEditing = true;
       state.bankingAccount = action.payload;
+      setLocalStorage(StorageKeys.IS_EDIT_BANKING_ACCOUNT, true);
     },
     getBankingAccountDetail_local: (state, action) => {
       state.bankingAccount = action.payload;

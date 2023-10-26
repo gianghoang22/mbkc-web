@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack } from '@mui/material';
 //
@@ -12,10 +12,12 @@ import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import BrandForm from 'sections/brand/BrandForm';
 import { useDispatch } from 'react-redux';
-import { createNewBrand, updateBrand } from 'redux/brand/brandSlice';
+import { createNewBrand, getBrandDetail, updateBrand } from 'redux/brand/brandSlice';
 import { Box } from '@mui/material';
+import { useEffect, useMemo } from 'react';
 
 function CreateBrandPage() {
+  const { id: brandId } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -27,15 +29,15 @@ function CreateBrandPage() {
 
   const createBrandForm = useForm<BrandToCreate>({
     defaultValues: {
-      Name: isEditing ? brand?.name : '',
-      Address: isEditing ? brand?.address : '',
-      ManagerEmail: isEditing ? brand?.brandManagerEmail : '',
-      Logo: isEditing ? brand?.logo : '',
+      Name: '',
+      Address: '',
+      ManagerEmail: '',
+      Logo: '',
     },
     resolver: yupResolver(schemaBrand),
   });
 
-  const { handleSubmit } = createBrandForm;
+  const { handleSubmit, setValue } = createBrandForm;
 
   const onSubmit = async (values: BrandToCreate) => {
     // Create a brand
@@ -68,16 +70,34 @@ function CreateBrandPage() {
     }
   };
 
+  const paramsDetail = useMemo(() => {
+    return {
+      brandId,
+      navigate,
+    };
+  }, [brandId, navigate]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch<any>(getBrandDetail(paramsDetail));
+    }
+  }, [dispatch, navigate, paramsDetail, isEditing]);
+
+  useEffect(() => {
+    if (brand !== null && isEditing === true) {
+      setValue('Name', brand?.name as string);
+      setValue('Address', brand?.address as string);
+      setValue('ManagerEmail', brand?.brandManagerEmail);
+      setValue('Logo', brand?.logo as string);
+    }
+  }, [brand, isEditing, setValue]);
+
   return (
     <>
-      {isEditing && (
-        <>
-          {isLoading && (
-            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
-              <LoadingScreen />
-            </Box>
-          )}
-        </>
+      {isLoading && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
       )}
 
       <Page

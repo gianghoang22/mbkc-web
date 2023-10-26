@@ -25,7 +25,9 @@ const StorageKeys = {
   IS_EDIT_PARTNER_PRODUCT: 'isEditingProduct',
   IS_EDIT_PARTNER: 'isEditingPartner',
   IS_EDIT_KITCHEN_CENTER: 'isEditingKitchenCenter',
-  IS_EDIT_CASHIERS: 'isEditingCashier',
+  IS_EDIT_CASHIER: 'isEditingCashier',
+  IS_EDIT_BANKING_ACCOUNT: 'isEditingBankingAccount',
+  IS_EDIT_BRAND: 'isEditingBrand',
   IS_ADD_FORM_DETAIL: 'isAddFormDetail',
 
   // pagination
