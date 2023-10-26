@@ -66,10 +66,10 @@ function BrandDetailPage() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const visibleRows = useMemo(() => stableSort(stores, getComparator(order, orderBy)), [order, orderBy, stores]);
-
   const isNotFound = !visibleRows.length && !!filterName;
 
   const handleDelete = () => {
@@ -153,10 +153,9 @@ function BrandDetailPage() {
             >
               <Stack direction="row" alignItems="center" gap={0.5}>
                 <Typography variant="h6">{translate('page.content.generalInformation')}</Typography>
-                <DescriptionIcon fontSize="small" />
               </Stack>
             </Stack>
-            {isLoadingStores ? (
+            {isLoading ? (
               <BrandDetailPageSkeleton />
             ) : (
               <Stack sx={{ px: 3.5, py: 3 }}>
@@ -222,7 +221,7 @@ function BrandDetailPage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  {isLoading ? (
+                  {isLoadingStores ? (
                     <StoreTableRowSkeleton showEmail length={visibleRows.length} haveKitchenCenter />
                   ) : (
                     <TableBody>

@@ -51,7 +51,7 @@ function CreateBrandPage() {
     resolver: yupResolver(schemaBrand),
   });
 
-  const { handleSubmit, watch, reset } = createBrandForm;
+  const { handleSubmit, watch, reset, setValue } = createBrandForm;
 
   const name = watch('name');
   const address = watch('address');
@@ -155,6 +155,19 @@ function CreateBrandPage() {
       dispatch<any>(createNewBrand(createBrand));
     }
   };
+
+  const paramsDetail = useMemo(() => {
+    return {
+      brandId,
+      navigate,
+    };
+  }, [brandId, navigate]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch<any>(getBrandDetail(paramsDetail));
+    }
+  }, [dispatch, navigate, paramsDetail, isEditing]);
 
   return (
     <>

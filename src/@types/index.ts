@@ -1,6 +1,5 @@
 export * from './common';
 export * from './form';
-export * from './models/address';
 export * from './models/bankingAccount';
 export * from './models/brand';
 export * from './models/cashier';
@@ -17,6 +16,7 @@ export * from './models/store';
 export * from './models/storePartner';
 export * from './models/token';
 export * from './models/user';
+export * from './models/address';
 export * from './route';
 export * from './sidebar';
 export * from './table';

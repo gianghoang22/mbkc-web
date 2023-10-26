@@ -55,7 +55,7 @@ function CreateKitchenCenterPage() {
     resolver: yupResolver(schemaKitchenCenter),
   });
 
-  const { handleSubmit, watch, reset } = createKitchenCenterForm;
+  const { handleSubmit, watch, reset, setValue } = createKitchenCenterForm;
 
   const name = watch('name');
   const address = watch('address');
@@ -69,24 +69,42 @@ function CreateKitchenCenterPage() {
   const district = districts.find((opt) => opt.district_id.toString() === districtId);
   const ward = wards.find((opt) => opt.ward_id.toString() === wardId);
 
+  // useEffect(() => {
+  //   if (kitchenCenter !== null && isEditing === true) {
+  //     reset({
+  //       name: kitchenCenter?.name,
+  //       address: kitchenCenter?.address
+  //         ? kitchenCenter?.address
+  //             .split(', ')
+  //             .slice(0, kitchenCenter?.address.split(', ').length - 6)
+  //             .join(', ')
+  //         : kitchenCenter?.address,
+  //       logo: kitchenCenter?.logo,
+  //       managerEmail: kitchenCenter?.kitchenCenterManagerEmail,
+  //       provinceId: kitchenCenter?.address.split(', ').slice(-3)[2],
+  //       districtId: kitchenCenter?.address.split(', ').slice(-3)[1],
+  //       wardId: kitchenCenter?.address.split(', ').slice(-3)[0],
+  //     });
+  //   }
+  // }, [kitchenCenter]);
+
   useEffect(() => {
-    if (isEditing === true) {
-      reset({
-        name: kitchenCenter?.name,
-        address: kitchenCenter?.address
-          ? kitchenCenter?.address
-              .split(', ')
-              .slice(0, kitchenCenter?.address.split(', ').length - 6)
-              .join(', ')
-          : kitchenCenter?.address,
-        logo: kitchenCenter?.logo,
-        managerEmail: kitchenCenter?.kitchenCenterManagerEmail,
-        provinceId: kitchenCenter?.address.split(', ').slice(-3)[2],
-        districtId: kitchenCenter?.address.split(', ').slice(-3)[1],
-        wardId: kitchenCenter?.address.split(', ').slice(-3)[0],
-      });
+    if (kitchenCenter !== null && isEditing === true) {
+      setValue('name', kitchenCenter?.name);
+      setValue(
+        'address',
+        kitchenCenter?.address
+          .split(', ')
+          .slice(0, kitchenCenter?.address.split(', ').length - 6)
+          .join(', ')
+      );
+      setValue('logo', kitchenCenter?.logo);
+      setValue('managerEmail', kitchenCenter?.kitchenCenterManagerEmail);
+      setValue('provinceId', kitchenCenter?.address.split(', ').slice(-3)[2] as string);
+      setValue('districtId', kitchenCenter?.address.split(', ').slice(-3)[1] as string);
+      setValue('wardId', kitchenCenter?.address.split(', ').slice(-3)[0] as string);
     }
-  }, [kitchenCenter]);
+  }, [kitchenCenter, isEditing, setValue]);
 
   const params = useMemo(() => {
     return {
@@ -157,6 +175,19 @@ function CreateKitchenCenterPage() {
       dispatch<any>(createNewKitchenCenter(createKitchenCenter));
     }
   };
+
+  const paramsDetail = useMemo(() => {
+    return {
+      kitchenCenterId,
+      navigate,
+    };
+  }, [kitchenCenterId, navigate]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch<any>(getKitchenCenterDetail(paramsDetail));
+    }
+  }, [dispatch, navigate, paramsDetail, isEditing]);
 
   return (
     <>
