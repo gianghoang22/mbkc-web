@@ -1,5 +1,5 @@
-import { Language } from 'common/enum';
 import { getLanguage } from './utils';
+import { Language } from 'common/enum';
 import { EngMessageConstant } from 'constants/EngMessageConstant';
 import { VieMessageConstant } from 'constants/VieMessageConstant';
 import { EngErrorMessageConstant } from 'constants/EngErrorMessageConstant';
@@ -107,7 +107,11 @@ export const handleResponseMessage = (response: string) => {
         : response === EngMessageConstant.DeletedPartnerProductSuccessfully
         ? EngMessageConstant.DeletedPartnerProductSuccessfully
         : response === EngMessageConstant.UpdatedPartnerProductStatusSuccessfully
-        ? EngMessageConstant.UpdatedPartnerProductStatusSuccessfully //làm từ đây
+        ? EngMessageConstant.UpdatedPartnerProductStatusSuccessfully
+        : response === EngErrorMessageConstant.imageIsNotNull // error message
+        ? EngErrorMessageConstant.imageIsNotNull
+        : response === EngErrorMessageConstant.logoIsNotNull
+        ? EngErrorMessageConstant.logoIsNotNull
         : response === EngErrorMessageConstant.NotExistEmail
         ? EngErrorMessageConstant.NotExistEmail
         : response === EngErrorMessageConstant.AlreadyExistEmail
@@ -439,7 +443,11 @@ export const handleResponseMessage = (response: string) => {
         : response === EngMessageConstant.DeletedPartnerProductSuccessfully
         ? VieMessageConstant.DeletedPartnerProductSuccessfully
         : response === EngMessageConstant.UpdatedPartnerProductStatusSuccessfully
-        ? VieMessageConstant.UpdatedPartnerProductStatusSuccessfully //
+        ? VieMessageConstant.UpdatedPartnerProductStatusSuccessfully // error message
+        : response === EngErrorMessageConstant.imageIsNotNull
+        ? VieErrorMessageConstant.imageIsNotNull
+        : response === EngErrorMessageConstant.logoIsNotNull
+        ? VieErrorMessageConstant.logoIsNotNull
         : response === EngErrorMessageConstant.NotExistEmail
         ? VieErrorMessageConstant.NotExistEmail
         : response === EngErrorMessageConstant.AlreadyExistEmail

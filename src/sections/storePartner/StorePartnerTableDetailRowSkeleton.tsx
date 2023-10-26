@@ -1,4 +1,4 @@
-import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
+import { Box, IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
 function StorePartnerTableDetailRowSkeleton() {
   return (
@@ -19,11 +19,17 @@ function StorePartnerTableDetailRowSkeleton() {
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left" width={165}>
+          <TableCell align="left" width={169}>
+            <Box pl={2}>
+              <Skeleton />
+            </Box>
+          </TableCell>
+
+          <TableCell align="left" width={123}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left" width={354}>
+          <TableCell align="left" width={276}>
             <Stack direction="row" alignItems="center" gap={3}>
               <IconButton color="inherit">
                 <Skeleton variant="circular" width={28} height={28} />

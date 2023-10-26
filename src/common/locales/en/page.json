@@ -6,7 +6,8 @@
     "detail": "{{model}} detail",
     "search": "Search {{model}}...",
     "registration": "Reject registration {{model}}",
-    "wallet": "{{model}} wallet"
+    "wallet": "{{model}} wallet",
+    "confirmLink": "Link confirmation"
   },
   "content": {
     "logo": "Logo",
@@ -28,7 +29,8 @@
     "total": "Total {{model}}",
     "viewAll": "View all",
     "selectStore": "Select a store to add a partner",
-    "productInPartner": "Products available in partners"
+    "productInPartner": "Products available in partners",
+    "confirmLink": "Do you want the MBKC system to automatically link products with the partners you just selected?"
   },
   "form": {
     "email": "Email",
@@ -54,6 +56,7 @@
     "webUrlLower": "web URL",
     "userName": "User name",
     "accountPartner": "Account partner",
+    "commission": "Commission",
     "lowercase": {
       "userName": "user name",
       "password": "password"
@@ -77,6 +80,7 @@
     "historicalPriceContent": "Cost of manufacturing products",
     "nameProductHelperText": "Name of child product: parent product name + selected size",
     "formatUrl": "The format of the url is not correct",
-    "citizenNumberLimit12Number": "Citizen number must have 12 numbers"
+    "citizenNumberLimit12Number": "Citizen number must have 12 numbers",
+    "commissionLimit100": "The commission should not be more than 100%."
   }
 }

@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllPartners, setAddPartner } from 'redux/partner/partnerSlice';
+import { getAllPartners } from 'redux/partner/partnerSlice';
 // section
 import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton, PartnerTableToolbar } from 'sections/partner';
 //
@@ -74,24 +73,24 @@ function ListPartnerPage() {
         pathname={pathname}
         title={translate('page.title.list', { model: translate('model.lowercase.partners') })}
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
-        actions={() => {
-          const listAction: ReactNode[] =
-            userAuth?.roleName === Role.MBKC_ADMIN
-              ? [
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      handleOpen('create partner');
-                      dispatch(setAddPartner());
-                    }}
-                    startIcon={<AddRoundedIcon />}
-                  >
-                    {translate('button.add', { model: translate('model.lowercase.partner') })}
-                  </Button>,
-                ]
-              : [];
-          return listAction;
-        }}
+        // actions={() => {
+        //   const listAction: ReactNode[] =
+        //     userAuth?.roleName === Role.MBKC_ADMIN
+        //       ? [
+        //           <Button
+        //             variant="contained"
+        //             onClick={() => {
+        //               handleOpen('create partner');
+        //               dispatch(setAddPartner());
+        //             }}
+        //             startIcon={<AddRoundedIcon />}
+        //           >
+        //             {translate('button.add', { model: translate('model.lowercase.partner') })}
+        //           </Button>,
+        //         ]
+        //       : [];
+        //   return listAction;
+        // }}
       >
         <Card>
           <Box sx={{ width: '100%' }}>

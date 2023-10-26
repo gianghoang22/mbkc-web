@@ -5,9 +5,9 @@ import { Avatar, IconButton, Stack, Switch, TableCell, TableRow } from '@mui/mat
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { useAppDispatch } from 'redux/configStore';
-import { deletePartner, setEditPartner, updatePartner } from 'redux/partner/partnerSlice';
+import { deletePartner, setEditPartner, updateStatusPartner } from 'redux/partner/partnerSlice';
 //
-import { Params, Partner, PartnerToUpdate } from '@types';
+import { Params, Partner, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePagination, usePopover } from 'hooks';
@@ -55,21 +55,20 @@ function PartnerTableRow({ lengthPartners, index, partner, showAction = false, s
   };
 
   const handleUpdateStatus = () => {
-    const paramUpdate: Params<PartnerToUpdate> = {
+    const paramUpdate: Params<ToUpdateStatus> = {
       data: {
-        name: partner.name,
-        webUrl: partner.webUrl,
-        logo: '',
-        status: partner?.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
+        status: partner.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
       },
-      idParams: { partnerId: partner.partnerId },
+      idParams: {
+        partnerId: partner?.partnerId,
+      },
       optionParams: {
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page,
       },
       navigate,
     };
-    dispatch(updatePartner(paramUpdate));
+    dispatch(updateStatusPartner(paramUpdate));
   };
 
   return (

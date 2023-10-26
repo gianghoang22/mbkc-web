@@ -51,7 +51,9 @@
     "continue": "Continue",
     "setting": "Setting",
     "createProductLink": "Create product links",
-    "updateProductLink": "Update product links"
+    "updateProductLink": "Update product links",
+    "yes": "Yes",
+    "no": "No"
   },
   "common": {
     "welcome": "Hi, Welcome Back",

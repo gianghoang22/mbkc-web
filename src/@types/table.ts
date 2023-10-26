@@ -77,6 +77,7 @@ export interface StorePartnerDetailTable {
   partnerLogo: string;
   userName: string;
   password: string;
+  commission: string;
   status: string;
 }
 export interface CategoryTable {

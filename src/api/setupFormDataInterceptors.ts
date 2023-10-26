@@ -77,7 +77,7 @@ const setupAxiosFormData = (store: any) => {
         }
       }
 
-      return Promise.reject(err);
+      return Promise.reject(err.response);
     }
   );
 };

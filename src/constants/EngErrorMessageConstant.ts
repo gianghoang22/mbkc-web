@@ -1,4 +1,6 @@
 export const EngErrorMessageConstant = {
+  imageIsNotNull: 'Image is not null.',
+  logoIsNotNull: 'Logo is not null.',
   NotExistEmail: 'Email does not exist in the system.',
   AlreadyExistEmail: 'Email already exists in the system.',
   AlreadyExistCitizenNumber: 'Citizen number already exists in the system.',
