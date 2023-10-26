@@ -1,40 +1,42 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Button, Card, Stack, Box } from '@mui/material';
 //
 import { CashierToCreate } from '@types';
 import { Color } from 'common/enum';
-import { Page } from 'components';
+import { LoadingScreen, Page } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { CashierForm } from 'sections/cashier';
 import { useDispatch } from 'react-redux';
-import { createNewCashier, updateCashier } from 'redux/cashier/cashierSlice';
+import { createNewCashier, getCashierDetail, updateCashier } from 'redux/cashier/cashierSlice';
 import { useLocales, useValidationForm } from 'hooks';
+import { useEffect, useMemo } from 'react';
 
 function CreateCashierPage() {
+  const { id: cashierId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const { isEditing, cashier } = useAppSelector((state) => state.cashier);
+  const { isEditing, cashier, isLoading } = useAppSelector((state) => state.cashier);
   const { schemaCashier } = useValidationForm();
   const { translate } = useLocales();
 
   const createCashierForm = useForm<CashierToCreate>({
     defaultValues: {
-      email: isEditing ? cashier?.email : '',
-      fullName: isEditing ? cashier?.fullName : '',
-      gender: isEditing ? cashier?.gender : '',
-      avatar: isEditing ? cashier?.avatar : '',
-      citizenNumber: isEditing ? cashier?.citizenNumber : '',
-      dateOfBirth: isEditing ? cashier?.dateOfBirth : '2001/5/9',
+      email: '',
+      fullName: '',
+      gender: '',
+      avatar: '',
+      citizenNumber: '',
+      dateOfBirth: '2001/5/9',
     },
     resolver: yupResolver(schemaCashier),
   });
 
-  const { handleSubmit } = createCashierForm;
+  const { handleSubmit, setValue } = createCashierForm;
 
   const onSubmit = async (values: CashierToCreate) => {
     const newCashierOptions = { ...values };
@@ -67,8 +69,37 @@ function CreateCashierPage() {
     }
   };
 
+  const paramsDetail = useMemo(() => {
+    return {
+      cashierId,
+      navigate,
+    };
+  }, [cashierId, navigate]);
+
+  useEffect(() => {
+    if (cashier !== null && isEditing === true) {
+      setValue('email', cashier?.email as string);
+      setValue('fullName', cashier?.fullName as string);
+      setValue('gender', cashier?.gender as string);
+      setValue('avatar', cashier?.avatar);
+      setValue('citizenNumber', cashier?.citizenNumber as string);
+      setValue('dateOfBirth', cashier?.dateOfBirth as string);
+    }
+  }, [cashier, isEditing, setValue]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch<any>(getCashierDetail(paramsDetail));
+    }
+  }, [dispatch, navigate, paramsDetail, isEditing]);
+
   return (
     <>
+      {isLoading && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
+      )}
       <Page
         title={
           isEditing
