@@ -47,7 +47,7 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
     const updateStatusParams = {
       bankingAccountId: bankingAccount.bankingAccountId,
       navigate,
-      status: `${bankingAccount.status === Status.ACTIVE ? 'INACTIVE' : 'ACTIVE'}`,
+      status: `${bankingAccount.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE}`,
       page: page,
       rowsPerPage: rowsPerPage,
     };

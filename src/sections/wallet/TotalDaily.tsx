@@ -1,6 +1,9 @@
+// @mui
 import { Box, Card, Stack, Typography, alpha } from '@mui/material';
-import { Color } from 'common/enum';
+// section
 import { StyledIcon } from 'sections/dashboard/AppWidgetSummary';
+//
+import { Color } from 'common/enum';
 
 interface Props {
   title: string;

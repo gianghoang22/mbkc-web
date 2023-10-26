@@ -1,9 +1,7 @@
 // @mui
-import { Grid, Stack, Card, Divider, Skeleton } from '@mui/material';
-
+import { Card, Divider, Grid, Skeleton, Stack, Typography } from '@mui/material';
 //
 import { useLocales, useResponsive } from 'hooks';
-import { Typography } from '@mui/material';
 
 function CashierDetailPage() {
   const { translate } = useLocales();

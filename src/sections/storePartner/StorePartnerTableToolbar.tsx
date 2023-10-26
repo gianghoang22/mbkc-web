@@ -7,10 +7,10 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 // redux
 import { useAppDispatch } from 'redux/configStore';
+import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 //
 import { ListParams } from '@types';
 import { useDebounce, useLocales, usePagination } from 'hooks';
-import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------

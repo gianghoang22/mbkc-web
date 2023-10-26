@@ -17,5 +17,5 @@ export interface BankingAccountToCreate {
 export interface BankingAccountToUpdate {
   BankName?: string;
   BankLogo?: string;
-  Status: 'ACTIVE' | 'INACTIVE';
+  Status: Status;
 }

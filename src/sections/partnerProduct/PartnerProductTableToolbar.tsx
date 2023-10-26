@@ -13,8 +13,6 @@ import { ListParams } from '@types';
 import { useDebounce, useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from 'sections/styles';
 
-// ----------------------------------------------------------------------
-
 interface ProductTableToolbarProps {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filterName: string;

@@ -3,14 +3,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+// redux
+import { deleteCategory, setCategoryType, setEditCategory, updateCategory } from 'redux/category/categorySlice';
+import { useAppDispatch } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { Category, CategoryToUpdate, CategoryType, Params } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import { deleteCategory, setCategoryType, setEditCategory, updateCategory } from 'redux/category/categorySlice';
-import { useAppDispatch } from 'redux/configStore';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 
 interface CategoryTableRowProps {

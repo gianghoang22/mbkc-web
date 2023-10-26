@@ -1,13 +1,16 @@
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { IconButton, InputAdornment, Tooltip } from '@mui/material';
-import { StyledRoot, StyledSearch } from '../styles';
-import { ListParams } from '@types';
 import { useMemo } from 'react';
-import { useLocales, usePagination } from 'hooks';
-import { useNavigate } from 'react-router-dom';
-import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+// @mui
+import ReplayIcon from '@mui/icons-material/Replay';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { IconButton, InputAdornment, Tooltip } from '@mui/material';
+// redux
+import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
+//
+import { ListParams } from '@types';
+import { useLocales, usePagination } from 'hooks';
+import { StyledRoot, StyledSearch } from '../styles';
 
 // ----------------------------------------------------------------------
 

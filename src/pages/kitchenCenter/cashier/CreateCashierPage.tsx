@@ -5,7 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Button, Card, Stack, Box } from '@mui/material';
 //
 import { CashierToCreate } from '@types';
-import { Color } from 'common/enum';
+import { Color, Status } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
@@ -50,7 +50,7 @@ function CreateCashierPage() {
       avatar: values.avatar,
       citizenNumber: values.citizenNumber,
       newPassword: '',
-      Status: 'ACTIVE',
+      Status: Status.ACTIVE,
     };
 
     const updateCashierParams = {
@@ -102,6 +102,7 @@ function CreateCashierPage() {
           <LoadingScreen />
         </Box>
       )}
+
       <Page
         title={
           isEditing

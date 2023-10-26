@@ -1,11 +1,15 @@
-import { Avatar, Stack, Typography, Button } from '@mui/material';
+// @mui
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { Avatar, Button, Stack, Typography } from '@mui/material';
+// redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setEditProfile } from 'redux/profile/profileSlice';
+// section
+import UpdateInformationModal from './UpdateInformationModal';
+//
 import { Color, Role, Status } from 'common/enum';
 import { Label } from 'components';
 import { useLocales, useModal } from 'hooks';
-import UpdateInformationModal from './UpdateInformationModal';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setEditProfile } from 'redux/profile/profileSlice';
 
 interface InformationCardProps {
   name: string | undefined;
@@ -17,8 +21,10 @@ interface InformationCardProps {
 
 function InformationCard({ logo, name, address, managerEmail, status }: InformationCardProps) {
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
+
   const { userAuth } = useAppSelector((state) => state.auth);
 
   return (

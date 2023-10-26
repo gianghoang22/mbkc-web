@@ -1,8 +1,11 @@
+// @mui
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import { Box, Card, Stack, Typography, alpha } from '@mui/material';
+// section
+import { StyledIcon } from 'sections/dashboard/AppWidgetSummary';
+//
 import { Color } from 'common/enum';
 import { Label } from 'components';
-import { StyledIcon } from 'sections/dashboard/AppWidgetSummary';
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 
 function MainBalanceCard() {
   return (

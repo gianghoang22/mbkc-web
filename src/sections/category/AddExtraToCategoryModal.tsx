@@ -19,17 +19,19 @@ import {
   TablePagination,
   Typography,
 } from '@mui/material';
+// redux
+import { addExtraCategory, getAllCategories } from 'redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+// section
+import ExtraToCategoryRow from './ExtraToCategoryRow';
+import ExtraToCategoryRowSkeleton from './ExtraToCategoryRowSkeleton';
+import CategoryTableToolbar from './CategoryTableToolbar';
 //
 import { AddExtraCategory, CategoryTable, CategoryType, ListParams, OrderSort, Params } from '@types';
 import { Language } from 'common/enum';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import { addExtraCategory, getAllCategories } from 'redux/category/categorySlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import ExtraToCategoryRow from './ExtraToCategoryRow';
-import ExtraToCategoryRowSkeleton from './ExtraToCategoryRowSkeleton';
 
 interface AddExtraToCategoryModalProps {
   isOpen: boolean;
@@ -38,8 +40,10 @@ interface AddExtraToCategoryModalProps {
 
 function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModalProps) {
   const { id: categoryId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate, currentLang } = useLocales();
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();

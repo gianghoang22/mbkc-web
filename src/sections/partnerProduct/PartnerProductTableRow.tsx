@@ -12,13 +12,14 @@ import {
   updateStatusPartnerProduct,
 } from 'redux/partnerProduct/partnerProductSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+// section
+import CreatePartnerProductModal from './CreatePartnerProductModal';
 //
 import { Params, PartnerProduct, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import CreatePartnerProductModal from './CreatePartnerProductModal';
 
 interface PartnerProductTableRowProps {
   partnerProduct: PartnerProduct;

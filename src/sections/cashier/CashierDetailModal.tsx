@@ -1,18 +1,18 @@
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
+// redux
+import { deleteCashier, setEditCashier } from 'redux/cashier/cashierSlice';
 //
 import { Cashier } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { deleteCashier, setEditCashier } from 'redux/cashier/cashierSlice';
 
 interface CashierDetailModalProps {
   isOpen: boolean;
@@ -23,9 +23,10 @@ interface CashierDetailModalProps {
 }
 
 function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: CashierDetailModalProps) {
-  const { translate } = useLocales();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { translate } = useLocales();
   const { open, handleCloseMenu } = usePopover();
   const { isOpen: isOpenModalDelete, handleOpen: HandleOpenModalDelete } = useModal();
 
@@ -131,6 +132,7 @@ function CashierDetailModal({ isOpen, handleOpen, cashier, page, rowsPerPage }: 
           open={isOpenModalDelete}
           onClose={HandleOpenModalDelete}
           onAction={handleDelete}
+          model={cashier.fullName}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.cashier') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.cashier') })}
         />

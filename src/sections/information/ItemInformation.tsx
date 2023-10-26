@@ -1,7 +1,7 @@
 import { Avatar, Divider } from '@mui/material';
 import { Box, Card, Paper, Stack, Typography } from '@mui/material';
 import { Brand, KitchenCenter } from '@types';
-import { Color } from 'common/enum';
+import { Color, Status } from 'common/enum';
 import { Label } from 'components';
 
 interface Props {
@@ -41,7 +41,7 @@ function ItemInformation({ isKitchenCenter, kitchenCenter, brand }: Props) {
 
               <Stack direction="row" alignItems="center" spacing={3.5} mt={1} mb={2}>
                 <Typography sx={{ color: '#919EAB;' }}>Status:</Typography>
-                <Label color={kitchenCenter?.status === 'Active' ? Color.SUCCESS : Color.ERROR}>
+                <Label color={kitchenCenter?.status === Status.ACTIVE ? Color.SUCCESS : Color.ERROR}>
                   {kitchenCenter?.status}
                 </Label>
               </Stack>
@@ -80,7 +80,7 @@ function ItemInformation({ isKitchenCenter, kitchenCenter, brand }: Props) {
 
               <Stack direction="row" alignItems="center" spacing={3.5} mt={1} mb={2}>
                 <Typography sx={{ color: '#919EAB;' }}>Status:</Typography>
-                <Label color={brand?.status === 'Active' ? Color.SUCCESS : Color.ERROR}>{brand?.status}</Label>
+                <Label color={brand?.status === Status.ACTIVE ? Color.SUCCESS : Color.ERROR}>{brand?.status}</Label>
               </Stack>
             </Paper>
           </Box>

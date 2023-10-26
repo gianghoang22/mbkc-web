@@ -1,17 +1,18 @@
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
+// redux
+import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 //
 import { BankingAccount } from '@types';
 import { Color, Language, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 
 interface BankingAccountDetailModalProps {
   isOpen: boolean;

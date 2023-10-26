@@ -1,16 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 // @mui
 import { Button, Dialog, DialogActions, DialogContent, Divider, Stack, Typography } from '@mui/material';
+// redux
+import { useAppDispatch } from 'redux/configStore';
+import { confirmRegistrationStore } from 'redux/store/storeSlice';
 //
 import { Store, StoreToConfirm } from '@types';
 import { Color, Status } from 'common/enum';
 import { InputField } from 'components';
 import { useLocales } from 'hooks';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from 'redux/configStore';
-import { confirmRegistrationStore } from 'redux/store/storeSlice';
 
 interface ConfirmRegistrationStoreProps {
   page?: number;
@@ -33,6 +34,7 @@ function ConfirmRegistrationStore({
 }: ConfirmRegistrationStoreProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
 

@@ -19,18 +19,20 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { getUserInformation } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+// section
+import { UpdatePasswordModal, UpdatePasswordToUseModal } from 'sections/auth';
+import { ProfileDetailSkeleton } from 'sections/information';
 //
 import { Color, Role, Status } from 'common/enum';
 import { Label, Page } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import account from 'mock/account';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { UpdatePasswordModal, UpdatePasswordToUseModal } from 'sections/auth';
-import { ProfileDetailSkeleton } from 'sections/information';
 
 function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { pathname } = useLocation();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();

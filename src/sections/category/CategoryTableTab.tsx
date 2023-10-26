@@ -1,17 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+// redux
+import { getAllExtraCategoriesInCategory } from 'redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+// section
+import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
+import AddExtraToCategory from './AddExtraToCategoryModal';
 //
 import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
 import { getComparator, stableSort } from 'utils';
-import AddExtraToCategory from './AddExtraToCategoryModal';
-import { useNavigate } from 'react-router-dom';
-import { getAllExtraCategoriesInCategory } from 'redux/category/categorySlice';
 
 interface CategoryTableTabProps {
   categoryId: number;

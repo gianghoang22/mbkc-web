@@ -1,30 +1,32 @@
+import moment from 'moment';
 import { ReactNode, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // @mui
-import { Button, Grid, Stack, Card, Divider } from '@mui/material';
+import { Button, Card, Divider, Grid, Stack, Typography } from '@mui/material';
 // redux
+import { deleteCashier, getCashierDetail, setEditCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-
+// section
+import { CashierDetailPageSkeleton } from 'sections/cashier';
 //
 import { Color, Language, PopoverType, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { deleteCashier, getCashierDetail, setEditCashier } from 'redux/cashier/cashierSlice';
-import { Typography } from '@mui/material';
-import moment from 'moment';
-import { CashierDetailPageSkeleton } from 'sections/cashier';
 
 function CashierDetailPage() {
   const { id: cashierId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { pathname } = useLocation();
+
   const mdSm = useResponsive('up', 'md', 'md');
   const mdXs = useResponsive('up', 'xs', 'xs');
+
+  const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
@@ -105,7 +107,7 @@ function CashierDetailPage() {
               <Stack paddingLeft={4} paddingRight={4}>
                 <Typography variant="h3">{cashier?.fullName}</Typography>
 
-                <Stack direction="row" justifyContent="space-between" paddingTop={1} paddingBottom={1}>
+                <Stack direction="row" justifyContent="space-between" pt={1} pb={1}>
                   <Typography variant="subtitle1">{translate('common.status')}</Typography>
 
                   <Label color={(cashier?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
@@ -114,25 +116,25 @@ function CashierDetailPage() {
                 </Stack>
                 <Divider />
 
-                <Stack direction="row" justifyContent="space-between" paddingTop={2} paddingBottom={1}>
+                <Stack direction="row" justifyContent="space-between" pt={2} pb={1}>
                   <Typography variant="subtitle1">{translate('page.form.email')}</Typography>
                   <Typography>{cashier?.email}</Typography>
                 </Stack>
                 <Divider />
 
-                <Stack direction="row" justifyContent="space-between" paddingTop={2} paddingBottom={1}>
+                <Stack direction="row" justifyContent="space-between" pt={2} pb={1}>
                   <Typography variant="subtitle1">{translate('model.capitalizeOne.citizenNumber')}</Typography>
                   <Typography>{cashier?.citizenNumber}</Typography>
                 </Stack>
                 <Divider />
 
-                <Stack direction="row" justifyContent="space-between" paddingTop={2} paddingBottom={1}>
+                <Stack direction="row" justifyContent="space-between" pt={2} pb={1}>
                   <Typography variant="subtitle1">{translate('model.capitalizeOne.dateOfBirth')}</Typography>
                   <Typography>{moment(cashier?.dateOfBirth).format('DD/MM/yyyy')}</Typography>
                 </Stack>
                 <Divider />
 
-                <Stack direction="row" justifyContent="space-between" paddingTop={2} paddingBottom={1}>
+                <Stack direction="row" justifyContent="space-between" pt={2} pb={1}>
                   <Typography variant="subtitle1">{translate('model.capitalizeOne.gender')}</Typography>
                   <Typography>{cashier?.gender}</Typography>
                 </Stack>

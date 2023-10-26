@@ -1,2 +1,2 @@
-export { default as moneyExchangeTableRow } from './moneyExchangeTableRow';
-export { default as moneyExchangeTableToolbar } from './moneyExchangeTableToolbar';
+export { default as MoneyExchangeTableRow } from './MoneyExchangeTableRow';
+export { default as MoneyExchangeTableToolbar } from './MoneyExchangeTableToolbar';

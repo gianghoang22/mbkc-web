@@ -4,23 +4,26 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // @mui icon
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-//
-import { BankingAccount, ListParams, OrderSort } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+// redux
 import { getAllBankingAccounts, setAddBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+// section
 import {
   BankingAccountTableRow,
   BankingAccountTableRowSkeleton,
   BankingAccountTableToolbar,
 } from 'sections/bankingAccount';
+//
+import { BankingAccount, ListParams, OrderSort, OrderSortBy } from '@types';
+import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
 
 function ListBankingAccountPage() {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { bankingAccountHeadCells } = useConfigHeadTable();
@@ -29,7 +32,7 @@ function ListBankingAccountPage() {
   const { bankingAccounts, isLoading, numberItems } = useAppSelector((state) => state.bankingAccount);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof BankingAccount>('name');
+  const [orderBy, setOrderBy] = useState<keyof BankingAccount>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BankingAccount) => {

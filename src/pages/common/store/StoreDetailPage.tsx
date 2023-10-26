@@ -39,11 +39,14 @@ import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 function StoreDetailPage() {
   const { id: storeId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { pathname } = useLocation();
+
   const mdSm = useResponsive('up', 'md', 'md');
   const mdXs = useResponsive('up', 'xs', 'xs');
+
+  const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
   const { storePartnerDetailHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
@@ -61,10 +64,9 @@ function StoreDetailPage() {
   const { isLoading: isLoadingStore, store } = useAppSelector((state) => state.store);
   const { storePartners, isLoading: isLoadingStorePartner } = useAppSelector((state) => state.storePartner);
 
-  const [status, setStatus] = useState<Status>(Status.ACTIVE);
-
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StorePartnerDetailTable>(OrderSortBy.PARTNER_NAME);
+  const [status, setStatus] = useState<Status>(Status.ACTIVE);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StorePartnerDetailTable) => {
     const isAsc = orderBy === property && order === 'asc';

@@ -7,16 +7,18 @@ import { Box, Card, Paper, Stack } from '@mui/material';
 // redux
 import { useAppSelector } from 'redux/configStore';
 import { getBrandProfile, getKitchenCenterProfile } from 'redux/profile/profileSlice';
+// section
+import { InformationDetail, InformationDetailSkeleton } from 'sections/information';
 //
 import { Role } from 'common/enum';
 import { Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { InformationDetail, InformationDetailSkeleton } from 'sections/information';
 
 function InformationPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
 
@@ -78,15 +80,6 @@ function InformationPage() {
             </Box>
           </Card>
         )}
-        {/* <Grid container columnSpacing={5} rowSpacing={5} mt={0.1}>
-          <Grid item xs={12} sm={6} md={6}>
-            <ItemInformation isKitchenCenter={false} brand={brand} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={6}>
-            <ItemInformation isKitchenCenter kitchenCenter={kitchenCenter} />
-          </Grid>
-        </Grid> */}
       </Page>
     </>
   );
