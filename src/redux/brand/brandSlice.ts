@@ -8,6 +8,10 @@ import {
   updateBrandThunk,
   updateStatusBrandThunk,
 } from './brandThunk';
+import { getIsEditing, setLocalStorage } from 'utils';
+import { StorageKeys } from 'constants/storageKeys';
+
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_BRAND) ? getIsEditing(StorageKeys.IS_EDIT_BRAND) : false;
 
 interface BrandState {
   isEditing: boolean;
@@ -20,7 +24,7 @@ interface BrandState {
 }
 
 const initialState: BrandState = {
-  isEditing: false,
+  isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -40,15 +44,14 @@ const brandSlice = createSlice({
   name: 'brand',
   initialState,
   reducers: {
-    getBrandDetail_local: (state, action) => {
-      state.brand = action.payload;
-    },
     setAddBrand: (state) => {
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_BRAND, false);
     },
     setEditBrand: (state, action) => {
       state.isEditing = true;
       state.brand = action.payload;
+      setLocalStorage(StorageKeys.IS_EDIT_BRAND, true);
     },
     setBrandToNull: (state) => {
       state.brand = null;
@@ -141,7 +144,7 @@ const brandSlice = createSlice({
   },
 });
 
-export const { getBrandDetail_local, setAddBrand, setEditBrand, setBrandToNull } = brandSlice.actions;
+export const { setAddBrand, setEditBrand, setBrandToNull } = brandSlice.actions;
 const brandReducer = brandSlice.reducer;
 
 export default brandReducer;

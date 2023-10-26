@@ -1,11 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Box, Button, Card, Stack } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { createNewKitchenCenter, updateKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
+import {
+  createNewKitchenCenter,
+  getKitchenCenterDetail,
+  updateKitchenCenter,
+} from 'redux/kitchenCenter/kitchenCenterSlice';
 //
 import { CreateKitchenCenterParams, KitchenCenterToAdd, KitchenCenterToUpdate } from '@types';
 import { Color } from 'common/enum';
@@ -13,8 +17,10 @@ import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
+import { useEffect, useMemo } from 'react';
 
 function CreateKitchenCenterPage() {
+  const { id: kitchenCenterId } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { translate } = useLocales();
@@ -24,15 +30,15 @@ function CreateKitchenCenterPage() {
 
   const createKitchenCenterForm = useForm<KitchenCenterToAdd>({
     defaultValues: {
-      Name: isEditing ? kitchenCenter?.name : '',
-      Address: isEditing ? kitchenCenter?.address : '',
-      Logo: isEditing ? kitchenCenter?.logo : '',
-      ManagerEmail: isEditing ? kitchenCenter?.kitchenCenterManagerEmail : '',
+      Name: '',
+      Address: '',
+      Logo: '',
+      ManagerEmail: '',
     },
     resolver: yupResolver(schemaKitchenCenter),
   });
 
-  const { handleSubmit } = createKitchenCenterForm;
+  const { handleSubmit, setValue } = createKitchenCenterForm;
 
   const onSubmit = async (values: KitchenCenterToAdd) => {
     // Create a kitchen center
@@ -64,16 +70,34 @@ function CreateKitchenCenterPage() {
     }
   };
 
+  const paramsDetail = useMemo(() => {
+    return {
+      kitchenCenterId,
+      navigate,
+    };
+  }, [kitchenCenterId, navigate]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch<any>(getKitchenCenterDetail(paramsDetail));
+    }
+  }, [dispatch, navigate, paramsDetail, isEditing]);
+
+  useEffect(() => {
+    if (kitchenCenter !== null && isEditing === true) {
+      setValue('Name', kitchenCenter?.name as string);
+      setValue('Address', kitchenCenter?.address as string);
+      setValue('Logo', kitchenCenter?.logo as string);
+      setValue('ManagerEmail', kitchenCenter?.kitchenCenterManagerEmail as string);
+    }
+  }, [kitchenCenter, isEditing, setValue]);
+
   return (
     <>
-      {isEditing && (
-        <>
-          {isLoading && (
-            <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
-              <LoadingScreen />
-            </Box>
-          )}
-        </>
+      {isLoading && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
       )}
 
       <Page

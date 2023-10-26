@@ -11,8 +11,8 @@ import {
 import { StorageKeys } from 'constants/storageKeys';
 import { getIsEditing, setLocalStorage } from 'utils';
 
-const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_CASHIERS)
-  ? getIsEditing(StorageKeys.IS_EDIT_CASHIERS)
+const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_CASHIER)
+  ? getIsEditing(StorageKeys.IS_EDIT_CASHIER)
   : false;
 
 interface CashierState {
@@ -47,12 +47,13 @@ const CashierSlice = createSlice({
   initialState,
   reducers: {
     setAddCashier: (state) => {
+      setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, false);
       state.isEditing = false;
     },
     setEditCashier: (state, action) => {
       state.isEditing = true;
       state.cashier = action.payload;
-      setLocalStorage(StorageKeys.IS_EDIT_CASHIERS, true);
+      setLocalStorage(StorageKeys.IS_EDIT_CASHIER, true);
     },
     getCashierDetail_local: (state, action) => {
       state.cashier = action.payload;

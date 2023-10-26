@@ -1,20 +1,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
 //
 import { BankingAccountToCreate, BankingAccountToUpdate } from '@types';
 import { Color } from 'common/enum';
-import { Page } from 'components';
+import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { useDispatch } from 'react-redux';
 import BankingAccountForm from 'sections/bankingAccount/BankingAccountForm';
-import { createNewBankingAccount, updateBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
+import {
+  createNewBankingAccount,
+  getBankingAccountDetails,
+  updateBankingAccount,
+} from 'redux/bankingAccount/bankingAccountSlice';
+import { useEffect, useMemo } from 'react';
 
 function CreateBankingAccountPage() {
+  const { id: bankingAccountId } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -22,18 +28,18 @@ function CreateBankingAccountPage() {
   const { schemaBankingAccount } = useValidationForm();
 
   const { pathnameToBack } = useAppSelector((state) => state.routes);
-  const { isEditing, bankingAccount } = useAppSelector((state) => state.bankingAccount);
+  const { isEditing, bankingAccount, isLoading } = useAppSelector((state) => state.bankingAccount);
 
   const createBankingAccountForm = useForm<BankingAccountToCreate>({
     defaultValues: {
-      BankName: isEditing ? bankingAccount?.name : '',
-      NumberAccount: isEditing ? bankingAccount?.numberAccount : '',
-      BankLogo: isEditing ? bankingAccount?.logoUrl : '',
+      BankName: '',
+      NumberAccount: '',
+      BankLogo: '',
     },
     resolver: yupResolver(schemaBankingAccount),
   });
 
-  const { handleSubmit } = createBankingAccountForm;
+  const { handleSubmit, setValue } = createBankingAccountForm;
 
   const onSubmit = async (values: BankingAccountToCreate) => {
     const data = { ...values };
@@ -64,42 +70,70 @@ function CreateBankingAccountPage() {
     }
   };
 
+  const paramsDetail = useMemo(() => {
+    return {
+      bankingAccountId,
+      navigate,
+    };
+  }, [bankingAccountId, navigate]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch<any>(getBankingAccountDetails(paramsDetail));
+    }
+  }, [dispatch, navigate, paramsDetail, isEditing]);
+
+  useEffect(() => {
+    if (bankingAccount !== null && isEditing === true) {
+      setValue('BankName', bankingAccount?.name as string);
+      setValue('NumberAccount', bankingAccount?.numberAccount as string);
+      setValue('BankLogo', bankingAccount?.logoUrl as string);
+    }
+  }, [bankingAccount, isEditing, setValue]);
+
   return (
-    <Page
-      title={
-        isEditing
-          ? translate('page.title.update', { model: translate('model.lowercase.bankingAccount') })
-          : translate('page.title.create', { model: translate('model.lowercase.bankingAccount') })
-      }
-      pathname={pathname}
-      navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
-    >
-      <FormProvider {...createBankingAccountForm}>
-        <Card sx={{ p: 3 }}>
-          <BankingAccountForm />
-        </Card>
-        <Stack direction="row" justifyContent="space-between" mt={12}>
-          <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
-            {translate('button.back')}
-          </Button>
-          <Stack direction="row" gap={2}>
-            {isEditing && (
-              <Button variant="contained" color="inherit">
-                {translate('button.reset')}
-              </Button>
-            )}
-            <Button
-              variant="contained"
-              type="submit"
-              color={isEditing ? Color.WARNING : Color.PRIMARY}
-              onClick={handleSubmit(onSubmit)}
-            >
-              {isEditing ? translate('button.update') : translate('button.create')}
+    <>
+      {isLoading && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
+      )}
+      <Page
+        title={
+          isEditing
+            ? translate('page.title.update', { model: translate('model.lowercase.bankingAccount') })
+            : translate('page.title.create', { model: translate('model.lowercase.bankingAccount') })
+        }
+        pathname={pathname}
+        navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
+      >
+        <FormProvider {...createBankingAccountForm}>
+          <Card sx={{ p: 3 }}>
+            <BankingAccountForm />
+          </Card>
+          <Stack direction="row" justifyContent="space-between" mt={12}>
+            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
+              {translate('button.back')}
             </Button>
+            <Stack direction="row" gap={2}>
+              {isEditing && (
+                <Button variant="contained" color="inherit">
+                  {translate('button.reset')}
+                </Button>
+              )}
+              <Button
+                variant="contained"
+                type="submit"
+                color={isEditing ? Color.WARNING : Color.PRIMARY}
+                onClick={handleSubmit(onSubmit)}
+              >
+                {isEditing ? translate('button.update') : translate('button.create')}
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </FormProvider>
-    </Page>
+        </FormProvider>
+      </Page>
+    </>
   );
 }
 
