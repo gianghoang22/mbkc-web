@@ -5,7 +5,7 @@ import { useLocales } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 
 function CashierForm() {
-  const { isEditing } = useAppSelector((state) => state.category);
+  const { isEditing } = useAppSelector((state) => state.cashier);
   const { translate } = useLocales();
 
   return (
@@ -39,7 +39,7 @@ function CashierForm() {
           </Stack>
 
           <Stack spacing={3}>
-            <InputField fullWidth name="email" label="Email" />
+            <InputField disabled={isEditing} fullWidth name="email" label="Email" />
             <InputField fullWidth name="fullName" label={translate('table.fullName')} />
             <Stack direction="row" alignItems="start" gap={2}>
               <SelectField<Gender> fullWidth options={GENDER_OPTIONS} name="gender" label={translate('table.gender')} />

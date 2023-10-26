@@ -19,6 +19,8 @@ import {
 } from '@mui/material';
 // @mui icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import DescriptionIcon from '@mui/icons-material/Description';
+
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import {
@@ -142,11 +144,26 @@ function KitchenCenterDetailPage() {
           </Button>,
         ]}
       >
-        <Stack spacing={5} mb={7} width="100%">
-          {isLoading ? (
-            <KitchenCenterDetailPageSkeleton />
-          ) : (
-            <Card>
+        <Stack spacing={5} mb={10} width="65%">
+          <Card>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{
+                px: 3,
+                py: 1.5,
+                borderBottom: 1,
+                borderColor: 'divider',
+              }}
+            >
+              <Stack direction="row" alignItems="center" gap={0.5}>
+                <Typography variant="h6">{translate('page.content.generalInformation')}</Typography>
+              </Stack>
+            </Stack>
+            {isLoading ? (
+              <KitchenCenterDetailPageSkeleton />
+            ) : (
               <Stack sx={{ px: 3, py: 3 }}>
                 <Grid container columnSpacing={2} alignItems="center">
                   <Grid item md={3} sm={12}>
@@ -175,81 +192,81 @@ function KitchenCenterDetailPage() {
                   </Grid>
                 </Grid>
               </Stack>
-            </Card>
-          )}
-
-          <Card>
-            <Box sx={{ width: '100%' }}>
-              <Paper sx={{ width: '100%', mb: 2 }}>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  px={3}
-                  py={2}
-                  sx={{ borderBottom: 1, borderColor: 'divider' }}
-                >
-                  <Typography variant="h6">
-                    {translate('page.title.list', { model: translate('model.lowercase.store') })}
-                  </Typography>
-                </Stack>
-
-                <StoreTableToolbar
-                  haveSelectStatus
-                  filterName={filterName}
-                  onFilterName={handleFilterByName}
-                  status={storeStatus}
-                  setStatus={setStoreStatus}
-                />
-                <TableContainer>
-                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<StoreTable>
-                      hideKitchenCenter
-                      headCells={storeHeadCells}
-                      order={order}
-                      orderBy={orderBy}
-                      onRequestSort={handleRequestSort}
-                    />
-                    {isLoadingStores ? (
-                      <StoreTableRowSkeleton showEmail haveBrand={true} length={visibleRows.length} />
-                    ) : (
-                      <TableBody>
-                        {visibleRows.map((store, index) => {
-                          return (
-                            <StoreTableRow
-                              key={store.storeId}
-                              store={store}
-                              showAction={false}
-                              index={index}
-                              length={visibleRows.length}
-                              haveBrand={true}
-                              showEmail
-                            />
-                          );
-                        })}
-                        {emptyRows > 0 ||
-                          (stores.length === 0 && !filterName && (
-                            <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.stores')} />
-                          ))}
-                      </TableBody>
-                    )}
-                    {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  component="div"
-                  count={numberItems}
-                  rowsPerPage={rowsPerPage}
-                  labelRowsPerPage={translate('table.rowsPerPage')}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </Paper>
-            </Box>
+            )}
           </Card>
         </Stack>
+
+        <Card>
+          <Box sx={{ width: '100%' }}>
+            <Paper sx={{ width: '100%', mb: 2 }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                px={3}
+                py={2}
+                sx={{ borderBottom: 1, borderColor: 'divider' }}
+              >
+                <Typography variant="h6">
+                  {translate('page.title.list', { model: translate('model.lowercase.store') })}
+                </Typography>
+              </Stack>
+
+              <StoreTableToolbar
+                haveSelectStatus
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                status={storeStatus}
+                setStatus={setStoreStatus}
+              />
+              <TableContainer>
+                <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                  <CommonTableHead<StoreTable>
+                    hideKitchenCenter
+                    headCells={storeHeadCells}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                  />
+                  {isLoadingStores ? (
+                    <StoreTableRowSkeleton showEmail haveBrand={true} length={visibleRows.length} />
+                  ) : (
+                    <TableBody>
+                      {visibleRows.map((store, index) => {
+                        return (
+                          <StoreTableRow
+                            key={store.storeId}
+                            store={store}
+                            showAction={false}
+                            index={index}
+                            length={visibleRows.length}
+                            haveBrand={true}
+                            showEmail
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 ||
+                        (stores.length === 0 && !filterName && (
+                          <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.stores')} />
+                        ))}
+                    </TableBody>
+                  )}
+                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={numberItems}
+                rowsPerPage={rowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+          </Box>
+        </Card>
       </Page>
 
       <Popover
