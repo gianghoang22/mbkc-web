@@ -5,7 +5,7 @@ import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } f
 //redux
 import { useAppSelector } from 'redux/configStore';
 // section
-import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/moneyExchange';
+import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/moneyExchanges';
 //
 import { MoneyExchange, MoneyExchangeTable, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
