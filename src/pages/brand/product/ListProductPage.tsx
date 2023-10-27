@@ -12,7 +12,15 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
 //
-import { ListParams, OrderSort, PRODUCT_TYPE_TABS, ProductTable, ProductTypeEnum } from '@types';
+import {
+  ListParams,
+  OptionSelect,
+  OrderSort,
+  OrderSortBy,
+  PRODUCT_TYPE_TABS,
+  ProductTable,
+  ProductTypeEnum,
+} from '@types';
 import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -20,6 +28,7 @@ import { PATH_BRAND_APP } from 'routes/paths';
 function ListProductPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { pathname } = useLocation();
   const { productHeadCells } = useConfigHeadTable();
@@ -28,9 +37,10 @@ function ListProductPage() {
   const { products, isLoading, numberItems } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof ProductTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [productType, setProductType] = useState<string>('');
+  const [productTypeSelect, setProductTypeSelect] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setProductType(newValue);
@@ -57,14 +67,14 @@ function ListProductPage() {
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
-        itemsPerPage: rowsPerPage,
+        searchValue: debounceValue,
         currentPage: page + 1,
-        searchName: debounceValue,
+        itemsPerPage: rowsPerPage,
         type: productType,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, productType]);
+  }, [page, rowsPerPage, debounceValue, productType, orderBy, order]);
 
   useEffect(() => {
     dispatch<any>(getAllProducts(params));
@@ -102,7 +112,12 @@ function ListProductPage() {
                 handleChange={handleChange}
                 options={PRODUCT_TYPE_TABS}
               />
-              <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <ProductTableToolbar
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                productType={productTypeSelect}
+                setProductType={setProductTypeSelect}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<ProductTable>

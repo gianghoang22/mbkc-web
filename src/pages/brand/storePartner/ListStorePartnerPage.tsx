@@ -24,6 +24,7 @@ import { getComparator, removeLocalStorage, stableSort } from 'utils';
 function ListStorePartnerPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { storeHeadCells } = useConfigHeadTable();

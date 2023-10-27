@@ -60,15 +60,15 @@ export const ROUTES_API_KITCHEN_CENTER = {
 
 export const ROUTES_API_BRANDS = {
   GET_ALL_BRAND: ({
-    keySearchName = '',
+    searchValue = '',
     currentPage = '',
     itemsPerPage = '',
     isGetAll = '',
-    keySortName = '',
+    sortBy = '',
   }: OptionParams) => {
     return path(
       ROOTS_BRANDS,
-      `?keySearchName=${keySearchName}&keySortName=${keySortName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+      `?searchValue=${searchValue}&sortBy=${sortBy}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
     );
   },
   CREATE_BRAND: pathRoot(ROOTS_BRANDS),
@@ -107,16 +107,15 @@ export const ROUTES_API_STORES = {
 export const ROUTES_API_PARTNERS = {
   CREATE_PARTNER: pathRoot(ROOTS_PARTNERS),
   GET_ALL_PARTNER: ({
-    keySearchName = '',
-    keySortName = '',
-    keySortStatus = '',
+    searchValue = '',
     currentPage = '',
     itemsPerPage = '',
+    sortBy = '',
     isGetAll = '',
   }: OptionParams) =>
     path(
       ROOTS_PARTNERS,
-      `?keySearchName=${keySearchName}&keySortName=${keySortName}&keySortStatus=${keySortStatus}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sortBy}&isGetAll=${isGetAll}`
     ),
   GET_PARTNER_DETAIL: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
   UPDATE_PARTNER: (partnerId: number) => path(ROOTS_PARTNERS, `/${partnerId}`),
@@ -140,28 +139,21 @@ export const ROUTES_API_STORE_PARTNERS = {
 
 export const ROUTES_API_CATEGORIES = {
   CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
-  GET_ALL_CATEGORY: ({
-    type = '',
-    keySearchName = '',
-    currentPage = '',
-    itemsPerPage = '',
-    keySortName = '',
-    keySortCode = '',
-    keySortStatus = '',
-  }: OptionParams) =>
+  GET_ALL_CATEGORY: ({ type = '', searchValue = '', currentPage = '', itemsPerPage = '', sortBy = '' }: OptionParams) =>
     path(
       ROOTS_CATEGORY,
-      `?type=${type}&keySearchName=${keySearchName}&keySortName=${keySortName}&keySortCode=${keySortCode}&keySortStatus=${keySortStatus}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+      `?type=${type}&searchValue=${searchValue}&itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&sortBy=${sortBy}`
     ),
   GET_EXTRA_CATEGORY_OF_CATEGORY: ({
-    keySearchName = '',
+    searchValue = '',
     currentPage = '',
     itemsPerPage = '',
+    sortBy = '',
     idCategory = '',
   }: OptionParams) =>
     path(
       ROOTS_CATEGORY,
-      `/${idCategory}/extra-categories?keySearchName=${keySearchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+      `/${idCategory}/extra-categories?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sortBy}`
     ),
   ADD_EXTRA_CATEGORY: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}/extra-categories`),
   GET_CATEGORY_DETAIL: (categoryId: number) => path(ROOTS_CATEGORY, `/${categoryId}`),
@@ -173,7 +165,7 @@ export const ROUTES_API_PRODUCTS = {
   CREATE_PRODUCT: pathRoot(ROOTS_PRODUCTS),
   GET_ALL_PRODUCT: ({
     type = '',
-    searchName = '',
+    searchValue = '',
     currentPage = '',
     itemsPerPage = '',
     isGetAll = '',
@@ -182,7 +174,7 @@ export const ROUTES_API_PRODUCTS = {
   }: OptionParams) =>
     path(
       ROOTS_PRODUCTS,
-      `?searchName=${searchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}`
+      `?searchName=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}`
     ),
   GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
   UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
@@ -211,7 +203,7 @@ export const ROUTES_API_CASHIERS = {
   GET_ALL_CASHIERS: ({ searchValue = '', currentPage = '', itemsPerPage = '', sortBy = '' }: OptionParams) => {
     return path(
       ROOTS_CASHIERS,
-      `?SearchValue=${searchValue}&ItemsPerPage=${itemsPerPage}&CurrentPage=${currentPage}&SortBy=${sortBy}`
+      `?searchValue=${searchValue}&itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&sortBy=${sortBy}`
     );
   },
   CREATE_CASHIER: pathRoot(ROOTS_CASHIERS),

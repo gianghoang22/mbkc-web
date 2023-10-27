@@ -23,15 +23,14 @@ import {
 import { addExtraCategory, getAllCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
+import CategoryTableToolbar from './CategoryTableToolbar';
 import ExtraToCategoryRow from './ExtraToCategoryRow';
 import ExtraToCategoryRowSkeleton from './ExtraToCategoryRowSkeleton';
-import CategoryTableToolbar from './CategoryTableToolbar';
 //
-import { AddExtraCategory, CategoryTable, CategoryType, ListParams, OrderSort, Params } from '@types';
+import { AddExtraCategory, CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy, Params } from '@types';
 import { Language } from 'common/enum';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import { getComparator, stableSort } from 'utils';
 
 interface AddExtraToCategoryModalProps {
   isOpen: boolean;
@@ -51,7 +50,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
   const { categories, isLoading, numberItems } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [filterName, setFilterName] = useState<string>('');
 
@@ -97,12 +96,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(categories, getComparator(order, orderBy)),
-    [order, orderBy, categories]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !categories.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -110,9 +104,10 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
     return {
       optionParams: {
         type: CategoryType.EXTRA,
-        pageSize: rowsPerPage,
-        pageNumber: page + 1,
-        keySearchName: debounceValue,
+        currentPage: page + 1,
+        itemsPerPage: rowsPerPage,
+        searchValue: debounceValue,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
@@ -162,10 +157,10 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                       onSelectAllClick={handleSelectAllClick}
                     />
                     {isLoading ? (
-                      <ExtraToCategoryRowSkeleton length={visibleRows.length} />
+                      <ExtraToCategoryRowSkeleton length={categories.length} />
                     ) : (
                       <TableBody>
-                        {visibleRows.map((category, index) => {
+                        {categories.map((category, index) => {
                           const isItemSelected = isSelected(category.categoryId);
 
                           return (

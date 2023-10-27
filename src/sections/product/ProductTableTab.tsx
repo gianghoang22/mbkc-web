@@ -11,7 +11,7 @@ import ProductTableRow from './ProductTableRow';
 import ProductTableRowSkeleton from './ProductTableRowSkeleton';
 import ProductTableToolbar from './ProductTableToolbar';
 //
-import { ListParams, OrderSort, ProductTable } from '@types';
+import { CategoryType, ListParams, OptionSelect, OrderSort, OrderSortBy, ProductTable } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 
@@ -25,11 +25,13 @@ function ProductTableTab() {
   const { productHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { categoryType } = useAppSelector((state) => state.category);
   const { products, isLoading } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof ProductTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
+  const [productType, setProductType] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -52,14 +54,15 @@ function ProductTableTab() {
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
-        itemsPerPage: rowsPerPage,
+        searchValue: debounceValue,
         currentPage: page + 1,
-        searchName: debounceValue,
+        itemsPerPage: rowsPerPage,
+        type: productType?.value,
         idCategory: categoryId,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, productType, categoryId]);
 
   useEffect(() => {
     dispatch<any>(getAllProducts(params));
@@ -68,10 +71,18 @@ function ProductTableTab() {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <ProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+        <ProductTableToolbar
+          filterName={filterName}
+          onFilterName={handleFilterByName}
+          productType={productType}
+          setProductType={setProductType}
+          haveSelectProductType={categoryType === CategoryType.NORMAL}
+        />
         <TableContainer>
           <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
             <CommonTableHead<ProductTable>
+              hideDiscountPrice
+              hideHistoricalPrice
               headCells={productHeadCells}
               order={order}
               orderBy={orderBy}
@@ -84,8 +95,8 @@ function ProductTableTab() {
                 {products?.map((product, index) => {
                   return (
                     <ProductTableRow
-                      length={products?.length}
                       key={product.productId}
+                      length={products?.length}
                       inTab
                       index={index}
                       product={product}
