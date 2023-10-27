@@ -25,7 +25,7 @@ function CreateBrandPage() {
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const { schemaBrand } = useValidationForm();
+  const { schemaCommonBrandKitchenCenter } = useValidationForm();
 
   const { pathnameToBack } = useAppSelector((state: any) => state.routes);
   const { provinces, districts, wards } = useAppSelector((state) => state.address);
@@ -37,26 +37,22 @@ function CreateBrandPage() {
       address: '',
       logo: '',
       managerEmail: '',
-      provinceId: '',
-      districtId: '',
-      wardId: '',
+      provinceId: 0,
+      districtId: 0,
+      wardId: 0,
     },
-    resolver: yupResolver(schemaBrand),
+    resolver: yupResolver(schemaCommonBrandKitchenCenter),
   });
 
   const { handleSubmit, watch, reset, setValue } = createBrandForm;
 
-  const name = watch('name');
-  const address = watch('address');
-  const logo = watch('logo');
-  const managerEmail = watch('managerEmail');
   const provinceId = watch('provinceId');
   const districtId = watch('districtId');
   const wardId = watch('wardId');
 
-  const province = provinces.find((opt) => opt.province_id.toString() === provinceId);
-  const district = districts.find((opt) => opt.district_id.toString() === districtId);
-  const ward = wards.find((opt) => opt.ward_id.toString() === wardId);
+  const province = provinces.find((opt) => Number(opt.province_id) === provinceId);
+  const district = districts.find((opt) => Number(opt.district_id) === districtId);
+  const ward = wards.find((opt) => Number(opt.ward_id) === wardId);
 
   useEffect(() => {
     if (brand !== null && isEditing === true) {
@@ -70,9 +66,9 @@ function CreateBrandPage() {
       );
       setValue('logo', brand?.logo as string);
       setValue('managerEmail', brand?.brandManagerEmail as string);
-      setValue('provinceId', brand?.address.split(', ').slice(-3)[2] as string);
-      setValue('districtId', brand?.address.split(', ').slice(-3)[1] as string);
-      setValue('wardId', brand?.address.split(', ').slice(-3)[0] as string);
+      setValue('provinceId', Number(brand?.address.split(', ').slice(-3)[2]));
+      setValue('districtId', Number(brand?.address.split(', ').slice(-3)[1]));
+      setValue('wardId', Number(brand?.address.split(', ').slice(-3)[0]));
     }
   }, [brand, isEditing, setValue]);
 
@@ -90,27 +86,12 @@ function CreateBrandPage() {
   }, [params]);
 
   useEffect(() => {
-    reset({
-      name: name,
-      address: address,
-      logo: logo,
-      managerEmail: managerEmail,
-      provinceId: provinceId,
-      districtId: '',
-      wardId: '',
-    });
+    setValue('districtId', 0);
+    setValue('wardId', 0);
   }, [provinceId]);
 
   useEffect(() => {
-    reset({
-      name: name,
-      address: address,
-      logo: logo,
-      managerEmail: managerEmail,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId !== undefined ? wardId : '',
-    });
+    setValue('wardId', wardId !== undefined ? wardId : 0);
   }, [districtId]);
 
   const onSubmit = (values: AddressFormInterface) => {
@@ -143,7 +124,6 @@ function CreateBrandPage() {
         navigate,
       };
 
-      console.log(createBrand);
       dispatch<any>(createNewBrand(createBrand));
     }
   };
@@ -188,7 +168,27 @@ function CreateBrandPage() {
             </Button>
             <Stack direction="row" gap={2}>
               {isEditing && (
-                <Button variant="contained" disabled={isLoading} color="inherit">
+                <Button
+                  variant="contained"
+                  disabled={isLoading}
+                  color="inherit"
+                  onClick={() => {
+                    reset({
+                      name: brand?.name,
+                      address: brand?.address
+                        ? brand?.address
+                            .split(', ')
+                            .slice(0, brand?.address.split(', ').length - 6)
+                            .join(', ')
+                        : brand?.address,
+                      logo: brand?.logo,
+                      managerEmail: brand?.brandManagerEmail,
+                      provinceId: Number(brand?.address.split(', ').slice(-3)[2]),
+                      districtId: Number(brand?.address.split(', ').slice(-3)[1]),
+                      wardId: Number(brand?.address.split(', ').slice(-3)[0]),
+                    });
+                  }}
+                >
                   {translate('button.reset')}
                 </Button>
               )}

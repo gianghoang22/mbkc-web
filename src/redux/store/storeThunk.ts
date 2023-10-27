@@ -120,10 +120,11 @@ export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thu
       data
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          status: optionParams?.status ? optionParams?.status : '',
         },
         navigate,
       };
@@ -149,10 +150,11 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
       data
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          status: optionParams?.status ? optionParams?.status : '',
         },
         navigate,
       };
@@ -186,10 +188,11 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
       ROUTES_API_STORES.DELETE_STORE(idParams?.storeId ? idParams?.storeId : 0)
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          status: optionParams?.status ? optionParams?.status : '',
         },
         navigate,
       };

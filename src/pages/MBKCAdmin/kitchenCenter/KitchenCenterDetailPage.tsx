@@ -33,7 +33,7 @@ import { getAllStores } from 'redux/store/storeSlice';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { BrandDetailPageSkeleton } from 'sections/brand';
 //
-import { ListParams, OrderSort, OrderSortBy, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from '@types';
 import { Color, Language, Status } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
@@ -59,7 +59,7 @@ function KitchenCenterDetailPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
-  const [storeStatus, setStoreStatus] = useState<string>('');
+  const [storeStatus, setStoreStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -252,6 +252,7 @@ function KitchenCenterDetailPage() {
                         {visibleRows.map((store, index) => {
                           return (
                             <StoreTableRow
+                              status={storeStatus}
                               key={store.storeId}
                               store={store}
                               showAction={false}
@@ -285,78 +286,6 @@ function KitchenCenterDetailPage() {
             </Box>
           </Card>
         </Stack>
-
-        <Card>
-          <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                px={3}
-                py={2}
-                sx={{ borderBottom: 1, borderColor: 'divider' }}
-              >
-                <Typography variant="h6">
-                  {translate('page.title.list', { model: translate('model.lowercase.store') })}
-                </Typography>
-              </Stack>
-
-              <StoreTableToolbar
-                haveSelectStatus
-                filterName={filterName}
-                onFilterName={handleFilterByName}
-                status={storeStatus}
-                setStatus={setStoreStatus}
-              />
-              <TableContainer>
-                <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<StoreTable>
-                    hideKitchenCenter
-                    headCells={storeHeadCells}
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
-                  />
-                  {isLoadingStores ? (
-                    <StoreTableRowSkeleton showEmail haveBrand={true} length={visibleRows.length} />
-                  ) : (
-                    <TableBody>
-                      {visibleRows.map((store, index) => {
-                        return (
-                          <StoreTableRow
-                            key={store.storeId}
-                            store={store}
-                            showAction={false}
-                            index={index}
-                            length={visibleRows.length}
-                            haveBrand={true}
-                            showEmail
-                          />
-                        );
-                      })}
-                      {emptyRows > 0 ||
-                        (stores.length === 0 && !filterName && (
-                          <EmptyTable colNumber={storeHeadCells.length} model={translate('model.lowercase.stores')} />
-                        ))}
-                    </TableBody>
-                  )}
-                  {isNotFound && <SearchNotFound colNumber={storeHeadCells.length} searchQuery={filterName} />}
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={numberItems}
-                rowsPerPage={rowsPerPage}
-                labelRowsPerPage={translate('table.rowsPerPage')}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper>
-          </Box>
-        </Card>
       </Page>
 
       <Popover

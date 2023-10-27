@@ -28,7 +28,6 @@ function ListBrandPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BrandTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
-  const [status, setStatus] = useState<string>('');
 
   const { brands, isLoading, numberItems } = useAppSelector((state) => state.brand);
 
@@ -54,14 +53,13 @@ function ListBrandPage() {
     return {
       optionParams: {
         keySearchName: debounceValue,
-        keyStatusFilter: status,
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
         keySortName: orderBy === OrderSortBy.NAME ? order : '',
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, orderBy, order, status]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
     dispatch(getAllBrands(params));
@@ -89,12 +87,7 @@ function ListBrandPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <BrandTableToolbar
-                status={status}
-                setStatus={setStatus}
-                filterName={filterName}
-                onFilterName={handleFilterByName}
-              />
+              <BrandTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<BrandTable>
@@ -111,7 +104,6 @@ function ListBrandPage() {
                       {brands.map((brand, index) => {
                         return (
                           <BrandTableRow
-                            status={status}
                             key={index}
                             index={index}
                             brand={brand}

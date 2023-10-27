@@ -29,7 +29,7 @@ function CreateKitchenCenterPage() {
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const { schemaKitchenCenter } = useValidationForm();
+  const { schemaCommonBrandKitchenCenter } = useValidationForm();
 
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { provinces, districts, wards } = useAppSelector((state) => state.address);
@@ -41,26 +41,22 @@ function CreateKitchenCenterPage() {
       address: '',
       logo: '',
       managerEmail: '',
-      provinceId: '',
-      districtId: '',
-      wardId: '',
+      provinceId: 0,
+      districtId: 0,
+      wardId: 0,
     },
-    resolver: yupResolver(schemaKitchenCenter),
+    resolver: yupResolver(schemaCommonBrandKitchenCenter),
   });
 
   const { handleSubmit, watch, reset, setValue } = createKitchenCenterForm;
 
-  const name = watch('name');
-  const address = watch('address');
-  const logo = watch('logo');
-  const managerEmail = watch('managerEmail');
   const provinceId = watch('provinceId');
   const districtId = watch('districtId');
   const wardId = watch('wardId');
 
-  const province = provinces.find((opt) => opt.province_id.toString() === provinceId);
-  const district = districts.find((opt) => opt.district_id.toString() === districtId);
-  const ward = wards.find((opt) => opt.ward_id.toString() === wardId);
+  const province = provinces.find((opt) => Number(opt.province_id) === provinceId);
+  const district = districts.find((opt) => Number(opt.district_id) === districtId);
+  const ward = wards.find((opt) => Number(opt.ward_id) === wardId);
 
   useEffect(() => {
     if (kitchenCenter !== null && isEditing === true) {
@@ -74,9 +70,9 @@ function CreateKitchenCenterPage() {
       );
       setValue('logo', kitchenCenter?.logo as string);
       setValue('managerEmail', kitchenCenter?.kitchenCenterManagerEmail as string);
-      setValue('provinceId', kitchenCenter?.address.split(', ').slice(-3)[2] as string);
-      setValue('districtId', kitchenCenter?.address.split(', ').slice(-3)[1] as string);
-      setValue('wardId', kitchenCenter?.address.split(', ').slice(-3)[0] as string);
+      setValue('provinceId', Number(kitchenCenter?.address.split(', ').slice(-3)[2]));
+      setValue('districtId', Number(kitchenCenter?.address.split(', ').slice(-3)[1]));
+      setValue('wardId', Number(kitchenCenter?.address.split(', ').slice(-3)[0]));
     }
   }, [kitchenCenter, isEditing, setValue]);
 
@@ -94,27 +90,12 @@ function CreateKitchenCenterPage() {
   }, [dispatch, navigate, params]);
 
   useEffect(() => {
-    reset({
-      name: name,
-      address: address,
-      logo: logo,
-      managerEmail: managerEmail,
-      provinceId: provinceId,
-      districtId: '',
-      wardId: '',
-    });
+    setValue('districtId', 0);
+    setValue('wardId', 0);
   }, [provinceId]);
 
   useEffect(() => {
-    reset({
-      name: name,
-      address: address,
-      logo: logo,
-      managerEmail: managerEmail,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId !== undefined ? wardId : '',
-    });
+    setValue('wardId', wardId !== undefined ? wardId : 0);
   }, [districtId]);
 
   const onSubmit = async (values: AddressFormInterface) => {
@@ -205,9 +186,9 @@ function CreateKitchenCenterPage() {
                         : kitchenCenter?.address,
                       logo: kitchenCenter?.logo,
                       managerEmail: kitchenCenter?.kitchenCenterManagerEmail,
-                      provinceId: kitchenCenter?.address.split(', ').slice(-3)[2],
-                      districtId: kitchenCenter?.address.split(', ').slice(-3)[1],
-                      wardId: kitchenCenter?.address.split(', ').slice(-3)[0],
+                      provinceId: Number(kitchenCenter?.address.split(', ').slice(-3)[2]),
+                      districtId: Number(kitchenCenter?.address.split(', ').slice(-3)[1]),
+                      wardId: Number(kitchenCenter?.address.split(', ').slice(-3)[0]),
                     });
                   }}
                 >

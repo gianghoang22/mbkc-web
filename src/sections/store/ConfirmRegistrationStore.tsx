@@ -8,7 +8,7 @@ import { Button, Dialog, DialogActions, DialogContent, Divider, Stack, Typograph
 import { useAppDispatch } from 'redux/configStore';
 import { confirmRegistrationStore } from 'redux/store/storeSlice';
 //
-import { Store, StoreToConfirm } from '@types';
+import { OptionSelect, Store, StoreToConfirm } from '@types';
 import { Color, Status } from 'common/enum';
 import { InputField } from 'components';
 import { useLocales } from 'hooks';
@@ -19,6 +19,7 @@ interface ConfirmRegistrationStoreProps {
   store?: Store | null;
   isOpen: boolean;
   storeStatus: Status;
+  statusFilter?: OptionSelect | null;
   handleOpen: (title: any) => void;
   handleCloseMenuConfirm: () => void;
 }
@@ -31,6 +32,7 @@ function ConfirmRegistrationStore({
   rowsPerPage = 5,
   handleCloseMenuConfirm,
   storeStatus = Status.ACTIVE,
+  statusFilter,
 }: ConfirmRegistrationStoreProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -73,6 +75,7 @@ function ConfirmRegistrationStore({
         optionParams: {
           itemsPerPage: rowsPerPage,
           currentPage: page,
+          status: statusFilter ? statusFilter?.value : '',
         },
         pathname: pathname,
         navigate,

@@ -106,8 +106,8 @@ export const updateStatusBrandThunk = async (params: Params<ToUpdateStatus>, thu
     if (response) {
       const paramsCallback = {
         optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
         navigate,
       };
@@ -136,7 +136,6 @@ export const deleteBrandThunk = async (params: Params<Brand>, thunkAPI: any) => 
         optionParams: {
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-          keyStatusFilter: optionParams?.keyStatusFilter,
         },
         navigate,
       };

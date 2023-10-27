@@ -123,9 +123,7 @@ function StoreDetailPage() {
         navigateDashboard={PATH_BRAND_APP.root}
         actions={() => {
           const listAction: ReactNode[] =
-            userAuth?.roleName === Role.MBKC_ADMIN &&
-            !(store?.status === Status.DEACTIVE) &&
-            !(store?.status === Status.REJECTED)
+            userAuth?.roleName === Role.MBKC_ADMIN && store?.status === Status.BE_CONFIRMING
               ? [
                   <Button
                     color="inherit"
@@ -139,16 +137,13 @@ function StoreDetailPage() {
                         backgroundColor: 'rgba(145, 158, 171, 0.08)',
                       },
                     }}
-                    disabled={store?.status === Status.DEACTIVE || store?.status === Status.REJECTED}
                     onClick={handleOpenMenuConfirm}
                   >
                     {translate('button.menuAction')}
                   </Button>,
                 ]
               : userAuth?.roleName === Role.BRAND_MANAGER &&
-                !(store?.status === Status.DEACTIVE) &&
-                !(store?.status === Status.BE_CONFIRMING) &&
-                !(store?.status === Status.REJECTED)
+                (store?.status === Status.INACTIVE || store?.status === Status.ACTIVE)
               ? [
                   <Button
                     color="inherit"
@@ -160,7 +155,6 @@ function StoreDetailPage() {
                         backgroundColor: 'rgba(145, 158, 171, 0.08)',
                       },
                     }}
-                    disabled={store?.status === Status.DEACTIVE || store?.status === Status.REJECTED}
                     onClick={handleOpenMenu}
                   >
                     {translate('button.menuAction')}

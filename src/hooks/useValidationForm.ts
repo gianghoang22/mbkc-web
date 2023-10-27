@@ -341,7 +341,7 @@ function useValidationForm() {
       .url(translate('page.validation.formatUrl')),
   });
 
-  const schemaBrand = yup.object({
+  const schemaCommonBrandKitchenCenter = yup.object({
     name: yup
       .string()
       .max(100, translate('page.validation.max100'))
@@ -368,41 +368,21 @@ function useValidationForm() {
     address: yup
       .string()
       .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
-    provinceId: yup.string().required(translate('page.validation.select', { name: translate('page.form.province') })),
-    districtId: yup.string().required(translate('page.validation.select', { name: translate('page.form.district') })),
-    wardId: yup.string().required(translate('page.validation.select', { name: translate('page.form.ward') })),
-  });
-
-  const schemaKitchenCenter = yup.object({
-    name: yup
-      .string()
-      .max(100, translate('page.validation.max100'))
-      .required(
-        translate('page.validation.required', {
-          name: translate(
-            'page.form.nameExchange',
-            currentLang.value === Language.ENGLISH
-              ? {
-                  model: translate('model.lowercase.kitchenCenter'),
-                  name: translate('page.form.nameLower'),
-                }
-              : {
-                  model: translate('page.form.nameLower'),
-                  name: translate('model.lowercase.kitchenCenter'),
-                }
-          ),
-        })
-      ),
-    managerEmail: yup
-      .string()
-      .email(translate('page.validation.emailFormat'))
-      .required(translate('page.validation.required', { name: translate('model.lowercase.managerEmail') })),
-    address: yup
-      .string()
-      .required(translate('page.validation.required', { name: translate('table.lowercase.address') })),
-    provinceId: yup.string().required(translate('page.validation.select', { name: translate('page.form.province') })),
-    districtId: yup.string().required(translate('page.validation.select', { name: translate('page.form.district') })),
-    wardId: yup.string().required(translate('page.validation.select', { name: translate('page.form.ward') })),
+    provinceId: yup
+      .number()
+      .required(translate('page.validation.select', { name: translate('page.form.province') }))
+      .typeError(translate('page.validation.select', { name: translate('page.form.province') }))
+      .min(1, translate('page.validation.select', { name: translate('page.form.province') })),
+    districtId: yup
+      .number()
+      .required(translate('page.validation.select', { name: translate('page.form.district') }))
+      .typeError(translate('page.validation.select', { name: translate('page.form.district') }))
+      .min(1, translate('page.validation.select', { name: translate('page.form.district') })),
+    wardId: yup
+      .number()
+      .required(translate('page.validation.select', { name: translate('page.form.ward') }))
+      .typeError(translate('page.validation.select', { name: translate('page.form.ward') }))
+      .min(1, translate('page.validation.select', { name: translate('page.form.ward') })),
   });
 
   const schemaBankingAccount = yup.object({
@@ -494,7 +474,6 @@ function useValidationForm() {
     schemaVerifyOtp,
     schemaResetPassword,
     schemaStore,
-    schemaBrand,
     schemaCategory,
     schemaBankingAccount,
     schemaProduct,
@@ -502,7 +481,7 @@ function useValidationForm() {
     schemaUpdatePassword,
     schemaCashier,
     schemaUpdateProfile,
-    schemaKitchenCenter,
+    schemaCommonBrandKitchenCenter,
     schemaUpdateStorePartner,
     schemaPartnerProduct,
     schemaStorePartner,

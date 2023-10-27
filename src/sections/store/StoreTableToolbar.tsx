@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import ReplayIcon from '@mui/icons-material/Replay';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { IconButton, InputAdornment, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
+import { IconButton, InputAdornment, Stack, TextField, Tooltip } from '@mui/material';
 // redux
 import { useAppDispatch } from 'redux/configStore';
 import { getAllStores } from 'redux/store/storeSlice';
 //
-import { ListParams, STORE_STATUS_TABS } from '@types';
+import { Autocomplete } from '@mui/material';
+import { ListParams, OptionSelect, STATUS_OPTIONS } from '@types';
 import { Status } from 'common/enum';
 import { useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
@@ -20,13 +21,14 @@ interface StoreTableToolbarProps {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filterName: string;
   haveSelectStatus?: boolean;
-  status: string;
-  setStatus: Dispatch<SetStateAction<string>>;
+  status: OptionSelect | null;
+  setStatus: Dispatch<SetStateAction<OptionSelect | null>>;
 }
 
 function StoreTableToolbar({ filterName, onFilterName, status, setStatus, haveSelectStatus }: StoreTableToolbarProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { page, rowsPerPage } = usePagination();
 
@@ -45,29 +47,26 @@ function StoreTableToolbar({ filterName, onFilterName, status, setStatus, haveSe
     <StyledRoot>
       <Stack direction="row" gap={2}>
         {haveSelectStatus && (
-          <Stack width={180}>
-            <TextField
-              label={translate('table.status')}
-              select
-              size="small"
-              value={status}
-              onChange={(event) => setStatus(event.target.value)}
+          <Stack width={250}>
+            <Autocomplete
               fullWidth
-            >
-              {STORE_STATUS_TABS.map((statusItem) => (
-                <MenuItem key={statusItem.id} value={statusItem.value}>
-                  {statusItem.value === Status.ACTIVE
-                    ? translate('status.active')
-                    : statusItem.value === Status.INACTIVE
-                    ? translate('status.inactive')
-                    : statusItem.value === Status.BE_CONFIRMING
-                    ? translate('status.beConfirming')
-                    : statusItem.value === Status.REJECTED
-                    ? translate('status.reject')
-                    : ''}
-                </MenuItem>
-              ))}
-            </TextField>
+              size="small"
+              options={STATUS_OPTIONS}
+              getOptionLabel={(option) =>
+                option.value === Status.ACTIVE
+                  ? translate('status.active')
+                  : option.value === Status.INACTIVE
+                  ? translate('status.inactive')
+                  : option.value === Status.BE_CONFIRMING
+                  ? translate('status.beConfirming')
+                  : option.value === Status.REJECTED
+                  ? translate('status.reject')
+                  : ''
+              }
+              renderInput={(params) => <TextField {...params} label={translate('table.status')} InputLabelProps={{}} />}
+              value={status}
+              onChange={(event: any, newValue: OptionSelect | null) => setStatus(newValue)}
+            />
           </Stack>
         )}
 

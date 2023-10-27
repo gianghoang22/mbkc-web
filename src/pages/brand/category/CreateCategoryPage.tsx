@@ -57,14 +57,6 @@ function CreateCategoryPage() {
       setValue('displayOrder', category?.displayOrder);
       setValue('description', category?.description);
       setValue('imageUrl', category?.imageUrl);
-      // reset({
-      //   name: category?.name,
-      //   code: category?.code,
-      //   type: categoryType === CategoryType.NORMAL ? CategoryType.NORMAL : CategoryType.EXTRA,
-      //   displayOrder: category?.displayOrder,
-      //   description: category?.description,
-      //   imageUrl: category?.imageUrl,
-      // });
     }
   }, [category]);
 
