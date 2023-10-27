@@ -24,7 +24,7 @@ import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeS
 // section
 import ConfirmRegistrationStore from './ConfirmRegistrationStore';
 //
-import { Params, Store, ToUpdateStatus } from '@types';
+import { OptionSelect, Params, Store, ToUpdateStatus } from '@types';
 import { Color, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -41,6 +41,7 @@ interface StoreTableRowProps {
   haveKitchenCenter?: boolean;
   showEmail?: boolean;
   setPage?: any;
+  status: OptionSelect | null;
 }
 
 function StoreTableRow({
@@ -54,6 +55,7 @@ function StoreTableRow({
   showEmail = false,
   length,
   setPage,
+  status,
 }: StoreTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -71,7 +73,7 @@ function StoreTableRow({
 
   const { userAuth } = useAppSelector((state) => state.auth);
 
-  const [status, setStatus] = useState<Status>(Status.ACTIVE);
+  const [statusConfirm, setStatusConfirm] = useState<Status>(Status.ACTIVE);
 
   const handleNavigateDetail = (storeId: number) => {
     navigate(
@@ -101,6 +103,7 @@ function StoreTableRow({
         optionParams: {
           itemsPerPage: rowsPerPage,
           currentPage: length === 1 ? 1 : page,
+          status: status?.value,
         },
         navigate,
       })
@@ -118,6 +121,7 @@ function StoreTableRow({
       optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page,
+        status: status?.value,
       },
       navigate,
     };
@@ -288,7 +292,7 @@ function StoreTableRow({
       >
         <MenuItem
           onClick={() => {
-            setStatus(Status.ACTIVE);
+            setStatusConfirm(Status.ACTIVE);
             handleOpenConfirm(Status.ACTIVE);
           }}
         >
@@ -299,7 +303,7 @@ function StoreTableRow({
         <MenuItem
           sx={{ color: 'error.main' }}
           onClick={() => {
-            setStatus(Status.REJECTED);
+            setStatusConfirm(Status.REJECTED);
             handleOpenConfirm(Status.REJECTED);
           }}
         >
@@ -322,7 +326,8 @@ function StoreTableRow({
       {isOpenConfirm && (
         <ConfirmRegistrationStore
           store={store}
-          storeStatus={status}
+          storeStatus={statusConfirm}
+          statusFilter={status}
           isOpen={isOpenConfirm}
           handleOpen={handleOpenConfirm}
           handleCloseMenuConfirm={handleCloseMenuConfirm}

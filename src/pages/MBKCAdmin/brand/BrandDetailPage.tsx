@@ -26,7 +26,7 @@ import { getAllStores } from 'redux/store/storeSlice';
 import { BrandDetailPageSkeleton } from 'sections/brand';
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 //
-import { ListParams, OrderSort, OrderSortBy, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from '@types';
 import { Color, Language, PopoverType, Status } from 'common/enum';
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
@@ -52,7 +52,7 @@ function BrandDetailPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
-  const [storeStatus, setStoreStatus] = useState<string>('');
+  const [storeStatus, setStoreStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -176,10 +176,15 @@ function BrandDetailPage() {
                             : translate('status.active')}
                         </Label>
                       </Stack>
-                      <Stack direction="row" alignItems="center" justifyContent="space-between" gap={0.5}>
-                        <Typography variant="subtitle1">{translate('table.address')}:</Typography>
-                        <Typography variant="body1">{brand?.address}</Typography>
-                      </Stack>
+                      <Typography variant="subtitle1">
+                        {translate('table.address')}:{' '}
+                        <Typography variant="body1" component="span">
+                          {brand?.address
+                            .split(', ')
+                            .slice(0, brand?.address.split(', ').length - 3)
+                            .join(', ')}
+                        </Typography>
+                      </Typography>
                     </Stack>
                   </Grid>
                 </Grid>
@@ -230,6 +235,7 @@ function BrandDetailPage() {
                             key={store.storeId}
                             index={index}
                             store={store}
+                            status={storeStatus}
                             setPage={setPage}
                             page={page + 1}
                             rowsPerPage={rowsPerPage}

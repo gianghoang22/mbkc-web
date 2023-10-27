@@ -27,7 +27,7 @@ function KitchenCenterForm() {
 
   const provinceOptions = provinces.map((province) => ({
     label: province.province_name,
-    value: province.province_id,
+    value: Number(province.province_id),
   }));
 
   const getOpObjProvince = (option: any) => {
@@ -38,7 +38,7 @@ function KitchenCenterForm() {
 
   const districtOptions = districts.map((district) => ({
     label: district.district_name,
-    value: district.district_id,
+    value: Number(district.district_id),
   }));
 
   const getOpObjDistrict = (option: any) => {
@@ -49,7 +49,7 @@ function KitchenCenterForm() {
 
   const wardOptions = wards.map((ward) => ({
     label: ward.ward_name,
-    value: ward.ward_id,
+    value: Number(ward.ward_id),
   }));
 
   const getOpObjWard = (option: any) => {
@@ -64,7 +64,7 @@ function KitchenCenterForm() {
 
   useEffect(() => {
     if (provinceId !== 0) {
-      dispatch(getAllDistrictByProvinceId({ provinceId, navigate }));
+      dispatch(getAllDistrictByProvinceId({ provinceId: provinceId < 10 ? `0${provinceId}` : provinceId, navigate }));
     }
   }, [provinceId]);
 
@@ -157,7 +157,8 @@ function KitchenCenterForm() {
               <AutoCompleteField
                 options={wardOptions}
                 getOptionLabel={(value: any) => {
-                  return getOpObjWard(value)?.label;
+                  const label = getOpObjWard(value)?.label;
+                  return label === undefined ? '' : label;
                 }}
                 isOptionEqualToValue={(option: any, value: any) => {
                   if (!option) return option;

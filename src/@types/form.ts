@@ -37,7 +37,7 @@ export interface AddressFormInterface {
   name: string;
   managerEmail: string;
   address: string;
-  provinceId: string;
-  districtId: string;
-  wardId: string;
+  provinceId: number;
+  districtId: number;
+  wardId: number;
 }

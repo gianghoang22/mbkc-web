@@ -12,7 +12,7 @@ import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 // section
 import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 //
-import { ListParams, OrderSort, OrderSortBy, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from '@types';
 import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
@@ -36,7 +36,7 @@ function ListStorePage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
-  const [storeStatus, setStoreStatus] = useState<string>('');
+  const [storeStatus, setStoreStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -64,7 +64,7 @@ function ListStorePage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchValue: debounceValue,
-        status: storeStatus,
+        status: storeStatus !== null ? storeStatus.value : '',
       },
       navigate,
     };
@@ -76,7 +76,7 @@ function ListStorePage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchValue: debounceValue,
-        status: storeStatus,
+        status: storeStatus !== null ? storeStatus.value : '',
         idBrand: brandProfile?.brandId,
       },
       navigate,
@@ -161,6 +161,7 @@ function ListStorePage() {
                             key={store.storeId}
                             index={index}
                             store={store}
+                            status={storeStatus}
                             setPage={setPage}
                             page={page + 1}
                             rowsPerPage={rowsPerPage}

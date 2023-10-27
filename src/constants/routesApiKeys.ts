@@ -61,7 +61,6 @@ export const ROUTES_API_KITCHEN_CENTER = {
 export const ROUTES_API_BRANDS = {
   GET_ALL_BRAND: ({
     keySearchName = '',
-    keyStatusFilter = '',
     currentPage = '',
     itemsPerPage = '',
     isGetAll = '',
@@ -69,7 +68,7 @@ export const ROUTES_API_BRANDS = {
   }: OptionParams) => {
     return path(
       ROOTS_BRANDS,
-      `?keySearchName=${keySearchName}&keyStatusFilter=${keyStatusFilter}&keySortName=${keySortName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
+      `?keySearchName=${keySearchName}&keySortName=${keySortName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&isGetAll=${isGetAll}`
     );
   },
   CREATE_BRAND: pathRoot(ROOTS_BRANDS),

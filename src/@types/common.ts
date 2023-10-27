@@ -4,7 +4,6 @@ export interface OptionParams {
   keySearchName?: string | null;
   searchValue?: string | null;
   searchName?: string | null;
-  keyStatusFilter?: string | null;
   itemsPerPage?: number | null | string;
   currentPage?: number | null | string;
   isGetAll?: boolean | null | string;
@@ -77,4 +76,10 @@ export interface WordLimited {
   wordString: string;
   lengthLimit: number;
   end?: string;
+}
+
+export interface OptionSelect {
+  value: string;
+  label: string;
+  id: string;
 }

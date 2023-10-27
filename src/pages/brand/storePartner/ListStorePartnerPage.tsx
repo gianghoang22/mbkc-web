@@ -14,7 +14,7 @@ import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 import { StoreTableToolbar } from 'sections/store';
 import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
 //
-import { ListParams, OrderSort, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, StoreTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
@@ -36,7 +36,7 @@ function ListStorePartnerPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
   const [filterName, setFilterName] = useState<string>('');
-  const [storeStatus, setStoreStatus] = useState<string>('');
+  const [storeStatus, setStoreStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';

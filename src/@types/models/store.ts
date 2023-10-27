@@ -37,7 +37,7 @@ export interface StoreToConfirm {
   rejectedReason: string;
 }
 
-export const STORE_STATUS_TABS = [
+export const STATUS_OPTIONS = [
   {
     value: Status.ACTIVE,
     label: 'Active',

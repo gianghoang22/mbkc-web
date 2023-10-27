@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow, Stack } from '@mui/material';
+import { Avatar, IconButton, Stack, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
@@ -19,10 +19,9 @@ interface BrandTableRowProps {
   brand: Brand;
   page: number;
   rowsPerPage: number;
-  status: string;
 }
 
-function BrandTableRow({ index, brand, page, rowsPerPage, status }: BrandTableRowProps) {
+function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -46,7 +45,6 @@ function BrandTableRow({ index, brand, page, rowsPerPage, status }: BrandTableRo
     handleOpen();
     dispatch<any>(
       deleteBrand({
-        optionParams: { keyStatusFilter: status },
         idParams: { brandId: brand?.brandId },
         navigate,
       })
@@ -83,11 +81,10 @@ function BrandTableRow({ index, brand, page, rowsPerPage, status }: BrandTableRo
           {brand.name}
         </TableCell>
         <TableCell align="left" onClick={handleNavigateDetail}>
-          {brand?.address}
-          {/* {brand?.address
+          {brand?.address
             .split(', ')
             .slice(0, brand?.address.split(', ').length - 3)
-            .join(', ')} */}
+            .join(', ')}
         </TableCell>
         <TableCell align="left">
           <Label
