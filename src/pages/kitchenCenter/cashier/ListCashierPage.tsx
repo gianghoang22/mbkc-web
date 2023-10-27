@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -10,11 +11,10 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
 import { CashierTableRow, CashierTableRowSkeleton, CashierTableToolbar } from 'sections/cashier';
 //
-import { CashierTable, ListParams, OrderSort } from '@types';
+import { CashierTable, ListParams, OrderSort, OrderSortBy } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 
 function ListCashierPage() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function ListCashierPage() {
   const { cashiers, isLoading, numberItems } = useAppSelector((state) => state.cashier);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof CashierTable>('fullName');
+  const [orderBy, setOrderBy] = useState<keyof CashierTable>(OrderSortBy.FULL_NAME);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CashierTable) => {
@@ -45,9 +45,7 @@ function ListCashierPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(() => stableSort(cashiers, getComparator(order, orderBy)), [order, orderBy, cashiers]);
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !cashiers.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -61,11 +59,11 @@ function ListCashierPage() {
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, navigate, orderBy, order]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
     dispatch(getAllCashiers(params));
-  }, [dispatch, navigate, params]);
+  }, [params]);
 
   return (
     <>
@@ -100,10 +98,10 @@ function ListCashierPage() {
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (
-                    <CashierTableRowSkeleton length={visibleRows.length} />
+                    <CashierTableRowSkeleton length={cashiers.length} />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((cashier, index) => {
+                      {cashiers.map((cashier, index) => {
                         return (
                           <CashierTableRow
                             key={cashier.accountId}

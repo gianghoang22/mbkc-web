@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
 import AddExtraToCategory from './AddExtraToCategoryModal';
 //
-import { CategoryTable, CategoryType, ListParams, OrderSort } from '@types';
+import { CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy } from '@types';
 import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { getComparator, stableSort } from 'utils';
@@ -22,6 +22,7 @@ interface CategoryTableTabProps {
 function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { categoryHeadCells } = useConfigHeadTable();
@@ -30,7 +31,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
   const { categoriesExtra, isLoading, numberItems } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof CategoryTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
 
   const [filterName, setFilterName] = useState<string>('');
 
@@ -61,13 +62,14 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
     return {
       optionParams: {
         idCategory: categoryId,
-        pageSize: rowsPerPage,
-        pageNumber: page + 1,
-        keySearchName: debounceValue,
+        searchValue: debounceValue,
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, categoryId]);
+  }, [page, rowsPerPage, debounceValue, categoryId, orderBy, order]);
 
   useEffect(() => {
     dispatch<any>(getAllExtraCategoriesInCategory(params));

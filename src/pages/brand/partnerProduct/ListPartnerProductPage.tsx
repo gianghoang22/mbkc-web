@@ -24,6 +24,7 @@ import { PATH_BRAND_APP } from 'routes/paths';
 function ListPartnerProductPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { pathname } = useLocation();
   const { handleOpen, isOpen } = useModal();
@@ -34,8 +35,6 @@ function ListPartnerProductPage() {
   const { isLoading: isLoadingPartner } = useAppSelector((state) => state.partner);
   const { isLoading: isLoadingProduct } = useAppSelector((state) => state.product);
   const { partnerProducts, isLoading, numberItems } = useAppSelector((state) => state.partnerProduct);
-
-  console.log('partnerProducts', partnerProducts);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof PartnerProductTable>(OrderSortBy.PRODUCT_NAME);
@@ -62,9 +61,9 @@ function ListPartnerProductPage() {
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
-        itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
         searchValue: debounceValue,
+        currentPage: page + 1,
+        itemsPerPage: rowsPerPage,
         sortBy: `${orderBy}_${order}`,
       },
       navigate,

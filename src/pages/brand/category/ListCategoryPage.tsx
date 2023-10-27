@@ -20,6 +20,7 @@ import { PATH_BRAND_APP } from 'routes/paths';
 function ListCategoryPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { pathname } = useLocation();
   const { categoryHeadCells } = useConfigHeadTable();
@@ -53,12 +54,10 @@ function ListCategoryPage() {
     return {
       optionParams: {
         type: CategoryType.NORMAL,
-        pageSize: rowsPerPage,
-        pageNumber: page + 1,
-        keySearchName: debounceValue,
-        keySortName: orderBy === OrderSortBy.NAME ? order : '',
-        keySortCode: orderBy === OrderSortBy.CODE ? order : '',
-        keySortStatus: orderBy === OrderSortBy.STATUS ? order : '',
+        searchValue: debounceValue,
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };

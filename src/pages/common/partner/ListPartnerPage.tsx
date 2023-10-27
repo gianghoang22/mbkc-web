@@ -54,11 +54,10 @@ function ListPartnerPage() {
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
-        itemsPerPage: rowsPerPage,
+        searchValue: debounceValue,
         currentPage: page + 1,
-        keySearchName: debounceValue,
-        keySortName: orderBy === OrderSortBy.NAME ? order : '',
-        keySortStatus: orderBy === OrderSortBy.STATUS ? order : '',
+        itemsPerPage: rowsPerPage,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };

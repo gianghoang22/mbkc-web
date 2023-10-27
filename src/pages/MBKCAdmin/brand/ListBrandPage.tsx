@@ -52,10 +52,10 @@ function ListBrandPage() {
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
-        keySearchName: debounceValue,
+        searchValue: debounceValue,
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
-        keySortName: orderBy === OrderSortBy.NAME ? order : '',
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };

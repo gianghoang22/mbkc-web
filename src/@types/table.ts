@@ -5,6 +5,7 @@ export type OrderSort = 'asc' | 'desc';
 
 export enum OrderSortBy {
   NAME = 'name',
+  FULL_NAME = 'fullName',
   PRODUCT_NAME = 'productName',
   PRODUCT_CODE = 'productCode',
   CODE = 'code',

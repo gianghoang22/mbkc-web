@@ -80,7 +80,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
         <TableCell align="left" onClick={handleNavigateDetail}>
           {brand.name}
         </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
+        <TableCell align="left" onClick={handleNavigateDetail} sx={{ minWidth: 500 }}>
           {brand?.address
             .split(', ')
             .slice(0, brand?.address.split(', ').length - 3)
