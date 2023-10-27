@@ -13,6 +13,7 @@ import OnlyPartnerRow from './OnlyPartnerRow';
 import OnlyPartnerRowSkeleton from './OnlyPartnerRowSkeleton';
 //
 import { Store, StorePartnerDetail, StorePartnerToList } from '@types';
+import { useLocales } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
 interface StorePartnerTableRowProps {
@@ -23,7 +24,9 @@ interface StorePartnerTableRowProps {
 function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
+  const { translate } = useLocales();
 
   const { listStorePartners, isLoading } = useAppSelector((state) => state.storePartner);
 
@@ -79,7 +82,7 @@ function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
 
         <TableCell align="left" onClick={() => handleNavigateDetail(store.storeId)}>
           {listPartners.length === 0 ? (
-            <Typography variant="body2">Chưa có đối tác</Typography>
+            <Typography variant="body2">{translate('page.content.noHavePartner')}</Typography>
           ) : (
             <AvatarGroup max={4} sx={{ justifyContent: 'left' }}>
               {listPartners[0]?.storePartners.map((partner) => (

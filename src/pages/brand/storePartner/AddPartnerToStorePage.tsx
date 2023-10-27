@@ -25,10 +25,10 @@ function AddPartnerToStorePage() {
   const { schemaStorePartner } = useValidationForm();
 
   const { pathnameToBack } = useAppSelector((state) => state.routes);
-  const { isLoading } = useAppSelector((state) => state.storePartner);
+  const { isLoading, isAddFormDetail, storeId } = useAppSelector((state) => state.storePartner);
 
   const defaultValues = {
-    storeId: 0,
+    storeId: isAddFormDetail ? storeId : 0,
     partnerAccounts: [
       {
         partnerId: 0,

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui icon
@@ -104,11 +105,13 @@ function StoreDetailPage() {
       },
       navigate,
     };
-  }, [storeId, orderBy, order, navigate]);
+  }, [storeId, orderBy, order]);
 
   useEffect(() => {
-    dispatch(getAllStorePartnersByStoreId(params));
-  }, [dispatch, navigate, params]);
+    if (userAuth?.roleName === Role.BRAND_MANAGER) {
+      dispatch(getAllStorePartnersByStoreId(params));
+    }
+  }, [params, userAuth?.roleName]);
 
   return (
     <>
@@ -297,7 +300,7 @@ function StoreDetailPage() {
                           {translate('table.partner')}
                         </Typography>
                         {storePartners?.storePartners?.length === 0 ? (
-                          <Typography variant="body2">Chưa có đối tác</Typography>
+                          <Typography variant="body2">{translate('page.content.noHavePartner')}</Typography>
                         ) : (
                           <Stack direction="row" gap={3}>
                             {storePartners?.storePartners?.map((partner) => (

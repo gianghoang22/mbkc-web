@@ -20,7 +20,7 @@ import {
   Typography,
 } from '@mui/material';
 // redux
-import { addExtraCategory, getAllCategories } from 'redux/category/categorySlice';
+import { addExtraCategory, getAllCategories, getAllExtraCategoriesInCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
 import CategoryTableToolbar from './CategoryTableToolbar';
@@ -47,7 +47,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { categories, isLoading, numberItems } = useAppSelector((state) => state.category);
+  const { categories, categoriesExtra, isLoading, numberItems } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
@@ -113,9 +113,26 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
     };
   }, [page, rowsPerPage, debounceValue]);
 
+  const paramExtraOfCategory: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        idCategory: categoryId,
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue, categoryId, orderBy, order]);
+
   useEffect(() => {
     dispatch<any>(getAllCategories(params));
-  }, [params]);
+    dispatch<any>(getAllExtraCategoriesInCategory(paramExtraOfCategory));
+  }, [params, paramExtraOfCategory]);
+
+  useEffect(() => {
+    const categoryIds = categoriesExtra.map((category) => category.categoryId);
+    setSelected([...categoryIds]);
+  }, [categoriesExtra]);
 
   const handleAddExtraCategory = () => {
     const params: Params<AddExtraCategory> = {
@@ -220,9 +237,10 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                     handleAddExtraCategory();
                   }}
                   variant="contained"
+                  color="warning"
                   autoFocus
                 >
-                  {translate('button.addMore')}
+                  {translate('button.update')}
                 </Button>
               </Stack>
             </Stack>

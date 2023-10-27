@@ -26,6 +26,7 @@ interface StorePartnerFormProps {
 function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate, currentLang } = useLocales();
 
   const { stores } = useAppSelector((state) => state.store);

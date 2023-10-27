@@ -72,10 +72,11 @@ const storeSlice = createSlice({
       setLocalStorage(StorageKeys.IS_EDIT_STORE, true);
     },
     setAddFormDetail: (state, action) => {
+      console.log(action.payload);
       state.isAddFormDetail = true;
       state.store = action.payload;
       setLocalStorage(StorageKeys.IS_ADD_FORM_DETAIL, true);
-      setLocalStorage(StorageKeys.STORE_ID, action.payload?.storeId);
+      setLocalStorage(StorageKeys.STORE_ID, action.payload?.store?.storeId);
     },
     setAddFormList: (state) => {
       state.isAddFormDetail = false;

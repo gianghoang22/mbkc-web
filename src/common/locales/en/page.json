@@ -10,6 +10,7 @@
     "confirmLink": "Link confirmation"
   },
   "content": {
+    "noHavePartner": "No partner yet",
     "logo": "Logo",
     "image": "Image",
     "detail": "Detail",

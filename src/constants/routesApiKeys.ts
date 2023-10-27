@@ -125,16 +125,29 @@ export const ROUTES_API_PARTNERS = {
 
 export const ROUTES_API_STORE_PARTNERS = {
   CREATE_STORE_PARTNER: pathRoot(ROOTS_STORE_PARTNERS),
-  GET_ALL_STORE_PARTNER: ({ searchName = '', currentPage = '', itemsPerPage = '' }: OptionParams) =>
-    path(ROOTS_STORE_PARTNERS, `?searchName=${searchName}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`),
-  GET_ALL_STORE_PARTNER_BY_STORE_ID: ({ idStore = 0, keySortName = '', keySortStatus = '' }: OptionParams) =>
-    path(ROOTS_STORE_PARTNERS, `/${idStore}?keySortName=${keySortName}&keySortStatus=${keySortStatus}`),
+  GET_ALL_STORE_PARTNER: ({ searchValue = '', currentPage = '', itemsPerPage = '', sortBy = '' }: OptionParams) =>
+    path(
+      ROOTS_STORE_PARTNERS,
+      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sortBy}`
+    ),
+  GET_ALL_STORE_PARTNER_BY_STORE_ID: ({
+    idStore = 0,
+    keySortName = '',
+    keySortStatus = '',
+    keySortCommission = '',
+  }: OptionParams) =>
+    path(
+      ROOTS_STORE_PARTNERS,
+      `/stores/${idStore}?keySortName=${keySortName}&keySortStatus=${keySortStatus}&keySortCommission=${keySortCommission}`
+    ),
   GET_STORE_PARTNER_DETAIL: (storeId: number, partnerId: number) =>
-    path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),
-  UPDATE_STORE_PARTNER: (storeId: number, partnerId: number) => path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),
+    path(ROOTS_STORE_PARTNERS, `/stores/${storeId}/partners/${partnerId}`),
+  UPDATE_STORE_PARTNER: (storeId: number, partnerId: number) =>
+    path(ROOTS_STORE_PARTNERS, `/stores/${storeId}/partners/${partnerId}`),
   UPDATE_STORE_PARTNER_STATUS: (storeId: number, partnerId: number) =>
-    path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}/updating-status`),
-  DELETE_STORE_PARTNER: (storeId: number, partnerId: number) => path(ROOTS_STORE_PARTNERS, `/${storeId}/${partnerId}`),
+    path(ROOTS_STORE_PARTNERS, `/stores/${storeId}/partners/${partnerId}/updating-status`),
+  DELETE_STORE_PARTNER: (storeId: number, partnerId: number) =>
+    path(ROOTS_STORE_PARTNERS, `/stores/${storeId}/partners/${partnerId}`),
 };
 
 export const ROUTES_API_CATEGORIES = {
