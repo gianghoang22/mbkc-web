@@ -17,6 +17,7 @@ export interface OptionParams {
   keySortName?: string | null;
   keySortCode?: string | null;
   keySortStatus?: string | null;
+  keySortCommission?: string | null;
 }
 
 export interface IdParams {

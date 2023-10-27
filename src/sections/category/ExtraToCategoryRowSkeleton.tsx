@@ -10,12 +10,7 @@ function ExtraToCategoryRowSkeleton({ length, showAction = false }: ExtraToCateg
   return (
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
-        <TableRow
-          key={index}
-          hover
-          tabIndex={-1}
-          sx={showAction ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}
-        >
+        <TableRow key={index} hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
           <TableCell padding="checkbox">
             <Checkbox
               color="primary"
