@@ -80,12 +80,14 @@
     "max100": "Must not exceed 100 characters.",
     "max120": "Must not exceed 120 characters.",
     "max1000": "Must not exceed 1000 characters.",
+    "minNumber10": "{{name}} must have at least 10 digits",
+    "maxNumber20": "{{name}} have a maximum of 20 digits",
     "sellingPriceContent": "Selling price of the product",
     "discountPriceContent": "Discounted products...",
     "historicalPriceContent": "Cost of manufacturing products",
     "nameProductHelperText": "Name of child product: parent product name + selected size",
     "formatUrl": "The format of the url is not correct",
-    "citizenNumberLimit12Number": "Citizen number must have 12 numbers",
+    "citizenNumberLimit12Number": "Citizen number must have 12 digits",
     "commissionLimit100": "The commission should not be more than 100%."
   }
 }

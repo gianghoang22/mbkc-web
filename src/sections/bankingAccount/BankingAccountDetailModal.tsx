@@ -1,65 +1,70 @@
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 // @mui
-import CloseIcon from '@mui/icons-material/Close';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Box, Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Divider,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
+// @mui icon
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
-import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
+import { useAppDispatch } from 'redux/configStore';
+// section
 //
 import { BankingAccount } from '@types';
 import { Color, Language, Status } from 'common/enum';
-import { ConfirmDialog, ContentLabel, ContentSpace, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { ConfirmDialog, ContentLabel, Popover } from 'components';
+import { useLocales, useModal, usePagination, usePopover } from 'hooks';
+import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
+import CreateBankingAccountModal from './CreateBankingAccountModal';
 
 interface BankingAccountDetailModalProps {
+  bankingAccount?: BankingAccount | null;
   isOpen: boolean;
   handleOpen: (title: any) => void;
-  bankingAccount: BankingAccount;
-  page: number;
-  rowsPerPage: number;
 }
 
-function BankingAccountDetailModal({
-  isOpen,
-  handleOpen,
-  bankingAccount,
-  page,
-  rowsPerPage,
-}: BankingAccountDetailModalProps) {
-  const { translate, currentLang } = useLocales();
+function BankingAccountDetailModal({ bankingAccount, isOpen, handleOpen }: BankingAccountDetailModalProps) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { open, handleCloseMenu } = usePopover();
-  const { isOpen: isOpenModalDelete, handleOpen: handleOpenModalDelete } = useModal();
+  const dispatch = useAppDispatch();
+
+  const { page, rowsPerPage } = usePagination();
+  const { translate, currentLang } = useLocales();
+  const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+  const { handleOpen: handleOpenCreate, isOpen: isOpenCreate } = useModal();
+  const { handleOpen: handleOpenDelete, isOpen: isOpenDelete } = useModal();
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/updation/${bankingAccount?.bankingAccountId}`);
+    handleOpenCreate();
     dispatch(setEditBankingAccount(bankingAccount));
   };
 
-  const deleteParams = { bankingAccountId: bankingAccount?.bankingAccountId, navigate, page, rowsPerPage };
-
   const handleDelete = () => {
-    dispatch<any>(deleteBankingAccount(deleteParams));
+    handleOpenDelete();
+    dispatch(
+      deleteBankingAccount({
+        idParams: { bankingAccountId: bankingAccount?.bankingAccountId },
+        optionParams: {
+          itemsPerPage: rowsPerPage,
+          currentPage: page + 1,
+        },
+        navigate,
+      })
+    );
   };
-
-  // const params = useMemo(() => {
-  //   return { bankingAccountId: bankingAccountId, navigate };
-  // }, [bankingAccountId, navigate]);
-
-  // useEffect(() => {
-  //   dispatch<any>(getBankingAccountDetails(params));
-  // }, []);
 
   return (
     <>
       {isOpen && (
-        <Dialog maxWidth="md" fullWidth open={isOpen} onClose={handleOpen}>
+        <Dialog maxWidth="sm" fullWidth open={isOpen} onClose={handleOpen}>
           <DialogContent>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between">
               <Typography variant="h4">
                 {translate('page.title.detail', {
                   model:
@@ -68,76 +73,77 @@ function BankingAccountDetailModal({
                       : translate('model.lowercase.bankingAccount'),
                 })}
               </Typography>
-
-              <IconButton onClick={handleOpen}>
-                <CloseIcon />
+              <IconButton color="inherit" onClick={handleOpenMenu}>
+                <MoreVertIcon />
               </IconButton>
             </Stack>
 
             <Divider sx={{ mt: 1.5, mb: 3.5 }} />
 
-            <Stack pb={2}>
-              <Grid container columnSpacing={2}>
-                <Grid item lg={5} md={4} sm={12} style={{ paddingLeft: 40 }}>
-                  <Box>
-                    <img src={bankingAccount?.logoUrl} alt="avatar" style={{ borderRadius: '50%', width: '80%' }} />
-                  </Box>
-                </Grid>
-                <Grid item lg={7} md={8} sm={12}>
-                  <Stack gap={2}>
-                    <Stack direction="row" alignItems="center" justifyContent="flex-end">
-                      <IconButton onClick={handleOpenModalDelete}>
-                        <DeleteOutlineIcon />
-                      </IconButton>
+            <Stack width="100%" direction="row" alignItems="center" gap={4}>
+              <Avatar alt={bankingAccount?.name} src={bankingAccount?.logoUrl} sx={{ height: 150, width: 150 }} />
+              <Stack width="100%" gap={0.5}>
+                <ContentLabel
+                  divider={false}
+                  title={translate('table.status')}
+                  color={
+                    bankingAccount?.status === Status.ACTIVE
+                      ? Color.SUCCESS
+                      : bankingAccount?.status === Status.INACTIVE
+                      ? Color.WARNING
+                      : Color.ERROR
+                  }
+                  content={
+                    bankingAccount?.status === Status.INACTIVE
+                      ? translate('status.inactive')
+                      : bankingAccount?.status === Status.ACTIVE
+                      ? translate('status.active')
+                      : translate('status.deactive')
+                  }
+                />
+                <Typography variant="subtitle1">
+                  {translate('table.name')}:{' '}
+                  <Typography component="span" variant="body1">
+                    {bankingAccount?.name}
+                  </Typography>
+                </Typography>
 
-                      <IconButton style={{ marginRight: 4 }} onClick={handleEdit}>
-                        <EditOutlinedIcon />
-                      </IconButton>
-                    </Stack>
-
-                    <Box>
-                      <Typography variant="h4">{bankingAccount?.name}</Typography>
-                    </Box>
-
-                    <ContentSpace
-                      title={translate('model.capitalize.numberAccount')}
-                      content={String(bankingAccount?.numberAccount)}
-                    />
-
-                    <ContentLabel
-                      title={translate('table.status')}
-                      color={
-                        bankingAccount?.status === Status.ACTIVE
-                          ? Color.SUCCESS
-                          : bankingAccount?.status === Status.INACTIVE
-                          ? Color.WARNING
-                          : Color.ERROR
-                      }
-                      content={
-                        bankingAccount?.status === Status.INACTIVE
-                          ? translate('status.inactive')
-                          : bankingAccount?.status === Status.ACTIVE
-                          ? translate('status.active')
-                          : translate('status.deactive')
-                      }
-                    />
-                  </Stack>
-                </Grid>
-              </Grid>
+                <Typography variant="subtitle1">
+                  {translate('page.form.numberAccount')}:{' '}
+                  <Typography component="span" variant="body1">
+                    {bankingAccount?.numberAccount}
+                  </Typography>
+                </Typography>
+              </Stack>
             </Stack>
           </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="secondary" onClick={handleOpen}>
+              {translate('button.close')}
+            </Button>
+          </DialogActions>
         </Dialog>
       )}
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} />
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpenDelete} />
 
-      {isOpenModalDelete && (
+      {isOpenCreate && (
+        <CreateBankingAccountModal
+          page={page}
+          rowsPerPage={rowsPerPage}
+          isOpen={isOpenCreate}
+          handleOpen={handleOpenCreate}
+        />
+      )}
+
+      {isOpenDelete && (
         <ConfirmDialog
-          open={isOpenModalDelete}
-          onClose={handleOpenModalDelete}
+          open={isOpenDelete}
+          onClose={handleOpenDelete}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.cashier') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.cashier') })}
+          model={bankingAccount?.name}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.capitalize.bankingAccount') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.bankingAccount') })}
         />
       )}
     </>

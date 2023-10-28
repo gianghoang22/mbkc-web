@@ -1,10 +1,10 @@
-import { Cashier, ListParams, ListResponse, MessageResponse } from '@types';
+import { Cashier, CashierToUpdate, ListParams, ListResponse, MessageResponse, Params } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 
 import { ROUTES_API_CASHIERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getErrorMessage, handleResponseMessage } from 'utils';
+import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllCashiers } from './cashierSlice';
 
 export const getAllCashiersThunk = async (params: ListParams, thunkAPI: any) => {
@@ -54,15 +54,17 @@ export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const updateCashierThunk = async (params: any, thunkAPI: any) => {
-  const { cashierId, navigate, updateCashierOptions } = params;
+export const updateCashierThunk = async (params: Params<CashierToUpdate>, thunkAPI: any) => {
+  const { data, idParams, pathname, navigate } = params;
+  const formData = appendData(data);
 
   try {
     const response: MessageResponse = await axiosFormData.put(
-      ROUTES_API_CASHIERS.UPDATE_CASHIER(cashierId),
-      updateCashierOptions
+      ROUTES_API_CASHIERS.UPDATE_CASHIER(idParams?.cashierId as number),
+      formData
     );
     if (response) {
+      navigate(pathname !== undefined ? pathname : PATH_KITCHEN_CENTER_APP.cashier.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

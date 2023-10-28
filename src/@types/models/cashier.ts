@@ -21,3 +21,13 @@ export interface CashierToCreate {
   avatar?: string;
   citizenNumber: string;
 }
+
+export interface CashierToUpdate {
+  fullName: string;
+  gender: 'male' | 'female';
+  dateOfBirth: string;
+  avatar?: string;
+  citizenNumber: string;
+  newPassword?: string;
+  status: Status;
+}

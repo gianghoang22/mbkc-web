@@ -35,10 +35,11 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
   const handleEdit = () => {
     navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/updation/${cashier.accountId}`);
     dispatch(setEditCashier(cashier));
+    dispatch(setRoutesToBack(pathname));
   };
 
-  const handleNavigateDetail = (cashierId: number) => {
-    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/${cashierId}`);
+  const handleNavigateDetail = () => {
+    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/${cashier.accountId}`);
     dispatch(setRoutesToBack(pathname));
   };
 
@@ -72,24 +73,18 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
           {index + 1}
         </TableCell>
 
-        <TableCell
-          scope="row"
-          component="th"
-          padding="none"
-          width={90}
-          onClick={() => handleNavigateDetail(cashier.accountId)}
-        >
+        <TableCell scope="row" component="th" padding="none" width={90} onClick={() => handleNavigateDetail()}>
           <Avatar alt={cashier.fullName} src={cashier.avatar} />
         </TableCell>
-        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail(cashier.accountId)}>
+        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail()}>
           <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
             {cashier.fullName}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(cashier.accountId)}>
+        <TableCell align="left" onClick={() => handleNavigateDetail()}>
           {cashier.email}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(cashier.accountId)}>
+        <TableCell align="left" onClick={() => handleNavigateDetail()}>
           {cashier.gender}
         </TableCell>
         <TableCell align="left">
