@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Button, Card, Stack, Box } from '@mui/material';
 //
-import { CashierToCreate } from '@types';
+import { CashierToCreate, CashierToUpdate, Params } from '@types';
 import { Color, Status } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
 import { useAppSelector } from 'redux/configStore';
@@ -25,6 +25,7 @@ function CreateCashierPage() {
   const { schemaCashier } = useValidationForm();
 
   const { isEditing, isLoading, cashier } = useAppSelector((state) => state.cashier);
+  const { pathnameToBack } = useAppSelector((state) => state.routes);
 
   const createCashierForm = useForm<CashierToCreate>({
     defaultValues: {
@@ -41,33 +42,39 @@ function CreateCashierPage() {
   const { handleSubmit, setValue } = createCashierForm;
 
   const onSubmit = async (values: CashierToCreate) => {
-    const newCashierOptions = { ...values };
-
-    const updateCashierOptions = {
-      fullName: values.fullName,
-      gender: values.gender,
-      dateOfBirth: values.dateOfBirth,
-      avatar: values.avatar,
-      citizenNumber: values.citizenNumber,
-      newPassword: '',
-      Status: Status.ACTIVE,
-    };
-
-    const updateCashierParams = {
-      cashierId: cashier?.accountId,
-      navigate,
-      updateCashierOptions,
-    };
-
-    const createCashierParams = {
-      navigate,
-      newCashierOptions,
-    };
+    const data = { ...values };
 
     if (isEditing) {
-      dispatch<any>(updateCashier(updateCashierParams));
+      const paramsUpdate: Params<CashierToUpdate> = {
+        data: {
+          fullName: values.fullName,
+          gender: values.gender as 'male' | 'female',
+          dateOfBirth: values.dateOfBirth,
+          avatar: values.avatar,
+          citizenNumber: values.citizenNumber,
+          newPassword: '',
+          status: Status.ACTIVE,
+        },
+        idParams: {
+          cashierId: cashier?.accountId,
+        },
+        pathname: pathnameToBack,
+        navigate,
+      };
+      dispatch<any>(updateCashier(paramsUpdate));
     } else {
-      dispatch<any>(createNewCashier(createCashierParams));
+      const paramsCreate: Params<CashierToCreate> = {
+        data: {
+          email: data.email,
+          fullName: data.fullName,
+          gender: data.gender,
+          dateOfBirth: data.dateOfBirth,
+          avatar: data.avatar,
+          citizenNumber: data.citizenNumber,
+        },
+        navigate,
+      };
+      dispatch<any>(createNewCashier(paramsCreate));
     }
   };
 

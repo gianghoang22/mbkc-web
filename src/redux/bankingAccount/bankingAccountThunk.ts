@@ -1,9 +1,16 @@
-import { BankingAccount, ListParams, ListResponse, MessageResponse } from '@types';
+import {
+  BankingAccount,
+  BankingAccountToCreate,
+  BankingAccountToUpdate,
+  ListParams,
+  ListResponse,
+  MessageResponse,
+  Params,
+} from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getErrorMessage, handleResponseMessage } from 'utils';
+import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllBankingAccounts } from './bankingAccountSlice';
 
 export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: any) => {
@@ -38,16 +45,24 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
   }
 };
 
-export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, newBankingAccountOptions } = params;
+export const createNewBankingAccountThunk = async (params: Params<BankingAccountToCreate>, thunkAPI: any) => {
+  const { data, optionParams, navigate } = params;
+  const formData = appendData(data);
 
   try {
     const response: MessageResponse = await axiosFormData.post(
       ROUTES_API_BANKING_ACCOUNTS.CREATE_BANKING_ACCOUNT,
-      newBankingAccountOptions
+      formData
     );
     if (response) {
-      navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.list);
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+        },
+        navigate,
+      };
+      await thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
@@ -60,18 +75,28 @@ export const createNewBankingAccountThunk = async (params: any, thunkAPI: any) =
   }
 };
 
-export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
-  const { bankingAccountId, navigate, updateBankingAccountOptions } = params;
+export const updateBankingAccountThunk = async (params: Params<BankingAccountToUpdate>, thunkAPI: any) => {
+  const { data, idParams, optionParams, navigate } = params;
+  const formData = appendData(data);
 
   try {
     const response: MessageResponse = await axiosFormData.put(
-      ROUTES_API_BANKING_ACCOUNTS.UPDATE_BANKING_ACCOUNT(bankingAccountId),
-      updateBankingAccountOptions
+      ROUTES_API_BANKING_ACCOUNTS.UPDATE_BANKING_ACCOUNT(idParams?.bankingAccountId as number),
+      formData
     );
     if (response) {
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+        },
+        navigate,
+      };
+      await thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
+
     return response;
   } catch (error: any) {
     const errorMessage = getErrorMessage(error, navigate);
@@ -81,25 +106,22 @@ export const updateBankingAccountThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const deleteBankingAccountThunk = async (params: any, thunkAPI: any) => {
-  const { bankingAccountId, navigate, page, rowsPerPage } = params;
-  const options = {
-    keySearchName: '',
-    currentPage: page,
-    itemsPerPage: rowsPerPage,
-  };
-
-  const paramsCallback: ListParams = {
-    optionParams: options,
-    navigate,
-  };
+export const deleteBankingAccountThunk = async (params: Params<BankingAccount>, thunkAPI: any) => {
+  const { idParams, optionParams, navigate } = params;
 
   try {
     const response: MessageResponse = await axiosClient.delete(
-      ROUTES_API_BANKING_ACCOUNTS.DELETE_BANKING_ACCOUNT(bankingAccountId)
+      ROUTES_API_BANKING_ACCOUNTS.DELETE_BANKING_ACCOUNT(idParams?.bankingAccountId as number)
     );
     if (response) {
-      thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
+      const paramsCallback = {
+        optionParams: {
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+        },
+        navigate,
+      };
+      await thunkAPI.dispatch(getAllBankingAccounts(paramsCallback));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

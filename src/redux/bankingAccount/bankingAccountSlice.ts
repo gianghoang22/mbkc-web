@@ -61,6 +61,7 @@ const BankingAccountSlice = createSlice({
     setAddBankingAccount: (state) => {
       setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, false);
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_BANKING_ACCOUNT, false);
     },
     setEditBankingAccount: (state, action) => {
       state.isEditing = true;

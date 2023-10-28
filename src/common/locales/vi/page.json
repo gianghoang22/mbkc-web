@@ -80,6 +80,8 @@
     "max100": "Không được vượt quá 100 ký tự",
     "max120": "Không được vượt quá 120 ký tự",
     "max1000": "Không được vượt quá 1000 ký tự",
+    "minNumber10": "{{name}} có ít nhất 10 chữ số",
+    "maxNumber20": "{{name}} có tối đa 20 chữ số",
     "sellingPriceContent": "Giá bán của sản phẩm",
     "discountPriceContent": "Sản phẩm được giảm giá...",
     "historicalPriceContent": "Chi phí sản xuất sản phẩm",

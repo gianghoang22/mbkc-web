@@ -16,9 +16,11 @@ import {
 //
 import { BankingAccount, ListParams, OrderSort, OrderSortBy } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
+import { CreateBankingAccountModal } from 'sections/bankingAccount';
+import { CreatePartnerProductModal } from 'sections/partnerProduct';
 
 function ListBankingAccountPage() {
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ function ListBankingAccountPage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { bankingAccounts, isLoading, numberItems } = useAppSelector((state) => state.bankingAccount);
+  const { handleOpen, isOpen } = useModal();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BankingAccount>(OrderSortBy.NAME);
@@ -84,7 +87,7 @@ function ListBankingAccountPage() {
             variant="contained"
             startIcon={<AddRoundedIcon />}
             onClick={() => {
-              navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.newBankingAccount);
+              handleOpen();
               dispatch(setAddBankingAccount());
             }}
           >
@@ -148,6 +151,9 @@ function ListBankingAccountPage() {
           </Box>
         </Card>
       </Page>
+      {isOpen && (
+        <CreateBankingAccountModal isOpen={isOpen} handleOpen={handleOpen} page={page} rowsPerPage={rowsPerPage} />
+      )}
     </>
   );
 }

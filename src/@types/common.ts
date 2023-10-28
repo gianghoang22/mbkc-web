@@ -28,6 +28,8 @@ export interface IdParams {
   productId?: number;
   partnerId?: number;
   accountId?: number;
+  cashierId?: number;
+  bankingAccountId?: number;
 }
 
 export interface ListParams {

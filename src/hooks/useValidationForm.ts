@@ -386,25 +386,30 @@ function useValidationForm() {
   });
 
   const schemaBankingAccount = yup.object({
-    BankName: yup.string().required(
-      translate('page.validation.required', {
-        name: translate(
-          'page.form.nameExchange',
-          currentLang.value === Language.ENGLISH
-            ? {
-                model: translate('model.lowercase.bankingAccount'),
-                name: translate('page.form.nameLower'),
-              }
-            : {
-                model: translate('page.form.nameLower'),
-                name: translate('model.lowercase.bankingAccount'),
-              }
-        ),
-      })
-    ),
+    BankName: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.lowercase.bankingAccount'),
+                  name: translate('page.form.nameLower'),
+                }
+              : {
+                  model: translate('page.form.nameLower'),
+                  name: translate('model.lowercase.bankingAccount'),
+                }
+          ),
+        })
+      )
+      .max(100, translate('page.validation.max100')),
     NumberAccount: yup
       .string()
-      .required(translate('page.validation.required', { name: translate('model.lowercase.numberAccount') })),
+      .required(translate('page.validation.required', { name: translate('model.lowercase.numberAccount') }))
+      .min(10, translate('page.validation.minNumber10', { name: translate('model.capitalizeOne.numberAccount') }))
+      .max(20, translate('page.validation.maxNumber20', { name: translate('model.capitalizeOne.numberAccount') })),
   });
 
   const schemaCashier = yup.object({

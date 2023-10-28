@@ -14,8 +14,9 @@ import {
 } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch } from 'redux/configStore';
 import { useNavigate } from 'react-router-dom';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+
 import BankingAccountDetailModal from './BankingAccountDetailModal';
+import CreateBankingAccountModal from './CreateBankingAccountModal';
 
 interface BankingAccountTableRowProps {
   index: number;
@@ -28,19 +29,28 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { translate } = useLocales();
-  const { handleOpen, isOpen } = useModal();
+  const { handleOpen: handleOpenDelete, isOpen: isOpenDelete } = useModal();
   const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
+  const { handleOpen: handleOpenCreate, isOpen: isOpenCreate } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleEdit = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.root + `/updation/${bankingAccount?.bankingAccountId}`);
+    handleOpenCreate();
     dispatch(setEditBankingAccount(bankingAccount));
   };
 
-  const deleteParams = { bankingAccountId: bankingAccount.bankingAccountId, navigate, page, rowsPerPage };
-
   const handleDelete = () => {
-    dispatch(deleteBankingAccount(deleteParams));
+    handleOpenDelete();
+    dispatch(
+      deleteBankingAccount({
+        idParams: { bankingAccountId: bankingAccount?.bankingAccountId },
+        optionParams: {
+          itemsPerPage: rowsPerPage,
+          currentPage: page + 1,
+        },
+        navigate,
+      })
+    );
   };
 
   const handleChangeStatus = () => {
@@ -105,24 +115,32 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
         </TableCell>
       </TableRow>
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpenDelete} />
 
       {isOpenModalDetail && (
         <BankingAccountDetailModal
           isOpen={isOpenModalDetail}
           handleOpen={handleOpenModalDetail}
           bankingAccount={bankingAccount}
-          page={page}
-          rowsPerPage={rowsPerPage}
         />
       )}
 
-      {isOpen && (
+      {isOpenCreate && (
+        <CreateBankingAccountModal
+          page={page}
+          rowsPerPage={rowsPerPage}
+          isOpen={isOpenCreate}
+          handleOpen={handleOpenCreate}
+        />
+      )}
+
+      {isOpenDelete && (
         <ConfirmDialog
-          open={isOpen}
-          onClose={handleOpen}
+          open={isOpenDelete}
+          onClose={handleOpenDelete}
           onAction={handleDelete}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.bankingAccount') })}
+          model={bankingAccount?.name}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.capitalize.bankingAccount') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.bankingAccount') })}
         />
       )}
