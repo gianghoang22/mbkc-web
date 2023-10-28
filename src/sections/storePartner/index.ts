@@ -3,5 +3,4 @@ export { default as StorePartnerTableDetailRow } from './StorePartnerTableDetail
 export { default as StorePartnerTableDetailRowSkeleton } from './StorePartnerTableDetailRowSkeleton';
 export { default as StorePartnerTableRow } from './StorePartnerTableRow';
 export { default as StorePartnerTableRowSkeleton } from './StorePartnerTableRowSkeleton';
-export { default as StorePartnerTableToolbar } from './StorePartnerTableToolbar';
 export { default as AddStorePartnerConfirm } from './AddStorePartnerConfirm';

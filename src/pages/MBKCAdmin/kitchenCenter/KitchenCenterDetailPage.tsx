@@ -30,12 +30,21 @@ import {
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 // section
-import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
 import { BrandDetailPageSkeleton } from 'sections/brand';
+import { StoreTableRow, StoreTableRowSkeleton } from 'sections/store';
 //
-import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, STATUS_OPTIONS, StoreTable } from '@types';
 import { Color, Language, Status } from 'common/enum';
-import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
+import {
+  ConfirmDialog,
+  CustomTableHead,
+  CustomTableToolbar,
+  EmptyTable,
+  Label,
+  Page,
+  Popover,
+  SearchNotFound,
+} from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
@@ -60,6 +69,7 @@ function KitchenCenterDetailPage() {
   const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [storeStatus, setStoreStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -70,6 +80,10 @@ function KitchenCenterDetailPage() {
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setFilterName(event.target.value);
+  };
+
+  const handleChangeStatus = (newValue: OptionSelect | null) => {
+    setStoreStatus(newValue);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -101,10 +115,11 @@ function KitchenCenterDetailPage() {
         currentPage: page + 1,
         searchValue: debounceValue,
         idKitchenCenter: kitchenCenterId,
+        status: storeStatus !== null ? storeStatus.value : '',
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, storeStatus]);
 
   const paramsDetails = useMemo(() => {
     return {
@@ -117,6 +132,10 @@ function KitchenCenterDetailPage() {
     dispatch<any>(getKitchenCenterDetail(paramsDetails));
     dispatch<any>(getAllStores(params));
   }, [params, paramsDetails]);
+
+  const handleReloadData = () => {
+    dispatch<any>(getAllStores(params));
+  };
 
   return (
     <>
@@ -229,24 +248,30 @@ function KitchenCenterDetailPage() {
                   </Typography>
                 </Stack>
 
-                <StoreTableToolbar
-                  haveSelectStatus
+                <CustomTableToolbar<StoreTable>
+                  model={translate('model.lowercase.store')}
+                  selected={selected}
+                  setSelected={setSelected}
+                  headCells={storeHeadCells.filter((col) => col.id !== OrderSortBy.KITCHEN_CENTER)}
                   filterName={filterName}
                   onFilterName={handleFilterByName}
+                  handleReloadData={handleReloadData}
+                  haveSelectStatus
+                  options={STATUS_OPTIONS}
                   status={storeStatus}
-                  setStatus={setStoreStatus}
+                  handleChangeStatus={handleChangeStatus}
                 />
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<StoreTable>
-                      hideKitchenCenter
-                      headCells={storeHeadCells}
+                    <CustomTableHead<StoreTable>
+                      headCells={storeHeadCells.filter((col) => col.id !== OrderSortBy.KITCHEN_CENTER)}
                       order={order}
                       orderBy={orderBy}
                       onRequestSort={handleRequestSort}
+                      selectedCol={selected}
                     />
                     {isLoadingStores ? (
-                      <StoreTableRowSkeleton showEmail haveBrand={true} length={visibleRows.length} />
+                      <StoreTableRowSkeleton length={visibleRows.length} selected={selected} />
                     ) : (
                       <TableBody>
                         {visibleRows.map((store, index) => {
@@ -258,8 +283,7 @@ function KitchenCenterDetailPage() {
                               showAction={false}
                               index={index}
                               length={visibleRows.length}
-                              haveBrand={true}
-                              showEmail
+                              selected={selected}
                             />
                           );
                         })}

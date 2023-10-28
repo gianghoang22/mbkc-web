@@ -9,10 +9,10 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
-import { BrandTableRow, BrandTableRowSkeleton, BrandTableToolbar } from 'sections/brand';
+import { BrandTableRow, BrandTableRowSkeleton } from 'sections/brand';
 //
 import { BrandTable, ListParams, OrderSort, OrderSortBy } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
@@ -28,6 +28,7 @@ function ListBrandPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BrandTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const { brands, isLoading, numberItems } = useAppSelector((state) => state.brand);
 
@@ -65,6 +66,10 @@ function ListBrandPage() {
     dispatch(getAllBrands(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllBrands(params));
+  };
+
   return (
     <>
       <Page
@@ -87,18 +92,27 @@ function ListBrandPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <BrandTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CustomTableToolbar<BrandTable>
+                model={translate('model.lowercase.brand')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={brandHeadCells}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<BrandTable>
+                  <CustomTableHead<BrandTable>
                     showAction
-                    headCells={brandHeadCells}
                     order={order}
                     orderBy={orderBy}
+                    headCells={brandHeadCells}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoading ? (
-                    <BrandTableRowSkeleton length={brands.length} />
+                    <BrandTableRowSkeleton length={brands.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {brands.map((brand, index) => {
@@ -109,6 +123,7 @@ function ListBrandPage() {
                             brand={brand}
                             page={page}
                             rowsPerPage={rowsPerPage}
+                            selected={selected}
                           />
                         );
                       })}

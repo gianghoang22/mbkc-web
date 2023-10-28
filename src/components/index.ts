@@ -14,6 +14,8 @@ export { default as Scrollbar } from './scrollbar/Scrollbar';
 export { default as CommonTableHead } from './table/CommonTableHead';
 export { default as SearchNotFound } from './table/SearchNotFound';
 export { default as EmptyTable } from './table/EmptyTable';
+export { default as CustomTableHead } from './table/CustomTableHead';
+export { default as CustomTableToolbar } from './table/CustomTableToolbar';
 export { default as UploadAvatar } from './upload/UploadAvatar';
 export { default as LoadingScreen } from './upload/LoadingScreen';
 export { default as Tabs } from './tabs/Tabs';

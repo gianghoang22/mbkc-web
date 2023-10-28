@@ -5,12 +5,17 @@ export type OrderSort = 'asc' | 'desc';
 
 export enum OrderSortBy {
   NAME = 'name',
+  LOGO = 'logo',
+  ADDRESS = 'address',
   FULL_NAME = 'fullName',
   PRODUCT_NAME = 'productName',
   PRODUCT_CODE = 'productCode',
   CODE = 'code',
   PARTNER_NAME = 'partnerName',
   STORE_NAME = 'storeName',
+  STORE_MANAGER_EMAIL = 'storeManagerEmail',
+  KITCHEN_CENTER = 'kitchenCenter',
+  BRAND = 'brand',
   STATUS = 'status',
 }
 

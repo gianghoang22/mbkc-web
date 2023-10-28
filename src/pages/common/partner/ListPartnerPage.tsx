@@ -8,11 +8,11 @@ import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } f
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
 // section
-import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton, PartnerTableToolbar } from 'sections/partner';
+import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton } from 'sections/partner';
 //
 import { ListParams, OrderSort, OrderSortBy, PartnerTable } from '@types';
 import { Role } from 'common/enum';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
@@ -20,8 +20,8 @@ function ListPartnerPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { translate } = useLocales();
   const { pathname } = useLocation();
+  const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
   const { partnerHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
@@ -32,6 +32,7 @@ function ListPartnerPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof PartnerTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof PartnerTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -67,46 +68,41 @@ function ListPartnerPage() {
     dispatch(getAllPartners(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllPartners(params));
+  };
+
   return (
     <>
       <Page
         pathname={pathname}
         title={translate('page.title.list', { model: translate('model.lowercase.partners') })}
         navigateDashboard={userAuth?.roleName === Role.BRAND_MANAGER ? PATH_BRAND_APP.root : PATH_ADMIN_APP.root}
-        // actions={() => {
-        //   const listAction: ReactNode[] =
-        //     userAuth?.roleName === Role.MBKC_ADMIN
-        //       ? [
-        //           <Button
-        //             variant="contained"
-        //             onClick={() => {
-        //               handleOpen('create partner');
-        //               dispatch(setAddPartner());
-        //             }}
-        //             startIcon={<AddRoundedIcon />}
-        //           >
-        //             {translate('button.add', { model: translate('model.lowercase.partner') })}
-        //           </Button>,
-        //         ]
-        //       : [];
-        //   return listAction;
-        // }}
       >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <PartnerTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CustomTableToolbar<PartnerTable>
+                model={translate('model.lowercase.partner')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={partnerHeadCells}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<PartnerTable>
+                  <CustomTableHead<PartnerTable>
                     showAction={userAuth?.roleName === Role.MBKC_ADMIN}
                     headCells={partnerHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoading ? (
-                    <PartnerTableRowSkeleton length={partners.length} />
+                    <PartnerTableRowSkeleton length={partners.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {partners.map((partner, index) => {
@@ -118,6 +114,7 @@ function ListPartnerPage() {
                             partner={partner}
                             lengthPartners={partners.length}
                             setPage={setPage}
+                            selected={selected}
                           />
                         );
                       })}

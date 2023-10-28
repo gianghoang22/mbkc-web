@@ -24,11 +24,20 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 // section
 import { BrandDetailPageSkeleton } from 'sections/brand';
-import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
+import { StoreTableRow, StoreTableRowSkeleton } from 'sections/store';
 //
-import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, STATUS_OPTIONS, StoreTable } from '@types';
 import { Color, Language, PopoverType, Status } from 'common/enum';
-import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover, SearchNotFound } from 'components';
+import {
+  ConfirmDialog,
+  CustomTableHead,
+  CustomTableToolbar,
+  EmptyTable,
+  Label,
+  Page,
+  Popover,
+  SearchNotFound,
+} from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
@@ -53,6 +62,7 @@ function BrandDetailPage() {
   const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [storeStatus, setStoreStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -63,6 +73,10 @@ function BrandDetailPage() {
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setFilterName(event.target.value);
+  };
+
+  const handleChangeStatus = (newValue: OptionSelect | null) => {
+    setStoreStatus(newValue);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -90,10 +104,11 @@ function BrandDetailPage() {
         currentPage: page + 1,
         searchValue: debounceValue,
         idBrand: brandId,
+        status: storeStatus !== null ? storeStatus.value : '',
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, brandId, navigate]);
+  }, [page, rowsPerPage, debounceValue, brandId, storeStatus]);
 
   const paramsDetails = useMemo(() => {
     return {
@@ -106,6 +121,10 @@ function BrandDetailPage() {
     dispatch<any>(getBrandDetail(paramsDetails));
     dispatch<any>(getAllStores(params));
   }, [params, paramsDetails]);
+
+  const handleReloadData = () => {
+    dispatch<any>(getAllStores(params));
+  };
 
   return (
     <>
@@ -209,24 +228,30 @@ function BrandDetailPage() {
                 </Typography>
               </Stack>
 
-              <StoreTableToolbar
-                haveSelectStatus
+              <CustomTableToolbar<StoreTable>
+                model={translate('model.lowercase.store')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={storeHeadCells.filter((col) => col.id !== OrderSortBy.BRAND)}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+                haveSelectStatus
+                options={STATUS_OPTIONS}
                 status={storeStatus}
-                setStatus={setStoreStatus}
+                handleChangeStatus={handleChangeStatus}
               />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<StoreTable>
-                    hideBrand={true}
-                    headCells={storeHeadCells}
+                  <CustomTableHead<StoreTable>
+                    headCells={storeHeadCells.filter((col) => col.id !== OrderSortBy.BRAND)}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoadingStores ? (
-                    <StoreTableRowSkeleton showEmail length={visibleRows.length} haveKitchenCenter />
+                    <StoreTableRowSkeleton length={visibleRows.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {visibleRows.map((store, index) => {
@@ -240,8 +265,7 @@ function BrandDetailPage() {
                             page={page + 1}
                             rowsPerPage={rowsPerPage}
                             length={visibleRows.length}
-                            haveKitchenCenter
-                            showEmail
+                            selected={selected}
                           />
                         );
                       })}

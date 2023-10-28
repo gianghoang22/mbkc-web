@@ -10,7 +10,7 @@ import { deletePartner, setEditPartner, updateStatusPartner } from 'redux/partne
 import CreatePartnerModal from './CreatePartnerModal';
 import PartnerDetailModal from './PartnerDetailModal';
 //
-import { Params, Partner, ToUpdateStatus } from '@types';
+import { OrderSortBy, Params, Partner, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePagination, usePopover } from 'hooks';
@@ -21,9 +21,17 @@ interface PartnerTableRowProps {
   lengthPartners: number;
   showAction?: boolean;
   setPage?: any;
+  selected: readonly string[];
 }
 
-function PartnerTableRow({ lengthPartners, index, partner, showAction = false, setPage }: PartnerTableRowProps) {
+function PartnerTableRow({
+  lengthPartners,
+  index,
+  partner,
+  showAction = false,
+  setPage,
+  selected,
+}: PartnerTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -79,13 +87,14 @@ function PartnerTableRow({ lengthPartners, index, partner, showAction = false, s
         <TableCell width={100} align="center" onClick={handleOpenDetail}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" width={300} onClick={handleOpenDetail}>
-          <Avatar alt={partner.name} src={partner.logo} />
-        </TableCell>
+        {selected.includes(OrderSortBy.LOGO) && (
+          <TableCell component="th" scope="row" padding="none" width={300} onClick={handleOpenDetail}>
+            <Avatar alt={partner.name} src={partner.logo} />
+          </TableCell>
+        )}
         <TableCell align="left" padding="none" width={350} onClick={handleOpenDetail}>
           {partner.name}
         </TableCell>
-
         <TableCell align="left" onClick={handleOpenDetail}>
           <Label
             color={
@@ -103,6 +112,7 @@ function PartnerTableRow({ lengthPartners, index, partner, showAction = false, s
               : translate('status.deActive')}
           </Label>
         </TableCell>
+
         {showAction && (
           <TableCell align="right">
             <Stack direction="row" alignItems="center" justifyContent="right">
