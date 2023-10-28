@@ -1,56 +1,48 @@
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
+import { OrderSortBy } from '@types';
 import { Role } from 'common/enum';
 import { useAppSelector } from 'redux/configStore';
+import { getRuleWidths } from './rules';
 
 interface StoreTableRowSkeletonProps {
   length?: number;
-  haveBrand?: boolean;
-  haveKitchenCenter?: boolean;
-  showEmail?: boolean;
+  selected: readonly string[];
   showAction?: boolean;
 }
 
-function StoreTableRowSkeleton({
-  length,
-  haveBrand = false,
-  haveKitchenCenter = false,
-  showEmail = false,
-  showAction = false,
-}: StoreTableRowSkeletonProps) {
+function StoreTableRowSkeleton({ length, selected, showAction = false }: StoreTableRowSkeletonProps) {
+  const rules = getRuleWidths(selected);
   const { userAuth } = useAppSelector((state) => state.auth);
 
   return (
     <TableBody>
       {Array.from({ length: 5 }).map((_, index: any) => (
         <TableRow key={index}>
-          <TableCell width={80} align="center">
+          <TableCell width={80} align="center" sx={{ height: '72.89px' }}>
             <Stack direction="row" alignItems="center" justifyContent="center">
               <Skeleton width={20} />
             </Stack>
           </TableCell>
-          <TableCell component="th" scope="row" padding="none" width={80}>
-            <Skeleton variant="circular" width={40} height={40} />
+          {selected.includes(OrderSortBy.LOGO) && (
+            <TableCell component="th" scope="row" padding="none" width={70}>
+              <Skeleton variant="circular" width={40} height={40} />
+            </TableCell>
+          )}
+          <TableCell width={rules.name} align="left" padding="none" sx={{ pr: 2 }}>
+            <Skeleton width={200} />
           </TableCell>
-          <TableCell
-            width={!haveKitchenCenter || !haveBrand ? 230 : !showEmail ? 230 : 180}
-            align="left"
-            padding="none"
-            sx={{ pr: 2 }}
-          >
-            <Skeleton />
-          </TableCell>
-          {showEmail && (
-            <TableCell width={!haveKitchenCenter || !haveBrand ? 250 : 180} align="left">
+          {selected.includes(OrderSortBy.STORE_MANAGER_EMAIL) && (
+            <TableCell width={rules.store_manager_email} align="left">
               <Skeleton />
             </TableCell>
           )}
-          {haveKitchenCenter && (
-            <TableCell width={!haveBrand ? 250 : !showEmail ? 250 : 200} align="left">
+          {selected.includes(OrderSortBy.KITCHEN_CENTER) && (
+            <TableCell width={rules.kitchen_center} align="left">
               <Skeleton />
             </TableCell>
           )}
-          {haveBrand && (
-            <TableCell width={!haveKitchenCenter ? 250 : !showEmail ? 250 : 160} align="left">
+          {selected.includes(OrderSortBy.BRAND) && (
+            <TableCell width={rules.brand} align="left">
               <Skeleton />
             </TableCell>
           )}

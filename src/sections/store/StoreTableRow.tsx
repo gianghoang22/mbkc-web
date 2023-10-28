@@ -24,11 +24,12 @@ import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeS
 // section
 import ConfirmRegistrationStore from './ConfirmRegistrationStore';
 //
-import { OptionSelect, Params, Store, ToUpdateStatus } from '@types';
+import { OptionSelect, OrderSortBy, Params, Store, ToUpdateStatus } from '@types';
 import { Color, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { getRuleWidths } from './rules';
 
 interface StoreTableRowProps {
   store: Store;
@@ -37,11 +38,9 @@ interface StoreTableRowProps {
   page?: number;
   rowsPerPage?: number;
   showAction?: boolean;
-  haveBrand?: boolean;
-  haveKitchenCenter?: boolean;
-  showEmail?: boolean;
   setPage?: any;
   status: OptionSelect | null;
+  selected: readonly string[];
 }
 
 function StoreTableRow({
@@ -50,15 +49,15 @@ function StoreTableRow({
   page = 1,
   rowsPerPage = 5,
   showAction = false,
-  haveBrand = false,
-  haveKitchenCenter = false,
-  showEmail = false,
   length,
   setPage,
   status,
+  selected,
 }: StoreTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const rules = getRuleWidths(selected);
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
@@ -134,47 +133,32 @@ function StoreTableRow({
         <TableCell width={80} align="center" onClick={() => handleNavigateDetail(store.storeId)}>
           {index + 1}
         </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          padding="none"
-          width={80}
-          onClick={() => handleNavigateDetail(store.storeId)}
-        >
-          <Avatar alt={store.name} src={store.logo} />
-        </TableCell>
-        <TableCell
-          width={!haveKitchenCenter || !haveBrand ? 230 : !showEmail ? 230 : 180}
-          align="left"
-          padding="none"
-          onClick={() => handleNavigateDetail(store.storeId)}
-        >
-          {store.name}
-        </TableCell>
-        {showEmail && (
+        {selected.includes(OrderSortBy.LOGO) && (
           <TableCell
-            width={!haveKitchenCenter || !haveBrand ? 250 : 180}
-            align="left"
+            component="th"
+            scope="row"
+            padding="none"
+            width={70}
             onClick={() => handleNavigateDetail(store.storeId)}
           >
+            <Avatar alt={store.name} src={store.logo} />
+          </TableCell>
+        )}
+        <TableCell width={rules.name} align="left" padding="none" onClick={() => handleNavigateDetail(store.storeId)}>
+          {store.name}
+        </TableCell>
+        {selected.includes(OrderSortBy.STORE_MANAGER_EMAIL) && (
+          <TableCell width={rules.store_manager_email} align="left" onClick={() => handleNavigateDetail(store.storeId)}>
             {store.storeManagerEmail}
           </TableCell>
         )}
-        {haveKitchenCenter && (
-          <TableCell
-            width={!haveBrand ? 250 : !showEmail ? 250 : 200}
-            align="left"
-            onClick={() => handleNavigateDetail(store.storeId)}
-          >
+        {selected.includes(OrderSortBy.KITCHEN_CENTER) && (
+          <TableCell width={rules.kitchen_center} align="left" onClick={() => handleNavigateDetail(store.storeId)}>
             {store.kitchenCenter.name}
           </TableCell>
         )}
-        {haveBrand && (
-          <TableCell
-            width={!haveKitchenCenter ? 250 : !showEmail ? 250 : 180}
-            align="left"
-            onClick={() => handleNavigateDetail(store.storeId)}
-          >
+        {selected.includes(OrderSortBy.BRAND) && (
+          <TableCell width={rules.brand} align="left" onClick={() => handleNavigateDetail(store.storeId)}>
             {store.brand.name}
           </TableCell>
         )}

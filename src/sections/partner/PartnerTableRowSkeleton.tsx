@@ -1,6 +1,7 @@
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
+import { OrderSortBy } from '@types';
 
-function PartnerTableRowSkeleton({ length }: { length: number }) {
+function PartnerTableRowSkeleton({ length, selected }: { length: number; selected: readonly string[] }) {
   return (
     <TableBody>
       {Array.from({ length: 5 }).map((_, index: any) => (
@@ -10,10 +11,11 @@ function PartnerTableRowSkeleton({ length }: { length: number }) {
               <Skeleton width={20} />
             </Stack>
           </TableCell>
-          <TableCell component="th" scope="row" padding="none" width={300}>
-            <Skeleton variant="circular" width={40} height={40} />
-          </TableCell>
-
+          {selected.includes(OrderSortBy.LOGO) && (
+            <TableCell component="th" scope="row" padding="none" width={300}>
+              <Skeleton variant="circular" width={40} height={40} />
+            </TableCell>
+          )}
           <TableCell align="left" padding="none" width={350} sx={{ pr: 2 }}>
             <Skeleton width={120} />
           </TableCell>

@@ -12,7 +12,7 @@ import {
 } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { KitchenCenter, Params, ToUpdateStatus } from '@types';
+import { KitchenCenter, OrderSortBy, Params, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -23,9 +23,10 @@ interface KitchenCenterTableRowProps {
   index: number;
   page: number;
   rowsPerPage: number;
+  selected: readonly string[];
 }
 
-function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: KitchenCenterTableRowProps) {
+function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage, selected }: KitchenCenterTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -78,19 +79,29 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage }: Kitc
         <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" onClick={handleNavigateDetail} width={80}>
-          <Avatar alt={kitchenCenter.name} src={kitchenCenter.logo} />
-        </TableCell>
+
+        {selected.includes(OrderSortBy.LOGO) && (
+          <TableCell component="th" scope="row" onClick={handleNavigateDetail} width={80}>
+            <Avatar alt={kitchenCenter.name} src={kitchenCenter.logo} />
+          </TableCell>
+        )}
+
         <TableCell align="left" onClick={handleNavigateDetail}>
           {kitchenCenter.name}
         </TableCell>
 
-        <TableCell align="left" onClick={handleNavigateDetail} width={400}>
-          {kitchenCenter?.address
-            .split(', ')
-            .slice(0, kitchenCenter?.address.split(', ').length - 3)
-            .join(', ')}
-        </TableCell>
+        {selected.includes(OrderSortBy.ADDRESS) && (
+          <TableCell
+            align="left"
+            onClick={handleNavigateDetail}
+            width={selected.includes(OrderSortBy.LOGO) ? 400 : 600}
+          >
+            {kitchenCenter?.address
+              .split(', ')
+              .slice(0, kitchenCenter?.address.split(', ').length - 3)
+              .join(', ')}
+          </TableCell>
+        )}
         <TableCell align="left">
           <Label
             color={

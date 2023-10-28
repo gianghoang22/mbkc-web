@@ -1,10 +1,11 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { HeadCell, OrderSort } from '@types';
 import { useLocales } from 'hooks';
 
-interface CustomTableHeadProps<T> {
+interface CommonTableHeadProps<T> {
   numSelected?: number;
   rowCount?: number;
   checkbox?: boolean;
@@ -24,48 +25,47 @@ interface CustomTableHeadProps<T> {
   order?: OrderSort;
   orderBy?: string;
   headCells: HeadCell<T>[];
+  selectedCol: readonly string[];
 }
 
-function CustomTableHead<T>(props: CustomTableHeadProps<T>) {
+function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
   const {
     numSelected = 0,
     rowCount = 0,
     checkbox = false,
     showAction = false,
     showPartner = false,
-    hideKitchenCenter = false,
-    hideBrand = false,
-    hideEmail = false,
-    hideLogo = false,
-    hideStatus = false,
-    hideCategory = false,
-    hideType = false,
-    hideHistoricalPrice = false,
-    hideDiscountPrice = false,
     onSelectAllClick,
     headCells,
     order,
     orderBy,
     onRequestSort,
+    selectedCol,
   } = props;
 
   const { translate } = useLocales();
 
-  const filterHeadCells = hideKitchenCenter
-    ? headCells.filter((col) => col.id !== 'kitchenCenter')
-    : hideBrand && hideEmail && hideLogo && hideStatus
-    ? headCells.filter(
-        (col) => col.id !== 'brand' && col.id !== 'storeManagerEmail' && col.id !== 'logo' && col.id !== 'status'
-      )
-    : hideBrand
-    ? headCells.filter((col) => col.id !== 'brand')
-    : hideEmail
-    ? headCells.filter((col) => col.id !== 'storeManagerEmail')
-    : hideType && hideCategory
-    ? headCells.filter((col) => col.id !== 'category' && col.id !== 'type')
-    : hideDiscountPrice && hideHistoricalPrice
-    ? headCells.filter((col) => col.id !== 'discountPrice' && col.id !== 'historicalPrice')
-    : headCells;
+  const [columns, setColumns] = useState<HeadCell<T>[]>([]);
+
+  useEffect(() => {
+    const findColumn: HeadCell<T>[] = [];
+    for (const key of selectedCol) {
+      const foundItem = headCells.find((item) => item.id === key);
+      if (foundItem) {
+        findColumn.push(foundItem);
+      }
+    }
+
+    const transformedMapHeadCells: HeadCell<T>[] = [];
+
+    for (const headCell of headCells) {
+      const matchingMapHeadCell = findColumn.find((mapHeadCell) => mapHeadCell.id === headCell.id);
+      if (matchingMapHeadCell) {
+        transformedMapHeadCells.push(matchingMapHeadCell);
+      }
+    }
+    setColumns(transformedMapHeadCells);
+  }, [selectedCol]);
 
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
@@ -92,7 +92,7 @@ function CustomTableHead<T>(props: CustomTableHeadProps<T>) {
           </TableCell>
         )}
 
-        {filterHeadCells.map((headCell) => (
+        {columns.map((headCell) => (
           <TableCell
             key={headCell.id as string}
             align={headCell.numeric ? 'right' : 'left'}
@@ -125,4 +125,4 @@ function CustomTableHead<T>(props: CustomTableHeadProps<T>) {
   );
 }
 
-export default CustomTableHead;
+export default CommonTableHead;

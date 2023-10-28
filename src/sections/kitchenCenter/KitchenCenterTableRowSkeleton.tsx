@@ -1,8 +1,9 @@
-import { IconButton, Skeleton, Stack, TableCell, TableRow } from '@mui/material';
+import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
+import { OrderSortBy } from '@types';
 
-function KitchenCenterTableRowSkeleton({ length }: { length: number }) {
+function KitchenCenterTableRowSkeleton({ length, selected }: { length: number; selected: readonly string[] }) {
   return (
-    <>
+    <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
         <TableRow key={index}>
           <TableCell width={60} align="center">
@@ -11,17 +12,21 @@ function KitchenCenterTableRowSkeleton({ length }: { length: number }) {
             </Stack>
           </TableCell>
 
-          <TableCell component="th" scope="row" width={80}>
-            <Skeleton variant="circular" width={40} height={40} />
-          </TableCell>
+          {selected.includes(OrderSortBy.LOGO) && (
+            <TableCell component="th" scope="row" width={80}>
+              <Skeleton variant="circular" width={40} height={40} />
+            </TableCell>
+          )}
 
-          <TableCell align="left" width={292}>
+          <TableCell align="left" width={selected.includes(OrderSortBy.LOGO) ? 292 : 240}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left" width={400}>
-            <Skeleton />
-          </TableCell>
+          {selected.includes(OrderSortBy.ADDRESS) && (
+            <TableCell align="left" width={selected.includes(OrderSortBy.LOGO) ? 400 : 600}>
+              <Skeleton />
+            </TableCell>
+          )}
 
           <TableCell align="left">
             <Skeleton variant="rounded" width={100} height={24} />
@@ -37,7 +42,7 @@ function KitchenCenterTableRowSkeleton({ length }: { length: number }) {
           </TableCell>
         </TableRow>
       ))}
-    </>
+    </TableBody>
   );
 }
 

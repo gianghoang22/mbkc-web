@@ -8,7 +8,7 @@ import { deleteBrand, setEditBrand, updateStatusBrand } from 'redux/brand/brandS
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Brand, Params, ToUpdateStatus } from '@types';
+import { Brand, OrderSortBy, Params, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -19,9 +19,10 @@ interface BrandTableRowProps {
   brand: Brand;
   page: number;
   rowsPerPage: number;
+  selected: readonly string[];
 }
 
-function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) {
+function BrandTableRow({ index, brand, page, rowsPerPage, selected }: BrandTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -74,18 +75,26 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
         <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" sx={{ width: 80 }} onClick={handleNavigateDetail}>
-          <Avatar alt={brand.name} src={brand.logo} />
-        </TableCell>
+
+        {selected.includes(OrderSortBy.LOGO) && (
+          <TableCell component="th" scope="row" sx={{ width: 80 }} onClick={handleNavigateDetail}>
+            <Avatar alt={brand.name} src={brand.logo} />
+          </TableCell>
+        )}
+
         <TableCell align="left" onClick={handleNavigateDetail}>
           {brand.name}
         </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail} sx={{ minWidth: 500 }}>
-          {brand?.address
-            .split(', ')
-            .slice(0, brand?.address.split(', ').length - 3)
-            .join(', ')}
-        </TableCell>
+
+        {selected.includes(OrderSortBy.ADDRESS) && (
+          <TableCell align="left" onClick={handleNavigateDetail} sx={{ minWidth: 500 }}>
+            {brand?.address
+              .split(', ')
+              .slice(0, brand?.address.split(', ').length - 3)
+              .join(', ')}
+          </TableCell>
+        )}
+
         <TableCell align="left">
           <Label
             color={
@@ -103,6 +112,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
               : translate('status.deActive')}
           </Label>
         </TableCell>
+
         <TableCell align="right">
           <Stack direction="row" alignItems="center" justifyContent="right">
             <Switch
@@ -115,7 +125,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage }: BrandTableRowProps) 
             />
             <IconButton color="inherit" onClick={handleOpenMenu}>
               <MoreVertIcon />
-            </IconButton>{' '}
+            </IconButton>
           </Stack>
         </TableCell>
       </TableRow>

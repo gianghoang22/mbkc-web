@@ -10,11 +10,11 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 // section
-import { StoreTableRow, StoreTableRowSkeleton, StoreTableToolbar } from 'sections/store';
+import { StoreTableRow, StoreTableRowSkeleton } from 'sections/store';
 //
-import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, STATUS_OPTIONS, StoreTable } from '@types';
 import { Role } from 'common/enum';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
@@ -24,8 +24,9 @@ import { getComparator, stableSort } from 'utils';
 function ListStorePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { translate } = useLocales();
+
   const { pathname } = useLocation();
+  const { translate } = useLocales();
   const { storeHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
@@ -36,6 +37,7 @@ function ListStorePage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
   const [storeStatus, setStoreStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof StoreTable) => {
@@ -47,6 +49,10 @@ function ListStorePage() {
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setFilterName(event.target.value);
+  };
+
+  const handleChangeStatus = (newValue: OptionSelect | null) => {
+    setStoreStatus(newValue);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -91,6 +97,14 @@ function ListStorePage() {
     }
   }, [paramsAdminRole, paramsBrandRole]);
 
+  const handleReloadData = () => {
+    if (userAuth?.roleName === Role.MBKC_ADMIN) {
+      dispatch<any>(getAllStores(paramsAdminRole));
+    } else {
+      dispatch<any>(getAllStores(paramsBrandRole));
+    }
+  };
+
   return (
     <>
       <Page
@@ -120,38 +134,46 @@ function ListStorePage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <StoreTableToolbar
-                haveSelectStatus
+              <CustomTableToolbar<StoreTable>
+                model={translate('model.lowercase.store')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={
+                  userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                    ? storeHeadCells.filter((col) => col.id !== OrderSortBy.KITCHEN_CENTER)
+                    : userAuth?.roleName === Role.BRAND_MANAGER
+                    ? storeHeadCells.filter((col) => col.id !== OrderSortBy.BRAND)
+                    : storeHeadCells
+                }
                 filterName={filterName}
                 onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+                haveSelectStatus
+                options={STATUS_OPTIONS}
                 status={storeStatus}
-                setStatus={setStoreStatus}
+                handleChangeStatus={handleChangeStatus}
               />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<StoreTable>
-                    hideEmail={userAuth?.roleName === Role.MBKC_ADMIN}
+                  <CustomTableHead<StoreTable>
                     showAction={userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER}
-                    hideBrand={userAuth?.roleName === Role.BRAND_MANAGER}
-                    hideKitchenCenter={userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER}
-                    headCells={storeHeadCells}
+                    headCells={
+                      userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                        ? storeHeadCells.filter((col) => col.id !== OrderSortBy.KITCHEN_CENTER)
+                        : userAuth?.roleName === Role.BRAND_MANAGER
+                        ? storeHeadCells.filter((col) => col.id !== OrderSortBy.BRAND)
+                        : storeHeadCells
+                    }
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoading ? (
                     <StoreTableRowSkeleton
                       showAction={userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER}
                       length={visibleRows.length}
-                      haveBrand={
-                        userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-                      }
-                      haveKitchenCenter={
-                        userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER
-                      }
-                      showEmail={
-                        userAuth?.roleName === Role.BRAND_MANAGER || userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-                      }
+                      selected={selected}
                     />
                   ) : (
                     <TableBody>
@@ -166,19 +188,9 @@ function ListStorePage() {
                             page={page + 1}
                             rowsPerPage={rowsPerPage}
                             length={visibleRows.length}
-                            haveBrand={
-                              userAuth?.roleName === Role.MBKC_ADMIN ||
-                              userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-                            }
-                            haveKitchenCenter={
-                              userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER
-                            }
+                            selected={selected}
                             showAction={
                               userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER
-                            }
-                            showEmail={
-                              userAuth?.roleName === Role.BRAND_MANAGER ||
-                              userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
                             }
                           />
                         );

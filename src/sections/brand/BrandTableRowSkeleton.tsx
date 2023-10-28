@@ -1,6 +1,7 @@
-import { IconButton, Skeleton, TableCell, Stack, TableRow } from '@mui/material';
+import { IconButton, Skeleton, Stack, TableCell, TableRow } from '@mui/material';
+import { OrderSortBy } from '@types';
 
-function BrandTableRowSkeleton({ length }: { length: number }) {
+function BrandTableRowSkeleton({ length, selected }: { length: number; selected: readonly string[] }) {
   return (
     <>
       {Array.from({ length }).map((_, index) => (
@@ -12,17 +13,32 @@ function BrandTableRowSkeleton({ length }: { length: number }) {
               </Stack>
             </TableCell>
 
-            <TableCell component="th" scope="row" width={80}>
-              <Skeleton variant="circular" width={40} height={40} />
+            {selected.includes(OrderSortBy.LOGO) && (
+              <TableCell component="th" scope="row" width={80}>
+                <Skeleton variant="circular" width={40} height={40} />
+              </TableCell>
+            )}
+
+            <TableCell
+              align="left"
+              width={
+                !selected.includes(OrderSortBy.LOGO) && selected.includes(OrderSortBy.ADDRESS)
+                  ? 203
+                  : !selected.includes(OrderSortBy.ADDRESS) && selected.includes(OrderSortBy.LOGO)
+                  ? 400
+                  : !selected.includes(OrderSortBy.LOGO) && !selected.includes(OrderSortBy.ADDRESS)
+                  ? 430
+                  : 190
+              }
+            >
+              <Skeleton width={200} />
             </TableCell>
 
-            <TableCell align="left" width={194}>
-              <Skeleton />
-            </TableCell>
-
-            <TableCell align="left" width={547}>
-              <Skeleton />
-            </TableCell>
+            {selected.includes(OrderSortBy.ADDRESS) && (
+              <TableCell align="left" width={selected.includes(OrderSortBy.LOGO) ? 537 : 580}>
+                <Skeleton />
+              </TableCell>
+            )}
 
             <TableCell align="left">
               <Skeleton variant="rounded" width={100} height={24} />

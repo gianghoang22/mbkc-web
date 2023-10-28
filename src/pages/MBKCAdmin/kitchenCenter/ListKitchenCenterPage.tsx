@@ -10,14 +10,10 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllKitchenCenters, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
-import {
-  KitchenCenterTableRow,
-  KitchenCenterTableRowSkeleton,
-  KitchenCenterTableToolbar,
-} from 'sections/kitchenCenter';
+import { KitchenCenterTableRow, KitchenCenterTableRowSkeleton } from 'sections/kitchenCenter';
 //
 import { KitchenCenterTable, ListParams, OrderSort, OrderSortBy } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
@@ -31,11 +27,12 @@ function ListKitchenCenterPage() {
   const { kitchenCenterHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { kitchenCenters, isLoading, numberItems } = useAppSelector((state) => state.kitchenCenter);
+
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof KitchenCenterTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
-
-  const { kitchenCenters, isLoading, numberItems } = useAppSelector((state) => state.kitchenCenter);
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof KitchenCenterTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -74,6 +71,10 @@ function ListKitchenCenterPage() {
     dispatch(getAllKitchenCenters(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllKitchenCenters(params));
+  };
+
   return (
     <>
       <Page
@@ -97,18 +98,27 @@ function ListKitchenCenterPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <KitchenCenterTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CustomTableToolbar<KitchenCenterTable>
+                model={translate('model.lowercase.kitchenCenter')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={kitchenCenterHeadCells}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<KitchenCenterTable>
+                  <CustomTableHead<KitchenCenterTable>
                     showAction
                     order={order}
                     orderBy={orderBy}
                     headCells={kitchenCenterHeadCells}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoading ? (
-                    <KitchenCenterTableRowSkeleton length={visibleRows.length} />
+                    <KitchenCenterTableRowSkeleton length={visibleRows.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {visibleRows.map((kitchenCenter, index) => {
@@ -119,6 +129,7 @@ function ListKitchenCenterPage() {
                             page={page}
                             rowsPerPage={rowsPerPage}
                             kitchenCenter={kitchenCenter}
+                            selected={selected}
                           />
                         );
                       })}
