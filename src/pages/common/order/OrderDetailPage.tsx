@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import {
@@ -45,7 +44,6 @@ const steps = [
 
 function OrderDetailPage() {
   const { pathname } = useLocation();
-  const [activeStep, setActiveStep] = useState(0);
   const { translate } = useLocales();
 
   return (
@@ -202,7 +200,7 @@ function OrderDetailPage() {
                   <Paper sx={{ width: '100%', mb: 2 }}>
                     <Typography variant="subtitle1">Order timeline</Typography>
 
-                    <Stepper activeStep={activeStep} orientation="vertical">
+                    <Stepper activeStep={1} orientation="vertical">
                       {steps.map((step, index) => (
                         <Step key={step.label}>
                           <StepLabel>{step.label}</StepLabel>

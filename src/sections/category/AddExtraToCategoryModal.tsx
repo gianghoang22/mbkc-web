@@ -23,13 +23,12 @@ import {
 import { addExtraCategory, getAllCategories, getAllExtraCategoriesInCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
-import CategoryTableToolbar from './CategoryTableToolbar';
 import ExtraToCategoryRow from './ExtraToCategoryRow';
 import ExtraToCategoryRowSkeleton from './ExtraToCategoryRowSkeleton';
 //
 import { AddExtraCategory, CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy, Params } from '@types';
 import { Language } from 'common/enum';
-import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 
 interface AddExtraToCategoryModalProps {
@@ -52,6 +51,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
   const [selected, setSelected] = useState<readonly number[]>([]);
+  const [selectedCol, setSelectedCol] = useState<readonly string[]>([]);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
@@ -143,6 +143,11 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
     dispatch<any>(addExtraCategory(params));
   };
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllCategories(params));
+    dispatch<any>(getAllExtraCategoriesInCategory(paramExtraOfCategory));
+  };
+
   return (
     <>
       {isOpen && (
@@ -160,10 +165,18 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
 
             <Box sx={{ width: '100%' }}>
               <Paper sx={{ width: '100%', mb: 2 }}>
-                <CategoryTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+                <CustomTableToolbar<CategoryTable>
+                  model={translate('model.lowercase.category')}
+                  selected={selectedCol}
+                  setSelected={setSelectedCol}
+                  headCells={categoryHeadCells}
+                  filterName={filterName}
+                  onFilterName={handleFilterByName}
+                  handleReloadData={handleReloadData}
+                />
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<CategoryTable>
+                    <CustomTableHead<CategoryTable>
                       checkbox
                       numSelected={selected.length}
                       rowCount={categories.length}
@@ -172,6 +185,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                       orderBy={orderBy}
                       onRequestSort={handleRequestSort}
                       onSelectAllClick={handleSelectAllClick}
+                      selectedCol={selectedCol}
                     />
                     {isLoading ? (
                       <ExtraToCategoryRowSkeleton length={categories.length} />
@@ -190,6 +204,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
                               handleClick={handleClick}
                               isItemSelected={isItemSelected}
                               categoryType={CategoryType.EXTRA}
+                              selected={selectedCol}
                             />
                           );
                         })}

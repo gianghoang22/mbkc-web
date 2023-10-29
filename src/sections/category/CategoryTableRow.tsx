@@ -8,7 +8,7 @@ import { deleteCategory, setCategoryType, setEditCategory, updateCategory } from
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Category, CategoryToUpdate, CategoryType, Params } from '@types';
+import { Category, CategoryToUpdate, CategoryType, OrderSortBy, Params } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -23,6 +23,7 @@ interface CategoryTableRowProps {
   rowsPerPage?: number;
   length?: number;
   setPage?: any;
+  selected: readonly string[];
 }
 
 function CategoryTableRow({
@@ -34,6 +35,7 @@ function CategoryTableRow({
   showAction = false,
   length,
   setPage,
+  selected,
 }: CategoryTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -112,24 +114,28 @@ function CategoryTableRow({
         <TableCell width={80} align="center">
           {index + 1}
         </TableCell>
-
-        <TableCell scope="row" component="th" padding="none" width={100} onClick={handleNavigateDetail}>
-          <Avatar alt={category.name} src={category.imageUrl} />
-        </TableCell>
+        {selected.includes(OrderSortBy.IMAGE_URL) && (
+          <TableCell scope="row" component="th" padding="none" width={100} onClick={handleNavigateDetail}>
+            <Avatar alt={category.name} src={category.imageUrl} />
+          </TableCell>
+        )}
         <TableCell component="th" scope="row" onClick={handleNavigateDetail}>
           <Typography variant="subtitle2" noWrap>
             {category.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
-          {category.code}
-        </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
-          <Typography variant="body2" pl={2}>
-            {category.displayOrder}
-          </Typography>
-        </TableCell>
-
+        {selected.includes(OrderSortBy.CODE) && (
+          <TableCell align="left" onClick={handleNavigateDetail}>
+            {category.code}
+          </TableCell>
+        )}
+        {selected.includes(OrderSortBy.DISPLAY_ORDER) && (
+          <TableCell align="left" onClick={handleNavigateDetail}>
+            <Typography variant="body2" pl={2}>
+              {category.displayOrder}
+            </Typography>
+          </TableCell>
+        )}
         <TableCell align="left">
           <Label
             color={

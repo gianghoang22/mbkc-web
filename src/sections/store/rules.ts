@@ -34,7 +34,7 @@ export const getRuleWidths = (selected: readonly string[]) => ({
       : !selected.includes(OrderSortBy.STORE_MANAGER_EMAIL)
       ? 230
       : !selected.includes(OrderSortBy.KITCHEN_CENTER)
-      ? 230
+      ? 220
       : !selected.includes(OrderSortBy.BRAND)
       ? 230
       : 180,
@@ -46,7 +46,7 @@ export const getRuleWidths = (selected: readonly string[]) => ({
       : !selected.includes(OrderSortBy.KITCHEN_CENTER) && !selected.includes(OrderSortBy.BRAND)
       ? 350
       : !selected.includes(OrderSortBy.KITCHEN_CENTER)
-      ? 280
+      ? 260
       : !selected.includes(OrderSortBy.BRAND)
       ? 280
       : 180,

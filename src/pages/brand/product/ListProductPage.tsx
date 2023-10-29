@@ -10,18 +10,10 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
-import { ProductTableRow, ProductTableRowSkeleton, ProductTableToolbar } from 'sections/product';
+import { ProductTableRow, ProductTableRowSkeleton } from 'sections/product';
 //
-import {
-  ListParams,
-  OptionSelect,
-  OrderSort,
-  OrderSortBy,
-  PRODUCT_TYPE_TABS,
-  ProductTable,
-  ProductTypeEnum,
-} from '@types';
-import { CommonTableHead, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
+import { ListParams, OrderSort, OrderSortBy, PRODUCT_TYPE_TABS, ProductTable, ProductTypeEnum } from '@types';
+import { CustomTableHead, CustomTableToolbar, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
@@ -40,7 +32,7 @@ function ListProductPage() {
   const [orderBy, setOrderBy] = useState<keyof ProductTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [productType, setProductType] = useState<string>('');
-  const [productTypeSelect, setProductTypeSelect] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setProductType(newValue);
@@ -80,6 +72,10 @@ function ListProductPage() {
     dispatch<any>(getAllProducts(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllProducts(params));
+  };
+
   return (
     <>
       <Page
@@ -112,25 +108,27 @@ function ListProductPage() {
                 handleChange={handleChange}
                 options={PRODUCT_TYPE_TABS}
               />
-              <ProductTableToolbar
+              <CustomTableToolbar<ProductTable>
+                model={translate('model.lowercase.product')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={productHeadCells}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
-                productType={productTypeSelect}
-                setProductType={setProductTypeSelect}
+                handleReloadData={handleReloadData}
               />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<ProductTable>
-                    hideDiscountPrice
-                    hideHistoricalPrice
+                  <CustomTableHead<ProductTable>
                     showAction
                     headCells={productHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoading ? (
-                    <ProductTableRowSkeleton length={products.length} />
+                    <ProductTableRowSkeleton length={products.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {products.map((product, index) => {
@@ -143,6 +141,7 @@ function ListProductPage() {
                             length={products.length}
                             index={index}
                             product={product}
+                            selected={selected}
                           />
                         );
                       })}

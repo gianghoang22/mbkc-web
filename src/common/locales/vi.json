@@ -12,6 +12,7 @@
     "deActive": "Vô hiệu hóa",
     "beConfirming": "Đang xác nhận",
     "reject": "Bị từ chối",
+    "available": "Có sẵn",
     "inStock": "Còn hàng",
     "outOfStockToday": "Hết hàng hôm nay",
     "outOfStockIndefinitely": "Hết hàng vô thời hạn"
@@ -53,7 +54,8 @@
     "createProductLink": "Tạo liên kết sản phẩm",
     "updateProductLink": "Cập nhật liên kết sản phẩm",
     "yes": "Có",
-    "no": "Không"
+    "no": "Không",
+    "showColumns": "Hiển thị cột"
   },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",

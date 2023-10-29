@@ -18,7 +18,6 @@ export { default as CustomTableHead } from './table/CustomTableHead';
 export { default as CustomTableToolbar } from './table/CustomTableToolbar';
 export { default as UploadAvatar } from './upload/UploadAvatar';
 export { default as LoadingScreen } from './upload/LoadingScreen';
-export { default as Tabs } from './tabs/Tabs';
 export { default as CustomTabs } from './tabs/CustomTabs';
 
 //form
