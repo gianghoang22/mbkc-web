@@ -20,7 +20,6 @@ import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } 
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
 import { CreateBankingAccountModal } from 'sections/bankingAccount';
-import { CreatePartnerProductModal } from 'sections/partnerProduct';
 
 function ListBankingAccountPage() {
   const navigate = useNavigate();

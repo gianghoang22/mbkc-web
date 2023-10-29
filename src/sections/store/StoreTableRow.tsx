@@ -130,7 +130,7 @@ function StoreTableRow({
   return (
     <>
       <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={80} align="center" onClick={() => handleNavigateDetail(store.storeId)}>
+        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store.storeId)}>
           {index + 1}
         </TableCell>
         {selected.includes(OrderSortBy.LOGO) && (

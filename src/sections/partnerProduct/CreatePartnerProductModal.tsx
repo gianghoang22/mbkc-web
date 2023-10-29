@@ -35,6 +35,7 @@ interface CreatePartnerProductModalProps {
 function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: CreatePartnerProductModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate, currentLang } = useLocales();
   const { schemaPartnerProduct } = useValidationForm();
 

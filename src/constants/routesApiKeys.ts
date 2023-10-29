@@ -203,13 +203,13 @@ export const ROUTES_API_PARTNER_PRODUCTS = {
       `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sortBy}`
     ),
   GET_PARTNER_PRODUCT_DETAIL: (productId: number, partnerId: number, storeId: number) =>
-    path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
+    path(ROOTS_PARTNER_PRODUCTS, `/products/${productId}/partners/${partnerId}/stores/${storeId}`),
   UPDATE_PARTNER_PRODUCT: (productId: number, partnerId: number, storeId: number) =>
-    path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
+    path(ROOTS_PARTNER_PRODUCTS, `/products/${productId}/partners/${partnerId}/stores/${storeId}`),
   UPDATE_PARTNER_PRODUCT_STATUS: (productId: number, partnerId: number, storeId: number) =>
-    path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}/updating-status`),
+    path(ROOTS_PARTNER_PRODUCTS, `/products/${productId}/partners/${partnerId}/stores/${storeId}/updating-status`),
   DELETE_PARTNER_PRODUCT: (productId: number, partnerId: number, storeId: number) =>
-    path(ROOTS_PARTNER_PRODUCTS, `/${productId}/${partnerId}/${storeId}`),
+    path(ROOTS_PARTNER_PRODUCTS, `/products/${productId}/partners/${partnerId}/stores/${storeId}`),
 };
 
 export const ROUTES_API_CASHIERS = {

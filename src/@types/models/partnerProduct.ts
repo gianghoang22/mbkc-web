@@ -23,6 +23,7 @@ export interface PartnerProductToUpdate {
 }
 
 export enum PartnerProductStatusEnum {
+  AVAILABLE = 'Available',
   IN_STOCK = 'In stock',
   OUT_OF_STOCK_TODAY = 'Out of stock today',
   OUT_OF_STOCK_INDEFINITELY = 'Out of stock indefinitely',

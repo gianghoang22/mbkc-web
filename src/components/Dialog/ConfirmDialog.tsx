@@ -21,7 +21,7 @@ type Props = {
   title: String | ReactElement;
   description?: String | ReactElement | null;
   // onDelete: () => Promise<any> | Function;
-  onAction: () => void;
+  onAction?: () => void;
   onClose: (title: any) => void;
   confirmProps?: ButtonProps;
   cancelProps?: ButtonProps;
@@ -68,18 +68,20 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
         <Button {...cancelProps} onClick={onClose} variant="text" color="secondary">
           {translate('button.cancel')}
         </Button>
-        <LoadingAsyncButton
-          {...confirmProps}
-          onClick={() => {
-            onAction();
-            onClose('Close');
-          }}
-          color="error"
-          variant="contained"
-          autoFocus
-        >
-          {translate('button.confirm')}
-        </LoadingAsyncButton>
+        {onAction && (
+          <LoadingAsyncButton
+            {...confirmProps}
+            onClick={() => {
+              onAction();
+              onClose('Close');
+            }}
+            color="error"
+            variant="contained"
+            autoFocus
+          >
+            {translate('button.confirm')}
+          </LoadingAsyncButton>
+        )}
       </DialogActions>
     </Dialog>
   );

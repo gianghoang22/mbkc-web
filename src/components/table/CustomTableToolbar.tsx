@@ -15,14 +15,15 @@ import {
   Stack,
   TextField,
   Tooltip,
+  Button,
 } from '@mui/material';
 //
-import { HeadCell, OptionSelect, OrderSortBy } from '@types';
+import { HeadCell, OptionSelect, OrderSortBy, ProductTypeEnum } from '@types';
 import { Role, Status } from 'common/enum';
 import { useLocales, usePopover } from 'hooks';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';
-import { PATH_ADMIN_APP } from 'routes/paths';
+import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StyledRoot, StyledSearch } from './styles';
 
 interface CustomTableToolbarProps<T> {
@@ -37,6 +38,11 @@ interface CustomTableToolbarProps<T> {
   handleChangeStatus?: (option: OptionSelect | null) => void;
   handleReloadData: () => void;
   model: string;
+  addAction?: boolean;
+  onAction?: () => void;
+  haveSelectProductType?: boolean;
+  productType?: OptionSelect | null;
+  setProductType?: Dispatch<SetStateAction<OptionSelect | null>>;
 }
 
 function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
@@ -52,7 +58,14 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
     haveSelectStatus,
     handleReloadData,
     model,
+    addAction,
+    onAction,
+    haveSelectProductType,
+    productType,
+    setProductType,
   } = props;
+
+  const { id } = useParams();
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
@@ -60,15 +73,37 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
 
   const { userAuth } = useAppSelector((state) => state.auth);
 
-  const selectedFilter = selected.filter((cell) => cell !== OrderSortBy.NAME && cell !== OrderSortBy.STATUS);
+  const selectedFilter = selected.filter(
+    (cell) =>
+      cell !== OrderSortBy.NAME &&
+      cell !== OrderSortBy.STATUS &&
+      cell !== OrderSortBy.PRODUCT_NAME &&
+      cell !== OrderSortBy.PRODUCT_CODE
+  );
   const headCellFilter = headCells.filter(
-    (cell) => cell.id.toString() !== OrderSortBy.NAME && cell.id.toString() !== OrderSortBy.STATUS
+    (cell) =>
+      cell.id.toString() !== OrderSortBy.NAME &&
+      cell.id.toString() !== OrderSortBy.STATUS &&
+      cell.id.toString() !== OrderSortBy.PRODUCT_NAME &&
+      cell.id.toString() !== OrderSortBy.PRODUCT_CODE
   );
 
   useEffect(() => {
     const newSelected = headCells.map((n) =>
       userAuth?.roleName === Role.MBKC_ADMIN && pathname === PATH_ADMIN_APP.store.list
         ? n.id.toString() !== OrderSortBy.STORE_MANAGER_EMAIL
+          ? n.id.toString()
+          : ''
+        : userAuth?.roleName === Role.BRAND_MANAGER && pathname === PATH_BRAND_APP.product.list
+        ? n.id.toString() !== OrderSortBy.HISTORICAL_PRICE && n.id.toString() !== OrderSortBy.DISCOUNT_PRICE
+          ? n.id.toString()
+          : ''
+        : userAuth?.roleName === Role.BRAND_MANAGER && pathname === `${PATH_BRAND_APP.category.root}/${id}`
+        ? n.id.toString() !== OrderSortBy.HISTORICAL_PRICE && n.id.toString() !== OrderSortBy.DISCOUNT_PRICE
+          ? n.id.toString()
+          : ''
+        : userAuth?.roleName === Role.BRAND_MANAGER && pathname === `${PATH_BRAND_APP.category.rootExtra}/${id}`
+        ? n.id.toString() !== OrderSortBy.HISTORICAL_PRICE && n.id.toString() !== OrderSortBy.DISCOUNT_PRICE
           ? n.id.toString()
           : ''
         : n.id.toString()
@@ -82,7 +117,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
       setSelected([...newSelected]);
       return;
     }
-    setSelected([OrderSortBy.NAME, OrderSortBy.STATUS]);
+    setSelected([OrderSortBy.NAME, OrderSortBy.STATUS, OrderSortBy.PRODUCT_NAME, OrderSortBy.PRODUCT_CODE]);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
@@ -134,6 +169,30 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
             </Stack>
           )}
 
+          {setProductType && haveSelectProductType && (
+            <Stack width={250}>
+              <Autocomplete
+                fullWidth
+                size="small"
+                options={options ? options : []}
+                getOptionLabel={(option) =>
+                  option.value === ProductTypeEnum.PARENT
+                    ? translate('productType.parent')
+                    : option.value === ProductTypeEnum.CHILD
+                    ? translate('productType.child')
+                    : option.value === ProductTypeEnum.SINGLE
+                    ? translate('productType.single')
+                    : option.value === ProductTypeEnum.EXTRA
+                    ? translate('productType.extra')
+                    : ''
+                }
+                renderInput={(params) => <TextField {...params} label={translate('table.type')} InputLabelProps={{}} />}
+                value={productType}
+                onChange={(event: any, newValue: OptionSelect | null) => setProductType(newValue)}
+              />
+            </Stack>
+          )}
+
           <StyledSearch
             size="small"
             value={filterName}
@@ -153,11 +212,18 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
               <ReplayIcon />
             </IconButton>
           </Tooltip>
+
           <Tooltip title={translate('button.setting')}>
             <IconButton onClick={handleOpenMenu}>
               <SettingsIcon />
             </IconButton>
           </Tooltip>
+
+          {addAction && (
+            <Button variant="outlined" onClick={onAction}>
+              {translate('button.add', { model: translate('model.lowercase.categories') })}
+            </Button>
+          )}
         </Stack>
       </StyledRoot>
 
@@ -171,7 +237,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
           sx: {
             p: 1,
             mt: 0.5,
-            minWidth: 180,
+            minWidth: 200,
             '& .MuiMenuItem-root': {
               px: 1,
               typography: 'body2',
@@ -190,11 +256,17 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
               'aria-label': 'select all desserts',
             }}
           />
-          Hiển thị cột
+          {translate('button.showColumns')}
         </MenuItem>
         <Divider />
         {headCells
-          .filter((cell) => cell.id.toString() !== OrderSortBy.NAME && cell.id.toString() !== OrderSortBy.STATUS)
+          .filter(
+            (cell) =>
+              cell.id.toString() !== OrderSortBy.NAME &&
+              cell.id.toString() !== OrderSortBy.STATUS &&
+              cell.id.toString() !== OrderSortBy.PRODUCT_NAME &&
+              cell.id.toString() !== OrderSortBy.PRODUCT_CODE
+          )
           .map((cell, index) => {
             const isItemSelected = isSelected(cell.id as string);
             return (

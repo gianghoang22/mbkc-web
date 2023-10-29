@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { IconButton, MenuItem, Stack, TableCell, TableRow, TextField, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
@@ -15,9 +17,8 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import CreatePartnerProductModal from './CreatePartnerProductModal';
 //
-import { Params, PartnerProduct, ToUpdateStatus } from '@types';
-import { Color, Status } from 'common/enum';
-import { ConfirmDialog, Label, Popover } from 'components';
+import { OrderSortBy, Params, PartnerProduct, PartnerProductStatusEnum, ToUpdateStatus } from '@types';
+import { ConfirmDialog, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
@@ -28,6 +29,7 @@ interface PartnerProductTableRowProps {
   rowsPerPage?: number;
   length: number;
   setPage?: any;
+  selected: readonly string[];
 }
 
 function PartnerProductTableRow({
@@ -37,6 +39,7 @@ function PartnerProductTableRow({
   rowsPerPage = 5,
   length,
   setPage,
+  selected,
 }: PartnerProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -45,6 +48,8 @@ function PartnerProductTableRow({
   const { handleOpen, isOpen } = useModal();
   const { handleOpen: handleOpenUpdate, isOpen: isOpenUpdate } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+
+  const [status, setStatus] = useState<string>(partnerProduct?.status);
 
   const handleNavigateDetail = () => {
     navigate(PATH_BRAND_APP.partnerProduct.root + `/${partnerProduct?.productId}`);
@@ -76,10 +81,10 @@ function PartnerProductTableRow({
     );
   };
 
-  const handleUpdateStatus = () => {
+  const handleUpdateStatus = (valueStatus: string) => {
     const paramUpdate: Params<ToUpdateStatus> = {
       data: {
-        status: partnerProduct?.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
+        status: valueStatus,
       },
       idParams: {
         productId: partnerProduct.productId,
@@ -102,50 +107,95 @@ function PartnerProductTableRow({
         <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={handleNavigateDetail}>
+        <TableCell
+          component="th"
+          scope="row"
+          padding="none"
+          onClick={handleNavigateDetail}
+          width={
+            !selected.includes(OrderSortBy.PARTNER_NAME) && !selected.includes(OrderSortBy.STORE_NAME)
+              ? 400
+              : !selected.includes(OrderSortBy.PARTNER_NAME)
+              ? 300
+              : !selected.includes(OrderSortBy.STORE_NAME)
+              ? 300
+              : 220
+          }
+        >
           <Typography variant="subtitle2" noWrap>
             {partnerProduct?.productName}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
+        <TableCell
+          align="left"
+          onClick={handleNavigateDetail}
+          width={
+            !selected.includes(OrderSortBy.PARTNER_NAME) && !selected.includes(OrderSortBy.STORE_NAME)
+              ? 400
+              : !selected.includes(OrderSortBy.PARTNER_NAME)
+              ? 340
+              : !selected.includes(OrderSortBy.STORE_NAME)
+              ? 340
+              : 320
+          }
+        >
           <Typography variant="body2" noWrap>
             {partnerProduct?.productCode}
           </Typography>
         </TableCell>
-        <TableCell align="left" padding="none" onClick={handleNavigateDetail}>
-          {partnerProduct?.partnerName}
-        </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
-          {partnerProduct?.storeName}
-        </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
-          <Label
-            color={
-              partnerProduct?.status === Status.ACTIVE
-                ? Color.SUCCESS
-                : partnerProduct?.status === Status.INACTIVE
-                ? Color.WARNING
-                : Color.ERROR
-            }
+        {selected.includes(OrderSortBy.PARTNER_NAME) && (
+          <TableCell
+            align="left"
+            padding="none"
+            onClick={handleNavigateDetail}
+            width={!selected.includes(OrderSortBy.STORE_NAME) ? 200 : 150}
           >
-            {partnerProduct?.status === Status.INACTIVE
-              ? translate('status.inactive')
-              : partnerProduct?.status === Status.ACTIVE
-              ? translate('status.active')
-              : translate('status.deActive')}
-          </Label>
+            {partnerProduct?.partnerName}
+          </TableCell>
+        )}
+        {selected.includes(OrderSortBy.STORE_NAME) && (
+          <TableCell
+            align="left"
+            onClick={handleNavigateDetail}
+            width={!selected.includes(OrderSortBy.PARTNER_NAME) ? 280 : 240}
+          >
+            {partnerProduct?.storeName}
+          </TableCell>
+        )}
+        <TableCell align="left">
+          <Stack width={200}>
+            <TextField
+              select
+              size="small"
+              label={translate('table.status')}
+              value={status}
+              onChange={(event) => {
+                setStatus(event.target.value);
+              }}
+              fullWidth
+            >
+              <MenuItem
+                value={PartnerProductStatusEnum.AVAILABLE}
+                onClick={() => handleUpdateStatus(PartnerProductStatusEnum.AVAILABLE)}
+              >
+                {translate('status.available')}
+              </MenuItem>
+              <MenuItem
+                value={PartnerProductStatusEnum.OUT_OF_STOCK_TODAY}
+                onClick={() => handleUpdateStatus(PartnerProductStatusEnum.OUT_OF_STOCK_TODAY)}
+              >
+                {translate('status.outOfStockToday')}
+              </MenuItem>
+              <MenuItem
+                value={PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY}
+                onClick={() => handleUpdateStatus(PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY)}
+              >
+                {translate('status.outOfStockIndefinitely')}
+              </MenuItem>
+            </TextField>
+          </Stack>
         </TableCell>
         <TableCell align="right">
-          <Switch
-            size="small"
-            onClick={handleUpdateStatus}
-            inputProps={{ 'aria-label': 'controlled' }}
-            disabled={partnerProduct?.status === Status.DEACTIVE}
-            checked={
-              partnerProduct?.status === Status.INACTIVE || partnerProduct?.status === Status.DEACTIVE ? false : true
-            }
-            color={partnerProduct?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
-          />
           <IconButton color="inherit" onClick={handleOpenMenu}>
             <MoreVertIcon />
           </IconButton>

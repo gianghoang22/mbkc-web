@@ -7,11 +7,11 @@ import { Box, Paper, Table, TableBody, TableContainer, TablePagination } from '@
 import { getAllExtraCategoriesInCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
-import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
+import { CategoryTableRow, CategoryTableRowSkeleton } from 'sections/category';
 import AddExtraToCategory from './AddExtraToCategoryModal';
 //
 import { CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy } from '@types';
-import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { getComparator, stableSort } from 'utils';
 
@@ -32,7 +32,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
-
+  const [selected, setSelected] = useState<readonly string[]>([]);
   const [filterName, setFilterName] = useState<string>('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
@@ -75,24 +75,33 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
     dispatch<any>(getAllExtraCategoriesInCategory(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllExtraCategoriesInCategory(params));
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <CategoryTableToolbar
+        <CustomTableToolbar<CategoryTable>
+          model={translate('model.lowercase.category')}
+          selected={selected}
+          setSelected={setSelected}
+          headCells={categoryHeadCells}
           filterName={filterName}
           onFilterName={handleFilterByName}
+          handleReloadData={handleReloadData}
           addAction
           onAction={handleOpen}
         />
-
         <TableContainer>
           <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-            <CommonTableHead<CategoryTable>
+            <CustomTableHead<CategoryTable>
               showAction
               headCells={categoryHeadCells}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
+              selectedCol={selected}
             />
             {isLoading ? (
               <CategoryTableRowSkeleton length={visibleRows.length} />
@@ -105,6 +114,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
                       index={index}
                       category={category}
                       categoryType={CategoryType.EXTRA}
+                      selected={selected}
                     />
                   );
                 })}

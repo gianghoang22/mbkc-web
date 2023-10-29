@@ -12,6 +12,7 @@
     "deActive": "Deactive",
     "beConfirming": "Confirming",
     "reject": "Rejected",
+    "available": "Available",
     "inStock": "In Stock",
     "outOfStockToday": "Out of stock today",
     "outOfStockIndefinitely": "Out of stock indefinitely"
@@ -53,7 +54,8 @@
     "createProductLink": "Create product links",
     "updateProductLink": "Update product links",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "showColumns": "Show columns"
   },
   "common": {
     "welcome": "Hi, Welcome Back",

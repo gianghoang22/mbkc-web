@@ -13,11 +13,10 @@ import {
   CreatePartnerProductModal,
   PartnerProductTableRow,
   PartnerProductTableRowSkeleton,
-  PartnerProductTableToolbar,
 } from 'sections/partnerProduct';
 //
 import { ListParams, OrderSort, OrderSortBy, PartnerProductTable } from '@types';
-import { CommonTableHead, EmptyTable, LoadingScreen, Page, SearchNotFound } from 'components';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, LoadingScreen, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
@@ -39,6 +38,7 @@ function ListPartnerProductPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof PartnerProductTable>(OrderSortBy.PRODUCT_NAME);
   const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
@@ -74,6 +74,10 @@ function ListPartnerProductPage() {
     dispatch<any>(getAllPartnerProducts(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllPartnerProducts(params));
+  };
+
   return (
     <>
       {(isLoadingStore || isLoadingPartner || isLoadingProduct) && (
@@ -103,18 +107,27 @@ function ListPartnerProductPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <PartnerProductTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CustomTableToolbar<PartnerProductTable>
+                model={translate('model.lowercase.category')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={partnerProductHeadCells}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<PartnerProductTable>
+                  <CustomTableHead<PartnerProductTable>
                     showAction
                     headCells={partnerProductHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoading ? (
-                    <PartnerProductTableRowSkeleton length={partnerProducts.length} />
+                    <PartnerProductTableRowSkeleton length={partnerProducts.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {partnerProducts?.map((partnerProduct, index) => {
@@ -127,6 +140,7 @@ function ListPartnerProductPage() {
                             length={partnerProducts.length}
                             index={index}
                             partnerProduct={partnerProduct}
+                            selected={selected}
                           />
                         );
                       })}

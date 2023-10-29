@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Box, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Box, IconButton, Switch, TableCell, Stack, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
@@ -14,12 +14,13 @@ import {
 } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Params, Product, ToUpdateStatus } from '@types';
+import { OrderSortBy, Params, Product, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { fCurrencyVN } from 'utils';
+import { getRuleWidths } from './rules';
 
 interface ProductTableRowProps {
   product: Product;
@@ -30,6 +31,7 @@ interface ProductTableRowProps {
   rowsPerPage?: number;
   length: number;
   setPage?: any;
+  selected?: readonly string[];
 }
 
 function ProductTableRow({
@@ -41,9 +43,13 @@ function ProductTableRow({
   rowsPerPage = 5,
   length,
   setPage,
+  selected,
 }: ProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const rules = getRuleWidths(selected ? selected : []);
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
@@ -100,26 +106,61 @@ function ProductTableRow({
         <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
-        <TableCell component="th" padding="none" width={80} align="center" onClick={handleNavigateDetail}>
-          <Avatar alt={product?.name} src={product?.image} />
-        </TableCell>
-        <TableCell component="th" scope="row" padding="none" onClick={handleNavigateDetail}>
+        {isInDetail ? (
+          <TableCell component="th" padding="none" width={80} align="center" onClick={handleNavigateDetail}>
+            <Avatar alt={product?.name} src={product?.image} />
+          </TableCell>
+        ) : (
+          <>
+            {selected?.includes(OrderSortBy.IMAGE) && (
+              <TableCell component="th" padding="none" width={80} align="center" onClick={handleNavigateDetail}>
+                <Avatar alt={product?.name} src={product?.image} />
+              </TableCell>
+            )}
+          </>
+        )}
+        <TableCell component="th" scope="row" padding="none" width={rules.name} onClick={handleNavigateDetail}>
           <Typography variant="subtitle2" width={160} noWrap>
             {product?.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" width={150} onClick={handleNavigateDetail}>
-          <Typography variant="body2" width={!isInDetail ? 140 : 120} noWrap>
-            {product?.code}
-          </Typography>
-        </TableCell>
-        <TableCell align="left" padding="none" onClick={handleNavigateDetail}>
-          <Box pl={2}> {product?.displayOrder}</Box>
-        </TableCell>
-        <TableCell align="left" onClick={handleNavigateDetail}>
-          {fCurrencyVN(product?.sellingPrice)} đ
-        </TableCell>
-        {isInDetail && (
+        {isInDetail ? (
+          <>
+            <TableCell align="left" width={150} onClick={handleNavigateDetail}>
+              <Typography variant="body2" width={!isInDetail ? 140 : 120} noWrap>
+                {product?.code}
+              </Typography>
+            </TableCell>
+            <TableCell align="left" padding="none" onClick={handleNavigateDetail}>
+              <Box pl={2}> {product?.displayOrder}</Box>
+            </TableCell>
+            <TableCell align="left" onClick={handleNavigateDetail}>
+              {fCurrencyVN(product?.sellingPrice)} đ
+            </TableCell>
+          </>
+        ) : (
+          <>
+            {selected?.includes(OrderSortBy.CODE) && (
+              <TableCell align="left" width={rules.code} onClick={handleNavigateDetail}>
+                <Typography variant="body2" noWrap>
+                  {product?.code}
+                </Typography>
+              </TableCell>
+            )}
+            {selected?.includes(OrderSortBy.DISPLAY_ORDER) && (
+              <TableCell align="left" padding="none" width={rules.display_order} onClick={handleNavigateDetail}>
+                <Box pl={2}> {product?.displayOrder}</Box>
+              </TableCell>
+            )}
+            {selected?.includes(OrderSortBy.SELLING_PRICE) && (
+              <TableCell align="left" width={rules.selling_price} onClick={handleNavigateDetail}>
+                {fCurrencyVN(product?.sellingPrice)} đ
+              </TableCell>
+            )}
+          </>
+        )}
+
+        {isInDetail ? (
           <>
             <TableCell align="left" onClick={handleNavigateDetail}>
               {fCurrencyVN(product?.discountPrice)} đ
@@ -128,15 +169,33 @@ function ProductTableRow({
               {fCurrencyVN(product?.historicalPrice)} đ
             </TableCell>
           </>
+        ) : (
+          <>
+            {selected?.includes(OrderSortBy.DISCOUNT_PRICE) && (
+              <TableCell align="left" width={rules.discount_price} onClick={handleNavigateDetail}>
+                {fCurrencyVN(product?.discountPrice)} đ
+              </TableCell>
+            )}
+            {selected?.includes(OrderSortBy.HISTORICAL_PRICE) && (
+              <TableCell align="left" width={rules.historical_price} onClick={handleNavigateDetail}>
+                {fCurrencyVN(product?.historicalPrice)} đ
+              </TableCell>
+            )}
+          </>
         )}
+
         {!isInDetail && (
           <>
-            <TableCell align="left" onClick={handleNavigateDetail}>
-              {product?.categoryName}
-            </TableCell>
-            <TableCell align="left" onClick={handleNavigateDetail}>
-              {product?.type}
-            </TableCell>
+            {selected?.includes(OrderSortBy.CATEGORY) && (
+              <TableCell align="left" width={rules.category} onClick={handleNavigateDetail}>
+                {product?.categoryName}
+              </TableCell>
+            )}
+            {selected?.includes(OrderSortBy.TYPE) && (
+              <TableCell align="left" width={rules.type} onClick={handleNavigateDetail}>
+                {product?.type}
+              </TableCell>
+            )}
           </>
         )}
 
@@ -159,17 +218,19 @@ function ProductTableRow({
         </TableCell>
         {!inTab && (
           <TableCell align="right">
-            <Switch
-              size="small"
-              onClick={handleUpdateStatus}
-              inputProps={{ 'aria-label': 'controlled' }}
-              disabled={product?.status === Status.DEACTIVE}
-              checked={product?.status === Status.INACTIVE || product?.status === Status.DEACTIVE ? false : true}
-              color={product?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
-            />
-            <IconButton color="inherit" onClick={handleOpenMenu}>
-              <MoreVertIcon />
-            </IconButton>
+            <Stack direction="row" alignItems="center" justifyContent="right">
+              <Switch
+                size="small"
+                onClick={handleUpdateStatus}
+                inputProps={{ 'aria-label': 'controlled' }}
+                disabled={product?.status === Status.DEACTIVE}
+                checked={product?.status === Status.INACTIVE || product?.status === Status.DEACTIVE ? false : true}
+                color={product?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+              />
+              <IconButton color="inherit" onClick={handleOpenMenu}>
+                <MoreVertIcon />
+              </IconButton>
+            </Stack>
           </TableCell>
         )}
       </TableRow>

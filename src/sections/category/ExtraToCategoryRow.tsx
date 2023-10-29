@@ -8,7 +8,7 @@ import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Category, CategoryType } from '@types';
+import { Category, CategoryType, OrderSortBy } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -22,6 +22,7 @@ interface ExtraToCategoryRowProps {
   showAction?: boolean;
   checkbox?: boolean;
   isItemSelected?: boolean;
+  selected: readonly string[];
 }
 
 function ExtraToCategoryRow({
@@ -32,16 +33,19 @@ function ExtraToCategoryRow({
   checkbox = false,
   isItemSelected = false,
   handleClick,
+  selected,
 }: ExtraToCategoryRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
+
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleNavigateDetail = (category: Category, categoryId: number) => {
-    navigate(PATH_BRAND_APP.category.root + `/${categoryId}`);
+  const handleNavigateDetail = () => {
+    navigate(PATH_BRAND_APP.category.root + `/${category.categoryId}`);
     dispatch(setCategoryType(categoryType));
     dispatch(setRoutesToBack(pathname));
   };
@@ -52,8 +56,6 @@ function ExtraToCategoryRow({
     dispatch(setEditCategory(category));
     dispatch(setRoutesToBack(pathname));
   };
-
-  const handleDelete = () => {};
 
   return (
     <>
@@ -81,31 +83,30 @@ function ExtraToCategoryRow({
             {index + 1}
           </TableCell>
         )}
-
-        <TableCell
-          scope="row"
-          component="th"
-          padding="none"
-          width={80}
-          onClick={() => handleNavigateDetail(category, category.categoryId)}
-        >
-          <Avatar alt={category.name} src={category.imageUrl} />
-        </TableCell>
-        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail(category, category.categoryId)}>
+        {selected.includes(OrderSortBy.IMAGE_URL) && (
+          <TableCell scope="row" component="th" padding="none" width={80} onClick={handleNavigateDetail}>
+            <Avatar alt={category.name} src={category.imageUrl} />
+          </TableCell>
+        )}
+        <TableCell component="th" scope="row" onClick={handleNavigateDetail}>
           <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
             {category.name}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(category, category.categoryId)}>
-          {category.code}
-        </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(category, category.categoryId)}>
-          <Typography variant="body2" pl={2}>
-            {category.displayOrder}
-          </Typography>
-        </TableCell>
+        {selected.includes(OrderSortBy.CODE) && (
+          <TableCell align="left" onClick={handleNavigateDetail}>
+            {category.code}
+          </TableCell>
+        )}
+        {selected.includes(OrderSortBy.DISPLAY_ORDER) && (
+          <TableCell align="left" onClick={handleNavigateDetail}>
+            <Typography variant="body2" pl={2}>
+              {category.displayOrder}
+            </Typography>
+          </TableCell>
+        )}
 
-        <TableCell align="left">
+        <TableCell align="left" onClick={handleNavigateDetail}>
           <Label
             color={
               category?.status === Status.ACTIVE
@@ -144,7 +145,6 @@ function ExtraToCategoryRow({
         <ConfirmDialog
           open={isOpen}
           onClose={handleOpen}
-          onAction={handleDelete}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.extraCategory') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.extraCategory') })}
         />

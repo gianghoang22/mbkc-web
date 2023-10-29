@@ -3,9 +3,12 @@ import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mu
 interface ProductTableRowSkeletonProps {
   length: number;
   inTab?: boolean;
+  selected?: readonly string[];
 }
 
-function ProductTableRowSkeleton({ length, inTab = false }: ProductTableRowSkeletonProps) {
+function ProductTableRowSkeleton({ length, inTab = false, selected }: ProductTableRowSkeletonProps) {
+  // const rules = getRuleWidths(selected ? selected : []);
+
   return (
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (

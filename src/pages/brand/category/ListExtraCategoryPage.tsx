@@ -10,10 +10,10 @@ import { getAllCategories, setAddCategory, setCategoryType } from 'redux/categor
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
-import { CategoryTableRow, CategoryTableRowSkeleton, CategoryTableToolbar } from 'sections/category';
+import { CategoryTableRow, CategoryTableRowSkeleton } from 'sections/category';
 //
 import { CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { CommonTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
@@ -31,6 +31,7 @@ function ListExtraCategoryPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CategoryTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -67,6 +68,10 @@ function ListExtraCategoryPage() {
     dispatch<any>(getAllCategories(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllCategories(params));
+  };
+
   return (
     <>
       <Page
@@ -91,7 +96,15 @@ function ListExtraCategoryPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <CategoryTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CustomTableToolbar<CategoryTable>
+                model={translate('model.lowercase.category')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={categoryHeadCells}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<CategoryTable>
@@ -114,6 +127,7 @@ function ListExtraCategoryPage() {
                             categoryType={CategoryType.EXTRA}
                             length={categories.length}
                             setPage={setPage}
+                            selected={selected}
                           />
                         );
                       })}

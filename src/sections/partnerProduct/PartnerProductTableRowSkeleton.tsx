@@ -1,10 +1,12 @@
-import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
+import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow, Box } from '@mui/material';
+import { OrderSortBy } from '@types';
 
 interface ProductTableRowSkeletonProps {
   length: number;
+  selected: readonly string[];
 }
 
-function ProductTableRowSkeleton({ length }: ProductTableRowSkeletonProps) {
+function ProductTableRowSkeleton({ length, selected }: ProductTableRowSkeletonProps) {
   return (
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
@@ -14,29 +16,60 @@ function ProductTableRowSkeleton({ length }: ProductTableRowSkeletonProps) {
               <Skeleton width={20} />
             </Stack>
           </TableCell>
-          <TableCell component="th" scope="row" padding="none" width={210}>
-            <Skeleton />
+          <TableCell
+            component="th"
+            scope="row"
+            padding="none"
+            width={
+              !selected.includes(OrderSortBy.PARTNER_NAME) && !selected.includes(OrderSortBy.STORE_NAME)
+                ? 400
+                : !selected.includes(OrderSortBy.PARTNER_NAME)
+                ? 300
+                : !selected.includes(OrderSortBy.STORE_NAME)
+                ? 300
+                : 220
+            }
+          >
+            <Skeleton width={200} />
           </TableCell>
-          <TableCell align="left" width={340}>
-            <Skeleton />
+          <TableCell
+            align="left"
+            width={
+              !selected.includes(OrderSortBy.PARTNER_NAME) && !selected.includes(OrderSortBy.STORE_NAME)
+                ? 400
+                : !selected.includes(OrderSortBy.PARTNER_NAME)
+                ? 340
+                : !selected.includes(OrderSortBy.STORE_NAME)
+                ? 340
+                : 320
+            }
+          >
+            <Box pr={5}>
+              <Skeleton />
+            </Box>
           </TableCell>
-          <TableCell align="left" padding="none" width={140}>
-            <Skeleton />
-          </TableCell>
-          <TableCell align="left" width={246}>
-            <Skeleton />
-          </TableCell>
+          {selected.includes(OrderSortBy.PARTNER_NAME) && (
+            <TableCell align="left" padding="none" width={!selected.includes(OrderSortBy.STORE_NAME) ? 200 : 150}>
+              <Box pr={5}>
+                <Skeleton />
+              </Box>
+            </TableCell>
+          )}
+          {selected.includes(OrderSortBy.STORE_NAME) && (
+            <TableCell align="left" width={!selected.includes(OrderSortBy.PARTNER_NAME) ? 280 : 240}>
+              <Box pr={5}>
+                <Skeleton />
+              </Box>
+            </TableCell>
+          )}
           <TableCell align="left">
-            <Skeleton variant="rounded" width={120} height={24} />
+            <Skeleton variant="rounded" width={200} height={40} />
           </TableCell>
 
           <TableCell align="right">
-            <Stack direction="row" alignItems="center" justifyContent="right">
-              <Skeleton variant="rounded" width={30} height={14} />
-              <IconButton color="inherit">
-                <Skeleton variant="circular" width={28} height={28} />
-              </IconButton>
-            </Stack>
+            <IconButton color="inherit">
+              <Skeleton variant="circular" width={28} height={28} />
+            </IconButton>
           </TableCell>
         </TableRow>
       ))}

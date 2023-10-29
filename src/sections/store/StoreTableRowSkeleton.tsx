@@ -18,7 +18,7 @@ function StoreTableRowSkeleton({ length, selected, showAction = false }: StoreTa
     <TableBody>
       {Array.from({ length: 5 }).map((_, index: any) => (
         <TableRow key={index}>
-          <TableCell width={80} align="center" sx={{ height: '72.89px' }}>
+          <TableCell width={60} align="center" sx={{ height: '72.89px' }}>
             <Stack direction="row" alignItems="center" justifyContent="center">
               <Skeleton width={20} />
             </Stack>

@@ -24,8 +24,10 @@ import { CommonTableHead } from 'components';
 import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
 
 function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: string | null | undefined }) {
-  const { translate } = useLocales();
   const mdUp = useResponsive('up', 'lg', 'lg');
+
+  const { translate } = useLocales();
+
   const { storePartnerDetailHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 

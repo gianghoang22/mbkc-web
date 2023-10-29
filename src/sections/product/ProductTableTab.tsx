@@ -9,10 +9,17 @@ import { getAllProducts } from 'redux/product/productSlice';
 // section
 import ProductTableRow from './ProductTableRow';
 import ProductTableRowSkeleton from './ProductTableRowSkeleton';
-import ProductTableToolbar from './ProductTableToolbar';
 //
-import { CategoryType, ListParams, OptionSelect, OrderSort, OrderSortBy, ProductTable } from '@types';
-import { CommonTableHead, EmptyTable, SearchNotFound } from 'components';
+import {
+  CategoryType,
+  ListParams,
+  OptionSelect,
+  OrderSort,
+  OrderSortBy,
+  PRODUCT_TYPE_OPTIONS,
+  ProductTable,
+} from '@types';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 
 function ProductTableTab() {
@@ -32,6 +39,7 @@ function ProductTableTab() {
   const [orderBy, setOrderBy] = useState<keyof ProductTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [productType, setProductType] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -68,28 +76,37 @@ function ProductTableTab() {
     dispatch<any>(getAllProducts(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllProducts(params));
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <ProductTableToolbar
+        <CustomTableToolbar<ProductTable>
+          model={translate('model.lowercase.product')}
+          selected={selected}
+          setSelected={setSelected}
+          headCells={productHeadCells}
           filterName={filterName}
           onFilterName={handleFilterByName}
+          handleReloadData={handleReloadData}
+          options={PRODUCT_TYPE_OPTIONS.slice(0, 3)}
           productType={productType}
           setProductType={setProductType}
           haveSelectProductType={categoryType === CategoryType.NORMAL}
         />
         <TableContainer>
           <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-            <CommonTableHead<ProductTable>
-              hideDiscountPrice
-              hideHistoricalPrice
+            <CustomTableHead<ProductTable>
               headCells={productHeadCells}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
+              selectedCol={selected}
             />
             {isLoading ? (
-              <ProductTableRowSkeleton inTab length={products?.length} />
+              <ProductTableRowSkeleton inTab length={products?.length} selected={selected} />
             ) : (
               <TableBody>
                 {products?.map((product, index) => {
@@ -101,6 +118,7 @@ function ProductTableTab() {
                       index={index}
                       product={product}
                       setPage={setPage}
+                      selected={selected}
                     />
                   );
                 })}
