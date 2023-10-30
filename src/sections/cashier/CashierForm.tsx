@@ -4,7 +4,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 import { useAppSelector } from 'redux/configStore';
 //
 import { GENDER_OPTIONS, Gender } from 'common/enum';
-import { DatePickerField, InputField, SelectField, UploadImageField } from 'components';
+import { DatePickerField, InputField, InputNumber, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 
 function CashierForm() {
@@ -49,7 +49,7 @@ function CashierForm() {
               <SelectField<Gender> fullWidth options={GENDER_OPTIONS} name="gender" label={translate('table.gender')} />
             </Stack>
             <DatePickerField name="dateOfBirth" label="Date of birth" />
-            <InputField fullWidth name="citizenNumber" label={translate('model.capitalizeOne.citizenNumber')} />
+            <InputNumber fullWidth name="citizenNumber" label={translate('model.capitalizeOne.citizenNumber')} />
           </Stack>
         </Stack>
       </Grid>

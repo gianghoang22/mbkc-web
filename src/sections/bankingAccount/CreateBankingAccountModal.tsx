@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { BankingAccountToCreate, BankingAccountToUpdate, Params } from '@types';
 import { Color, Language, Status } from 'common/enum';
-import { InputField, UploadImageField } from 'components';
+import { InputField, InputNumber, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { createNewBankingAccount, updateBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 
@@ -122,8 +122,7 @@ function CreateBankingAccountModal({ page, rowsPerPage, isOpen, handleOpen }: Cr
                           }
                     )}
                   />
-
-                  <InputField fullWidth name="NumberAccount" label={translate('page.form.numberAccount')} />
+                  <InputNumber fullWidth name="NumberAccount" label={translate('page.form.numberAccount')} />
                 </Stack>
               </Stack>
             </DialogContent>
