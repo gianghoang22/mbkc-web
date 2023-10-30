@@ -10,8 +10,8 @@ export const getAllProvincesThunk = async (navigate: NavigateFunction, thunkAPI:
     const response: ListResponseAddress<Province> = await axiosServiceAddress.get(ROUTES_API_ADDRESS.GET_ALL_PROVINCE);
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -26,8 +26,8 @@ export const getAllDistrictByProvinceIdThunk = async (params: any, thunkAPI: any
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -42,8 +42,8 @@ export const getAllWardByDistrictIdThunk = async (params: any, thunkAPI: any) =>
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }

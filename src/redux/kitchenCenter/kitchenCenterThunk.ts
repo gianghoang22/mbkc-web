@@ -24,8 +24,8 @@ export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: an
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -40,8 +40,11 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_ADMIN_APP.kitchenCenter.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -71,8 +74,8 @@ export const createNewKitchenCenterThunk = async (params: Params<KitchenCenterTo
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, params.navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -93,8 +96,8 @@ export const updateKitchenCenterThunk = async (params: Params<KitchenCenterToUpd
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -122,8 +125,8 @@ export const updateStatusKitchenCenterThunk = async (params: Params<ToUpdateStat
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -151,8 +154,8 @@ export const deleteKitchenCenterThunk = async (params: Params<KitchenCenter>, th
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }

@@ -1,6 +1,7 @@
 import {
   BrandProfile,
   CategoryType,
+  ErrorResponse,
   KitchenCenterProfile,
   PartnerProduct,
   ProductTypeEnum,
@@ -202,6 +203,9 @@ export const hashPasswordMD5 = (password: string) => Md5.hashStr(password);
 export const getErrorMessage = (error: any, navigate: any) => {
   console.log('API_ERROR:', error);
 
+  const errorMessage = error?.data.Message[0].DescriptionError[0];
+  const statusCode = error?.data.StatusCode;
+
   if (error?.code === Error.SERVER_ERROR) {
     console.log(error);
     navigate(PATH_ERROR.serverError);
@@ -212,7 +216,8 @@ export const getErrorMessage = (error: any, navigate: any) => {
     navigate(PATH_ERROR.noPermission);
   }
 
-  return error?.data.Message[0].DescriptionError[0];
+  const errorResponse: ErrorResponse = { errorMessage: errorMessage, statusCode: statusCode };
+  return errorResponse;
 };
 
 // appendData

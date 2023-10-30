@@ -4,6 +4,7 @@ import { ROUTES_API_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllPartners } from './partnerSlice';
+import { PATH_ADMIN_APP } from 'routes/paths';
 
 export const getAllPartnersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -12,8 +13,8 @@ export const getAllPartnersThunk = async (params: ListParams, thunkAPI: any) => 
     const response = await axiosClient.get(ROUTES_API_PARTNERS.GET_ALL_PARTNER(optionParams));
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -26,8 +27,11 @@ export const getPartnerDetailThunk = async (params: any, thunkAPI: any) => {
     const response = await axiosClient.get(ROUTES_API_PARTNERS.GET_PARTNER_DETAIL(partnerId));
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_ADMIN_APP.partner.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -53,8 +57,8 @@ export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thu
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -83,8 +87,8 @@ export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkA
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -113,8 +117,8 @@ export const updateStatusPartnerThunk = async (params: Params<ToUpdateStatus>, t
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -141,8 +145,8 @@ export const deletePartnerThunk = async (params: Params<Partner>, thunkAPI: any)
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }

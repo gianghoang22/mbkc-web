@@ -12,6 +12,7 @@ import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllBankingAccounts } from './bankingAccountSlice';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -22,8 +23,8 @@ export const getAllBankingAccountsThunk = async (params: ListParams, thunkAPI: a
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -38,8 +39,11 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -68,8 +72,8 @@ export const createNewBankingAccountThunk = async (params: Params<BankingAccount
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -99,8 +103,8 @@ export const updateBankingAccountThunk = async (params: Params<BankingAccountToU
 
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -127,8 +131,8 @@ export const deleteBankingAccountThunk = async (params: Params<BankingAccount>, 
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -161,8 +165,8 @@ export const updateStatusBankingAccountThunk = async (params: any, thunkAPI: any
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
