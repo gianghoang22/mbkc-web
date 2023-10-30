@@ -1,4 +1,4 @@
-import { Skeleton, TableCell, TableRow, Typography } from '@mui/material';
+import { Skeleton, TableCell, TableRow } from '@mui/material';
 
 function KitchenCenterTableRowDashboardSkeleton({ length = 3 }: { length: number }) {
   return (
@@ -12,12 +12,13 @@ function KitchenCenterTableRowDashboardSkeleton({ length = 3 }: { length: number
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
           <TableCell>
-            <Typography variant="subtitle2" style={{ marginLeft: 4, fontWeight: 600 }}>
-              <Skeleton width={140} />
-            </Typography>
+            <Skeleton width={140} />
           </TableCell>
           <TableCell>
-            <Skeleton width={60} />
+            <Skeleton width={600} />
+          </TableCell>
+          <TableCell>
+            <Skeleton width={60} height={30} />
           </TableCell>
         </TableRow>
       ))}

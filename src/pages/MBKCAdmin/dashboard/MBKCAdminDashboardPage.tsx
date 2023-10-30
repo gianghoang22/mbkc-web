@@ -16,6 +16,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  Card,
 } from '@mui/material';
 // @mui icon
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
@@ -32,11 +33,12 @@ import { BrandTableRowDashboardSkeleton } from 'sections/brand';
 import { AppWidgetSummary } from 'sections/dashboard';
 import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
 //
-import { ListParams, WordLimited } from '@types';
-import { Color } from 'common/enum';
-import { Helmet } from 'components';
+import { ListParams, OrderSortBy } from '@types';
+import { Color, Status } from 'common/enum';
+import { Helmet, Label } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
+import { StoreTableRowSkeleton } from 'sections/store';
 
 // ----------------------------------------------------------------------
 
@@ -46,17 +48,17 @@ function MBKCAdminDashboardPage() {
 
   const { translate } = useLocales();
 
-  const { brands, isLoading: isLoadingBrands } = useAppSelector((state) => state.brand);
-  const { kitchenCenters, isLoading: isLoadingKitchenCenters } = useAppSelector((state) => state.kitchenCenter);
-  const { stores } = useAppSelector((state) => state.store);
+  const { brands, isLoading: isLoadingBrands, numberItems: totalBrandItems } = useAppSelector((state) => state.brand);
+  const {
+    kitchenCenters,
+    isLoading: isLoadingKitchenCenters,
+    numberItems: totalKitchenCenterItems,
+  } = useAppSelector((state) => state.kitchenCenter);
+  const { stores, numberItems: totalStoreItems, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
 
-  const LimitedWord = ({ wordString, lengthLimit, end = '...' }: WordLimited) => {
-    const limitedWord = wordString.length < lengthLimit ? wordString : wordString.substring(0, lengthLimit) + end;
-    return limitedWord;
-  };
-
-  const featuredKitchenCenters = kitchenCenters.slice(0, 3);
-  const featuredBrands = brands.slice(0, 3);
+  const featuredKitchenCenters = kitchenCenters.slice(0, 5);
+  const featuredBrands = brands.slice(0, 5);
+  const featuredStores = stores.slice(0, 5);
 
   const params: ListParams = {
     optionParams: {
@@ -88,7 +90,7 @@ function MBKCAdminDashboardPage() {
               title={translate('page.content.total', {
                 model: translate('model.lowercase.brands'),
               })}
-              total={brands.length}
+              total={totalBrandItems}
               icon={<BrandingWatermarkOutlinedIcon fontSize="large" />}
             />
           </Grid>
@@ -98,7 +100,7 @@ function MBKCAdminDashboardPage() {
               title={translate('page.content.total', {
                 model: translate('model.lowercase.kitchenCenters'),
               })}
-              total={kitchenCenters.length}
+              total={totalKitchenCenterItems}
               color={Color.SECONDARY}
               icon={<BusinessIcon fontSize="large" />}
             />
@@ -109,200 +111,292 @@ function MBKCAdminDashboardPage() {
               title={translate('page.content.total', {
                 model: translate('model.lowercase.stores'),
               })}
-              total={stores.length}
+              total={totalStoreItems}
               color={Color.SUCCESS}
               icon={<StoreIcon fontSize="large" />}
             />
           </Grid>
         </Grid>
 
-        <Grid container spacing={8} marginTop={-5}>
-          <Grid item xs={12} sm={12} md={6}>
-            <Typography
-              color="#2B3674"
-              style={{
-                fontSize: '14px',
-                fontWeight: 700,
-                lineHeight: '28px',
-                marginBottom: 10,
-                letterSpacing: '0.6px',
-              }}
-            >
-              {translate('model.capitalize.brands')}
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>{translate('table.no')}</TableCell>
-                    <TableCell>Logo</TableCell>
-                    <TableCell>{translate('table.name')}</TableCell>
-                    <TableCell>{translate('table.address')}</TableCell>
-                    <TableCell>{translate('table.status')}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {isLoadingBrands ? (
-                    <BrandTableRowDashboardSkeleton length={featuredBrands.length} />
+        <Box mb={3} mt={1}>
+          <Card>
+            <Box p={2}>
+              <Typography
+                color="#2B3674"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  lineHeight: '28px',
+                  marginBottom: 10,
+                  letterSpacing: '0.6px',
+                }}
+              >
+                {translate('model.capitalize.brands')}
+              </Typography>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>{translate('table.no')}</TableCell>
+                      <TableCell>Logo</TableCell>
+                      <TableCell>{translate('table.name')}</TableCell>
+                      <TableCell>{translate('table.address')}</TableCell>
+                      <TableCell>{translate('table.status')}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {isLoadingBrands ? (
+                      <BrandTableRowDashboardSkeleton length={featuredBrands.length} />
+                    ) : (
+                      <>
+                        {featuredBrands.map((row, index) => (
+                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell width={60} component="th" scope="row">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell>
+                              <Avatar src={row.logo} alt="logo" />
+                            </TableCell>
+                            <TableCell>{row.name}</TableCell>
+                            <TableCell width={600}> {row.address}</TableCell>
+                            <TableCell>
+                              <Label
+                                color={
+                                  row?.status === Status.ACTIVE
+                                    ? Color.SUCCESS
+                                    : row?.status === Status.INACTIVE
+                                    ? Color.WARNING
+                                    : Color.ERROR
+                                }
+                              >
+                                {row?.status === Status.INACTIVE
+                                  ? translate('status.inactive')
+                                  : row?.status === Status.ACTIVE
+                                  ? translate('status.active')
+                                  : translate('status.deActive')}
+                              </Label>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    )}
+                  </TableBody>
+                </Table>
+
+                <Link
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    textDecoration: 'none',
+                    color: '#000',
+                    fontSize: '16px',
+                    fontWeight: 400,
+                    letterSpacing: '0.4px',
+                    alignItems: 'center',
+                  }}
+                  to={PATH_ADMIN_APP.brand.list}
+                >
+                  <Typography>{translate('page.content.viewAll')}</Typography>
+                  <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
+                </Link>
+              </TableContainer>
+            </Box>
+          </Card>
+        </Box>
+
+        <Box>
+          <Card>
+            <Box p={2}>
+              <Typography
+                color="#2B3674"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  marginBottom: 10,
+                  lineHeight: '28px',
+                  letterSpacing: '0.6px',
+                }}
+              >
+                {translate('model.capitalize.kitchenCenters')}
+              </Typography>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>{translate('table.no')}</TableCell>
+                      <TableCell>Logo</TableCell>
+                      <TableCell>{translate('table.name')}</TableCell>
+                      <TableCell>{translate('table.address')}</TableCell>
+                      <TableCell>{translate('table.status')}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {isLoadingKitchenCenters ? (
+                      <KitchenCenterTableRowDashboardSkeleton length={kitchenCenters.length} />
+                    ) : (
+                      <>
+                        {featuredKitchenCenters.map((row, index) => (
+                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell width={60} component="th" scope="row">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell align="left">
+                              <Avatar src={row.logo} alt="logo" />
+                            </TableCell>
+
+                            <TableCell align="left">{row.name}</TableCell>
+
+                            <TableCell width={600}>
+                              {' '}
+                              {row?.address
+                                .split(', ')
+                                .slice(0, row?.address.split(', ').length - 3)
+                                .join(', ')}
+                            </TableCell>
+
+                            <TableCell align="left">
+                              <Label
+                                color={
+                                  row?.status === Status.ACTIVE
+                                    ? Color.SUCCESS
+                                    : row?.status === Status.INACTIVE
+                                    ? Color.WARNING
+                                    : Color.ERROR
+                                }
+                              >
+                                {row?.status === Status.INACTIVE
+                                  ? translate('status.inactive')
+                                  : row?.status === Status.ACTIVE
+                                  ? translate('status.active')
+                                  : translate('status.deActive')}
+                              </Label>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    )}
+                  </TableBody>
+                </Table>
+                <Link
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    textDecoration: 'none',
+                    color: '#000',
+                    fontSize: '16px',
+                    fontWeight: 400,
+                    letterSpacing: '0.4px',
+                    alignItems: 'center',
+                  }}
+                  to={PATH_ADMIN_APP.kitchenCenter.list}
+                >
+                  <Typography>{translate('page.content.viewAll')}</Typography>
+                  <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
+                </Link>
+              </TableContainer>
+            </Box>
+          </Card>
+        </Box>
+
+        <Box mt={3}>
+          <Card>
+            <Box p={2}>
+              <Typography
+                color="#2B3674"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  marginBottom: 10,
+                  lineHeight: '28px',
+                  letterSpacing: '0.6px',
+                }}
+              >
+                {translate('model.capitalize.stores')}
+              </Typography>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>{translate('table.no')}</TableCell>
+                      <TableCell>Logo</TableCell>
+                      <TableCell>{translate('table.name')}</TableCell>
+                      <TableCell>{translate('table.kitchenCenter')}</TableCell>
+                      <TableCell>{translate('table.brand')}</TableCell>
+                      <TableCell>{translate('table.status')}</TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  {isLoadingStores ? (
+                    <StoreTableRowSkeleton
+                      showAction={false}
+                      length={5}
+                      selected={[
+                        OrderSortBy.LOGO,
+                        OrderSortBy.NAME,
+                        OrderSortBy.KITCHEN_CENTER,
+                        OrderSortBy.BRAND,
+                        OrderSortBy.STATUS,
+                      ]}
+                    />
                   ) : (
                     <>
-                      {featuredBrands.map((row, index) => (
-                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                          <TableCell component="th" scope="row">
-                            {index + 1}
-                          </TableCell>
-                          <TableCell>
-                            <Avatar src={row.logo} alt="logo" />
-                          </TableCell>
-                          <TableCell>
-                            <Typography variant="subtitle2" style={{ marginLeft: 4, fontWeight: 600 }}>
-                              {LimitedWord({ wordString: row.name, lengthLimit: 10 })}
-                            </Typography>
-                          </TableCell>
-                          <TableCell> {LimitedWord({ wordString: row.address, lengthLimit: 10 })}</TableCell>
-                          <TableCell>
-                            <Box
-                              style={{
-                                color: '#229A16',
-                                backgroundColor: 'rgba(84, 214, 44, 0.16)',
-                                padding: '3px 0',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: 6,
-                                height: '24px',
-                                width: '60px',
-                              }}
-                            >
-                              <Typography
-                                variant="body2"
-                                style={{
-                                  fontWeight: 700,
-                                  fontSize: '0.75rem',
-                                }}
+                      <TableBody>
+                        {featuredStores.map((row, index) => (
+                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell component="th" scope="row">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell align="left">
+                              <Avatar src={row.logo} alt="logo" />
+                            </TableCell>
+
+                            <TableCell align="left">{row.name}</TableCell>
+                            <TableCell align="left">{row.kitchenCenter.name}</TableCell>
+                            <TableCell align="left">{row.brand.name}</TableCell>
+
+                            <TableCell align="left">
+                              <Label
+                                color={
+                                  row?.status === Status.ACTIVE
+                                    ? Color.SUCCESS
+                                    : row?.status === Status.INACTIVE
+                                    ? Color.WARNING
+                                    : Color.ERROR
+                                }
                               >
-                                {row.status}
-                              </Typography>
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                                {row?.status === Status.INACTIVE
+                                  ? translate('status.inactive')
+                                  : row?.status === Status.ACTIVE
+                                  ? translate('status.active')
+                                  : translate('status.deActive')}
+                              </Label>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
                     </>
                   )}
-                </TableBody>
-              </Table>
-
-              <Link
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  textDecoration: 'none',
-                  color: '#000',
-                  fontSize: '16px',
-                  fontWeight: 400,
-                  letterSpacing: '0.4px',
-                  alignItems: 'center',
-                }}
-                to={PATH_ADMIN_APP.brand.list}
-              >
-                <Typography>{translate('page.content.viewAll')}</Typography>
-                <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
-              </Link>
-            </TableContainer>
-          </Grid>
-
-          <Grid item xs={12} sm={12} md={6}>
-            <Typography
-              color="#2B3674"
-              style={{
-                fontSize: '14px',
-                fontWeight: 700,
-                marginBottom: 10,
-                lineHeight: '28px',
-                letterSpacing: '0.6px',
-              }}
-            >
-              {translate('model.capitalize.kitchenCenters')}
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>{translate('table.no')}</TableCell>
-                    <TableCell>Logo</TableCell>
-                    <TableCell>{translate('table.name')}</TableCell>
-                    <TableCell>{translate('table.status')}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {isLoadingKitchenCenters ? (
-                    <KitchenCenterTableRowDashboardSkeleton length={kitchenCenters.length} />
-                  ) : (
-                    <>
-                      {featuredKitchenCenters.map((row, index) => (
-                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                          <TableCell component="th" scope="row">
-                            {index + 1}
-                          </TableCell>
-                          <TableCell>
-                            <Avatar src={row.logo} alt="logo" />
-                          </TableCell>
-
-                          <TableCell>
-                            <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 600 }}>
-                              {row.name}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Box
-                              style={{
-                                color: '#229A16',
-                                backgroundColor: 'rgba(84, 214, 44, 0.16)',
-                                padding: '3px 0',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: 6,
-                                height: '24px',
-                                width: '60px',
-                              }}
-                            >
-                              <Typography
-                                variant="body2"
-                                style={{
-                                  fontWeight: 700,
-                                  fontSize: '0.75rem',
-                                }}
-                              >
-                                {row.status}
-                              </Typography>
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </>
-                  )}
-                </TableBody>
-              </Table>
-              <Link
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  textDecoration: 'none',
-                  color: '#000',
-                  fontSize: '16px',
-                  fontWeight: 400,
-                  letterSpacing: '0.4px',
-                  alignItems: 'center',
-                }}
-                to={PATH_ADMIN_APP.kitchenCenter.list}
-              >
-                <Typography>{translate('page.content.viewAll')}</Typography>
-                <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
-              </Link>
-            </TableContainer>
-          </Grid>
-        </Grid>
+                </Table>
+                <Link
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    textDecoration: 'none',
+                    color: '#000',
+                    fontSize: '16px',
+                    fontWeight: 400,
+                    letterSpacing: '0.4px',
+                    alignItems: 'center',
+                  }}
+                  to={PATH_ADMIN_APP.store.list}
+                >
+                  <Typography>{translate('page.content.viewAll')}</Typography>
+                  <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
+                </Link>
+              </TableContainer>
+            </Box>
+          </Card>
+        </Box>
       </Container>
     </>
   );
