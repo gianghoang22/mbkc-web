@@ -4,7 +4,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 import { useAppSelector } from 'redux/configStore';
 //
 import { Language } from 'common/enum';
-import { InputField, UploadImageField } from 'components';
+import { InputField, InputNumber, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 
 function BankingAccountForm() {
@@ -58,7 +58,7 @@ function BankingAccountForm() {
                     }
               )}
             />
-            <InputField fullWidth name="NumberAccount" label={translate('page.form.numberAccount')} />
+            <InputNumber fullWidth name="NumberAccount" label={translate('page.form.numberAccount')} />
           </Stack>
         </Stack>
       </Grid>

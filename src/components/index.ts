@@ -27,6 +27,7 @@ export { default as CheckBoxGroupField } from './form/CheckBoxGroupField';
 export { default as DatePickerField } from './form/DatePickerField';
 export { default as DateTimePickerField } from './form/DateTimePickerField';
 export { default as InputField } from './form/InputField';
+export { default as InputNumber } from './form/InputNumber';
 export { default as RadioGroupField } from './form/RadioGroupField';
 export { default as SelectField } from './form/SelectField';
 export { default as SwitchField } from './form/SwitchField';
