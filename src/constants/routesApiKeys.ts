@@ -17,6 +17,7 @@ const ROOTS_CASHIERS = '/cashiers';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
 const ROOTS_ADDRESS = '/province';
+const ROOTS_CONFIGURATION = '/configurations';
 
 export const ROUTES_API_AUTH = {
   LOGIN: path(ROOTS_AUTH, `/login`),
@@ -29,6 +30,11 @@ export const ROUTES_API_AUTH = {
 export const ROUTES_API_ACCOUNT = {
   ACCOUNT_INFORMATION: (accountId: number) => path(ROOTS_ACCOUNT, `/${accountId}`),
   UPDATE_PASSWORD: (accountId: number) => path(ROOTS_ACCOUNT, `/${accountId}`),
+};
+
+export const ROUTES_API_CONFIGURATION = {
+  GET_CONFIGURATION: pathRoot(ROOTS_CONFIGURATION),
+  UPDATE_CONFIGURATION: pathRoot(ROOTS_CONFIGURATION),
 };
 
 export const ROUTES_API_ADDRESS = {

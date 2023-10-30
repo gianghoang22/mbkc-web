@@ -47,4 +47,4 @@ axiosServiceAddress.interceptors.response.use(
   }
 );
 
-export { axiosClient, axiosServiceAddress, axiosFormData, setHeaderAuth };
+export { axiosClient, axiosFormData, axiosServiceAddress, setHeaderAuth };
