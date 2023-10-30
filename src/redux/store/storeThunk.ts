@@ -8,13 +8,15 @@ import {
   StoreToCreate,
   StoreToUpdate,
   ToUpdateStatus,
+  UserAuth,
 } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_STORES } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
+import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { appendData, getErrorMessage, getUserAuth, handleResponseMessage } from 'utils';
 import { getAllStores, getStoreDetail } from './storeSlice';
+import { Role } from 'common/enum';
 
 export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -23,8 +25,11 @@ export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
     const response: ListResponse<Store> = await axiosClient.get(ROUTES_API_STORES.GET_ALL_STORE(optionParams));
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -37,8 +42,11 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
     const response: Store = await axiosClient.get(ROUTES_API_STORES.GET_STORE_DETAIL(storeId));
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -65,8 +73,11 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -104,8 +115,18 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const getUserInStorage: UserAuth = getUserAuth();
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(
+        getUserInStorage.roleName === Role.BRAND_MANAGER
+          ? PATH_BRAND_APP.store.list
+          : getUserInStorage.roleName === Role.KITCHEN_CENTER_MANAGER
+          ? PATH_KITCHEN_CENTER_APP.store.list
+          : PATH_ADMIN_APP.store.list
+      );
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -134,8 +155,11 @@ export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thu
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -173,8 +197,11 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -203,8 +230,11 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }

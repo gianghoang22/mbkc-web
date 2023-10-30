@@ -26,8 +26,11 @@ export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -42,8 +45,11 @@ export const getAllStorePartnersByStoreIdThunk = async (params: ListParams, thun
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -58,8 +64,11 @@ export const getStorePartnerDetailThunk = async (params: any, thunkAPI: any) => 
     );
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -86,8 +95,11 @@ export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCr
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -133,8 +145,11 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -180,8 +195,11 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -226,8 +244,11 @@ export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thun
     }
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(PATH_BRAND_APP.store.list);
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
