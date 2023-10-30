@@ -1,7 +1,10 @@
+import { UserAuth } from '@types';
 import { axiosClient } from 'api/axiosClient';
+import { Role } from 'common/enum';
 import { ROUTES_API_ORDERS } from 'constants/routesApiKeys';
 import { setMessageError } from 'redux/auth/authSlice';
-import { getErrorMessage, handleResponseMessage } from 'utils';
+import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { getErrorMessage, getUserAuth, handleResponseMessage } from 'utils';
 
 export const getAllOrdersThunk = async (params: any, thunkAPI: any) => {
   const { navigate } = params;
@@ -10,8 +13,8 @@ export const getAllOrdersThunk = async (params: any, thunkAPI: any) => {
     const response = await axiosClient.get(ROUTES_API_ORDERS.GET_ALL_ORDERS);
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
@@ -24,8 +27,16 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
     const response = await axiosClient.get(ROUTES_API_ORDERS.GET_ORDER_DETAIL(orderId));
     return response;
   } catch (error: any) {
-    const errorMessage = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorMessage);
+    const getUserInStorage: UserAuth = getUserAuth();
+    const errorResponse = getErrorMessage(error, navigate);
+    if (errorResponse?.statusCode === 404) {
+      navigate(
+        getUserInStorage.roleName === Role.KITCHEN_CENTER_MANAGER
+          ? PATH_KITCHEN_CENTER_APP.order.list
+          : PATH_CASHIER_APP.order.list
+      );
+    }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }

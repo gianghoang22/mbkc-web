@@ -86,3 +86,8 @@ export interface OptionSelect {
   label: string;
   id: string;
 }
+
+export interface ErrorResponse {
+  errorMessage: string;
+  statusCode: number;
+}
