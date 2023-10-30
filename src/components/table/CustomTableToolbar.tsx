@@ -77,12 +77,14 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
     (cell) =>
       cell !== OrderSortBy.NAME &&
       cell !== OrderSortBy.STATUS &&
+      cell !== OrderSortBy.FULL_NAME &&
       cell !== OrderSortBy.PRODUCT_NAME &&
       cell !== OrderSortBy.PRODUCT_CODE
   );
   const headCellFilter = headCells.filter(
     (cell) =>
       cell.id.toString() !== OrderSortBy.NAME &&
+      cell.id.toString() !== OrderSortBy.FULL_NAME &&
       cell.id.toString() !== OrderSortBy.STATUS &&
       cell.id.toString() !== OrderSortBy.PRODUCT_NAME &&
       cell.id.toString() !== OrderSortBy.PRODUCT_CODE
@@ -124,7 +126,13 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
       setSelected([...newSelected]);
       return;
     }
-    setSelected([OrderSortBy.NAME, OrderSortBy.STATUS, OrderSortBy.PRODUCT_NAME, OrderSortBy.PRODUCT_CODE]);
+    setSelected([
+      OrderSortBy.NAME,
+      OrderSortBy.STATUS,
+      OrderSortBy.PRODUCT_NAME,
+      OrderSortBy.PRODUCT_CODE,
+      OrderSortBy.FULL_NAME,
+    ]);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
@@ -270,6 +278,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
           .filter(
             (cell) =>
               cell.id.toString() !== OrderSortBy.NAME &&
+              cell.id.toString() !== OrderSortBy.FULL_NAME &&
               cell.id.toString() !== OrderSortBy.STATUS &&
               cell.id.toString() !== OrderSortBy.PRODUCT_NAME &&
               cell.id.toString() !== OrderSortBy.PRODUCT_CODE

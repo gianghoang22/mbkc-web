@@ -9,10 +9,10 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { getAllCashiers, setAddCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
-import { CashierTableRow, CashierTableRowSkeleton, CashierTableToolbar } from 'sections/cashier';
+import { CashierTableRow, CashierTableRowSkeleton } from 'sections/cashier';
 //
 import { CashierTable, ListParams, OrderSort, OrderSortBy } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
@@ -30,6 +30,7 @@ function ListCashierPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof CashierTable>(OrderSortBy.FULL_NAME);
   const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CashierTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -65,6 +66,10 @@ function ListCashierPage() {
     dispatch(getAllCashiers(params));
   }, [params]);
 
+  const handleReloadData = () => {
+    dispatch<any>(getAllCashiers(params));
+  };
+
   return (
     <>
       <Page
@@ -87,18 +92,27 @@ function ListCashierPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <CashierTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CustomTableToolbar<CashierTable>
+                model={translate('model.lowercase.cashier')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={cashierHeadCells}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<CashierTable>
+                  <CustomTableHead<CashierTable>
                     showAction
                     headCells={cashierHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoading ? (
-                    <CashierTableRowSkeleton length={cashiers.length} />
+                    <CashierTableRowSkeleton length={cashiers.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {cashiers.map((cashier, index) => {
@@ -109,6 +123,7 @@ function ListCashierPage() {
                             cashier={cashier}
                             page={page}
                             rowsPerPage={rowsPerPage}
+                            selected={selected}
                           />
                         );
                       })}

@@ -1,19 +1,20 @@
+import { useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow, Typography, Stack } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-//
-import { BankingAccount } from '@types';
-import { Color, Status } from 'common/enum';
-import { ConfirmDialog, Label, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
+// redux
 import {
   deleteBankingAccount,
   setEditBankingAccount,
   updateStatusBankingAccount,
 } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch } from 'redux/configStore';
-import { useNavigate } from 'react-router-dom';
+//
+import { BankingAccount, OrderSortBy } from '@types';
+import { Color, Status } from 'common/enum';
+import { ConfirmDialog, Label, Popover } from 'components';
+import { useLocales, useModal, usePopover } from 'hooks';
 
 import BankingAccountDetailModal from './BankingAccountDetailModal';
 import CreateBankingAccountModal from './CreateBankingAccountModal';
@@ -23,11 +24,13 @@ interface BankingAccountTableRowProps {
   bankingAccount: BankingAccount;
   page: number;
   rowsPerPage: number;
+  selected: readonly string[];
 }
 
-function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: BankingAccountTableRowProps) {
+function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage, selected }: BankingAccountTableRowProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const { translate } = useLocales();
   const { handleOpen: handleOpenDelete, isOpen: isOpenDelete } = useModal();
   const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
@@ -71,12 +74,18 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
         <TableCell width={100} align="center">
           {index + 1}
         </TableCell>
-
-        <TableCell scope="row" component="th" width={200} onClick={handleOpenModalDetail}>
-          <Avatar alt={bankingAccount.name} src={bankingAccount.logoUrl} />
-        </TableCell>
-        <TableCell component="th" scope="row" onClick={handleOpenModalDetail}>
-          <Typography variant="subtitle2" sx={{ width: 100 }} noWrap>
+        {selected.includes(OrderSortBy.LOGO_URL) && (
+          <TableCell scope="row" component="th" width={200} onClick={handleOpenModalDetail}>
+            <Avatar alt={bankingAccount.name} src={bankingAccount.logoUrl} />
+          </TableCell>
+        )}
+        <TableCell
+          component="th"
+          scope="row"
+          onClick={handleOpenModalDetail}
+          width={!selected.includes(OrderSortBy.LOGO_URL) ? 400 : 300}
+        >
+          <Typography variant="subtitle2" noWrap>
             {bankingAccount.name}
           </Typography>
         </TableCell>
@@ -98,20 +107,22 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage }: Ba
           </Label>
         </TableCell>
         <TableCell align="right">
-          <Switch
-            value={bankingAccount.status}
-            onChange={handleChangeStatus}
-            size="small"
-            inputProps={{ 'aria-label': 'controlled' }}
-            disabled={bankingAccount.status === Status.DEACTIVE}
-            checked={
-              bankingAccount.status === Status.INACTIVE || bankingAccount.status === Status.DEACTIVE ? false : true
-            }
-            color={bankingAccount?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
-          />
-          <IconButton color="inherit" onClick={handleOpenMenu}>
-            <MoreVertIcon />
-          </IconButton>
+          <Stack direction="row" alignItems="center" justifyContent="right">
+            <Switch
+              value={bankingAccount.status}
+              onChange={handleChangeStatus}
+              size="small"
+              inputProps={{ 'aria-label': 'controlled' }}
+              disabled={bankingAccount.status === Status.DEACTIVE}
+              checked={
+                bankingAccount.status === Status.INACTIVE || bankingAccount.status === Status.DEACTIVE ? false : true
+              }
+              color={bankingAccount?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+            />
+            <IconButton color="inherit" onClick={handleOpenMenu}>
+              <MoreVertIcon />
+            </IconButton>
+          </Stack>
         </TableCell>
       </TableRow>
 

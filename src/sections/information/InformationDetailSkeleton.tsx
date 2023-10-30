@@ -1,6 +1,9 @@
-import { Skeleton, Stack, Box, Card, Paper } from '@mui/material';
+import { Box, Card, Paper, Skeleton, Stack } from '@mui/material';
+import { Role } from 'common/enum';
+import { useAppSelector } from 'redux/configStore';
 
 function InformationPageDetailSkeleton() {
+  const { userAuth } = useAppSelector((state) => state.auth);
   return (
     <Card>
       <Box width="100%" px={2} pt={2} pb={0.5}>
@@ -22,7 +25,7 @@ function InformationPageDetailSkeleton() {
                   <Skeleton width={610} />
                 </Stack>
 
-                <Skeleton variant="rounded" width={104} height={37} />
+                {userAuth?.roleName === Role.BRAND_MANAGER && <Skeleton variant="rounded" width={104} height={37} />}
               </Stack>
             </Stack>
           </Box>
