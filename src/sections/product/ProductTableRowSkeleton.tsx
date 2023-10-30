@@ -80,16 +80,20 @@ function ProductTableRowSkeleton({ length, inTab = false, selected }: ProductTab
               )}
               {selected?.includes(OrderSortBy.CODE) && (
                 <TableCell component="th" scope="row" width={rules.code}>
-                  <Skeleton />
+                  <Box pr={1}>
+                    <Skeleton />
+                  </Box>
                 </TableCell>
               )}
               {selected?.includes(OrderSortBy.DISPLAY_ORDER) && (
                 <TableCell align="left" padding="none" width={rules.display_order}>
-                  <Skeleton />
+                  <Box pr={2}>
+                    <Skeleton />
+                  </Box>
                 </TableCell>
               )}
               {selected?.includes(OrderSortBy.SELLING_PRICE) && (
-                <TableCell align="left" padding="none" width={rules.selling_price}>
+                <TableCell align="left" width={rules.selling_price}>
                   <Skeleton />
                 </TableCell>
               )}

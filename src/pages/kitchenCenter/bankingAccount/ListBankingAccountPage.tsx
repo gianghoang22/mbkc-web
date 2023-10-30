@@ -8,18 +8,14 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { getAllBankingAccounts, setAddBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
-import {
-  BankingAccountTableRow,
-  BankingAccountTableRowSkeleton,
-  BankingAccountTableToolbar,
-} from 'sections/bankingAccount';
+import { BankingAccountTableRow, BankingAccountTableRowSkeleton } from 'sections/bankingAccount';
 //
-import { BankingAccount, ListParams, OrderSort, OrderSortBy } from '@types';
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { BankingAccount, BankingAccountTable, ListParams, OrderSort, OrderSortBy } from '@types';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 import { CreateBankingAccountModal } from 'sections/bankingAccount';
+import { getComparator, stableSort } from 'utils';
 
 function ListBankingAccountPage() {
   const navigate = useNavigate();
@@ -36,6 +32,7 @@ function ListBankingAccountPage() {
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BankingAccount>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BankingAccount) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -72,8 +69,12 @@ function ListBankingAccountPage() {
   }, [page, rowsPerPage, navigate, debounceValue]);
 
   useEffect(() => {
-    dispatch(getAllBankingAccounts(params));
+    dispatch<any>(getAllBankingAccounts(params));
   }, [dispatch, navigate, params]);
+
+  const handleReloadData = () => {
+    dispatch<any>(getAllBankingAccounts(params));
+  };
 
   return (
     <>
@@ -97,18 +98,27 @@ function ListBankingAccountPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <BankingAccountTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CustomTableToolbar<BankingAccountTable>
+                model={translate('model.lowercase.bankingAccount')}
+                selected={selected}
+                setSelected={setSelected}
+                headCells={bankingAccountHeadCells}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                handleReloadData={handleReloadData}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<BankingAccount>
+                  <CustomTableHead<BankingAccountTable>
                     showAction
                     headCells={bankingAccountHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
+                    selectedCol={selected}
                   />
                   {isLoading ? (
-                    <BankingAccountTableRowSkeleton length={visibleRows.length} />
+                    <BankingAccountTableRowSkeleton length={visibleRows.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {visibleRows.map((bankingAccount, index) => {
@@ -119,6 +129,7 @@ function ListBankingAccountPage() {
                             page={page + 1}
                             rowsPerPage={rowsPerPage}
                             bankingAccount={bankingAccount}
+                            selected={selected}
                           />
                         );
                       })}

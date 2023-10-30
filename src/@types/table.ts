@@ -6,8 +6,10 @@ export type OrderSort = 'asc' | 'desc';
 export enum OrderSortBy {
   NAME = 'name',
   LOGO = 'logo',
+  LOGO_URL = 'logoUrl',
   IMAGE = 'image',
   IMAGE_URL = 'imageUrl',
+  AVATAR = 'avatar',
   DISPLAY_ORDER = 'displayOrder',
   SELLING_PRICE = 'sellingPrice',
   DISCOUNT_PRICE = 'discountPrice',
@@ -25,6 +27,8 @@ export enum OrderSortBy {
   KITCHEN_CENTER = 'kitchenCenter',
   BRAND = 'brand',
   STATUS = 'status',
+  EMAIL = 'email',
+  GENDER = 'gender',
 }
 
 export interface HeadCell<T> {

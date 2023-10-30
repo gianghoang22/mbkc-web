@@ -1,28 +1,38 @@
-import { Skeleton, TableCell, TableRow, Typography } from '@mui/material';
+import { IconButton, Skeleton, Stack, TableCell, TableRow } from '@mui/material';
+import { OrderSortBy } from '@types';
 
-function BankingAccountTableRow({ length = 5 }: { length: number }) {
+function BankingAccountTableRow({ length = 5, selected }: { length: number; selected: readonly string[] }) {
   return (
     <>
-      {Array.from({ length }).map((_, index) => (
+      {Array.from({ length: length > 0 ? length : 3 }).map((_, index) => (
         <>
           <TableRow key={index} hover tabIndex={-1} sx={{ cursor: 'pointer' }}>
             <TableCell width={100} align="center">
-              <Skeleton />
+              <Stack direction="row" alignItems="center" justifyContent="center">
+                <Skeleton width={20} />
+              </Stack>
             </TableCell>
 
-            <TableCell scope="row" component="th" width={200}>
-              <Skeleton variant="circular" width={40} height={40} />
+            {selected.includes(OrderSortBy.LOGO_URL) && (
+              <TableCell scope="row" component="th" width={200}>
+                <Skeleton variant="circular" width={40} height={40} />
+              </TableCell>
+            )}
+
+            <TableCell component="th" scope="row" width={!selected.includes(OrderSortBy.LOGO_URL) ? 400 : 300}>
+              <Skeleton width={200} />
             </TableCell>
-            <TableCell component="th" scope="row">
-              <Typography variant="subtitle2" sx={{ width: 292 }} noWrap>
-                <Skeleton width={292} />
-              </Typography>
-            </TableCell>
+
             <TableCell align="left">
-              <Skeleton width={264} />
+              <Skeleton variant="rounded" width={100} height={24} />
             </TableCell>
             <TableCell align="right">
-              <Skeleton width={72} />
+              <Stack direction="row" alignItems="center" justifyContent="right">
+                <Skeleton variant="rounded" width={30} height={14} />
+                <IconButton color="inherit">
+                  <Skeleton variant="circular" width={28} height={28} />
+                </IconButton>
+              </Stack>
             </TableCell>
           </TableRow>
         </>

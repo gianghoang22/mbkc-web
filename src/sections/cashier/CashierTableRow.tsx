@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, IconButton, Switch, TableCell, TableRow, Typography, Stack } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
@@ -8,7 +8,7 @@ import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashie
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Cashier } from '@types';
+import { Cashier, OrderSortBy } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -20,9 +20,10 @@ interface CashierTableRowProps {
   cashier: Cashier;
   page: number;
   rowsPerPage: number;
+  selected: readonly string[];
 }
 
-function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowProps) {
+function CashierTableRow({ cashier, index, page, rowsPerPage, selected }: CashierTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -73,21 +74,76 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
           {index + 1}
         </TableCell>
 
-        <TableCell scope="row" component="th" padding="none" width={90} onClick={() => handleNavigateDetail()}>
-          <Avatar alt={cashier.fullName} src={cashier.avatar} />
-        </TableCell>
-        <TableCell component="th" scope="row" onClick={() => handleNavigateDetail()}>
+        {selected.includes(OrderSortBy.AVATAR) && (
+          <TableCell scope="row" component="th" padding="none" width={150} onClick={handleNavigateDetail}>
+            <Avatar alt={cashier.fullName} src={cashier.avatar} />
+          </TableCell>
+        )}
+
+        <TableCell
+          component="th"
+          scope="row"
+          onClick={handleNavigateDetail}
+          width={
+            !selected.includes(OrderSortBy.AVATAR) &&
+            !selected.includes(OrderSortBy.EMAIL) &&
+            !selected.includes(OrderSortBy.GENDER)
+              ? 450
+              : !selected.includes(OrderSortBy.EMAIL) && !selected.includes(OrderSortBy.GENDER)
+              ? 400
+              : !selected.includes(OrderSortBy.AVATAR) && !selected.includes(OrderSortBy.GENDER)
+              ? 350
+              : !selected.includes(OrderSortBy.AVATAR) && !selected.includes(OrderSortBy.EMAIL)
+              ? 350
+              : !selected.includes(OrderSortBy.EMAIL)
+              ? 280
+              : !selected.includes(OrderSortBy.GENDER)
+              ? 280
+              : 200
+          }
+        >
           <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
             {cashier.fullName}
           </Typography>
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail()}>
-          {cashier.email}
-        </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail()}>
-          {cashier.gender}
-        </TableCell>
-        <TableCell align="left">
+
+        {selected.includes(OrderSortBy.EMAIL) && (
+          <TableCell
+            align="left"
+            onClick={handleNavigateDetail}
+            width={
+              !selected.includes(OrderSortBy.AVATAR) && !selected.includes(OrderSortBy.GENDER)
+                ? 350
+                : !selected.includes(OrderSortBy.AVATAR)
+                ? 280
+                : !selected.includes(OrderSortBy.GENDER)
+                ? 280
+                : 200
+            }
+          >
+            {cashier.email}
+          </TableCell>
+        )}
+
+        {selected.includes(OrderSortBy.GENDER) && (
+          <TableCell
+            align="left"
+            onClick={handleNavigateDetail}
+            width={
+              !selected.includes(OrderSortBy.AVATAR) && !selected.includes(OrderSortBy.EMAIL)
+                ? 350
+                : !selected.includes(OrderSortBy.AVATAR)
+                ? 250
+                : !selected.includes(OrderSortBy.EMAIL)
+                ? 280
+                : 200
+            }
+          >
+            {cashier.gender}
+          </TableCell>
+        )}
+
+        <TableCell align="left" onClick={handleNavigateDetail}>
           <Label
             color={
               cashier?.status === Status.ACTIVE
@@ -105,17 +161,19 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
           </Label>
         </TableCell>
         <TableCell align="right">
-          <Switch
-            size="small"
-            onChange={handleChangeStatus}
-            inputProps={{ 'aria-label': 'controlled' }}
-            disabled={cashier.status === Status.DEACTIVE}
-            checked={cashier.status === Status.INACTIVE || cashier.status === Status.DEACTIVE ? false : true}
-            color={cashier?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
-          />
-          <IconButton color="inherit" onClick={handleOpenMenu}>
-            <MoreVertIcon />
-          </IconButton>
+          <Stack direction="row" alignItems="center" justifyContent="right">
+            <Switch
+              size="small"
+              onChange={handleChangeStatus}
+              inputProps={{ 'aria-label': 'controlled' }}
+              disabled={cashier.status === Status.DEACTIVE}
+              checked={cashier.status === Status.INACTIVE || cashier.status === Status.DEACTIVE ? false : true}
+              color={cashier?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
+            />
+            <IconButton color="inherit" onClick={handleOpenMenu}>
+              <MoreVertIcon />
+            </IconButton>
+          </Stack>
         </TableCell>
       </TableRow>
 
@@ -136,6 +194,7 @@ function CashierTableRow({ cashier, index, page, rowsPerPage }: CashierTableRowP
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
+          model={cashier.fullName}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.cashier') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.cashier') })}
         />
