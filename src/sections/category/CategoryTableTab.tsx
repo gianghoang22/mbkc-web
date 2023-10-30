@@ -104,7 +104,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
               selectedCol={selected}
             />
             {isLoading ? (
-              <CategoryTableRowSkeleton length={visibleRows.length} />
+              <CategoryTableRowSkeleton length={visibleRows.length} selected={selected} />
             ) : (
               <TableBody>
                 {visibleRows.map((category, index) => {

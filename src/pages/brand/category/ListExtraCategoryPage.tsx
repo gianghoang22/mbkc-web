@@ -115,7 +115,7 @@ function ListExtraCategoryPage() {
                     onRequestSort={handleRequestSort}
                   />
                   {isLoading ? (
-                    <CategoryTableRowSkeleton length={categories.length} />
+                    <CategoryTableRowSkeleton length={categories.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {categories.map((extraCategory, index) => {

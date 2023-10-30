@@ -14,6 +14,7 @@ import { ListParams, OptionSelect, STATUS_OPTIONS } from '@types';
 import { Status } from 'common/enum';
 import { useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
+import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 
 // ----------------------------------------------------------------------
 
@@ -84,7 +85,12 @@ function StoreTableToolbar({ filterName, onFilterName, status, setStatus, haveSe
       </Stack>
 
       <Tooltip title={translate('button.reload')}>
-        <IconButton onClick={() => dispatch<any>(getAllStores(params))}>
+        <IconButton
+          onClick={() => {
+            dispatch<any>(getAllStores(params));
+            dispatch<any>(getAllStorePartners(params));
+          }}
+        >
           <ReplayIcon />
         </IconButton>
       </Tooltip>

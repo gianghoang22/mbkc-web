@@ -106,6 +106,13 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
         ? n.id.toString() !== OrderSortBy.HISTORICAL_PRICE && n.id.toString() !== OrderSortBy.DISCOUNT_PRICE
           ? n.id.toString()
           : ''
+        : userAuth?.roleName === Role.BRAND_MANAGER && pathname === PATH_BRAND_APP.storePartner.list
+        ? n.id.toString() !== OrderSortBy.STATUS &&
+          n.id.toString() !== OrderSortBy.LOGO &&
+          n.id.toString() !== OrderSortBy.BRAND &&
+          n.id.toString() !== OrderSortBy.STORE_MANAGER_EMAIL
+          ? n.id.toString()
+          : ''
         : n.id.toString()
     );
     setSelected([...newSelected]);

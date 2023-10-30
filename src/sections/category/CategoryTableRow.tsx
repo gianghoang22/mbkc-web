@@ -119,18 +119,59 @@ function CategoryTableRow({
             <Avatar alt={category.name} src={category.imageUrl} />
           </TableCell>
         )}
-        <TableCell component="th" scope="row" onClick={handleNavigateDetail}>
+        <TableCell
+          component="th"
+          scope="row"
+          onClick={handleNavigateDetail}
+          width={
+            !selected.includes(OrderSortBy.IMAGE_URL) &&
+            !selected.includes(OrderSortBy.CODE) &&
+            !selected.includes(OrderSortBy.DISPLAY_ORDER)
+              ? 450
+              : !selected.includes(OrderSortBy.CODE) && !selected.includes(OrderSortBy.DISPLAY_ORDER)
+              ? 420
+              : !selected.includes(OrderSortBy.IMAGE_URL) && !selected.includes(OrderSortBy.DISPLAY_ORDER)
+              ? 350
+              : !selected.includes(OrderSortBy.CODE) && !selected.includes(OrderSortBy.IMAGE_URL)
+              ? 350
+              : !selected.includes(OrderSortBy.CODE)
+              ? 300
+              : !selected.includes(OrderSortBy.DISPLAY_ORDER)
+              ? 300
+              : 250
+          }
+        >
           <Typography variant="subtitle2" noWrap>
             {category.name}
           </Typography>
         </TableCell>
         {selected.includes(OrderSortBy.CODE) && (
-          <TableCell align="left" onClick={handleNavigateDetail}>
+          <TableCell
+            align="left"
+            onClick={handleNavigateDetail}
+            width={
+              !selected.includes(OrderSortBy.IMAGE_URL) && !selected.includes(OrderSortBy.DISPLAY_ORDER)
+                ? 350
+                : !selected.includes(OrderSortBy.DISPLAY_ORDER)
+                ? 300
+                : 200
+            }
+          >
             {category.code}
           </TableCell>
         )}
         {selected.includes(OrderSortBy.DISPLAY_ORDER) && (
-          <TableCell align="left" onClick={handleNavigateDetail}>
+          <TableCell
+            align="left"
+            onClick={handleNavigateDetail}
+            width={
+              !selected.includes(OrderSortBy.IMAGE_URL) && !selected.includes(OrderSortBy.CODE)
+                ? 350
+                : !selected.includes(OrderSortBy.CODE)
+                ? 300
+                : 200
+            }
+          >
             <Typography variant="body2" pl={2}>
               {category.displayOrder}
             </Typography>

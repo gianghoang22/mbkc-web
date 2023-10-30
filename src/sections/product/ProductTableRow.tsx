@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Box, IconButton, Switch, TableCell, Stack, TableRow, Typography } from '@mui/material';
+import { Avatar, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
@@ -48,7 +48,9 @@ function ProductTableRow({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const rules = getRuleWidths(selected ? selected : []);
+  console.log(isInDetail);
+
+  const rules = getRuleWidths(selected ? selected : [], inTab);
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
@@ -107,7 +109,7 @@ function ProductTableRow({
           {index + 1}
         </TableCell>
         {isInDetail ? (
-          <TableCell component="th" padding="none" width={80} align="center" onClick={handleNavigateDetail}>
+          <TableCell component="th" padding="none" width={70} align="center" onClick={handleNavigateDetail}>
             <Avatar alt={product?.name} src={product?.image} />
           </TableCell>
         ) : (
@@ -119,7 +121,13 @@ function ProductTableRow({
             )}
           </>
         )}
-        <TableCell component="th" scope="row" padding="none" width={rules.name} onClick={handleNavigateDetail}>
+        <TableCell
+          component="th"
+          scope="row"
+          padding="none"
+          width={isInDetail ? 160 : rules.name}
+          onClick={handleNavigateDetail}
+        >
           <Typography variant="subtitle2" width={160} noWrap>
             {product?.name}
           </Typography>
@@ -127,14 +135,14 @@ function ProductTableRow({
         {isInDetail ? (
           <>
             <TableCell align="left" width={150} onClick={handleNavigateDetail}>
-              <Typography variant="body2" width={!isInDetail ? 140 : 120} noWrap>
+              <Typography variant="body2" noWrap>
                 {product?.code}
               </Typography>
             </TableCell>
-            <TableCell align="left" padding="none" onClick={handleNavigateDetail}>
-              <Box pl={2}> {product?.displayOrder}</Box>
+            <TableCell align="left" padding="none" width={130} onClick={handleNavigateDetail}>
+              {product?.displayOrder}
             </TableCell>
-            <TableCell align="left" onClick={handleNavigateDetail}>
+            <TableCell align="left" onClick={handleNavigateDetail} width={110}>
               {fCurrencyVN(product?.sellingPrice)} đ
             </TableCell>
           </>
@@ -149,7 +157,7 @@ function ProductTableRow({
             )}
             {selected?.includes(OrderSortBy.DISPLAY_ORDER) && (
               <TableCell align="left" padding="none" width={rules.display_order} onClick={handleNavigateDetail}>
-                <Box pl={2}> {product?.displayOrder}</Box>
+                {product?.displayOrder}
               </TableCell>
             )}
             {selected?.includes(OrderSortBy.SELLING_PRICE) && (
@@ -162,10 +170,10 @@ function ProductTableRow({
 
         {isInDetail ? (
           <>
-            <TableCell align="left" onClick={handleNavigateDetail}>
+            <TableCell align="left" width={120} onClick={handleNavigateDetail}>
               {fCurrencyVN(product?.discountPrice)} đ
             </TableCell>
-            <TableCell align="left" onClick={handleNavigateDetail}>
+            <TableCell align="left" width={110} onClick={handleNavigateDetail}>
               {fCurrencyVN(product?.historicalPrice)} đ
             </TableCell>
           </>

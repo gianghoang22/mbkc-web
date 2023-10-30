@@ -116,7 +116,7 @@ function ListCategoryPage() {
                     selectedCol={selected}
                   />
                   {isLoading ? (
-                    <CategoryTableRowSkeleton length={categories.length} />
+                    <CategoryTableRowSkeleton length={categories.length} selected={selected} />
                   ) : (
                     <TableBody>
                       {categories.map((category, index) => {

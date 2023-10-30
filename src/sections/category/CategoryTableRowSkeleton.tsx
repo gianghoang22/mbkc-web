@@ -1,10 +1,12 @@
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
+import { OrderSortBy } from '@types';
 
 interface CategoryTableRowSkeletonProps {
   length: number;
+  selected: readonly string[];
 }
 
-function CategoryTableRowSkeleton({ length }: CategoryTableRowSkeletonProps) {
+function CategoryTableRowSkeleton({ length, selected }: CategoryTableRowSkeletonProps) {
   return (
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
@@ -14,18 +16,61 @@ function CategoryTableRowSkeleton({ length }: CategoryTableRowSkeletonProps) {
               <Skeleton width={20} />
             </Stack>
           </TableCell>
-          <TableCell component="th" scope="row" padding="none" width={100}>
-            <Skeleton variant="circular" width={40} height={40} />
-          </TableCell>
-          <TableCell align="left" width={214}>
+          {selected.includes(OrderSortBy.IMAGE_URL) && (
+            <TableCell component="th" scope="row" padding="none" width={100}>
+              <Skeleton variant="circular" width={40} height={40} />
+            </TableCell>
+          )}
+          <TableCell
+            align="left"
+            width={
+              !selected.includes(OrderSortBy.IMAGE_URL) &&
+              !selected.includes(OrderSortBy.CODE) &&
+              !selected.includes(OrderSortBy.DISPLAY_ORDER)
+                ? 450
+                : !selected.includes(OrderSortBy.CODE) && !selected.includes(OrderSortBy.DISPLAY_ORDER)
+                ? 420
+                : !selected.includes(OrderSortBy.IMAGE_URL) && !selected.includes(OrderSortBy.DISPLAY_ORDER)
+                ? 350
+                : !selected.includes(OrderSortBy.CODE) && !selected.includes(OrderSortBy.IMAGE_URL)
+                ? 350
+                : !selected.includes(OrderSortBy.CODE)
+                ? 300
+                : !selected.includes(OrderSortBy.DISPLAY_ORDER)
+                ? 300
+                : 250
+            }
+          >
             <Skeleton />
           </TableCell>
-          <TableCell align="left" width={207}>
-            <Skeleton />
-          </TableCell>
-          <TableCell align="left" width={220}>
-            <Skeleton />
-          </TableCell>
+          {selected.includes(OrderSortBy.CODE) && (
+            <TableCell
+              align="left"
+              width={
+                !selected.includes(OrderSortBy.IMAGE_URL) && !selected.includes(OrderSortBy.DISPLAY_ORDER)
+                  ? 350
+                  : !selected.includes(OrderSortBy.DISPLAY_ORDER)
+                  ? 300
+                  : 200
+              }
+            >
+              <Skeleton />
+            </TableCell>
+          )}
+          {selected.includes(OrderSortBy.DISPLAY_ORDER) && (
+            <TableCell
+              align="left"
+              width={
+                !selected.includes(OrderSortBy.IMAGE_URL) && !selected.includes(OrderSortBy.CODE)
+                  ? 350
+                  : !selected.includes(OrderSortBy.CODE)
+                  ? 300
+                  : 200
+              }
+            >
+              <Skeleton />
+            </TableCell>
+          )}
           <TableCell align="left">
             <Skeleton variant="rounded" width={100} height={24} />
           </TableCell>

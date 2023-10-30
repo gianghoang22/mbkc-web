@@ -134,7 +134,7 @@ function ListStorePartnerPage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  {isLoadingStore && isLoadingStorePartner ? (
+                  {isLoadingStore || isLoadingStorePartner ? (
                     <StorePartnerTableRowSkeleton />
                   ) : (
                     <TableBody>
