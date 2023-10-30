@@ -326,7 +326,7 @@ function MBKCAdminDashboardPage() {
                     </TableRow>
                   </TableHead>
 
-                  {true ? (
+                  {isLoadingStores ? (
                     <StoreTableRowSkeleton
                       showAction={false}
                       length={5}
