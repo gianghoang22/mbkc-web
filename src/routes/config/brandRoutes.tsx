@@ -53,7 +53,6 @@ export const brandRoutes: Route[] = [
     component: <CreateStorePage />,
     index: true,
   },
-
   {
     path: PATH_BRAND_APP.storePartner.list,
     component: <ListStorePartnerPage />,

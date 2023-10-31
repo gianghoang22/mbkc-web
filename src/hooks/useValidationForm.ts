@@ -291,6 +291,40 @@ function useValidationForm() {
         ),
       })
     ),
+    price: yup
+      .number()
+      .typeError(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.capitalizeOne.product'),
+                  name: translate('page.form.codeLower'),
+                }
+              : {
+                  model: translate('page.form.code'),
+                  name: translate('model.lowercase.product'),
+                }
+          ),
+        })
+      )
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.capitalizeOne.product'),
+                  name: translate('page.form.codeLower'),
+                }
+              : {
+                  model: translate('page.form.code'),
+                  name: translate('model.lowercase.product'),
+                }
+          ),
+        })
+      ),
   });
 
   const schemaStorePartner = yup.object().shape({

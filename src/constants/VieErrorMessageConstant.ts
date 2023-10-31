@@ -138,4 +138,6 @@ export const VieErrorMessageConstant = {
   InactiveProduct_Create_Update: 'Sản phẩm này không hoạt động.',
   InactiveStore_Update: 'Cửa hàng này đã không hoạt động.',
   StatusInValid: 'Trạng thái là HOẠT ĐỘNG hoặc KHÔNG HOẠT ĐỘNG',
+
+  ProductCodeInPartnerNotExist: 'Mã sản phẩm không tồn tại trên hệ thống GrabFood.',
 };

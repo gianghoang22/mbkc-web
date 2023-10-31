@@ -31,7 +31,8 @@
     "viewAll": "View all",
     "selectStore": "Select a store to add a partner",
     "productInPartner": "Products available in partners",
-    "confirmLink": "Do you want the MBKC system to automatically link products with the partners you just selected?"
+    "confirmLink": "Do you want the MBKC system to automatically link products with the partners you just selected?",
+    "linkProduct": "Partner product mapping information"
   },
   "form": {
     "email": "Email",

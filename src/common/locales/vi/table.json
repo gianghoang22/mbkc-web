@@ -21,13 +21,18 @@
   "historicalPrice": "Giá gốc",
   "sellingPrice": "Giá bán",
   "discountPrice": "Giảm giá",
+  "price": "Giá",
   "code": "Mã",
+  "codeSystem": "Mã sản phẩm hệ thống MBKC",
+  "codeMapping": "Mã liên kết",
   "description": "Mô tả",
   "displayOrder": "Thứ tự hiển thị",
   "rejectedReason": "Lý do từ chối",
   "size": "Kích cỡ",
   "userName": "Tên tài khoản",
   "rowsPerPage": "Số hàng mỗi trang",
+  "mappedDate": "Ngày liên kết",
+  "updatedDate": "Ngày cập nhật",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",
@@ -40,7 +45,8 @@
     "status": "trạng thái",
     "historicalPrice": "giá gốc",
     "sellingPrice": "giá bán",
-    "discountPrice": "giảm giá"
+    "discountPrice": "giảm giá",
+    "price": "giá"
   },
   "uppercase": {
     "code": "MÃ"

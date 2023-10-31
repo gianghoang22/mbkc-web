@@ -344,6 +344,8 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.InactiveStore_Update
         : response === EngErrorMessageConstant.StatusInValid
         ? EngErrorMessageConstant.StatusInValid
+        : response === EngErrorMessageConstant.ProductCodeInPartnerNotExist
+        ? EngErrorMessageConstant.ProductCodeInPartnerNotExist
         : response
       : currentLanguage === Language.VIETNAMESE
       ? response === EngMessageConstant.LoginSuccessfully
@@ -680,6 +682,8 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.InactiveStore_Update
         : response === EngErrorMessageConstant.StatusInValid
         ? VieErrorMessageConstant.StatusInValid
+        : response === EngErrorMessageConstant.ProductCodeInPartnerNotExist
+        ? VieErrorMessageConstant.ProductCodeInPartnerNotExist
         : response
       : response;
 

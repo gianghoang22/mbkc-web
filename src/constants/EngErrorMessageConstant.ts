@@ -135,4 +135,6 @@ export const EngErrorMessageConstant = {
   InactiveProduct_Create_Update: 'This product is Inactive.',
   InactiveStore_Update: 'This store has been inactive.',
   StatusInValid: 'Status is ACTIVE or INACTIVE',
+
+  ProductCodeInPartnerNotExist: 'Product code does not exist in the GrabFood System.',
 };

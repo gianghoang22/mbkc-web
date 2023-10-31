@@ -5,13 +5,22 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
+  InputAdornment,
+  Stack,
+  Typography,
+} from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
+import { createNewPartnerProduct, updatePartnerProduct } from 'redux/partnerProduct/partnerProductSlice';
 import { getAllProducts } from 'redux/product/productSlice';
 import { getAllStores } from 'redux/store/storeSlice';
-import { createNewPartnerProduct, updatePartnerProduct } from 'redux/partnerProduct/partnerProductSlice';
 //
 import {
   ListParams,
@@ -29,7 +38,7 @@ import { useLocales, useValidationForm } from 'hooks';
 interface CreatePartnerProductModalProps {
   isOpen: boolean;
   handleOpen: () => void;
-  partnerProduct?: PartnerProduct;
+  partnerProduct?: PartnerProduct | null;
 }
 
 function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: CreatePartnerProductModalProps) {
@@ -102,7 +111,14 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
       partnerId: isEditing ? partnerProduct?.partnerId : 0,
       storeId: isEditing ? partnerProduct?.storeId : 0,
       productCode: isEditing ? partnerProduct?.productCode : '',
-      status: isEditing ? partnerProduct?.status : '',
+      status: isEditing
+        ? partnerProduct?.status === PartnerProductStatusEnum.AVAILABLE
+          ? PartnerProductStatusEnum.AVAILABLE
+          : partnerProduct?.status === PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
+          ? PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
+          : PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY
+        : '',
+      price: isEditing ? partnerProduct?.price : 0,
     },
     resolver: yupResolver(schemaPartnerProduct),
   });
@@ -154,7 +170,8 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
                 <AutoCompleteField
                   options={productOptions}
                   getOptionLabel={(value: any) => {
-                    return getOpObjProduct(value)?.label;
+                    const label = getOpObjProduct(value)?.label;
+                    return label === undefined ? '' : label;
                   }}
                   isOptionEqualToValue={(option: any, value: any) => {
                     if (!option) return option;
@@ -169,7 +186,8 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
                 <AutoCompleteField
                   options={storeOptions}
                   getOptionLabel={(value: any) => {
-                    return getOpObjStore(value)?.label;
+                    const label = getOpObjStore(value)?.label;
+                    return label === undefined ? '' : label;
                   }}
                   isOptionEqualToValue={(option: any, value: any) => {
                     if (!option) return option;
@@ -184,7 +202,8 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
                 <AutoCompleteField
                   options={partnerOptions}
                   getOptionLabel={(value: any) => {
-                    return getOpObjPartner(value)?.label;
+                    const label = getOpObjPartner(value)?.label;
+                    return label === undefined ? '' : label;
                   }}
                   isOptionEqualToValue={(option: any, value: any) => {
                     if (!option) return option;
@@ -218,6 +237,26 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
                   name="status"
                   options={PARTNER_PRODUCT_STATUS_OPTIONS}
                   label={translate('table.status') + ' ' + translate('model.lowercase.partnerProduct')}
+                />
+                <InputField
+                  fullWidth
+                  type="number"
+                  name="price"
+                  label={translate(
+                    'page.form.nameExchange',
+                    currentLang.value === Language.ENGLISH
+                      ? {
+                          model: translate('model.capitalizeOne.product'),
+                          name: translate('table.lowercase.price'),
+                        }
+                      : {
+                          model: translate('table.price'),
+                          name: translate('model.lowercase.product'),
+                        }
+                  )}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">đ</InputAdornment>,
+                  }}
                 />
               </Stack>
             </DialogContent>
