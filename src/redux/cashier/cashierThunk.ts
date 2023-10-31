@@ -1,4 +1,4 @@
-import { Cashier, CashierToUpdate, ListParams, ListResponse, MessageResponse, Params } from '@types';
+import { Cashier, CashierToCreate, CashierToUpdate, ListParams, ListResponse, MessageResponse, Params } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 
 import { ROUTES_API_CASHIERS } from 'constants/routesApiKeys';
@@ -38,11 +38,12 @@ export const getCashierDetailThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, newCashierOptions } = params;
+export const createNewCashierThunk = async (params: Params<CashierToCreate>, thunkAPI: any) => {
+  const { data, navigate } = params;
+  const formData = appendData(data);
 
   try {
-    const response: MessageResponse = await axiosFormData.post(ROUTES_API_CASHIERS.CREATE_CASHIER, newCashierOptions);
+    const response: MessageResponse = await axiosFormData.post(ROUTES_API_CASHIERS.CREATE_CASHIER, formData);
     if (response) {
       navigate(PATH_KITCHEN_CENTER_APP.cashier.list);
       const message = handleResponseMessage(response.message);

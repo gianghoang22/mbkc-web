@@ -439,8 +439,8 @@ function useValidationForm() {
       .matches(/^[0-9]{12}$/, translate('page.validation.citizenNumberLimit12Number')),
     dateOfBirth: yup
       .string()
-      .required(translate('page.validation.required', { name: translate('model.lowercase.dateOfBirth') })),
-    gender: yup.string().required(translate('page.validation.required', { name: translate('model.lowercase.gender') })),
+      .required(translate('page.validation.select', { name: translate('model.lowercase.dateOfBirth') })),
+    gender: yup.string().required(translate('page.validation.select', { name: translate('model.lowercase.gender') })),
   });
 
   const schemaUpdateProfile = yup.object({
