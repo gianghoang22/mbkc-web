@@ -24,6 +24,7 @@
   },
   "button": {
     "login": "Đăng nhập",
+    "loginAgain": "Đăng nhập lại",
     "sendEmail": "Gửi email",
     "verify": "Xác minh",
     "updatePassword": "Cập nhật mật khẩu",

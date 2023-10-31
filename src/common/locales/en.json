@@ -24,6 +24,7 @@
   },
   "button": {
     "login": "Login",
+    "loginAgain": "Login again",
     "sendEmail": "Send email",
     "verify": "Verify",
     "updatePassword": "Update password",

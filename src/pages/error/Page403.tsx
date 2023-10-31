@@ -41,7 +41,7 @@ function Page403() {
           />
 
           <Button size="large" color="inherit" variant="contained" onClick={handleLogout}>
-            {translate('button.goHome')}
+            {translate('button.loginAgain')}
           </Button>
         </StyledContent>
       </Container>
