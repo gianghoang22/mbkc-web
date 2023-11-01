@@ -39,10 +39,11 @@ export const getCashierDetailThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const createNewCashierThunk = async (params: any, thunkAPI: any) => {
-  const { navigate, newCashierOptions } = params;
+  const { navigate, data } = params;
+  const formData = appendData(data);
 
   try {
-    const response: MessageResponse = await axiosFormData.post(ROUTES_API_CASHIERS.CREATE_CASHIER, newCashierOptions);
+    const response: MessageResponse = await axiosFormData.post(ROUTES_API_CASHIERS.CREATE_CASHIER, formData);
     if (response) {
       navigate(PATH_KITCHEN_CENTER_APP.cashier.list);
       const message = handleResponseMessage(response.message);

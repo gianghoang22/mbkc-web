@@ -74,6 +74,7 @@ function CreateCashierPage() {
         },
         navigate,
       };
+      console.log(paramsCreate);
       dispatch<any>(createNewCashier(paramsCreate));
     }
   };

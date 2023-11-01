@@ -24,6 +24,7 @@ import {
   setRefreshToken,
   setUserAuth,
   setUserInfo,
+  removeUserInfo,
 } from 'utils';
 import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
 
@@ -159,7 +160,7 @@ export const logoutThunk = async (navigate: any, thunkAPI: any) => {
     await navigate(PATH_AUTH.login);
     localStorage.clear();
     setLanguage(currentLanguage ? currentLanguage : '');
-    thunkAPI.dispatch(setUserInfo);
+    thunkAPI.dispatch(removeUserInfo);
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error);
   }

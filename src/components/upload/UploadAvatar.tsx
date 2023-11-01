@@ -98,7 +98,6 @@ export default function UploadAvatar({
   const onDrop = useCallback(
     async (acceptedFiles: any) => {
       const file = acceptedFiles[0];
-      console.log(file);
       if (file) {
         setImageUrl(URL.createObjectURL(file));
       }
@@ -112,7 +111,7 @@ export default function UploadAvatar({
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: false,
     accept: {
-      file: ['.png', '.jpg', '.jpeg'],
+      file: ['image/*'],
     },
     maxFiles: 1,
     onDrop,
