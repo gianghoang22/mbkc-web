@@ -7,7 +7,9 @@
     "search": "Tìm kiếm {{model}}...",
     "registration": "Từ chối đăng kí {{model}}",
     "wallet": "Ví {{model}}",
-    "confirmLink": "Xác nhận liên kết"
+    "confirmLink": "Xác nhận liên kết",
+    "mbkcTime": "Thời gian nhận đơn hàng",
+    "timeMoneyExchange": "Thời gian chuyển tiền"
   },
   "content": {
     "noHavePartner": "Chưa có đối tác",
@@ -32,7 +34,13 @@
     "selectStore": "Chọn cửa hàng để thêm đối tác",
     "productInPartner": "Sản phẩm có trong các đối tác",
     "confirmLink": "Bạn có muốn hệ thông MBKC tự động liên kết sản phẩm với các đối tác bạn vừa chọn hay không?",
-    "linkProduct": "Thông tin liên kết sản phẩm đối tác"
+    "linkProduct": "Thông tin liên kết sản phẩm đối tác",
+    "mbkcTime": "Cấu hình thời gian hoạt động hàng ngày của MBKC BOT",
+    "selectTimeStart": "Chọn thời gian bắt đầu",
+    "selectTimeEnd": "Chọn thời gian kết thúc",
+    "moneyToKC": "Thời gian tự động chuyển tiền đến bếp trung tâm",
+    "moneyToStore": "Thời gian tự động chuyển tiền đến cửa hàng",
+    "switchToConfiguration": "Chuyển đổi để cấu hình"
   },
   "form": {
     "email": "Email",

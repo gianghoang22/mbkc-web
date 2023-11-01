@@ -1,30 +1,37 @@
 /* eslint-disable react/prop-types */
-import { FormControl, FormHelperText } from '@mui/material';
+import { TimeView } from '@mui/x-date-pickers';
 import { TimeClock } from '@mui/x-date-pickers/TimeClock';
 import dayjs from 'dayjs';
+import { Dispatch, SetStateAction } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface TimePickerFieldProps {
+  sx?: object;
   name: string;
-  label: string;
   fullWidth?: boolean;
+  ampm?: boolean;
   rules?: Record<string, unknown>;
   disabled?: boolean;
   className?: string | null;
   required?: boolean;
   helperText?: string;
-  defaultValue?: string;
+  defaultValue?: any;
+  setView: Dispatch<SetStateAction<TimeView>>;
+  view: TimeView;
 }
 
 const TimePickerField = ({
+  sx,
   name,
-  label,
   fullWidth = false,
   rules = {},
-  defaultValue = '',
+  defaultValue,
   disabled = false,
   className = null,
   helperText,
+  ampm = true,
+  setView,
+  view,
   ...props
 }: TimePickerFieldProps) => {
   const { control, setValue } = useFormContext();
@@ -34,20 +41,22 @@ const TimePickerField = ({
       name={name}
       rules={rules}
       control={control}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue ? dayjs(defaultValue) : dayjs(new Date())}
       render={({ field, fieldState }) => (
-        <FormControl error={false} className={className || undefined} fullWidth={fullWidth}>
-          <TimeClock
-            {...field}
-            value={dayjs(field.value)}
-            onChange={(newValue) => {
-              field.onChange(newValue);
-              setValue(name, newValue);
-            }}
-            {...props}
-          />
-          <FormHelperText sx={{ color: 'red' }}>{fieldState.error && fieldState.error.message}</FormHelperText>
-        </FormControl>
+        <TimeClock
+          {...field}
+          value={dayjs(field.value)}
+          onChange={(newValue) => {
+            field.onChange(newValue);
+            setValue(name, newValue);
+          }}
+          ampm={ampm}
+          disabled={disabled}
+          onViewChange={(view) => setView(view)}
+          view={view}
+          {...props}
+          sx={sx}
+        />
       )}
     />
   );

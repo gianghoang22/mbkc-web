@@ -33,6 +33,8 @@
   "rowsPerPage": "Rows per page",
   "mappedDate": "Mapping Date",
   "updatedDate": "Update Date",
+  "start": "Start",
+  "finish": "Finish",
   "lowercase": {
     "address": "address",
     "email": "email",

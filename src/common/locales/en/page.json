@@ -7,7 +7,9 @@
     "search": "Search {{model}}...",
     "registration": "Reject registration {{model}}",
     "wallet": "{{model}} wallet",
-    "confirmLink": "Link confirmation"
+    "confirmLink": "Link confirmation",
+    "mbkcTime": "Order receiving time",
+    "timeMoneyExchange": "Money transaction time"
   },
   "content": {
     "noHavePartner": "No partner yet",
@@ -32,7 +34,13 @@
     "selectStore": "Select a store to add a partner",
     "productInPartner": "Products available in partners",
     "confirmLink": "Do you want the MBKC system to automatically link products with the partners you just selected?",
-    "linkProduct": "Partner product mapping information"
+    "linkProduct": "Partner product mapping information",
+    "mbkcTime": "Configure daily operating time of MBKC BOT",
+    "selectTimeStart": "Select start time",
+    "selectTimeEnd": "Select finish time",
+    "moneyToKC": "Transfer money to kitchen center",
+    "moneyToStore": "Transfer money to store",
+    "switchToConfiguration": "Chuyển đổi để cấu hỉnh"
   },
   "form": {
     "email": "Email",

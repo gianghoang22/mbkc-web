@@ -1,8 +1,9 @@
-import { Configuration, MessageResponse, Params, StoreToCreate } from '@types';
+import { Configuration, MessageResponse, Params } from '@types';
 import { axiosClient } from 'api/axiosClient';
 import { ROUTES_API_CONFIGURATION } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getErrorMessage, handleResponseMessage } from 'utils';
+import { getSystemConfiguration } from './configurationsSlice';
 
 export const getSystemConfigurationThunk = async (params: any, thunkAPI: any) => {
   const { navigate } = params;
@@ -18,12 +19,13 @@ export const getSystemConfigurationThunk = async (params: any, thunkAPI: any) =>
   }
 };
 
-export const updateSystemConfigurationThunk = async (params: Params<StoreToCreate>, thunkAPI: any) => {
-  const { navigate } = params;
+export const updateSystemConfigurationThunk = async (params: Params<Omit<Configuration, 'id'>>, thunkAPI: any) => {
+  const { data, navigate } = params;
 
   try {
-    const response: MessageResponse = await axiosClient.put(ROUTES_API_CONFIGURATION.UPDATE_CONFIGURATION);
+    const response: MessageResponse = await axiosClient.put(ROUTES_API_CONFIGURATION.UPDATE_CONFIGURATION, data);
     if (response) {
+      thunkAPI.dispatch(getSystemConfiguration(navigate));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

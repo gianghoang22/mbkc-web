@@ -41,10 +41,11 @@ const configurationSlice = createSlice({
       .addCase(getSystemConfiguration.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getSystemConfiguration.fulfilled, (state) => {
+      .addCase(getSystemConfiguration.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.configuration = action.payload;
       })
       .addCase(getSystemConfiguration.rejected, (state) => {
         state.isLoading = false;
