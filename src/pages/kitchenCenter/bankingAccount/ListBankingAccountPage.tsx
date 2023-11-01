@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -60,17 +61,18 @@ function ListBankingAccountPage() {
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
+        searchValue: debounceValue,
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        searchValue: debounceValue,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, navigate, debounceValue]);
+  }, [page, rowsPerPage, orderBy, order, debounceValue]);
 
   useEffect(() => {
     dispatch<any>(getAllBankingAccounts(params));
-  }, [dispatch, navigate, params]);
+  }, [params]);
 
   const handleReloadData = () => {
     dispatch<any>(getAllBankingAccounts(params));

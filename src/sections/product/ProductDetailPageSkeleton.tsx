@@ -22,6 +22,7 @@ import { useAppSelector } from 'redux/configStore';
 import { ProductTable, ProductTypeEnum } from '@types';
 import { CommonTableHead } from 'components';
 import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
+import { TableHead } from '@mui/material';
 
 function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProducts: number }) {
   const mdUp = useResponsive('up', 'lg', 'lg');
@@ -290,13 +291,13 @@ function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProduct
             <Paper sx={{ width: '100%', mb: 2 }}>
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<ProductTable>
-                    hideCategory
-                    hideType
-                    showAction
-                    headCells={productHeadCells}
-                    onRequestSort={() => {}}
-                  />
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>{translate('table.no')}</TableCell>
+                      <TableCell>{translate('table.partner')}</TableCell>
+                      <TableCell>{translate('table.codeMapping')}</TableCell>
+                    </TableRow>
+                  </TableHead>
 
                   <TableBody>
                     {Array.from({ length: 2 }).map((_, index) => {
@@ -307,37 +308,13 @@ function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProduct
                               <Skeleton width={20} />
                             </Stack>
                           </TableCell>
-                          <TableCell component="th" padding="none" align="center" width={70}>
-                            <Skeleton variant="circular" width={40} height={40} />
-                          </TableCell>
-                          <TableCell component="th" scope="row" padding="none" width={160}>
+
+                          <TableCell component="th" scope="row" padding="none" width={492}>
                             <Skeleton />
                           </TableCell>
-                          <TableCell align="left" width={150}>
-                            <Skeleton />
-                          </TableCell>
-                          <TableCell align="left" width={130}>
-                            <Skeleton />
-                          </TableCell>
-                          <TableCell align="left" width={110}>
-                            <Skeleton />
-                          </TableCell>
-                          <TableCell align="left" width={120}>
-                            <Skeleton />
-                          </TableCell>
-                          <TableCell align="left" width={110}>
-                            <Skeleton />
-                          </TableCell>
+
                           <TableCell align="left">
-                            <Skeleton variant="rounded" width={100} height={24} />
-                          </TableCell>
-                          <TableCell align="right">
-                            <Stack direction="row" alignItems="center" justifyContent="right">
-                              <Skeleton variant="rounded" width={30} height={14} />
-                              <IconButton color="inherit">
-                                <Skeleton variant="circular" width={28} height={28} />
-                              </IconButton>
-                            </Stack>
+                            <Skeleton />
                           </TableCell>
                         </TableRow>
                       );

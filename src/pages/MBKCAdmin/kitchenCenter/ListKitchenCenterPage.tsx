@@ -16,7 +16,6 @@ import { KitchenCenterTable, ListParams, OrderSort, OrderSortBy } from '@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 
 function ListKitchenCenterPage() {
   const navigate = useNavigate();
@@ -47,25 +46,21 @@ function ListKitchenCenterPage() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(kitchenCenters, getComparator(order, orderBy)),
-    [order, orderBy, kitchenCenters]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !kitchenCenters.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
+        searchValue: debounceValue,
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        keySearchName: debounceValue,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
     dispatch(getAllKitchenCenters(params));
@@ -118,10 +113,10 @@ function ListKitchenCenterPage() {
                     selectedCol={selected}
                   />
                   {isLoading ? (
-                    <KitchenCenterTableRowSkeleton length={visibleRows.length} selected={selected} />
+                    <KitchenCenterTableRowSkeleton length={kitchenCenters.length} selected={selected} />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((kitchenCenter, index) => {
+                      {kitchenCenters.map((kitchenCenter, index) => {
                         return (
                           <KitchenCenterTableRow
                             key={kitchenCenter.kitchenCenterId}

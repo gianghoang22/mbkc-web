@@ -19,7 +19,7 @@ import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { getComparator, removeLocalStorage, stableSort } from 'utils';
+import { removeLocalStorage } from 'utils';
 
 function ListStorePartnerPage() {
   const navigate = useNavigate();
@@ -53,9 +53,7 @@ function ListStorePartnerPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(() => stableSort(stores, getComparator(order, orderBy)), [order, orderBy, stores]);
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !stores.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -66,10 +64,11 @@ function ListStorePartnerPage() {
         currentPage: page + 1,
         searchValue: debounceValue,
         idBrand: brandProfile?.brandId,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
     dispatch<any>(getAllStores(paramsBrandRole));
@@ -138,7 +137,7 @@ function ListStorePartnerPage() {
                     <StorePartnerTableRowSkeleton />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((store, index) => {
+                      {stores.map((store, index) => {
                         return <StorePartnerTableRow key={store.storeId} index={index} store={store} />;
                       })}
                       {emptyRows > 0 ||

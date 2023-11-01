@@ -49,8 +49,6 @@ function ProductTableRow({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  console.log(isInDetail);
-
   const rules = getRuleWidths(selected ? selected : [], inTab);
 
   const { pathname } = useLocation();

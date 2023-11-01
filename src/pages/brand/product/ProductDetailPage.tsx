@@ -12,8 +12,11 @@ import {
   Stack,
   Table,
   TableBody,
+  TableCell,
   TableContainer,
+  TableHead,
   TablePagination,
+  TableRow,
   Typography,
 } from '@mui/material';
 // redux
@@ -382,35 +385,29 @@ function ProductDetailPage() {
                   <Paper sx={{ width: '100%', mb: 2 }}>
                     <TableContainer>
                       <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                        <CommonTableHead<ProductTable>
-                          hideCategory
-                          hideType
-                          showAction
-                          order={order}
-                          orderBy={orderBy}
-                          headCells={productHeadCells}
-                          onRequestSort={handleRequestSort}
-                        />
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>{translate('table.no')}</TableCell>
+                            <TableCell>{translate('table.partner')}</TableCell>
+                            <TableCell>{translate('table.codeMapping')}</TableCell>
+                          </TableRow>
+                        </TableHead>
                         <TableBody>
-                          {product?.childrenProducts?.map((productChild, index) => {
-                            return (
-                              <ProductTableRow
-                                index={index}
-                                key={productChild.productId}
-                                setPage={setPage}
-                                page={page + 1}
-                                rowsPerPage={rowsPerPage}
-                                length={product?.childrenProducts?.length}
-                                product={productChild}
-                                isInDetail
-                              />
-                            );
-                          })}
-                          {product?.childrenProducts?.length === 0 && (
-                            <EmptyTable
-                              colNumber={productHeadCells.length + 2}
-                              model={translate('model.lowercase.childProduct')}
-                            />
+                          {product?.partnerProducts !== null &&
+                            product?.partnerProducts?.map((partnerProducts, index) => {
+                              return (
+                                <TableRow key={index}>
+                                  <TableCell width={60} component="th" scope="row">
+                                    {index + 1}
+                                  </TableCell>
+
+                                  <TableCell>{partnerProducts.partnerName}</TableCell>
+                                  <TableCell width={600}> {partnerProducts.productCode}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {(product?.partnerProducts === null || product?.partnerProducts?.length === 0) && (
+                            <EmptyTable colNumber={3} model={translate('page.content.linkProduct')} />
                           )}
                         </TableBody>
                       </Table>
@@ -418,7 +415,7 @@ function ProductDetailPage() {
                     <TablePagination
                       rowsPerPageOptions={[5, 10, 25]}
                       component="div"
-                      count={product?.childrenProducts ? product?.childrenProducts?.length : 3}
+                      count={product?.partnerProducts ? product?.partnerProducts?.length : 3}
                       page={page}
                       rowsPerPage={rowsPerPage}
                       labelRowsPerPage={translate('table.rowsPerPage')}

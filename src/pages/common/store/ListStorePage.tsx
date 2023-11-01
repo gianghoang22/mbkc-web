@@ -17,7 +17,6 @@ import { Role } from 'common/enum';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +30,7 @@ function ListStorePage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { brandProfile } = useAppSelector((state) => state.profile);
+  const { brandProfile, kitchenCenterProfile } = useAppSelector((state) => state.profile);
   const { stores, numberItems, isLoading } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -58,9 +57,7 @@ function ListStorePage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(() => stableSort(stores, getComparator(order, orderBy)), [order, orderBy, stores]);
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !stores.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -71,10 +68,11 @@ function ListStorePage() {
         currentPage: page + 1,
         searchValue: debounceValue,
         status: storeStatus !== null ? storeStatus.value : '',
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, storeStatus]);
+  }, [page, rowsPerPage, debounceValue, storeStatus, orderBy, order]);
 
   const paramsBrandRole: ListParams = useMemo(() => {
     return {
@@ -83,25 +81,44 @@ function ListStorePage() {
         currentPage: page + 1,
         searchValue: debounceValue,
         status: storeStatus !== null ? storeStatus.value : '',
+        sortBy: `${orderBy}_${order}`,
         idBrand: brandProfile?.brandId,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, storeStatus]);
+  }, [page, rowsPerPage, debounceValue, storeStatus, orderBy, order]);
+
+  const paramsKitchenCenterRole: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        searchValue: debounceValue,
+        status: storeStatus !== null ? storeStatus.value : '',
+        sortBy: `${orderBy}_${order}`,
+        idKitchenCenter: kitchenCenterProfile?.kitchenCenterId,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue, storeStatus, orderBy, order]);
 
   useEffect(() => {
     if (userAuth?.roleName === Role.MBKC_ADMIN) {
       dispatch<any>(getAllStores(paramsAdminRole));
-    } else {
+    } else if (userAuth?.roleName === Role.BRAND_MANAGER) {
       dispatch<any>(getAllStores(paramsBrandRole));
+    } else {
+      dispatch<any>(getAllStores(paramsKitchenCenterRole));
     }
   }, [paramsAdminRole, paramsBrandRole]);
 
   const handleReloadData = () => {
     if (userAuth?.roleName === Role.MBKC_ADMIN) {
       dispatch<any>(getAllStores(paramsAdminRole));
-    } else {
+    } else if (userAuth?.roleName === Role.BRAND_MANAGER) {
       dispatch<any>(getAllStores(paramsBrandRole));
+    } else {
+      dispatch<any>(getAllStores(paramsKitchenCenterRole));
     }
   };
 
@@ -172,12 +189,12 @@ function ListStorePage() {
                   {isLoading ? (
                     <StoreTableRowSkeleton
                       showAction={userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER}
-                      length={visibleRows.length}
+                      length={stores.length}
                       selected={selected}
                     />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((store, index) => {
+                      {stores.map((store, index) => {
                         return (
                           <StoreTableRow
                             key={store.storeId}
@@ -187,7 +204,7 @@ function ListStorePage() {
                             setPage={setPage}
                             page={page + 1}
                             rowsPerPage={rowsPerPage}
-                            length={visibleRows.length}
+                            length={stores.length}
                             selected={selected}
                             showAction={
                               userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER

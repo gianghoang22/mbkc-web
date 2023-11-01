@@ -63,6 +63,7 @@ function ListProductPage() {
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
         type: productType,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
