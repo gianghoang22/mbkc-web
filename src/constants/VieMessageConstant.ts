@@ -58,4 +58,6 @@ export const VieMessageConstant = {
   UpdatedPartnerProductSuccessfully: 'Cập nhật sản phẩm đối tác thành công.',
   DeletedPartnerProductSuccessfully: 'Đã xóa sản phẩm đối tác thành công.',
   UpdatedPartnerProductStatusSuccessfully: 'Đã cập nhật trạng thái sản phẩm của đối tác thành công.',
+
+  UpdatedConfigurationsSuccessfully: 'Đã cập nhật cấu hình hệ thống thành công.',
 };

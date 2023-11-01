@@ -42,13 +42,13 @@ export const updateCashier = createAsyncThunk('cashier/update-cashier', updateCa
 export const updateCashierStatus = createAsyncThunk('cashier/update-cashier-status', updateCashierStatusThunk);
 export const deleteCashier = createAsyncThunk('cashier/delete-cashier', deleteCashierThunk);
 
-const CashierSlice = createSlice({
-  name: 'Cashier',
+const cashierSlice = createSlice({
+  name: 'cashier',
   initialState,
   reducers: {
     setAddCashier: (state) => {
-      setLocalStorage(StorageKeys.IS_EDIT_CATEGORY, false);
       state.isEditing = false;
+      setLocalStorage(StorageKeys.IS_EDIT_CASHIER, false);
     },
     setEditCashier: (state, action) => {
       state.isEditing = true;
@@ -145,7 +145,7 @@ const CashierSlice = createSlice({
   },
 });
 
-export const { setAddCashier, setEditCashier, getCashierDetail_local } = CashierSlice.actions;
-const cashierReducer = CashierSlice.reducer;
+export const { setAddCashier, setEditCashier, getCashierDetail_local } = cashierSlice.actions;
+const cashierReducer = cashierSlice.reducer;
 
 export default cashierReducer;

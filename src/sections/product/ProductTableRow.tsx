@@ -9,6 +9,7 @@ import {
   deleteProduct,
   getProductDetail_local,
   setEditProduct,
+  setIsProduct,
   setProductType,
   updateStatusProduct,
 } from 'redux/product/productSlice';
@@ -48,8 +49,6 @@ function ProductTableRow({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  console.log(isInDetail);
-
   const rules = getRuleWidths(selected ? selected : [], inTab);
 
   const { pathname } = useLocation();
@@ -62,6 +61,7 @@ function ProductTableRow({
     dispatch(setRoutesToBack(pathname));
     dispatch(getProductDetail_local(product));
     dispatch(setProductType(product.type));
+    dispatch(setIsProduct());
   };
 
   const handleEdit = () => {

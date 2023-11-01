@@ -1,6 +1,7 @@
 import { Route } from '@types';
 import {
   BrandDetailPage,
+  ConfigurationsPage,
   CreateBrandPage,
   CreateKitchenCenterPage,
   KitchenCenterDetailPage,
@@ -15,6 +16,11 @@ export const adminRoutes: Route[] = [
   {
     path: PATH_ADMIN_APP.root,
     component: <MBKCAdminDashboardPage />,
+    index: true,
+  },
+  {
+    path: PATH_ADMIN_APP.configurations,
+    component: <ConfigurationsPage />,
     index: true,
   },
   {

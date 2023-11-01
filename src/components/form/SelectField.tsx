@@ -67,6 +67,8 @@ function SelectField<T extends string | number>({
                 <MenuItem value={value} key={`${value}`}>
                   {label === PartnerProductStatusEnum.IN_STOCK
                     ? translate('status.inStock')
+                    : label === PartnerProductStatusEnum.AVAILABLE
+                    ? translate('status.available')
                     : label === PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
                     ? translate('status.outOfStockToday')
                     : label === PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY

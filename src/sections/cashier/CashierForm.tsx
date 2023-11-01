@@ -15,7 +15,7 @@ function CashierForm() {
   return (
     <Grid container columnSpacing={3}>
       <Grid item md={4} sm={12}>
-        <Stack alignItems="start" gap={3}>
+        <Stack alignItems="center" gap={3}>
           <Stack width="100%">
             <Typography variant="subtitle1">{translate('table.image')}</Typography>
             <Typography variant="body2" color="grey.600">
@@ -35,8 +35,7 @@ function CashierForm() {
       <Grid item md={8} sm={12}>
         <Stack gap={3}>
           <Stack width="100%">
-            <Typography variant="subtitle1">Detail</Typography>
-
+            <Typography variant="subtitle1">{translate('page.content.detail')}</Typography>
             <Typography variant="body2" color="grey.600">
               Email, {translate('table.fullName')}, {translate('table.gender')},...
             </Typography>
@@ -47,8 +46,13 @@ function CashierForm() {
             <InputField fullWidth name="fullName" label={translate('table.fullName')} />
             <Stack direction="row" alignItems="start" gap={2}>
               <SelectField<Gender> fullWidth options={GENDER_OPTIONS} name="gender" label={translate('table.gender')} />
+              <DatePickerField
+                fullWidth
+                name="dateOfBirth"
+                label="Date of birth"
+                // defaultValue={isEditing ? cashier?.dateOfBirth : new Day}
+              />
             </Stack>
-            <DatePickerField name="dateOfBirth" label="Date of birth" />
             <InputNumber fullWidth name="citizenNumber" label={translate('model.capitalizeOne.citizenNumber')} />
           </Stack>
         </Stack>

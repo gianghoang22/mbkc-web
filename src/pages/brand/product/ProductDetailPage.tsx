@@ -12,25 +12,33 @@ import {
   Stack,
   Table,
   TableBody,
+  TableCell,
   TableContainer,
+  TableHead,
   TablePagination,
+  TableRow,
   Typography,
 } from '@mui/material';
 // redux
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getPartnerProductDetail } from 'redux/partnerProduct/partnerProductSlice';
+import {
+  deletePartnerProduct,
+  getPartnerProductDetail,
+  setEditPartnerProduct,
+} from 'redux/partnerProduct/partnerProductSlice';
 import { deleteProduct, getProductDetail, setEditProduct } from 'redux/product/productSlice';
 // section
-import { StorePartnerTableDetailRowSkeleton } from 'sections/storePartner';
 import { ProductDetailPageSkeleton, ProductTableRow } from 'sections/product';
 //
 import { PATH_BRAND_APP } from 'routes/paths';
 import { fCurrencyVN, getComparator, stableSort } from 'utils';
-import { OrderSort, ProductTable, ProductTypeEnum } from '@types';
+import { OrderSort, PartnerProductStatusEnum, ProductTable, ProductTypeEnum } from '@types';
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
 import { CommonTableHead, ConfirmDialog, ContentLabel, ContentSpace, EmptyTable, Page, Popover } from 'components';
+import moment from 'moment';
+import { CreatePartnerProductModal } from 'sections/partnerProduct';
 
 function ProductDetailPage() {
   const { id: productId } = useParams();
@@ -45,13 +53,20 @@ function ProductDetailPage() {
   const { translate, currentLang } = useLocales();
   const { productHeadCells } = useConfigHeadTable();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
+  const { handleOpen: handleOpenDeletePartnerProduct, isOpen: isOpenDeletePartnerProduct } = useModal();
+  const { handleOpen: handleOpenUpdatePartnerProduct, isOpen: isOpenUpdatePartnerProduct } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
+  const {
+    open: openPartnerProduct,
+    handleOpenMenu: handleOpenMenuPartnerProduct,
+    handleCloseMenu: handleCloseMenuPartnerProduct,
+  } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
-  const { isLoading, product } = useAppSelector((state) => state.product);
   const { partnerProduct } = useAppSelector((state) => state.partnerProduct);
+  const { isLoading, isProduct, product } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
@@ -113,14 +128,32 @@ function ProductDetailPage() {
     );
   };
 
+  const handleDeletePartnerProduct = () => {
+    handleOpenDeletePartnerProduct();
+    dispatch(
+      deletePartnerProduct({
+        idParams: {
+          productId: partnerProduct?.productId,
+          partnerId: partnerProduct?.partnerId,
+          storeId: partnerProduct?.storeId,
+        },
+        pathname: pathname,
+        navigate,
+      })
+    );
+  };
+
   return (
     <>
       <Page
         title={translate('page.title.detail', {
-          model:
-            currentLang.value === Language.ENGLISH
+          model: isProduct
+            ? currentLang.value === Language.ENGLISH
               ? translate('model.capitalize.product')
-              : translate('model.lowercase.product'),
+              : translate('model.lowercase.product')
+            : currentLang.value === Language.ENGLISH
+            ? translate('model.capitalize.partnerProduct')
+            : translate('model.lowercase.partnerProduct'),
         })}
         pathname={pathname}
         navigateDashboard={PATH_BRAND_APP.root}
@@ -141,7 +174,7 @@ function ProductDetailPage() {
                       },
                     }}
                     disabled={product?.status === Status.DEACTIVE}
-                    onClick={handleOpenMenu}
+                    onClick={isProduct ? handleOpenMenu : handleOpenMenuPartnerProduct}
                   >
                     {translate('button.menuAction')}
                   </Button>,
@@ -167,9 +200,12 @@ function ProductDetailPage() {
               <Grid item xs={12} sm={8} md={8}>
                 <Stack gap={2}>
                   <Box>
-                    <Typography variant="h6" mb={1}>
-                      {translate('table.uppercase.code')}: <Typography component="span">{product?.code}</Typography>
-                    </Typography>
+                    {isProduct && (
+                      <Typography variant="h6" mb={1}>
+                        {translate('table.uppercase.code')} MBKC:{' '}
+                        <Typography component="span">{product?.code}</Typography>
+                      </Typography>
+                    )}
                     <Typography variant="h4">{product?.name}</Typography>
                     <Typography variant="body1" textAlign="justify">
                       {product?.description}
@@ -177,24 +213,57 @@ function ProductDetailPage() {
                   </Box>
 
                   <Stack gap={2} mt={2}>
-                    <ContentLabel
-                      divider={false}
-                      title={translate('table.status')}
-                      color={
-                        product?.status === Status.ACTIVE
-                          ? Color.SUCCESS
-                          : product?.status === Status.INACTIVE
-                          ? Color.WARNING
-                          : Color.ERROR
-                      }
-                      content={
-                        product?.status === Status.INACTIVE
-                          ? translate('status.inactive')
-                          : product?.status === Status.ACTIVE
-                          ? translate('status.active')
-                          : translate('status.deactive')
-                      }
-                    />
+                    {partnerProduct && !isProduct ? (
+                      <>
+                        <ContentSpace
+                          divider={false}
+                          title={translate('table.codeMapping')}
+                          content={partnerProduct?.productCode}
+                        />
+                        <ContentSpace title={translate('table.codeSystem')} content={product?.code} />
+
+                        <ContentLabel
+                          divider={!isProduct}
+                          title={translate('table.status')}
+                          color={
+                            partnerProduct?.status === PartnerProductStatusEnum.AVAILABLE
+                              ? Color.SUCCESS
+                              : partnerProduct?.status === PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
+                              ? Color.WARNING
+                              : Color.ERROR
+                          }
+                          content={
+                            partnerProduct?.status === PartnerProductStatusEnum.AVAILABLE
+                              ? translate('status.available')
+                              : partnerProduct?.status === PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
+                              ? translate('status.outOfStockToday')
+                              : partnerProduct?.status === PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY
+                              ? translate('status.outOfStockIndefinitely')
+                              : translate('status.deActive')
+                          }
+                        />
+                      </>
+                    ) : (
+                      <ContentLabel
+                        divider={false}
+                        title={translate('table.status')}
+                        color={
+                          product?.status === Status.ACTIVE
+                            ? Color.SUCCESS
+                            : product?.status === Status.INACTIVE
+                            ? Color.WARNING
+                            : Color.ERROR
+                        }
+                        content={
+                          product?.status === Status.INACTIVE
+                            ? translate('status.inactive')
+                            : product?.status === Status.ACTIVE
+                            ? translate('status.active')
+                            : translate('status.deActive')
+                        }
+                      />
+                    )}
+
                     <ContentLabel title={translate('table.type')} color={Color.INFO} content={product?.type} />
 
                     {product?.size !== null ? (
@@ -202,20 +271,37 @@ function ProductDetailPage() {
                     ) : (
                       <></>
                     )}
-                    <ContentSpace title={translate('model.capitalizeOne.category')} content={product?.categoryName} />
                     {product?.type !== ProductTypeEnum.PARENT && (
                       <>
-                        <ContentSpace
-                          title={translate('table.historicalPrice')}
-                          content={fCurrencyVN(product?.historicalPrice ? product?.historicalPrice : '') + ' đ'}
-                        />
+                        {isProduct && (
+                          <ContentSpace
+                            title={translate('table.historicalPrice')}
+                            content={fCurrencyVN(product?.historicalPrice ? product?.historicalPrice : '') + ' đ'}
+                          />
+                        )}
                         <ContentSpace
                           title={translate('table.sellingPrice')}
                           content={fCurrencyVN(product?.sellingPrice ? product?.sellingPrice : '') + ' đ'}
                         />
+                        {isProduct && (
+                          <ContentSpace
+                            title={translate('table.discountPrice')}
+                            content={fCurrencyVN(product?.discountPrice ? product?.discountPrice : '') + ' đ'}
+                          />
+                        )}
+                      </>
+                    )}
+                    <ContentSpace title={translate('model.capitalizeOne.category')} content={product?.categoryName} />
+                    {partnerProduct && !isProduct && (
+                      <>
+                        <ContentSpace title={translate('table.partner')} content={partnerProduct?.partnerName} />
                         <ContentSpace
-                          title={translate('table.discountPrice')}
-                          content={fCurrencyVN(product?.discountPrice ? product?.discountPrice : '') + ' đ'}
+                          title={translate('table.mappedDate')}
+                          content={moment(partnerProduct?.mappedDate).format('ddd DD/MM/YYYY - HH:mm:ss')}
+                        />
+                        <ContentSpace
+                          title={translate('table.updatedDate')}
+                          content={moment(partnerProduct?.updatedDate).format('ddd DD/MM/YYYY - HH:mm:ss')}
                         />
                       </>
                     )}
@@ -224,118 +310,112 @@ function ProductDetailPage() {
               </Grid>
             </Grid>
 
-            {product?.type === ProductTypeEnum.PARENT && (
+            {isProduct && (
+              <>
+                {product?.type === ProductTypeEnum.PARENT && (
+                  <Card sx={{ mt: 7 }}>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
+                      <Typography variant="h6">
+                        {translate('page.title.list', { model: translate('model.lowercase.childProduct') })}
+                      </Typography>
+                    </Stack>
+
+                    <Box sx={{ width: '100%' }}>
+                      <Paper sx={{ width: '100%', mb: 2 }}>
+                        <TableContainer>
+                          <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                            <CommonTableHead<ProductTable>
+                              hideCategory
+                              hideType
+                              showAction
+                              order={order}
+                              orderBy={orderBy}
+                              headCells={productHeadCells}
+                              onRequestSort={handleRequestSort}
+                            />
+                            <TableBody>
+                              {childProductRows?.map((productChild, index) => {
+                                return (
+                                  <ProductTableRow
+                                    index={index}
+                                    key={productChild.productId}
+                                    setPage={setPage}
+                                    page={page + 1}
+                                    rowsPerPage={rowsPerPage}
+                                    length={childProductRows?.length}
+                                    product={productChild}
+                                    isInDetail
+                                  />
+                                );
+                              })}
+                              {emptyRows > 0 ||
+                                (childProductRows?.length === 0 && (
+                                  <EmptyTable
+                                    colNumber={productHeadCells.length + 2}
+                                    model={translate('model.lowercase.childProduct')}
+                                  />
+                                ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                        <TablePagination
+                          rowsPerPageOptions={[5, 10, 25]}
+                          component="div"
+                          count={product?.childrenProducts ? product?.childrenProducts?.length : 3}
+                          page={page}
+                          rowsPerPage={rowsPerPage}
+                          labelRowsPerPage={translate('table.rowsPerPage')}
+                          onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                      </Paper>
+                    </Box>
+                  </Card>
+                )}
+              </>
+            )}
+
+            {isProduct && (
               <Card sx={{ mt: 7 }}>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
-                  <Typography variant="h6">
-                    {translate('page.title.list', { model: translate('model.lowercase.childProduct') })}
-                  </Typography>
+                  <Typography variant="h6">{translate('page.content.linkProduct')}</Typography>
                 </Stack>
 
                 <Box sx={{ width: '100%' }}>
                   <Paper sx={{ width: '100%', mb: 2 }}>
                     <TableContainer>
                       <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                        <CommonTableHead<ProductTable>
-                          hideCategory
-                          hideType
-                          showAction
-                          order={order}
-                          orderBy={orderBy}
-                          headCells={productHeadCells}
-                          onRequestSort={handleRequestSort}
-                        />
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>{translate('table.no')}</TableCell>
+                            <TableCell>{translate('table.partner')}</TableCell>
+                            <TableCell>{translate('table.codeMapping')}</TableCell>
+                          </TableRow>
+                        </TableHead>
                         <TableBody>
-                          {childProductRows?.map((productChild, index) => {
-                            return (
-                              <ProductTableRow
-                                index={index}
-                                key={productChild.productId}
-                                setPage={setPage}
-                                page={page + 1}
-                                rowsPerPage={rowsPerPage}
-                                length={childProductRows?.length}
-                                product={productChild}
-                                isInDetail
-                              />
-                            );
-                          })}
-                          {emptyRows > 0 ||
-                            (childProductRows?.length === 0 && (
-                              <EmptyTable
-                                colNumber={productHeadCells.length + 2}
-                                model={translate('model.lowercase.childProduct')}
-                              />
-                            ))}
+                          {product?.partnerProducts !== null &&
+                            product?.partnerProducts?.map((partnerProducts, index) => {
+                              return (
+                                <TableRow key={index}>
+                                  <TableCell width={60} component="th" scope="row">
+                                    {index + 1}
+                                  </TableCell>
+
+                                  <TableCell>{partnerProducts.partnerName}</TableCell>
+                                  <TableCell width={600}> {partnerProducts.productCode}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {(product?.partnerProducts === null || product?.partnerProducts?.length === 0) && (
+                            <EmptyTable colNumber={3} model={translate('page.content.linkProduct')} />
+                          )}
                         </TableBody>
                       </Table>
                     </TableContainer>
                     <TablePagination
                       rowsPerPageOptions={[5, 10, 25]}
                       component="div"
-                      count={product?.childrenProducts ? product?.childrenProducts?.length : 3}
-                      page={page}
-                      rowsPerPage={rowsPerPage}
-                      labelRowsPerPage={translate('table.rowsPerPage')}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </Paper>
-                </Box>
-              </Card>
-            )}
-
-            {product?.type === ProductTypeEnum.PARENT && (
-              <Card sx={{ mt: 7 }}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
-                  <Typography variant="h6">{translate('page.content.productInPartner')}</Typography>
-                </Stack>
-
-                <Box sx={{ width: '100%' }}>
-                  <Paper sx={{ width: '100%', mb: 2 }}>
-                    <TableContainer>
-                      <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                        <CommonTableHead<ProductTable>
-                          hideCategory
-                          hideType
-                          showAction
-                          order={order}
-                          orderBy={orderBy}
-                          headCells={productHeadCells}
-                          onRequestSort={handleRequestSort}
-                        />
-                        {isLoading ? (
-                          <StorePartnerTableDetailRowSkeleton />
-                        ) : (
-                          <TableBody>
-                            {product?.childrenProducts?.map((productChild, index) => {
-                              return (
-                                <ProductTableRow
-                                  index={index}
-                                  key={productChild.productId}
-                                  setPage={setPage}
-                                  page={page + 1}
-                                  rowsPerPage={rowsPerPage}
-                                  length={product?.childrenProducts?.length}
-                                  product={productChild}
-                                  isInDetail
-                                />
-                              );
-                            })}
-                            {product?.childrenProducts?.length === 0 && (
-                              <EmptyTable
-                                colNumber={productHeadCells.length + 2}
-                                model={translate('model.lowercase.childProduct')}
-                              />
-                            )}
-                          </TableBody>
-                        )}
-                      </Table>
-                    </TableContainer>
-                    <TablePagination
-                      rowsPerPageOptions={[5, 10, 25]}
-                      component="div"
-                      count={product?.childrenProducts ? product?.childrenProducts?.length : 3}
+                      count={product?.partnerProducts ? product?.partnerProducts?.length : 3}
                       page={page}
                       rowsPerPage={rowsPerPage}
                       labelRowsPerPage={translate('table.rowsPerPage')}
@@ -367,6 +447,37 @@ function ProductDetailPage() {
           dispatch(setEditProduct(product));
         }}
       />
+
+      <Popover
+        type={PopoverType.ALL}
+        open={openPartnerProduct}
+        handleCloseMenu={handleCloseMenuPartnerProduct}
+        onDelete={handleOpenDeletePartnerProduct}
+        onEdit={() => {
+          dispatch(setRoutesToBack(pathname));
+          dispatch(setEditPartnerProduct(partnerProduct));
+          handleOpenUpdatePartnerProduct();
+        }}
+      />
+
+      {isOpenUpdatePartnerProduct && (
+        <CreatePartnerProductModal
+          isOpen={isOpenUpdatePartnerProduct}
+          handleOpen={handleOpenUpdatePartnerProduct}
+          partnerProduct={partnerProduct}
+        />
+      )}
+
+      {isOpenDeletePartnerProduct && (
+        <ConfirmDialog
+          open={isOpenDeletePartnerProduct}
+          onClose={handleOpenDeletePartnerProduct}
+          onAction={handleDeletePartnerProduct}
+          model={partnerProduct?.productName}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.partnerProduct') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.partnerProduct') })}
+        />
+      )}
 
       {isOpenModal && (
         <ConfirmDialog

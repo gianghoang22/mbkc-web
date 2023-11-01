@@ -11,7 +11,7 @@ function StorePartnerTableRowSkeleton() {
             </Stack>
           </TableCell>
 
-          <TableCell width={268} align="left" sx={{ pr: 5 }}>
+          <TableCell width={268} padding="none" align="left" sx={{ pr: 5 }}>
             <Skeleton />
           </TableCell>
 

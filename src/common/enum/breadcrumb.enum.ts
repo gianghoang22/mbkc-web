@@ -35,4 +35,5 @@ export enum Breadcrumb {
   CREATE = 'creation',
   PROFILE = 'profile',
   INFORMATION = 'information',
+  CONFIGURATIONS = 'configurations',
 }

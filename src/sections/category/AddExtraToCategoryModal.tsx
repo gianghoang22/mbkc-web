@@ -111,7 +111,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   const paramExtraOfCategory: ListParams = useMemo(() => {
     return {

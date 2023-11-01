@@ -11,8 +11,6 @@ interface ProductTableRowSkeletonProps {
 function ProductTableRowSkeleton({ length, inTab = false, selected }: ProductTableRowSkeletonProps) {
   const rules = getRuleWidths(selected ? selected : [], inTab);
 
-  console.log(inTab);
-
   return (
     <TableBody>
       {Array.from({ length: length ? length : 5 }).map((_, index: any) => (

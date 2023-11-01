@@ -4,7 +4,7 @@ import { OrderSortBy } from '@types';
 function CashierTableRow({ length, selected }: { length: number; selected: readonly string[] }) {
   return (
     <>
-      {Array.from({ length }).map((_, index) => (
+      {Array.from({ length: length > 0 ? length : 5 }).map((_, index) => (
         <>
           <TableRow hover tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
             <TableCell width={80} align="center">

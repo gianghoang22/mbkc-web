@@ -20,6 +20,7 @@ export interface Product {
   categoryName: string;
   brand: Brand;
   category: Category;
+  partnerProducts: { partnerName: string; productCode: string }[];
 }
 
 export interface ChildrenProduct extends Product {}

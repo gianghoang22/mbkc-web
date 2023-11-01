@@ -1,24 +1,66 @@
 /* eslint-disable react/prop-types */
-import { DatePicker } from '@mui/lab';
+import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers';
 import { Controller, useFormContext } from 'react-hook-form';
+import { FormControl, FormHelperText } from '@mui/material';
 
-const DatePickerField = ({ name, label, defaultValue = '', transform, ...props }: any) => {
-  const { control } = useFormContext();
+interface DatePickerFieldProps {
+  name: string;
+  label: string;
+  fullWidth?: boolean;
+  rules?: Record<string, unknown>;
+  disabled?: boolean;
+  className?: string | null;
+  required?: boolean;
+  helperText?: string;
+  defaultValue?: string;
+}
+
+const DatePickerField = ({
+  name,
+  label,
+  fullWidth = false,
+  rules = {},
+  defaultValue = '',
+  disabled = false,
+  className = null,
+  helperText,
+  ...props
+}: DatePickerFieldProps) => {
+  const { control, setValue } = useFormContext();
 
   return (
     <Controller
-      control={control}
-      defaultValue={defaultValue}
-      render={({ field, fieldState }) => (
-        <DatePicker
-          fullWidth
-          label={label}
-          // renderInput={(params: any) => <TextField {...params} {...props} error={false} />}
-          {...field}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => field.onChange(transform ? transform.output(e) : e)}
-        />
-      )}
       name={name}
+      rules={rules}
+      control={control}
+      defaultValue={defaultValue ? defaultValue : dayjs(new Date())}
+      render={({ field, fieldState }) => (
+        <FormControl error={false} className={className || undefined} fullWidth={fullWidth}>
+          <DatePicker
+            label={label}
+            onChange={(newValue) => {
+              field.onChange(newValue);
+              setValue(name, newValue);
+            }}
+            value={dayjs(field.value)}
+            inputRef={field.ref}
+            sx={{
+              '.css-1hnu5ex-MuiInputBase-root-MuiOutlinedInput-root': {
+                height: '41px',
+              },
+              '.css-e9crry-MuiInputBase-input-MuiOutlinedInput-input': {
+                py: '8.5px',
+              },
+              '.css-1qcidu4-MuiFormLabel-root-MuiInputLabel-root': {
+                top: -7,
+              },
+            }}
+            {...props}
+          />
+          <FormHelperText sx={{ color: 'red' }}>{fieldState.error && fieldState.error.message}</FormHelperText>
+        </FormControl>
+      )}
     />
   );
 };

@@ -299,13 +299,13 @@ function StoreDetailPage() {
                         <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
                           {translate('table.partner')}
                         </Typography>
-                        {storePartners?.storePartners?.length === 0 ? (
+                        {store?.storePartners?.length === 0 ? (
                           <Typography variant="body2">{translate('page.content.noHavePartner')}</Typography>
                         ) : (
                           <Stack direction="row" gap={3}>
-                            {storePartners?.storePartners?.map((partner) => (
+                            {store?.storePartners?.map((partner) => (
                               <Stack
-                                key={partner.partnerId}
+                                key={partner.partner.partnerId}
                                 direction="row"
                                 gap={1}
                                 sx={(theme) => ({
@@ -315,12 +315,12 @@ function StoreDetailPage() {
                                 })}
                               >
                                 <Avatar
-                                  src={partner.partnerLogo}
+                                  src={partner.partner.logo}
                                   alt="partner"
                                   variant="rounded"
                                   sx={{ width: 45, height: 45 }}
                                 />
-                                <Typography variant="subtitle2">{partner.partnerName}</Typography>
+                                <Typography variant="subtitle2">{partner.partner.name}</Typography>
                               </Stack>
                             ))}
                           </Stack>
