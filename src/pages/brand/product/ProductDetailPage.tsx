@@ -295,6 +295,7 @@ function ProductDetailPage() {
                     {partnerProduct && !isProduct && (
                       <>
                         <ContentSpace title={translate('table.partner')} content={partnerProduct?.partnerName} />
+                        <ContentSpace title={translate('table.store')} content={partnerProduct?.storeName} />
                         <ContentSpace
                           title={translate('table.mappedDate')}
                           content={moment(partnerProduct?.mappedDate).format('ddd DD/MM/YYYY - HH:mm:ss')}
@@ -407,7 +408,7 @@ function ProductDetailPage() {
                               );
                             })}
                           {(product?.partnerProducts === null || product?.partnerProducts?.length === 0) && (
-                            <EmptyTable colNumber={3} model={translate('page.content.linkProduct')} />
+                            <EmptyTable colNumber={3} model={translate('model.lowercase.childProduct')} />
                           )}
                         </TableBody>
                       </Table>

@@ -141,6 +141,12 @@ function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProduct
                 <>
                   <Divider />
                   <Stack direction="row" justifyContent="space-between" alignItems="center">
+                    <Skeleton width={70} />
+                    <Skeleton width={180} />
+                  </Stack>
+
+                  <Divider />
+                  <Stack direction="row" justifyContent="space-between" alignItems="center">
                     <Skeleton width={100} />
                     <Skeleton width={200} />
                   </Stack>
