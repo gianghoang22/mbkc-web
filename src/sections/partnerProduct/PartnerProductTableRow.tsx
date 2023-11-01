@@ -13,11 +13,19 @@ import {
   setEditPartnerProduct,
   updateStatusPartnerProduct,
 } from 'redux/partnerProduct/partnerProductSlice';
+import { setIsPartnerProduct } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import CreatePartnerProductModal from './CreatePartnerProductModal';
 //
-import { OrderSortBy, Params, PartnerProduct, PartnerProductStatusEnum, ToUpdateStatus } from '@types';
+import {
+  OrderSortBy,
+  Params,
+  PartnerProduct,
+  PartnerProductStatusEnum,
+  PartnerProductStatusUpdateEnum,
+  ToUpdateStatus,
+} from '@types';
 import { ConfirmDialog, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -43,6 +51,7 @@ function PartnerProductTableRow({
 }: PartnerProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
@@ -55,6 +64,7 @@ function PartnerProductTableRow({
     navigate(PATH_BRAND_APP.partnerProduct.root + `/${partnerProduct?.productId}`);
     dispatch(getPartnerProductDetail_local(partnerProduct));
     dispatch(setRoutesToBack(pathname));
+    dispatch(setIsPartnerProduct());
   };
 
   const handleEdit = () => {
@@ -176,19 +186,19 @@ function PartnerProductTableRow({
             >
               <MenuItem
                 value={PartnerProductStatusEnum.AVAILABLE}
-                onClick={() => handleUpdateStatus(PartnerProductStatusEnum.AVAILABLE)}
+                onClick={() => handleUpdateStatus(PartnerProductStatusUpdateEnum.AVAILABLE)}
               >
                 {translate('status.available')}
               </MenuItem>
               <MenuItem
                 value={PartnerProductStatusEnum.OUT_OF_STOCK_TODAY}
-                onClick={() => handleUpdateStatus(PartnerProductStatusEnum.OUT_OF_STOCK_TODAY)}
+                onClick={() => handleUpdateStatus(PartnerProductStatusUpdateEnum.OUT_OF_STOCK_TODAY)}
               >
                 {translate('status.outOfStockToday')}
               </MenuItem>
               <MenuItem
                 value={PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY}
-                onClick={() => handleUpdateStatus(PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY)}
+                onClick={() => handleUpdateStatus(PartnerProductStatusUpdateEnum.OUT_OF_STOCK_INDEFINITELY)}
               >
                 {translate('status.outOfStockIndefinitely')}
               </MenuItem>

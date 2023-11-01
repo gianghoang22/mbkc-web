@@ -19,6 +19,7 @@ export { default as CustomTableToolbar } from './table/CustomTableToolbar';
 export { default as UploadAvatar } from './upload/UploadAvatar';
 export { default as LoadingScreen } from './upload/LoadingScreen';
 export { default as CustomTabs } from './tabs/CustomTabs';
+export { default as CollapseCard } from './collapse/CollapseCard';
 
 //form
 export { default as AutoCompleteField } from './form/AutoCompleteField';

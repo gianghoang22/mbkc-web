@@ -1,6 +1,7 @@
 import { Status } from 'common/enum';
 import { Brand } from './brand';
 import { KitchenCenter } from './kitchenCenter';
+import { Partner } from './partner';
 
 export interface Store {
   storeId: number;
@@ -11,6 +12,9 @@ export interface Store {
   rejectedReason?: string | null;
   kitchenCenter: KitchenCenter;
   brand: Brand;
+  storePartners: {
+    partner: Partner;
+  }[];
 }
 
 export interface StoreToCreate {

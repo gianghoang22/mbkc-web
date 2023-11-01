@@ -1,31 +1,33 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
-import { Button, Card, Stack, Box } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
+// redux
+import { createNewCashier, getCashierDetail, updateCashier } from 'redux/cashier/cashierSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { CashierToCreate, CashierToUpdate, Params } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Gender, Status } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
-import { useAppSelector } from 'redux/configStore';
+import { useLocales, useValidationForm } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { CashierForm } from 'sections/cashier';
-import { useDispatch } from 'react-redux';
-import { createNewCashier, getCashierDetail, updateCashier } from 'redux/cashier/cashierSlice';
-import { useLocales, useValidationForm } from 'hooks';
-import { useEffect, useMemo } from 'react';
 
 function CreateCashierPage() {
   const { id: cashierId } = useParams();
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { schemaCashier } = useValidationForm();
 
-  const { isEditing, isLoading, cashier } = useAppSelector((state) => state.cashier);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
+  const { isEditing, isLoading, cashier } = useAppSelector((state) => state.cashier);
 
   const createCashierForm = useForm<CashierToCreate>({
     defaultValues: {
@@ -34,12 +36,22 @@ function CreateCashierPage() {
       gender: '',
       avatar: '',
       citizenNumber: '',
-      dateOfBirth: '2001/5/9',
     },
     resolver: yupResolver(schemaCashier),
   });
 
   const { handleSubmit, setValue } = createCashierForm;
+
+  useEffect(() => {
+    if (cashier !== null && isEditing === true) {
+      setValue('email', cashier?.email as string);
+      setValue('fullName', cashier?.fullName as string);
+      setValue('gender', cashier?.gender === Gender.MALE ? Gender.MALE : Gender.FEMALE);
+      setValue('avatar', cashier?.avatar);
+      setValue('citizenNumber', cashier?.citizenNumber as string);
+      setValue('dateOfBirth', cashier?.dateOfBirth);
+    }
+  }, [cashier, isEditing, setValue]);
 
   const onSubmit = async (values: CashierToCreate) => {
     const data = { ...values };
@@ -47,11 +59,11 @@ function CreateCashierPage() {
     if (isEditing) {
       const paramsUpdate: Params<CashierToUpdate> = {
         data: {
-          fullName: values.fullName,
-          gender: values.gender as 'male' | 'female',
-          dateOfBirth: values.dateOfBirth,
-          avatar: values.avatar,
-          citizenNumber: values.citizenNumber,
+          fullName: data.fullName,
+          gender: data.gender as 'male' | 'female',
+          dateOfBirth: data.dateOfBirth,
+          avatar: data.avatar,
+          citizenNumber: data.citizenNumber,
           newPassword: '',
           status: Status.ACTIVE,
         },
@@ -74,6 +86,7 @@ function CreateCashierPage() {
         },
         navigate,
       };
+      console.log(paramsCreate);
       dispatch<any>(createNewCashier(paramsCreate));
     }
   };
@@ -84,17 +97,6 @@ function CreateCashierPage() {
       navigate,
     };
   }, [cashierId, navigate]);
-
-  useEffect(() => {
-    if (cashier !== null && isEditing === true) {
-      setValue('email', cashier?.email as string);
-      setValue('fullName', cashier?.fullName as string);
-      setValue('gender', cashier?.gender as string);
-      setValue('avatar', cashier?.avatar);
-      setValue('citizenNumber', cashier?.citizenNumber as string);
-      setValue('dateOfBirth', cashier?.dateOfBirth as string);
-    }
-  }, [cashier, isEditing, setValue]);
 
   useEffect(() => {
     if (isEditing) {

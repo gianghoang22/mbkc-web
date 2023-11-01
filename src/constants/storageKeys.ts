@@ -29,6 +29,7 @@ const StorageKeys = {
   IS_EDIT_BANKING_ACCOUNT: 'isEditingBankingAccount',
   IS_EDIT_BRAND: 'isEditingBrand',
   IS_ADD_FORM_DETAIL: 'isAddFormDetail',
+  IS_PRODUCT: 'isProduct',
 
   // pagination
   PAGE: 'page',

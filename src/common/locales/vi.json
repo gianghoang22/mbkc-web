@@ -24,6 +24,7 @@
   },
   "button": {
     "login": "Đăng nhập",
+    "loginAgain": "Đăng nhập lại",
     "sendEmail": "Gửi email",
     "verify": "Xác minh",
     "updatePassword": "Cập nhật mật khẩu",
@@ -55,7 +56,8 @@
     "updateProductLink": "Cập nhật liên kết sản phẩm",
     "yes": "Có",
     "no": "Không",
-    "showColumns": "Hiển thị cột"
+    "showColumns": "Hiển thị cột",
+    "editHours": "Chỉnh giờ"
   },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",
@@ -74,6 +76,7 @@
   },
   "breadcrumb": {
     "dashboard": "Bảng điều khiển",
+    "configurations": "Cấu hình hệ thống",
     "brand": "Thương hiệu",
     "brands": "Thương hiệu",
     "kitchen-center": "Bếp trung tâm",

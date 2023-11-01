@@ -166,6 +166,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('model.capitalizeOne.accountInformation')
             : path === Breadcrumb.INFORMATION
             ? translate('breadcrumb.information')
+            : path === Breadcrumb.CONFIGURATIONS
+            ? translate('breadcrumb.configurations')
             : path;
         return isLast ? (
           <Typography key={path}>{nameFinal}</Typography>

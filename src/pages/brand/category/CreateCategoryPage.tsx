@@ -19,8 +19,10 @@ import { PATH_BRAND_APP } from 'routes/paths';
 
 function CreateCategoryPage() {
   const { id: categoryId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { schemaCategory } = useValidationForm();

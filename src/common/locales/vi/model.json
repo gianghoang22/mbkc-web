@@ -2,6 +2,8 @@
   "capitalizeOne": {
     "overview": "Tổng quan",
     "manage": "Quản lý",
+    "configurations": "Cấu hình",
+    "systemConfigurations": "Cấu hình hệ thống",
     "dashboard": "Bảng điều khiển",
     "information": "Thông tin",
     "endOfShift": "Kết thúc ca làm việc",
@@ -41,7 +43,9 @@
   },
   "capitalize": {
     "overview": "Tổng Quan",
-    "manage": "Quản lý",
+    "manage": "Quản Lý",
+    "configurations": "Cấu Hình",
+    "systemConfigurations": "Cấu Hình Hệ Thống",
     "dashboard": "Bảng Điều Khiển",
     "information": "Thông Tin",
     "endOfShift": "Kết Thúc Ca Làm Việc",
@@ -82,6 +86,8 @@
   "lowercase": {
     "overview": "tổng quan",
     "manage": "quản lý",
+    "configurations": "cấu hình",
+    "systemConfigurations": "cấu hình hệ thống",
     "dashboard": "bảng điều khiển",
     "information": "thông tin",
     "endOfShift": "kết thúc ca làm việc",

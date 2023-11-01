@@ -52,3 +52,11 @@ export const convertStrToDate = (string: string, format = DATE_FORMAT) => moment
 
 export const convertDateToStr = (date: any, format = DATE_FORMAT) =>
   moment(date).isValid() ? moment(date).format(format).toString() : '-';
+
+export const convertStrToTime = (time: string | undefined) => {
+  var now = new Date();
+  var nowDateTime = now.toISOString();
+  var nowDate = nowDateTime.split('T')[0];
+  var target = new Date(nowDate + 'T' + time);
+  return target;
+};
