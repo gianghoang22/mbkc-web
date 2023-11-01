@@ -4,8 +4,8 @@ import {
   LoginResponse,
   MessageResponse,
   Params,
-  ResetFormApi,
-  UpdatePasswordFormApi,
+  ResetForm,
+  UpdatePasswordForm,
   UserInfo,
   VerificationForm,
 } from '@types';
@@ -18,6 +18,7 @@ import {
   handleResponseMessage,
   removeAuthenticated,
   removeSession,
+  removeUserInfo,
   setAccessToken,
   setAuthenticated,
   setLanguage,
@@ -52,7 +53,10 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
   }
 };
 
-export const updatePasswordThunk = async (params: Params<UpdatePasswordFormApi>, thunkAPI: any) => {
+export const updatePasswordThunk = async (
+  params: Params<Omit<UpdatePasswordForm, 'confirmPassword'>>,
+  thunkAPI: any
+) => {
   const { data, idParams, navigate } = params;
 
   try {
@@ -133,7 +137,7 @@ export const verifyOtpThunk = async (params: Params<VerificationForm>, thunkAPI:
   }
 };
 
-export const resetPasswordThunk = async (params: Params<ResetFormApi>, thunkAPI: any) => {
+export const resetPasswordThunk = async (params: Params<Omit<ResetForm, 'confirmPassword'>>, thunkAPI: any) => {
   const { data, navigate } = params;
   try {
     const response: MessageResponse = await axiosClient.put(ROUTES_API_AUTH.RESET_PASSWORD, data);
@@ -159,7 +163,7 @@ export const logoutThunk = async (navigate: any, thunkAPI: any) => {
     await navigate(PATH_AUTH.login);
     localStorage.clear();
     setLanguage(currentLanguage ? currentLanguage : '');
-    thunkAPI.dispatch(setUserInfo);
+    thunkAPI.dispatch(removeUserInfo);
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error);
   }

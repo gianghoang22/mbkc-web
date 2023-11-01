@@ -21,7 +21,7 @@ import {
 import { resetPassword } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { ResetForm } from '@types';
+import { Params, ResetForm } from '@types';
 import images from 'assets';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
@@ -32,6 +32,7 @@ import { StyledContent, StyledRoot } from './styles';
 function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { schemaResetPassword } = useValidationForm();
 
@@ -51,7 +52,7 @@ function ResetPasswordPage() {
 
   const handleResetPassword = (values: ResetForm) => {
     const hashPassword = hashPasswordMD5(values.newPassword);
-    const params = {
+    const params: Params<Omit<ResetForm, 'confirmPassword'>> = {
       data: { email: values.email, newPassword: hashPassword },
       navigate,
     };
