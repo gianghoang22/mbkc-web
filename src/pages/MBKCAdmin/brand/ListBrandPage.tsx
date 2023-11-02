@@ -25,7 +25,7 @@ function ListBrandPage() {
   const { brandHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const [order, setOrder] = useState<OrderSort>('asc');
+  const [orderSort, setOrderSort] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BrandTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
@@ -33,8 +33,8 @@ function ListBrandPage() {
   const { brands, isLoading, numberItems } = useAppSelector((state) => state.brand);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BrandTable) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && orderSort === 'asc';
+    setOrderSort(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -56,11 +56,11 @@ function ListBrandPage() {
         searchValue: debounceValue,
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
-        sortBy: `${orderBy}_${order}`,
+        sortBy: `${orderBy}_${orderSort}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, orderBy, order]);
+  }, [page, rowsPerPage, debounceValue, orderBy, orderSort]);
 
   useEffect(() => {
     dispatch(getAllBrands(params));
@@ -105,7 +105,7 @@ function ListBrandPage() {
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CustomTableHead<BrandTable>
                     showAction
-                    order={order}
+                    order={orderSort}
                     orderBy={orderBy}
                     headCells={brandHeadCells}
                     onRequestSort={handleRequestSort}

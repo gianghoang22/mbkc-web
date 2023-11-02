@@ -128,10 +128,10 @@
     "all": "All Orders",
     "ready": "Ready",
     "prepared": "Being Prepared",
-    "waiting": "Waiting for goods",
-    "done": "Done",
-    "cancel": "Cancel"
+    "completed": "Completed",
+    "canceled": "Canceled"
   },
+
   "error": {
     "serverTitle": "500 Internal Server Error",
     "serverContent": "There was an error, please try again later.",

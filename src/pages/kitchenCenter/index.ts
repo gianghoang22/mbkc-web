@@ -10,3 +10,6 @@ export { default as CreateBankingAccount } from './bankingAccount/CreateBankingA
 export { default as ListMoneyExchangePage } from './wallet/ListMoneyExchangePage';
 export { default as ListShipperPaymentPage } from './wallet/ListShipperPaymentPage';
 export { default as WalletPage } from './wallet/WalletPage';
+
+//
+export { default as PaymentPage } from './payments/PaymentPage';

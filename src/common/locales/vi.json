@@ -128,9 +128,8 @@
     "all": "Tất cả đơn hàng",
     "ready": "Sẵn sàng",
     "prepared": "Đang chuẩn bị",
-    "waiting": "Chờ lấy hàng",
-    "done": "Hoàn thành",
-    "cancel": "Đã hủy"
+    "completed": "Hoàn thành",
+    "canceled": "Đã hủy"
   },
   "error": {
     "serverTitle": "500 Lỗi Máy Chủ Nội Bộ",

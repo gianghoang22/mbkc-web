@@ -47,10 +47,10 @@ export interface KitchenCenterTable {
 }
 
 export interface OrderTable {
-  customerName: string;
-  customerPhone: string;
+  orderPartnerId: string;
+  storeName: string;
+  partnerName: number;
   finalTotalPrice: number;
-  orderCode: string;
   status: string;
 }
 

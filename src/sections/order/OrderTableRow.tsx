@@ -20,9 +20,10 @@ interface OrderTableRowProps {
   index: number;
   page: number;
   rowsPerPage: number;
+  selected: readonly string[];
 }
 
-function OrderTableRow({ index, order, page, rowsPerPage }: OrderTableRowProps) {
+function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -51,15 +52,15 @@ function OrderTableRow({ index, order, page, rowsPerPage }: OrderTableRowProps) 
         </TableCell>
 
         <TableCell align="left" onClick={() => handleNavigateDetail(order.orderId)}>
-          {order.orderCode}
+          {order.orderPartnerId}
         </TableCell>
 
         <TableCell align="left" onClick={() => handleNavigateDetail(order.orderId)}>
-          {order.customerName}
+          {order.partnerName}
         </TableCell>
 
         <TableCell align="left" onClick={() => handleNavigateDetail(order.orderId)}>
-          {order.customerPhone}
+          {order.storeName}
         </TableCell>
 
         <TableCell align="left" onClick={() => handleNavigateDetail(order.orderId)}>
@@ -104,7 +105,6 @@ function OrderTableRow({ index, order, page, rowsPerPage }: OrderTableRowProps) 
                     </Typography>
                   </Stack>
                 </Stack>
-                <Typography>Kitchen Space 1</Typography>
                 <Typography>x1</Typography>
                 <Typography>45.000đ</Typography>
               </Stack>
@@ -121,7 +121,6 @@ function OrderTableRow({ index, order, page, rowsPerPage }: OrderTableRowProps) 
                     </Typography>
                   </Stack>
                 </Stack>
-                <Typography>Kitchen Space 1</Typography>
                 <Typography>x1</Typography>
                 <Typography>45.000đ</Typography>
               </Stack>

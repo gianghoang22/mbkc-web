@@ -524,24 +524,24 @@ function useConfigHeadTable() {
     },
   ];
 
-  const OrderHeadCells: HeadCell<OrderTable>[] = [
+  const orderHeadCells: HeadCell<OrderTable>[] = [
     {
-      id: 'orderCode',
-      label: 'Order',
+      id: 'orderPartnerId',
+      label: 'Partner Id',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
-      id: 'customerName',
-      label: 'Customer name',
+      id: 'partnerName',
+      label: 'Partner name',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
-      id: 'customerPhone',
-      label: 'Customer phone',
+      id: 'storeName',
+      label: 'Store name',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -661,7 +661,7 @@ function useConfigHeadTable() {
     cashierHeadCells,
     bankingAccountHeadCells,
     partnerHeadCells,
-    OrderHeadCells,
+    orderHeadCells,
     MoneyExchangeHeadCells,
     storePartnerHeadCells,
     storePartnerDetailHeadCells,

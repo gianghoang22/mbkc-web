@@ -15,6 +15,8 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import StoreIcon from '@mui/icons-material/Store';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 //
 import { NavSection } from '@types';
@@ -157,12 +159,17 @@ function useConfigSidebar() {
         {
           title: translate('model.lowercase.bankingAccounts'),
           path: PATH_KITCHEN_CENTER_APP.bankingAccount.list,
-          icon: <AssignmentIndIcon fontSize="medium" />,
+          icon: <AccountBalanceOutlinedIcon fontSize="medium" />,
         },
         {
           title: translate('model.lowercase.orders'),
           path: PATH_KITCHEN_CENTER_APP.order.list,
           icon: <ListAltIcon fontSize="medium" />,
+        },
+        {
+          title: translate('model.lowercase.payments'),
+          path: PATH_KITCHEN_CENTER_APP.payments.root,
+          icon: <PaymentsIcon fontSize="medium" />,
         },
         {
           title: translate('model.lowercase.wallet'),

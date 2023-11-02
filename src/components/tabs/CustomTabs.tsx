@@ -51,12 +51,10 @@ function CustomTabs<T extends string | number>({
               ? translate('orderType.ready')
               : option.value === OrderTypeEnum.BEING_PREPARED
               ? translate('orderType.prepared')
-              : option.value === OrderTypeEnum.WAITING_FOR_GOODS
-              ? translate('orderType.waiting')
-              : option.value === OrderTypeEnum.DONE
-              ? translate('orderType.done')
-              : option.value === OrderTypeEnum.CANCEL
-              ? translate('orderType.cancel')
+              : option.value === OrderTypeEnum.COMPLETED
+              ? translate('orderType.completed')
+              : option.value === OrderTypeEnum.CANCELED
+              ? translate('orderType.canceled')
               : option.value === Status.ACTIVE
               ? translate('status.active')
               : option.value === Status.INACTIVE
