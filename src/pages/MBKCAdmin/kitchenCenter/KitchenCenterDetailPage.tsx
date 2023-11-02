@@ -214,7 +214,12 @@ function KitchenCenterDetailPage() {
                               : translate('status.active')}
                           </Label>
                         </Stack>
-
+                        <Typography variant="subtitle1">
+                          {translate('table.manageEmail')}:{' '}
+                          <Typography variant="body1" component="span">
+                            {kitchenCenter?.kitchenCenterManagerEmail}
+                          </Typography>
+                        </Typography>
                         <Typography variant="subtitle1">
                           {translate('table.address')}:{' '}
                           <Typography variant="body1" component="span">
