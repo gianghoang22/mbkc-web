@@ -446,6 +446,10 @@ function useValidationForm() {
       .max(20, translate('page.validation.maxNumber20', { name: translate('model.capitalizeOne.numberAccount') })),
   });
 
+  const schemaPaymentForStore = yup.object({
+    Amount: yup.string().required(translate('page.validation.required', { name: translate('page.form.amount') })),
+  });
+
   const schemaCashier = yup.object({
     fullName: yup.string().required(
       translate('page.validation.required', {
@@ -524,6 +528,7 @@ function useValidationForm() {
     schemaUpdateStorePartner,
     schemaPartnerProduct,
     schemaStorePartner,
+    schemaPaymentForStore,
   };
 }
 

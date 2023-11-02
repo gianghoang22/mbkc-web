@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
-import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination, Button } from '@mui/material';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 //redux
 import { useAppSelector } from 'redux/configStore';
 // section
@@ -9,15 +10,19 @@ import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/money
 //
 import { MoneyExchangeTable, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
+import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
+import MoneyExchangeDetailModal from 'sections/moneyExchanges/MoneyExchangeDetailModal';
 
-function ListMoneyExchangePage() {
+function ListOfPaymentForStoresPage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { handleOpen, isOpen } = useModal();
+  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
 
   const { moneyExchanges } = useAppSelector((state) => state.wallet);
 
@@ -52,7 +57,22 @@ function ListMoneyExchangePage() {
 
   return (
     <>
-      <Page title="List Of Money Exchange" pathname={pathname} navigateDashboard={PATH_KITCHEN_CENTER_APP.root}>
+      <Page
+        title={translate('page.title.list', { model: translate('model.lowercase.paymentForStores') })}
+        pathname={pathname}
+        navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
+        actions={() => [
+          <Button
+            variant="contained"
+            startIcon={<AddRoundedIcon />}
+            onClick={() => {
+              handleOpen();
+            }}
+          >
+            {translate('button.add', { model: translate('model.lowercase.paymentForStore') })}
+          </Button>,
+        ]}
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -106,8 +126,14 @@ function ListMoneyExchangePage() {
           </Box>
         </Card>
       </Page>
+
+      {isOpen && (
+        <CreatePaymentForStoreModal isOpen={isOpen} handleOpen={handleOpen} page={page} rowsPerPage={rowsPerPage} />
+      )}
+
+      {isOpenModalDetail && <MoneyExchangeDetailModal isOpen={isOpenModalDetail} handleOpen={handleOpenModalDetail} />}
     </>
   );
 }
 
-export default ListMoneyExchangePage;
+export default ListOfPaymentForStoresPage;

@@ -7,6 +7,7 @@ export enum Breadcrumb {
   STORES = 'stores',
   PARTNER = 'partner',
   PARTNERS = 'partners',
+  PAYMENT_FOR_STORES = 'payment-for-stores',
   STORE_PARTNER = 'store-partner',
   STORE_PARTNERS = 'store-partners',
   CATEGORY = 'category',
