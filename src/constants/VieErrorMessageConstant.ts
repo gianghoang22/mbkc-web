@@ -1,4 +1,6 @@
 export const VieErrorMessageConstant = {
+  notAccessSystem: 'Bạn không có quyền truy cập vào hệ thống',
+
   imageIsNotNull: 'Hình ảnh không được để trống.',
   logoIsNotNull: 'Logo không được để trống.',
   NotExistEmail: 'Email không tồn tại trong hệ thống.',

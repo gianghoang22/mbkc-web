@@ -27,6 +27,7 @@ import {
   setUserInfo,
 } from 'utils';
 import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
+import { Role } from 'common/enum';
 
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
   const { data, navigate } = params;
@@ -38,13 +39,23 @@ export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
       roleName: response?.roleName,
       isConfirmed: response?.isConfirmed,
     };
-    setAccessToken(response.tokens.accessToken);
-    setRefreshToken(response.tokens.refreshToken);
-    setUserAuth(userStorage);
-    setAuthenticated();
-    const message = handleResponseMessage('Login Successfully.');
-    thunkAPI.dispatch(setMessageSuccess(message));
-    return userStorage;
+    if (
+      response?.roleName === Role.MBKC_ADMIN ||
+      response?.roleName === Role.BRAND_MANAGER ||
+      response?.roleName === Role.KITCHEN_CENTER_MANAGER ||
+      response?.roleName === Role.CASHIER
+    ) {
+      setAccessToken(response.tokens.accessToken);
+      setRefreshToken(response.tokens.refreshToken);
+      setUserAuth(userStorage);
+      setAuthenticated();
+      const message = handleResponseMessage('Login Successfully.');
+      thunkAPI.dispatch(setMessageSuccess(message));
+      return userStorage;
+    } else {
+      const message = handleResponseMessage('You do not have access to the system');
+      thunkAPI.dispatch(setMessageError(message));
+    }
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');

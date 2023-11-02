@@ -20,6 +20,7 @@ import { hashPasswordMD5 } from 'utils';
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { schemaLogin } = useValidationForm();
 

@@ -1,4 +1,6 @@
 export const EngErrorMessageConstant = {
+  notAccessSystem: 'You do not have access to the system',
+
   imageIsNotNull: 'Image is not null.',
   logoIsNotNull: 'Logo is not null.',
   NotExistEmail: 'Email does not exist in the system.',
