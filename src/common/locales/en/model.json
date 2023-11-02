@@ -116,6 +116,7 @@
     "wallet": "wallet",
     "transaction": "transaction",
     "transactions": "transactions",
+    "payments": "payments",
     "bankingAccount": "banking account",
     "bankingAccounts": "banking accounts",
     "numberAccount": "number account",

@@ -1,6 +1,6 @@
 export interface Order {
   orderId: number;
-  orderPartnerId: string;
+  orderPartnerId: number;
   shipperName: string;
   shipperPhone: string;
   customerName: string;
@@ -15,7 +15,9 @@ export interface Order {
   tax: number;
   status: string;
   partnerId: number;
+  partnerName: string;
   storeId: number;
+  storeName: string;
   orderCode: string;
 }
 
@@ -43,8 +45,12 @@ export enum OrderTypeEnum {
   ALL = 'ALL_ORDER',
   READY = 'READY',
   BEING_PREPARED = 'BEING_PREPARED',
-  WAITING_FOR_GOODS = 'WAITING_FOR_GOODS',
-  DONE = 'DONE',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
+}
+
+export enum OrderStatusActions {
+  COMPLETED = 'COMPLETED',
   CANCEL = 'CANCEL',
 }
 
@@ -55,28 +61,23 @@ export const ORDER_TYPE_TABS = [
     id: 'All',
   },
   {
-    value: OrderTypeEnum.READY,
-    label: 'Ready',
-    id: 'Rea',
-  },
-  {
     value: OrderTypeEnum.BEING_PREPARED,
     label: 'Being Prepared',
     id: 'Pre',
   },
   {
-    value: OrderTypeEnum.WAITING_FOR_GOODS,
-    label: 'Waiting for goods',
-    id: 'Good',
+    value: OrderTypeEnum.READY,
+    label: 'Ready',
+    id: 'Rea',
   },
   {
-    value: OrderTypeEnum.DONE,
-    label: 'Done',
+    value: OrderTypeEnum.COMPLETED,
+    label: 'Completed',
     id: 'Don',
   },
   {
-    value: OrderTypeEnum.CANCEL,
-    label: 'Cancel',
+    value: OrderTypeEnum.CANCELED,
+    label: 'Canceled',
     id: 'Can',
   },
 ];

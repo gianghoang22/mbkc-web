@@ -6,7 +6,7 @@ import { sample } from 'lodash'; // random in array
 
 const orders: Order[] = [...Array(24)].map((_, index) => ({
   orderId: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
-  orderPartnerId: faker.company.name(),
+  orderPartnerId: faker.number.int({ min: 1000, max: 10000 }),
   shipperName: faker.company.name(),
   shipperPhone: faker.company.name(),
   customerName: faker.company.name(),
@@ -21,6 +21,8 @@ const orders: Order[] = [...Array(24)].map((_, index) => ({
   tax: faker.number.int({ min: 1000, max: 10000 }),
   partnerId: faker.number.int({ min: 1000, max: 10000 }),
   storeId: faker.number.int({ min: 1000, max: 10000 }),
+  partnerName: faker.company.name(),
+  storeName: faker.company.name(),
   orderCode: faker.company.name(),
   status: sample(['active', 'inactive']),
 }));
