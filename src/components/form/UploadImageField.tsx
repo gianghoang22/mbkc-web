@@ -10,7 +10,7 @@ interface UploadImageFieldProps {
   label: string;
   subLabel?: string;
   defaultValue?: any;
-  isEditing: boolean;
+  isEditing?: boolean;
   margin?: string;
   captionWidth?: number;
 }

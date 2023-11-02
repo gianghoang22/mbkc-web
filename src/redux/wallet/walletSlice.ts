@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { MoneyExchange, ShipperPayment } from '@types';
-import { getAllMoneyExchangeThunk, getAllShipperPaymentThunk } from './walletThunk';
+import { createPaymentForStoreThunk, getAllMoneyExchangeThunk, getAllShipperPaymentThunk } from './walletThunk';
 import moneyExchange from 'mock/moneyExchange';
 import shipperPayment from 'mock/shipperPayment';
 
@@ -30,6 +30,10 @@ export const getAllMoneyExchange = createAsyncThunk('money-exchange/get-all-mone
 export const getAllShipperPayment = createAsyncThunk(
   'shipper-payment/get-all-shipper-payment',
   getAllShipperPaymentThunk
+);
+export const createPaymentForStore = createAsyncThunk(
+  'money-exchange/create-payment-for-store',
+  createPaymentForStoreThunk
 );
 
 const BankingAccountSlice = createSlice({
@@ -66,6 +70,19 @@ const BankingAccountSlice = createSlice({
         state.moneyExchanges = [...action.payload?.moneyExchanges];
       })
       .addCase(getAllShipperPayment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(createPaymentForStore.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createPaymentForStore.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(createPaymentForStore.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

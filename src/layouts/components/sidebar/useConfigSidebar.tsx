@@ -167,8 +167,8 @@ function useConfigSidebar() {
           icon: <ListAltIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.payments'),
-          path: PATH_KITCHEN_CENTER_APP.payments.root,
+          title: translate('model.lowercase.paymentForStores'),
+          path: PATH_KITCHEN_CENTER_APP.paymentForStores.list,
           icon: <PaymentsIcon fontSize="medium" />,
         },
         {

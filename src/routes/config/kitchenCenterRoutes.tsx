@@ -8,10 +8,10 @@ import {
   ListBankingAccountPage,
   ListCashierPage,
   ListMoneyExchangePage,
+  ListPaymentForStoresPage,
   ListShipperPaymentPage,
   WalletPage,
 } from 'pages/kitchenCenter';
-import PaymentPage from 'pages/kitchenCenter/payments/PaymentPage';
 import { InformationPage, ProfilePage } from 'pages/profile';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
@@ -102,8 +102,8 @@ export const kitchenCenterRoutes: Route[] = [
     index: false,
   },
   {
-    path: PATH_KITCHEN_CENTER_APP.payments.root,
-    component: <PaymentPage />,
+    path: PATH_KITCHEN_CENTER_APP.paymentForStores.list,
+    component: <ListPaymentForStoresPage />,
     index: false,
   },
 ];

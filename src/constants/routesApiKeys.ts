@@ -18,6 +18,7 @@ const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
 const ROOTS_ADDRESS = '/province';
 const ROOTS_CONFIGURATION = '/configurations';
+const ROOTS_MONEY_EXCHANGES = '/money-exchanges';
 
 export const ROUTES_API_AUTH = {
   LOGIN: path(ROOTS_AUTH, `/login`),
@@ -63,6 +64,10 @@ export const ROUTES_API_KITCHEN_CENTER = {
     path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}/updating-status`),
   DELETE_KITCHEN_CENTER: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
   GET_PROFILE_KITCHEN_CENTER: path(ROOTS_KITCHEN_CENTERS, `/profile`),
+};
+
+export const ROUTES_API_MONEY_EXCHANGES = {
+  CREATE_PAYMENT_FOR_STORES: path(ROOTS_MONEY_EXCHANGES, '/withdraw-money-to-store'),
 };
 
 export const ROUTES_API_BRANDS = {

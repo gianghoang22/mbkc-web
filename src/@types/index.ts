@@ -8,6 +8,7 @@ export * from './models/category';
 export * from './models/configuration';
 export * from './models/kitchenCenter';
 export * from './models/moneyExchange';
+export * from './models/paymentForStores';
 export * from './models/order';
 export * from './models/partner';
 export * from './models/partnerProduct';

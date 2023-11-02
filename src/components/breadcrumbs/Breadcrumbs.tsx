@@ -41,7 +41,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
       pathnames[0] === Breadcrumb.CASHIERS ||
       pathnames[0] === Breadcrumb.ORDERS ||
       pathnames[0] === Breadcrumb.BANKING_ACCOUNTS ||
-      pathnames[0] === Breadcrumb.TRANSACTIONS
+      pathnames[0] === Breadcrumb.TRANSACTIONS ||
+      pathnames[0] === Breadcrumb.PAYMENT_FOR_STORES
     ? [...pathnames, Breadcrumb.LIST]
     : pathnames;
 
@@ -68,6 +69,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
       ? PATH_BRAND_APP.product.list
       : pathnames[0] === Breadcrumb.PARTNER_PRODUCTS || pathnames[0] === Breadcrumb.PARTNER_PRODUCT
       ? PATH_BRAND_APP.partnerProduct.list
+      : pathnames[0] === Breadcrumb.PAYMENT_FOR_STORES
+      ? PATH_KITCHEN_CENTER_APP.paymentForStores.list
       : pathnames[0] === Breadcrumb.CASHIERS || pathnames[0] === Breadcrumb.CASHIER
       ? PATH_KITCHEN_CENTER_APP.cashier.list
       : pathnames[0] === Breadcrumb.ORDERS || pathnames[0] === Breadcrumb.ORDER
@@ -168,6 +171,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.information')
             : path === Breadcrumb.CONFIGURATIONS
             ? translate('breadcrumb.configurations')
+            : path === Breadcrumb.PAYMENT_FOR_STORES
+            ? translate('breadcrumb.payment-for-stores')
             : path;
         return isLast ? (
           <Typography key={path}>{nameFinal}</Typography>

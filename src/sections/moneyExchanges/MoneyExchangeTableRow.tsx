@@ -4,46 +4,43 @@ import { TableCell, TableRow } from '@mui/material';
 import { MoneyExchange } from '@types';
 import { Color, Status } from 'common/enum';
 import { Label } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useModal } from 'hooks';
+import MoneyExchangeDetailModal from './MoneyExchangeDetailModal';
 
 interface MoneyExchangeTableRowProps {
-  handleNavigateDetail: (moneyExchange: MoneyExchange, moneyExchangeId: number) => void;
   moneyExchange: MoneyExchange;
   index: number;
   page: number;
   rowsPerPage: number;
 }
 
-function MoneyExchangeTableRow({ index, moneyExchange, handleNavigateDetail }: MoneyExchangeTableRowProps) {
+function MoneyExchangeTableRow({ index, moneyExchange }: MoneyExchangeTableRowProps) {
   const { translate } = useLocales();
+  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
 
   return (
     <>
       <TableRow hover tabIndex={-1} key={moneyExchange.amount} sx={{ cursor: 'pointer' }}>
-        <TableCell
-          width={60}
-          align="center"
-          onClick={() => handleNavigateDetail(moneyExchange, moneyExchange.moneyExchangeId)}
-        >
+        <TableCell width={60} align="center" onClick={handleOpenModalDetail}>
           {index + 1}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(moneyExchange, moneyExchange.moneyExchangeId)}>
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           {moneyExchange.sender}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(moneyExchange, moneyExchange.moneyExchangeId)}>
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           {moneyExchange.receiver}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(moneyExchange, moneyExchange.moneyExchangeId)}>
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           {moneyExchange.amount}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(moneyExchange, moneyExchange.moneyExchangeId)}>
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           {moneyExchange.exchangeType}
         </TableCell>
 
-        <TableCell align="left">
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           <Label
             color={
               moneyExchange?.status === Status.ACTIVE
@@ -61,6 +58,8 @@ function MoneyExchangeTableRow({ index, moneyExchange, handleNavigateDetail }: M
           </Label>
         </TableCell>
       </TableRow>
+
+      {isOpenModalDetail && <MoneyExchangeDetailModal isOpen={isOpenModalDetail} handleOpen={handleOpenModalDetail} />}
     </>
   );
 }

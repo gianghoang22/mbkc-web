@@ -12,4 +12,4 @@ export { default as ListShipperPaymentPage } from './wallet/ListShipperPaymentPa
 export { default as WalletPage } from './wallet/WalletPage';
 
 //
-export { default as PaymentPage } from './payments/PaymentPage';
+export { default as ListPaymentForStoresPage } from './paymentForStores/ListPaymentForStoresPage';
