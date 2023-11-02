@@ -19,6 +19,7 @@ function BrandDetailPage() {
                 <Skeleton variant="rounded" width={120} height={24} />
               </Stack>
               <Stack direction="column" gap={0.5}>
+                <Skeleton width={350} />
                 <Skeleton width={515} />
                 <Skeleton width={515} />
               </Stack>

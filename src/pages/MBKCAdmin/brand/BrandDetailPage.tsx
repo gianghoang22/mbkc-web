@@ -196,6 +196,12 @@ function BrandDetailPage() {
                         </Label>
                       </Stack>
                       <Typography variant="subtitle1">
+                        {translate('table.manageEmail')}:{' '}
+                        <Typography variant="body1" component="span">
+                          {brand?.brandManagerEmail}
+                        </Typography>
+                      </Typography>
+                      <Typography variant="subtitle1">
                         {translate('table.address')}:{' '}
                         <Typography variant="body1" component="span">
                           {brand?.address

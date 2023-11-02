@@ -110,7 +110,9 @@ export const handleResponseMessage = (response: string) => {
         ? EngMessageConstant.UpdatedPartnerProductStatusSuccessfully
         : response === EngMessageConstant.UpdatedConfigurationsSuccessfully
         ? EngMessageConstant.UpdatedConfigurationsSuccessfully
-        : response === EngErrorMessageConstant.imageIsNotNull // error message
+        : response === EngErrorMessageConstant.notAccessSystem // error message
+        ? EngErrorMessageConstant.notAccessSystem
+        : response === EngErrorMessageConstant.imageIsNotNull
         ? EngErrorMessageConstant.imageIsNotNull
         : response === EngErrorMessageConstant.logoIsNotNull
         ? EngErrorMessageConstant.logoIsNotNull
@@ -450,7 +452,9 @@ export const handleResponseMessage = (response: string) => {
         ? VieMessageConstant.UpdatedPartnerProductStatusSuccessfully
         : response === EngMessageConstant.UpdatedConfigurationsSuccessfully
         ? VieMessageConstant.UpdatedConfigurationsSuccessfully
-        : response === EngErrorMessageConstant.imageIsNotNull // error message
+        : response === EngErrorMessageConstant.notAccessSystem // error message
+        ? VieErrorMessageConstant.notAccessSystem
+        : response === EngErrorMessageConstant.imageIsNotNull
         ? VieErrorMessageConstant.imageIsNotNull
         : response === EngErrorMessageConstant.logoIsNotNull
         ? VieErrorMessageConstant.logoIsNotNull
