@@ -20,7 +20,7 @@ import {
 import { updatePassword } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { Params, UpdatePasswordForm, UpdatePasswordFormApi } from '@types';
+import { Params, UpdatePasswordForm } from '@types';
 import { Color } from 'common/enum';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
@@ -51,7 +51,7 @@ function UpdatePasswordModal({ isOpen, handleOpen }: UpdatePasswordModalProps) {
 
   const onSubmit = async (values: UpdatePasswordForm) => {
     const hashPassword = hashPasswordMD5(values.newPassword);
-    const params: Params<UpdatePasswordFormApi> = {
+    const params: Params<Omit<UpdatePasswordForm, 'confirmPassword'>> = {
       data: { newPassword: hashPassword },
       idParams: { accountId: userAuth?.accountId },
       navigate,

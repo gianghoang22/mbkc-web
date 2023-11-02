@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,12 +22,12 @@ import {
 import { logout, setUserInfo, updatePassword } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { Params, UpdatePasswordForm, UpdatePasswordFormApi } from '@types';
+import { Params, UpdatePasswordForm } from '@types';
+import images from 'assets';
 import { Color } from 'common/enum';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { hashPasswordMD5 } from 'utils';
-import images from 'assets';
 
 interface UpdatePasswordToUseModalProps {
   isOpen: boolean;
@@ -38,6 +38,7 @@ interface UpdatePasswordToUseModalProps {
 function UpdatePasswordToUseModal({ isOpen, handleOpen, handleClose }: UpdatePasswordToUseModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { schemaUpdatePassword } = useValidationForm();
 
@@ -55,7 +56,7 @@ function UpdatePasswordToUseModal({ isOpen, handleOpen, handleClose }: UpdatePas
 
   const onSubmit = async (values: UpdatePasswordForm) => {
     const hashPassword = hashPasswordMD5(values.newPassword);
-    const params: Params<UpdatePasswordFormApi> = {
+    const params: Params<Omit<UpdatePasswordForm, 'confirmPassword'>> = {
       data: { newPassword: hashPassword },
       idParams: { accountId: userAuth?.accountId },
       navigate,

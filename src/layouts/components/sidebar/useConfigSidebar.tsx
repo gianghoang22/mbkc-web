@@ -17,6 +17,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 //
 import { NavSection } from '@types';
 import useLocales from 'hooks/useLocales';
@@ -58,6 +59,16 @@ function useConfigSidebar() {
           title: translate('model.lowercase.partners'),
           path: PATH_ADMIN_APP.partner.list,
           icon: <HandshakeIcon fontSize="medium" />,
+        },
+      ],
+    },
+    {
+      missions: translate('model.lowercase.configurations'),
+      listNav: [
+        {
+          title: translate('model.lowercase.systemConfigurations'),
+          path: PATH_ADMIN_APP.configurations,
+          icon: <SettingsTwoToneIcon fontSize="medium" />,
         },
       ],
     },

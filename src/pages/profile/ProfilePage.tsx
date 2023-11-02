@@ -63,7 +63,7 @@ function ProfilePage() {
 
   useEffect(() => {
     if (userAuth?.isConfirmed) {
-      dispatch(getUserInformation(paramsInfo));
+      dispatch<any>(getUserInformation(paramsInfo));
     } else {
       handleOpen();
     }

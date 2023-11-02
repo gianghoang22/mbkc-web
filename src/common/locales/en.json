@@ -24,6 +24,7 @@
   },
   "button": {
     "login": "Login",
+    "loginAgain": "Login again",
     "sendEmail": "Send email",
     "verify": "Verify",
     "updatePassword": "Update password",
@@ -55,7 +56,8 @@
     "updateProductLink": "Update product links",
     "yes": "Yes",
     "no": "No",
-    "showColumns": "Show columns"
+    "showColumns": "Show columns",
+    "editHours": "Adjust hours"
   },
   "common": {
     "welcome": "Hi, Welcome Back",
@@ -74,6 +76,7 @@
   },
   "breadcrumb": {
     "dashboard": "Dashboard",
+    "configurations": "Configuration",
     "brand": "Brand",
     "brands": "Brands",
     "kitchen-center": "Kitchen center",

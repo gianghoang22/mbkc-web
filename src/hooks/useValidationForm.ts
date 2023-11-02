@@ -291,6 +291,40 @@ function useValidationForm() {
         ),
       })
     ),
+    price: yup
+      .number()
+      .typeError(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.capitalizeOne.product'),
+                  name: translate('page.form.codeLower'),
+                }
+              : {
+                  model: translate('page.form.code'),
+                  name: translate('model.lowercase.product'),
+                }
+          ),
+        })
+      )
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.capitalizeOne.product'),
+                  name: translate('page.form.codeLower'),
+                }
+              : {
+                  model: translate('page.form.code'),
+                  name: translate('model.lowercase.product'),
+                }
+          ),
+        })
+      ),
   });
 
   const schemaStorePartner = yup.object().shape({
@@ -439,8 +473,8 @@ function useValidationForm() {
       .matches(/^[0-9]{12}$/, translate('page.validation.citizenNumberLimit12Number')),
     dateOfBirth: yup
       .string()
-      .required(translate('page.validation.required', { name: translate('model.lowercase.dateOfBirth') })),
-    gender: yup.string().required(translate('page.validation.required', { name: translate('model.lowercase.gender') })),
+      .required(translate('page.validation.select', { name: translate('model.lowercase.dateOfBirth') })),
+    gender: yup.string().required(translate('page.validation.select', { name: translate('model.lowercase.gender') })),
   });
 
   const schemaUpdateProfile = yup.object({

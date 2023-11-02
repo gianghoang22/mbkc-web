@@ -67,10 +67,11 @@ function ProductTableTab() {
         itemsPerPage: rowsPerPage,
         type: productType?.value,
         idCategory: categoryId,
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, productType, categoryId]);
+  }, [page, rowsPerPage, debounceValue, productType, categoryId, orderBy, order]);
 
   useEffect(() => {
     dispatch<any>(getAllProducts(params));

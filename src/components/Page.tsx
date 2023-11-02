@@ -28,7 +28,9 @@ const Page = forwardRef<HTMLDivElement, PageProps>(
           <Box pb={6}>
             <Stack direction="row" alignItems="start" justifyContent="space-between">
               <Stack>
-                <Typography variant="h4">{title}</Typography>
+                <Typography variant="h4" textTransform="uppercase">
+                  {title}
+                </Typography>
                 <Breadcrumbs pathname={pathname} navigateDashboard={navigateDashboard} />
               </Stack>
               <Stack direction="row" alignItems="center" spacing={2}>

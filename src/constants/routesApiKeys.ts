@@ -17,6 +17,7 @@ const ROOTS_CASHIERS = '/cashiers';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
 const ROOTS_ADDRESS = '/province';
+const ROOTS_CONFIGURATION = '/configurations';
 
 export const ROUTES_API_AUTH = {
   LOGIN: path(ROOTS_AUTH, `/login`),
@@ -31,6 +32,11 @@ export const ROUTES_API_ACCOUNT = {
   UPDATE_PASSWORD: (accountId: number) => path(ROOTS_ACCOUNT, `/${accountId}`),
 };
 
+export const ROUTES_API_CONFIGURATION = {
+  GET_CONFIGURATION: pathRoot(ROOTS_CONFIGURATION),
+  UPDATE_CONFIGURATION: pathRoot(ROOTS_CONFIGURATION),
+};
+
 export const ROUTES_API_ADDRESS = {
   GET_ALL_PROVINCE: pathRoot(ROOTS_ADDRESS),
   GET_ALL_DISTRICT_BY_PROVINCE_ID: (provinceId: number) => path(ROOTS_ADDRESS, `/district/${provinceId}`),
@@ -41,12 +47,13 @@ export const ROUTES_API_KITCHEN_CENTER = {
   GET_ALL_KITCHEN_CENTER: ({
     itemsPerPage = '',
     currentPage = '',
-    keySearchName = '',
+    searchValue = '',
+    sortBy = '',
     isGetAll = '',
   }: OptionParams) => {
     return path(
       ROOTS_KITCHEN_CENTERS,
-      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&keySearchName=${keySearchName}&isGetAll=${isGetAll}`
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&isGetAll=${isGetAll}&sortBy=${sortBy}`
     );
   },
   GET_KITCHEN_CENTER_DETAIL: (kitchenCenterId: number) => path(ROOTS_KITCHEN_CENTERS, `/${kitchenCenterId}`),
@@ -90,10 +97,11 @@ export const ROUTES_API_STORES = {
     idKitchenCenter = '',
     status = '',
     isGetAll = '',
+    sortBy = '',
   }: OptionParams) => {
     return path(
       ROOTS_STORES,
-      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}&status=${status}&isGetAll=${isGetAll}`
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}&status=${status}&isGetAll=${isGetAll}&sortBy=${sortBy}`
     );
   },
   GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
@@ -184,10 +192,11 @@ export const ROUTES_API_PRODUCTS = {
     isGetAll = '',
     idStore = '',
     idCategory = '',
+    sortBy = '',
   }: OptionParams) =>
     path(
       ROOTS_PRODUCTS,
-      `?searchName=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}`
+      `?searchName=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}&sortBy=${sortBy}`
     ),
   GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
   UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
@@ -227,10 +236,10 @@ export const ROUTES_API_CASHIERS = {
 };
 
 export const ROUTES_API_BANKING_ACCOUNTS = {
-  GET_ALL_BANKING_ACCOUNTS: ({ itemsPerPage = '', currentPage = '', searchValue = '' }: OptionParams) => {
+  GET_ALL_BANKING_ACCOUNTS: ({ itemsPerPage = '', currentPage = '', searchValue = '', sortBy = '' }: OptionParams) => {
     return path(
       ROOTS_BANKING_ACCOUNTS,
-      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&`
+      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sortBy}`
     );
   },
   GET_BANKING_ACCOUNT_DETAIL: (bankingAccountId: number) => path(ROOTS_BANKING_ACCOUNTS, `/${bankingAccountId}`),

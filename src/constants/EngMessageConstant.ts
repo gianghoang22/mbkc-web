@@ -58,4 +58,6 @@ export const EngMessageConstant = {
   UpdatedPartnerProductSuccessfully: 'Updated Partner Product Successfully.',
   DeletedPartnerProductSuccessfully: 'Deleted Partner Product Successfully.',
   UpdatedPartnerProductStatusSuccessfully: 'Updated Partner Product Status Successfully.',
+
+  UpdatedConfigurationsSuccessfully: 'Updated Configuration Successfully.',
 };

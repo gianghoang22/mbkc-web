@@ -2,6 +2,8 @@
   "capitalizeOne": {
     "overview": "Overview",
     "manage": "Manage",
+    "configurations": "Configuration",
+    "systemConfigurations": "System configuration",
     "dashboard": "Dashboard",
     "information": "Information",
     "endOfShift": "End of shift",
@@ -43,6 +45,8 @@
   "capitalize": {
     "overview": "Overview",
     "manage": "Manage",
+    "configurations": "Configuration",
+    "systemConfigurations": "System Configuration",
     "dashboard": "Dashboard",
     "information": "Information",
     "endOfShift": "End Of Shift",
@@ -84,6 +88,8 @@
   "lowercase": {
     "overview": "overview",
     "manage": "manage",
+    "configurations": "configuration",
+    "systemConfigurations": "system configuration",
     "dashboard": "dashboard",
     "information": "information",
     "endOfShift": "end of shift",

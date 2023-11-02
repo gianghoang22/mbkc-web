@@ -1,5 +1,5 @@
 export interface KitchenCenterProfile {
-  kitchenCenterId: Number;
+  kitchenCenterId: number;
   name: string;
   address: string;
   logo: string;

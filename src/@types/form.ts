@@ -23,15 +23,6 @@ export interface UpdatePasswordForm {
   confirmPassword: string;
 }
 
-export interface UpdatePasswordFormApi {
-  newPassword: string;
-}
-
-export interface ResetFormApi {
-  email: string;
-  newPassword: string;
-}
-
 export interface AddressFormInterface {
   logo?: string;
   name: string;
