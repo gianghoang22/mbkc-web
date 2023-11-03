@@ -136,7 +136,7 @@ function StoreDetailPage() {
                       color: '#fff',
                     }}
                     sx={{
-                      '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
+                      '.css-190udkw-MuiButtonBase-root-MuiButton-root:hover': {
                         backgroundColor: 'rgba(145, 158, 171, 0.08)',
                       },
                     }}
@@ -151,10 +151,12 @@ function StoreDetailPage() {
                   <Button
                     color="inherit"
                     endIcon={<KeyboardArrowDownIcon />}
-                    sx={{
+                    style={{
                       backgroundColor: '#000',
                       color: '#fff',
-                      '.css-1dat9h6-MuiButtonBase-root-MuiButton-root:hover': {
+                    }}
+                    sx={{
+                      '.css-190udkw-MuiButtonBase-root-MuiButton-root:hover': {
                         backgroundColor: 'rgba(145, 158, 171, 0.08)',
                       },
                     }}
