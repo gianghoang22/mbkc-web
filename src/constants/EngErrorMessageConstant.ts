@@ -114,7 +114,7 @@ export const EngErrorMessageConstant = {
   DeactivePartner_Delete: 'Partner cannot delete because that was deleted before.',
   DeactivePartner_Get: 'Partner cannot get because that was deleted before.',
   PartnerHasPartnerStoreActive_Update: 'Partner can not update status because active stores is using this partner.',
-  PartnerHasPartnerStoreActive_Delete: 'Partner can not delete status because active stores is using this partner.',
+  PartnerHasPartnerStoreActive_Delete: 'Partner can not delete because active stores is using this partner.',
 
   CashierIdNotBelongToKitchenCenter: 'Cashier id does not belong to your kitchen center.',
   CashierIdNotBelogToCashier: 'Cashier id is not suitable with your account.',

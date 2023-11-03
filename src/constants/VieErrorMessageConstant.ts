@@ -116,8 +116,7 @@ export const VieErrorMessageConstant = {
   DeactivePartner_Get: 'Đối tác không thể nhận được vì đã bị xóa trước đó.',
   PartnerHasPartnerStoreActive_Update:
     'Đối tác không thể cập nhật trạng thái vì các cửa hàng đang hoạt động đang sử dụng đối tác này.',
-  PartnerHasPartnerStoreActive_Delete:
-    'Đối tác không thể xóa trạng thái vì các cửa hàng đang hoạt động đang sử dụng đối tác này.',
+  PartnerHasPartnerStoreActive_Delete: 'Không thể xóa đối tác vì các cửa hàng đang hoạt động đang sử dụng đối tác này.',
 
   CashierIdNotBelongToKitchenCenter: 'Id nhân viên thu ngân không thuộc về trung tâm nhà bếp của bạn.',
   CashierIdNotBelogToCashier: 'Id nhân viên thu ngân không phù hợp với tài khoản của bạn.',

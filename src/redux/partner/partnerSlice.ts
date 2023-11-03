@@ -119,6 +119,19 @@ const partnerSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
+      .addCase(updateStatusPartner.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateStatusPartner.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateStatusPartner.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
       .addCase(deletePartner.pending, (state) => {
         state.isLoading = true;
       })
