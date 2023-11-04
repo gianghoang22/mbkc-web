@@ -151,7 +151,7 @@ function CreateProductPage() {
     if (type === ProductTypeEnum.SINGLE) {
       initialValues = {
         type: type,
-        name: name,
+        name: '',
         code: code,
         image: image,
         description: description,
@@ -202,7 +202,7 @@ function CreateProductPage() {
     if (type === ProductTypeEnum.EXTRA) {
       initialValues = {
         type: type,
-        name: name,
+        name: '',
         code: code,
         image: image,
         description: description,

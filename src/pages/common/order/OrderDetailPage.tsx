@@ -1,42 +1,42 @@
-import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet as ReactHelmet } from 'react-helmet-async';
+import { useNavigate, useParams } from 'react-router-dom';
 // @mui
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
+import ReplayIcon from '@mui/icons-material/Replay';
 import {
   Box,
   Button,
   Card,
+  Container,
   Divider,
   Grid,
+  IconButton,
+  Popover as MUIPopover,
+  MenuItem,
   Paper,
   Stack,
-  Typography,
-  MenuItem,
-  Container,
-  Popover as MUIPopover,
-  IconButton,
-  TableContainer,
   Table,
   TableBody,
+  TableContainer,
   TablePagination,
   Tooltip,
+  Typography,
 } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ClearIcon from '@mui/icons-material/Clear';
-import CheckIcon from '@mui/icons-material/Check';
-import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
-import ReplayIcon from '@mui/icons-material/Replay';
 // section
-import { OrderHistoryTableRow, OrderItem, OrderTimeline } from 'sections/order';
+import { OrderHistoryTableRow, OrderItem } from 'sections/order';
 //
+import { OrderHistoryTable, OrderSort, OrderStatusActions } from '@types';
 import { Color, Role } from 'common/enum';
-import { CustomTableHead, CustomTableToolbar, EmptyTable, Label, SearchNotFound } from 'components';
+import { CustomTableHead, EmptyTable, Label, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { useEffect, useMemo, useState } from 'react';
-import { OrderHistoryTable, OrderSort, OrderSortBy, OrderStatusActions, OrderTable } from '@types';
-import { useAppSelector } from 'redux/configStore';
 import { useDispatch } from 'react-redux';
+import { useAppSelector } from 'redux/configStore';
 import { getOrderDetail } from 'redux/order/orderSlice';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { formatCurrency } from 'utils';
 
 function OrderDetailPage() {
@@ -70,7 +70,7 @@ function OrderDetailPage() {
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setFilterName(event.target.value);
+    setFilterName(event.target.value.trimStart());
   };
 
   const handleReloadData = () => {};

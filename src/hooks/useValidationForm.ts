@@ -226,15 +226,18 @@ function useValidationForm() {
     historicalPrice: yup
       .number()
       .typeError(translate('page.validation.required', { name: translate('table.lowercase.historicalPrice') }))
-      .required(translate('page.validation.required', { name: translate('table.lowercase.historicalPrice') })),
+      .required(translate('page.validation.required', { name: translate('table.lowercase.historicalPrice') }))
+      .moreThan(-1, translate('page.validation.historicalPriceGreaterThan0')),
     sellingPrice: yup
       .number()
       .typeError(translate('page.validation.required', { name: translate('table.lowercase.sellingPrice') }))
-      .required(translate('page.validation.required', { name: translate('table.lowercase.sellingPrice') })),
+      .required(translate('page.validation.required', { name: translate('table.lowercase.sellingPrice') }))
+      .moreThan(-1, translate('page.validation.sellingPriceGreaterThan0')),
     discountPrice: yup
       .number()
       .typeError(translate('page.validation.required', { name: translate('table.lowercase.discountPrice') }))
-      .required(translate('page.validation.required', { name: translate('table.lowercase.discountPrice') })),
+      .required(translate('page.validation.required', { name: translate('table.lowercase.discountPrice') }))
+      .moreThan(-1, translate('page.validation.discountPriceGreaterThan0')),
     displayOrder: yup
       .number()
       .typeError(
@@ -247,7 +250,7 @@ function useValidationForm() {
           name: translate('table.lowercase.displayOrder'),
         })
       )
-      .min(1, translate('page.validation.displayOrderMoreThan0')),
+      .min(0, translate('page.validation.displayOrderMoreThan0')),
     size: yup.string().required(translate('page.validation.select', { name: translate('table.lowercase.size') })),
     type: yup.string().required(
       translate('page.validation.select', {

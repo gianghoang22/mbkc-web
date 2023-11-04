@@ -209,7 +209,7 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
         navigate,
       };
       await thunkAPI.dispatch(getAllStores(paramsCallback));
-      navigate(PATH_BRAND_APP.store.list);
+      navigate(PATH_ADMIN_APP.store.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

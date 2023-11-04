@@ -102,6 +102,9 @@
     "citizenNumberLimit12Number": "Citizen number must have 12 digits",
     "commissionLimit100": "The commission should not be more than 100%.",
     "displayOrderMoreThan0": "Display order must be greater than 0",
+    "sellingPriceGreaterThan0": "Selling price is required greater than or equal to 0.",
+    "discountPriceGreaterThan0": "Discount price is required greater than or equal to 0.",
+    "historicalPriceGreaterThan0": "Historical price is required greater than or equal to 0.",
     "priceGreaterThan0": "Price must be greater than 0."
   }
 }

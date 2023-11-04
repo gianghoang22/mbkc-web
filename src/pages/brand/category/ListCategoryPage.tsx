@@ -41,7 +41,7 @@ function ListCategoryPage() {
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setFilterName(event.target.value);
+    setFilterName(event.target.value.trimStart());
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.

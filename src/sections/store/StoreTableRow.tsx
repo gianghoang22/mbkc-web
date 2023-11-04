@@ -1,21 +1,10 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Avatar,
-  IconButton,
-  Popover as MUIPopover,
-  MenuItem,
-  Stack,
-  Switch,
-  TableCell,
-  TableRow,
-  Tooltip,
-} from '@mui/material';
+import { Avatar, IconButton, Popover as MUIPopover, MenuItem, Stack, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -214,24 +203,12 @@ function StoreTableRow({
               </Stack>
             ) : (
               <>
-                {store?.status === Status.ACTIVE ? (
-                  <Tooltip title={translate('status.active')}>
-                    <IconButton>
-                      <CheckIcon color="success" />
-                    </IconButton>
-                  </Tooltip>
-                ) : store?.status === Status.INACTIVE ? (
-                  <Tooltip title={translate('status.inactive')}>
-                    <IconButton>
-                      <GraphicEqIcon color="warning" />
-                    </IconButton>
-                  </Tooltip>
-                ) : store?.status === Status.REJECTED ? (
-                  <Tooltip title={translate('status.reject')}>
-                    <IconButton>
-                      <ClearIcon color="error" />
-                    </IconButton>
-                  </Tooltip>
+                {store?.status === Status.ACTIVE ||
+                store?.status === Status.INACTIVE ||
+                store?.status === Status.REJECTED ? (
+                  <IconButton color="inherit" onClick={handleOpenMenu}>
+                    <MoreVertIcon />
+                  </IconButton>
                 ) : (
                   <IconButton
                     color="inherit"
@@ -252,7 +229,7 @@ function StoreTableRow({
         handleCloseMenu={handleCloseMenu}
         onEdit={handleEdit}
         onDelete={handleOpen}
-        type={store.status === Status.REJECTED ? PopoverType.DELETE : PopoverType.ALL}
+        type={userAuth?.roleName === Role.BRAND_MANAGER ? PopoverType.EDIT : PopoverType.DELETE}
       />
 
       <MUIPopover

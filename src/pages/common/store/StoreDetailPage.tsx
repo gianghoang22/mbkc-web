@@ -145,6 +145,28 @@ function StoreDetailPage() {
                     {translate('button.menuAction')}
                   </Button>,
                 ]
+              : userAuth?.roleName === Role.MBKC_ADMIN &&
+                (store?.status === Status.ACTIVE ||
+                  store?.status === Status.INACTIVE ||
+                  store?.status === Status.REJECTED)
+              ? [
+                  <Button
+                    color="inherit"
+                    endIcon={<KeyboardArrowDownIcon />}
+                    style={{
+                      backgroundColor: '#000',
+                      color: '#fff',
+                    }}
+                    sx={{
+                      '.css-190udkw-MuiButtonBase-root-MuiButton-root:hover': {
+                        backgroundColor: 'rgba(145, 158, 171, 0.08)',
+                      },
+                    }}
+                    onClick={handleOpenMenu}
+                  >
+                    {translate('button.menuAction')}
+                  </Button>,
+                ]
               : userAuth?.roleName === Role.BRAND_MANAGER &&
                 (store?.status === Status.INACTIVE || store?.status === Status.ACTIVE)
               ? [
@@ -412,7 +434,7 @@ function StoreDetailPage() {
       </Page>
 
       <Popover
-        type={PopoverType.ALL}
+        type={userAuth?.roleName === Role.BRAND_MANAGER ? PopoverType.EDIT : PopoverType.DELETE}
         open={openPopover}
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}

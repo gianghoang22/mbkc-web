@@ -47,7 +47,7 @@ function ListStorePage() {
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setFilterName(event.target.value);
+    setFilterName(event.target.value.trimStart());
   };
 
   const handleChangeStatus = (newValue: OptionSelect | null) => {
