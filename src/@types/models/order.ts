@@ -1,6 +1,31 @@
-export interface Order {
+import { PartnerOrderStatus, SystemStatus } from 'common/enum';
+import { Partner } from './partner';
+import { Product } from './product';
+import { _ShipperPayment } from './shipperPayment';
+import { Store } from './store';
+
+export interface OrderDetails {
+  orderDetailId: number;
+  sellingPrice: number;
+  quantity: number;
+  note: string;
   orderId: number;
-  orderPartnerId: number;
+  masterOrderDetail: string;
+  product: Product;
+  extraOrderDetails: string[];
+}
+
+export interface OrderHistory {
+  orderHistoryId: number;
+  image: string;
+  createdDate: string;
+  systemStatus: string;
+  partnerOrderStatus: string;
+}
+
+export interface Order {
+  id: number;
+  orderPartnerId: string;
   shipperName: string;
   shipperPhone: string;
   customerName: string;
@@ -13,32 +38,16 @@ export interface Order {
   finalTotalPrice: number;
   commission: number;
   tax: number;
-  status: string;
-  partnerId: number;
-  partnerName: string;
-  storeId: number;
-  storeName: string;
-  orderCode: string;
-}
-
-export interface OrderToCreate {
-  OrderPartnerId: string;
-  ShipperName: string;
-  ShipperPhone: string;
-  CustomerName: string;
-  CustomerPhone: string;
-  Note: string;
-  PaymentMethod: string;
-  DeliveryFee: number;
-  SubTotalPrice: number;
-  TotalDiscount: number;
-  FinalTotalPrice: number;
-  Commission: number;
-  Tax: number;
-  Status: string;
-  PartnerId: number;
-  StoreId: number;
-  OrderCode: string;
+  systemStatus: string;
+  displayId: string;
+  address: string;
+  cutlery: number;
+  partnerOrderStatus: string;
+  store: Store;
+  partner: Partner;
+  shipperPayments: _ShipperPayment[];
+  orderDetails: OrderDetails[];
+  orderHistories: OrderHistory[];
 }
 
 export enum OrderTypeEnum {
@@ -78,6 +87,67 @@ export const ORDER_TYPE_TABS = [
   {
     value: OrderTypeEnum.CANCELED,
     label: 'Canceled',
+    id: 'Can',
+  },
+];
+
+export const SYSTEM_STATUS_OPTIONS = [
+  {
+    value: SystemStatus.ALL,
+    label: 'All',
+    id: 'All',
+  },
+  {
+    value: SystemStatus.UPCOMING,
+    label: 'Upcoming',
+    id: 'Up',
+  },
+  {
+    value: SystemStatus.READY,
+    label: 'Ready',
+    id: 'Rea',
+  },
+  {
+    value: SystemStatus.PREPARING,
+    label: 'Preparing',
+    id: 'Pre',
+  },
+  {
+    value: SystemStatus.COMPLETED,
+    label: 'Completed',
+    id: 'Com',
+  },
+  {
+    value: SystemStatus.CANCELLED,
+    label: 'Cancelled',
+    id: 'Can',
+  },
+];
+
+export const PARTNER_ORDER_STATUS = [
+  {
+    value: PartnerOrderStatus.ALL,
+    label: 'All',
+    id: 'All',
+  },
+  {
+    value: PartnerOrderStatus.IN_STORE,
+    label: 'In store',
+    id: 'In',
+  },
+  {
+    value: PartnerOrderStatus.READY_DELIVERY,
+    label: 'Ready delivery',
+    id: 'Rea',
+  },
+  {
+    value: PartnerOrderStatus.COMPLETED,
+    label: 'Completed',
+    id: 'Com',
+  },
+  {
+    value: PartnerOrderStatus.CANCELLED,
+    label: 'Cancelled',
     id: 'Can',
   },
 ];

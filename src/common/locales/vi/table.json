@@ -5,6 +5,8 @@
   "image": "Hình ảnh",
   "name": "Tên",
   "status": "Trạng thái",
+  "systemStatus": "Trạng thái hệ thống",
+  "partnerOrderStatus": "Trạng thái đối tác",
   "brand": "Thương hiệu",
   "kitchenCenter": "Bếp trung tâm",
   "store": "Cửa hàng",

@@ -5,6 +5,8 @@
   "image": "Image",
   "name": "Name",
   "status": "Status",
+  "systemStatus": "System status",
+  "partnerOrderStatus": "Partner order status",
   "brand": "Brand",
   "kitchenCenter": "Kitchen center",
   "store": "Store",

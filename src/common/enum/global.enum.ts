@@ -7,6 +7,23 @@ export enum Status {
   REJECTED = 'Rejected',
 }
 
+export enum SystemStatus {
+  ALL = '',
+  PREPARING = 'Preparing',
+  READY = 'Ready',
+  UPCOMING = 'Upcoming',
+  COMPLETED = 'Completed',
+  CANCELLED = 'Cancelled',
+}
+
+export enum PartnerOrderStatus {
+  ALL = '',
+  IN_STORE = 'In Store',
+  READY_DELIVERY = 'Ready Delevery',
+  COMPLETED = 'Completed',
+  CANCELLED = 'Cancelled',
+}
+
 export enum Gender {
   MALE = 'male',
   FEMALE = 'female',

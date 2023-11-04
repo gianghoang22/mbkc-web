@@ -51,7 +51,14 @@ export interface OrderTable {
   storeName: string;
   partnerName: number;
   finalTotalPrice: number;
-  status: string;
+  systemStatus: string;
+  partnerOrderStatus: string;
+}
+
+export interface OrderHistoryTable {
+  createdDate: string;
+  systemStatus: string;
+  partnerOrderStatus: string;
 }
 
 export interface BrandTable {

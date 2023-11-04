@@ -15,7 +15,14 @@
     "available": "Available",
     "inStock": "In Stock",
     "outOfStockToday": "Out of stock today",
-    "outOfStockIndefinitely": "Out of stock indefinitely"
+    "outOfStockIndefinitely": "Out of stock indefinitely",
+    "preparing": "Preparing",
+    "ready": "Ready",
+    "upcoming": "Upcoming",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "inStore": "In store",
+    "readyDelivery": "Ready delivery"
   },
   "header": {
     "account": "Account",

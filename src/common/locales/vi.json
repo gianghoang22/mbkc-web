@@ -15,7 +15,14 @@
     "available": "Có sẵn",
     "inStock": "Còn hàng",
     "outOfStockToday": "Hết hàng hôm nay",
-    "outOfStockIndefinitely": "Hết hàng vô thời hạn"
+    "outOfStockIndefinitely": "Hết hàng vô thời hạn",
+    "preparing": "Đang chuẩn bị",
+    "ready": "Sẵn sàng",
+    "upcoming": "Đang tới",
+    "completed": "Đã hoàn tất",
+    "cancelled": "Đã hủy",
+    "inStore": "Trong cửa hàng",
+    "readyDelivery": "Sẵn sàng để giao"
   },
   "header": {
     "account": "Tài khoản",

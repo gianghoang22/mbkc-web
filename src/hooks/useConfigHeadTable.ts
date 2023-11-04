@@ -1,4 +1,4 @@
-import { ShipperPaymentTable } from './../@types/table';
+import { OrderHistoryTable, ShipperPaymentTable } from './../@types/table';
 import {
   BankingAccountTable,
   BrandTable,
@@ -527,7 +527,7 @@ function useConfigHeadTable() {
   const orderHeadCells: HeadCell<OrderTable>[] = [
     {
       id: 'orderPartnerId',
-      label: 'Partner Id',
+      label: 'Order partner id',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -554,8 +554,39 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
-      id: 'status',
-      label: translate('table.status'),
+      id: 'systemStatus',
+      label: 'System status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'partnerOrderStatus',
+      label: 'Partner order status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const orderHistoryHeadCells: HeadCell<OrderHistoryTable>[] = [
+    {
+      id: 'createdDate',
+      label: 'Created date',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'partnerOrderStatus',
+      label: 'Partner order status',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'systemStatus',
+      label: 'System status',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -662,6 +693,7 @@ function useConfigHeadTable() {
     bankingAccountHeadCells,
     partnerHeadCells,
     orderHeadCells,
+    orderHistoryHeadCells,
     MoneyExchangeHeadCells,
     storePartnerHeadCells,
     storePartnerDetailHeadCells,
