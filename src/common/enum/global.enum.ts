@@ -9,11 +9,11 @@ export enum Status {
 
 export enum SystemStatus {
   ALL = '',
-  PREPARING = 'Preparing',
-  READY = 'Ready',
-  UPCOMING = 'Upcoming',
-  COMPLETED = 'Completed',
-  CANCELLED = 'Cancelled',
+  PREPARING = 'PREPARING',
+  READY = 'READY',
+  UPCOMING = 'UPCOMING',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum PartnerOrderStatus {

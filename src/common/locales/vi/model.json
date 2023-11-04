@@ -43,7 +43,8 @@
     "citizenNumber": "Số chứng minh nhân dân",
     "dateOfBirth": "Ngày tháng năm sinh",
     "gender": "Giới tính",
-    "phone": "Số điện thoại"
+    "phone": "Số điện thoại",
+    "orderHistories": "Lịch sử đơn hàng"
   },
   "capitalize": {
     "overview": "Tổng Quan",
@@ -142,6 +143,7 @@
     "citizenNumber": "số chứng minh nhân dân",
     "dateOfBirth": "ngày tháng năm sinh",
     "gender": "giới tính",
-    "phone": "số điện thoại"
+    "phone": "số điện thoại",
+    "orderHistories": "lịch sử đơn hàng"
   }
 }

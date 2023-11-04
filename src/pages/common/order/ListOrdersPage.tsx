@@ -94,7 +94,7 @@ function ListOrdersPage() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar<OrderTable>
-                model={translate('model.lowercase.orders')}
+                model={translate('model.lowercase.store')}
                 selected={selected}
                 setSelected={setSelected}
                 headCells={orderHeadCells}

@@ -40,6 +40,18 @@
     "selectTimeEnd": "Select finish time",
     "moneyToKC": "Transfer money to kitchen center",
     "moneyToStore": "Transfer money to store",
+    "note": "Note",
+    "customer": "Customer",
+    "delivery": "Delivery",
+    "shipping": "Shipping",
+    "shipperName": "Shipper name",
+    "shipperPhone": "Shipper phone",
+    "paidBy": "Paid by",
+    "payment": "Payment",
+    "subTotalPrice": "Sub total price",
+    "deliveryFee": "Delivery fee",
+    "totalDiscount": "Total discount",
+    "finalTotalPrice": "Final total price",
     "switchToConfiguration": "Switch to configuration"
   },
   "form": {

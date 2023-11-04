@@ -40,7 +40,19 @@
     "selectTimeEnd": "Chọn thời gian kết thúc",
     "moneyToKC": "Thời gian tự động chuyển tiền đến bếp trung tâm",
     "moneyToStore": "Thời gian tự động chuyển tiền đến cửa hàng",
-    "switchToConfiguration": "Chuyển đổi để cấu hình"
+    "switchToConfiguration": "Chuyển đổi để cấu hình",
+    "note": "Ghi chú",
+    "customer": "Khách hàng",
+    "delivery": "Vận chuyển",
+    "shipping": "Giao hàng",
+    "shipperName": "Tên người giao hàng",
+    "shipperPhone": "Số điện thoại người giao hàng",
+    "paidBy": "Thanh toán bằng",
+    "payment": "Thanh toán",
+    "subTotalPrice": "Tạm tính",
+    "deliveryFee": "Phí giao hàng",
+    "totalDiscount": "Tổng giảm giá",
+    "finalTotalPrice": "Giá cuối cùng"
   },
   "form": {
     "email": "Email",
@@ -72,6 +84,7 @@
     "province": "Tỉnh",
     "district": "Quận - Huyện",
     "ward": "Phường",
+
     "lowercase": {
       "userName": "tên tài khoản",
       "password": "mật khẩu"
