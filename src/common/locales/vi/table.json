@@ -37,6 +37,10 @@
   "updatedDate": "Ngày cập nhật",
   "start": "Bắt đầu",
   "finish": "Kết thúc",
+  "partnerOrderId": "ID đối tác",
+  "partnerName": "Đối tác",
+  "storeName": "Cửa hàng",
+  "totalPrice": "Tổng giá",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

@@ -201,17 +201,15 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
                 size="small"
                 options={options ? options : []}
                 getOptionLabel={(option) =>
-                  option.value === SystemStatus.ALL
+                  option.value === PartnerOrderStatus.ALL
                     ? translate('status.all')
-                    : option.value === SystemStatus.PREPARING
-                    ? translate('status.preparing')
-                    : option.value === SystemStatus.READY
-                    ? translate('status.ready')
-                    : option.value === SystemStatus.UPCOMING
-                    ? translate('status.upcoming')
-                    : option.value === SystemStatus.COMPLETED
+                    : option.value === PartnerOrderStatus.IN_STORE
+                    ? translate('status.inStore')
+                    : option.value === PartnerOrderStatus.READY_DELIVERY
+                    ? translate('status.readyDelivery')
+                    : option.value === PartnerOrderStatus.COMPLETED
                     ? translate('status.completed')
-                    : option.value === SystemStatus.CANCELLED
+                    : option.value === PartnerOrderStatus.CANCELLED
                     ? translate('status.cancelled')
                     : ''
                 }
@@ -231,15 +229,17 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
                 size="small"
                 options={secondOptions ? secondOptions : []}
                 getOptionLabel={(option) =>
-                  option.value === PartnerOrderStatus.ALL
+                  option.value === SystemStatus.ALL
                     ? translate('status.all')
-                    : option.value === PartnerOrderStatus.IN_STORE
-                    ? translate('status.inStore')
-                    : option.value === PartnerOrderStatus.READY_DELIVERY
-                    ? translate('status.readyDelivery')
-                    : option.value === PartnerOrderStatus.COMPLETED
+                    : option.value === SystemStatus.PREPARING
+                    ? translate('status.preparing')
+                    : option.value === SystemStatus.READY
+                    ? translate('status.ready')
+                    : option.value === SystemStatus.UPCOMING
+                    ? translate('status.upcoming')
+                    : option.value === SystemStatus.COMPLETED
                     ? translate('status.completed')
-                    : option.value === PartnerOrderStatus.CANCELLED
+                    : option.value === SystemStatus.CANCELLED
                     ? translate('status.cancelled')
                     : ''
                 }

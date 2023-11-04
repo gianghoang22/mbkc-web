@@ -148,71 +148,73 @@ function OrderDetailPage() {
               <Card>
                 <Box sx={{ width: '100%' }} padding={2} paddingTop={2} minHeight={460}>
                   <Paper sx={{ width: '100%', mb: 2 }}>
-                    <Stack direction="row" alignItems="center" mb={1}>
-                      <Typography variant="subtitle1" mr={1}>
-                        Store:
-                      </Typography>
-                      <Typography variant="body1">{order?.store.name}</Typography>
-                    </Stack>
+                    <Stack alignContent="space-between">
+                      <Stack direction="row" alignItems="center" mb={1}>
+                        <Typography variant="subtitle1" mr={1}>
+                          Store:
+                        </Typography>
+                        <Typography variant="body1">{order?.store.name}</Typography>
+                      </Stack>
 
-                    {order?.orderDetails.map((order) => {
-                      return (
-                        <OrderItem
-                          paddingTop={2}
-                          divider
-                          logoUrl={order.product.image}
-                          name={order.product.name}
-                          category={order.product.categoryName}
-                          quantity={order.quantity}
-                          price={order.product.sellingPrice}
-                          noteContent={order.note}
-                          note
-                        />
-                      );
-                    })}
+                      {order?.orderDetails.map((order) => {
+                        return (
+                          <OrderItem
+                            paddingTop={2}
+                            divider
+                            logoUrl={order.product.image}
+                            name={order.product.name}
+                            category={order.product.categoryName}
+                            quantity={order.quantity}
+                            price={order.product.sellingPrice}
+                            noteContent={order.note}
+                            note
+                          />
+                        );
+                      })}
 
-                    <Stack direction="row" alignItems="center" mt={1} mb={1}>
-                      <Typography variant="subtitle1" mr={1}>
-                        Note:
-                      </Typography>
-                      <Typography variant="body1">{order?.note}</Typography>
+                      <Stack direction="row" alignItems="center" mt={1} mb={1}>
+                        <Typography variant="subtitle1" mr={1}>
+                          Note:
+                        </Typography>
+                        <Typography variant="body1">{order?.note}</Typography>
+                      </Stack>
+
+                      <Stack>
+                        <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            Sub total price
+                          </Typography>
+                          <Typography width={100} variant="body2">
+                            {formatCurrency(order?.subTotalPrice as number)}
+                          </Typography>
+                        </Stack>
+
+                        <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            Delivery fee
+                          </Typography>
+                          <Typography width={100} variant="body2">
+                            {formatCurrency(order?.deliveryFee as number)}
+                          </Typography>
+                        </Stack>
+
+                        <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            Total discount
+                          </Typography>
+                          <Typography width={100} variant="body2">
+                            {formatCurrency(order?.totalDiscount as number)}
+                          </Typography>
+                        </Stack>
+                        <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="subtitle1">Final total price</Typography>
+                          <Typography width={100} variant="subtitle2">
+                            {formatCurrency(order?.finalTotalPrice as number)}
+                          </Typography>
+                        </Stack>
+                      </Stack>
                     </Stack>
                   </Paper>
-
-                  <Stack alignItems="end">
-                    <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                      <Typography variant="body2" sx={{ color: '#919EAB;' }}>
-                        Sub total price
-                      </Typography>
-                      <Typography width={100} variant="body2">
-                        {formatCurrency(order?.subTotalPrice as number)}
-                      </Typography>
-                    </Stack>
-
-                    <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                      <Typography variant="body2" sx={{ color: '#919EAB;' }}>
-                        Delivery fee
-                      </Typography>
-                      <Typography width={100} variant="body2">
-                        {formatCurrency(order?.deliveryFee as number)}
-                      </Typography>
-                    </Stack>
-
-                    <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                      <Typography variant="body2" sx={{ color: '#919EAB;' }}>
-                        Total discount
-                      </Typography>
-                      <Typography width={100} variant="body2">
-                        {formatCurrency(order?.totalDiscount as number)}
-                      </Typography>
-                    </Stack>
-                    <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                      <Typography variant="subtitle1">Final total price</Typography>
-                      <Typography width={100} variant="subtitle2">
-                        {formatCurrency(order?.finalTotalPrice as number)}
-                      </Typography>
-                    </Stack>
-                  </Stack>
                 </Box>
               </Card>
             </Grid>

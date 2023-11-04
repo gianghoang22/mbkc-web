@@ -9,8 +9,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Order } from '@types';
-import { Role } from 'common/enum';
+import { Order, OrderSortBy } from '@types';
+import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enum';
 import { Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
@@ -47,14 +47,16 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={order.customerName} sx={{ cursor: 'pointer' }}>
+      <TableRow hover tabIndex={-1} key={order.id} sx={{ cursor: 'pointer' }}>
         <TableCell width={60} align="center" onClick={() => handleNavigateDetail(order.id)}>
           {index + 1}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
-          {order.orderPartnerId}
-        </TableCell>
+        {selected.includes(OrderSortBy.ORDER_PARTNER_ID) && (
+          <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
+            {order.orderPartnerId}
+          </TableCell>
+        )}
 
         <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
           {order.partner.name}
@@ -64,14 +66,37 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
           {order.store.name}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
-          {order.finalTotalPrice}
+        {selected.includes(OrderSortBy.FINAL_TOTAL_PRICE) && (
+          <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
+            {formatCurrency(order.finalTotalPrice)}
+          </TableCell>
+        )}
+
+        <TableCell align="left">
+          <Label
+            color={
+              order.systemStatus === SystemStatus.COMPLETED
+                ? Color.SUCCESS
+                : order.systemStatus === SystemStatus.CANCELLED
+                ? Color.ERROR
+                : Color.DEFAULT
+            }
+          >
+            {order?.systemStatus}
+          </Label>
         </TableCell>
         <TableCell align="left">
-          <Label>{order?.systemStatus}</Label>
-        </TableCell>
-        <TableCell align="left">
-          <Label>{order?.partnerOrderStatus}</Label>
+          <Label
+            color={
+              order.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                ? Color.SUCCESS
+                : order.partnerOrderStatus === PartnerOrderStatus.CANCELLED
+                ? Color.ERROR
+                : Color.DEFAULT
+            }
+          >
+            {order?.partnerOrderStatus}
+          </Label>
         </TableCell>
         <TableCell align="right">
           <IconButton onClick={() => setOpenList(openList === index ? -1 : index)}>

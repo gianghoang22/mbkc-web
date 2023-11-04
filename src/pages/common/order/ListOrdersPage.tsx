@@ -52,6 +52,7 @@ function ListOrdersPage() {
   const isNotFound = !orders.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
+  console.log(partnerOrderStatus?.value);
 
   const params: ListParams = useMemo(() => {
     return {
@@ -60,10 +61,11 @@ function ListOrdersPage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         // sortBy: `${orderBy}_${order}`,
+        systemStatus: systemStatus?.value,
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, orderBy, order]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order, systemStatus?.value]);
 
   useEffect(() => {
     dispatch(getAllOrders(params));

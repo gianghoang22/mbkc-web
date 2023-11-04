@@ -18,10 +18,10 @@ export enum SystemStatus {
 
 export enum PartnerOrderStatus {
   ALL = '',
-  IN_STORE = 'In Store',
-  READY_DELIVERY = 'Ready Delevery',
-  COMPLETED = 'Completed',
-  CANCELLED = 'Cancelled',
+  IN_STORE = 'IN_STORE',
+  READY_DELIVERY = 'READY_DELIVERY',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum Gender {

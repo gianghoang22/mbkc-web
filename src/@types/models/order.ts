@@ -93,6 +93,34 @@ export const ORDER_TYPE_TABS = [
 
 export const SYSTEM_STATUS_OPTIONS = [
   {
+    value: PartnerOrderStatus.ALL,
+    label: 'All',
+    id: 'All',
+  },
+  {
+    value: PartnerOrderStatus.IN_STORE,
+    label: 'In store',
+    id: 'In',
+  },
+  {
+    value: PartnerOrderStatus.READY_DELIVERY,
+    label: 'Ready delivery',
+    id: 'Rea',
+  },
+  {
+    value: PartnerOrderStatus.COMPLETED,
+    label: 'Completed',
+    id: 'Com',
+  },
+  {
+    value: PartnerOrderStatus.CANCELLED,
+    label: 'Cancelled',
+    id: 'Can',
+  },
+];
+
+export const PARTNER_ORDER_STATUS = [
+  {
     value: SystemStatus.ALL,
     label: 'All',
     id: 'All',
@@ -119,34 +147,6 @@ export const SYSTEM_STATUS_OPTIONS = [
   },
   {
     value: SystemStatus.CANCELLED,
-    label: 'Cancelled',
-    id: 'Can',
-  },
-];
-
-export const PARTNER_ORDER_STATUS = [
-  {
-    value: PartnerOrderStatus.ALL,
-    label: 'All',
-    id: 'All',
-  },
-  {
-    value: PartnerOrderStatus.IN_STORE,
-    label: 'In store',
-    id: 'In',
-  },
-  {
-    value: PartnerOrderStatus.READY_DELIVERY,
-    label: 'Ready delivery',
-    id: 'Rea',
-  },
-  {
-    value: PartnerOrderStatus.COMPLETED,
-    label: 'Completed',
-    id: 'Com',
-  },
-  {
-    value: PartnerOrderStatus.CANCELLED,
     label: 'Cancelled',
     id: 'Can',
   },

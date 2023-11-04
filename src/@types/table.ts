@@ -29,6 +29,10 @@ export enum OrderSortBy {
   STATUS = 'status',
   EMAIL = 'email',
   GENDER = 'gender',
+  ORDER_PARTNER_ID = 'orderPartnerId',
+  FINAL_TOTAL_PRICE = 'finalTotalPrice',
+  SYSTEM_STATUS = 'systemStatus',
+  PARTNER_ORDER_STATUS = 'partnerOrderStatus',
 }
 
 export interface HeadCell<T> {
