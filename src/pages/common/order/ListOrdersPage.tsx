@@ -1,34 +1,39 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+// @mui icon
+
 // redux
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllOrders } from 'redux/order/orderSlice';
 // section
-import { OrderTableRow } from 'sections/order';
+import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
+
 //
-import { ORDER_TYPE_TABS, OrderSort, OrderTable, OrderTypeEnum } from '@types';
-import { CustomTableHead, CustomTableToolbar, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { PATH_CASHIER_APP } from 'routes/paths';
+import { ListParams, OptionSelect, OrderSort, OrderTable, PARTNER_ORDER_STATUS, SYSTEM_STATUS_OPTIONS } from '@types';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function ListOrdersPage() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [systemStatus, setSystemStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [partnerOrderStatus, setPartnerOrderStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { orderHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
-  const [selected, setSelected] = useState<readonly string[]>([]);
 
-  const { orders, isLoading } = useAppSelector((state) => state.order);
+  const { orders, isLoading, numberItems } = useAppSelector((state) => state.order);
 
-  const [orderBy, setOrderBy] = useState<keyof OrderTable>('orderPartnerId');
-  const [filterName, setFilterName] = useState<string>('');
-  const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.ALL);
   const [order, setOrder] = useState<OrderSort>('asc');
-
-  const handleChange = (event: React.SyntheticEvent, newValue: OrderTypeEnum) => {
-    setOrderType(newValue);
-  };
+  const [orderBy, setOrderBy] = useState<keyof OrderTable>('partnerName');
+  const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -41,71 +46,106 @@ function ListOrdersPage() {
     setFilterName(event.target.value);
   };
 
-  const handleReloadData = () => {};
-  const numberItems = 20;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const isNotFound = !orders.length && !!filterName;
 
+  const debounceValue = useDebounce(filterName, 500);
+  console.log(partnerOrderStatus?.value);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        searchValue: debounceValue,
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        // sortBy: `${orderBy}_${order}`,
+        systemStatus: systemStatus?.value,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue, orderBy, order, systemStatus?.value]);
+
+  useEffect(() => {
+    dispatch(getAllOrders(params));
+  }, [params]);
+
+  const handleReloadData = () => {
+    dispatch<any>(getAllOrders(params));
+  };
+
+  const handleChangeSystemStatus = (status: OptionSelect | null) => {
+    setSystemStatus(status);
+  };
+
+  const handleChangePartnerOrderStatus = (status: OptionSelect | null) => {
+    setPartnerOrderStatus(status);
+  };
+
   return (
     <>
       <Page
-        pathname={pathname}
         title={translate('page.title.list', { model: translate('model.lowercase.orders') })}
-        navigateDashboard={PATH_CASHIER_APP.root}
+        pathname={pathname}
+        navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
       >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <CustomTabs<OrderTypeEnum>
-                length={orders.length}
-                isLoading={isLoading}
-                value={orderType}
-                handleChange={handleChange}
-                options={ORDER_TYPE_TABS}
-              />
               <CustomTableToolbar<OrderTable>
                 model={translate('model.lowercase.orders')}
                 selected={selected}
                 setSelected={setSelected}
                 headCells={orderHeadCells}
                 filterName={filterName}
+                options={SYSTEM_STATUS_OPTIONS}
+                secondOptions={PARTNER_ORDER_STATUS}
                 onFilterName={handleFilterByName}
                 handleReloadData={handleReloadData}
+                haveSelectSystemStatus
+                haveSelectPartnerOrderStatus
+                handleChangeSystemStatus={handleChangeSystemStatus}
+                handleChangePartnerOrderStatus={handleChangePartnerOrderStatus}
               />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CustomTableHead<OrderTable>
                     showAction
+                    headCells={orderHeadCells}
                     order={order}
                     orderBy={orderBy}
-                    headCells={orderHeadCells}
                     onRequestSort={handleRequestSort}
                     selectedCol={selected}
                   />
 
-                  <TableBody>
-                    {orders.map((order, index) => {
-                      return (
-                        <OrderTableRow
-                          key={index}
-                          index={index}
-                          order={order}
-                          page={page}
-                          rowsPerPage={rowsPerPage}
-                          selected={selected}
-                        />
-                      );
-                    })}
-                    {emptyRows > 0 ||
-                      (orders.length === 0 && !filterName && (
-                        <EmptyTable colNumber={orders.length + 2} model={translate('model.lowercase.order')} />
-                      ))}
-                  </TableBody>
+                  {isLoading ? (
+                    <OrderTableRowSkeleton length={orders.length} />
+                  ) : (
+                    <TableBody>
+                      {orders.map((order, index) => {
+                        return (
+                          <OrderTableRow
+                            key={order.id}
+                            index={index}
+                            order={order}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                            selected={selected}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 ||
+                        (orders.length === 0 && !filterName && (
+                          <EmptyTable
+                            colNumber={orderHeadCells.length + 2}
+                            model={translate('model.lowercase.orders')}
+                          />
+                        ))}
+                    </TableBody>
+                  )}
 
-                  {isNotFound && <SearchNotFound colNumber={orders.length + 2} searchQuery={filterName} />}
+                  {isNotFound && <SearchNotFound colNumber={orderHeadCells.length + 2} searchQuery={filterName} />}
                 </Table>
               </TableContainer>
               <TablePagination

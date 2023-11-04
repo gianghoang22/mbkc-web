@@ -4,3 +4,4 @@ export { default as OrderTableRowSkeleton } from './OrderTableRowSkeleton';
 export { default as OrderTableToolbar } from './OrderTableToolbar';
 export { default as OrderItem } from './OrderItem';
 export { default as OrderTimeline } from './OrderTimeline';
+export { default as OrderHistoryTableRow } from './OrderHistoryTableRow';

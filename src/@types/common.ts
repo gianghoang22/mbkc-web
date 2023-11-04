@@ -18,6 +18,7 @@ export interface OptionParams {
   keySortCode?: string | null;
   keySortStatus?: string | null;
   keySortCommission?: string | null;
+  systemStatus?: string | null;
 }
 
 export interface IdParams {
@@ -66,7 +67,7 @@ export interface MessageResponse {
 }
 
 export interface ListResponse<T> {
-  totalPage: number;
+  totalPages: number;
   numberItems: number;
   data: T[];
 }

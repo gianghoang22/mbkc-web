@@ -1,31 +1,28 @@
 import { Divider, Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
 import { Stack } from '@mui/material';
+import { formatCurrency } from 'utils';
 
 interface Props {
   padding?: number;
-  haveKitchen?: boolean;
   paddingTop?: number;
   divider?: boolean;
   name: string;
   logoUrl: string;
   category: string;
-  kitchen?: string;
   quantity: number;
-  price: string;
+  price: number;
   note?: boolean;
   noteContent?: string;
 }
 
 function OrderItem({
   padding,
-  haveKitchen = true,
   paddingTop,
   divider,
   name,
   logoUrl,
   category,
-  kitchen,
   quantity,
   price,
   note,
@@ -34,7 +31,7 @@ function OrderItem({
   return (
     <Stack>
       <Stack justifyContent="space-between" direction="row" padding={padding} paddingTop={paddingTop}>
-        <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={2} width={200}>
           <Avatar alt={'Product Image'} src={logoUrl} />
           <Stack direction="column">
             <Typography variant="body2" noWrap>
@@ -45,9 +42,10 @@ function OrderItem({
             </Typography>
           </Stack>
         </Stack>
-        {haveKitchen && <Typography>{kitchen}</Typography>}
-        <Typography>x{quantity}</Typography>
-        <Typography>{price}đ</Typography>
+        <Typography maxWidth={40} align="left">
+          x{quantity}
+        </Typography>
+        <Typography>{formatCurrency(price)}</Typography>
       </Stack>
       {note && (
         <Stack direction="row" alignItems="center" mt={1} spacing={1} mb={2}>

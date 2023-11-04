@@ -256,7 +256,18 @@ export const ROUTES_API_BANKING_ACCOUNTS = {
 };
 
 export const ROUTES_API_ORDERS = {
-  GET_ALL_ORDERS: pathRoot(ROOTS_PRODUCTS),
+  GET_ALL_ORDERS: ({
+    itemsPerPage = '',
+    currentPage = '',
+    searchValue = '',
+    sortBy = '',
+    systemStatus = '',
+  }: OptionParams) => {
+    return path(
+      ROOTS_ORDERS,
+      `?SearchValue=${searchValue}&CurrentPage=${currentPage}&ItemsPerPage=${itemsPerPage}&SystemStatus=${systemStatus}&SortBy=${sortBy}`
+    );
+  },
   GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),
 };
 

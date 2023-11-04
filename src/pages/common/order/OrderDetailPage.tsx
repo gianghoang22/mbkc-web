@@ -1,8 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet as ReactHelmet } from 'react-helmet-async';
 // @mui
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -15,35 +14,92 @@ import {
   Container,
   Popover as MUIPopover,
   IconButton,
+  TableContainer,
+  Table,
+  TableBody,
+  TablePagination,
+  Tooltip,
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
+import ReplayIcon from '@mui/icons-material/Replay';
 // section
-import { OrderItem, OrderTimeline } from 'sections/order';
+import { OrderHistoryTableRow, OrderItem, OrderTimeline } from 'sections/order';
 //
 import { Color, Role } from 'common/enum';
-import { Label } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Label, SearchNotFound } from 'components';
+import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { useState } from 'react';
-import { OrderStatusActions } from '@types';
+import { useEffect, useMemo, useState } from 'react';
+import { OrderHistoryTable, OrderSort, OrderSortBy, OrderStatusActions, OrderTable } from '@types';
 import { useAppSelector } from 'redux/configStore';
+import { useDispatch } from 'react-redux';
+import { getOrderDetail } from 'redux/order/orderSlice';
+import { formatCurrency } from 'utils';
 
 function OrderDetailPage() {
   const { translate } = useLocales();
+  const { id: orderId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     open: openConfirm,
     handleOpenMenu: handleOpenMenuConfirm,
     handleCloseMenu: handleCloseMenuConfirm,
   } = usePopover();
+  const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal();
+  const { orderHistoryHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [status, setStatus] = useState<string>(OrderStatusActions.COMPLETED);
-  const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal();
+  const [orderSort, setOrderSort] = useState<OrderSort>('asc');
+  const [orderBy, setOrderBy] = useState<keyof OrderHistoryTable>('createdDate');
+  const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const { userAuth } = useAppSelector((state) => state.auth);
+  const { order } = useAppSelector((state) => state.order);
+
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderHistoryTable) => {
+    const isAsc = orderBy === property && orderSort === 'asc';
+    setOrderSort(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(0);
+    setFilterName(event.target.value);
+  };
+
+  const handleReloadData = () => {};
+
+  const orderHistories = [
+    {
+      orderHistoryId: 1,
+      image: '',
+      createdDate: '2023-11-03T00:00:00',
+      systemStatus: 'IN_STORE',
+      partnerOrderStatus: 'PREPARING',
+    },
+  ];
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - orderHistories.length) : 0;
+
+  const isNotFound = !orderHistories.length && !!filterName;
+
+  const paramsDetails = useMemo(() => {
+    return {
+      orderId,
+      navigate,
+    };
+  }, [orderId, navigate]);
+
+  useEffect(() => {
+    dispatch<any>(getOrderDetail(paramsDetails));
+  }, [paramsDetails, dispatch]);
 
   return (
     <>
@@ -54,19 +110,17 @@ function OrderDetailPage() {
 
         <Container maxWidth="lg">
           <Stack mb={4} direction="row" justifyContent="space-between">
-            <Stack direction="column">
-              <Stack direction="row" alignItems="center">
-                <IconButton onClick={() => navigate(PATH_KITCHEN_CENTER_APP.order.list)}>
-                  <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
-                </IconButton>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="h4">Order #MBKC289</Typography>
-                  <Label color={Color.WARNING}>Being Prepared</Label>
-                </Stack>
+            <Stack direction="row" alignItems="center">
+              <IconButton onClick={() => navigate(PATH_KITCHEN_CENTER_APP.order.list)}>
+                <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
+              </IconButton>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography variant="h4">
+                  Order #{order?.orderPartnerId} | {order?.partner.name}
+                </Typography>
+                <Label color={Color.PRIMARY}>{order?.partnerOrderStatus}</Label>
+                <Label>{order?.systemStatus}</Label>
               </Stack>
-              <Typography variant="body2" sx={{ color: '#919EAB' }} ml={5}>
-                5 October 2023 10:00AM
-              </Typography>
             </Stack>
 
             {userAuth?.roleName === Role.CASHIER && (
@@ -90,138 +144,211 @@ function OrderDetailPage() {
             )}
           </Stack>
           <Grid container columnSpacing={5} rowSpacing={5}>
-            <Grid item xs={12} sm={8} md={8}>
+            <Grid item xs={12} sm={12} md={8}>
               <Card>
-                <Box sx={{ width: '100%' }} padding={2} paddingTop={2}>
+                <Box sx={{ width: '100%' }} padding={2} paddingTop={2} minHeight={460}>
                   <Paper sx={{ width: '100%', mb: 2 }}>
-                    <Stack direction="row" alignItems="center" mt={2} mb={1}>
-                      <Typography variant="subtitle1" mr={1}>
-                        Kitchen:
-                      </Typography>
-                      <Typography variant="body1">Cooking kitchen space #1</Typography>
+                    <Stack alignContent="space-between">
+                      <Stack direction="row" alignItems="center" mb={1}>
+                        <Typography variant="subtitle1" mr={1}>
+                          Store:
+                        </Typography>
+                        <Typography variant="body1">{order?.store.name}</Typography>
+                      </Stack>
+
+                      {order?.orderDetails.map((order) => {
+                        return (
+                          <OrderItem
+                            paddingTop={2}
+                            divider
+                            logoUrl={order.product.image}
+                            name={order.product.name}
+                            category={order.product.categoryName}
+                            quantity={order.quantity}
+                            price={order.product.sellingPrice}
+                            noteContent={order.note}
+                            note
+                          />
+                        );
+                      })}
+
+                      <Stack direction="row" alignItems="center" mt={1} mb={1}>
+                        <Typography variant="subtitle1" mr={1}>
+                          Note:
+                        </Typography>
+                        <Typography variant="body1">{order?.note}</Typography>
+                      </Stack>
+
+                      <Stack>
+                        <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            Sub total price
+                          </Typography>
+                          <Typography width={100} variant="body2">
+                            {formatCurrency(order?.subTotalPrice as number)}
+                          </Typography>
+                        </Stack>
+
+                        <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            Delivery fee
+                          </Typography>
+                          <Typography width={100} variant="body2">
+                            {formatCurrency(order?.deliveryFee as number)}
+                          </Typography>
+                        </Stack>
+
+                        <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            Total discount
+                          </Typography>
+                          <Typography width={100} variant="body2">
+                            {formatCurrency(order?.totalDiscount as number)}
+                          </Typography>
+                        </Stack>
+                        <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="subtitle1">Final total price</Typography>
+                          <Typography width={100} variant="subtitle2">
+                            {formatCurrency(order?.finalTotalPrice as number)}
+                          </Typography>
+                        </Stack>
+                      </Stack>
                     </Stack>
-                    <OrderItem
-                      paddingTop={2}
-                      haveKitchen={false}
-                      divider
-                      logoUrl="/assets/images/kitchen/burger.png"
-                      name="Hamburger recipes KFC #1"
-                      category="Food"
-                      quantity={1}
-                      price="45.000"
-                      note
-                      noteContent="Do not take tomatoes"
-                    />
-
-                    <OrderItem
-                      paddingTop={2}
-                      haveKitchen={false}
-                      divider
-                      logoUrl="/assets/images/kitchen/burger.png"
-                      name="Hamburger recipes KFC #1"
-                      category="Food"
-                      quantity={1}
-                      price="45.000"
-                      note
-                      noteContent="Do not take tomatoes"
-                    />
-
-                    <OrderItem
-                      paddingTop={2}
-                      haveKitchen={false}
-                      logoUrl="/assets/images/kitchen/burger.png"
-                      name="Hamburger recipes KFC #1"
-                      category="Food"
-                      quantity={1}
-                      price="45.000"
-                      note
-                      noteContent="Do not take tomatoes"
-                    />
                   </Paper>
-
-                  <Stack>
-                    <Stack direction="row" spacing={10} alignItems="center" justifyContent="flex-end">
-                      <Typography variant="body2" sx={{ color: '#919EAB;' }}>
-                        SubTotal
-                      </Typography>
-                      <Typography variant="body2">180.000 đ</Typography>
-                    </Stack>
-                    <Stack direction="row" spacing={10} alignItems="center" justifyContent="flex-end" mt={1}>
-                      <Typography variant="body2" sx={{ color: '#919EAB;' }}>
-                        Discount
-                      </Typography>
-                      <Typography variant="body2"> -10.000 đ</Typography>
-                    </Stack>
-                    <Stack direction="row" spacing={10} alignItems="center" justifyContent="flex-end" mt={1}>
-                      <Typography variant="subtitle1">Total</Typography>
-                      <Typography variant="subtitle2">170.000 đ</Typography>
-                    </Stack>
-                  </Stack>
                 </Box>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={4} md={4}>
+            <Grid item xs={12} sm={12} md={4}>
               <Stack gap={3}>
                 <Card>
-                  <Box sx={{ width: '100%' }} padding={2}>
+                  <Box sx={{ width: '100%' }} padding={2} minHeight={460}>
                     <Paper sx={{ width: '100%', mb: 2 }}>
-                      <Typography variant="subtitle1">Customer Information</Typography>
-                      <Stack direction="row" alignItems="center" spacing={2} mt={2} mb={2}>
-                        <Avatar alt={'Product Image'} src="/assets/images/avatars/avatar_2.jpg" />
-                        <Stack direction="column">
-                          <Typography variant="body2" noWrap>
-                            Le Xuan Back
-                          </Typography>
-                          <Typography variant="caption" sx={{ color: '#919EAB;' }} noWrap>
-                            lexuanback@gmail.com
-                          </Typography>
+                      <Stack>
+                        <Typography variant="subtitle1">Customer</Typography>
+                        <Stack direction="row" alignItems="center" spacing={2} mt={2} mb={2}>
+                          <Stack direction="row" spacing={1} mt={1} alignItems="center">
+                            <Typography color={(theme) => theme.palette.grey[500]}>Name:</Typography>
+                            <Typography variant="body2">{order?.shipperName}</Typography>
+                          </Stack>
                         </Stack>
                       </Stack>
                       <Divider />
 
-                      <Typography variant="subtitle2" mt={2}>
-                        Shipping
-                      </Typography>
-                      <Stack direction="row" spacing={2} mt={1}>
-                        <Typography sx={{ color: '#919EAB;' }}>Address:</Typography>
-                        <Typography variant="body2">Chung cư Hausneo, phường Phú Hưng, Quận 9, TP.HCM</Typography>
-                      </Stack>
+                      <Stack>
+                        <Typography variant="subtitle1" mt={2}>
+                          Delivery
+                        </Typography>
+                        <Stack direction="row" spacing={1.5} mt={1} alignItems="center">
+                          <Typography color={(theme) => theme.palette.grey[500]}>Shipper name:</Typography>
+                          <Typography variant="body2">{order?.shipperName}</Typography>
+                        </Stack>
 
-                      <Stack direction="row" alignItems="center" spacing={3.5} mt={1} mb={2}>
-                        <Typography sx={{ color: '#919EAB;' }}>Phone:</Typography>
-                        <Typography variant="body2">0982856649</Typography>
+                        <Stack direction="row" alignItems="center" spacing={1} mt={1} mb={2}>
+                          <Typography color={(theme) => theme.palette.grey[500]}>Shipper phone:</Typography>
+                          <Typography variant="body2">{order?.shipperPhone}</Typography>
+                        </Stack>
+                      </Stack>
+                      <Divider />
+
+                      <Stack>
+                        <Typography variant="subtitle1" mt={2}>
+                          Shipping
+                        </Typography>
+                        <Stack direction="row" spacing={2} mt={1}>
+                          <Typography sx={{ color: '#919EAB;' }}>Address:</Typography>
+                          <Typography variant="body2">{order?.address}</Typography>
+                        </Stack>
+
+                        <Stack direction="row" alignItems="center" spacing={3.5} mt={1} mb={2}>
+                          <Typography sx={{ color: '#919EAB;' }}>Phone:</Typography>
+                          <Typography variant="body2">{order?.customerPhone}</Typography>
+                        </Stack>
                       </Stack>
                       <Divider />
 
                       <Typography variant="subtitle2" mt={2}>
                         Payment
                       </Typography>
-                      <Stack rowGap={2} mt={2}>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between">
-                          <Typography>Status</Typography>
-                          <Label color={Color.ERROR}>No paid</Label>
-                        </Stack>
-
+                      <Stack rowGap={2} mt={1}>
                         <Stack direction="row" alignItems="center" justifyContent="space-between">
                           <Typography>Paid py</Typography>
-                          <Label color={Color.INFO}>Online</Label>
+                          <Label color={Color.INFO}>{order?.paymentMethod}</Label>
                         </Stack>
                       </Stack>
-                    </Paper>
-                  </Box>
-                </Card>
-
-                <Card>
-                  <Box sx={{ width: '100%' }} padding={2}>
-                    <Paper sx={{ width: '100%', mb: 2 }}>
-                      <Typography variant="subtitle1">Order timeline</Typography>
-                      <OrderTimeline />
                     </Paper>
                   </Box>
                 </Card>
               </Stack>
             </Grid>
           </Grid>
+
+          <Box mt={4}>
+            <Card>
+              <Box sx={{ width: '100%' }} padding={2}>
+                <Paper sx={{ width: '100%', mb: 2 }}>
+                  <Stack direction="row" justifyContent="space-between" p={1}>
+                    <Typography variant="subtitle1" mb={2}>
+                      Order history
+                    </Typography>
+                    <Tooltip title={translate('button.reload')}>
+                      <IconButton onClick={handleReloadData}>
+                        <ReplayIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
+
+                  <TableContainer>
+                    <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                      <CustomTableHead<OrderHistoryTable>
+                        showAction
+                        headCells={orderHistoryHeadCells}
+                        order={orderSort}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                        selectedCol={selected}
+                      />
+
+                      <TableBody>
+                        {orderHistories.map((orderHistory, index) => {
+                          return (
+                            <OrderHistoryTableRow
+                              key={orderHistory.orderHistoryId}
+                              index={index}
+                              orderHistory={orderHistory}
+                              page={page}
+                              rowsPerPage={rowsPerPage}
+                              selected={selected}
+                            />
+                          );
+                        })}
+                        {emptyRows > 0 ||
+                          (orderHistories.length === 0 && !filterName && (
+                            <EmptyTable
+                              colNumber={orderHistoryHeadCells.length + 2}
+                              model={translate('model.lowercase.orders')}
+                            />
+                          ))}
+                      </TableBody>
+
+                      {isNotFound && (
+                        <SearchNotFound colNumber={orderHistoryHeadCells.length + 2} searchQuery={filterName} />
+                      )}
+                    </Table>
+                  </TableContainer>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={orderHistories.length}
+                    rowsPerPage={rowsPerPage}
+                    labelRowsPerPage={translate('table.rowsPerPage')}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </Paper>
+              </Box>
+            </Card>
+          </Box>
         </Container>
       </Box>
 

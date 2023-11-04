@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 //
 import { HeadCell, OptionSelect, OrderSortBy, ProductTypeEnum } from '@types';
-import { Role, Status } from 'common/enum';
+import { PartnerOrderStatus, Role, Status, SystemStatus } from 'common/enum';
 import { useLocales, usePopover } from 'hooks';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';
@@ -33,9 +33,14 @@ interface CustomTableToolbarProps<T> {
   selected: readonly string[];
   setSelected: Dispatch<SetStateAction<readonly string[]>>;
   haveSelectStatus?: boolean;
+  haveSelectSystemStatus?: boolean;
+  haveSelectPartnerOrderStatus?: boolean;
   options?: OptionSelect[];
+  secondOptions?: OptionSelect[];
   status?: OptionSelect | null;
   handleChangeStatus?: (option: OptionSelect | null) => void;
+  handleChangeSystemStatus?: (option: OptionSelect | null) => void;
+  handleChangePartnerOrderStatus?: (option: OptionSelect | null) => void;
   handleReloadData: () => void;
   model: string;
   addAction?: boolean;
@@ -53,9 +58,14 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
     selected,
     setSelected,
     options,
+    secondOptions,
     status,
     handleChangeStatus,
+    handleChangeSystemStatus,
+    handleChangePartnerOrderStatus,
     haveSelectStatus,
+    haveSelectSystemStatus,
+    haveSelectPartnerOrderStatus,
     handleReloadData,
     model,
     addAction,
@@ -180,6 +190,64 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
                 )}
                 value={status}
                 onChange={(event: any, newValue: OptionSelect | null) => handleChangeStatus(newValue)}
+              />
+            </Stack>
+          )}
+
+          {handleChangeSystemStatus && haveSelectSystemStatus && (
+            <Stack width={250}>
+              <Autocomplete
+                fullWidth
+                size="small"
+                options={options ? options : []}
+                getOptionLabel={(option) =>
+                  option.value === PartnerOrderStatus.ALL
+                    ? translate('status.all')
+                    : option.value === PartnerOrderStatus.IN_STORE
+                    ? translate('status.inStore')
+                    : option.value === PartnerOrderStatus.READY_DELIVERY
+                    ? translate('status.readyDelivery')
+                    : option.value === PartnerOrderStatus.COMPLETED
+                    ? translate('status.completed')
+                    : option.value === PartnerOrderStatus.CANCELLED
+                    ? translate('status.cancelled')
+                    : ''
+                }
+                renderInput={(params) => (
+                  <TextField {...params} label={translate('table.systemStatus')} InputLabelProps={{}} />
+                )}
+                value={status}
+                onChange={(event: any, newValue: OptionSelect | null) => handleChangeSystemStatus(newValue)}
+              />
+            </Stack>
+          )}
+
+          {handleChangePartnerOrderStatus && haveSelectPartnerOrderStatus && (
+            <Stack width={250}>
+              <Autocomplete
+                fullWidth
+                size="small"
+                options={secondOptions ? secondOptions : []}
+                getOptionLabel={(option) =>
+                  option.value === SystemStatus.ALL
+                    ? translate('status.all')
+                    : option.value === SystemStatus.PREPARING
+                    ? translate('status.preparing')
+                    : option.value === SystemStatus.READY
+                    ? translate('status.ready')
+                    : option.value === SystemStatus.UPCOMING
+                    ? translate('status.upcoming')
+                    : option.value === SystemStatus.COMPLETED
+                    ? translate('status.completed')
+                    : option.value === SystemStatus.CANCELLED
+                    ? translate('status.cancelled')
+                    : ''
+                }
+                renderInput={(params) => (
+                  <TextField {...params} label={translate('table.partnerOrderStatus')} InputLabelProps={{}} />
+                )}
+                value={status}
+                onChange={(event: any, newValue: OptionSelect | null) => handleChangePartnerOrderStatus(newValue)}
               />
             </Stack>
           )}
