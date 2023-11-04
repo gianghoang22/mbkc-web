@@ -22,10 +22,13 @@ import { PATH_BRAND_APP } from 'routes/paths';
 
 function CategoryDetailPage() {
   const { id: categoryId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { pathname } = useLocation();
+
   const mdUp = useResponsive('up', 'md', 'md');
+
+  const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
   const { handleOpen: handleOpenModal, isOpen: isOpenModal } = useModal();
   const { open: openPopover, handleOpenMenu, handleCloseMenu } = usePopover();
@@ -61,8 +64,8 @@ function CategoryDetailPage() {
             ? translate('page.title.detail', {
                 model:
                   currentLang.value === Language.ENGLISH
-                    ? translate('model.capitalize.category')
-                    : translate('model.lowercase.category'),
+                    ? translate('model.capitalize.normalCategory')
+                    : translate('model.lowercase.normalCategory'),
               })
             : translate('page.title.detail', {
                 model:

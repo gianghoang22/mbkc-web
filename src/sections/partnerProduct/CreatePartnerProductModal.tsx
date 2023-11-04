@@ -128,6 +128,7 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
   const onSubmit = async (values: PartnerProductToCreate) => {
     const data = { ...values };
     console.log(data);
+    handleOpen();
     if (isEditing) {
       const paramsToUpdate: Params<PartnerProductToUpdate> = {
         data: {

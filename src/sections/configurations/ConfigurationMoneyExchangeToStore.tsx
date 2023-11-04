@@ -57,7 +57,7 @@ function ConfigurationMoneyExchangeToStore() {
                 </InputAdornment>
               ),
             }}
-            label={translate('table.start')}
+            label={translate('table.time')}
             value={valueInput}
             defaultValue={moment(dayjs(scrawlingMoneyExchangeToStore).toDate()).format('HH:mm:ss')}
             sx={{

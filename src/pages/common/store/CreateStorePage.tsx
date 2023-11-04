@@ -146,7 +146,7 @@ function CreateStorePage() {
         title={
           isEditing
             ? translate('page.title.update', { model: translate('model.lowercase.store') })
-            : translate('page.title.create', { model: translate('model.lowercase.store') })
+            : translate('button.register', { model: translate('model.lowercase.store') })
         }
         pathname={pathname}
         navigateDashboard={PATH_ADMIN_APP.root}
@@ -185,7 +185,7 @@ function CreateStorePage() {
                 color={isEditing ? Color.WARNING : Color.PRIMARY}
                 onClick={handleSubmit(onSubmit)}
               >
-                {isEditing ? translate('button.update') : translate('button.create')}
+                {isEditing ? translate('button.update') : translate('button.registerNew')}
               </Button>
             </Stack>
           </Stack>

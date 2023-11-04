@@ -40,7 +40,7 @@
     "selectTimeEnd": "Select finish time",
     "moneyToKC": "Transfer money to kitchen center",
     "moneyToStore": "Transfer money to store",
-    "switchToConfiguration": "Chuyển đổi để cấu hỉnh"
+    "switchToConfiguration": "Switch to configuration"
   },
   "form": {
     "email": "Email",
@@ -87,6 +87,8 @@
     "matchPassword": "Confirm password not match with new password",
     "atLeast": "At least {{number}} value(s)",
     "max20": "Must not exceed 20 characters.",
+    "max50": "Must not exceed 50 characters.",
+    "max80": "Must not exceed 80 characters.",
     "max100": "Must not exceed 100 characters.",
     "max120": "Must not exceed 120 characters.",
     "max1000": "Must not exceed 1000 characters.",
@@ -98,6 +100,8 @@
     "nameProductHelperText": "Name of child product: parent product name + selected size",
     "formatUrl": "The format of the url is not correct",
     "citizenNumberLimit12Number": "Citizen number must have 12 digits",
-    "commissionLimit100": "The commission should not be more than 100%."
+    "commissionLimit100": "The commission should not be more than 100%.",
+    "displayOrderMoreThan0": "Display order must be greater than 0",
+    "priceGreaterThan0": "Price must be greater than 0."
   }
 }
