@@ -41,6 +41,7 @@
   "partnerName": "Đối tác",
   "storeName": "Cửa hàng",
   "totalPrice": "Tổng giá",
+  "createdDate": "Ngày tạo",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

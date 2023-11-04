@@ -93,11 +93,6 @@ export const ORDER_TYPE_TABS = [
 
 export const SYSTEM_STATUS_OPTIONS = [
   {
-    value: PartnerOrderStatus.ALL,
-    label: 'All',
-    id: 'All',
-  },
-  {
     value: PartnerOrderStatus.IN_STORE,
     label: 'In store',
     id: 'In',
@@ -120,11 +115,6 @@ export const SYSTEM_STATUS_OPTIONS = [
 ];
 
 export const PARTNER_ORDER_STATUS = [
-  {
-    value: SystemStatus.ALL,
-    label: 'All',
-    id: 'All',
-  },
   {
     value: SystemStatus.UPCOMING,
     label: 'Upcoming',

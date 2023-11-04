@@ -1,19 +1,17 @@
-import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Collapse, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
-// @mui icon
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import { TableCell, TableRow } from '@mui/material';
+
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Order, OrderHistory } from '@types';
-import { Color, Role, Status } from 'common/enum';
+import { OrderHistory } from '@types';
+import { Role } from 'common/enum';
 import { Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { fDate } from 'utils';
 
 interface OrderHistoryTableRowProps {
   orderHistory: OrderHistory;
@@ -33,8 +31,6 @@ function OrderHistoryTableRow({ index, orderHistory, page, rowsPerPage, selected
 
   const { userAuth } = useAppSelector((state) => state.auth);
 
-  const [openList, setOpenList] = useState(-1);
-
   const handleNavigateDetail = (orderId: number) => {
     navigate(
       userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
@@ -46,23 +42,25 @@ function OrderHistoryTableRow({ index, orderHistory, page, rowsPerPage, selected
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={orderHistory.orderHistoryId} sx={{ cursor: 'pointer' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
-          {index + 1}
-        </TableCell>
+      {orderHistory && (
+        <TableRow hover tabIndex={-1} key={orderHistory.orderHistoryId} sx={{ cursor: 'pointer' }}>
+          <TableCell width={60} align="center" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
+            {index + 1}
+          </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
-          {orderHistory.createdDate}
-        </TableCell>
+          <TableCell align="left" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
+            {fDate(orderHistory.createdDate)}
+          </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
-          <Label>{orderHistory.partnerOrderStatus}</Label>
-        </TableCell>
+          <TableCell align="left" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
+            <Label>{orderHistory.partnerOrderStatus}</Label>
+          </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
-          <Label>{orderHistory.systemStatus}</Label>
-        </TableCell>
-      </TableRow>
+          <TableCell align="left" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
+            <Label>{orderHistory.systemStatus}</Label>
+          </TableCell>
+        </TableRow>
+      )}
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onDelete={handleOpen} />
     </>

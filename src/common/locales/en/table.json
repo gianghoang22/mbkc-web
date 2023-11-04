@@ -41,6 +41,7 @@
   "partnerName": "Partner name",
   "storeName": "Store name",
   "totalPrice": "Total price",
+  "createdDate": "Created date",
   "lowercase": {
     "address": "address",
     "email": "email",
