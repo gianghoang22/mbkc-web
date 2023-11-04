@@ -1,6 +1,7 @@
 import { Divider, Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
 import { Stack } from '@mui/material';
+import { useLocales } from 'hooks';
 import { formatCurrency } from 'utils';
 
 interface Props {
@@ -28,6 +29,8 @@ function OrderItem({
   note,
   noteContent,
 }: Props) {
+  const { translate } = useLocales();
+
   return (
     <Stack>
       <Stack justifyContent="space-between" direction="row" padding={padding} paddingTop={paddingTop}>
@@ -49,7 +52,7 @@ function OrderItem({
       </Stack>
       {note && (
         <Stack direction="row" alignItems="center" mt={1} spacing={1} mb={2}>
-          <Typography variant="subtitle2">Note: </Typography>
+          <Typography variant="subtitle2">{translate('page.content.note')}: </Typography>
           <Typography variant="caption">{noteContent}</Typography>
         </Stack>
       )}

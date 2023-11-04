@@ -44,7 +44,8 @@
     "citizenNumber": "Citizen number",
     "dateOfBirth": "Date of birth",
     "gender": "Gender",
-    "phone": "Phone"
+    "phone": "Phone",
+    "orderHistories": "Order histories"
   },
   "capitalize": {
     "overview": "Overview",
@@ -144,6 +145,7 @@
     "citizenNumber": "citizen number",
     "dateOfBirth": "date of birth",
     "gender": "gender",
-    "phone": "phone"
+    "phone": "phone",
+    "orderHistories": "order histories"
   }
 }
