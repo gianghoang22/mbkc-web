@@ -27,7 +27,7 @@ import {
   ToUpdateStatus,
 } from '@types';
 import { ConfirmDialog, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
+import { useDebounce, useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
 interface PartnerProductTableRowProps {
@@ -35,6 +35,7 @@ interface PartnerProductTableRowProps {
   index: number;
   page?: number;
   rowsPerPage?: number;
+  filterName?: string;
   length: number;
   setPage?: any;
   selected: readonly string[];
@@ -48,6 +49,7 @@ function PartnerProductTableRow({
   length,
   setPage,
   selected,
+  filterName,
 }: PartnerProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -91,6 +93,8 @@ function PartnerProductTableRow({
     );
   };
 
+  const debounceValue = useDebounce(filterName, 500);
+
   const handleUpdateStatus = (valueStatus: string) => {
     const paramUpdate: Params<ToUpdateStatus> = {
       data: {
@@ -102,6 +106,7 @@ function PartnerProductTableRow({
         storeId: partnerProduct.storeId,
       },
       optionParams: {
+        searchValue: debounceValue,
         itemsPerPage: rowsPerPage,
         currentPage: page,
       },
@@ -228,8 +233,8 @@ function PartnerProductTableRow({
           onClose={handleOpen}
           onAction={handleDelete}
           model={partnerProduct?.partnerName}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.product') })}
-          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.product') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.partnerProduct') })}
+          description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.partnerProduct') })}
         />
       )}
     </>

@@ -1,4 +1,5 @@
 import {
+  ListParams,
   MessageResponse,
   Params,
   PartnerProduct,
@@ -13,7 +14,7 @@ import { PATH_BRAND_APP } from 'routes/paths';
 import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllPartnerProducts, getPartnerProductDetail } from './partnerProductSlice';
 
-export const getAllPartnerProductsThunk = async (params: any, thunkAPI: any) => {
+export const getAllPartnerProductsThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
 
   try {
@@ -127,8 +128,9 @@ export const updateStatusPartnerProductThunk = async (params: Params<ToUpdateSta
       data
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue,
           itemsPerPage: optionParams?.itemsPerPage,
           currentPage: optionParams?.currentPage,
         },

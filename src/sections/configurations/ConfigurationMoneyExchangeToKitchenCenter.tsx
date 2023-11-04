@@ -52,7 +52,7 @@ function ConfigurationMoneyExchangeToKitchenCenter() {
                 </InputAdornment>
               ),
             }}
-            label={translate('table.finish')}
+            label={translate('table.time')}
             value={valueInput}
             defaultValue={moment(dayjs(scrawlingMoneyExchangeToKitchenCenter).toDate()).format('HH:mm:ss')}
             sx={{

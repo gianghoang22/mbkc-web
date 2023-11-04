@@ -350,6 +350,8 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.StatusInValid
         : response === EngErrorMessageConstant.ProductCodeInPartnerNotExist
         ? EngErrorMessageConstant.ProductCodeInPartnerNotExist
+        : response === EngErrorMessageConstant.PriceGreaterThan0
+        ? EngErrorMessageConstant.PriceGreaterThan0
         : response
       : currentLanguage === Language.VIETNAMESE
       ? response === EngMessageConstant.LoginSuccessfully
@@ -692,6 +694,8 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.StatusInValid
         : response === EngErrorMessageConstant.ProductCodeInPartnerNotExist
         ? VieErrorMessageConstant.ProductCodeInPartnerNotExist
+        : response === EngErrorMessageConstant.PriceGreaterThan0
+        ? VieErrorMessageConstant.PriceGreaterThan0
         : response
       : response;
 

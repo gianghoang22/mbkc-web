@@ -33,6 +33,7 @@
   "rowsPerPage": "Rows per page",
   "mappedDate": "Mapping Date",
   "updatedDate": "Update Date",
+  "time": "Time",
   "start": "Start",
   "finish": "Finish",
   "lowercase": {
@@ -41,6 +42,7 @@
     "code": "code",
     "type": "type",
     "size": "size",
+    "price": "price",
     "description": "description",
     "displayOrder": "display order",
     "numberAccount": "number account",

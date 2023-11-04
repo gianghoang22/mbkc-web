@@ -110,7 +110,7 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             : path === Breadcrumb.STORES
             ? translate('breadcrumb.stores')
             : path === Breadcrumb.CATEGORY
-            ? translate('breadcrumb.category')
+            ? translate('breadcrumb.normalCategory')
             : path === Breadcrumb.CATEGORIES
             ? translate('breadcrumb.categories')
             : path === Breadcrumb.EXTRA_CATEGORY

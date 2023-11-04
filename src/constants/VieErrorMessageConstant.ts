@@ -141,4 +141,5 @@ export const VieErrorMessageConstant = {
   StatusInValid: 'Trạng thái là HOẠT ĐỘNG hoặc KHÔNG HOẠT ĐỘNG',
 
   ProductCodeInPartnerNotExist: 'Mã sản phẩm không tồn tại trên hệ thống GrabFood.',
+  PriceGreaterThan0: 'Giá phải lớn hơn 0.',
 };

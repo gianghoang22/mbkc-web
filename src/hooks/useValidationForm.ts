@@ -60,27 +60,33 @@ function useValidationForm() {
   });
 
   const schemaStore = yup.object({
-    name: yup.string().required(
-      translate('page.validation.required', {
-        name: translate(
-          'page.form.nameExchange',
-          currentLang.value === Language.ENGLISH
-            ? {
-                model: translate('model.lowercase.store'),
-                name: translate('page.form.nameLower'),
-              }
-            : {
-                model: translate('page.form.nameLower'),
-                name: translate('model.lowercase.store'),
-              }
-        ),
-      })
-    ),
-    storeManagerEmail: yup.string().required(
-      translate('page.validation.required', {
-        name: translate('table.lowercase.email'),
-      })
-    ),
+    name: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.lowercase.store'),
+                  name: translate('page.form.nameLower'),
+                }
+              : {
+                  model: translate('page.form.nameLower'),
+                  name: translate('model.lowercase.store'),
+                }
+          ),
+        })
+      )
+      .max(80, translate('page.validation.max80')),
+    storeManagerEmail: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate('table.lowercase.email'),
+        })
+      )
+      .max(100, translate('page.validation.max100')),
     kitchenCenterId: yup
       .number()
       .typeError(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
@@ -93,38 +99,44 @@ function useValidationForm() {
   });
 
   const schemaCategory = yup.object({
-    name: yup.string().required(
-      translate('page.validation.required', {
-        name: translate(
-          'page.form.nameExchange',
-          currentLang.value === Language.ENGLISH
-            ? {
-                model: translate('model.lowercase.category'),
-                name: translate('page.form.nameLower'),
-              }
-            : {
-                model: translate('page.form.nameLower'),
-                name: translate('model.lowercase.category'),
-              }
-        ),
-      })
-    ),
-    code: yup.string().required(
-      translate('page.validation.required', {
-        name: translate(
-          'page.form.nameExchange',
-          currentLang.value === Language.ENGLISH
-            ? {
-                model: translate('model.lowercase.category'),
-                name: translate('page.form.codeLower'),
-              }
-            : {
-                model: translate('page.form.codeLower'),
-                name: translate('model.lowercase.category'),
-              }
-        ),
-      })
-    ),
+    name: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.lowercase.category'),
+                  name: translate('page.form.nameLower'),
+                }
+              : {
+                  model: translate('page.form.nameLower'),
+                  name: translate('model.lowercase.category'),
+                }
+          ),
+        })
+      )
+      .max(100, translate('page.validation.max100')),
+    code: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate(
+            'page.form.nameExchange',
+            currentLang.value === Language.ENGLISH
+              ? {
+                  model: translate('model.lowercase.category'),
+                  name: translate('page.form.codeLower'),
+                }
+              : {
+                  model: translate('page.form.codeLower'),
+                  name: translate('model.lowercase.category'),
+                }
+          ),
+        })
+      )
+      .max(20, translate('page.validation.max20')),
     type: yup.string().required(
       translate('page.validation.select', {
         name: translate(
@@ -152,7 +164,8 @@ function useValidationForm() {
         translate('page.validation.required', {
           name: translate('table.lowercase.displayOrder'),
         })
-      ),
+      )
+      .min(1, translate('page.validation.displayOrderMoreThan0')),
     description: yup
       .string()
       .required(
@@ -233,7 +246,8 @@ function useValidationForm() {
         translate('page.validation.required', {
           name: translate('table.lowercase.displayOrder'),
         })
-      ),
+      )
+      .min(1, translate('page.validation.displayOrderMoreThan0')),
     size: yup.string().required(translate('page.validation.select', { name: translate('table.lowercase.size') })),
     type: yup.string().required(
       translate('page.validation.select', {
@@ -265,66 +279,51 @@ function useValidationForm() {
     productId: yup
       .number()
       .typeError(translate('page.validation.select', { name: translate('model.lowercase.product') }))
-      .required(translate('page.validation.select', { name: translate('model.lowercase.product') })),
+      .required(translate('page.validation.select', { name: translate('model.lowercase.product') }))
+      .min(1, translate('page.validation.select', { name: translate('model.lowercase.product') })),
     partnerId: yup
       .number()
       .typeError(translate('page.validation.select', { name: translate('model.lowercase.partner') }))
-      .required(translate('page.validation.select', { name: translate('model.lowercase.partner') })),
+      .required(translate('page.validation.select', { name: translate('model.lowercase.partner') }))
+      .min(1, translate('page.validation.select', { name: translate('model.lowercase.partner') })),
     storeId: yup
       .number()
       .typeError(translate('page.validation.select', { name: translate('model.lowercase.store') }))
-      .required(translate('page.validation.select', { name: translate('model.lowercase.store') })),
-    status: yup.string().required(translate('page.validation.select', { name: translate('table.status') })),
-    productCode: yup.string().required(
-      translate('page.validation.required', {
-        name: translate(
-          'page.form.nameExchange',
-          currentLang.value === Language.ENGLISH
-            ? {
-                model: translate('model.lowercase.product'),
-                name: translate('page.form.codeLower'),
-              }
-            : {
-                model: translate('page.form.codeLower'),
-                name: translate('model.lowercase.product'),
-              }
-        ),
-      })
-    ),
-    price: yup
-      .number()
-      .typeError(
-        translate('page.validation.required', {
-          name: translate(
-            'page.form.nameExchange',
-            currentLang.value === Language.ENGLISH
-              ? {
-                  model: translate('model.capitalizeOne.product'),
-                  name: translate('page.form.codeLower'),
-                }
-              : {
-                  model: translate('page.form.code'),
-                  name: translate('model.lowercase.product'),
-                }
-          ),
-        })
-      )
+      .required(translate('page.validation.select', { name: translate('model.lowercase.store') }))
+      .min(1, translate('page.validation.select', { name: translate('model.lowercase.store') })),
+    status: yup.string().required(translate('page.validation.select', { name: translate('table.lowercase.status') })),
+    productCode: yup
+      .string()
       .required(
         translate('page.validation.required', {
           name: translate(
             'page.form.nameExchange',
             currentLang.value === Language.ENGLISH
               ? {
-                  model: translate('model.capitalizeOne.product'),
+                  model: translate('model.lowercase.product'),
                   name: translate('page.form.codeLower'),
                 }
               : {
-                  model: translate('page.form.code'),
+                  model: translate('page.form.codeLower'),
                   name: translate('model.lowercase.product'),
                 }
           ),
         })
-      ),
+      )
+      .max(50, translate('page.validation.max50')),
+    price: yup
+      .number()
+      .typeError(
+        translate('page.validation.required', {
+          name: translate('table.lowercase.price'),
+        })
+      )
+      .required(
+        translate('page.validation.required', {
+          name: translate('table.lowercase.price'),
+        })
+      )
+      .min(1, translate('page.validation.priceGreaterThan0')),
   });
 
   const schemaStorePartner = yup.object().shape({
@@ -495,16 +494,22 @@ function useValidationForm() {
   });
 
   const schemaUpdateStorePartner = yup.object({
-    userName: yup.string().required(
-      translate('page.validation.required', {
-        name: `${translate('page.form.lowercase.userName')}`,
-      })
-    ),
-    password: yup.string().required(
-      translate('page.validation.required', {
-        name: translate('page.form.lowercase.password'),
-      })
-    ),
+    userName: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: `${translate('page.form.lowercase.userName')}`,
+        })
+      )
+      .max(100, translate('page.validation.max100')),
+    password: yup
+      .string()
+      .required(
+        translate('page.validation.required', {
+          name: translate('page.form.lowercase.password'),
+        })
+      )
+      .max(50, translate('page.validation.max50')),
     commission: yup
       .number()
       .typeError(translate('page.validation.required', { name: translate('page.form.commission') }))
