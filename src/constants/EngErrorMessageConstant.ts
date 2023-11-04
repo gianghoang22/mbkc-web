@@ -139,4 +139,5 @@ export const EngErrorMessageConstant = {
   StatusInValid: 'Status is ACTIVE or INACTIVE',
 
   ProductCodeInPartnerNotExist: 'Product code does not exist in the GrabFood System.',
+  PriceGreaterThan0: 'Price must be greater than 0.',
 };

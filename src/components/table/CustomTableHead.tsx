@@ -43,7 +43,7 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
     selectedCol,
   } = props;
 
-  const { translate } = useLocales();
+  const { translate, currentLang } = useLocales();
 
   const [columns, setColumns] = useState<HeadCell<T>[]>([]);
 
@@ -65,7 +65,7 @@ function CommonTableHead<T>(props: CommonTableHeadProps<T>) {
       }
     }
     setColumns(transformedMapHeadCells);
-  }, [selectedCol]);
+  }, [selectedCol, currentLang]);
 
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);

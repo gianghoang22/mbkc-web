@@ -141,6 +141,7 @@ function ListPartnerProductPage() {
                             index={index}
                             partnerProduct={partnerProduct}
                             selected={selected}
+                            filterName={filterName}
                           />
                         );
                       })}

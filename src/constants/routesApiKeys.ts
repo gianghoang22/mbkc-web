@@ -201,7 +201,7 @@ export const ROUTES_API_PRODUCTS = {
   }: OptionParams) =>
     path(
       ROOTS_PRODUCTS,
-      `?searchName=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}&sortBy=${sortBy}`
+      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}&sortBy=${sortBy}`
     ),
   GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
   UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),

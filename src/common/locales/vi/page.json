@@ -100,6 +100,8 @@
     "matchPassword": "Xác nhận mật khẩu không khớp với mật khẩu mới",
     "atLeast": "Ít nhất {{number}} giá trị",
     "max20": "Không được vượt quá 20 ký tự",
+    "max50": "Không được vượt quá 50 ký tự",
+    "max80": "Không được vượt quá 80 ký tự",
     "max100": "Không được vượt quá 100 ký tự",
     "max120": "Không được vượt quá 120 ký tự",
     "max1000": "Không được vượt quá 1000 ký tự",
@@ -111,6 +113,8 @@
     "nameProductHelperText": "Tên của sản phẩm con: tên sản phẩm cha + size được chọn",
     "formatUrl": "Chưa đúng format của url",
     "citizenNumberLimit12Number": "Số chứng minh nhân dân phải đủ 12 chữ số",
-    "commissionLimit100": "Phần trăm hoa hồng không được nhiều hơn 100%"
+    "commissionLimit100": "Phần trăm hoa hồng không được nhiều hơn 100%",
+    "displayOrderMoreThan0": "Thứ tự hiển thị phải lớn hơn 0",
+    "priceGreaterThan0": "Giá phải lớn hơn 0."
   }
 }
