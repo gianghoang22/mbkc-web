@@ -7,7 +7,6 @@ import {
   deleteStorePartnerThunk,
   getAllStorePartnersByStoreIdThunk,
   getAllStorePartnersThunk,
-  getStorePartnerDetailThunk,
   updateStatusStorePartnerThunk,
   updateStorePartnerThunk,
 } from './storePartnerThunk';
@@ -53,10 +52,6 @@ export const getAllStorePartners = createAsyncThunk('store-partner/get-all-store
 export const getAllStorePartnersByStoreId = createAsyncThunk(
   'store-partner/get-all-partner-by-store-id',
   getAllStorePartnersByStoreIdThunk
-);
-export const getStorePartnerDetail = createAsyncThunk(
-  'store-partner/get-store-partner-detail',
-  getStorePartnerDetailThunk
 );
 export const updateStorePartner = createAsyncThunk('store-partner/update-store-partner', updateStorePartnerThunk);
 export const updateStatusStorePartner = createAsyncThunk(
@@ -121,20 +116,6 @@ const storePartnerSlice = createSlice({
         state.storePartners = { ...action.payload };
       })
       .addCase(getAllStorePartnersByStoreId.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-      })
-      .addCase(getStorePartnerDetail.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getStorePartnerDetail.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-        state.storePartner = { ...action.payload };
-      })
-      .addCase(getStorePartnerDetail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

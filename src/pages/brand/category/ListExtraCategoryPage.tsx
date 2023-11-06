@@ -128,6 +128,7 @@ function ListExtraCategoryPage() {
                             length={categories.length}
                             setPage={setPage}
                             selected={selected}
+                            filterName={filterName}
                           />
                         );
                       })}

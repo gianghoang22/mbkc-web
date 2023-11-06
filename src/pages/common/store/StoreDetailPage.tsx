@@ -280,7 +280,10 @@ function StoreDetailPage() {
                             <Typography variant="subtitle1">
                               {translate('table.address')}:{' '}
                               <Typography component="span" variant="body1">
-                                {store?.kitchenCenter.address}
+                                {store?.kitchenCenter.address
+                                  .split(', ')
+                                  .slice(0, store?.kitchenCenter?.address.split(', ').length - 3)
+                                  .join(', ')}
                               </Typography>
                             </Typography>
                           </Stack>

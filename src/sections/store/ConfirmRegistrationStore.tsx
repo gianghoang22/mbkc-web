@@ -18,6 +18,7 @@ interface ConfirmRegistrationStoreProps {
   rowsPerPage?: number;
   store?: Store | null;
   isOpen: boolean;
+  filterName?: string;
   storeStatus: Status;
   statusFilter?: OptionSelect | null;
   handleOpen: (title: any) => void;
@@ -33,6 +34,7 @@ function ConfirmRegistrationStore({
   handleCloseMenuConfirm,
   storeStatus = Status.ACTIVE,
   statusFilter,
+  filterName,
 }: ConfirmRegistrationStoreProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -73,6 +75,7 @@ function ConfirmRegistrationStore({
         data: { ...data },
         idParams: { storeId: store?.storeId },
         optionParams: {
+          searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: page,
           status: statusFilter ? statusFilter?.value : '',

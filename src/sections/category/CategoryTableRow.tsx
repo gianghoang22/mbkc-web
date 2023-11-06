@@ -24,6 +24,7 @@ interface CategoryTableRowProps {
   length?: number;
   setPage?: any;
   selected: readonly string[];
+  filterName: string;
 }
 
 function CategoryTableRow({
@@ -36,9 +37,11 @@ function CategoryTableRow({
   length,
   setPage,
   selected,
+  filterName,
 }: CategoryTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
@@ -75,10 +78,10 @@ function CategoryTableRow({
         idParams: { categoryId: category.categoryId },
         optionParams: {
           type: category.type,
+          searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: length === 1 ? 1 : page,
         },
-        pathname: pathname,
         navigate,
       })
     );
@@ -99,6 +102,7 @@ function CategoryTableRow({
       },
       optionParams: {
         type: category?.type,
+        searchValue: filterName,
         currentPage: page,
         itemsPerPage: rowsPerPage,
       },

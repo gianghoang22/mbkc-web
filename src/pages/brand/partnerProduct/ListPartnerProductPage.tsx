@@ -174,7 +174,7 @@ function ListPartnerProductPage() {
         </Card>
       </Page>
 
-      {isOpen && <CreatePartnerProductModal isOpen={isOpen} handleOpen={handleOpen} />}
+      {isOpen && <CreatePartnerProductModal isOpen={isOpen} handleOpen={handleOpen} filterName={filterName} />}
     </>
   );
 }

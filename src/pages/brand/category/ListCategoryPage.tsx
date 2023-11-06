@@ -129,6 +129,7 @@ function ListCategoryPage() {
                             length={categories.length}
                             setPage={setPage}
                             selected={selected}
+                            filterName={filterName}
                           />
                         );
                       })}

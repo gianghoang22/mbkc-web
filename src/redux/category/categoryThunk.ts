@@ -94,7 +94,7 @@ export const addExtraCategoryThunk = async (params: Params<AddExtraCategory>, th
       data
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
           idCategory: idParams?.categoryId,
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
@@ -125,14 +125,6 @@ export const updateCategoryThunk = async (params: Params<CategoryToUpdate>, thun
       formData
     );
     if (response) {
-      const paramsCallback = {
-        optionParams: {
-          type: optionParams?.type,
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
-        },
-        navigate,
-      };
       const pathToBack = pathname
         ?.split('/')
         .slice(2)
@@ -140,6 +132,15 @@ export const updateCategoryThunk = async (params: Params<CategoryToUpdate>, thun
       if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
         await thunkAPI.dispatch(getCategoryDetail({ categoryId: idParams?.categoryId, navigate }));
       } else {
+        const paramsCallback: ListParams = {
+          optionParams: {
+            type: optionParams?.type,
+            searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          },
+          navigate,
+        };
         await thunkAPI.dispatch(getAllCategories(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.category.list);
@@ -156,23 +157,26 @@ export const updateCategoryThunk = async (params: Params<CategoryToUpdate>, thun
 };
 
 export const deleteCategoryThunk = async (params: Params<Category>, thunkAPI: any) => {
-  const { idParams, optionParams, pathname, navigate } = params;
+  const { idParams, optionParams, navigate } = params;
 
   try {
     const response: MessageResponse = await axiosClient.delete(
       ROUTES_API_CATEGORIES.DELETE_CATEGORY(idParams?.categoryId ? idParams?.categoryId : 0)
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
           type: optionParams?.type,
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
         navigate,
       };
       await thunkAPI.dispatch(getAllCategories(paramsCallback));
-      navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.category.list);
+      navigate(
+        optionParams?.type === CategoryType.NORMAL ? PATH_BRAND_APP.category.list : PATH_BRAND_APP.category.extraList
+      );
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

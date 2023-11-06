@@ -115,6 +115,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
                       category={category}
                       categoryType={CategoryType.EXTRA}
                       selected={selected}
+                      filterName={filterName}
                     />
                   );
                 })}

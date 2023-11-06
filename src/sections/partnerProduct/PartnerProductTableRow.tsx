@@ -27,7 +27,7 @@ import {
   ToUpdateStatus,
 } from '@types';
 import { ConfirmDialog, Popover } from 'components';
-import { useDebounce, useLocales, useModal, usePopover } from 'hooks';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
 interface PartnerProductTableRowProps {
@@ -93,8 +93,6 @@ function PartnerProductTableRow({
     );
   };
 
-  const debounceValue = useDebounce(filterName, 500);
-
   const handleUpdateStatus = (valueStatus: string) => {
     const paramUpdate: Params<ToUpdateStatus> = {
       data: {
@@ -106,7 +104,7 @@ function PartnerProductTableRow({
         storeId: partnerProduct.storeId,
       },
       optionParams: {
-        searchValue: debounceValue,
+        searchValue: filterName,
         itemsPerPage: rowsPerPage,
         currentPage: page,
       },
@@ -224,6 +222,7 @@ function PartnerProductTableRow({
           isOpen={isOpenUpdate}
           handleOpen={handleOpenUpdate}
           partnerProduct={partnerProduct}
+          filterName={filterName ? filterName : ''}
         />
       )}
 

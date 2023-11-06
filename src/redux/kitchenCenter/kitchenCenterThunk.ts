@@ -13,7 +13,7 @@ import { ROUTES_API_KITCHEN_CENTER } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
-import { getAllKitchenCenters } from './kitchenCenterSlice';
+import { getAllKitchenCenters, getKitchenCenterDetail } from './kitchenCenterSlice';
 
 export const getAllKitchenCentersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -60,10 +60,10 @@ export const createNewKitchenCenterThunk = async (params: Params<KitchenCenterTo
       formData
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
         navigate,
       };
@@ -82,7 +82,7 @@ export const createNewKitchenCenterThunk = async (params: Params<KitchenCenterTo
 };
 
 export const updateKitchenCenterThunk = async (params: Params<KitchenCenterToUpdate>, thunkAPI: any) => {
-  const { data, idParams, pathname, navigate } = params;
+  const { data, idParams, pathname, optionParams, navigate } = params;
   const formData = appendData(data);
   try {
     const response: MessageResponse = await axiosFormData.put(
@@ -90,6 +90,22 @@ export const updateKitchenCenterThunk = async (params: Params<KitchenCenterToUpd
       formData
     );
     if (response) {
+      const pathToBack = pathname
+        ?.split('/')
+        .slice(2)
+        .filter((x) => x)[1];
+      if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
+        await thunkAPI.dispatch(getKitchenCenterDetail({ kitchenCenterId: idParams?.kitchenCenterId, navigate }));
+      } else {
+        const paramsCallback: ListParams = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          },
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllKitchenCenters(paramsCallback));
+      }
       navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.kitchenCenter.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
@@ -112,10 +128,11 @@ export const updateStatusKitchenCenterThunk = async (params: Params<ToUpdateStat
       data
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
+          searchValue: optionParams?.searchValue ? optionParams.searchValue : '',
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
         navigate,
       };
@@ -140,8 +157,9 @@ export const deleteKitchenCenterThunk = async (params: Params<KitchenCenter>, th
       ROUTES_API_KITCHEN_CENTER.DELETE_KITCHEN_CENTER(idParams?.kitchenCenterId ? idParams?.kitchenCenterId : 0)
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue ? optionParams.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },

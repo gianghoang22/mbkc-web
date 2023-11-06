@@ -28,6 +28,7 @@ import {
   Params,
   PartnerProduct,
   PartnerProductStatusEnum,
+  PartnerProductStatusUpdateEnum,
   PartnerProductToCreate,
   PartnerProductToUpdate,
 } from '@types';
@@ -39,9 +40,10 @@ interface CreatePartnerProductModalProps {
   isOpen: boolean;
   handleOpen: () => void;
   partnerProduct?: PartnerProduct | null;
+  filterName?: string;
 }
 
-function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: CreatePartnerProductModalProps) {
+function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct, filterName }: CreatePartnerProductModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -51,6 +53,7 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
   const { stores } = useAppSelector((state) => state.store);
   const { partners } = useAppSelector((state) => state.partner);
   const { products } = useAppSelector((state) => state.product);
+  const { brandProfile } = useAppSelector((state) => state.profile);
   const { isLoading, isEditing } = useAppSelector((state) => state.partnerProduct);
 
   const productOptions = products.map((product) => ({
@@ -99,9 +102,19 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
     };
   }, []);
 
+  const paramStore: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        isGetAll: true,
+        idBrand: brandProfile?.brandId,
+      },
+      navigate,
+    };
+  }, []);
+
   useEffect(() => {
     dispatch(getAllProducts(params));
-    dispatch(getAllStores(params));
+    dispatch(getAllStores(paramStore));
     dispatch(getAllPartners(params));
   }, [params]);
 
@@ -127,13 +140,13 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
 
   const onSubmit = async (values: PartnerProductToCreate) => {
     const data = { ...values };
-    console.log(data);
     handleOpen();
     if (isEditing) {
       const paramsToUpdate: Params<PartnerProductToUpdate> = {
         data: {
           productCode: data.productCode,
           status: data.status,
+          price: data.price,
         },
         idParams: {
           productId: data?.productId,
@@ -146,6 +159,7 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
     } else {
       const paramsToCreate: Params<PartnerProductToCreate> = {
         data,
+        optionParams: { searchValue: filterName },
         navigate,
       };
       dispatch(createNewPartnerProduct(paramsToCreate));
@@ -233,7 +247,7 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct }: Creat
                         }
                   )}
                 />
-                <SelectField<PartnerProductStatusEnum>
+                <SelectField<PartnerProductStatusUpdateEnum>
                   fullWidth
                   name="status"
                   options={PARTNER_PRODUCT_STATUS_OPTIONS}

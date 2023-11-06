@@ -24,9 +24,17 @@ interface KitchenCenterTableRowProps {
   page: number;
   rowsPerPage: number;
   selected: readonly string[];
+  filterName: string;
 }
 
-function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage, selected }: KitchenCenterTableRowProps) {
+function KitchenCenterTableRow({
+  index,
+  kitchenCenter,
+  page,
+  rowsPerPage,
+  selected,
+  filterName,
+}: KitchenCenterTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -40,20 +48,21 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage, select
     dispatch(setRoutesToBack(pathname));
   };
 
+  const handleEdit = () => {
+    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/updation/${kitchenCenter.kitchenCenterId}`);
+    dispatch(setEditKitchenCenter(kitchenCenter));
+    dispatch(setRoutesToBack(pathname));
+  };
+
   const handleDelete = () => {
     handleOpen();
     dispatch<any>(
       deleteKitchenCenter({
         idParams: { kitchenCenterId: kitchenCenter?.kitchenCenterId },
+        optionParams: { searchValue: filterName },
         navigate,
       })
     );
-  };
-
-  const handleEdit = () => {
-    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/updation/${kitchenCenter.kitchenCenterId}`);
-    dispatch(setEditKitchenCenter(kitchenCenter));
-    dispatch(setRoutesToBack(pathname));
   };
 
   const handleChangeStatus = () => {
@@ -65,6 +74,7 @@ function KitchenCenterTableRow({ index, kitchenCenter, page, rowsPerPage, select
         kitchenCenterId: kitchenCenter?.kitchenCenterId,
       },
       optionParams: {
+        searchValue: filterName,
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
       },

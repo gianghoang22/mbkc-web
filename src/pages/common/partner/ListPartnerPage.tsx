@@ -115,6 +115,7 @@ function ListPartnerPage() {
                             lengthPartners={partners.length}
                             setPage={setPage}
                             selected={selected}
+                            filterName={filterName}
                           />
                         );
                       })}
@@ -145,7 +146,15 @@ function ListPartnerPage() {
         </Card>
       </Page>
 
-      {isOpen && <CreatePartnerModal page={page} rowsPerPage={rowsPerPage} isOpen={isOpen} handleOpen={handleOpen} />}
+      {isOpen && (
+        <CreatePartnerModal
+          page={page}
+          rowsPerPage={rowsPerPage}
+          isOpen={isOpen}
+          handleOpen={handleOpen}
+          filterName={filterName}
+        />
+      )}
     </>
   );
 }

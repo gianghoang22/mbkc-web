@@ -209,6 +209,7 @@ function ListStorePage() {
                             showAction={
                               userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER
                             }
+                            filterName={filterName}
                           />
                         );
                       })}

@@ -28,9 +28,10 @@ interface PartnerDetailModalProps {
   partner?: Partner | null;
   isOpen: boolean;
   handleOpen: (title: any) => void;
+  filterName: string;
 }
 
-function PartnerDetailModal({ partner, isOpen, handleOpen }: PartnerDetailModalProps) {
+function PartnerDetailModal({ partner, isOpen, handleOpen, filterName }: PartnerDetailModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -51,6 +52,7 @@ function PartnerDetailModal({ partner, isOpen, handleOpen }: PartnerDetailModalP
       deletePartner({
         idParams: { partnerId: partner?.partnerId },
         optionParams: {
+          searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: page + 1,
         },
@@ -128,7 +130,13 @@ function PartnerDetailModal({ partner, isOpen, handleOpen }: PartnerDetailModalP
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpenDelete} />
 
       {isOpenCreate && (
-        <CreatePartnerModal page={page} rowsPerPage={rowsPerPage} isOpen={isOpenCreate} handleOpen={handleOpenCreate} />
+        <CreatePartnerModal
+          page={page}
+          rowsPerPage={rowsPerPage}
+          isOpen={isOpenCreate}
+          handleOpen={handleOpenCreate}
+          filterName={filterName}
+        />
       )}
 
       {isOpenDelete && (

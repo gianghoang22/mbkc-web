@@ -153,8 +153,6 @@ export const ROUTES_API_STORE_PARTNERS = {
       ROOTS_STORE_PARTNERS,
       `/stores/${idStore}?keySortName=${keySortName}&keySortStatus=${keySortStatus}&keySortCommission=${keySortCommission}`
     ),
-  GET_STORE_PARTNER_DETAIL: (storeId: number, partnerId: number) =>
-    path(ROOTS_STORE_PARTNERS, `/stores/${storeId}/partners/${partnerId}`),
   UPDATE_STORE_PARTNER: (storeId: number, partnerId: number) =>
     path(ROOTS_STORE_PARTNERS, `/stores/${storeId}/partners/${partnerId}`),
   UPDATE_STORE_PARTNER_STATUS: (storeId: number, partnerId: number) =>

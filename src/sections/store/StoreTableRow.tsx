@@ -30,6 +30,7 @@ interface StoreTableRowProps {
   setPage?: any;
   status: OptionSelect | null;
   selected: readonly string[];
+  filterName?: string;
 }
 
 function StoreTableRow({
@@ -42,6 +43,7 @@ function StoreTableRow({
   setPage,
   status,
   selected,
+  filterName,
 }: StoreTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -89,6 +91,7 @@ function StoreTableRow({
       deleteStore({
         idParams: { storeId: store.storeId },
         optionParams: {
+          searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: length === 1 ? 1 : page,
           status: status?.value,
@@ -107,8 +110,9 @@ function StoreTableRow({
         storeId: store?.storeId,
       },
       optionParams: {
-        itemsPerPage: rowsPerPage,
+        searchValue: filterName,
         currentPage: page,
+        itemsPerPage: rowsPerPage,
         status: status?.value,
       },
       navigate,
@@ -195,7 +199,11 @@ function StoreTableRow({
                 />
                 <IconButton
                   color="inherit"
-                  disabled={store?.status === Status.DEACTIVE || store.status === Status.BE_CONFIRMING}
+                  disabled={
+                    store?.status === Status.DEACTIVE ||
+                    store.status === Status.BE_CONFIRMING ||
+                    store?.status === Status.REJECTED
+                  }
                   onClick={handleOpenMenu}
                 >
                   <MoreVertIcon />
@@ -289,6 +297,7 @@ function StoreTableRow({
           store={store}
           storeStatus={statusConfirm}
           statusFilter={status}
+          filterName={filterName}
           isOpen={isOpenConfirm}
           handleOpen={handleOpenConfirm}
           handleCloseMenuConfirm={handleCloseMenuConfirm}

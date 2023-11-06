@@ -4,7 +4,6 @@ import { ROUTES_API_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllPartners } from './partnerSlice';
-import { PATH_ADMIN_APP } from 'routes/paths';
 
 export const getAllPartnersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -28,9 +27,6 @@ export const getPartnerDetailThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
-      navigate(PATH_ADMIN_APP.partner.list);
-    }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
@@ -44,8 +40,9 @@ export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thu
   try {
     const response: MessageResponse = await axiosFormData.post(ROUTES_API_PARTNERS.CREATE_PARTNER, formData);
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
@@ -74,8 +71,9 @@ export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkA
       formData
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
@@ -104,8 +102,9 @@ export const updateStatusPartnerThunk = async (params: Params<ToUpdateStatus>, t
       data
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage,
           currentPage: optionParams?.currentPage,
         },
@@ -132,8 +131,9 @@ export const deletePartnerThunk = async (params: Params<Partner>, thunkAPI: any)
       ROUTES_API_PARTNERS.DELETE_PARTNER(idParams?.partnerId ? idParams.partnerId : 0)
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
