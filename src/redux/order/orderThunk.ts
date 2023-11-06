@@ -1,14 +1,4 @@
-import {
-  CompletedOrderParams,
-  IdParams,
-  ListParams,
-  ListResponse,
-  MessageResponse,
-  OneModelParams,
-  Order,
-  Params,
-  UserAuth,
-} from '@types';
+import { CompletedOrderParams, ListParams, ListResponse, MessageResponse, Order, Params, UserAuth } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { Role } from 'common/enum';
 import { ROUTES_API_ORDERS } from 'constants/routesApiKeys';
@@ -16,7 +6,6 @@ import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { appendData, getErrorMessage, getUserAuth, handleResponseMessage } from 'utils';
 import { getOrderDetail } from './orderSlice';
-import { NavigateFunction } from 'react-router-dom';
 
 export const getAllOrdersThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -31,7 +20,6 @@ export const getAllOrdersThunk = async (params: ListParams, thunkAPI: any) => {
     return thunkAPI.rejectWithValue(error);
   }
 };
-
 export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
   const { orderId, navigate } = params;
 
