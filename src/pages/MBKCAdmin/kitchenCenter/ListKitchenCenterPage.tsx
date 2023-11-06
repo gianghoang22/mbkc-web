@@ -41,7 +41,7 @@ function ListKitchenCenterPage() {
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setFilterName(event.target.value);
+    setFilterName(event.target.value.trimStart());
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;

@@ -1,37 +1,36 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet as ReactHelmet } from 'react-helmet-async';
+import { useNavigate, useParams } from 'react-router-dom';
 // @mui
+import CheckIcon from '@mui/icons-material/Check';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import {
   Box,
   Button,
   Card,
+  Container,
   Divider,
   Grid,
+  IconButton,
+  Popover as MUIPopover,
+  MenuItem,
   Paper,
   Stack,
-  Typography,
-  MenuItem,
-  Container,
-  Popover as MUIPopover,
-  IconButton,
-  TableContainer,
   Table,
   TableBody,
-  TablePagination,
-  TableHead,
   TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  Typography,
   TableRow,
 } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import CheckIcon from '@mui/icons-material/Check';
-import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 // section
 import { OrderDetailPageSkeleton, OrderHistoryTableRow, OrderHistoryTableRowSkeleton, OrderItem } from 'sections/order';
 import ConfirmCompletedOrderModal from 'sections/order/ConfirmCompletedOrderModal';
 //redux
-import { useAppSelector } from 'redux/configStore';
 import { useDispatch } from 'react-redux';
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
 //
@@ -40,6 +39,7 @@ import { ConfirmDialog, EmptyTable, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { OrderHistory, OrderStatusActions } from '@types';
+import { useAppSelector } from 'redux/configStore';
 import { formatCurrency } from 'utils';
 
 function OrderDetailPage() {
@@ -351,9 +351,6 @@ function OrderDetailPage() {
                                   key={orderHistory.orderHistoryId}
                                   index={index}
                                   orderHistory={orderHistory}
-                                  page={page}
-                                  rowsPerPage={rowsPerPage}
-                                  selected={[]}
                                 />
                               );
                             })}

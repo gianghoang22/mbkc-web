@@ -66,6 +66,10 @@ const InputField = ({
             multiline={multiline}
             minRows={minRows}
             InputProps={InputProps}
+            onChange={(e) => {
+              const value = e.target.value.trimStart();
+              field.onChange(value);
+            }}
           />
           <FormHelperText variant="filled">{fieldState.error && fieldState.error.message}</FormHelperText>
         </FormControl>

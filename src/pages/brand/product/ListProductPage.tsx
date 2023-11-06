@@ -40,7 +40,7 @@ function ListProductPage() {
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setFilterName(event.target.value);
+    setFilterName(event.target.value.trimStart());
   };
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
