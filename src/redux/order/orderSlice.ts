@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Order } from '@types';
-import { getAllOrdersThunk, getOrderDetailThunk } from './orderThunk';
+import {
+  cancelOrderThunk,
+  changeOrderToReadyDeliveryThunk,
+  changeOrderToReadyThunk,
+  confirmOrderToCompletedThunk,
+  getAllOrdersThunk,
+  getOrderDetailThunk,
+} from './orderThunk';
 
 interface OrderState {
   isEditing: boolean;
@@ -24,8 +31,18 @@ const initialState: OrderState = {
   totalPages: 0,
 };
 
-export const getAllOrders = createAsyncThunk('product/get-all-orders', getAllOrdersThunk);
-export const getOrderDetail = createAsyncThunk('product/get-order-detail', getOrderDetailThunk);
+export const getAllOrders = createAsyncThunk('order/get-all-orders', getAllOrdersThunk);
+export const getOrderDetail = createAsyncThunk('order/get-order-detail', getOrderDetailThunk);
+export const confirmOrderToCompleted = createAsyncThunk(
+  'order/confirm-order-to-completed',
+  confirmOrderToCompletedThunk
+);
+export const changeOrderToReady = createAsyncThunk('order/change-order-to-ready', changeOrderToReadyThunk);
+export const changeOrderToReadyDelivery = createAsyncThunk(
+  'order/change-order-to-ready-delivery',
+  changeOrderToReadyDeliveryThunk
+);
+export const cancelOrder = createAsyncThunk('order/cancel-order', cancelOrderThunk);
 
 const productSlice = createSlice({
   name: 'product',
@@ -63,6 +80,58 @@ const productSlice = createSlice({
         state.order = action.payload;
       })
       .addCase(getOrderDetail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(changeOrderToReady.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changeOrderToReady.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(changeOrderToReady.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(changeOrderToReadyDelivery.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changeOrderToReadyDelivery.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(changeOrderToReadyDelivery.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(cancelOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(cancelOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(cancelOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(confirmOrderToCompleted.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(confirmOrderToCompleted.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(confirmOrderToCompleted.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

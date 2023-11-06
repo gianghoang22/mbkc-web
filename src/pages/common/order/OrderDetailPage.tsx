@@ -1,8 +1,8 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Helmet as ReactHelmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 // @mui
 import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import {
@@ -26,19 +26,20 @@ import {
   Typography,
   TableRow,
 } from '@mui/material';
+import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 // section
 import { OrderDetailPageSkeleton, OrderHistoryTableRow, OrderHistoryTableRowSkeleton, OrderItem } from 'sections/order';
+import ConfirmCompletedOrderModal from 'sections/order/ConfirmCompletedOrderModal';
 //redux
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from 'redux/configStore';
-import { getOrderDetail } from 'redux/order/orderSlice';
+import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
 //
-import { OrderHistory, OrderStatusActions } from '@types';
-import { Color, Role } from 'common/enum';
-import { EmptyTable, Label } from 'components';
+import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enum';
+import { ConfirmDialog, EmptyTable, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { useEffect, useMemo, useState } from 'react';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { OrderHistory, OrderStatusActions } from '@types';
+import { useAppSelector } from 'redux/configStore';
 import { formatCurrency } from 'utils';
 
 function OrderDetailPage() {
@@ -51,9 +52,10 @@ function OrderDetailPage() {
     handleOpenMenu: handleOpenMenuConfirm,
     handleCloseMenu: handleCloseMenuConfirm,
   } = usePopover();
-  const { handleOpen: handleOpenConfirm, isOpen: isOpenConfirm } = useModal();
-  const { orderHistoryHeadCells, orderHeadCells } = useConfigHeadTable();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { handleOpen: handleOpenConfirmCompleted, isOpen: isOpenConfirmCompleted } = useModal();
+  const { handleOpen: handleOpenModalReadyDelivery, isOpen: isOpenModalConfirmReadyDelivery } = useModal();
+  const { orderHistoryHeadCells } = useConfigHeadTable();
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [status, setStatus] = useState<string>(OrderStatusActions.COMPLETED);
 
@@ -75,6 +77,15 @@ function OrderDetailPage() {
   useEffect(() => {
     dispatch<any>(getOrderDetail(paramsDetails));
   }, [paramsDetails, dispatch]);
+
+  const handleOrderReadyDelivery = () => {
+    dispatch<any>(
+      changeOrderToReadyDelivery({
+        orderId,
+        navigate,
+      })
+    );
+  };
 
   return (
     <>
@@ -98,8 +109,42 @@ function OrderDetailPage() {
                       <Typography variant="h4">
                         {translate('model.capitalizeOne.order')} #{order?.orderPartnerId} | {order?.partner.name}
                       </Typography>
-                      <Label color={Color.PRIMARY}>{order?.partnerOrderStatus}</Label>
-                      <Label>{order?.systemStatus}</Label>
+                      <Label
+                        color={
+                          order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                            ? Color.SUCCESS
+                            : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
+                            ? Color.ERROR
+                            : Color.DEFAULT
+                        }
+                      >
+                        {order?.partnerOrderStatus === PartnerOrderStatus.READY
+                          ? translate('status.ready')
+                          : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+                          ? translate('status.upcoming')
+                          : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
+                          ? translate('status.preparing')
+                          : order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                          ? translate('status.completed')
+                          : translate('status.cancelled')}
+                      </Label>
+                      <Label
+                        color={
+                          order?.systemStatus === SystemStatus.COMPLETED
+                            ? Color.SUCCESS
+                            : order?.systemStatus === SystemStatus.CANCELLED
+                            ? Color.ERROR
+                            : Color.DEFAULT
+                        }
+                      >
+                        {order?.systemStatus === SystemStatus.IN_STORE
+                          ? translate('status.inStore')
+                          : order?.systemStatus === SystemStatus.READY_DELIVERY
+                          ? translate('status.readyDelivery')
+                          : order?.systemStatus === SystemStatus.COMPLETED
+                          ? translate('status.completed')
+                          : translate('status.cancelled')}
+                      </Label>
                     </Stack>
                   </Stack>
                   <Typography color={(theme) => theme.palette.grey[700]}></Typography>
@@ -116,7 +161,7 @@ function OrderDetailPage() {
                         border: '1px solid rgba(145, 158, 171, 0.32)',
                         paddingLeft: 12,
                         paddingRight: 12,
-                        width: 142,
+                        width: 180,
                       }}
                       onClick={handleOpenMenuConfirm}
                     >
@@ -241,7 +286,7 @@ function OrderDetailPage() {
                               {translate('page.content.shipping')}
                             </Typography>
                             <Stack direction="row" spacing={1} mt={1}>
-                              <Typography sx={{ color: '#919EAB;' }} width={68}>
+                              <Typography sx={{ color: '#919EAB;' }} width={70}>
                                 {translate('table.address')}:
                               </Typography>
                               <Typography variant="body2">{order?.address}</Typography>
@@ -306,9 +351,6 @@ function OrderDetailPage() {
                                   key={orderHistory.orderHistoryId}
                                   index={index}
                                   orderHistory={orderHistory}
-                                  page={page}
-                                  rowsPerPage={rowsPerPage}
-                                  selected={[]}
                                 />
                               );
                             })}
@@ -350,7 +392,7 @@ function OrderDetailPage() {
           sx: {
             p: 1,
             mt: 0.5,
-            width: 140,
+            width: 180,
             '& .MuiMenuItem-root': {
               px: 1,
               typography: 'body2',
@@ -361,25 +403,47 @@ function OrderDetailPage() {
       >
         <MenuItem
           onClick={() => {
-            setStatus(OrderStatusActions.COMPLETED);
-            handleOpenConfirm(OrderStatusActions.COMPLETED);
+            setStatus(OrderStatusActions.READY_DELIVERY);
+            handleOpenModalReadyDelivery(OrderStatusActions.READY_DELIVERY);
           }}
         >
-          <CheckIcon fontSize="small" sx={{ mr: 2 }} />
-          {translate('orderType.completed')}
+          <DeliveryDiningIcon fontSize="small" sx={{ mr: 2 }} />
+          {translate('status.readyDelivery')}
         </MenuItem>
 
         <MenuItem
-          sx={{ color: 'error.main' }}
           onClick={() => {
-            setStatus(OrderStatusActions.CANCEL);
-            handleOpenConfirm(OrderStatusActions.CANCEL);
+            setStatus(OrderStatusActions.COMPLETED);
+            handleOpenConfirmCompleted(OrderStatusActions.COMPLETED);
           }}
         >
-          <ClearIcon fontSize="small" sx={{ mr: 2 }} />
-          {translate('button.cancel')}
+          <CheckIcon fontSize="small" sx={{ mr: 2 }} />
+          {translate('status.completed')}
         </MenuItem>
       </MUIPopover>
+
+      {isOpenModalConfirmReadyDelivery && (
+        <ConfirmDialog
+          open={isOpenModalConfirmReadyDelivery}
+          onClose={handleOpenModalReadyDelivery}
+          onAction={handleOrderReadyDelivery}
+          isOrder
+          model={order?.orderPartnerId}
+          subModel={translate('model.lowercase.readyToDelivery')}
+          color={Color.SUCCESS}
+          title={translate('dialog.confirmOrderReadyDeliveryTitle', { model: translate('model.lowercase.order') })}
+          description={translate('dialog.confirmOrderReadyDeliveryContent')}
+        />
+      )}
+
+      {isOpenConfirmCompleted && (
+        <ConfirmCompletedOrderModal
+          isOpen={isOpenConfirmCompleted}
+          handleOpen={handleOpenConfirmCompleted}
+          page={page}
+          rowsPerPage={rowsPerPage}
+        />
+      )}
     </>
   );
 }

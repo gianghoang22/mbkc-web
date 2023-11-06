@@ -14,10 +14,14 @@ import {
 //
 import LoadingAsyncButton from 'components/LoadingAsyncButton/LoadingAsyncButton';
 import { useLocales } from 'hooks';
+import { Color } from 'common/enum';
 
 type Props = {
   open: boolean;
+  isOrder?: boolean;
   model?: String;
+  subModel?: string;
+  color?: Color;
   title: String | ReactElement;
   description?: String | ReactElement | null;
   // onDelete: () => Promise<any> | Function;
@@ -30,12 +34,15 @@ type Props = {
 const ConfirmDialog: FC<Props & DialogProps> = ({
   open,
   title,
+  isOrder,
   model,
+  subModel,
   description,
   onClose,
   onAction,
   cancelProps,
   confirmProps,
+  color = Color.ERROR,
   ...props
 }) => {
   const { translate } = useLocales();
@@ -57,9 +64,16 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
         <DialogContentText id="alert-dialog-description">
           <Typography>
             {description}{' '}
-            <Typography component="span" variant="subtitle1">
-              {model}
-            </Typography>
+            {isOrder ? (
+              <Typography component="span" variant="subtitle1">
+                {model}
+                <Typography component="span"> {subModel}</Typography>
+              </Typography>
+            ) : (
+              <Typography component="span" variant="subtitle1">
+                {model}
+              </Typography>
+            )}
             ?
           </Typography>
         </DialogContentText>
@@ -75,7 +89,7 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
               onAction();
               onClose('Close');
             }}
-            color="error"
+            color={color}
             variant="contained"
             autoFocus
           >

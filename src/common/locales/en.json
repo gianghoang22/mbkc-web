@@ -21,8 +21,8 @@
     "upcoming": "Upcoming",
     "completed": "Completed",
     "cancelled": "Cancelled",
-    "inStore": "In store",
-    "readyDelivery": "Ready delivery"
+    "inStore": "In Store",
+    "readyDelivery": "Ready Delivery"
   },
   "header": {
     "account": "Account",
@@ -134,9 +134,8 @@
     "extra": "Extra Product"
   },
   "orderType": {
-    "all": "All Orders",
     "ready": "Ready",
-    "prepared": "Being Prepared",
+    "readyDelivery": "Ready Delivery",
     "completed": "Completed",
     "canceled": "Canceled"
   },

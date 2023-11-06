@@ -3,6 +3,10 @@
   "confirmAcceptTitle": "Accept registration {{model}}",
   "confirmDeleteContent": "You definitely want to delete {{model}} ",
   "confirmAcceptContent": "You want to accept {{model}} registration? Please enter reason...",
+  "confirmCancelOrderTitle": "Confirm Cancel {{model}}",
+  "confirmCancelOrderContent": "You definitely want to cancel {{model}}",
+  "confirmOrderReadyDeliveryTitle": "Confirm order from ready to ready delivery",
+  "confirmOrderReadyDeliveryContent": "Are you sure order",
   "updatePasswordContent": "You need to update your password to start using your account!",
   "updatePasswordSuccess": "You can now continue using the App!"
 }

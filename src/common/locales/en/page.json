@@ -9,7 +9,8 @@
     "wallet": "{{model}} wallet",
     "confirmLink": "Link confirmation",
     "mbkcTime": "Order receiving time",
-    "timeMoneyExchange": "Money transaction time"
+    "timeMoneyExchange": "Money transaction time",
+    "completedOrder": "Confirm completed {{model}}"
   },
   "content": {
     "noHavePartner": "No partner yet",

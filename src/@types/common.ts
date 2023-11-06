@@ -31,6 +31,7 @@ export interface IdParams {
   accountId?: number;
   cashierId?: number;
   bankingAccountId?: number;
+  orderId?: number;
 }
 
 export interface ListParams {

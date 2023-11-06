@@ -45,6 +45,8 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
     dispatch(setRoutesToBack(pathname));
   };
 
+  console.log(order.partnerOrderStatus);
+
   return (
     <>
       <TableRow hover tabIndex={-1} key={order.id} sx={{ cursor: 'pointer' }}>
@@ -82,9 +84,16 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
                 : Color.DEFAULT
             }
           >
-            {order?.systemStatus}
+            {order?.systemStatus === SystemStatus.IN_STORE
+              ? translate('status.inStore')
+              : order?.systemStatus === SystemStatus.READY_DELIVERY
+              ? translate('status.readyDelivery')
+              : order?.systemStatus === SystemStatus.COMPLETED
+              ? translate('status.completed')
+              : translate('status.cancelled')}
           </Label>
         </TableCell>
+
         <TableCell align="left">
           <Label
             color={
@@ -95,7 +104,17 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
                 : Color.DEFAULT
             }
           >
-            {order?.partnerOrderStatus}
+            {order?.partnerOrderStatus === PartnerOrderStatus.READY
+              ? translate('status.ready')
+              : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+              ? translate('status.upcoming')
+              : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
+              ? translate('status.preparing')
+              : order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+              ? translate('status.completed')
+              : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
+              ? translate('status.cancelled')
+              : ''}
           </Label>
         </TableCell>
         <TableCell align="right">

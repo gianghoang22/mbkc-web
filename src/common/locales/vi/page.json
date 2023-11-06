@@ -9,7 +9,8 @@
     "wallet": "Ví {{model}}",
     "confirmLink": "Xác nhận liên kết",
     "mbkcTime": "Thời gian nhận đơn hàng",
-    "timeMoneyExchange": "Thời gian chuyển tiền"
+    "timeMoneyExchange": "Thời gian chuyển tiền",
+    "confirmCompletedOrder": "Xác nhận hoàn tất {{model}}"
   },
   "content": {
     "noHavePartner": "Chưa có đối tác",
