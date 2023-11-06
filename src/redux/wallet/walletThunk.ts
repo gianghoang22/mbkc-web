@@ -1,10 +1,6 @@
 import { ListParams, MessageResponse, Params, PaymentForStoresToCreate } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
-import {
-  ROUTES_API_BANKING_ACCOUNTS,
-  ROUTES_API_KITCHEN_CENTER,
-  ROUTES_API_MONEY_EXCHANGES,
-} from 'constants/routesApiKeys';
+import { ROUTES_API_BANKING_ACCOUNTS, ROUTES_API_MONEY_EXCHANGES } from 'constants/routesApiKeys';
 
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';

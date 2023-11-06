@@ -50,6 +50,12 @@ export interface Order {
   orderHistories: OrderHistory[];
 }
 
+export interface CompletedOrderParams {
+  OrderPartnerId: string;
+  BankingAccountId: string;
+  Image: string;
+}
+
 export enum OrderTypeEnum {
   ALL = 'ALL_ORDER',
   READY = 'READY',
@@ -59,6 +65,8 @@ export enum OrderTypeEnum {
 }
 
 export enum OrderStatusActions {
+  READY = 'READY',
+  READY_DELIVERY = 'READY_DELIVERY',
   COMPLETED = 'COMPLETED',
   CANCEL = 'CANCEL',
 }
@@ -93,42 +101,14 @@ export const ORDER_TYPE_TABS = [
 
 export const SYSTEM_STATUS_OPTIONS = [
   {
-    value: PartnerOrderStatus.IN_STORE,
-    label: 'In store',
+    value: SystemStatus.IN_STORE,
+    label: 'In Store',
     id: 'In',
   },
   {
-    value: PartnerOrderStatus.READY_DELIVERY,
-    label: 'Ready delivery',
+    value: SystemStatus.READY_DELIVERY,
+    label: 'Ready Delivery',
     id: 'Rea',
-  },
-  {
-    value: PartnerOrderStatus.COMPLETED,
-    label: 'Completed',
-    id: 'Com',
-  },
-  {
-    value: PartnerOrderStatus.CANCELLED,
-    label: 'Cancelled',
-    id: 'Can',
-  },
-];
-
-export const PARTNER_ORDER_STATUS = [
-  {
-    value: SystemStatus.UPCOMING,
-    label: 'Upcoming',
-    id: 'Up',
-  },
-  {
-    value: SystemStatus.READY,
-    label: 'Ready',
-    id: 'Rea',
-  },
-  {
-    value: SystemStatus.PREPARING,
-    label: 'Preparing',
-    id: 'Pre',
   },
   {
     value: SystemStatus.COMPLETED,
@@ -137,6 +117,34 @@ export const PARTNER_ORDER_STATUS = [
   },
   {
     value: SystemStatus.CANCELLED,
+    label: 'Cancelled',
+    id: 'Can',
+  },
+];
+
+export const PARTNER_ORDER_STATUS = [
+  {
+    value: PartnerOrderStatus.UPCOMING,
+    label: 'Upcoming',
+    id: 'Up',
+  },
+  {
+    value: PartnerOrderStatus.READY,
+    label: 'Ready',
+    id: 'Rea',
+  },
+  {
+    value: PartnerOrderStatus.PREPARING,
+    label: 'Preparing',
+    id: 'Pre',
+  },
+  {
+    value: PartnerOrderStatus.COMPLETED,
+    label: 'Completed',
+    id: 'Com',
+  },
+  {
+    value: PartnerOrderStatus.CANCELLED,
     label: 'Cancelled',
     id: 'Can',
   },

@@ -1,10 +1,22 @@
-import { ListParams, ListResponse, Order, UserAuth } from '@types';
-import { axiosClient } from 'api/axiosClient';
+import {
+  CompletedOrderParams,
+  IdParams,
+  ListParams,
+  ListResponse,
+  MessageResponse,
+  OneModelParams,
+  Order,
+  Params,
+  UserAuth,
+} from '@types';
+import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { Role } from 'common/enum';
 import { ROUTES_API_ORDERS } from 'constants/routesApiKeys';
-import { setMessageError } from 'redux/auth/authSlice';
+import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getErrorMessage, getUserAuth, handleResponseMessage } from 'utils';
+import { appendData, getErrorMessage, getUserAuth, handleResponseMessage } from 'utils';
+import { getOrderDetail } from './orderSlice';
+import { NavigateFunction } from 'react-router-dom';
 
 export const getAllOrdersThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -36,6 +48,89 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
           : PATH_CASHIER_APP.order.list
       );
     }
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const confirmOrderToCompletedThunk = async (params: Params<CompletedOrderParams>, thunkAPI: any) => {
+  const { data, idParams, navigate } = params;
+  const formData = appendData(data);
+  try {
+    const response: MessageResponse = await axiosFormData.put(
+      ROUTES_API_ORDERS.CONFIRM_ORDER_TO_COMPLETED(idParams?.orderId ? idParams?.orderId : 0),
+      formData
+    );
+    if (response) {
+      await thunkAPI.dispatch(getOrderDetail(idParams?.orderId));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
+    }
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const changeOrderToReadyThunk = async (params: any, thunkAPI: any) => {
+  const { orderId, navigate } = params;
+  try {
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_ORDERS.CHANGE_ORDER_TO_READY(orderId ? orderId : 0)
+    );
+    if (response) {
+      await thunkAPI.dispatch(getOrderDetail(orderId));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
+    }
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const changeOrderToReadyDeliveryThunk = async (params: any, thunkAPI: any) => {
+  const { orderId, navigate } = params;
+
+  try {
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_ORDERS.CHANGE_ORDER_TO_READY_DELIVERY(orderId ? orderId : 0)
+    );
+    if (response) {
+      await thunkAPI.dispatch(getOrderDetail(orderId));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
+    }
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const cancelOrderThunk = async (params: any, thunkAPI: any) => {
+  const { idParams, navigate } = params;
+  try {
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_ORDERS.CANCEL_ORDER(idParams?.orderId ? idParams?.orderId : 0)
+    );
+    if (response) {
+      await thunkAPI.dispatch(getOrderDetail(idParams?.orderId));
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
+    }
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);

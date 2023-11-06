@@ -11,7 +11,7 @@ import { Role } from 'common/enum';
 import { Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { fDate } from 'utils';
+import { fDate, fDateTime } from 'utils';
 
 interface OrderHistoryTableRowProps {
   orderHistory: OrderHistory;
@@ -49,7 +49,7 @@ function OrderHistoryTableRow({ index, orderHistory, page, rowsPerPage, selected
           </TableCell>
 
           <TableCell align="left" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>
-            {fDate(orderHistory.createdDate)}
+            {fDateTime(orderHistory.createdDate)}
           </TableCell>
 
           <TableCell align="left" onClick={() => handleNavigateDetail(orderHistory.orderHistoryId)}>

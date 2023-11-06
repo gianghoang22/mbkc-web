@@ -146,6 +146,7 @@
     "dateOfBirth": "date of birth",
     "gender": "gender",
     "phone": "phone",
-    "orderHistories": "order histories"
+    "orderHistories": "order histories",
+    "readyToDelivery": "ready to delivery"
   }
 }
