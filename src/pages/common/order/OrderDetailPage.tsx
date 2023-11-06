@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Helmet as ReactHelmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 // @mui
 import CheckIcon from '@mui/icons-material/Check';
@@ -35,7 +34,7 @@ import { useDispatch } from 'react-redux';
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
 //
 import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enum';
-import { ConfirmDialog, EmptyTable, Label } from 'components';
+import { ConfirmDialog, EmptyTable, Helmet, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { OrderHistory, OrderStatusActions } from '@types';
@@ -43,19 +42,21 @@ import { useAppSelector } from 'redux/configStore';
 import { formatCurrency } from 'utils';
 
 function OrderDetailPage() {
-  const { translate } = useLocales();
   const { id: orderId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { translate } = useLocales();
   const {
     open: openConfirm,
     handleOpenMenu: handleOpenMenuConfirm,
     handleCloseMenu: handleCloseMenuConfirm,
   } = usePopover();
-  const { handleOpen: handleOpenConfirmCompleted, isOpen: isOpenConfirmCompleted } = useModal();
-  const { handleOpen: handleOpenModalReadyDelivery, isOpen: isOpenModalConfirmReadyDelivery } = useModal();
   const { orderHistoryHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { handleOpen: handleOpenConfirmCompleted, isOpen: isOpenConfirmCompleted } = useModal();
+  const { handleOpen: handleOpenModalReadyDelivery, isOpen: isOpenModalConfirmReadyDelivery } = useModal();
 
   const [status, setStatus] = useState<string>(OrderStatusActions.COMPLETED);
 
@@ -90,10 +91,7 @@ function OrderDetailPage() {
   return (
     <>
       <Box>
-        <ReactHelmet>
-          <title>Order Detail | MBKC</title>
-        </ReactHelmet>
-
+        <Helmet title="Order Detail" />
         <Container maxWidth="lg">
           {isLoadingOrder ? (
             <OrderDetailPageSkeleton />
@@ -154,15 +152,9 @@ function OrderDetailPage() {
                   <Stack>
                     <Button
                       color="inherit"
+                      variant="outlined"
                       endIcon={<KeyboardArrowDownIcon />}
-                      style={{
-                        backgroundColor: '#fff',
-                        color: '#000',
-                        border: '1px solid rgba(145, 158, 171, 0.32)',
-                        paddingLeft: 12,
-                        paddingRight: 12,
-                        width: 180,
-                      }}
+                      sx={{ width: 180 }}
                       onClick={handleOpenMenuConfirm}
                     >
                       {translate('button.menuAction')}
@@ -207,7 +199,7 @@ function OrderDetailPage() {
 
                         <Stack>
                           <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('page.content.subTotalPrice')}
                             </Typography>
                             <Typography width={100} variant="body2">
@@ -216,7 +208,7 @@ function OrderDetailPage() {
                           </Stack>
 
                           <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('page.content.deliveryFee')}
                             </Typography>
                             <Typography width={100} variant="body2">
@@ -225,7 +217,7 @@ function OrderDetailPage() {
                           </Stack>
 
                           <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="body2" sx={{ color: '#919EAB;' }}>
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('page.content.totalDiscount')}
                             </Typography>
                             <Typography width={100} variant="body2">
@@ -286,14 +278,16 @@ function OrderDetailPage() {
                               {translate('page.content.shipping')}
                             </Typography>
                             <Stack direction="row" spacing={1} mt={1}>
-                              <Typography sx={{ color: '#919EAB;' }} width={70}>
+                              <Typography sx={{ color: (theme) => theme.palette.grey[500] }} width={70}>
                                 {translate('table.address')}:
                               </Typography>
                               <Typography variant="body2">{order?.address}</Typography>
                             </Stack>
 
                             <Stack direction="row" alignItems="center" spacing={1} mt={1} mb={2}>
-                              <Typography sx={{ color: '#919EAB;' }}>{translate('model.capitalize.phone')}:</Typography>
+                              <Typography sx={{ color: (theme) => theme.palette.grey[500] }}>
+                                {translate('model.capitalize.phone')}:
+                              </Typography>
                               <Typography variant="body2">{order?.customerPhone}</Typography>
                             </Stack>
                           </Stack>

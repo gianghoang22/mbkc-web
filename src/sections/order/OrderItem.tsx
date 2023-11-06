@@ -35,12 +35,12 @@ function OrderItem({
     <Stack>
       <Stack justifyContent="space-between" direction="row" padding={padding} paddingTop={paddingTop}>
         <Stack direction="row" alignItems="center" spacing={2} width={200}>
-          <Avatar alt={'Product Image'} src={logoUrl} />
+          <Avatar alt="Product Image" src={logoUrl} />
           <Stack direction="column">
             <Typography variant="body2" noWrap>
               {name}
             </Typography>
-            <Typography variant="caption" sx={{ color: '#919EAB;' }} noWrap>
+            <Typography variant="caption" sx={{ color: (theme) => theme.palette.grey[500] }} noWrap>
               {category}
             </Typography>
           </Stack>
