@@ -1,21 +1,10 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Avatar,
-  IconButton,
-  Popover as MUIPopover,
-  MenuItem,
-  Stack,
-  Switch,
-  TableCell,
-  TableRow,
-  Tooltip,
-} from '@mui/material';
+import { Avatar, IconButton, Popover as MUIPopover, MenuItem, Stack, Switch, TableCell, TableRow } from '@mui/material';
 // @mui icon
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -41,6 +30,7 @@ interface StoreTableRowProps {
   setPage?: any;
   status: OptionSelect | null;
   selected: readonly string[];
+  filterName?: string;
 }
 
 function StoreTableRow({
@@ -53,6 +43,7 @@ function StoreTableRow({
   setPage,
   status,
   selected,
+  filterName,
 }: StoreTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -100,6 +91,7 @@ function StoreTableRow({
       deleteStore({
         idParams: { storeId: store.storeId },
         optionParams: {
+          searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: length === 1 ? 1 : page,
           status: status?.value,
@@ -118,8 +110,9 @@ function StoreTableRow({
         storeId: store?.storeId,
       },
       optionParams: {
-        itemsPerPage: rowsPerPage,
+        searchValue: filterName,
         currentPage: page,
+        itemsPerPage: rowsPerPage,
         status: status?.value,
       },
       navigate,
@@ -206,7 +199,11 @@ function StoreTableRow({
                 />
                 <IconButton
                   color="inherit"
-                  disabled={store?.status === Status.DEACTIVE || store.status === Status.BE_CONFIRMING}
+                  disabled={
+                    store?.status === Status.DEACTIVE ||
+                    store.status === Status.BE_CONFIRMING ||
+                    store?.status === Status.REJECTED
+                  }
                   onClick={handleOpenMenu}
                 >
                   <MoreVertIcon />
@@ -214,24 +211,12 @@ function StoreTableRow({
               </Stack>
             ) : (
               <>
-                {store?.status === Status.ACTIVE ? (
-                  <Tooltip title={translate('status.active')}>
-                    <IconButton>
-                      <CheckIcon color="success" />
-                    </IconButton>
-                  </Tooltip>
-                ) : store?.status === Status.INACTIVE ? (
-                  <Tooltip title={translate('status.inactive')}>
-                    <IconButton>
-                      <GraphicEqIcon color="warning" />
-                    </IconButton>
-                  </Tooltip>
-                ) : store?.status === Status.REJECTED ? (
-                  <Tooltip title={translate('status.reject')}>
-                    <IconButton>
-                      <ClearIcon color="error" />
-                    </IconButton>
-                  </Tooltip>
+                {store?.status === Status.ACTIVE ||
+                store?.status === Status.INACTIVE ||
+                store?.status === Status.REJECTED ? (
+                  <IconButton color="inherit" onClick={handleOpenMenu}>
+                    <MoreVertIcon />
+                  </IconButton>
                 ) : (
                   <IconButton
                     color="inherit"
@@ -252,7 +237,7 @@ function StoreTableRow({
         handleCloseMenu={handleCloseMenu}
         onEdit={handleEdit}
         onDelete={handleOpen}
-        type={store.status === Status.REJECTED ? PopoverType.DELETE : PopoverType.ALL}
+        type={userAuth?.roleName === Role.BRAND_MANAGER ? PopoverType.EDIT : PopoverType.DELETE}
       />
 
       <MUIPopover
@@ -312,6 +297,7 @@ function StoreTableRow({
           store={store}
           storeStatus={statusConfirm}
           statusFilter={status}
+          filterName={filterName}
           isOpen={isOpenConfirm}
           handleOpen={handleOpenConfirm}
           handleCloseMenuConfirm={handleCloseMenuConfirm}

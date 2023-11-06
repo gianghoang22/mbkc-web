@@ -57,16 +57,16 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAPI: any) => {
-  const { data, navigate } = params;
+  const { data, optionParams, navigate } = params;
   const formData = appendData(data);
 
   try {
     const response: MessageResponse = await axiosFormData.post(ROUTES_API_STORES.CREATE_STORE, formData);
     if (response) {
-      const params = {
+      const params: ListParams = {
         optionParams: {
-          itemsPerPage: 5,
-          currentPage: 1,
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
         },
         navigate,
       };
@@ -94,13 +94,6 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
       formData
     );
     if (response) {
-      const paramsCallback = {
-        optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
-        },
-        navigate,
-      };
       const pathToBack = pathname
         ?.split('/')
         .slice(2)
@@ -108,6 +101,13 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
       if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
         await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
       } else {
+        const paramsCallback: ListParams = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          },
+          navigate,
+        };
         await thunkAPI.dispatch(getAllStores(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
@@ -134,6 +134,7 @@ export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thu
     if (response) {
       const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
           status: optionParams?.status ? optionParams?.status : '',
@@ -162,14 +163,6 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
       data
     );
     if (response) {
-      const paramsCallback: ListParams = {
-        optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-          status: optionParams?.status ? optionParams?.status : '',
-        },
-        navigate,
-      };
       const pathToBack = pathname
         ?.split('/')
         .slice(2)
@@ -177,6 +170,15 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
       if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
         await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
       } else {
+        const paramsCallback: ListParams = {
+          optionParams: {
+            searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
+            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+            status: optionParams?.status ? optionParams?.status : '',
+          },
+          navigate,
+        };
         await thunkAPI.dispatch(getAllStores(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
@@ -202,6 +204,7 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
     if (response) {
       const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
           status: optionParams?.status ? optionParams?.status : '',
@@ -209,7 +212,7 @@ export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => 
         navigate,
       };
       await thunkAPI.dispatch(getAllStores(paramsCallback));
-      navigate(PATH_BRAND_APP.store.list);
+      navigate(PATH_ADMIN_APP.store.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

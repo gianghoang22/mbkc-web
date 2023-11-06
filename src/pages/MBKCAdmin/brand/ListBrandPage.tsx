@@ -25,12 +25,12 @@ function ListBrandPage() {
   const { brandHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { brands, isLoading, numberItems } = useAppSelector((state) => state.brand);
+
   const [orderSort, setOrderSort] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof BrandTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
-
-  const { brands, isLoading, numberItems } = useAppSelector((state) => state.brand);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof BrandTable) => {
     const isAsc = orderBy === property && orderSort === 'asc';
@@ -124,6 +124,7 @@ function ListBrandPage() {
                             page={page}
                             rowsPerPage={rowsPerPage}
                             selected={selected}
+                            filterName={filterName}
                           />
                         );
                       })}

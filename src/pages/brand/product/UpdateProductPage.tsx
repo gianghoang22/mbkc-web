@@ -27,6 +27,7 @@ import { ProductForm } from 'sections/product';
 
 function UpdateProductPage() {
   const { id: productId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

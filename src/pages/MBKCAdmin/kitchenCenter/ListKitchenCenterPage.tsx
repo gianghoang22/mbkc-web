@@ -125,6 +125,7 @@ function ListKitchenCenterPage() {
                             rowsPerPage={rowsPerPage}
                             kitchenCenter={kitchenCenter}
                             selected={selected}
+                            filterName={filterName}
                           />
                         );
                       })}

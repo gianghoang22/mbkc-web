@@ -20,9 +20,10 @@ interface BrandTableRowProps {
   page: number;
   rowsPerPage: number;
   selected: readonly string[];
+  filterName: string;
 }
 
-function BrandTableRow({ index, brand, page, rowsPerPage, selected }: BrandTableRowProps) {
+function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName }: BrandTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -47,6 +48,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage, selected }: BrandTable
     dispatch<any>(
       deleteBrand({
         idParams: { brandId: brand?.brandId },
+        optionParams: { searchValue: filterName },
         navigate,
       })
     );
@@ -61,6 +63,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage, selected }: BrandTable
         brandId: brand?.brandId,
       },
       optionParams: {
+        searchValue: filterName,
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
       },

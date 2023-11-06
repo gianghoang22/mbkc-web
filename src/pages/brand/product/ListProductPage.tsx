@@ -143,6 +143,8 @@ function ListProductPage() {
                             index={index}
                             product={product}
                             selected={selected}
+                            filterName={filterName}
+                            productType={productType}
                           />
                         );
                       })}

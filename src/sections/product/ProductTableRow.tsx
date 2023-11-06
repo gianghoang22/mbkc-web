@@ -33,6 +33,8 @@ interface ProductTableRowProps {
   length: number;
   setPage?: any;
   selected?: readonly string[];
+  filterName?: string;
+  productType?: string;
 }
 
 function ProductTableRow({
@@ -45,6 +47,8 @@ function ProductTableRow({
   length,
   setPage,
   selected,
+  filterName,
+  productType,
 }: ProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -78,6 +82,12 @@ function ProductTableRow({
     dispatch(
       deleteProduct({
         idParams: { productId: product?.productId },
+        optionParams: {
+          searchValue: filterName,
+          itemsPerPage: rowsPerPage,
+          currentPage: page,
+          type: productType,
+        },
         pathname: pathname,
         navigate,
       })
@@ -93,8 +103,10 @@ function ProductTableRow({
         productId: product?.productId,
       },
       optionParams: {
+        searchValue: filterName,
         itemsPerPage: rowsPerPage,
         currentPage: page,
+        type: productType,
       },
       pathname: pathname,
       navigate,

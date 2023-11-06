@@ -55,25 +55,6 @@ export const getAllStorePartnersByStoreIdThunk = async (params: ListParams, thun
   }
 };
 
-export const getStorePartnerDetailThunk = async (params: any, thunkAPI: any) => {
-  const { storeId, partnerId, navigate } = params;
-
-  try {
-    const response: StorePartnerDetail = await axiosClient.get(
-      ROUTES_API_STORE_PARTNERS.GET_STORE_PARTNER_DETAIL(storeId, partnerId)
-    );
-    return response;
-  } catch (error: any) {
-    const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
-      navigate(PATH_BRAND_APP.store.list);
-    }
-    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
-    thunkAPI.dispatch(setMessageError(messageMultiLang));
-    return thunkAPI.rejectWithValue(error);
-  }
-};
-
 export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCreateAPI>, thunkAPI: any) => {
   const { data, navigate } = params;
 

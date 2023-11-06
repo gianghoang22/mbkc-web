@@ -18,11 +18,13 @@ interface CreatePartnerModalProps {
   rowsPerPage: number;
   isOpen: boolean;
   handleOpen: (title: any) => void;
+  filterName: string;
 }
 
-function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePartnerModalProps) {
+function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen, filterName }: CreatePartnerModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate, currentLang } = useLocales();
   const { schemaPartner } = useValidationForm();
 
@@ -51,6 +53,7 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePar
           webUrl: data.webUrl,
         },
         optionParams: {
+          searchValue: filterName,
           currentPage: page + 1,
           itemsPerPage: rowsPerPage,
         },

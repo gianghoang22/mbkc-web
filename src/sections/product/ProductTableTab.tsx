@@ -120,6 +120,8 @@ function ProductTableTab() {
                       product={product}
                       setPage={setPage}
                       selected={selected}
+                      filterName={filterName}
+                      productType={productType?.value ? productType.value : ''}
                     />
                   );
                 })}

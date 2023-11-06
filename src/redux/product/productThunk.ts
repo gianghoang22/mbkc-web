@@ -1,4 +1,13 @@
-import { MessageResponse, Params, Product, ProductToCreateParams, ProductToUpdate, ToUpdateStatus } from '@types';
+import {
+  ListParams,
+  ListResponse,
+  MessageResponse,
+  Params,
+  Product,
+  ProductToCreateParams,
+  ProductToUpdate,
+  ToUpdateStatus,
+} from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -10,7 +19,7 @@ export const getAllProductsThunk = async (params: any, thunkAPI: any) => {
   const { optionParams, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_ALL_PRODUCT(optionParams));
+    const response: ListResponse<Product> = await axiosClient.get(ROUTES_API_PRODUCTS.GET_ALL_PRODUCT(optionParams));
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
@@ -24,7 +33,7 @@ export const getAllProductsParentThunk = async (params: any, thunkAPI: any) => {
   const { optionParams, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_ALL_PRODUCT(optionParams));
+    const response: ListResponse<Product> = await axiosClient.get(ROUTES_API_PRODUCTS.GET_ALL_PRODUCT(optionParams));
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
@@ -38,7 +47,7 @@ export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
   const { productId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_PRODUCT_DETAIL(productId));
+    const response: Product = await axiosClient.get(ROUTES_API_PRODUCTS.GET_PRODUCT_DETAIL(productId));
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
@@ -55,7 +64,7 @@ export const getProductParentDetailThunk = async (params: any, thunkAPI: any) =>
   const { productId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_PRODUCTS.GET_PRODUCT_DETAIL(productId));
+    const response: Product = await axiosClient.get(ROUTES_API_PRODUCTS.GET_PRODUCT_DETAIL(productId));
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
@@ -103,13 +112,6 @@ export const updateProductThunk = async (params: Params<ProductToUpdate>, thunkA
       formData
     );
     if (response) {
-      const paramsCallback = {
-        optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
-        },
-        navigate,
-      };
       const pathToBack = pathname
         ?.split('/')
         .slice(2)
@@ -117,6 +119,13 @@ export const updateProductThunk = async (params: Params<ProductToUpdate>, thunkA
       if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
         await thunkAPI.dispatch(getProductDetail({ productId: idParams?.productId, navigate }));
       } else {
+        const paramsCallback: ListParams = {
+          optionParams: {
+            itemsPerPage: optionParams?.itemsPerPage,
+            currentPage: optionParams?.currentPage,
+          },
+          navigate,
+        };
         await thunkAPI.dispatch(getAllProducts(paramsCallback));
       }
       navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
@@ -141,10 +150,12 @@ export const updateStatusProductThunk = async (params: Params<ToUpdateStatus>, t
       data
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
+          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
+          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          type: optionParams?.type ? optionParams?.type : '',
         },
         navigate,
       };
@@ -171,10 +182,12 @@ export const deleteProductThunk = async (params: Params<Product>, thunkAPI: any)
       ROUTES_API_PRODUCTS.DELETE_PRODUCT(idParams?.productId ? idParams?.productId : 0)
     );
     if (response) {
-      const paramsCallback = {
+      const paramsCallback: ListParams = {
         optionParams: {
+          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
           itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
           currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
+          type: optionParams?.type ? optionParams?.type : '',
         },
         navigate,
       };

@@ -22,6 +22,7 @@ interface PartnerTableRowProps {
   showAction?: boolean;
   setPage?: any;
   selected: readonly string[];
+  filterName: string;
 }
 
 function PartnerTableRow({
@@ -31,6 +32,7 @@ function PartnerTableRow({
   showAction = false,
   setPage,
   selected,
+  filterName,
 }: PartnerTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -56,6 +58,7 @@ function PartnerTableRow({
       deletePartner({
         idParams: { partnerId: partner.partnerId },
         optionParams: {
+          searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: lengthPartners === 1 ? 1 : page + 1,
         },
@@ -73,6 +76,7 @@ function PartnerTableRow({
         partnerId: partner?.partnerId,
       },
       optionParams: {
+        searchValue: filterName,
         itemsPerPage: rowsPerPage,
         currentPage: page,
       },
@@ -135,10 +139,23 @@ function PartnerTableRow({
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
 
       {isOpenCreate && (
-        <CreatePartnerModal page={page} rowsPerPage={rowsPerPage} isOpen={isOpenCreate} handleOpen={handleOpenCreate} />
+        <CreatePartnerModal
+          page={page}
+          rowsPerPage={rowsPerPage}
+          isOpen={isOpenCreate}
+          handleOpen={handleOpenCreate}
+          filterName={filterName}
+        />
       )}
 
-      {isOpenDetail && <PartnerDetailModal partner={partner} isOpen={isOpenDetail} handleOpen={handleOpenDetail} />}
+      {isOpenDetail && (
+        <PartnerDetailModal
+          partner={partner}
+          isOpen={isOpenDetail}
+          handleOpen={handleOpenDetail}
+          filterName={filterName}
+        />
+      )}
 
       {isOpen && (
         <ConfirmDialog

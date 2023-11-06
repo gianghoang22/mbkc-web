@@ -24,6 +24,7 @@ export interface PartnerProductToCreate {
 export interface PartnerProductToUpdate {
   productCode: string;
   status: string;
+  price: number;
 }
 
 export enum PartnerProductStatusEnum {
@@ -41,17 +42,17 @@ export enum PartnerProductStatusUpdateEnum {
 
 export const PARTNER_PRODUCT_STATUS_OPTIONS = [
   {
-    value: PartnerProductStatusEnum.AVAILABLE,
+    value: PartnerProductStatusUpdateEnum.AVAILABLE,
     label: 'Available',
     id: 'In_Stock',
   },
   {
-    value: PartnerProductStatusEnum.OUT_OF_STOCK_TODAY,
+    value: PartnerProductStatusUpdateEnum.OUT_OF_STOCK_TODAY,
     label: 'Out of stock today',
     id: 'Out_today',
   },
   {
-    value: PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY,
+    value: PartnerProductStatusUpdateEnum.OUT_OF_STOCK_INDEFINITELY,
     label: 'Out of stock indefinitely',
     id: 'Out_indefinitely',
   },
