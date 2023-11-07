@@ -79,8 +79,6 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
         : PATH_KITCHEN_CENTER_APP.order.list
       : pathnames[0] === Breadcrumb.BANKING_ACCOUNTS || pathnames[0] === Breadcrumb.BANKING_ACCOUNT
       ? PATH_KITCHEN_CENTER_APP.bankingAccount.list
-      : pathnames[0] === Breadcrumb.TRANSACTIONS || pathnames[0] === Breadcrumb.TRANSACTION
-      ? PATH_CASHIER_APP.transaction.list
       : '';
 
   return (

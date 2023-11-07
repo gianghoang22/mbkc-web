@@ -260,10 +260,11 @@ export const ROUTES_API_ORDERS = {
     searchValue = '',
     sortBy = '',
     systemStatus = '',
+    partnerOrderStatus = '',
   }: OptionParams) => {
     return path(
       ROOTS_ORDERS,
-      `?SearchValue=${searchValue}&CurrentPage=${currentPage}&ItemsPerPage=${itemsPerPage}&SystemStatus=${systemStatus}&SortBy=${sortBy}`
+      `?SearchValue=${searchValue}&CurrentPage=${currentPage}&ItemsPerPage=${itemsPerPage}&SystemStatus=${systemStatus}&PartnerOrderStatus=${partnerOrderStatus}&SortBy=${sortBy}`
     );
   },
   GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),

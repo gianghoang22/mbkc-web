@@ -146,8 +146,9 @@ export const PATH_CASHIER_APP = {
     list: path(ROOTS_CASHIER_DASHBOARD, '/orders'),
     detailById: path(ROOTS_CASHIER_DASHBOARD, '/order/:id'),
   },
-  transaction: {
-    root: path(ROOTS_CASHIER_DASHBOARD, '/transaction'),
-    list: path(ROOTS_CASHIER_DASHBOARD, '/transactions'),
+  wallet: {
+    root: path(ROOTS_CASHIER_DASHBOARD, '/wallet'),
+    shipperPayments: path(ROOTS_CASHIER_DASHBOARD, '/wallet/shipper-payments'),
+    moneyExchanges: path(ROOTS_CASHIER_DASHBOARD, '/wallet/money-exchanges'),
   },
 };

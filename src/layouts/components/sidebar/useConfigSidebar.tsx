@@ -10,7 +10,6 @@ import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import LinkIcon from '@mui/icons-material/Link';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import StoreIcon from '@mui/icons-material/Store';
 import SummarizeIcon from '@mui/icons-material/Summarize';
@@ -205,9 +204,9 @@ function useConfigSidebar() {
           icon: <ListAltIcon fontSize="medium" />,
         },
         {
-          title: translate('model.lowercase.transactions'),
-          path: PATH_CASHIER_APP.transaction.list,
-          icon: <PointOfSaleIcon fontSize="medium" />,
+          title: translate('model.lowercase.wallet'),
+          path: PATH_CASHIER_APP.wallet.root,
+          icon: <WalletIcon fontSize="medium" />,
         },
       ],
     },

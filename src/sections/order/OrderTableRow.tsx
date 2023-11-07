@@ -45,11 +45,9 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
     dispatch(setRoutesToBack(pathname));
   };
 
-  console.log(order.partnerOrderStatus);
-
   return (
     <>
-      <TableRow hover tabIndex={-1} key={order.id} sx={{ cursor: 'pointer' }}>
+      <TableRow hover tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
         <TableCell width={60} align="center" onClick={() => handleNavigateDetail(order.id)}>
           {index + 1}
         </TableCell>

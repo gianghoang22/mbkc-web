@@ -20,7 +20,7 @@ function MoneyExchangeTableToolbar(props: MoneyExchangeTableToolbarProps) {
         size="small"
         value={filterName}
         onChange={onFilterName}
-        placeholder="Search user..."
+        placeholder="Search ..."
         startAdornment={
           <InputAdornment position="start">
             <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />

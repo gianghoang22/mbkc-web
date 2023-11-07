@@ -19,7 +19,14 @@ import {
 } from '@mui/material';
 //
 import { HeadCell, OptionSelect, OrderSortBy, ProductTypeEnum } from '@types';
-import { PartnerOrderStatus, Role, Status, SystemStatus } from 'common/enum';
+import {
+  PartnerOrderStatus,
+  PartnerOrderStatusToFilter,
+  Role,
+  Status,
+  SystemStatus,
+  SystemStatusToFilter,
+} from 'common/enum';
 import { useLocales, usePopover } from 'hooks';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';
@@ -201,13 +208,13 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
                 size="small"
                 options={options ? options : []}
                 getOptionLabel={(option) =>
-                  option.value === SystemStatus.IN_STORE
+                  option.value === SystemStatusToFilter.IN_STORE
                     ? translate('status.inStore')
-                    : option.value === SystemStatus.READY_DELIVERY
+                    : option.value === SystemStatusToFilter.READY_DELIVERY
                     ? translate('status.readyDelivery')
-                    : option.value === SystemStatus.COMPLETED
+                    : option.value === SystemStatusToFilter.COMPLETED
                     ? translate('status.completed')
-                    : option.value === SystemStatus.CANCELLED
+                    : option.value === SystemStatusToFilter.CANCELLED
                     ? translate('status.cancelled')
                     : ''
                 }

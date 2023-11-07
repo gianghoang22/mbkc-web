@@ -12,7 +12,6 @@ import { MoneyExchangeTable, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
 import MoneyExchangeDetailModal from 'sections/moneyExchanges/MoneyExchangeDetailModal';
 
@@ -44,16 +43,7 @@ function ListOfPaymentForStoresPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - moneyExchanges.length) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      stableSort(moneyExchanges, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, moneyExchanges]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !moneyExchanges.length && !!filterName;
 
   return (
     <>
@@ -87,7 +77,7 @@ function ListOfPaymentForStoresPage() {
                   />
 
                   <TableBody>
-                    {visibleRows.map((moneyExchange, index) => {
+                    {moneyExchanges.map((moneyExchange, index) => {
                       return (
                         <MoneyExchangeTableRow
                           key={index}
@@ -102,7 +92,7 @@ function ListOfPaymentForStoresPage() {
                       (moneyExchanges.length === 0 && !filterName && (
                         <EmptyTable
                           colNumber={MoneyExchangeHeadCells.length + 2}
-                          model={translate('model.lowercase.store')}
+                          model={translate('model.lowercase.moneyExchanges')}
                         />
                       ))}
                   </TableBody>
