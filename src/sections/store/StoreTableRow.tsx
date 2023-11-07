@@ -31,6 +31,7 @@ interface StoreTableRowProps {
   status: OptionSelect | null;
   selected: readonly string[];
   filterName?: string;
+  sortBy?: string;
 }
 
 function StoreTableRow({
@@ -44,6 +45,7 @@ function StoreTableRow({
   status,
   selected,
   filterName,
+  sortBy,
 }: StoreTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -62,6 +64,7 @@ function StoreTableRow({
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const { userAuth } = useAppSelector((state) => state.auth);
+  const { brandProfile } = useAppSelector((state) => state.profile);
 
   const [statusConfirm, setStatusConfirm] = useState<Status>(Status.ACTIVE);
 
@@ -95,7 +98,10 @@ function StoreTableRow({
           itemsPerPage: rowsPerPage,
           currentPage: length === 1 ? 1 : page,
           status: status?.value,
+          sortBy: sortBy,
+          idBrand: brandProfile?.brandId,
         },
+        pathname,
         navigate,
       })
     );
@@ -114,6 +120,8 @@ function StoreTableRow({
         currentPage: page,
         itemsPerPage: rowsPerPage,
         status: status?.value,
+        sortBy: sortBy,
+        idBrand: brandProfile?.brandId,
       },
       navigate,
     };
@@ -292,6 +300,7 @@ function StoreTableRow({
           storeStatus={statusConfirm}
           statusFilter={status}
           filterName={filterName}
+          sortBy={sortBy}
           isOpen={isOpenConfirm}
           handleOpen={handleOpenConfirm}
           handleCloseMenuConfirm={handleCloseMenuConfirm}

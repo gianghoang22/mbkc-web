@@ -8,12 +8,12 @@ import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } f
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
 // section
-import { CreatePartnerModal, PartnerTableRow, PartnerTableRowSkeleton } from 'sections/partner';
+import { PartnerTableRow, PartnerTableRowSkeleton } from 'sections/partner';
 //
 import { ListParams, OrderSort, OrderSortBy, PartnerTable } from '@types';
 import { Role } from 'common/enum';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
-import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
 function ListPartnerPage() {
@@ -22,7 +22,6 @@ function ListPartnerPage() {
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const { handleOpen, isOpen } = useModal();
   const { partnerHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
@@ -116,6 +115,7 @@ function ListPartnerPage() {
                             setPage={setPage}
                             selected={selected}
                             filterName={filterName}
+                            sortBy={`${orderBy}_${order}`}
                           />
                         );
                       })}
@@ -145,16 +145,6 @@ function ListPartnerPage() {
           </Box>
         </Card>
       </Page>
-
-      {isOpen && (
-        <CreatePartnerModal
-          page={page}
-          rowsPerPage={rowsPerPage}
-          isOpen={isOpen}
-          handleOpen={handleOpen}
-          filterName={filterName}
-        />
-      )}
     </>
   );
 }

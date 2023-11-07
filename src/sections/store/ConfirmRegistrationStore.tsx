@@ -19,6 +19,7 @@ interface ConfirmRegistrationStoreProps {
   store?: Store | null;
   isOpen: boolean;
   filterName?: string;
+  sortBy?: string;
   storeStatus: Status;
   statusFilter?: OptionSelect | null;
   handleOpen: (title: any) => void;
@@ -35,6 +36,7 @@ function ConfirmRegistrationStore({
   storeStatus = Status.ACTIVE,
   statusFilter,
   filterName,
+  sortBy,
 }: ConfirmRegistrationStoreProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -79,6 +81,7 @@ function ConfirmRegistrationStore({
           itemsPerPage: rowsPerPage,
           currentPage: page,
           status: statusFilter ? statusFilter?.value : '',
+          sortBy: sortBy,
         },
         pathname: pathname,
         navigate,

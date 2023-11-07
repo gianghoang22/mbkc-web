@@ -47,7 +47,6 @@ import {
 } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 
 function KitchenCenterDetailPage() {
   const { id: kitchenCenterId } = useParams();
@@ -89,12 +88,7 @@ function KitchenCenterDetailPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - stores.length) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(stores, getComparator(order, orderBy)),
-    [order, orderBy, page, rowsPerPage, stores]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !stores.length && !!filterName;
 
   const handleDelete = () => {
     handleOpenModal();
@@ -116,6 +110,7 @@ function KitchenCenterDetailPage() {
         searchValue: debounceValue,
         idKitchenCenter: kitchenCenterId,
         status: storeStatus !== null ? storeStatus.value : '',
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
@@ -276,10 +271,10 @@ function KitchenCenterDetailPage() {
                       selectedCol={selected}
                     />
                     {isLoadingStores ? (
-                      <StoreTableRowSkeleton length={visibleRows.length} selected={selected} />
+                      <StoreTableRowSkeleton length={stores.length} selected={selected} />
                     ) : (
                       <TableBody>
-                        {visibleRows.map((store, index) => {
+                        {stores.map((store, index) => {
                           return (
                             <StoreTableRow
                               status={storeStatus}
@@ -287,7 +282,7 @@ function KitchenCenterDetailPage() {
                               store={store}
                               showAction={false}
                               index={index}
-                              length={visibleRows.length}
+                              length={stores.length}
                               selected={selected}
                             />
                           );

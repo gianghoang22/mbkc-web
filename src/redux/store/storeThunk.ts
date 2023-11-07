@@ -57,20 +57,12 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
 };
 
 export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAPI: any) => {
-  const { data, optionParams, navigate } = params;
+  const { data, navigate } = params;
   const formData = appendData(data);
 
   try {
     const response: MessageResponse = await axiosFormData.post(ROUTES_API_STORES.CREATE_STORE, formData);
     if (response) {
-      const params: ListParams = {
-        optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-        },
-        navigate,
-      };
-      thunkAPI.dispatch(getAllStores(params));
       navigate(PATH_BRAND_APP.store.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
@@ -85,7 +77,7 @@ export const createNewStoreThunk = async (params: Params<StoreToCreate>, thunkAP
 };
 
 export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: any) => {
-  const { data, idParams, pathname, optionParams, navigate } = params;
+  const { data, idParams, pathname, navigate } = params;
   const formData = appendData(data);
 
   try {
@@ -94,22 +86,6 @@ export const updateStoreThunk = async (params: Params<StoreToUpdate>, thunkAPI: 
       formData
     );
     if (response) {
-      const pathToBack = pathname
-        ?.split('/')
-        .slice(2)
-        .filter((x) => x)[1];
-      if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
-        await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
-      } else {
-        const paramsCallback: ListParams = {
-          optionParams: {
-            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-          },
-          navigate,
-        };
-        await thunkAPI.dispatch(getAllStores(paramsCallback));
-      }
       navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
@@ -133,12 +109,7 @@ export const updateStatusStoreThunk = async (params: Params<ToUpdateStatus>, thu
     );
     if (response) {
       const paramsCallback: ListParams = {
-        optionParams: {
-          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-          status: optionParams?.status ? optionParams?.status : '',
-        },
+        optionParams: optionParams ? optionParams : {},
         navigate,
       };
       await thunkAPI.dispatch(getAllStores(paramsCallback));
@@ -171,17 +142,11 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
         await thunkAPI.dispatch(getStoreDetail({ storeId: idParams?.storeId, navigate }));
       } else {
         const paramsCallback: ListParams = {
-          optionParams: {
-            searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
-            itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-            currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-            status: optionParams?.status ? optionParams?.status : '',
-          },
+          optionParams: optionParams ? optionParams : {},
           navigate,
         };
         await thunkAPI.dispatch(getAllStores(paramsCallback));
       }
-      navigate(pathname !== undefined ? pathname : PATH_ADMIN_APP.store.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
@@ -195,24 +160,22 @@ export const confirmRegistrationStoreThunk = async (params: Params<StoreToConfir
 };
 
 export const deleteStoreThunk = async (params: Params<Store>, thunkAPI: any) => {
-  const { idParams, optionParams, navigate } = params;
+  const { idParams, optionParams, pathname, navigate } = params;
 
   try {
     const response: MessageResponse = await axiosClient.delete(
       ROUTES_API_STORES.DELETE_STORE(idParams?.storeId ? idParams?.storeId : 0)
     );
     if (response) {
-      const paramsCallback: ListParams = {
-        optionParams: {
-          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-          status: optionParams?.status ? optionParams?.status : '',
-        },
-        navigate,
-      };
-      await thunkAPI.dispatch(getAllStores(paramsCallback));
-      navigate(PATH_ADMIN_APP.store.list);
+      if (pathname && pathname === PATH_ADMIN_APP.store.list) {
+        const paramsCallback: ListParams = {
+          optionParams: optionParams ? optionParams : {},
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllStores(paramsCallback));
+      } else {
+        navigate(PATH_ADMIN_APP.store.list);
+      }
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

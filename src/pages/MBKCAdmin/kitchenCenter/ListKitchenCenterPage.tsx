@@ -126,6 +126,7 @@ function ListKitchenCenterPage() {
                             kitchenCenter={kitchenCenter}
                             selected={selected}
                             filterName={filterName}
+                            sortBy={`${orderBy}_${order}`}
                           />
                         );
                       })}

@@ -130,6 +130,7 @@ function ListCategoryPage() {
                             setPage={setPage}
                             selected={selected}
                             filterName={filterName}
+                            sortBy={`${orderBy}_${order}`}
                           />
                         );
                       })}
