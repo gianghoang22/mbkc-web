@@ -2,7 +2,6 @@ import { Route } from '@types';
 import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common';
 import {
   CashierDetailPage,
-  CreateBankingAccount,
   CreateCashierPage,
   KitchenCenterDashboard,
   ListBankingAccountPage,
@@ -64,16 +63,6 @@ export const kitchenCenterRoutes: Route[] = [
   {
     path: PATH_KITCHEN_CENTER_APP.bankingAccount.list,
     component: <ListBankingAccountPage />,
-    index: false,
-  },
-  {
-    path: PATH_KITCHEN_CENTER_APP.bankingAccount.newBankingAccount,
-    component: <CreateBankingAccount />,
-    index: false,
-  },
-  {
-    path: PATH_KITCHEN_CENTER_APP.bankingAccount.editById,
-    component: <CreateBankingAccount />,
     index: false,
   },
   {

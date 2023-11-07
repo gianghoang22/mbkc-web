@@ -47,7 +47,10 @@ function InformationCard({ logo, name, address, managerEmail, status }: Informat
             <Typography variant="body1">
               {translate('table.address')}:{' '}
               <Typography component="span" variant="body1" color={(theme) => theme.palette.grey[600]}>
-                {address}
+                {address
+                  ?.split(', ')
+                  .slice(0, address?.split(', ').length - 3)
+                  .join(', ')}
               </Typography>
             </Typography>
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { PartnerProductStatusEnum, ProductTypeEnum } from '@types';
-import { Status } from 'common/enum';
+import { Gender, Status } from 'common/enum';
 import { useLocales } from 'hooks';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -42,6 +42,7 @@ function SelectField<T extends string | number>({
   const { translate } = useLocales();
 
   const { control } = useFormContext();
+
   return (
     <Controller
       render={({ field, fieldState }) => (
@@ -89,6 +90,10 @@ function SelectField<T extends string | number>({
                     ? translate('productType.single')
                     : value === ProductTypeEnum.EXTRA
                     ? translate('productType.extra')
+                    : value === Gender.MALE
+                    ? translate('gender.male')
+                    : value === Gender.FEMALE
+                    ? translate('gender.female')
                     : label}
                 </MenuItem>
               ))}

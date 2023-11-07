@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // @mui
-import { Button, Card, Divider, Grid, Stack, Typography } from '@mui/material';
+import { Button, Divider, Grid, Stack, Typography } from '@mui/material';
 // redux
 import { deleteCashier, getCashierDetail, setEditCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -12,8 +12,8 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { CashierDetailPageSkeleton } from 'sections/cashier';
 //
-import { Color, Language, PopoverType, Status } from 'common/enum';
-import { ConfirmDialog, Label, Page, Popover } from 'components';
+import { Color, Gender, Language, PopoverType, Status } from 'common/enum';
+import { ConfirmDialog, ContentLabel, ContentSpace, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
@@ -23,6 +23,7 @@ function CashierDetailPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const mdMd = useResponsive('up', 'lg', 'lg');
   const mdSm = useResponsive('up', 'md', 'md');
   const mdXs = useResponsive('up', 'xs', 'xs');
 
@@ -45,10 +46,11 @@ function CashierDetailPage() {
   }, [dispatch, navigate, paramsGetCashierDetail]);
 
   const handleDelete = () => {
-    handleOpenModal(cashier?.fullName);
+    handleOpenModal();
     dispatch(
       deleteCashier({
-        idParams: { categoryId: cashier?.accountId },
+        idParams: { cashierId: cashier?.accountId },
+        pathname,
         navigate,
       })
     );
@@ -91,57 +93,56 @@ function CashierDetailPage() {
         {isLoadingCashier ? (
           <CashierDetailPageSkeleton />
         ) : (
-          <Grid container columnSpacing={4}>
-            <Grid item xs={12} sm={4} md={4}>
+          <Grid container columnSpacing={mdMd ? 10 : 6} rowSpacing={6}>
+            <Grid item xs={12} sm={12} md={4}>
               <Stack width="100%" alignItems="center" justifyContent="center">
-                <Card>
-                  <img
-                    src={cashier?.avatar}
-                    alt={cashier?.fullName}
-                    style={{ borderRadius: 16, width: mdSm ? '100%' : mdXs ? 300 : 241, objectFit: 'fill' }}
-                  />
-                </Card>
+                <img
+                  src={cashier?.avatar}
+                  alt={cashier?.fullName}
+                  style={{ borderRadius: 16, width: mdSm ? '100%' : mdXs ? 350 : 241, objectFit: 'fill' }}
+                />
               </Stack>
             </Grid>
             <Grid item xs={12} md={8} lg={8}>
-              <Stack paddingLeft={4} paddingRight={4}>
+              <Stack gap={2}>
                 <Typography variant="h3">{cashier?.fullName}</Typography>
+                <ContentLabel
+                  divider={false}
+                  title={translate('table.status')}
+                  color={
+                    cashier?.status === Status.ACTIVE
+                      ? Color.SUCCESS
+                      : cashier?.status === Status.INACTIVE
+                      ? Color.WARNING
+                      : Color.ERROR
+                  }
+                  content={
+                    cashier?.status === Status.INACTIVE
+                      ? translate('status.inactive')
+                      : cashier?.status === Status.ACTIVE
+                      ? translate('status.active')
+                      : translate('status.deActive')
+                  }
+                />
+                <ContentSpace title={translate('page.form.email')} content={cashier?.email} />
+                <ContentSpace title={translate('model.capitalizeOne.citizenNumber')} content={cashier?.citizenNumber} />
+                <ContentSpace
+                  title={translate('model.capitalizeOne.dateOfBirth')}
+                  content={moment(cashier?.dateOfBirth).format('DD/MM/yyyy')}
+                />
+                <ContentSpace
+                  title={translate('model.capitalizeOne.gender')}
+                  content={
+                    cashier?.gender.toLowerCase() === Gender.MALE
+                      ? translate('gender.male')
+                      : translate('gender.female')
+                  }
+                />
 
-                <Stack direction="row" justifyContent="space-between" pt={1} pb={1}>
-                  <Typography variant="subtitle1">{translate('common.status')}</Typography>
-
-                  <Label color={(cashier?.status === Status.INACTIVE && Color.ERROR) || Color.SUCCESS}>
-                    {cashier?.status === Status.INACTIVE ? translate('status.inactive') : translate('status.active')}
-                  </Label>
-                </Stack>
-                <Divider />
-
-                <Stack direction="row" justifyContent="space-between" pt={2} pb={1}>
-                  <Typography variant="subtitle1">{translate('page.form.email')}</Typography>
-                  <Typography>{cashier?.email}</Typography>
-                </Stack>
-                <Divider />
-
-                <Stack direction="row" justifyContent="space-between" pt={2} pb={1}>
-                  <Typography variant="subtitle1">{translate('model.capitalizeOne.citizenNumber')}</Typography>
-                  <Typography>{cashier?.citizenNumber}</Typography>
-                </Stack>
-                <Divider />
-
-                <Stack direction="row" justifyContent="space-between" pt={2} pb={1}>
-                  <Typography variant="subtitle1">{translate('model.capitalizeOne.dateOfBirth')}</Typography>
-                  <Typography>{moment(cashier?.dateOfBirth).format('DD/MM/yyyy')}</Typography>
-                </Stack>
-                <Divider />
-
-                <Stack direction="row" justifyContent="space-between" pt={2} pb={1}>
-                  <Typography variant="subtitle1">{translate('model.capitalizeOne.gender')}</Typography>
-                  <Typography>{cashier?.gender}</Typography>
-                </Stack>
                 <Divider />
 
                 {cashier?.kitchenCenter && (
-                  <Stack direction="row" alignItems="start" gap={2} mt={2}>
+                  <Stack sx={{ flexDirection: { md: 'row', sm: 'column' } }} alignItems="start" gap={2}>
                     <Typography variant="subtitle1" minWidth={mdSm ? 150 : 110}>
                       {translate('table.kitchenCenter')}
                     </Typography>
@@ -164,7 +165,10 @@ function CashierDetailPage() {
                         <Typography variant="subtitle1">
                           {translate('table.address')}:{' '}
                           <Typography component="span" variant="body1">
-                            {cashier.kitchenCenter.address}
+                            {cashier.kitchenCenter.address
+                              ?.split(', ')
+                              .slice(0, cashier.kitchenCenter.address?.split(', ').length - 3)
+                              .join(', ')}
                           </Typography>
                         </Typography>
                       </Stack>

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, IconButton, Switch, TableCell, TableRow, Typography, Stack } from '@mui/material';
+import { Avatar, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
@@ -8,12 +8,11 @@ import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashie
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Cashier, OrderSortBy } from '@types';
-import { Color, Status } from 'common/enum';
+import { Cashier, OrderSortBy, Params, ToUpdateStatus } from '@types';
+import { Color, Gender, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import CashierDetailModal from './CashierDetailModal';
 
 interface CashierTableRowProps {
   index: number;
@@ -21,17 +20,23 @@ interface CashierTableRowProps {
   page: number;
   rowsPerPage: number;
   selected: readonly string[];
+  filterName: string;
+  sortBy: string;
 }
 
-function CashierTableRow({ cashier, index, page, rowsPerPage, selected }: CashierTableRowProps) {
+function CashierTableRow({ cashier, index, page, rowsPerPage, selected, filterName, sortBy }: CashierTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
-  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
+
+  const handleNavigateDetail = () => {
+    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/${cashier.accountId}`);
+    dispatch(setRoutesToBack(pathname));
+  };
 
   const handleEdit = () => {
     navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/updation/${cashier.accountId}`);
@@ -39,38 +44,45 @@ function CashierTableRow({ cashier, index, page, rowsPerPage, selected }: Cashie
     dispatch(setRoutesToBack(pathname));
   };
 
-  const handleNavigateDetail = () => {
-    navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/${cashier.accountId}`);
-    dispatch(setRoutesToBack(pathname));
-  };
-
   const handleDelete = () => {
-    const params = {
-      cashierId: cashier?.accountId,
+    handleOpen();
+    const params: Params<Cashier> = {
+      idParams: { cashierId: cashier.accountId },
+      optionParams: {
+        searchValue: filterName,
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        sortBy: sortBy,
+      },
+      pathname,
       navigate,
-      page: page,
-      rowsPerPage,
     };
-
     dispatch(deleteCashier(params));
   };
 
   const handleChangeStatus = () => {
-    const updateStatusParams = {
-      cashierId: cashier.accountId,
+    const paramUpdate: Params<ToUpdateStatus> = {
+      data: {
+        status: cashier.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
+      },
+      idParams: {
+        cashierId: cashier.accountId,
+      },
+      optionParams: {
+        searchValue: filterName,
+        currentPage: page + 1,
+        itemsPerPage: rowsPerPage,
+        sortBy: sortBy,
+      },
       navigate,
-      status: `${cashier.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE}`,
-      page: page + 1,
-      rowsPerPage: rowsPerPage,
     };
-
-    dispatch<any>(updateCashierStatus(updateStatusParams));
+    dispatch<any>(updateCashierStatus(paramUpdate));
   };
 
   return (
     <>
       <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer' }}>
-        <TableCell width={80} align="center">
+        <TableCell width={80} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
 
@@ -139,7 +151,7 @@ function CashierTableRow({ cashier, index, page, rowsPerPage, selected }: Cashie
                 : 200
             }
           >
-            {cashier.gender}
+            {cashier.gender.toLowerCase() === Gender.MALE ? translate('gender.male') : translate('gender.female')}
           </TableCell>
         )}
 
@@ -167,7 +179,7 @@ function CashierTableRow({ cashier, index, page, rowsPerPage, selected }: Cashie
               onChange={handleChangeStatus}
               inputProps={{ 'aria-label': 'controlled' }}
               disabled={cashier.status === Status.DEACTIVE}
-              checked={cashier.status === Status.INACTIVE || cashier.status === Status.DEACTIVE ? false : true}
+              checked={cashier.status === Status.ACTIVE ? true : false}
               color={cashier?.status === Status.INACTIVE ? Color.WARNING : Color.SUCCESS}
             />
             <IconButton color="inherit" onClick={handleOpenMenu}>
@@ -178,16 +190,6 @@ function CashierTableRow({ cashier, index, page, rowsPerPage, selected }: Cashie
       </TableRow>
 
       <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
-
-      {isOpenModalDetail && (
-        <CashierDetailModal
-          isOpen={isOpenModalDetail}
-          handleOpen={handleOpenModalDetail}
-          cashier={cashier}
-          page={page}
-          rowsPerPage={rowsPerPage}
-        />
-      )}
 
       {isOpen && (
         <ConfirmDialog

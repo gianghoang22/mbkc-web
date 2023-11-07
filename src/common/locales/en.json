@@ -66,6 +66,7 @@
     "showColumns": "Show columns",
     "editHours": "Adjust hours"
   },
+  "gender": { "male": "Male", "female": "Female" },
   "common": {
     "welcome": "Hi, Welcome Back",
     "welcomeMBKC": "Welcome to MBKC",

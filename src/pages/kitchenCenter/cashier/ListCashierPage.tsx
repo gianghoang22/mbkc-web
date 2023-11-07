@@ -124,6 +124,8 @@ function ListCashierPage() {
                             page={page}
                             rowsPerPage={rowsPerPage}
                             selected={selected}
+                            filterName={filterName}
+                            sortBy={`${orderBy}_${order}`}
                           />
                         );
                       })}

@@ -15,22 +15,30 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
 import { useAppDispatch } from 'redux/configStore';
+import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 // section
+import CreateBankingAccountModal from './CreateBankingAccountModal';
 //
 import { BankingAccount } from '@types';
 import { Color, Language, Status } from 'common/enum';
 import { ConfirmDialog, ContentLabel, Popover } from 'components';
 import { useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
-import CreateBankingAccountModal from './CreateBankingAccountModal';
 
 interface BankingAccountDetailModalProps {
   bankingAccount?: BankingAccount | null;
   isOpen: boolean;
   handleOpen: (title: any) => void;
+  filterName: string;
+  sortBy: string;
 }
 
-function BankingAccountDetailModal({ bankingAccount, isOpen, handleOpen }: BankingAccountDetailModalProps) {
+function BankingAccountDetailModal({
+  bankingAccount,
+  isOpen,
+  handleOpen,
+  filterName,
+  sortBy,
+}: BankingAccountDetailModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -51,8 +59,10 @@ function BankingAccountDetailModal({ bankingAccount, isOpen, handleOpen }: Banki
       deleteBankingAccount({
         idParams: { bankingAccountId: bankingAccount?.bankingAccountId },
         optionParams: {
+          searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: page + 1,
+          sortBy: sortBy,
         },
         navigate,
       })
@@ -129,10 +139,12 @@ function BankingAccountDetailModal({ bankingAccount, isOpen, handleOpen }: Banki
 
       {isOpenCreate && (
         <CreateBankingAccountModal
-          page={page}
+          page={page + 1}
           rowsPerPage={rowsPerPage}
           isOpen={isOpenCreate}
           handleOpen={handleOpenCreate}
+          filterName={filterName}
+          sortBy={sortBy}
         />
       )}
 

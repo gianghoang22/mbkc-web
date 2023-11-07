@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // @mui
 import CheckIcon from '@mui/icons-material/Check';
+import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import {
@@ -22,30 +23,28 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  Typography,
   TableRow,
+  Typography,
 } from '@mui/material';
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 // section
 import { OrderDetailPageSkeleton, OrderHistoryTableRow, OrderHistoryTableRowSkeleton, OrderItem } from 'sections/order';
 import ConfirmCompletedOrderModal from 'sections/order/ConfirmCompletedOrderModal';
 //redux
-import { useDispatch } from 'react-redux';
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
+import { useAppSelector, useAppDispatch } from 'redux/configStore';
 //
+import { OrderHistory, OrderStatusActions } from '@types';
 import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enum';
 import { ConfirmDialog, EmptyTable, Helmet, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { OrderHistory, OrderStatusActions } from '@types';
-import { useAppSelector } from 'redux/configStore';
 import { formatCurrency } from 'utils';
 
 function OrderDetailPage() {
   const { id: orderId } = useParams();
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { translate } = useLocales();
   const {
@@ -97,7 +96,7 @@ function OrderDetailPage() {
             <OrderDetailPageSkeleton />
           ) : (
             <Box>
-              <Stack mb={4} direction="row" justifyContent="space-between">
+              <Stack mb={7} direction="row" justifyContent="space-between">
                 <Stack>
                   <Stack direction="row" alignItems="center">
                     <IconButton
@@ -109,7 +108,7 @@ function OrderDetailPage() {
                     >
                       <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
                     </IconButton>
-                    <Stack direction="row" alignItems="center" spacing={1}>
+                    <Stack direction="row" alignItems="center" gap={1}>
                       <Typography variant="h4">
                         {translate('model.capitalizeOne.order')} #{order?.orderPartnerId} | {order?.partner.name} |
                       </Typography>
@@ -172,7 +171,7 @@ function OrderDetailPage() {
               <Grid container columnSpacing={5} rowSpacing={5}>
                 <Grid item xs={12} sm={12} md={8}>
                   <Card>
-                    <Box sx={{ width: '100%' }} padding={2} paddingTop={2}>
+                    <Box sx={{ width: '100%' }} p={2} pt={2}>
                       <Paper sx={{ width: '100%', mb: 2 }}>
                         <Stack direction="row" alignItems="center" mb={1}>
                           <Typography variant="subtitle1" mr={1}>
@@ -197,12 +196,12 @@ function OrderDetailPage() {
                           );
                         })}
 
-                        <Stack direction="row" alignItems="center" mt={1} mb={1}>
-                          <Typography variant="subtitle1" mr={1}>
-                            {translate('page.content.note')}:
+                        <Typography variant="subtitle1" mt={1} mb={1}>
+                          {translate('page.content.note')}:{' '}
+                          <Typography variant="body1" component="span">
+                            {order?.note}
                           </Typography>
-                          <Typography variant="body1">{order?.note}</Typography>
-                        </Stack>
+                        </Typography>
 
                         <Stack>
                           <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>

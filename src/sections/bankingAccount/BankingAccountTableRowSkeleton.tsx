@@ -19,7 +19,7 @@ function BankingAccountTableRow({ length = 5, selected }: { length: number; sele
               </TableCell>
             )}
 
-            <TableCell component="th" scope="row" width={!selected.includes(OrderSortBy.LOGO_URL) ? 400 : 300}>
+            <TableCell component="th" scope="row" width={!selected.includes(OrderSortBy.LOGO_URL) ? 450 : 400}>
               <Skeleton width={200} />
             </TableCell>
 

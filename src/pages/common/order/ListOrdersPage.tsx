@@ -3,14 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
-// @mui icon
-
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllOrders } from 'redux/order/orderSlice';
 // section
 import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
-
 //
 import { ListParams, OptionSelect, OrderSort, OrderTable, PARTNER_ORDER_STATUS, SYSTEM_STATUS_OPTIONS } from '@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
@@ -20,8 +17,6 @@ import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 function ListOrdersPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [systemStatus, setSystemStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
-  const [partnerOrderStatus, setPartnerOrderStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
@@ -34,6 +29,8 @@ function ListOrdersPage() {
   const [orderBy, setOrderBy] = useState<keyof OrderTable>('partnerName');
   const [filterName, setFilterName] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
+  const [systemStatus, setSystemStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [partnerOrderStatus, setPartnerOrderStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -46,7 +43,6 @@ function ListOrdersPage() {
     setFilterName(event.target.value.trimStart());
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const isNotFound = !orders.length && !!filterName;
@@ -94,7 +90,7 @@ function ListOrdersPage() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar<OrderTable>
-                model={translate('model.lowercase.store')}
+                model={translate('model.lowercase.orders')}
                 selected={selected}
                 setSelected={setSelected}
                 headCells={orderHeadCells}
@@ -118,7 +114,6 @@ function ListOrdersPage() {
                     onRequestSort={handleRequestSort}
                     selectedCol={selected}
                   />
-
                   {isLoading ? (
                     <OrderTableRowSkeleton length={orders.length} />
                   ) : (
