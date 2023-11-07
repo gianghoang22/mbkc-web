@@ -23,6 +23,7 @@ interface PartnerTableRowProps {
   setPage?: any;
   selected: readonly string[];
   filterName: string;
+  sortBy: string;
 }
 
 function PartnerTableRow({
@@ -33,6 +34,7 @@ function PartnerTableRow({
   setPage,
   selected,
   filterName,
+  sortBy,
 }: PartnerTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -61,6 +63,7 @@ function PartnerTableRow({
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: lengthPartners === 1 ? 1 : page + 1,
+          sortBy: sortBy,
         },
         navigate,
       })
@@ -78,7 +81,8 @@ function PartnerTableRow({
       optionParams: {
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
-        currentPage: page,
+        currentPage: page + 1,
+        sortBy: sortBy,
       },
       navigate,
     };
@@ -140,11 +144,12 @@ function PartnerTableRow({
 
       {isOpenCreate && (
         <CreatePartnerModal
-          page={page}
+          page={page + 1}
           rowsPerPage={rowsPerPage}
           isOpen={isOpenCreate}
           handleOpen={handleOpenCreate}
           filterName={filterName}
+          sortBy={sortBy}
         />
       )}
 
@@ -154,6 +159,7 @@ function PartnerTableRow({
           isOpen={isOpenDetail}
           handleOpen={handleOpenDetail}
           filterName={filterName}
+          sortBy={sortBy}
         />
       )}
 

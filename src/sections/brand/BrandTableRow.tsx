@@ -11,8 +11,10 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { Brand, OrderSortBy, Params, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
+import { removeLocalStorage } from 'utils';
 
 interface BrandTableRowProps {
   index: number;
@@ -21,9 +23,10 @@ interface BrandTableRowProps {
   rowsPerPage: number;
   selected: readonly string[];
   filterName: string;
+  sortBy: string;
 }
 
-function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName }: BrandTableRowProps) {
+function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName, sortBy }: BrandTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -33,8 +36,10 @@ function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName }
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = () => {
-    navigate(PATH_ADMIN_APP.brand.root + `/${brand.brandId}`);
     dispatch(setRoutesToBack(pathname));
+    removeLocalStorage(StorageKeys.PAGE);
+    removeLocalStorage(StorageKeys.ROW_PER_PAGE);
+    navigate(PATH_ADMIN_APP.brand.root + `/${brand.brandId}`);
   };
 
   const handleEdit = () => {
@@ -48,7 +53,13 @@ function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName }
     dispatch<any>(
       deleteBrand({
         idParams: { brandId: brand?.brandId },
-        optionParams: { searchValue: filterName },
+        optionParams: {
+          searchValue: filterName,
+          itemsPerPage: rowsPerPage,
+          currentPage: page,
+          sortBy: sortBy,
+        },
+        pathname,
         navigate,
       })
     );
@@ -65,7 +76,8 @@ function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName }
       optionParams: {
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: page,
+        sortBy: sortBy,
       },
       navigate,
     };

@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Partner } from '@types';
+import { StorageKeys } from 'constants/storageKeys';
+import { getIsEditing, setLocalStorage } from 'utils';
 import {
-  createNewPartnerThunk,
   deletePartnerThunk,
   getAllPartnersThunk,
   getPartnerDetailThunk,
   updatePartnerThunk,
   updateStatusPartnerThunk,
 } from './partnerThunk';
-import { StorageKeys } from 'constants/storageKeys';
-import { getIsEditing, setLocalStorage } from 'utils';
 
 interface PartnerState {
   isEditing: boolean;
@@ -37,7 +36,6 @@ const initialState: PartnerState = {
   numberItems: 5,
 };
 
-export const createNewPartner = createAsyncThunk('partner/create-partner', createNewPartnerThunk);
 export const getAllPartners = createAsyncThunk('partner/get-all-partners', getAllPartnersThunk);
 export const getPartnerDetail = createAsyncThunk('partner/get-partner-detail', getPartnerDetailThunk);
 export const updatePartner = createAsyncThunk('partner/update-partner', updatePartnerThunk);
@@ -63,19 +61,6 @@ const partnerSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(createNewPartner.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(createNewPartner.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-      })
-      .addCase(createNewPartner.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-      })
       .addCase(getAllPartners.pending, (state) => {
         state.isLoading = true;
       })

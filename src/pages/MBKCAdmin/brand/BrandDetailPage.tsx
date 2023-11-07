@@ -40,7 +40,6 @@ import {
 } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 
 function BrandDetailPage() {
   const { id: brandId } = useParams();
@@ -79,11 +78,9 @@ function BrandDetailPage() {
     setStoreStatus(newValue);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(() => stableSort(stores, getComparator(order, orderBy)), [order, orderBy, stores]);
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !stores.length && !!filterName;
 
   const handleDelete = () => {
     handleOpenModal();
@@ -105,6 +102,7 @@ function BrandDetailPage() {
         searchValue: debounceValue,
         idBrand: brandId,
         status: storeStatus !== null ? storeStatus.value : '',
+        sortBy: `${orderBy}_${order}`,
       },
       navigate,
     };
@@ -257,10 +255,10 @@ function BrandDetailPage() {
                     selectedCol={selected}
                   />
                   {isLoadingStores ? (
-                    <StoreTableRowSkeleton length={visibleRows.length} selected={selected} />
+                    <StoreTableRowSkeleton length={stores.length} selected={selected} />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((store, index) => {
+                      {stores.map((store, index) => {
                         return (
                           <StoreTableRow
                             key={store.storeId}
@@ -270,7 +268,7 @@ function BrandDetailPage() {
                             setPage={setPage}
                             page={page + 1}
                             rowsPerPage={rowsPerPage}
-                            length={visibleRows.length}
+                            length={stores.length}
                             selected={selected}
                           />
                         );
@@ -309,7 +307,7 @@ function BrandDetailPage() {
         handleCloseMenu={handleCloseMenu}
         onDelete={handleOpenModal}
         onEdit={() => {
-          navigate(PATH_ADMIN_APP.brand.newBrand);
+          navigate(PATH_ADMIN_APP.brand.root + `/updation/${brandId}`);
           dispatch(setRoutesToBack(pathname));
           dispatch(setEditBrand(brand));
         }}

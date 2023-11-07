@@ -29,9 +29,10 @@ interface PartnerDetailModalProps {
   isOpen: boolean;
   handleOpen: (title: any) => void;
   filterName: string;
+  sortBy: string;
 }
 
-function PartnerDetailModal({ partner, isOpen, handleOpen, filterName }: PartnerDetailModalProps) {
+function PartnerDetailModal({ partner, isOpen, handleOpen, filterName, sortBy }: PartnerDetailModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -55,6 +56,7 @@ function PartnerDetailModal({ partner, isOpen, handleOpen, filterName }: Partner
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
           currentPage: page + 1,
+          sortBy: sortBy,
         },
         navigate,
       })
@@ -131,11 +133,12 @@ function PartnerDetailModal({ partner, isOpen, handleOpen, filterName }: Partner
 
       {isOpenCreate && (
         <CreatePartnerModal
-          page={page}
+          page={page + 1}
           rowsPerPage={rowsPerPage}
           isOpen={isOpenCreate}
           handleOpen={handleOpenCreate}
           filterName={filterName}
+          sortBy={sortBy}
         />
       )}
 
