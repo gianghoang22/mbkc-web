@@ -1,21 +1,28 @@
 // @mui
-import { Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
+import { Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography, Button, Backdrop } from '@mui/material';
 // @mui icon
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 //
-import { BankingAccount } from '@types';
 import { Color, Language } from 'common/enum';
 import { Label } from 'components';
 import { useLocales } from 'hooks';
+import { useState } from 'react';
 
 interface MoneyExchangeDetailModalProps {
-  bankingAccount?: BankingAccount | null;
   isOpen: boolean;
   handleOpen: (title: any) => void;
 }
 
 function MoneyExchangeDetailModal({ isOpen, handleOpen }: MoneyExchangeDetailModalProps) {
   const { translate, currentLang } = useLocales();
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+
+  const handleCloseBackdrop = () => {
+    setOpenBackdrop(false);
+  };
+  const handleOpenBackdrop = () => {
+    setOpenBackdrop(true);
+  };
 
   return (
     <>
@@ -46,12 +53,26 @@ function MoneyExchangeDetailModal({ isOpen, handleOpen }: MoneyExchangeDetailMod
 
               <Grid container columnSpacing={4} mt={2}>
                 <Grid item md={5} ml={-2}>
-                  <img
-                    src="https://www.skynova.com/learn/invoicing/images/Skynova_Invoice_Example.jpg"
-                    alt="invoice"
-                    width="100%"
-                    height="100%"
-                  />
+                  <Button onClick={handleOpenBackdrop}>
+                    <img
+                      src="https://www.skynova.com/learn/invoicing/images/Skynova_Invoice_Example.jpg"
+                      alt="invoice"
+                      width="100%"
+                      height="100%"
+                    />
+                  </Button>
+                  <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={openBackdrop}
+                    onClick={handleCloseBackdrop}
+                  >
+                    <img
+                      src="https://www.skynova.com/learn/invoicing/images/Skynova_Invoice_Example.jpg"
+                      alt="invoice"
+                      width="80%"
+                      height="80%"
+                    />
+                  </Backdrop>
                 </Grid>
                 <Grid item md={7}>
                   <Stack direction="row" justifyContent="space-between">

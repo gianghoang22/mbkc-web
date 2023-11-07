@@ -1,4 +1,4 @@
-import { PartnerOrderStatus, SystemStatus } from 'common/enum';
+import { PartnerOrderStatus, PartnerOrderStatusToFilter, SystemStatus, SystemStatusToFilter } from 'common/enum';
 import { Partner } from './partner';
 import { Product } from './product';
 import { _ShipperPayment } from './shipperPayment';
@@ -101,22 +101,22 @@ export const ORDER_TYPE_TABS = [
 
 export const SYSTEM_STATUS_OPTIONS = [
   {
-    value: SystemStatus.IN_STORE,
+    value: SystemStatusToFilter.IN_STORE,
     label: 'In Store',
     id: 'In',
   },
   {
-    value: SystemStatus.READY_DELIVERY,
+    value: SystemStatusToFilter.READY_DELIVERY,
     label: 'Ready Delivery',
     id: 'Rea',
   },
   {
-    value: SystemStatus.COMPLETED,
+    value: SystemStatusToFilter.COMPLETED,
     label: 'Completed',
     id: 'Com',
   },
   {
-    value: SystemStatus.CANCELLED,
+    value: SystemStatusToFilter.CANCELLED,
     label: 'Cancelled',
     id: 'Can',
   },

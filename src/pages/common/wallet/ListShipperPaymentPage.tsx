@@ -1,31 +1,30 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
-//redux
+// redux
 import { useAppSelector } from 'redux/configStore';
 // section
-import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/moneyExchanges';
+import { ShipperPaymentTableRow, ShipperPaymentTableToolbar } from 'sections/shipperPayment';
 //
-import { MoneyExchangeTable, OrderSort } from '@types';
+import { OrderSort, ShipperPaymentTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { getComparator, stableSort } from 'utils';
 
-function ListMoneyExchangePage() {
+function ListShipperPaymentPage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const { MoneyExchangeHeadCells } = useConfigHeadTable();
+  const { ShipperPaymentHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { moneyExchanges } = useAppSelector((state) => state.wallet);
-
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('sender');
+  const [orderBy, setOrderBy] = useState<keyof ShipperPaymentTable>('KCBankingAccount');
   const [filterName, setFilterName] = useState<string>('');
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof MoneyExchangeTable) => {
+  const { shipperPayments } = useAppSelector((state) => state.wallet);
+
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ShipperPaymentTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -37,65 +36,56 @@ function ListMoneyExchangePage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - moneyExchanges.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - shipperPayments.length) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      stableSort(moneyExchanges, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, moneyExchanges]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !shipperPayments.length && !!filterName;
 
   return (
     <>
-      <Page title="List Of Money Exchange" pathname={pathname} navigateDashboard={PATH_KITCHEN_CENTER_APP.root}>
+      <Page title="List Of Shipper Payments" pathname={pathname} navigateDashboard={PATH_KITCHEN_CENTER_APP.root}>
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <MoneyExchangeTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <ShipperPaymentTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<MoneyExchangeTable>
-                    headCells={MoneyExchangeHeadCells}
+                  <CommonTableHead<ShipperPaymentTable>
+                    headCells={ShipperPaymentHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
 
                   <TableBody>
-                    {visibleRows.map((moneyExchange, index) => {
+                    {shipperPayments.map((shipperPayment, index) => {
                       return (
-                        <MoneyExchangeTableRow
+                        <ShipperPaymentTableRow
                           key={index}
                           index={index}
                           page={page}
                           rowsPerPage={rowsPerPage}
-                          moneyExchange={moneyExchange}
+                          shipperPayment={shipperPayment}
                         />
                       );
                     })}
                     {emptyRows > 0 ||
-                      (moneyExchanges.length === 0 && !filterName && (
+                      (shipperPayments.length === 0 && !filterName && (
                         <EmptyTable
-                          colNumber={MoneyExchangeHeadCells.length + 2}
-                          model={translate('model.lowercase.store')}
+                          colNumber={ShipperPaymentHeadCells.length + 2}
+                          model={translate('model.lowercase.shipperPayment')}
                         />
                       ))}
                   </TableBody>
 
                   {isNotFound && (
-                    <SearchNotFound colNumber={MoneyExchangeHeadCells.length + 2} searchQuery={filterName} />
+                    <SearchNotFound colNumber={ShipperPaymentHeadCells.length + 2} searchQuery={filterName} />
                   )}
                 </Table>
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={moneyExchanges.length}
+                count={shipperPayments.length}
                 rowsPerPage={rowsPerPage}
                 labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
@@ -110,4 +100,4 @@ function ListMoneyExchangePage() {
   );
 }
 
-export default ListMoneyExchangePage;
+export default ListShipperPaymentPage;

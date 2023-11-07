@@ -647,13 +647,6 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
-      id: 'createdBy',
-      label: 'Created By',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
       id: 'amount',
       label: 'Amount',
       numeric: false,

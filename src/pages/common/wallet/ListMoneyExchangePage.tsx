@@ -1,40 +1,36 @@
 import { useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
-// redux
+//redux
 import { useAppSelector } from 'redux/configStore';
 // section
-import { ShipperPaymentTableRow, ShipperPaymentTableToolbar } from 'sections/shipperPayment';
+import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/moneyExchanges';
 //
-import { OrderSort, ShipperPayment, ShipperPaymentTable } from '@types';
+import { MoneyExchangeTable, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { getComparator, stableSort } from 'utils';
+import { Role } from 'common/enum';
 
-function ListShipperPaymentPage() {
-  const navigate = useNavigate();
-
+function ListMoneyExchangePage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const { ShipperPaymentHeadCells } = useConfigHeadTable();
+  const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { moneyExchanges } = useAppSelector((state) => state.wallet);
+  const { userAuth } = useAppSelector((state) => state.auth);
+
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ShipperPaymentTable>('KCBankingAccount');
+  const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('sender');
   const [filterName, setFilterName] = useState<string>('');
 
-  const { shipperPayments } = useAppSelector((state) => state.wallet);
-
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ShipperPaymentTable) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof MoneyExchangeTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleNavigateDetail = (shipperPayment: ShipperPayment, paymentId: number) => {
-    navigate(PATH_KITCHEN_CENTER_APP.wallet.root + `/${paymentId}`);
   };
 
   const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,66 +39,62 @@ function ListShipperPaymentPage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - shipperPayments.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - moneyExchanges.length) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      stableSort(shipperPayments, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, shipperPayments]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !moneyExchanges.length && !!filterName;
 
   return (
     <>
-      <Page title="List Of Shipper Payments" pathname={pathname} navigateDashboard={PATH_KITCHEN_CENTER_APP.root}>
+      <Page
+        title={translate('page.title.list', { model: translate('model.lowercase.moneyExchanges') })}
+        pathname={pathname}
+        navigateDashboard={
+          userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER ? PATH_KITCHEN_CENTER_APP.root : PATH_CASHIER_APP.root
+        }
+      >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <ShipperPaymentTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <MoneyExchangeTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<ShipperPaymentTable>
-                    headCells={ShipperPaymentHeadCells}
+                  <CommonTableHead<MoneyExchangeTable>
+                    headCells={MoneyExchangeHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
 
                   <TableBody>
-                    {visibleRows.map((shipperPayment, index) => {
+                    {moneyExchanges.map((moneyExchange, index) => {
                       return (
-                        <ShipperPaymentTableRow
+                        <MoneyExchangeTableRow
                           key={index}
                           index={index}
                           page={page}
                           rowsPerPage={rowsPerPage}
-                          shipperPayment={shipperPayment}
-                          handleNavigateDetail={handleNavigateDetail}
+                          moneyExchange={moneyExchange}
                         />
                       );
                     })}
                     {emptyRows > 0 ||
-                      (shipperPayments.length === 0 && !filterName && (
+                      (moneyExchanges.length === 0 && !filterName && (
                         <EmptyTable
-                          colNumber={ShipperPaymentHeadCells.length + 2}
-                          model={translate('model.lowercase.store')}
+                          colNumber={MoneyExchangeHeadCells.length + 2}
+                          model={translate('model.lowercase.moneyExchanges')}
                         />
                       ))}
                   </TableBody>
 
                   {isNotFound && (
-                    <SearchNotFound colNumber={ShipperPaymentHeadCells.length + 2} searchQuery={filterName} />
+                    <SearchNotFound colNumber={MoneyExchangeHeadCells.length + 2} searchQuery={filterName} />
                   )}
                 </Table>
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={shipperPayments.length}
+                count={moneyExchanges.length}
                 rowsPerPage={rowsPerPage}
                 labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
@@ -117,4 +109,4 @@ function ListShipperPaymentPage() {
   );
 }
 
-export default ListShipperPaymentPage;
+export default ListMoneyExchangePage;

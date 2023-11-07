@@ -25,11 +25,11 @@ function MoneyExchangeTableRow({ index, moneyExchange }: MoneyExchangeTableRowPr
           {index + 1}
         </TableCell>
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          {moneyExchange.sender}
+          {moneyExchange.senderName}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          {moneyExchange.receiver}
+          {moneyExchange.receiveName}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>

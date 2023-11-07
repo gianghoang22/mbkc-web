@@ -5,14 +5,12 @@ export interface ShipperPayment {
   paymentId: number;
   status: string;
   content: string;
-  orderId: string;
-  order: string;
   amount: number;
-  createdDate: string;
+  createDate: string;
   paymentMethod: string;
-  KCBankingAccountId: number;
-  KCBankingAccount: string;
-  createdBy: string;
+  orderId: number;
+  kcBankingAccountId: number;
+  kcBankingAccountName: string;
 }
 
 export interface _ShipperPayment {

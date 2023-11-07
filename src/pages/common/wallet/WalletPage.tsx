@@ -21,19 +21,27 @@ import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 //
 import { Label, Page } from 'components';
 import { useLocales } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color } from 'common/enum';
+import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { Color, Role } from 'common/enum';
+import { useAppSelector } from 'redux/configStore';
 
 function WalletPage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
+  const { userAuth } = useAppSelector((state) => state.auth);
 
   return (
     <>
       <Page
         pathname={pathname}
-        title={translate('page.title.wallet', { model: translate('model.lowercase.kitchenCenter') })}
-        navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
+        title={
+          userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+            ? translate('page.title.wallet', { model: translate('model.lowercase.kitchenCenter') })
+            : translate('page.title.wallet', { model: translate('model.lowercase.cashier') })
+        }
+        navigateDashboard={
+          userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER ? PATH_KITCHEN_CENTER_APP.root : PATH_CASHIER_APP.root
+        }
       >
         <Grid container columnSpacing={2} mb={3}>
           <Grid item xs={12} sm={5} md={5}>
@@ -131,7 +139,11 @@ function WalletPage() {
                     letterSpacing: '0.4px',
                     alignItems: 'center',
                   }}
-                  to={PATH_KITCHEN_CENTER_APP.wallet.moneyExchanges}
+                  to={
+                    userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                      ? PATH_KITCHEN_CENTER_APP.wallet.moneyExchanges
+                      : PATH_CASHIER_APP.wallet.moneyExchanges
+                  }
                 >
                   <Typography>{translate('page.content.viewAll')}</Typography>
                   <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
@@ -223,7 +235,11 @@ function WalletPage() {
                       letterSpacing: '0.4px',
                       alignItems: 'center',
                     }}
-                    to={PATH_KITCHEN_CENTER_APP.wallet.shipperPayments}
+                    to={
+                      userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                        ? PATH_KITCHEN_CENTER_APP.wallet.shipperPayments
+                        : PATH_CASHIER_APP.wallet.shipperPayments
+                    }
                   >
                     <Typography>{translate('page.content.viewAll')}</Typography>
                     <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />

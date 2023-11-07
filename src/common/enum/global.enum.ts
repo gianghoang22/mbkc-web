@@ -8,10 +8,17 @@ export enum Status {
 }
 
 export enum SystemStatus {
-  IN_STORE = 'In Store',
-  READY_DELIVERY = 'Ready Delivery',
+  IN_STORE = 'In store',
+  READY_DELIVERY = 'Ready delivery',
   COMPLETED = 'Completed',
   CANCELLED = 'Cancelled',
+}
+
+export enum SystemStatusToFilter {
+  IN_STORE = 'IN_STORE',
+  READY_DELIVERY = 'READY_DELIVERY',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum PartnerOrderStatus {
@@ -20,6 +27,14 @@ export enum PartnerOrderStatus {
   UPCOMING = 'Upcoming',
   COMPLETED = 'Completed',
   CANCELLED = 'Cancelled',
+}
+
+export enum PartnerOrderStatusToFilter {
+  PREPARING = 'PREPARING',
+  READY = 'READY',
+  UPCOMING = 'UPCOMING',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum Gender {

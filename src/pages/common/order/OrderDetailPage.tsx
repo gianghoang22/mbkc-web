@@ -36,7 +36,7 @@ import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSli
 import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enum';
 import { ConfirmDialog, EmptyTable, Helmet, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { OrderHistory, OrderStatusActions } from '@types';
 import { useAppSelector } from 'redux/configStore';
 import { formatCurrency } from 'utils';
@@ -100,12 +100,18 @@ function OrderDetailPage() {
               <Stack mb={4} direction="row" justifyContent="space-between">
                 <Stack>
                   <Stack direction="row" alignItems="center">
-                    <IconButton onClick={() => navigate(PATH_KITCHEN_CENTER_APP.order.list)}>
+                    <IconButton
+                      onClick={
+                        userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                          ? () => navigate(PATH_KITCHEN_CENTER_APP.order.list)
+                          : () => navigate(PATH_CASHIER_APP.order.list)
+                      }
+                    >
                       <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
                     </IconButton>
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <Typography variant="h4">
-                        {translate('model.capitalizeOne.order')} #{order?.orderPartnerId} | {order?.partner.name}
+                        {translate('model.capitalizeOne.order')} #{order?.orderPartnerId} | {order?.partner.name} |
                       </Typography>
                       <Label
                         color={
@@ -126,6 +132,7 @@ function OrderDetailPage() {
                           ? translate('status.completed')
                           : translate('status.cancelled')}
                       </Label>
+                      <Stack> - </Stack>
                       <Label
                         color={
                           order?.systemStatus === SystemStatus.COMPLETED
@@ -225,7 +232,7 @@ function OrderDetailPage() {
                             </Typography>
                           </Stack>
                           <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="subtitle1">{translate('page.content.finalTotalPrice')}</Typography>
+                            <Typography variant="subtitle2">{translate('page.content.finalTotalPrice')}</Typography>
                             <Typography width={100} variant="subtitle2">
                               {formatCurrency(order?.finalTotalPrice as number)}
                             </Typography>
@@ -244,10 +251,10 @@ function OrderDetailPage() {
                             <Typography variant="subtitle1">{translate('page.content.customer')}</Typography>
                             <Stack direction="row" alignItems="center" spacing={2} mt={2} mb={2}>
                               <Stack direction="row" spacing={1} mt={1} alignItems="center">
-                                <Typography color={(theme) => theme.palette.grey[500]}>
+                                <Typography variant="body2" color={(theme) => theme.palette.grey[500]}>
                                   {translate('table.name')}:
                                 </Typography>
-                                <Typography variant="body2">{order?.shipperName}</Typography>
+                                <Typography variant="body1">{order?.customerName}</Typography>
                               </Stack>
                             </Stack>
                           </Stack>
@@ -258,17 +265,17 @@ function OrderDetailPage() {
                               {translate('page.content.delivery')}
                             </Typography>
                             <Stack direction="row" spacing={1} mt={1} alignItems="center">
-                              <Typography color={(theme) => theme.palette.grey[500]}>
+                              <Typography variant="body2" color={(theme) => theme.palette.grey[500]}>
                                 {translate('page.content.shipperName')}:
                               </Typography>
-                              <Typography variant="body2">{order?.shipperName}</Typography>
+                              <Typography variant="body1">{order?.shipperName}</Typography>
                             </Stack>
 
                             <Stack direction="row" alignItems="center" spacing={1} mt={1} mb={2}>
-                              <Typography color={(theme) => theme.palette.grey[500]}>
+                              <Typography variant="body2" color={(theme) => theme.palette.grey[500]}>
                                 {translate('page.content.shipperPhone')}:
                               </Typography>
-                              <Typography variant="body2">{order?.shipperPhone}</Typography>
+                              <Typography variant="body1">{order?.shipperPhone}</Typography>
                             </Stack>
                           </Stack>
                           <Divider />
@@ -278,27 +285,29 @@ function OrderDetailPage() {
                               {translate('page.content.shipping')}
                             </Typography>
                             <Stack direction="row" spacing={1} mt={1}>
-                              <Typography sx={{ color: (theme) => theme.palette.grey[500] }} width={70}>
+                              <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }} width={70}>
                                 {translate('table.address')}:
                               </Typography>
-                              <Typography variant="body2">{order?.address}</Typography>
+                              <Typography variant="body1">{order?.address}</Typography>
                             </Stack>
 
                             <Stack direction="row" alignItems="center" spacing={1} mt={1} mb={2}>
-                              <Typography sx={{ color: (theme) => theme.palette.grey[500] }}>
+                              <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                                 {translate('model.capitalize.phone')}:
                               </Typography>
-                              <Typography variant="body2">{order?.customerPhone}</Typography>
+                              <Typography variant="body1">{order?.customerPhone}</Typography>
                             </Stack>
                           </Stack>
                           <Divider />
 
-                          <Typography variant="subtitle2" mt={2}>
+                          <Typography variant="subtitle1" mt={2}>
                             {translate('page.content.payment')}
                           </Typography>
                           <Stack rowGap={2} mt={1}>
                             <Stack direction="row" alignItems="center" justifyContent="space-between">
-                              <Typography>{translate('page.content.paidBy')}</Typography>
+                              <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                                {translate('page.content.paidBy')}
+                              </Typography>
                               <Label color={Color.INFO}>{order?.paymentMethod}</Label>
                             </Stack>
                           </Stack>
@@ -396,6 +405,11 @@ function OrderDetailPage() {
         }}
       >
         <MenuItem
+          disabled={
+            order?.systemStatus === SystemStatus.IN_STORE && order?.partnerOrderStatus === PartnerOrderStatus.READY
+              ? false
+              : true
+          }
           onClick={() => {
             setStatus(OrderStatusActions.READY_DELIVERY);
             handleOpenModalReadyDelivery(OrderStatusActions.READY_DELIVERY);
@@ -406,6 +420,12 @@ function OrderDetailPage() {
         </MenuItem>
 
         <MenuItem
+          disabled={
+            order?.systemStatus === SystemStatus.READY_DELIVERY &&
+            order?.partnerOrderStatus === PartnerOrderStatus.READY
+              ? false
+              : true
+          }
           onClick={() => {
             setStatus(OrderStatusActions.COMPLETED);
             handleOpenConfirmCompleted(OrderStatusActions.COMPLETED);

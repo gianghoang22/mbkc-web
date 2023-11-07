@@ -1,9 +1,12 @@
 export interface MoneyExchange {
-  moneyExchangeId: number;
+  exchangeId: number;
   amount: number;
   exchangeType: string;
   content: string;
   status: string;
-  sender: string;
-  receiver: string;
+  senderId: number;
+  senderName: string;
+  receiveId: number;
+  receiveName: string;
+  exchangeImage: string;
 }

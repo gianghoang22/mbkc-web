@@ -4,54 +4,47 @@ import { TableCell, TableRow } from '@mui/material';
 import { ShipperPayment } from '@types';
 import { Color, Status } from 'common/enum';
 import { Label } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useModal } from 'hooks';
+import ShipperPaymentDetailModal from './ShipperPaymentDetailModal';
 
 interface ShipperPaymentTableRowProps {
-  handleNavigateDetail: (shipperPayment: ShipperPayment, paymentId: number) => void;
   shipperPayment: ShipperPayment;
   index: number;
   page: number;
   rowsPerPage: number;
 }
 
-function ShipperPaymentTableRow({ index, shipperPayment, handleNavigateDetail }: ShipperPaymentTableRowProps) {
+function ShipperPaymentTableRow({ index, shipperPayment }: ShipperPaymentTableRowProps) {
   const { translate } = useLocales();
+  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
 
   return (
     <>
       <TableRow hover tabIndex={-1} key={shipperPayment.paymentId} sx={{ cursor: 'pointer' }}>
-        <TableCell
-          width={60}
-          align="center"
-          onClick={() => handleNavigateDetail(shipperPayment, shipperPayment.paymentId)}
-        >
+        <TableCell width={60} align="center" onClick={handleOpenModalDetail}>
           {index + 1}
         </TableCell>
-        <TableCell align="left" onClick={() => handleNavigateDetail(shipperPayment, shipperPayment.paymentId)}>
-          {shipperPayment.order}
+        <TableCell align="left" onClick={handleOpenModalDetail}>
+          {shipperPayment.orderId}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(shipperPayment, shipperPayment.paymentId)}>
-          {shipperPayment.createdDate}
+        <TableCell align="left" onClick={handleOpenModalDetail}>
+          {shipperPayment.createDate}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(shipperPayment, shipperPayment.paymentId)}>
-          {shipperPayment.createdBy}
-        </TableCell>
-
-        <TableCell align="left" onClick={() => handleNavigateDetail(shipperPayment, shipperPayment.paymentId)}>
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           {shipperPayment.amount}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(shipperPayment, shipperPayment.paymentId)}>
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           {shipperPayment.paymentMethod}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(shipperPayment, shipperPayment.paymentId)}>
-          {shipperPayment.KCBankingAccount}
+        <TableCell align="left" onClick={handleOpenModalDetail}>
+          {shipperPayment.kcBankingAccountName}
         </TableCell>
 
-        <TableCell align="left">
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           <Label
             color={
               shipperPayment?.status === Status.ACTIVE
@@ -69,6 +62,8 @@ function ShipperPaymentTableRow({ index, shipperPayment, handleNavigateDetail }:
           </Label>
         </TableCell>
       </TableRow>
+
+      {isOpenModalDetail && <ShipperPaymentDetailModal isOpen={isOpenModalDetail} handleOpen={handleOpenModalDetail} />}
     </>
   );
 }

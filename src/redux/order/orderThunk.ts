@@ -9,9 +9,12 @@ import { getOrderDetail } from './orderSlice';
 
 export const getAllOrdersThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
+  console.log(optionParams);
 
   try {
     const response: ListResponse<Order> = await axiosClient.get(ROUTES_API_ORDERS.GET_ALL_ORDERS(optionParams));
+    console.log(ROUTES_API_ORDERS.GET_ALL_ORDERS(optionParams));
+    console.log(response);
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
