@@ -5,11 +5,9 @@ export { default as ListCashierPage } from './cashier/ListCashierPage';
 export { default as CashierDetailPage } from './cashier/CashierDetailPage';
 //
 export { default as ListBankingAccountPage } from './bankingAccount/ListBankingAccountPage';
-export { default as CreateBankingAccount } from './bankingAccount/CreateBankingAccount';
 //
 export { default as ListMoneyExchangePage } from './wallet/ListMoneyExchangePage';
 export { default as ListShipperPaymentPage } from './wallet/ListShipperPaymentPage';
 export { default as WalletPage } from './wallet/WalletPage';
-
 //
 export { default as ListPaymentForStoresPage } from './paymentForStores/ListPaymentForStoresPage';

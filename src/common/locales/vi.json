@@ -66,6 +66,7 @@
     "showColumns": "Hiển thị cột",
     "editHours": "Chỉnh giờ"
   },
+  "gender": { "male": "Nam", "female": "Nữ" },
   "common": {
     "welcome": "Xin chào, Chào mừng trở lại",
     "welcomeMBKC": "Chào mừng đến với MBKC",

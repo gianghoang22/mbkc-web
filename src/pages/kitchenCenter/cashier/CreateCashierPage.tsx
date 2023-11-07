@@ -86,7 +86,6 @@ function CreateCashierPage() {
         },
         navigate,
       };
-      console.log(paramsCreate);
       dispatch<any>(createNewCashier(paramsCreate));
     }
   };
@@ -126,7 +125,7 @@ function CreateCashierPage() {
             <CashierForm />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
-            <Button variant="outlined" color="inherit" onClick={() => navigate(PATH_KITCHEN_CENTER_APP.cashier.list)}>
+            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
               {translate('button.back')}
             </Button>
             <Stack direction="row" gap={2}>

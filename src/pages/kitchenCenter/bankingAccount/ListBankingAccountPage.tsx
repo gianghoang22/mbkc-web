@@ -16,7 +16,6 @@ import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound }
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { CreateBankingAccountModal } from 'sections/bankingAccount';
-import { getComparator, stableSort } from 'utils';
 
 function ListBankingAccountPage() {
   const navigate = useNavigate();
@@ -49,12 +48,7 @@ function ListBankingAccountPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(bankingAccounts, getComparator(order, orderBy)),
-    [order, orderBy, bankingAccounts]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !bankingAccounts.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -120,10 +114,10 @@ function ListBankingAccountPage() {
                     selectedCol={selected}
                   />
                   {isLoading ? (
-                    <BankingAccountTableRowSkeleton length={visibleRows.length} selected={selected} />
+                    <BankingAccountTableRowSkeleton length={bankingAccounts.length} selected={selected} />
                   ) : (
                     <TableBody>
-                      {visibleRows.map((bankingAccount, index) => {
+                      {bankingAccounts.map((bankingAccount, index) => {
                         return (
                           <BankingAccountTableRow
                             key={bankingAccount.bankingAccountId}
@@ -132,6 +126,8 @@ function ListBankingAccountPage() {
                             rowsPerPage={rowsPerPage}
                             bankingAccount={bankingAccount}
                             selected={selected}
+                            filterName={filterName}
+                            sortBy={`${orderBy}_${order}`}
                           />
                         );
                       })}
@@ -164,7 +160,14 @@ function ListBankingAccountPage() {
         </Card>
       </Page>
       {isOpen && (
-        <CreateBankingAccountModal isOpen={isOpen} handleOpen={handleOpen} page={page} rowsPerPage={rowsPerPage} />
+        <CreateBankingAccountModal
+          isOpen={isOpen}
+          handleOpen={handleOpen}
+          page={page + 1}
+          rowsPerPage={rowsPerPage}
+          filterName={filterName}
+          sortBy={`${orderBy}_${order}`}
+        />
       )}
     </>
   );

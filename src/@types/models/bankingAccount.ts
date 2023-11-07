@@ -9,13 +9,13 @@ export interface BankingAccount {
 }
 
 export interface BankingAccountToCreate {
-  BankName: string;
-  NumberAccount: string;
-  BankLogo?: string;
+  bankName: string;
+  numberAccount: string;
+  bankLogo?: string;
 }
 
 export interface BankingAccountToUpdate {
-  BankName?: string;
-  BankLogo?: string;
-  Status: Status;
+  bankName?: string;
+  bankLogo?: string;
+  status: Status;
 }

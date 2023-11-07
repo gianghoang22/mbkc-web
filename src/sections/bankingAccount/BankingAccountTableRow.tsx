@@ -11,7 +11,7 @@ import {
 } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch } from 'redux/configStore';
 //
-import { BankingAccount, OrderSortBy } from '@types';
+import { BankingAccount, OrderSortBy, Params, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -25,9 +25,19 @@ interface BankingAccountTableRowProps {
   page: number;
   rowsPerPage: number;
   selected: readonly string[];
+  filterName: string;
+  sortBy: string;
 }
 
-function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage, selected }: BankingAccountTableRowProps) {
+function BankingAccountTableRow({
+  index,
+  bankingAccount,
+  page,
+  rowsPerPage,
+  selected,
+  filterName,
+  sortBy,
+}: BankingAccountTableRowProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -48,8 +58,10 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage, sele
       deleteBankingAccount({
         idParams: { bankingAccountId: bankingAccount?.bankingAccountId },
         optionParams: {
+          searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: page + 1,
+          currentPage: page,
+          sortBy: sortBy,
         },
         navigate,
       })
@@ -57,21 +69,26 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage, sele
   };
 
   const handleChangeStatus = () => {
-    const updateStatusParams = {
-      bankingAccountId: bankingAccount.bankingAccountId,
+    const paramUpdate: Params<ToUpdateStatus> = {
+      data: {
+        status: bankingAccount.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE,
+      },
+      idParams: { bankingAccountId: bankingAccount?.bankingAccountId },
+      optionParams: {
+        searchValue: filterName,
+        itemsPerPage: rowsPerPage,
+        currentPage: page,
+        sortBy: sortBy,
+      },
       navigate,
-      status: `${bankingAccount.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE}`,
-      page: page,
-      rowsPerPage: rowsPerPage,
     };
-
-    dispatch(updateStatusBankingAccount(updateStatusParams));
+    dispatch(updateStatusBankingAccount(paramUpdate));
   };
 
   return (
     <>
       <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer' }}>
-        <TableCell width={100} align="center">
+        <TableCell width={100} align="center" onClick={handleOpenModalDetail}>
           {index + 1}
         </TableCell>
         {selected.includes(OrderSortBy.LOGO_URL) && (
@@ -83,7 +100,7 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage, sele
           component="th"
           scope="row"
           onClick={handleOpenModalDetail}
-          width={!selected.includes(OrderSortBy.LOGO_URL) ? 400 : 300}
+          width={!selected.includes(OrderSortBy.LOGO_URL) ? 450 : 400}
         >
           <Typography variant="subtitle2" noWrap>
             {bankingAccount.name}
@@ -133,6 +150,8 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage, sele
           isOpen={isOpenModalDetail}
           handleOpen={handleOpenModalDetail}
           bankingAccount={bankingAccount}
+          filterName={filterName}
+          sortBy={sortBy}
         />
       )}
 
@@ -142,6 +161,8 @@ function BankingAccountTableRow({ index, bankingAccount, page, rowsPerPage, sele
           rowsPerPage={rowsPerPage}
           isOpen={isOpenCreate}
           handleOpen={handleOpenCreate}
+          filterName={filterName}
+          sortBy={sortBy}
         />
       )}
 

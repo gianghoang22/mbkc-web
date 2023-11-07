@@ -65,13 +65,13 @@ function StoreTableRow({
 
   const [statusConfirm, setStatusConfirm] = useState<Status>(Status.ACTIVE);
 
-  const handleNavigateDetail = (storeId: number) => {
+  const handleNavigateDetail = () => {
     navigate(
       userAuth?.roleName === Role.BRAND_MANAGER
-        ? PATH_BRAND_APP.store.root + `/${storeId}`
+        ? PATH_BRAND_APP.store.root + `/${store.storeId}`
         : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-        ? PATH_KITCHEN_CENTER_APP.store.root + `/${storeId}`
-        : PATH_ADMIN_APP.store.root + `/${storeId}`
+        ? PATH_KITCHEN_CENTER_APP.store.root + `/${store.storeId}`
+        : PATH_ADMIN_APP.store.root + `/${store.storeId}`
     );
     dispatch(setRoutesToBack(pathname));
   };
@@ -123,39 +123,33 @@ function StoreTableRow({
   return (
     <>
       <TableRow hover tabIndex={-1} sx={{ cursor: 'pointer', height: '72.89px' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(store.storeId)}>
+        <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
         {selected.includes(OrderSortBy.LOGO) && (
-          <TableCell
-            component="th"
-            scope="row"
-            padding="none"
-            width={70}
-            onClick={() => handleNavigateDetail(store.storeId)}
-          >
+          <TableCell component="th" scope="row" padding="none" width={70} onClick={handleNavigateDetail}>
             <Avatar alt={store.name} src={store.logo} />
           </TableCell>
         )}
-        <TableCell width={rules.name} align="left" padding="none" onClick={() => handleNavigateDetail(store.storeId)}>
+        <TableCell width={rules.name} align="left" padding="none" onClick={handleNavigateDetail}>
           {store.name}
         </TableCell>
         {selected.includes(OrderSortBy.STORE_MANAGER_EMAIL) && (
-          <TableCell width={rules.store_manager_email} align="left" onClick={() => handleNavigateDetail(store.storeId)}>
+          <TableCell width={rules.store_manager_email} align="left" onClick={handleNavigateDetail}>
             {store.storeManagerEmail}
           </TableCell>
         )}
         {selected.includes(OrderSortBy.KITCHEN_CENTER) && (
-          <TableCell width={rules.kitchen_center} align="left" onClick={() => handleNavigateDetail(store.storeId)}>
+          <TableCell width={rules.kitchen_center} align="left" onClick={handleNavigateDetail}>
             {store.kitchenCenter.name}
           </TableCell>
         )}
         {selected.includes(OrderSortBy.BRAND) && (
-          <TableCell width={rules.brand} align="left" onClick={() => handleNavigateDetail(store.storeId)}>
+          <TableCell width={rules.brand} align="left" onClick={handleNavigateDetail}>
             {store.brand.name}
           </TableCell>
         )}
-        <TableCell align="left">
+        <TableCell align="left" onClick={handleNavigateDetail}>
           <Label
             color={
               store?.status === Status.ACTIVE

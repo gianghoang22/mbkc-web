@@ -1,4 +1,13 @@
-import { Cashier, CashierToCreate, CashierToUpdate, ListParams, ListResponse, MessageResponse, Params } from '@types';
+import {
+  Cashier,
+  CashierToCreate,
+  CashierToUpdate,
+  ListParams,
+  ListResponse,
+  MessageResponse,
+  Params,
+  ToUpdateStatus,
+} from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 
 import { ROUTES_API_CASHIERS } from 'constants/routesApiKeys';
@@ -81,22 +90,19 @@ export const updateCashierThunk = async (params: Params<CashierToUpdate>, thunkA
   }
 };
 
-export const deleteCashierThunk = async (params: any, thunkAPI: any) => {
-  const { cashierId, navigate, page, rowsPerPage } = params;
-
-  const options = {
-    itemsPerPage: rowsPerPage,
-    currentPage: page,
-  };
-
-  const paramsCallback: ListParams = {
-    optionParams: options,
-    navigate,
-  };
+export const updateCashierStatusThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
+  const { data, idParams, optionParams, navigate } = params;
 
   try {
-    const response: MessageResponse = await axiosClient.delete(ROUTES_API_CASHIERS.DELETE_CASHIER(cashierId));
+    const response: MessageResponse = await axiosClient.put(
+      ROUTES_API_CASHIERS.UPDATE_CASHIER_STATUS(idParams?.cashierId ? idParams?.cashierId : 0),
+      data
+    );
     if (response) {
+      const paramsCallback: ListParams = {
+        optionParams: optionParams ? optionParams : {},
+        navigate,
+      };
       await thunkAPI.dispatch(getAllCashiers(paramsCallback));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
@@ -110,25 +116,23 @@ export const deleteCashierThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const updateCashierStatusThunk = async (params: any, thunkAPI: any) => {
-  const { cashierId, navigate, status, page, rowsPerPage } = params;
-
-  const options = {
-    itemsPerPage: rowsPerPage,
-    currentPage: page,
-  };
-
-  const paramsCallback: ListParams = {
-    optionParams: options,
-    navigate,
-  };
+export const deleteCashierThunk = async (params: Params<Cashier>, thunkAPI: any) => {
+  const { idParams, optionParams, pathname, navigate } = params;
 
   try {
-    const response: MessageResponse = await axiosClient.put(ROUTES_API_CASHIERS.UPDATE_CASHIER_STATUS(cashierId), {
-      status: status,
-    });
+    const response: MessageResponse = await axiosClient.delete(
+      ROUTES_API_CASHIERS.DELETE_CASHIER(idParams?.cashierId ? idParams?.cashierId : 0)
+    );
     if (response) {
-      await thunkAPI.dispatch(getAllCashiers(paramsCallback));
+      if (pathname === PATH_KITCHEN_CENTER_APP.cashier.list) {
+        const paramsCallback: ListParams = {
+          optionParams: optionParams ? optionParams : {},
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllCashiers(paramsCallback));
+      } else {
+        navigate(PATH_KITCHEN_CENTER_APP.cashier.list);
+      }
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

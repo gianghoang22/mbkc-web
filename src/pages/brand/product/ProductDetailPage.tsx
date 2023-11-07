@@ -33,7 +33,7 @@ import { ProductDetailPageSkeleton, ProductTableRow } from 'sections/product';
 //
 import { PATH_BRAND_APP } from 'routes/paths';
 import { fCurrencyVN, getComparator, stableSort } from 'utils';
-import { OrderSort, PartnerProductStatusEnum, ProductTable, ProductTypeEnum } from '@types';
+import { OrderSort, OrderSortBy, PartnerProductStatusEnum, ProductTable, ProductTypeEnum } from '@types';
 import { Color, Language, PopoverType, Role, Status } from 'common/enum';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
 import { CommonTableHead, ConfirmDialog, ContentLabel, ContentSpace, EmptyTable, Page, Popover } from 'components';
@@ -69,7 +69,7 @@ function ProductDetailPage() {
   const { isLoading, isProduct, product } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ProductTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof ProductTable>(OrderSortBy.NAME);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
     const isAsc = orderBy === property && order === 'asc';

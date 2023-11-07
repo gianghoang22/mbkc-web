@@ -422,7 +422,7 @@ function useValidationForm() {
   });
 
   const schemaBankingAccount = yup.object({
-    BankName: yup
+    bankName: yup
       .string()
       .required(
         translate('page.validation.required', {
@@ -441,7 +441,7 @@ function useValidationForm() {
         })
       )
       .max(100, translate('page.validation.max100')),
-    NumberAccount: yup
+    numberAccount: yup
       .string()
       .required(translate('page.validation.required', { name: translate('model.lowercase.numberAccount') }))
       .min(10, translate('page.validation.minNumber10', { name: translate('model.capitalizeOne.numberAccount') }))

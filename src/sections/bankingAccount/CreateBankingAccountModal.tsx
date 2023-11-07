@@ -6,23 +6,33 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { createNewBankingAccount, updateBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 //
 import { BankingAccountToCreate, BankingAccountToUpdate, Params } from '@types';
 import { Color, Language, Status } from 'common/enum';
 import { InputField, InputNumber, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { createNewBankingAccount, updateBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 
 interface CreateBankingAccountModalProps {
   page: number;
   rowsPerPage: number;
   isOpen: boolean;
-  handleOpen: (title: any) => void;
+  handleOpen: () => void;
+  filterName: string;
+  sortBy: string;
 }
 
-function CreateBankingAccountModal({ page, rowsPerPage, isOpen, handleOpen }: CreateBankingAccountModalProps) {
+function CreateBankingAccountModal({
+  page = 1,
+  rowsPerPage,
+  isOpen,
+  handleOpen,
+  filterName,
+  sortBy,
+}: CreateBankingAccountModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate, currentLang } = useLocales();
   const { schemaBankingAccount } = useValidationForm();
 
@@ -30,9 +40,9 @@ function CreateBankingAccountModal({ page, rowsPerPage, isOpen, handleOpen }: Cr
 
   const createBankingAccountForm = useForm<BankingAccountToCreate>({
     defaultValues: {
-      BankName: isEditing && bankingAccount ? bankingAccount.name : '',
-      BankLogo: isEditing && bankingAccount ? bankingAccount.logoUrl : '',
-      NumberAccount: isEditing && bankingAccount ? bankingAccount.numberAccount : '',
+      bankName: isEditing && bankingAccount ? bankingAccount.name : '',
+      bankLogo: isEditing && bankingAccount ? bankingAccount.logoUrl : '',
+      numberAccount: isEditing && bankingAccount ? bankingAccount.numberAccount : '',
     },
     resolver: yupResolver(schemaBankingAccount),
   });
@@ -42,35 +52,39 @@ function CreateBankingAccountModal({ page, rowsPerPage, isOpen, handleOpen }: Cr
   const onSubmit = async (values: BankingAccountToCreate) => {
     const data = { ...values };
 
+    handleOpen();
+
     if (isEditing) {
       const paramUpdate: Params<BankingAccountToUpdate> = {
         data: {
-          BankName: data.BankName,
-          BankLogo: data.BankLogo,
-          Status: Status.ACTIVE,
+          bankName: data.bankName,
+          bankLogo: data.bankLogo,
+          status: Status.ACTIVE,
         },
         optionParams: {
-          currentPage: page + 1,
+          searchValue: filterName,
+          currentPage: page,
           itemsPerPage: rowsPerPage,
+          sortBy: sortBy,
         },
         idParams: {
           bankingAccountId: bankingAccount?.bankingAccountId,
         },
         navigate,
       };
-      console.log(data);
       dispatch(updateBankingAccount(paramUpdate));
     } else {
       const paramCreate: Params<BankingAccountToCreate> = {
         data: data,
         optionParams: {
-          currentPage: page + 1,
+          searchValue: filterName,
+          currentPage: page,
           itemsPerPage: rowsPerPage,
+          sortBy: sortBy,
         },
         navigate,
       };
       dispatch(createNewBankingAccount(paramCreate));
-      handleOpen('create banking account');
     }
   };
 
@@ -100,7 +114,7 @@ function CreateBankingAccountModal({ page, rowsPerPage, isOpen, handleOpen }: Cr
                   label={translate('page.content.dragDrop')}
                   subLabel={translate('page.content.imageAllowed')}
                   margin="auto"
-                  name="BankLogo"
+                  name="bankLogo"
                   defaultValue=""
                   isEditing={isEditing}
                 />
@@ -108,7 +122,7 @@ function CreateBankingAccountModal({ page, rowsPerPage, isOpen, handleOpen }: Cr
                 <Stack width="100%" gap={2}>
                   <InputField
                     fullWidth
-                    name="BankName"
+                    name="bankName"
                     label={translate(
                       'page.form.nameExchange',
                       currentLang.value === Language.ENGLISH
@@ -122,7 +136,12 @@ function CreateBankingAccountModal({ page, rowsPerPage, isOpen, handleOpen }: Cr
                           }
                     )}
                   />
-                  <InputNumber fullWidth name="NumberAccount" label={translate('page.form.numberAccount')} />
+                  <InputNumber
+                    fullWidth
+                    name="numberAccount"
+                    disabled={isEditing}
+                    label={translate('page.form.numberAccount')}
+                  />
                 </Stack>
               </Stack>
             </DialogContent>
@@ -134,9 +153,9 @@ function CreateBankingAccountModal({ page, rowsPerPage, isOpen, handleOpen }: Cr
                   color="inherit"
                   onClick={() => {
                     reset({
-                      BankName: bankingAccount?.name,
-                      BankLogo: bankingAccount?.logoUrl,
-                      NumberAccount: bankingAccount?.numberAccount,
+                      bankName: bankingAccount?.name,
+                      bankLogo: bankingAccount?.logoUrl,
+                      numberAccount: bankingAccount?.numberAccount,
                     });
                   }}
                 >
