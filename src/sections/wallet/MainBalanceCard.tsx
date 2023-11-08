@@ -9,7 +9,7 @@ import { Label } from 'components';
 
 function MainBalanceCard() {
   return (
-    <Card>
+    <Card sx={{ p: 1, boxShadow: 'none', border: 1, borderColor: (theme) => theme.palette.grey[400] }}>
       <Box padding={2} paddingLeft={3} paddingRight={3}>
         <Stack direction="row" justifyContent="space-between">
           <Stack>
