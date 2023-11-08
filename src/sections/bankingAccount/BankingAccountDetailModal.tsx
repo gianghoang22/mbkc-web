@@ -20,7 +20,7 @@ import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccoun
 import CreateBankingAccountModal from './CreateBankingAccountModal';
 //
 import { BankingAccount } from '@types';
-import { Color, Language, Status } from 'common/enum';
+import { Color, Language, Status } from 'enums';
 import { ConfirmDialog, ContentLabel, Popover } from 'components';
 import { useLocales, useModal, usePagination, usePopover } from 'hooks';
 

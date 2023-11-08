@@ -8,7 +8,7 @@ import {
   timelineItemClasses,
 } from '@mui/lab';
 import { Typography, Stack } from '@mui/material';
-import { Color } from 'common/enum';
+import { Color } from 'enums';
 
 export default function OrderTimeline() {
   return (

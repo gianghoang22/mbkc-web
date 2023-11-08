@@ -10,7 +10,7 @@ import { createNewCashier, getCashierDetail, updateCashier } from 'redux/cashier
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { CashierToCreate, CashierToUpdate, Params } from '@types';
-import { Color, Gender, Status } from 'common/enum';
+import { Color, Gender, Status } from 'enums';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

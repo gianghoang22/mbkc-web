@@ -12,7 +12,7 @@ import CreatePartnerModal from './CreatePartnerModal';
 import PartnerDetailModal from './PartnerDetailModal';
 //
 import { OrderSortBy, Params, Partner, ToUpdateStatus } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';

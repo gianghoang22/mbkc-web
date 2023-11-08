@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { updatePartner } from 'redux/partner/partnerSlice';
 //
 import { Params, PartnerToCreate, PartnerToUpdate } from '@types';
-import { Color, Language, Status } from 'common/enum';
+import { Color, Language, Status } from 'enums';
 import { InputField, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 

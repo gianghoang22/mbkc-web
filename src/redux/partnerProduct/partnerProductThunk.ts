@@ -8,7 +8,7 @@ import {
   PartnerProductToUpdate,
   ToUpdateStatus,
 } from '@types';
-import { axiosClient } from 'api/axiosClient';
+import { axiosClient } from 'axiosClient/axiosClient';
 import { ROUTES_API_PARTNER_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';

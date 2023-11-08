@@ -8,7 +8,7 @@ import {
   UserAuth,
   UserInfo,
 } from '@types';
-import { Error } from 'common/enum';
+import { Error } from 'enums';
 import { StorageKeys } from 'constants/storageKeys';
 import Cookie from 'js-cookie';
 import { PATH_ERROR } from 'routes/paths';

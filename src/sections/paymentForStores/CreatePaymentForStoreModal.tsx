@@ -8,7 +8,7 @@ import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typogr
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { ListParams, Params, PaymentForStoresToCreate } from '@types';
-import { Color } from 'common/enum';
+import { Color } from 'enums';
 import { AutoCompleteField, InputNumber, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { createPaymentForStore } from 'redux/wallet/walletSlice';

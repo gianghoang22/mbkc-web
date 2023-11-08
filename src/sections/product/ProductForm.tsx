@@ -14,7 +14,7 @@ import {
   ProductToCreate,
   ProductTypeEnum,
 } from '@types';
-import { Language } from 'common/enum';
+import { Language } from 'enums';
 import { AutoCompleteField, InputField, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 

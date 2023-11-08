@@ -16,7 +16,7 @@ import { ProductTableTab } from 'sections/product';
 //
 import { CategoryType } from '@types';
 import images from 'assets';
-import { Breadcrumb, Color, Language, PopoverType, Status } from 'common/enum';
+import { Breadcrumb, Color, Language, PopoverType, Status } from 'enums';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

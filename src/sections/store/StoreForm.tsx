@@ -4,7 +4,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 // redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { Language } from 'common/enum';
+import { Language } from 'enums';
 import { AutoCompleteField, InputField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 

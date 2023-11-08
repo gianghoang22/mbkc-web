@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { Order, OrderSortBy } from '@types';
-import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enum';
+import { Color, PartnerOrderStatus, Role, SystemStatus } from 'enums';
 import { Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';

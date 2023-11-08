@@ -1,6 +1,6 @@
 import { CompletedOrderParams, ListParams, ListResponse, MessageResponse, Order, Params, UserAuth } from '@types';
-import { axiosClient, axiosFormData } from 'api/axiosClient';
-import { Role } from 'common/enum';
+import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
+import { Role } from 'enums';
 import { ROUTES_API_ORDERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';

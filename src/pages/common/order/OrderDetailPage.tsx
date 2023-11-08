@@ -34,7 +34,7 @@ import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSli
 import { useAppSelector, useAppDispatch } from 'redux/configStore';
 //
 import { OrderHistory, OrderStatusActions } from '@types';
-import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enum';
+import { Color, PartnerOrderStatus, Role, SystemStatus } from 'enums';
 import { ConfirmDialog, EmptyTable, Helmet, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';

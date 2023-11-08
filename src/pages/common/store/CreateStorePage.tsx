@@ -11,7 +11,7 @@ import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { createNewStore, getStoreDetail, updateStore } from 'redux/store/storeSlice';
 //
 import { ListParams, Params, StoreToCreate, StoreToUpdate } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

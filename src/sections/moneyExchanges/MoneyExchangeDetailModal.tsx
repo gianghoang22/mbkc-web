@@ -3,7 +3,7 @@ import { Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography, Bu
 // @mui icon
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 //
-import { Color, Language } from 'common/enum';
+import { Color, Language } from 'enums';
 import { Label } from 'components';
 import { useLocales } from 'hooks';
 import { useState } from 'react';

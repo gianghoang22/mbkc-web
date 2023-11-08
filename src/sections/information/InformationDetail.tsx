@@ -7,7 +7,7 @@ import { setEditProfile } from 'redux/profile/profileSlice';
 // section
 import UpdateInformationModal from './UpdateInformationModal';
 //
-import { Color, Role, Status } from 'common/enum';
+import { Color, Role, Status } from 'enums';
 import { Label } from 'components';
 import { useLocales, useModal } from 'hooks';
 

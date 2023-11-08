@@ -1,5 +1,5 @@
 import { District, ListResponseAddress, Province, Ward } from '@types';
-import { axiosServiceAddress } from 'api/axiosClient';
+import { axiosServiceAddress } from 'axiosClient/axiosClient';
 import { ROUTES_API_ADDRESS } from 'constants/routesApiKeys';
 import { NavigateFunction } from 'react-router-dom';
 import { setMessageError } from 'redux/auth/authSlice';

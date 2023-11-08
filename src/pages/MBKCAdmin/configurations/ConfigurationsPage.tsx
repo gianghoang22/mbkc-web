@@ -19,7 +19,7 @@ import {
 } from 'sections/configurations';
 //
 import { Configuration, ConfigurationToUpdate, Params } from '@types';
-import { Color } from 'common/enum';
+import { Color } from 'enums';
 import { CollapseCard, LoadingScreen, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

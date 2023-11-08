@@ -9,7 +9,7 @@ import { useAppDispatch } from 'redux/configStore';
 import { confirmRegistrationStore } from 'redux/store/storeSlice';
 //
 import { OptionSelect, Store, StoreToConfirm } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { InputField } from 'components';
 import { useLocales } from 'hooks';
 

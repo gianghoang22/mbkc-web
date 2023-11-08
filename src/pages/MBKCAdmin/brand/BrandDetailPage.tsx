@@ -27,7 +27,7 @@ import { BrandDetailPageSkeleton } from 'sections/brand';
 import { StoreTableRow, StoreTableRowSkeleton } from 'sections/store';
 //
 import { ListParams, OptionSelect, OrderSort, OrderSortBy, STATUS_OPTIONS, StoreTable } from '@types';
-import { Color, Language, PopoverType, Status } from 'common/enum';
+import { Color, Language, PopoverType, Status } from 'enums';
 import {
   ConfirmDialog,
   CustomTableHead,
