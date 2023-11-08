@@ -22,7 +22,7 @@ interface StorePartnerState {
   listStorePartners: StorePartnerDetail[];
   storePartners: StorePartner | null;
   storePartner: StorePartnerDetail | null;
-  totalPage: number;
+  totalPages: number;
   numberItems: number;
 }
 
@@ -43,7 +43,7 @@ const initialState: StorePartnerState = {
   storePartner: null,
   store: null,
   storeId: getStoreIdlInStorage,
-  totalPage: 0,
+  totalPages: 0,
   numberItems: 5,
 };
 

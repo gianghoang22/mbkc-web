@@ -135,7 +135,7 @@ function ListPartnerProductPage() {
                           <PartnerProductTableRow
                             key={partnerProduct.productId}
                             setPage={setPage}
-                            page={page + 1}
+                            page={page}
                             rowsPerPage={rowsPerPage}
                             length={partnerProducts.length}
                             index={index}

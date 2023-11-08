@@ -120,6 +120,7 @@ export const EngErrorMessageConstant = {
   CashierIdNotBelogToCashier: 'Cashier id is not suitable with your account.',
   StatusIsRequiredWithKitchenCenterManager: 'Status is not null',
   StatusIsNotRequiredWithCashier: 'Cashier does not allow to update Status property.',
+  AgeOfCashierFrom18to55: "Cashier's age is required from 18 to 55 years old.",
 
   InactiveStore_Create: 'This store has been inactive or disabled.',
   StoreNotBelongToBrand: 'Store does not belong to brand.',

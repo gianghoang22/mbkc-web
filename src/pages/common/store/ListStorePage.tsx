@@ -18,8 +18,6 @@ import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound }
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 
-// ----------------------------------------------------------------------
-
 function ListStorePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -202,7 +200,7 @@ function ListStorePage() {
                             store={store}
                             status={storeStatus}
                             setPage={setPage}
-                            page={page + 1}
+                            page={page}
                             rowsPerPage={rowsPerPage}
                             length={stores.length}
                             selected={selected}

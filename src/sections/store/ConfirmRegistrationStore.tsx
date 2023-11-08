@@ -79,7 +79,7 @@ function ConfirmRegistrationStore({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: page,
+          currentPage: page + 1,
           status: statusFilter ? statusFilter?.value : '',
           sortBy: sortBy,
         },

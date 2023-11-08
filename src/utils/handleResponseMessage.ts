@@ -352,6 +352,8 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.ProductCodeInPartnerNotExist
         : response === EngErrorMessageConstant.PriceGreaterThan0
         ? EngErrorMessageConstant.PriceGreaterThan0
+        : response === EngErrorMessageConstant.AgeOfCashierFrom18to55
+        ? EngErrorMessageConstant.AgeOfCashierFrom18to55
         : response
       : currentLanguage === Language.VIETNAMESE
       ? response === EngMessageConstant.LoginSuccessfully
@@ -696,6 +698,8 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.ProductCodeInPartnerNotExist
         : response === EngErrorMessageConstant.PriceGreaterThan0
         ? VieErrorMessageConstant.PriceGreaterThan0
+        : response === EngErrorMessageConstant.AgeOfCashierFrom18to55
+        ? VieErrorMessageConstant.AgeOfCashierFrom18to55
         : response
       : response;
 

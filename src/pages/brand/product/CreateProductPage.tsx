@@ -21,7 +21,7 @@ import {
 } from '@types';
 import { Color } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
-import { useLocales, usePagination, useValidationForm } from 'hooks';
+import { useLocales, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductForm } from 'sections/product';
 
@@ -32,7 +32,6 @@ function CreateProductPage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { schemaProduct } = useValidationForm();
-  const { page, rowsPerPage } = usePagination();
 
   const { categories } = useAppSelector((state) => state.category);
   const { productParent, productsParent, isLoading } = useAppSelector((state) => state.product);
@@ -240,10 +239,6 @@ function CreateProductPage() {
         sellingPrice: type === ProductTypeEnum.PARENT ? '' : data.sellingPrice,
         discountPrice: type === ProductTypeEnum.PARENT ? '' : data.discountPrice,
         categoryId: type === ProductTypeEnum.CHILD ? '' : data.categoryId,
-      },
-      optionParams: {
-        currentPage: page + 1,
-        itemsPerPage: rowsPerPage,
       },
       navigate,
     };

@@ -18,7 +18,7 @@ interface PartnerProductState {
   isSuccess: boolean;
   partnerProducts: PartnerProduct[];
   partnerProduct: PartnerProduct | null;
-  totalPage: number;
+  totalPages: number;
   numberItems: number;
 }
 
@@ -34,7 +34,7 @@ const initialState: PartnerProductState = {
   isSuccess: false,
   partnerProducts: [],
   partnerProduct: getPartnerProductInStorage,
-  totalPage: 0,
+  totalPages: 0,
   numberItems: 5,
 };
 
@@ -104,7 +104,7 @@ const partnerProductSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.partnerProducts = [...action.payload?.partnerProducts];
-        state.totalPage = action.payload?.totalPage;
+        state.totalPages = action.payload?.totalPages;
         state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllPartnerProducts.rejected, (state) => {

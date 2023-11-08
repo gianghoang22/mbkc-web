@@ -29,7 +29,7 @@ function ListProductPage() {
   const { products, isLoading, numberItems } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ProductTable>(OrderSortBy.NAME);
+  const [orderBy, setOrderBy] = useState<keyof ProductTable>(OrderSortBy.DISPLAY_ORDER);
   const [filterName, setFilterName] = useState<string>('');
   const [productType, setProductType] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
@@ -137,7 +137,7 @@ function ListProductPage() {
                           <ProductTableRow
                             key={product.productId}
                             setPage={setPage}
-                            page={page + 1}
+                            page={page}
                             rowsPerPage={rowsPerPage}
                             length={products.length}
                             index={index}

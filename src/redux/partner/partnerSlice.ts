@@ -17,7 +17,7 @@ interface PartnerState {
   isSuccess: boolean;
   partners: Partner[];
   partner: Partner | null;
-  totalPage: number;
+  totalPages: number;
   numberItems: number;
 }
 
@@ -32,7 +32,7 @@ const initialState: PartnerState = {
   isSuccess: false,
   partners: [],
   partner: null,
-  totalPage: 0,
+  totalPages: 0,
   numberItems: 5,
 };
 
@@ -69,7 +69,7 @@ const partnerSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.partners = [...action.payload?.partners];
-        state.totalPage = action.payload?.totalPage;
+        state.totalPages = action.payload?.totalPages;
         state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllPartners.rejected, (state, action) => {

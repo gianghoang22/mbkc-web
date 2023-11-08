@@ -72,6 +72,8 @@ function UpdateProductPage() {
   const parentProductId = watch('parentProductId');
   const categoryId = watch('categoryId');
 
+  console.log('size', size);
+
   // const params = useMemo(() => {
   //   return {
   //     productId: parentProductId,
@@ -152,7 +154,7 @@ function UpdateProductPage() {
       discountPrice: product?.discountPrice,
       displayOrder: product?.displayOrder,
       image: product?.image,
-      size: product?.size ? product?.size : '',
+      size: product?.size !== null ? product?.size : ProductSizeEnum.LARGE,
       type: product?.type,
       parentProductId: Number(product?.parentProductId),
       categoryId: product?.categoryId,
@@ -215,7 +217,7 @@ function UpdateProductPage() {
           discountPrice: 0,
           displayOrder: product?.displayOrder,
           image: product?.image,
-          size: ProductSizeEnum.LARGE,
+          size: ProductSizeEnum.SMALL,
           type: ProductTypeEnum.PARENT,
           parentProductId: 0,
           categoryId: product?.categoryId,

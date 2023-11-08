@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { IconButton, MenuItem, Stack, TableCell, TableRow, TextField, Typography } from '@mui/material';
@@ -27,8 +27,10 @@ import {
   ToUpdateStatus,
 } from '@types';
 import { ConfirmDialog, Popover } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
+import { setLocalStorage } from 'utils';
 
 interface PartnerProductTableRowProps {
   partnerProduct: PartnerProduct;
@@ -38,7 +40,7 @@ interface PartnerProductTableRowProps {
   filterName?: string;
   sortBy?: string;
   length: number;
-  setPage?: any;
+  setPage?: Dispatch<SetStateAction<number>>;
   selected: readonly string[];
 }
 
@@ -79,8 +81,10 @@ function PartnerProductTableRow({
 
   const handleDelete = () => {
     handleOpen();
-    if (length === 1) {
-      setPage(0);
+    const newPage = length === 1 ? page - 1 : page;
+    if (setPage && length === 1) {
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
     }
     dispatch(
       deletePartnerProduct({
@@ -92,7 +96,7 @@ function PartnerProductTableRow({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: page,
+          currentPage: page + 1,
           sortBy: sortBy,
         },
         pathname: pathname,
@@ -114,7 +118,7 @@ function PartnerProductTableRow({
       optionParams: {
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
-        currentPage: page,
+        currentPage: page + 1,
         sortBy: sortBy,
       },
       pathname: pathname,

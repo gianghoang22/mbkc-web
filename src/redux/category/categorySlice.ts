@@ -21,7 +21,7 @@ interface CategoryState {
   categories: Category[];
   categoriesExtra: Category[];
   category: Category | null;
-  totalPage: number;
+  totalPages: number;
   numberItems: number;
 }
 
@@ -39,7 +39,7 @@ const initialState: CategoryState = {
   categories: [],
   categoriesExtra: [],
   category: null,
-  totalPage: 0,
+  totalPages: 0,
   numberItems: 5,
 };
 
@@ -111,7 +111,7 @@ const categorySlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.categories = [...action.payload.categories];
-        state.totalPage = action.payload?.totalPage;
+        state.totalPages = action.payload?.totalPages;
         state.numberItems = action.payload?.totalItems;
       })
       .addCase(getAllCategories.rejected, (state, action) => {
@@ -127,7 +127,7 @@ const categorySlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.categoriesExtra = [...action.payload.categories];
-        state.totalPage = action.payload?.totalPage;
+        state.totalPages = action.payload?.totalPages;
         state.numberItems = action.payload?.totalItems;
       })
       .addCase(getAllExtraCategoriesInCategory.rejected, (state, action) => {

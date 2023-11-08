@@ -122,6 +122,7 @@ export const VieErrorMessageConstant = {
   CashierIdNotBelogToCashier: 'Id nhân viên thu ngân không phù hợp với tài khoản của bạn.',
   StatusIsRequiredWithKitchenCenterManager: 'Trạng thái không rỗng',
   StatusIsNotRequiredWithCashier: 'Nhân viên thu ngân không cho phép cập nhật thuộc tính Trạng thái.',
+  AgeOfCashierFrom18to55: 'Yêu cầu độ tuổi của nhân viên thu ngân từ 18 đến 55 tuổi.',
 
   InactiveStore_Create: 'Cửa hàng này đã không hoạt động hoặc bị vô hiệu hóa.',
   StoreNotBelongToBrand: 'Cửa hàng không thuộc về thương hiệu.',

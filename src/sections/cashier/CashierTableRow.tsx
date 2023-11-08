@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
@@ -13,18 +14,32 @@ import { Color, Gender, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { setLocalStorage } from 'utils';
+import { StorageKeys } from 'constants/storageKeys';
 
 interface CashierTableRowProps {
   index: number;
+  length: number;
   cashier: Cashier;
   page: number;
   rowsPerPage: number;
+  setPage?: Dispatch<SetStateAction<number>>;
   selected: readonly string[];
   filterName: string;
   sortBy: string;
 }
 
-function CashierTableRow({ cashier, index, page, rowsPerPage, selected, filterName, sortBy }: CashierTableRowProps) {
+function CashierTableRow({
+  cashier,
+  index,
+  page,
+  rowsPerPage,
+  selected,
+  filterName,
+  sortBy,
+  setPage,
+  length,
+}: CashierTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -46,12 +61,17 @@ function CashierTableRow({ cashier, index, page, rowsPerPage, selected, filterNa
 
   const handleDelete = () => {
     handleOpen();
+    const newPage = length === 1 ? page - 1 : page;
+    if (setPage && length === 1) {
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
+    }
     const params: Params<Cashier> = {
       idParams: { cashierId: cashier.accountId },
       optionParams: {
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
+        currentPage: newPage + 1,
         sortBy: sortBy,
       },
       pathname,

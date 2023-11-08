@@ -123,9 +123,11 @@ function ListCashierPage() {
                             cashier={cashier}
                             page={page}
                             rowsPerPage={rowsPerPage}
+                            setPage={setPage}
                             selected={selected}
                             filterName={filterName}
                             sortBy={`${orderBy}_${order}`}
+                            length={cashiers.length}
                           />
                         );
                       })}

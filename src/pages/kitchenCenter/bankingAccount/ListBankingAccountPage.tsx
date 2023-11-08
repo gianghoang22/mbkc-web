@@ -122,12 +122,14 @@ function ListBankingAccountPage() {
                           <BankingAccountTableRow
                             key={bankingAccount.bankingAccountId}
                             index={index}
-                            page={page + 1}
+                            page={page}
                             rowsPerPage={rowsPerPage}
+                            setPage={setPage}
                             bankingAccount={bankingAccount}
                             selected={selected}
                             filterName={filterName}
                             sortBy={`${orderBy}_${order}`}
+                            length={bankingAccounts.length}
                           />
                         );
                       })}
