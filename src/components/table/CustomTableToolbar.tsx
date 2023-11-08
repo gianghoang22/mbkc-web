@@ -6,6 +6,7 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Autocomplete,
+  Button,
   Checkbox,
   Divider,
   IconButton,
@@ -15,18 +16,10 @@ import {
   Stack,
   TextField,
   Tooltip,
-  Button,
 } from '@mui/material';
 //
 import { HeadCell, OptionSelect, OrderSortBy, ProductTypeEnum } from '@types';
-import {
-  PartnerOrderStatus,
-  PartnerOrderStatusToFilter,
-  Role,
-  Status,
-  SystemStatus,
-  SystemStatusToFilter,
-} from 'common/enum';
+import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enum';
 import { useLocales, usePopover } from 'hooks';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';
@@ -308,7 +301,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
 
           {addAction && (
             <Button variant="outlined" onClick={onAction}>
-              {translate('button.add', { model: translate('model.lowercase.categories') })}
+              {translate('button.add', { model: translate('model.lowercase.extraCategories') })}
             </Button>
           )}
         </Stack>

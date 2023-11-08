@@ -6,7 +6,7 @@ import {
   StorePartner,
   StorePartnerDetail,
   StorePartnerToCreateAPI,
-  StorePartnerToUpdate,
+  StorePartnerToUpdateApi,
   ToUpdateStatus,
 } from '@types';
 import { axiosClient } from 'api/axiosClient';
@@ -15,7 +15,6 @@ import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllStorePartners, getAllStorePartnersByStoreId } from './storePartnerSlice';
-import { getAllStores } from 'redux/store/storeSlice';
 
 export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -27,9 +26,6 @@ export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
-      navigate(PATH_BRAND_APP.store.list);
-    }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
@@ -47,7 +43,7 @@ export const getAllStorePartnersByStoreIdThunk = async (params: ListParams, thun
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
     if (errorResponse?.statusCode === 404) {
-      navigate(PATH_BRAND_APP.store.list);
+      navigate(PATH_BRAND_APP.storePartner.list);
     }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
@@ -61,15 +57,6 @@ export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCr
   try {
     const response: MessageResponse = await axiosClient.post(ROUTES_API_STORE_PARTNERS.CREATE_STORE_PARTNER, data);
     if (response) {
-      const params = {
-        optionParams: {
-          itemsPerPage: 5,
-          currentPage: 1,
-        },
-        navigate,
-      };
-      await thunkAPI.dispatch(getAllStores(params));
-      // thunkAPI.dispatch(getAllStorePartners(params));
       navigate(PATH_BRAND_APP.storePartner.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
@@ -77,17 +64,17 @@ export const createNewStorePartnerThunk = async (params: Params<StorePartnerToCr
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
-      navigate(PATH_BRAND_APP.store.list);
-    }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
 };
 
-export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdate>, thunkAPI: any) => {
-  const { data, idParams, navigate, pathname } = params;
+export const updateStorePartnerThunk = async (
+  params: Params<Omit<StorePartnerToUpdateApi, 'status'>>,
+  thunkAPI: any
+) => {
+  const { data, idParams, navigate, pathname, optionParams } = params;
 
   try {
     const response: MessageResponse = await axiosClient.put(
@@ -111,15 +98,11 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
         };
         await thunkAPI.dispatch(getAllStorePartnersByStoreId(paramsCallback));
       } else {
-        await thunkAPI.dispatch(
-          getAllStorePartners({
-            optionParams: {
-              itemsPerPage: 5,
-              currentPage: 1,
-            },
-            navigate,
-          })
-        );
+        const paramsCallback: ListParams = {
+          optionParams: optionParams ? optionParams : {},
+          navigate,
+        };
+        await thunkAPI.dispatch(getAllStorePartners(paramsCallback));
       }
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
@@ -127,9 +110,6 @@ export const updateStorePartnerThunk = async (params: Params<StorePartnerToUpdat
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
-      navigate(PATH_BRAND_APP.store.list);
-    }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
@@ -177,9 +157,6 @@ export const updateStatusStorePartnerThunk = async (params: Params<ToUpdateStatu
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
-      navigate(PATH_BRAND_APP.store.list);
-    }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
@@ -226,9 +203,6 @@ export const deleteStorePartnerThunk = async (params: Params<StorePartner>, thun
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
-      navigate(PATH_BRAND_APP.store.list);
-    }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);

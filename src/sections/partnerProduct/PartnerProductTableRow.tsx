@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { IconButton, MenuItem, Stack, TableCell, TableRow, TextField, Typography } from '@mui/material';
@@ -27,8 +27,10 @@ import {
   ToUpdateStatus,
 } from '@types';
 import { ConfirmDialog, Popover } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
+import { setLocalStorage } from 'utils';
 
 interface PartnerProductTableRowProps {
   partnerProduct: PartnerProduct;
@@ -36,8 +38,9 @@ interface PartnerProductTableRowProps {
   page?: number;
   rowsPerPage?: number;
   filterName?: string;
+  sortBy?: string;
   length: number;
-  setPage?: any;
+  setPage?: Dispatch<SetStateAction<number>>;
   selected: readonly string[];
 }
 
@@ -50,6 +53,7 @@ function PartnerProductTableRow({
   setPage,
   selected,
   filterName,
+  sortBy,
 }: PartnerProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -60,7 +64,7 @@ function PartnerProductTableRow({
   const { handleOpen: handleOpenUpdate, isOpen: isOpenUpdate } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const [status, setStatus] = useState<string>(partnerProduct?.status);
+  const [status, setStatus] = useState<string>(partnerProduct?.status.toLowerCase());
 
   const handleNavigateDetail = () => {
     navigate(PATH_BRAND_APP.partnerProduct.root + `/${partnerProduct?.productId}`);
@@ -77,8 +81,10 @@ function PartnerProductTableRow({
 
   const handleDelete = () => {
     handleOpen();
-    if (length === 1) {
-      setPage(0);
+    const newPage = length === 1 ? page - 1 : page;
+    if (setPage && length === 1) {
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
     }
     dispatch(
       deletePartnerProduct({
@@ -86,6 +92,12 @@ function PartnerProductTableRow({
           productId: partnerProduct?.productId,
           partnerId: partnerProduct.partnerId,
           storeId: partnerProduct.storeId,
+        },
+        optionParams: {
+          searchValue: filterName,
+          itemsPerPage: rowsPerPage,
+          currentPage: page + 1,
+          sortBy: sortBy,
         },
         pathname: pathname,
         navigate,
@@ -106,7 +118,8 @@ function PartnerProductTableRow({
       optionParams: {
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
-        currentPage: page,
+        currentPage: page + 1,
+        sortBy: sortBy,
       },
       pathname: pathname,
       navigate,
@@ -188,19 +201,19 @@ function PartnerProductTableRow({
               fullWidth
             >
               <MenuItem
-                value={PartnerProductStatusEnum.AVAILABLE}
+                value={PartnerProductStatusEnum.AVAILABLE.toLowerCase()}
                 onClick={() => handleUpdateStatus(PartnerProductStatusUpdateEnum.AVAILABLE)}
               >
                 {translate('status.available')}
               </MenuItem>
               <MenuItem
-                value={PartnerProductStatusEnum.OUT_OF_STOCK_TODAY}
+                value={PartnerProductStatusEnum.OUT_OF_STOCK_TODAY.toLowerCase()}
                 onClick={() => handleUpdateStatus(PartnerProductStatusUpdateEnum.OUT_OF_STOCK_TODAY)}
               >
                 {translate('status.outOfStockToday')}
               </MenuItem>
               <MenuItem
-                value={PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY}
+                value={PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY.toLowerCase()}
                 onClick={() => handleUpdateStatus(PartnerProductStatusUpdateEnum.OUT_OF_STOCK_INDEFINITELY)}
               >
                 {translate('status.outOfStockIndefinitely')}
@@ -223,6 +236,7 @@ function PartnerProductTableRow({
           handleOpen={handleOpenUpdate}
           partnerProduct={partnerProduct}
           filterName={filterName ? filterName : ''}
+          sortBy={sortBy}
         />
       )}
 

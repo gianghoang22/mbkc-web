@@ -15,7 +15,7 @@ interface Props {
 
 function TotalDaily({ date, icon, title, totalMoney, color }: Props) {
   return (
-    <Card>
+    <Card sx={{ p: 1, boxShadow: 'none', border: 1, borderColor: (theme) => theme.palette.grey[400] }}>
       <Box padding={2}>
         <Typography variant="subtitle1">{title}</Typography>
         <Typography variant="subtitle2" color={(theme) => theme.palette.grey[600]} mt={1}>

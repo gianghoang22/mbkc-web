@@ -14,7 +14,7 @@ import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 import { StoreTableToolbar } from 'sections/store';
 import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
 //
-import { ListParams, OptionSelect, OrderSort, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
@@ -31,11 +31,10 @@ function ListStorePartnerPage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { brandProfile } = useAppSelector((state) => state.profile);
-  const { isLoading: isLoadingStorePartner } = useAppSelector((state) => state.storePartner);
   const { stores, numberItems, isLoading: isLoadingStore } = useAppSelector((state) => state.store);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof StoreTable>('name');
+  const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');
   const [storeStatus, setStoreStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
@@ -50,7 +49,6 @@ function ListStorePartnerPage() {
     setFilterName(event.target.value.trimStart());
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const isNotFound = !stores.length && !!filterName;
@@ -133,7 +131,7 @@ function ListStorePartnerPage() {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-                  {isLoadingStore || isLoadingStorePartner ? (
+                  {isLoadingStore ? (
                     <StorePartnerTableRowSkeleton />
                   ) : (
                     <TableBody>

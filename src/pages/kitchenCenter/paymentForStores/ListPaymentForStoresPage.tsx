@@ -1,27 +1,28 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
-import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination, Button } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //redux
 import { useAppSelector } from 'redux/configStore';
 // section
 import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/moneyExchanges';
+import MoneyExchangeDetailModal from 'sections/moneyExchanges/MoneyExchangeDetailModal';
+import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
 //
 import { MoneyExchangeTable, OrderSort } from '@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
-import MoneyExchangeDetailModal from 'sections/moneyExchanges/MoneyExchangeDetailModal';
 
 function ListOfPaymentForStoresPage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
+
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
   const { handleOpen, isOpen } = useModal();
   const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { moneyExchanges } = useAppSelector((state) => state.wallet);
 

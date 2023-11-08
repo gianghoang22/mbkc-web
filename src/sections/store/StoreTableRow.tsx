@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Popover as MUIPopover, MenuItem, Stack, Switch, TableCell, TableRow } from '@mui/material';
@@ -16,8 +16,10 @@ import ConfirmRegistrationStore from './ConfirmRegistrationStore';
 import { OptionSelect, OrderSortBy, Params, Store, ToUpdateStatus } from '@types';
 import { Color, PopoverType, Role, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { setLocalStorage } from 'utils';
 import { getRuleWidths } from './rules';
 
 interface StoreTableRowProps {
@@ -27,7 +29,7 @@ interface StoreTableRowProps {
   page?: number;
   rowsPerPage?: number;
   showAction?: boolean;
-  setPage?: any;
+  setPage?: Dispatch<SetStateAction<number>>;
   status: OptionSelect | null;
   selected: readonly string[];
   filterName?: string;
@@ -87,8 +89,12 @@ function StoreTableRow({
 
   const handleDelete = () => {
     handleOpen();
+    const newPage = length === 1 ? page - 1 : page;
     if (length === 1) {
-      setPage(0);
+      if (setPage) {
+        setPage(newPage);
+        setLocalStorage(StorageKeys.PAGE, newPage);
+      }
     }
     dispatch(
       deleteStore({
@@ -96,7 +102,7 @@ function StoreTableRow({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: length === 1 ? 1 : page,
+          currentPage: newPage + 1,
           status: status?.value,
           sortBy: sortBy,
           idBrand: brandProfile?.brandId,
@@ -117,7 +123,7 @@ function StoreTableRow({
       },
       optionParams: {
         searchValue: filterName,
-        currentPage: page,
+        currentPage: page + 1,
         itemsPerPage: rowsPerPage,
         status: status?.value,
         sortBy: sortBy,
@@ -301,6 +307,8 @@ function StoreTableRow({
           statusFilter={status}
           filterName={filterName}
           sortBy={sortBy}
+          page={page}
+          rowsPerPage={rowsPerPage}
           isOpen={isOpenConfirm}
           handleOpen={handleOpenConfirm}
           handleCloseMenuConfirm={handleCloseMenuConfirm}

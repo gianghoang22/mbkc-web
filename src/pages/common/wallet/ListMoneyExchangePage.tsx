@@ -8,10 +8,10 @@ import { useAppSelector } from 'redux/configStore';
 import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/moneyExchanges';
 //
 import { MoneyExchangeTable, OrderSort } from '@types';
+import { Role } from 'common/enum';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Role } from 'common/enum';
 
 function ListMoneyExchangePage() {
   const { pathname } = useLocation();

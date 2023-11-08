@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
@@ -6,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Avatar, Box, Button, Card, Grid, Stack, Tab, Typography } from '@mui/material';
 //redux
-import { getCategoryDetail, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
+import { deleteCategory, getCategoryDetail, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
@@ -15,7 +16,7 @@ import { ProductTableTab } from 'sections/product';
 //
 import { CategoryType } from '@types';
 import images from 'assets';
-import { Color, Language, PopoverType, Status } from 'common/enum';
+import { Breadcrumb, Color, Language, PopoverType, Status } from 'common/enum';
 import { ConfirmDialog, Label, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -41,26 +42,46 @@ function CategoryDetailPage() {
     setActiveTab(newValue);
   };
 
+  const pathnames = pathname
+    .split('/')
+    .slice(2)
+    .filter((x) => x);
+
+  console.log(pathnames);
+
   const params = useMemo(() => {
     return {
       categoryId,
+      categoryType,
       navigate,
     };
-  }, [categoryId, navigate]);
+  }, [categoryId, categoryType]);
 
   useEffect(() => {
     dispatch(getCategoryDetail(params));
   }, [dispatch, navigate, params, categoryId]);
 
   const handleDelete = () => {
-    handleOpenModal(category?.name);
+    handleOpenModal();
+    dispatch(
+      deleteCategory({
+        idParams: { categoryId: category?.categoryId },
+        optionParams: {
+          type: categoryType,
+        },
+        navigate,
+      })
+    );
   };
 
   return (
     <>
       <Page
         title={
-          categoryType === CategoryType.NORMAL
+          pathname
+            .split('/')
+            .slice(2)
+            .filter((x) => x)[0] === Breadcrumb.CATEGORY
             ? translate('page.title.detail', {
                 model:
                   currentLang.value === Language.ENGLISH
@@ -174,7 +195,10 @@ function CategoryDetailPage() {
           )}
         </Stack>
 
-        {categoryType === CategoryType.NORMAL ? (
+        {pathname
+          .split('/')
+          .slice(2)
+          .filter((x) => x)[0] === Breadcrumb.CATEGORY ? (
           <Stack spacing={1}>
             <Card>
               <TabContext value={activeTab}>

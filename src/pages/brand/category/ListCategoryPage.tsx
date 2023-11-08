@@ -26,10 +26,10 @@ function ListCategoryPage() {
   const { categoryHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { categories, isLoading } = useAppSelector((state) => state.category);
+  const { categories, numberItems, isLoading } = useAppSelector((state) => state.category);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.NAME);
+  const [orderBy, setOrderBy] = useState<keyof CategoryTable>(OrderSortBy.DISPLAY_ORDER);
   const [filterName, setFilterName] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
 
@@ -128,6 +128,8 @@ function ListCategoryPage() {
                             categoryType={CategoryType.NORMAL}
                             length={categories.length}
                             setPage={setPage}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
                             selected={selected}
                             filterName={filterName}
                             sortBy={`${orderBy}_${order}`}
@@ -149,7 +151,7 @@ function ListCategoryPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={categories.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 labelRowsPerPage={translate('table.rowsPerPage')}

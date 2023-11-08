@@ -44,7 +44,7 @@ function WalletPage() {
           userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER ? PATH_KITCHEN_CENTER_APP.root : PATH_CASHIER_APP.root
         }
       >
-        <Grid container columnSpacing={2} mb={3}>
+        <Grid container columnSpacing={3} mb={3}>
           <Grid item xs={12} sm={5} md={5}>
             <MainBalanceCard />
           </Grid>

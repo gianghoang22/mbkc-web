@@ -15,7 +15,7 @@ import { getAllPartners } from 'redux/partner/partnerSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 //
 import { ListParams, StorePartnerToCreate } from '@types';
-import { Language } from 'common/enum';
+import { Language, Status } from 'common/enum';
 import { AutoCompleteField, InputField } from 'components';
 import { useLocales } from 'hooks';
 
@@ -35,12 +35,14 @@ function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const storeOptions = stores.map((store) => ({
-    label: store.name,
-    value: store.storeId,
-    center: store.kitchenCenter.name,
-    image: store.logo,
-  }));
+  const storeOptions = stores
+    .filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED)
+    .map((store) => ({
+      label: store.name,
+      value: store.storeId,
+      center: store.kitchenCenter.name,
+      image: store.logo,
+    }));
 
   const getOpObjStore = (option: any) => {
     if (!option) return option;

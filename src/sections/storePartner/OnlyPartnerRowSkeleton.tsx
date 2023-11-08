@@ -2,13 +2,13 @@ import { IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { useLocales } from 'hooks';
 
-function OnlyPartnerRowSkeleton() {
+function OnlyPartnerRowSkeleton({ length }: { length: number }) {
   const { translate } = useLocales();
 
   return (
     <>
-      {Array.from({ length: 3 }).map((_, index: any) => (
-        <Stack direction="row" alignItems="center" sx={{ cursor: 'pointer', height: '72.89px' }}>
+      {Array.from({ length: length ? length : 3 }).map((_, index: any) => (
+        <Stack key={index} direction="row" alignItems="center" sx={{ cursor: 'pointer', height: '72.89px' }}>
           <Stack width={30}>
             <FiberManualRecordIcon sx={{ fontSize: 10, color: (theme) => theme.palette.grey[500] }} />
           </Stack>

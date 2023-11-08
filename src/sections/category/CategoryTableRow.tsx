@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Switch, TableCell, TableRow, Typography } from '@mui/material';
@@ -11,8 +12,10 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { Category, CategoryToUpdate, CategoryType, OrderSortBy, Params } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
+import { setLocalStorage } from 'utils';
 
 interface CategoryTableRowProps {
   categoryType: CategoryType;
@@ -22,7 +25,7 @@ interface CategoryTableRowProps {
   page?: number;
   rowsPerPage?: number;
   length?: number;
-  setPage?: any;
+  setPage?: Dispatch<SetStateAction<number>>;
   selected: readonly string[];
   filterName: string;
   sortBy: string;
@@ -72,8 +75,10 @@ function CategoryTableRow({
 
   const handleDelete = () => {
     handleOpen(category.name);
-    if (length === 1) {
-      setPage(0);
+    const newPage = length === 1 ? page - 1 : page;
+    if (setPage && length === 1) {
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
     }
     dispatch(
       deleteCategory({
@@ -82,9 +87,10 @@ function CategoryTableRow({
           type: category.type,
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: length === 1 ? 1 : page,
+          currentPage: newPage + 1,
           sortBy: sortBy,
         },
+        pathname,
         navigate,
       })
     );
@@ -106,11 +112,12 @@ function CategoryTableRow({
       optionParams: {
         type: category?.type,
         searchValue: filterName,
-        currentPage: page,
+        currentPage: page + 1,
         itemsPerPage: rowsPerPage,
         sortBy: sortBy,
+        isUpdateStatus: true,
       },
-      pathname: pathname,
+      pathname,
       navigate,
     };
     dispatch(updateCategory(paramUpdate));

@@ -123,10 +123,12 @@ function ListKitchenCenterPage() {
                             index={index}
                             page={page}
                             rowsPerPage={rowsPerPage}
+                            setPage={setPage}
                             kitchenCenter={kitchenCenter}
                             selected={selected}
                             filterName={filterName}
                             sortBy={`${orderBy}_${order}`}
+                            length={kitchenCenters.length}
                           />
                         );
                       })}

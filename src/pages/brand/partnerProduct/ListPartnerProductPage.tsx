@@ -135,13 +135,14 @@ function ListPartnerProductPage() {
                           <PartnerProductTableRow
                             key={partnerProduct.productId}
                             setPage={setPage}
-                            page={page + 1}
+                            page={page}
                             rowsPerPage={rowsPerPage}
                             length={partnerProducts.length}
                             index={index}
                             partnerProduct={partnerProduct}
                             selected={selected}
                             filterName={filterName}
+                            sortBy={`${orderBy}_${order}`}
                           />
                         );
                       })}
@@ -174,7 +175,14 @@ function ListPartnerProductPage() {
         </Card>
       </Page>
 
-      {isOpen && <CreatePartnerProductModal isOpen={isOpen} handleOpen={handleOpen} filterName={filterName} />}
+      {isOpen && (
+        <CreatePartnerProductModal
+          isOpen={isOpen}
+          handleOpen={handleOpen}
+          filterName={filterName}
+          sortBy={`${orderBy}_${order}`}
+        />
+      )}
     </>
   );
 }

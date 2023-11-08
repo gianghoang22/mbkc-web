@@ -24,7 +24,7 @@ interface ProductState {
   productsParent: Product[];
   product: Product | null;
   productParent: Product | null;
-  totalPage: number;
+  totalPages: number;
   numberItems: number;
 }
 
@@ -45,7 +45,7 @@ const initialState: ProductState = {
   productsParent: [],
   product: null,
   productParent: null,
-  totalPage: 0,
+  totalPages: 0,
   numberItems: 5,
 };
 
@@ -116,7 +116,7 @@ const productSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.products = [...action.payload?.products];
-        state.totalPage = action.payload?.totalPage;
+        state.totalPages = action.payload?.totalPages;
         state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllProducts.rejected, (state, action) => {
@@ -132,7 +132,7 @@ const productSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.productsParent = [...action.payload?.products];
-        state.totalPage = action.payload?.totalPage;
+        state.totalPages = action.payload?.totalPages;
         state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllProductsParent.rejected, (state, action) => {

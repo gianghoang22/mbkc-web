@@ -72,7 +72,7 @@ function SelectField<T extends string | number>({
                     ? translate('status.available')
                     : label === PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
                     ? translate('status.outOfStockToday')
-                    : label === PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY
+                    : label.toLowerCase() === PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY.toLowerCase()
                     ? translate('status.outOfStockIndefinitely')
                     : label === Status.ACTIVE
                     ? translate('status.active')
