@@ -1,4 +1,4 @@
-import { Status } from 'common/enum';
+import { Status } from 'enums';
 
 export interface BankingAccount {
   bankingAccountId: number;

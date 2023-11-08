@@ -9,7 +9,7 @@ import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 //
-import { Color } from 'common/enum';
+import { Color } from 'enums';
 import { Helmet } from 'components';
 import { useAppDispatch } from 'redux/configStore';
 import { getBrandProfile } from 'redux/profile/profileSlice';

@@ -12,7 +12,7 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { CashierDetailPageSkeleton } from 'sections/cashier';
 //
-import { Color, Gender, Language, PopoverType, Status } from 'common/enum';
+import { Color, Gender, Language, PopoverType, Status } from 'enums';
 import { ConfirmDialog, ContentLabel, ContentSpace, Page, Popover } from 'components';
 import { useLocales, useModal, usePopover, useResponsive } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

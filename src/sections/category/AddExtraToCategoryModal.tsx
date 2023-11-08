@@ -27,7 +27,7 @@ import ExtraToCategoryRow from './ExtraToCategoryRow';
 import ExtraToCategoryRowSkeleton from './ExtraToCategoryRowSkeleton';
 //
 import { AddExtraCategory, CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy, Params } from '@types';
-import { Language } from 'common/enum';
+import { Language } from 'enums';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 

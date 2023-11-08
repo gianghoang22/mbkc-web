@@ -10,7 +10,7 @@ import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { Cashier, OrderSortBy, Params, ToUpdateStatus } from '@types';
-import { Color, Gender, Status } from 'common/enum';
+import { Color, Gender, Status } from 'enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

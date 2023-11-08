@@ -11,7 +11,7 @@ import { getAllStores } from 'redux/store/storeSlice';
 import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 //
 import { ListParams, OptionSelect, STATUS_OPTIONS } from '@types';
-import { Status } from 'common/enum';
+import { Status } from 'enums';
 import { useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
 

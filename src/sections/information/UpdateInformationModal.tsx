@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { updateBrandProfile } from 'redux/profile/profileSlice';
 //
 import { Params, UpdateBrandProfile } from '@types';
-import { Color, Language } from 'common/enum';
+import { Color, Language } from 'enums';
 import { InputField, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 

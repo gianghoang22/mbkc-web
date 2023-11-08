@@ -17,7 +17,7 @@ import {
   ShiftTable,
 } from '@types';
 import useLocales from './useLocales';
-import { Language } from 'common/enum';
+import { Language } from 'enums';
 
 function useConfigHeadTable() {
   const { translate, currentLang } = useLocales();

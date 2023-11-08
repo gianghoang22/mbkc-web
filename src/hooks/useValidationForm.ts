@@ -1,4 +1,4 @@
-import { Language } from 'common/enum';
+import { Language } from 'enums';
 import * as yup from 'yup';
 import { ref } from 'yup';
 import useLocales from './useLocales';

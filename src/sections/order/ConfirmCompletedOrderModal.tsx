@@ -8,7 +8,7 @@ import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typogr
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { CompletedOrderParams, ListParams, Params } from '@types';
-import { Color } from 'common/enum';
+import { Color } from 'enums';
 import { AutoCompleteField, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useEffect, useMemo } from 'react';

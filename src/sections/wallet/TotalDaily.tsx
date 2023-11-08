@@ -3,7 +3,7 @@ import { Box, Card, Stack, Typography, alpha } from '@mui/material';
 // section
 import { StyledIcon } from 'sections/dashboard/AppWidgetSummary';
 //
-import { Color } from 'common/enum';
+import { Color } from 'enums';
 
 interface Props {
   title: string;

@@ -24,7 +24,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { updateStorePartner } from 'redux/storePartner/storePartnerSlice';
 //
 import { Params, StorePartnerToUpdateApi } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 

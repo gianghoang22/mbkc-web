@@ -2,7 +2,7 @@
 import { TableCell, TableRow } from '@mui/material';
 //
 import { ShipperPayment } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { Label } from 'components';
 import { useLocales, useModal } from 'hooks';
 import ShipperPaymentDetailModal from './ShipperPaymentDetailModal';

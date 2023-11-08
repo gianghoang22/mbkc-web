@@ -10,7 +10,7 @@ import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
 import { Category, CategoryToUpdate, CategoryType, OrderSortBy, Params } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';

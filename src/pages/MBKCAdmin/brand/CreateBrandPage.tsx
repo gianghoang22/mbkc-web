@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { BrandForm } from 'sections/brand';
 //
 import { AddressFormInterface, BrandToCreate, BrandToUpdate, Params } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

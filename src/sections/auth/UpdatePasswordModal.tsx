@@ -21,7 +21,7 @@ import { updatePassword } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import { Params, UpdatePasswordForm } from '@types';
-import { Color } from 'common/enum';
+import { Color } from 'enums';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { hashPasswordMD5 } from 'utils';

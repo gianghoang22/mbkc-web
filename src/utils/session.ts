@@ -1,4 +1,4 @@
-import { axiosClient } from 'api/axiosClient';
+import { axiosClient } from 'axiosClient/axiosClient';
 import { removeAccessToken, removeRefreshToken, setAccessToken, setRefreshToken } from './utils';
 
 const setSession = (accessToken: string | null, refreshToken: string) => {

@@ -9,7 +9,7 @@ import {
   UserInfo,
   VerificationForm,
 } from '@types';
-import { axiosClient } from 'api/axiosClient';
+import { axiosClient } from 'axiosClient/axiosClient';
 import { ROUTES_API_ACCOUNT, ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { PATH_AUTH } from 'routes/paths';
 import {
@@ -27,7 +27,7 @@ import {
   setUserInfo,
 } from 'utils';
 import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
-import { Role } from 'common/enum';
+import { Role } from 'enums';
 
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
   const { data, navigate } = params;

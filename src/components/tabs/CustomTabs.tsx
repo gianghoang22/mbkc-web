@@ -3,7 +3,7 @@ import React from 'react';
 import { CircularProgress, Fade, Tab, Tabs } from '@mui/material';
 //
 import { OrderTypeEnum, ProductTypeEnum } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import Label from 'components/label/Label';
 import { useLocales } from 'hooks';
 

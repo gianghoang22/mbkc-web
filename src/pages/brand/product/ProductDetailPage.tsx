@@ -34,7 +34,7 @@ import { ProductDetailPageSkeleton, ProductTableRow } from 'sections/product';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { fCurrencyVN, getComparator, stableSort } from 'utils';
 import { OrderSort, OrderSortBy, PartnerProductStatusEnum, ProductTable, ProductTypeEnum } from '@types';
-import { Color, Language, PopoverType, Role, Status } from 'common/enum';
+import { Color, Language, PopoverType, Role, Status } from 'enums';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
 import { CommonTableHead, ConfirmDialog, ContentLabel, ContentSpace, EmptyTable, Page, Popover } from 'components';
 import moment from 'moment';

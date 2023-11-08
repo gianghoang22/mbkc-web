@@ -15,7 +15,7 @@ import { getAllPartners } from 'redux/partner/partnerSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 //
 import { ListParams, StorePartnerToCreate } from '@types';
-import { Language, Status } from 'common/enum';
+import { Language, Status } from 'enums';
 import { AutoCompleteField, InputField } from 'components';
 import { useLocales } from 'hooks';
 

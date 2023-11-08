@@ -19,7 +19,7 @@ import {
   ProductToCreateParams,
   ProductTypeEnum,
 } from '@types';
-import { Color } from 'common/enum';
+import { Color } from 'enums';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

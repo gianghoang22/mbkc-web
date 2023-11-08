@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 //
 import { HeadCell, OptionSelect, OrderSortBy, ProductTypeEnum } from '@types';
-import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enum';
+import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'enums';
 import { useLocales, usePopover } from 'hooks';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';

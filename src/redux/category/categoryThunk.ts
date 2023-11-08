@@ -9,7 +9,7 @@ import {
   MessageResponse,
   Params,
 } from '@types';
-import { axiosClient, axiosFormData } from 'api/axiosClient';
+import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
 import { ROUTES_API_CATEGORIES } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';

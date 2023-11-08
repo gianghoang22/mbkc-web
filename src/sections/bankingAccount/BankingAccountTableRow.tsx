@@ -12,7 +12,7 @@ import {
 import { useAppDispatch } from 'redux/configStore';
 //
 import { BankingAccount, OrderSortBy, Params, ToUpdateStatus } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 

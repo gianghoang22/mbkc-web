@@ -34,7 +34,7 @@ import { AppWidgetSummary } from 'sections/dashboard';
 import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
 //
 import { ListParams, OrderSortBy } from '@types';
-import { Color, Status } from 'common/enum';
+import { Color, Status } from 'enums';
 import { Helmet, Label } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

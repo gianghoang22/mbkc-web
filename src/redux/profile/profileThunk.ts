@@ -1,7 +1,7 @@
 import { NavigateFunction } from 'react-router-dom';
 //
 import { BrandProfile, KitchenCenterProfile, MessageResponse, Params, UpdateBrandProfile } from '@types';
-import { axiosClient, axiosFormData } from 'api/axiosClient';
+import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
 import { ROUTES_API_BRANDS, ROUTES_API_KITCHEN_CENTER } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage, setBrandInfo, setKitchenCenterInfo } from 'utils';

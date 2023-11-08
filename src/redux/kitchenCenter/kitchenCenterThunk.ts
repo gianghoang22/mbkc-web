@@ -8,7 +8,7 @@ import {
   Params,
   ToUpdateStatus,
 } from '@types';
-import { axiosClient, axiosFormData } from 'api/axiosClient';
+import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
 import { ROUTES_API_KITCHEN_CENTER } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';

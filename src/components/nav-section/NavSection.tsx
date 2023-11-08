@@ -4,7 +4,7 @@ import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/mate
 import { styled } from '@mui/material/styles';
 //
 import { NavItem as NavItemInterface } from '@types';
-import { Breadcrumb } from 'common/enum';
+import { Breadcrumb } from 'enums';
 import { StorageKeys } from 'constants/storageKeys';
 import { removeLocalStorage } from 'utils';
 

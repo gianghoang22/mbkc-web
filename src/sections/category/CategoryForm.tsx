@@ -4,7 +4,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 import { useAppSelector } from 'redux/configStore';
 //
 import { CATEGORY_TYPE_OPTIONS, CategoryType } from '@types';
-import { Language } from 'common/enum';
+import { Language } from 'enums';
 import { InputField, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 

@@ -1,5 +1,5 @@
 import { ListParams, MessageResponse, Params, Partner, PartnerToUpdate, ToUpdateStatus } from '@types';
-import { axiosClient, axiosFormData } from 'api/axiosClient';
+import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
 import { ROUTES_API_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';

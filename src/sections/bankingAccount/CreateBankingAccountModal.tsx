@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { createNewBankingAccount, updateBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
 //
 import { BankingAccountToCreate, BankingAccountToUpdate, Params } from '@types';
-import { Color, Language, Status } from 'common/enum';
+import { Color, Language, Status } from 'enums';
 import { InputField, InputNumber, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 

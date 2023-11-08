@@ -3,7 +3,7 @@ import { ReactNode, forwardRef } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box, SxProps } from '@mui/system';
 //
-import { Color, VariantLabel } from 'common/enum';
+import { Color, VariantLabel } from 'enums';
 import { StyledLabel } from './styles';
 
 interface LabelProps {

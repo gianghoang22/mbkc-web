@@ -19,7 +19,7 @@ import { StorePartnerDetailTable } from '@types';
 // redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { Role } from 'common/enum';
+import { Role } from 'enums';
 import { CommonTableHead } from 'components';
 import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
 

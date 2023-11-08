@@ -32,7 +32,7 @@ import {
   PartnerProductToCreate,
   PartnerProductToUpdate,
 } from '@types';
-import { Color, Language, Status } from 'common/enum';
+import { Color, Language, Status } from 'enums';
 import { AutoCompleteField, InputField, SelectField } from 'components';
 import { useLocales, usePagination, useValidationForm } from 'hooks';
 
