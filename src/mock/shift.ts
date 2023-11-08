@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Shift } from '@types';
+import { Shift } from 'common/models';
 
 // ----------------------------------------------------------------------
 

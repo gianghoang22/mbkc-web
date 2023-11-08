@@ -1,13 +1,5 @@
-import {
-  BankingAccount,
-  BankingAccountToCreate,
-  BankingAccountToUpdate,
-  ListParams,
-  ListResponse,
-  MessageResponse,
-  Params,
-  ToUpdateStatus,
-} from '@types';
+import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
+import { BankingAccount, BankingAccountToCreate, BankingAccountToUpdate, ToUpdateStatus } from 'common/models';
 import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
 import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Store, StorePartner, StorePartnerDetail } from '@types';
+import { Store, StorePartner, StorePartnerDetail } from 'common/models';
 import { StorageKeys } from 'constants/storageKeys';
 import { getIdInStorage, getIsEditing, setLocalStorage } from 'utils';
 import {

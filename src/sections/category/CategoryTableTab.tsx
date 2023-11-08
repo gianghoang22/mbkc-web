@@ -10,7 +10,8 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { CategoryTableRow, CategoryTableRowSkeleton } from 'sections/category';
 import AddExtraToCategory from './AddExtraToCategoryModal';
 //
-import { CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy } from '@types';
+import { CategoryTable, ListParams, OrderSort, OrderSortBy } from 'common/@types';
+import { CategoryType } from 'common/models';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 

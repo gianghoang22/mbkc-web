@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useLocation, useParams } from 'react-router-dom';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 // @mui
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -18,10 +19,10 @@ import {
   Tooltip,
 } from '@mui/material';
 //
-import { HeadCell, OptionSelect, OrderSortBy, ProductTypeEnum } from '@types';
-import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'enums';
+import { HeadCell, OptionSelect, OrderSortBy } from 'common/@types';
+import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enums';
+import { ProductTypeEnum } from 'common/models';
 import { useLocales, usePopover } from 'hooks';
-import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StyledRoot, StyledSearch } from './styles';

@@ -30,11 +30,11 @@ import {
 import { OrderDetailPageSkeleton, OrderHistoryTableRow, OrderHistoryTableRowSkeleton, OrderItem } from 'sections/order';
 import ConfirmCompletedOrderModal from 'sections/order/ConfirmCompletedOrderModal';
 //redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
-import { useAppSelector, useAppDispatch } from 'redux/configStore';
 //
-import { OrderHistory, OrderStatusActions } from '@types';
-import { Color, PartnerOrderStatus, Role, SystemStatus } from 'enums';
+import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enums';
+import { OrderHistory, OrderStatusActions } from 'common/models';
 import { ConfirmDialog, EmptyTable, Helmet, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';

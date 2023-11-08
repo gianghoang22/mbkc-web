@@ -7,13 +7,14 @@ import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typogr
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { CompletedOrderParams, ListParams, Params } from '@types';
-import { Color } from 'enums';
+import { ListParams, Params } from 'common/@types';
+import { Color } from 'common/enums';
+import { CompletedOrderParams } from 'common/models';
 import { AutoCompleteField, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { useEffect, useMemo } from 'react';
-import { confirmOrderToCompleted } from 'redux/order/orderSlice';
 import { getAllBankingAccounts } from 'redux/bankingAccount/bankingAccountSlice';
+import { confirmOrderToCompleted } from 'redux/order/orderSlice';
 
 interface ConfirmCompletedOrderModalProps {
   page: number;

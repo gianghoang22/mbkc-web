@@ -10,8 +10,9 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { createNewStore, getStoreDetail, updateStore } from 'redux/store/storeSlice';
 //
-import { ListParams, Params, StoreToCreate, StoreToUpdate } from '@types';
-import { Color, Status } from 'enums';
+import { ListParams, Params } from 'common/@types';
+import { Color, Status } from 'common/enums';
+import { StoreToCreate, StoreToUpdate } from 'common/models';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

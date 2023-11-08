@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Product, ProductTypeEnum } from '@types';
+import { Product, ProductTypeEnum } from 'common/models';
 import {
   createNewProductThunk,
   deleteProductThunk,

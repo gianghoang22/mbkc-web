@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Order } from '@types';
+import { Order } from 'common/models';
 import {
   cancelOrderThunk,
   changeOrderToReadyDeliveryThunk,

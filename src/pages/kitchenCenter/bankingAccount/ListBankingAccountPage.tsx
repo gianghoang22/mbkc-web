@@ -11,11 +11,12 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
 import { BankingAccountTableRow, BankingAccountTableRowSkeleton } from 'sections/bankingAccount';
 //
-import { BankingAccount, BankingAccountTable, ListParams, OrderSort, OrderSortBy } from '@types';
+import { BankingAccountTable, ListParams, OrderSort, OrderSortBy } from 'common/@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { CreateBankingAccountModal } from 'sections/bankingAccount';
+import { BankingAccount } from 'common/models';
 
 function ListBankingAccountPage() {
   const navigate = useNavigate();

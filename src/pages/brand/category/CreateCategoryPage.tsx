@@ -11,8 +11,9 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
 import { CategoryForm } from 'sections/category';
 //
-import { CategoryToCreate, CategoryToUpdate, CategoryType, Params } from '@types';
-import { Color, Status } from 'enums';
+import { Params } from 'common/@types';
+import { CategoryToCreate, CategoryToUpdate, CategoryType } from 'common/models';
+import { Color, Status } from 'common/enums';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

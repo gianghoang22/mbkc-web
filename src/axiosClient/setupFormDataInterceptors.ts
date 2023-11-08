@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 // redux
 import { removeToken, setIsLogout, updateLocalAccessToken } from 'redux/auth/authSlice';
 //
-import { TokenResponse } from '@types';
+import { TokenResponse } from 'common/models';
 import { ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { getAccessToken, getRefreshToken } from 'utils';
 import { axiosClient, axiosFormData } from './axiosClient';

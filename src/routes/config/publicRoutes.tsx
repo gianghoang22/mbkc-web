@@ -1,4 +1,4 @@
-import { Route } from '@types';
+import { Route } from 'common/@types';
 import { ForgotPasswordPage, LoginPage, ResetPasswordPage, VerificationOtpPage } from 'pages/auth';
 import { Page403, Page404, Page500 } from 'pages/error';
 import { PATH_AUTH, PATH_ERROR } from 'routes/paths';

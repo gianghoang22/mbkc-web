@@ -3,8 +3,8 @@ import { Grid, Stack, Typography } from '@mui/material';
 //redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { CATEGORY_TYPE_OPTIONS, CategoryType } from '@types';
-import { Language } from 'enums';
+import { CATEGORY_TYPE_OPTIONS, CategoryType } from 'common/models';
+import { Language } from 'common/enums';
 import { InputField, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 

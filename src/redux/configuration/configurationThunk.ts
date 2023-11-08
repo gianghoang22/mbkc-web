@@ -1,5 +1,6 @@
-import { Configuration, MessageResponse, Params } from '@types';
 import { axiosClient } from 'axiosClient/axiosClient';
+import { MessageResponse, Params } from 'common/@types';
+import { Configuration } from 'common/models';
 import { ROUTES_API_CONFIGURATION } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { getErrorMessage, handleResponseMessage } from 'utils';

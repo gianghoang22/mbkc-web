@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { styled } from '@mui/material/styles';
 //
-import { NavItem as NavItemInterface } from '@types';
-import { Breadcrumb } from 'enums';
+import { NavItem as NavItemInterface } from 'common/@types';
+import { Breadcrumb } from 'common/enums';
 import { StorageKeys } from 'constants/storageKeys';
 import { removeLocalStorage } from 'utils';
 

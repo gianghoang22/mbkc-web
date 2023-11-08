@@ -9,8 +9,9 @@ import { Box, Button, Card, Stack } from '@mui/material';
 import { createNewCashier, getCashierDetail, updateCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { CashierToCreate, CashierToUpdate, Params } from '@types';
-import { Color, Gender, Status } from 'enums';
+import { Params } from 'common/@types';
+import { CashierToCreate, CashierToUpdate } from 'common/models';
+import { Color, Gender, Status } from 'common/enums';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

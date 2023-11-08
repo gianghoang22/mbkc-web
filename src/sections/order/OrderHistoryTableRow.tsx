@@ -1,7 +1,7 @@
 // @mui
 import { TableCell, TableRow } from '@mui/material';
 //
-import { OrderHistory } from '@types';
+import { OrderHistory } from 'common/models';
 import { Label } from 'components';
 import { fDateTime } from 'utils';
 

@@ -22,9 +22,9 @@ import {
 import { logout, setUserInfo, updatePassword } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { Params, UpdatePasswordForm } from '@types';
+import { Params, UpdatePasswordForm } from 'common/@types';
 import images from 'assets';
-import { Color } from 'enums';
+import { Color } from 'common/enums';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { hashPasswordMD5 } from 'utils';

@@ -8,7 +8,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 //
-import { Color } from 'enums';
+import { Color } from 'common/enums';
 import { Helmet } from 'components';
 import { AppWidgetSummary } from 'sections/dashboard';
 

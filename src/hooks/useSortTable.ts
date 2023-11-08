@@ -1,4 +1,4 @@
-import { OrderSort } from '@types';
+import { OrderSort } from 'common/@types';
 import { useState } from 'react';
 
 function useSortTable<T>() {

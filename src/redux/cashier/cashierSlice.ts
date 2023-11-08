@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Cashier } from '@types';
+import { Cashier } from 'common/models';
+import { StorageKeys } from 'constants/storageKeys';
+import { getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewCashierThunk,
   deleteCashierThunk,
@@ -8,8 +10,6 @@ import {
   updateCashierStatusThunk,
   updateCashierThunk,
 } from './cashierThunk';
-import { StorageKeys } from 'constants/storageKeys';
-import { getIsEditing, setLocalStorage } from 'utils';
 
 const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_CASHIER)
   ? getIsEditing(StorageKeys.IS_EDIT_CASHIER)

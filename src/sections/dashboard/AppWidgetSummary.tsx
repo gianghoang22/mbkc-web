@@ -4,7 +4,7 @@ import { Box, Card, CircularProgress, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 //
 import { fShortenNumber } from 'utils';
-import { Color } from 'enums';
+import { Color } from 'common/enums';
 
 // ----------------------------------------------------------------------
 

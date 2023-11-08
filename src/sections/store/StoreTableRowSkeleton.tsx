@@ -1,6 +1,6 @@
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
-import { OrderSortBy } from '@types';
-import { Role } from 'enums';
+import { OrderSortBy } from 'common/@types';
+import { Role } from 'common/enums';
 import { useAppSelector } from 'redux/configStore';
 import { getRuleWidths } from './rules';
 

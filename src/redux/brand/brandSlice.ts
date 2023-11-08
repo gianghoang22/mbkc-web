@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Brand } from '@types';
+import { Brand } from 'common/models';
+import { StorageKeys } from 'constants/storageKeys';
+import { getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewBrandThunk,
   deleteBrandThunk,
@@ -8,8 +10,6 @@ import {
   updateBrandThunk,
   updateStatusBrandThunk,
 } from './brandThunk';
-import { getIsEditing, setLocalStorage } from 'utils';
-import { StorageKeys } from 'constants/storageKeys';
 
 const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_BRAND) ? getIsEditing(StorageKeys.IS_EDIT_BRAND) : false;
 

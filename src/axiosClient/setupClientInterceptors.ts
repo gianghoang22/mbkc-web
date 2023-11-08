@@ -2,10 +2,10 @@ import { AxiosResponse } from 'axios';
 // redux
 import { removeToken, setIsLogout, updateLocalAccessToken } from 'redux/auth/authSlice';
 //
-import { TokenResponse } from '@types';
 import { ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { getAccessToken, getRefreshToken } from 'utils';
 import { axiosClient } from './axiosClient';
+import { TokenResponse } from 'common/models';
 
 const setupAxiosClient = (store: any) => {
   axiosClient.interceptors.request.use(

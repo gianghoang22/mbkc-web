@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { MoneyExchange, ShipperPayment } from '@types';
+import { MoneyExchange, ShipperPayment } from 'common/models';
 import { createPaymentForStoreThunk, getAllMoneyExchangeThunk, getAllShipperPaymentThunk } from './walletThunk';
 import moneyExchange from 'mock/moneyExchange';
 import shipperPayment from 'mock/shipperPayment';

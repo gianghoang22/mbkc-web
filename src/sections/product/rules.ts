@@ -1,4 +1,4 @@
-import { OrderSortBy } from '@types';
+import { OrderSortBy } from 'common/@types';
 
 export const getRuleWidths = (selected: readonly string[], inTab: boolean) => ({
   name:

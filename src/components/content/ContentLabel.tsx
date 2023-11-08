@@ -1,5 +1,5 @@
 import { Divider, Stack, Typography } from '@mui/material';
-import { Color } from 'enums';
+import { Color } from 'common/enums';
 import Label from '../label/Label';
 
 interface ContentLabelProps {

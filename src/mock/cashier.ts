@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Gender, Status } from 'enums';
+import { Gender, Status } from 'common/enums';
 import { sample } from 'lodash'; // random in array
 
 // ----------------------------------------------------------------------

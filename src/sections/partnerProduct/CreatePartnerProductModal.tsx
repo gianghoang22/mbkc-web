@@ -22,17 +22,16 @@ import { createNewPartnerProduct, updatePartnerProduct } from 'redux/partnerProd
 import { getAllProducts } from 'redux/product/productSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 //
+import { ListParams, Params } from 'common/@types';
+import { Color, Language, Status } from 'common/enums';
 import {
-  ListParams,
   PARTNER_PRODUCT_STATUS_OPTIONS,
-  Params,
   PartnerProduct,
   PartnerProductStatusEnum,
   PartnerProductStatusUpdateEnum,
   PartnerProductToCreate,
   PartnerProductToUpdate,
-} from '@types';
-import { Color, Language, Status } from 'enums';
+} from 'common/models';
 import { AutoCompleteField, InputField, SelectField } from 'components';
 import { useLocales, usePagination, useValidationForm } from 'hooks';
 

@@ -9,7 +9,8 @@ import { getAllOrders } from 'redux/order/orderSlice';
 // section
 import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
 //
-import { ListParams, OptionSelect, OrderSort, OrderTable, PARTNER_ORDER_STATUS, SYSTEM_STATUS_OPTIONS } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderTable } from 'common/@types';
+import { PARTNER_ORDER_STATUS, SYSTEM_STATUS_OPTIONS } from 'common/models';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

@@ -1,5 +1,5 @@
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
-import { OrderSortBy } from '@types';
+import { OrderSortBy } from 'common/@types';
 
 function KitchenCenterTableRowSkeleton({ length, selected }: { length: number; selected: readonly string[] }) {
   return (

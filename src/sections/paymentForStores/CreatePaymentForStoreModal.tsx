@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // @mui
@@ -6,14 +7,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllStores } from 'redux/store/storeSlice';
+import { createPaymentForStore } from 'redux/wallet/walletSlice';
 //
-import { ListParams, Params, PaymentForStoresToCreate } from '@types';
-import { Color } from 'enums';
+import { ListParams, Params } from 'common/@types';
+import { Color } from 'common/enums';
+import { PaymentForStoresToCreate } from 'common/models';
 import { AutoCompleteField, InputNumber, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { createPaymentForStore } from 'redux/wallet/walletSlice';
-import { useEffect, useMemo } from 'react';
-import { getAllStores } from 'redux/store/storeSlice';
 
 interface CreatePaymentForStoreModalProps {
   page: number;

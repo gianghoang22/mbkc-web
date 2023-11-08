@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
-import { PartnerProductStatusEnum, ProductTypeEnum } from '@types';
-import { Gender, Status } from 'enums';
+import { PartnerProductStatusEnum, ProductTypeEnum } from 'common/models';
+import { Gender, Status } from 'common/enums';
 import { useLocales } from 'hooks';
 import { Controller, useFormContext } from 'react-hook-form';
 

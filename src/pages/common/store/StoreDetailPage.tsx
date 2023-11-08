@@ -32,8 +32,8 @@ import { getAllStorePartnersByStoreId } from 'redux/storePartner/storePartnerSli
 import { ConfirmRegistrationStore, StoreDetailPageSkeleton } from 'sections/store';
 import { StorePartnerTableDetailRow, StorePartnerTableDetailRowSkeleton } from 'sections/storePartner';
 //
-import { ListParams, OrderSort, OrderSortBy, StorePartnerDetailTable } from '@types';
-import { Color, Language, PopoverType, Role, Status } from 'enums';
+import { ListParams, OrderSort, OrderSortBy, StorePartnerDetailTable } from 'common/@types';
+import { Color, Language, PopoverType, Role, Status } from 'common/enums';
 import { CommonTableHead, ConfirmDialog, EmptyTable, Label, Page, Popover } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';

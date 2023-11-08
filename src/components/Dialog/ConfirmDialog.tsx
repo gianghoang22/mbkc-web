@@ -14,7 +14,7 @@ import {
 //
 import LoadingAsyncButton from 'components/LoadingAsyncButton/LoadingAsyncButton';
 import { useLocales } from 'hooks';
-import { Color } from 'enums';
+import { Color } from 'common/enums';
 
 type Props = {
   open: boolean;

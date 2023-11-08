@@ -2,7 +2,7 @@
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { MenuItem, Popover as MUIPopover, SxProps } from '@mui/material';
-import { PopoverType } from 'enums';
+import { PopoverType } from 'common/enums';
 import { useLocales } from 'hooks';
 
 interface PopoverProps {

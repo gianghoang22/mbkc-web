@@ -1,15 +1,6 @@
-import {
-  AddExtraCategory,
-  Category,
-  CategoryToCreate,
-  CategoryToUpdate,
-  CategoryType,
-  ListParams,
-  ListResponse,
-  MessageResponse,
-  Params,
-} from '@types';
 import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
+import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
+import { AddExtraCategory, Category, CategoryToCreate, CategoryToUpdate, CategoryType } from 'common/models';
 import { ROUTES_API_CATEGORIES } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';

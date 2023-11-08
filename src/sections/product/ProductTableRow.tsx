@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
@@ -15,15 +16,15 @@ import {
 } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { OrderSortBy, Params, Product, ToUpdateStatus } from '@types';
-import { Color, Status } from 'enums';
+import { OrderSortBy, Params } from 'common/@types';
+import { Color, Status } from 'common/enums';
+import { Product, ToUpdateStatus } from 'common/models';
 import { ConfirmDialog, Label, Popover } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { fCurrencyVN, setLocalStorage } from 'utils';
 import { getRuleWidths } from './rules';
-import { Dispatch, SetStateAction } from 'react';
-import { StorageKeys } from 'constants/storageKeys';
 
 interface ProductTableRowProps {
   product: Product;

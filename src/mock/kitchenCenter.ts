@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { KitchenCenter } from '@types';
+import { KitchenCenter } from 'common/models';
 import { sample } from 'lodash'; // random in array
 
 // ----------------------------------------------------------------------

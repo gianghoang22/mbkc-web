@@ -26,8 +26,8 @@ import { getAllStores } from 'redux/store/storeSlice';
 import { BrandDetailPageSkeleton } from 'sections/brand';
 import { StoreTableRow, StoreTableRowSkeleton } from 'sections/store';
 //
-import { ListParams, OptionSelect, OrderSort, OrderSortBy, STATUS_OPTIONS, StoreTable } from '@types';
-import { Color, Language, PopoverType, Status } from 'enums';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from 'common/@types';
+import { Color, Language, PopoverType, Status } from 'common/enums';
 import {
   ConfirmDialog,
   CustomTableHead,
@@ -40,6 +40,7 @@ import {
 } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
+import { STATUS_OPTIONS } from 'common/models';
 
 function BrandDetailPage() {
   const { id: brandId } = useParams();

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Configuration } from '@types';
+import { Configuration } from 'common/models';
 import { getSystemConfigurationThunk, updateSystemConfigurationThunk } from './configurationThunk';
 
 interface ConfigurationState {

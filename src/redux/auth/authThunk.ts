@@ -1,3 +1,4 @@
+import { axiosClient } from 'axiosClient/axiosClient';
 import {
   EmailForm,
   LoginForm,
@@ -6,10 +7,10 @@ import {
   Params,
   ResetForm,
   UpdatePasswordForm,
-  UserInfo,
   VerificationForm,
-} from '@types';
-import { axiosClient } from 'axiosClient/axiosClient';
+} from 'common/@types';
+import { Role } from 'common/enums';
+import { UserInfo } from 'common/models';
 import { ROUTES_API_ACCOUNT, ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { PATH_AUTH } from 'routes/paths';
 import {
@@ -27,7 +28,6 @@ import {
   setUserInfo,
 } from 'utils';
 import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
-import { Role } from 'enums';
 
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
   const { data, navigate } = params;

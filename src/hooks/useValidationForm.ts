@@ -1,8 +1,8 @@
-import { Language } from 'enums';
+import { Language } from 'common/enums';
 import * as yup from 'yup';
 import { ref } from 'yup';
 import useLocales from './useLocales';
-import { LoginForm } from '@types';
+import { LoginForm } from 'common/@types';
 
 function useValidationForm() {
   const { translate, currentLang } = useLocales();

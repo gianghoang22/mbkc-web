@@ -7,7 +7,7 @@ import { useAppSelector } from 'redux/configStore';
 // section
 import { ShipperPaymentTableRow, ShipperPaymentTableToolbar } from 'sections/shipperPayment';
 //
-import { OrderSort, ShipperPaymentTable } from '@types';
+import { OrderSort, ShipperPaymentTable } from 'common/@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

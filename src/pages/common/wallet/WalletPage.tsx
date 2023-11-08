@@ -22,7 +22,7 @@ import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 import { Label, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color, Role } from 'enums';
+import { Color, Role } from 'common/enums';
 import { useAppSelector } from 'redux/configStore';
 
 function WalletPage() {

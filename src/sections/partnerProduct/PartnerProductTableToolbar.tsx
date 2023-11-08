@@ -9,7 +9,7 @@ import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import { useAppDispatch } from 'redux/configStore';
 import { getAllPartnerProducts } from 'redux/partnerProduct/partnerProductSlice';
 //
-import { ListParams } from '@types';
+import { ListParams } from 'common/@types';
 import { useDebounce, useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from 'sections/styles';
 

@@ -1,15 +1,12 @@
+import { axiosClient } from 'axiosClient/axiosClient';
+import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
 import {
-  ListParams,
-  ListResponse,
-  MessageResponse,
-  Params,
   StorePartner,
   StorePartnerDetail,
   StorePartnerToCreateAPI,
   StorePartnerToUpdateApi,
   ToUpdateStatus,
-} from '@types';
-import { axiosClient } from 'axiosClient/axiosClient';
+} from 'common/models';
 import { ROUTES_API_STORE_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';

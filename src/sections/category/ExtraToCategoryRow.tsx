@@ -8,8 +8,9 @@ import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Category, CategoryType, OrderSortBy } from '@types';
-import { Color, Status } from 'enums';
+import { OrderSortBy } from 'common/@types';
+import { Category, CategoryType } from 'common/models';
+import { Color, Status } from 'common/enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

@@ -2,7 +2,7 @@
 import { alpha, styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
 //
-import { Color, VariantLabel } from 'enums';
+import { Color, VariantLabel } from 'common/enums';
 
 export interface StyledLabelProps {
   theme: import('@mui/material').Theme;

@@ -19,7 +19,8 @@ import {
 // redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { ProductTable, ProductTypeEnum } from '@types';
+import { ProductTable } from 'common/@types';
+import { ProductTypeEnum } from 'common/models';
 import { CommonTableHead } from 'components';
 import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
 import { TableHead } from '@mui/material';

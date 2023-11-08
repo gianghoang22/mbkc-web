@@ -1,4 +1,4 @@
-import { ListParams } from '@types';
+import { ListParams } from 'common/@types';
 import { axiosClient } from 'axiosClient/axiosClient';
 import { ROUTES_API_BANKING_ACCOUNTS } from 'constants/routesApiKeys';
 import { setMessageError } from 'redux/auth/authSlice';

@@ -1,4 +1,4 @@
-import { Role } from 'enums';
+import { Role } from 'common/enums';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAppSelector } from 'redux/configStore';
 import { getAccessToken } from 'utils';

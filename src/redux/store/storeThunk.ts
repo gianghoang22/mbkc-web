@@ -1,22 +1,12 @@
-import {
-  ListParams,
-  ListResponse,
-  MessageResponse,
-  Params,
-  Store,
-  StoreToConfirm,
-  StoreToCreate,
-  StoreToUpdate,
-  ToUpdateStatus,
-  UserAuth,
-} from '@types';
 import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
+import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
+import { Role } from 'common/enums';
+import { Store, StoreToConfirm, StoreToCreate, StoreToUpdate, ToUpdateStatus, UserAuth } from 'common/models';
 import { ROUTES_API_STORES } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { appendData, getErrorMessage, getUserAuth, handleResponseMessage } from 'utils';
 import { getAllStores, getStoreDetail } from './storeSlice';
-import { Role } from 'enums';
 
 export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;

@@ -15,11 +15,11 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import { StorePartnerDetailTable } from '@types';
+import { StorePartnerDetailTable } from 'common/@types';
 // redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { Role } from 'enums';
+import { Role } from 'common/enums';
 import { CommonTableHead } from 'components';
 import { useConfigHeadTable, useLocales, usePagination, useResponsive } from 'hooks';
 

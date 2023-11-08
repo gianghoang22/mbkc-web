@@ -13,8 +13,9 @@ import {
 } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { KitchenCenter, OrderSortBy, Params, ToUpdateStatus } from '@types';
-import { Color, Status } from 'enums';
+import { OrderSortBy, Params } from 'common/@types';
+import { Color, Status } from 'common/enums';
+import { KitchenCenter, ToUpdateStatus } from 'common/models';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';

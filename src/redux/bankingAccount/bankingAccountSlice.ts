@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BankingAccount } from '@types';
+import { BankingAccount } from 'common/models';
+import { StorageKeys } from 'constants/storageKeys';
+import { getIsEditing, setLocalStorage } from 'utils';
 import {
   createNewBankingAccountThunk,
   deleteBankingAccountThunk,
@@ -8,8 +10,6 @@ import {
   updateBankingAccountThunk,
   updateStatusBankingAccountThunk,
 } from './bankingAccountThunk';
-import { getIsEditing, setLocalStorage } from 'utils';
-import { StorageKeys } from 'constants/storageKeys';
 
 const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_BANKING_ACCOUNT)
   ? getIsEditing(StorageKeys.IS_EDIT_BANKING_ACCOUNT)

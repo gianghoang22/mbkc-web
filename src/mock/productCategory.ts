@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { CategoryType } from '@types';
+import { CategoryType } from 'common/models';
 import { sample } from 'lodash'; // random in array
 
 // ----------------------------------------------------------------------

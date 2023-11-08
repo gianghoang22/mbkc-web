@@ -11,7 +11,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { login, setIsLogout } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { LoginForm as LoginFormType } from '@types';
+import { LoginForm as LoginFormType } from 'common/@types';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_AUTH } from 'routes/paths';

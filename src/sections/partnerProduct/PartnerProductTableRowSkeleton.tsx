@@ -1,5 +1,5 @@
 import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow, Box } from '@mui/material';
-import { OrderSortBy } from '@types';
+import { OrderSortBy } from 'common/@types';
 
 interface ProductTableRowSkeletonProps {
   length: number;

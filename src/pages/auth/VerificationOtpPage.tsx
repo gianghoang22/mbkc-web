@@ -8,7 +8,7 @@ import { Box, Button, Card, LinearProgress, Link as MuiLink, Stack, Typography }
 import { forgotPassword, verifyOtp } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { VerificationForm } from '@types';
+import { VerificationForm } from 'common/@types';
 import images from 'assets';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales, useValidationForm } from 'hooks';

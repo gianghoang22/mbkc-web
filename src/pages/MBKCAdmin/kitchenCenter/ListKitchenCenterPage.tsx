@@ -12,7 +12,7 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { KitchenCenterTableRow, KitchenCenterTableRowSkeleton } from 'sections/kitchenCenter';
 //
-import { KitchenCenterTable, ListParams, OrderSort, OrderSortBy } from '@types';
+import { KitchenCenterTable, ListParams, OrderSort, OrderSortBy } from 'common/@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

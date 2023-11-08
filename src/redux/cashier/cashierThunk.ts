@@ -1,15 +1,6 @@
-import {
-  Cashier,
-  CashierToCreate,
-  CashierToUpdate,
-  ListParams,
-  ListResponse,
-  MessageResponse,
-  Params,
-  ToUpdateStatus,
-} from '@types';
+import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
+import { Cashier, CashierToCreate, CashierToUpdate, ToUpdateStatus } from 'common/models';
 import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
-
 import { ROUTES_API_CASHIERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

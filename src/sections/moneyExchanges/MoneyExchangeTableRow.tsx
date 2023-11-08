@@ -1,8 +1,8 @@
 // @mui
 import { TableCell, TableRow } from '@mui/material';
 //
-import { MoneyExchange } from '@types';
-import { Color, Status } from 'enums';
+import { MoneyExchange } from 'common/models';
+import { Color, Status } from 'common/enums';
 import { Label } from 'components';
 import { useLocales, useModal } from 'hooks';
 import MoneyExchangeDetailModal from './MoneyExchangeDetailModal';

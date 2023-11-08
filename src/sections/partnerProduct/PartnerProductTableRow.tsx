@@ -18,19 +18,18 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import CreatePartnerProductModal from './CreatePartnerProductModal';
 //
-import {
-  OrderSortBy,
-  Params,
-  PartnerProduct,
-  PartnerProductStatusEnum,
-  PartnerProductStatusUpdateEnum,
-  ToUpdateStatus,
-} from '@types';
+import { OrderSortBy, Params } from 'common/@types';
 import { ConfirmDialog, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { setLocalStorage } from 'utils';
+import {
+  PartnerProduct,
+  PartnerProductStatusEnum,
+  PartnerProductStatusUpdateEnum,
+  ToUpdateStatus,
+} from 'common/models';
 
 interface PartnerProductTableRowProps {
   partnerProduct: PartnerProduct;

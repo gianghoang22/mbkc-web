@@ -8,8 +8,9 @@ import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typogr
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { updateBrandProfile } from 'redux/profile/profileSlice';
 //
-import { Params, UpdateBrandProfile } from '@types';
-import { Color, Language } from 'enums';
+import { Params } from 'common/@types';
+import { Color, Language } from 'common/enums';
+import { UpdateBrandProfile } from 'common/models';
 import { InputField, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 

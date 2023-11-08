@@ -9,13 +9,15 @@ import { deleteCashier, setEditCashier, updateCashierStatus } from 'redux/cashie
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Cashier, OrderSortBy, Params, ToUpdateStatus } from '@types';
-import { Color, Gender, Status } from 'enums';
+import { OrderSortBy, Params } from 'common/@types';
+import { ToUpdateStatus } from 'common/models';
+import { Color, Gender, Status } from 'common/enums';
+import { Cashier } from 'common/models';
 import { ConfirmDialog, Label, Popover } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { setLocalStorage } from 'utils';
-import { StorageKeys } from 'constants/storageKeys';
 
 interface CashierTableRowProps {
   index: number;

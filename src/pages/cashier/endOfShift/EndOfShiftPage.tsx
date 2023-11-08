@@ -8,7 +8,7 @@ import { useAppSelector } from 'redux/configStore';
 import { ShiftTableRow, ShiftTableToolbar } from 'sections/shift';
 
 //
-import { OrderSort, ShiftTable } from '@types';
+import { OrderSort, ShiftTable } from 'common/@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_CASHIER_APP } from 'routes/paths';

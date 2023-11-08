@@ -11,8 +11,9 @@ import {
 } from 'redux/bankingAccount/bankingAccountSlice';
 import { useAppDispatch } from 'redux/configStore';
 //
-import { BankingAccount, OrderSortBy, Params, ToUpdateStatus } from '@types';
-import { Color, Status } from 'enums';
+import { OrderSortBy, Params } from 'common/@types';
+import { BankingAccount, ToUpdateStatus } from 'common/models';
+import { Color, Status } from 'common/enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 

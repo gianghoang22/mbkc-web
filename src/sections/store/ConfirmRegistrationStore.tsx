@@ -8,8 +8,9 @@ import { Button, Dialog, DialogActions, DialogContent, Divider, Stack, Typograph
 import { useAppDispatch } from 'redux/configStore';
 import { confirmRegistrationStore } from 'redux/store/storeSlice';
 //
-import { OptionSelect, Store, StoreToConfirm } from '@types';
-import { Color, Status } from 'enums';
+import { OptionSelect } from 'common/@types';
+import { Color, Status } from 'common/enums';
+import { Store, StoreToConfirm } from 'common/models';
 import { InputField } from 'components';
 import { useLocales } from 'hooks';
 

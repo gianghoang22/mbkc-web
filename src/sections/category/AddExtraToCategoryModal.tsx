@@ -26,8 +26,9 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import ExtraToCategoryRow from './ExtraToCategoryRow';
 import ExtraToCategoryRowSkeleton from './ExtraToCategoryRowSkeleton';
 //
-import { AddExtraCategory, CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy, Params } from '@types';
-import { Language } from 'enums';
+import { CategoryTable, ListParams, OrderSort, OrderSortBy, Params } from 'common/@types';
+import { Language } from 'common/enums';
+import { AddExtraCategory, CategoryType } from 'common/models';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 

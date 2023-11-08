@@ -8,7 +8,7 @@ import BrandRouter from './brandRouter';
 import CashierRouter from './cashierRouter';
 import KitchenCenterRouter from './kitchenCenterRouter';
 //routes
-import { Role } from 'enums';
+import { Role } from 'common/enums';
 import { useAppSelector } from 'redux/configStore';
 import PublicRouter from './PublicRouter';
 import { adminRoutes, brandRoutes, cashierRoutes, errorRoutes, kitchenCenterRoutes, publicRoutes } from './config';
