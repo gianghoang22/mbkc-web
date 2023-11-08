@@ -63,3 +63,8 @@ export enum Language {
 export enum Error {
   SERVER_ERROR = 'ERR_NETWORK',
 }
+
+export enum PaymentMethod {
+  CASH = 'Cash',
+  CASH_LESS = 'Cashless',
+}

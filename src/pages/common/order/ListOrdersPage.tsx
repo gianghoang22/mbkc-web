@@ -90,7 +90,7 @@ function ListOrdersPage() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar<OrderTable>
-                model={translate('model.lowercase.orders')}
+                model={translate('model.lowercase.store')}
                 selected={selected}
                 setSelected={setSelected}
                 headCells={orderHeadCells}
@@ -119,16 +119,7 @@ function ListOrdersPage() {
                   ) : (
                     <TableBody>
                       {orders.map((order, index) => {
-                        return (
-                          <OrderTableRow
-                            key={order.id}
-                            index={index}
-                            order={order}
-                            page={page}
-                            rowsPerPage={rowsPerPage}
-                            selected={selected}
-                          />
-                        );
+                        return <OrderTableRow key={order.id} index={index} order={order} selected={selected} />;
                       })}
                       {emptyRows > 0 ||
                         (orders.length === 0 && !filterName && (

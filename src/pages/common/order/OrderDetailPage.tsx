@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // @mui
-import CheckIcon from '@mui/icons-material/Check';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
@@ -22,19 +21,19 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
+import PaymentsIcon from '@mui/icons-material/Payments';
 // section
 import { OrderDetailPageSkeleton, OrderHistoryTableRow, OrderHistoryTableRowSkeleton, OrderItem } from 'sections/order';
-import ConfirmCompletedOrderModal from 'sections/order/ConfirmCompletedOrderModal';
+import { CreateShipperPaymentModal } from 'sections/shipperPayment';
 //redux
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
 import { useAppSelector, useAppDispatch } from 'redux/configStore';
 //
 import { OrderHistory, OrderStatusActions } from '@types';
-import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enum';
+import { Color, PartnerOrderStatus, PaymentMethod, Role, SystemStatus } from 'common/enum';
 import { ConfirmDialog, EmptyTable, Helmet, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
@@ -53,11 +52,9 @@ function OrderDetailPage() {
     handleCloseMenu: handleCloseMenuConfirm,
   } = usePopover();
   const { orderHistoryHeadCells } = useConfigHeadTable();
-  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
-  const { handleOpen: handleOpenConfirmCompleted, isOpen: isOpenConfirmCompleted } = useModal();
+  const { page, rowsPerPage } = usePagination();
+  const { handleOpen: handleOpenCreateShipperPaymentModal, isOpen: isOpenCreateShipperPaymentModal } = useModal();
   const { handleOpen: handleOpenModalReadyDelivery, isOpen: isOpenModalConfirmReadyDelivery } = useModal();
-
-  const [status, setStatus] = useState<string>(OrderStatusActions.COMPLETED);
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { order, isLoading: isLoadingOrder } = useAppSelector((state) => state.order);
@@ -183,6 +180,7 @@ function OrderDetailPage() {
                         {order?.orderDetails.map((order) => {
                           return (
                             <OrderItem
+                              key={order.product.productId}
                               paddingTop={2}
                               divider
                               logoUrl={order.product.image}
@@ -253,12 +251,11 @@ function OrderDetailPage() {
                                 <Typography variant="body2" color={(theme) => theme.palette.grey[500]}>
                                   {translate('table.name')}:
                                 </Typography>
-                                <Typography variant="body1">{order?.customerName}</Typography>
+                                <Typography variant="body2">{order?.customerName}</Typography>
                               </Stack>
                             </Stack>
                           </Stack>
                           <Divider />
-
                           <Stack>
                             <Typography variant="subtitle1" mt={2}>
                               {translate('page.content.delivery')}
@@ -267,48 +264,66 @@ function OrderDetailPage() {
                               <Typography variant="body2" color={(theme) => theme.palette.grey[500]}>
                                 {translate('page.content.shipperName')}:
                               </Typography>
-                              <Typography variant="body1">{order?.shipperName}</Typography>
+                              <Typography variant="body2">{order?.shipperName}</Typography>
                             </Stack>
 
                             <Stack direction="row" alignItems="center" spacing={1} mt={1} mb={2}>
                               <Typography variant="body2" color={(theme) => theme.palette.grey[500]}>
                                 {translate('page.content.shipperPhone')}:
                               </Typography>
-                              <Typography variant="body1">{order?.shipperPhone}</Typography>
+                              <Typography variant="body2">{order?.shipperPhone}</Typography>
                             </Stack>
                           </Stack>
                           <Divider />
-
                           <Stack>
                             <Typography variant="subtitle1" mt={2}>
                               {translate('page.content.shipping')}
                             </Typography>
                             <Stack direction="row" spacing={1} mt={1}>
-                              <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }} width={70}>
+                              <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }} width={60}>
                                 {translate('table.address')}:
                               </Typography>
-                              <Typography variant="body1">{order?.address}</Typography>
+                              <Typography variant="body2">{order?.address}</Typography>
                             </Stack>
 
                             <Stack direction="row" alignItems="center" spacing={1} mt={1} mb={2}>
                               <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                                 {translate('model.capitalize.phone')}:
                               </Typography>
-                              <Typography variant="body1">{order?.customerPhone}</Typography>
+                              <Typography variant="body2">{order?.customerPhone}</Typography>
                             </Stack>
                           </Stack>
+
                           <Divider />
 
                           <Typography variant="subtitle1" mt={2}>
                             {translate('page.content.payment')}
                           </Typography>
-                          <Stack rowGap={2} mt={1}>
+                          <Stack rowGap={2} mt={1} mb={2}>
                             <Stack direction="row" alignItems="center" justifyContent="space-between">
                               <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                                 {translate('page.content.paidBy')}
                               </Typography>
-                              <Label color={Color.INFO}>{order?.paymentMethod}</Label>
+                              <Label color={Color.PRIMARY}>
+                                {order?.paymentMethod === PaymentMethod.CASH
+                                  ? translate('page.content.cash')
+                                  : translate('page.content.cashless')}
+                              </Label>
                             </Stack>
+                          </Stack>
+
+                          <Divider />
+
+                          <Stack direction="row" justifyContent="flex-end" mt={3}>
+                            <Button
+                              onClick={() => {
+                                handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
+                              }}
+                              variant="outlined"
+                              startIcon={<PaymentsIcon />}
+                            >
+                              {translate('page.title.create', { model: translate('model.lowercase.shipperPayment') })}
+                            </Button>
                           </Stack>
                         </Paper>
                       </Box>
@@ -367,16 +382,6 @@ function OrderDetailPage() {
                       )}
                     </Table>
                   </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={orderHistories?.length}
-                    rowsPerPage={rowsPerPage}
-                    labelRowsPerPage={translate('table.rowsPerPage')}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
                 </Paper>
               </Box>
             </Card>
@@ -410,28 +415,11 @@ function OrderDetailPage() {
               : true
           }
           onClick={() => {
-            setStatus(OrderStatusActions.READY_DELIVERY);
             handleOpenModalReadyDelivery(OrderStatusActions.READY_DELIVERY);
           }}
         >
           <DeliveryDiningIcon fontSize="small" sx={{ mr: 2 }} />
           {translate('status.readyDelivery')}
-        </MenuItem>
-
-        <MenuItem
-          disabled={
-            order?.systemStatus === SystemStatus.READY_DELIVERY &&
-            order?.partnerOrderStatus === PartnerOrderStatus.READY
-              ? false
-              : true
-          }
-          onClick={() => {
-            setStatus(OrderStatusActions.COMPLETED);
-            handleOpenConfirmCompleted(OrderStatusActions.COMPLETED);
-          }}
-        >
-          <CheckIcon fontSize="small" sx={{ mr: 2 }} />
-          {translate('status.completed')}
         </MenuItem>
       </MUIPopover>
 
@@ -449,12 +437,14 @@ function OrderDetailPage() {
         />
       )}
 
-      {isOpenConfirmCompleted && (
-        <ConfirmCompletedOrderModal
-          isOpen={isOpenConfirmCompleted}
-          handleOpen={handleOpenConfirmCompleted}
+      {isOpenCreateShipperPaymentModal && (
+        <CreateShipperPaymentModal
+          isOpen={isOpenCreateShipperPaymentModal}
+          handleOpen={handleOpenCreateShipperPaymentModal}
           page={page}
           rowsPerPage={rowsPerPage}
+          paymentMethod={order?.paymentMethod as string}
+          partnerOrderId={order?.partner.partnerId as number}
         />
       )}
     </>

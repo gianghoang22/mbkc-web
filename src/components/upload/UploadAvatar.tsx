@@ -13,10 +13,10 @@ import { useLocales } from 'hooks';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
-  width: 200,
+  // width: 200,
   height: 200,
   // margin: 'auto',
-  borderRadius: '50%',
+  // borderRadius: '50%',
   padding: theme.spacing(1),
   border: `1px dashed ${theme.palette.grey[500_32]}`,
 }));
@@ -28,7 +28,7 @@ const DropZoneStyle = styled('div')({
   outline: 'none',
   display: 'flex',
   overflow: 'hidden',
-  borderRadius: '50%',
+  // borderRadius: '50%',
   position: 'relative',
   alignItems: 'center',
   justifyContent: 'center',
@@ -72,6 +72,7 @@ interface UploadAvatarProps extends DropzoneOptions {
   sx?: SxProps<Theme>;
   onChange?: Function;
   captionWidth?: number;
+  borderRadius?: string;
 }
 
 export default function UploadAvatar({
@@ -83,6 +84,7 @@ export default function UploadAvatar({
   caption,
   sx,
   captionWidth,
+  borderRadius = '50%',
   ...other
 }: UploadAvatarProps) {
   const { translate } = useLocales();
@@ -153,6 +155,7 @@ export default function UploadAvatar({
         <DropZoneStyle
           {...getRootProps()}
           sx={{
+            borderRadius: borderRadius,
             ...(isDragActive && { opacity: 0.72 }),
             ...((isDragReject || error) && {
               color: 'error.main',

@@ -51,7 +51,7 @@ export interface Order {
 }
 
 export interface CompletedOrderParams {
-  OrderPartnerId: string;
+  OrderPartnerId: number;
   BankingAccountId: string;
   Image: string;
 }

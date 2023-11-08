@@ -10,7 +10,9 @@
     "confirmLink": "Xác nhận liên kết",
     "mbkcTime": "Thời gian nhận đơn hàng",
     "timeMoneyExchange": "Thời gian chuyển tiền",
-    "confirmCompletedOrder": "Xác nhận hoàn tất {{model}}"
+    "confirmCompletedOrder": "Xác nhận hoàn tất {{model}}",
+    "totalDaily": "Tổng {{model}} hàng ngày",
+    "new": "{{model}} mới nhất"
   },
   "content": {
     "noHavePartner": "Chưa có đối tác",
@@ -53,7 +55,10 @@
     "subTotalPrice": "Tạm tính",
     "deliveryFee": "Phí giao hàng",
     "totalDiscount": "Tổng giảm giá",
-    "finalTotalPrice": "Giá cuối cùng"
+    "finalTotalPrice": "Giá cuối cùng",
+    "mainBalance": "Số dư",
+    "cash": "Tiền mặt",
+    "cashless": "Cashless"
   },
   "form": {
     "email": "Email",

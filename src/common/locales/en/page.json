@@ -10,7 +10,9 @@
     "confirmLink": "Link confirmation",
     "mbkcTime": "Order receiving time",
     "timeMoneyExchange": "Money transaction time",
-    "completedOrder": "Confirm completed {{model}}"
+    "completedOrder": "Confirm completed {{model}}",
+    "totalDaily": "Total daily {{model}}",
+    "new": "New {{model}}"
   },
   "content": {
     "noHavePartner": "No partner yet",
@@ -53,7 +55,10 @@
     "deliveryFee": "Delivery fee",
     "totalDiscount": "Total discount",
     "finalTotalPrice": "Final total price",
-    "switchToConfiguration": "Switch to configuration"
+    "switchToConfiguration": "Switch to configuration",
+    "mainBalance": "Main Balance",
+    "cash": "Cash",
+    "cashless": "Chuyển khoản"
   },
   "form": {
     "email": "Email",

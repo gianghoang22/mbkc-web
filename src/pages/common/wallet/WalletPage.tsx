@@ -18,16 +18,17 @@ import AddchartIcon from '@mui/icons-material/Addchart';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 // section
 import { MainBalanceCard, TotalDaily } from 'sections/wallet';
+//redux
+import { useAppSelector } from 'redux/configStore';
 //
 import { Label, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color, Role } from 'common/enum';
-import { useAppSelector } from 'redux/configStore';
+import { Color, Language, Role } from 'common/enum';
 
 function WalletPage() {
   const { pathname } = useLocation();
-  const { translate } = useLocales();
+  const { translate, currentLang } = useLocales();
   const { userAuth } = useAppSelector((state) => state.auth);
 
   return (
@@ -53,7 +54,7 @@ function WalletPage() {
               color={Color.SUCCESS}
               date="27/8/2023"
               icon={<CurrencyExchangeOutlinedIcon fontSize="medium" />}
-              title="Total daily money exchange"
+              title={translate('page.title.totalDaily', { model: translate('model.lowercase.moneyExchanges') })}
               totalMoney="16.520.000"
             />
           </Grid>
@@ -63,7 +64,7 @@ function WalletPage() {
               color={Color.INFO}
               date="27/8/2023"
               icon={<AddchartIcon fontSize="medium" />}
-              title="Total daily shipper payment"
+              title={translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })}
               totalMoney="16.520.000"
             />
           </Grid>
@@ -82,10 +83,12 @@ function WalletPage() {
                   letterSpacing: '0.6px',
                 }}
               >
-                New money exchange
+                {currentLang.value === Language.ENGLISH
+                  ? translate('page.title.new', { model: translate('model.lowercase.moneyExchanges') })
+                  : translate('page.title.new', { model: translate('model.capitalizeOne.moneyExchange') })}
               </Typography>
               <TableContainer component={Paper}>
-                <Table aria-label="simple table">
+                <Table aria-label="simple table" size="small">
                   <TableHead>
                     <TableRow>
                       <TableCell>{translate('table.no')}</TableCell>
@@ -167,10 +170,12 @@ function WalletPage() {
                     letterSpacing: '0.6px',
                   }}
                 >
-                  New shipper payment
+                  {currentLang.value === Language.ENGLISH
+                    ? translate('page.title.new', { model: translate('model.lowercase.shipperPayments') })
+                    : translate('page.title.new', { model: translate('model.capitalizeOne.shipperPayment') })}
                 </Typography>
                 <TableContainer component={Paper}>
-                  <Table aria-label="simple table">
+                  <Table aria-label="simple table" size="small">
                     <TableHead>
                       <TableRow>
                         <TableCell>{translate('table.no')}</TableCell>
