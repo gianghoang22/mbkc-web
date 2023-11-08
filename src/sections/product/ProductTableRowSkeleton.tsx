@@ -13,10 +13,10 @@ function ProductTableRowSkeleton({ length, inTab = false, selected }: ProductTab
 
   return (
     <TableBody>
-      {Array.from({ length: length ? length : 5 }).map((_, index: any) => (
-        <>
+      {Array.from({ length: length ? length : 5 }).map((_, index: number) => (
+        <TableRow key={index} sx={{ height: '72.89px' }}>
           {inTab ? (
-            <TableRow key={index} sx={{ height: '72.89px' }}>
+            <>
               <TableCell width={60} align="center">
                 <Stack direction="row" alignItems="center" justifyContent="center">
                   <Skeleton width={20} />
@@ -56,9 +56,9 @@ function ProductTableRowSkeleton({ length, inTab = false, selected }: ProductTab
                   </Stack>
                 </TableCell>
               )}
-            </TableRow>
+            </>
           ) : (
-            <TableRow key={index} sx={{ height: '72.89px' }}>
+            <>
               <TableCell width={60} align="center">
                 <Stack direction="row" alignItems="center" justifyContent="center">
                   <Skeleton width={20} />
@@ -128,9 +128,9 @@ function ProductTableRowSkeleton({ length, inTab = false, selected }: ProductTab
                   </Stack>
                 </TableCell>
               )}
-            </TableRow>
+            </>
           )}
-        </>
+        </TableRow>
       ))}
     </TableBody>
   );

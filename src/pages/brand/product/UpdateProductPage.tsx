@@ -21,7 +21,7 @@ import {
 } from '@types';
 import { Color, Status } from 'common/enum';
 import { LoadingScreen, Page } from 'components';
-import { useLocales, usePagination, useValidationForm } from 'hooks';
+import { useLocales, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { ProductForm } from 'sections/product';
 
@@ -34,10 +34,10 @@ function UpdateProductPage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { schemaProduct } = useValidationForm();
-  const { page, rowsPerPage } = usePagination();
 
-  const { product, productParent, productsParent, isEditing, isLoading } = useAppSelector((state) => state.product);
   const { categories } = useAppSelector((state) => state.category);
+  const { pathnameToBack } = useAppSelector((state) => state.routes);
+  const { product, productParent, productsParent, isEditing, isLoading } = useAppSelector((state) => state.product);
 
   const createProductForm = useForm<ProductToCreate>({
     defaultValues: {
@@ -283,10 +283,7 @@ function UpdateProductPage() {
         status: product?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
       },
       idParams: { productId: Number(productId) },
-      optionParams: {
-        currentPage: page + 1,
-        itemsPerPage: rowsPerPage,
-      },
+      pathname: pathnameToBack,
       navigate,
     };
     dispatch(updateProduct(paramsCreate));

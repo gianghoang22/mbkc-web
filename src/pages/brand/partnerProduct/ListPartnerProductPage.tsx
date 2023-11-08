@@ -142,6 +142,7 @@ function ListPartnerProductPage() {
                             partnerProduct={partnerProduct}
                             selected={selected}
                             filterName={filterName}
+                            sortBy={`${orderBy}_${order}`}
                           />
                         );
                       })}
@@ -174,7 +175,14 @@ function ListPartnerProductPage() {
         </Card>
       </Page>
 
-      {isOpen && <CreatePartnerProductModal isOpen={isOpen} handleOpen={handleOpen} filterName={filterName} />}
+      {isOpen && (
+        <CreatePartnerProductModal
+          isOpen={isOpen}
+          handleOpen={handleOpen}
+          filterName={filterName}
+          sortBy={`${orderBy}_${order}`}
+        />
+      )}
     </>
   );
 }

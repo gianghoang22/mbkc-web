@@ -85,6 +85,7 @@ function CategoryTableRow({
           currentPage: length === 1 ? 1 : page,
           sortBy: sortBy,
         },
+        pathname,
         navigate,
       })
     );
@@ -109,8 +110,9 @@ function CategoryTableRow({
         currentPage: page,
         itemsPerPage: rowsPerPage,
         sortBy: sortBy,
+        isUpdateStatus: true,
       },
-      pathname: pathname,
+      pathname,
       navigate,
     };
     dispatch(updateCategory(paramUpdate));

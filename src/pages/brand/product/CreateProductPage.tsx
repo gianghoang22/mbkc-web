@@ -34,8 +34,8 @@ function CreateProductPage() {
   const { schemaProduct } = useValidationForm();
   const { page, rowsPerPage } = usePagination();
 
-  const { productParent, productsParent, isLoading } = useAppSelector((state) => state.product);
   const { categories } = useAppSelector((state) => state.category);
+  const { productParent, productsParent, isLoading } = useAppSelector((state) => state.product);
 
   const createProductForm = useForm<ProductToCreate>({
     defaultValues: { name: '' },

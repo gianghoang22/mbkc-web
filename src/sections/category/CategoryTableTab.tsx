@@ -13,7 +13,6 @@ import AddExtraToCategory from './AddExtraToCategoryModal';
 import { CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy } from '@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
-import { getComparator, stableSort } from 'utils';
 
 interface CategoryTableTabProps {
   categoryId: number;
@@ -46,15 +45,9 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
     setFilterName(event.target.value.trimStart());
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categoriesExtra.length) : 0;
 
-  const visibleRows = useMemo(
-    () => stableSort(categoriesExtra, getComparator(order, orderBy)),
-    [order, orderBy, categoriesExtra]
-  );
-
-  const isNotFound = !visibleRows.length && !!filterName;
+  const isNotFound = !categoriesExtra.length && !!filterName;
 
   const debounceValue = useDebounce(filterName, 500);
 
@@ -104,10 +97,10 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
               selectedCol={selected}
             />
             {isLoading ? (
-              <CategoryTableRowSkeleton length={visibleRows.length} selected={selected} />
+              <CategoryTableRowSkeleton length={categoriesExtra.length} selected={selected} />
             ) : (
               <TableBody>
-                {visibleRows.map((category, index) => {
+                {categoriesExtra.map((category, index) => {
                   return (
                     <CategoryTableRow
                       key={category.categoryId}
@@ -140,7 +133,14 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
         />
       </Paper>
 
-      {isOpen && <AddExtraToCategory isOpen={isOpen} handleOpen={handleOpen} />}
+      {isOpen && (
+        <AddExtraToCategory
+          isOpen={isOpen}
+          handleOpen={handleOpen}
+          filterName={filterName}
+          sortBy={`${orderBy}_${order}`}
+        />
+      )}
     </Box>
   );
 }

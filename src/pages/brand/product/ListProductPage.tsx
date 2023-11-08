@@ -145,6 +145,7 @@ function ListProductPage() {
                             selected={selected}
                             filterName={filterName}
                             productType={productType}
+                            sortBy={`${orderBy}_${order}`}
                           />
                         );
                       })}

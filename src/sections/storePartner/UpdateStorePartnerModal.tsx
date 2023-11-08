@@ -2,28 +2,28 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {
+  Avatar,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
+  Grid,
   IconButton,
   InputAdornment,
-  Grid,
   Stack,
-  Avatar,
   Typography,
 } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { updateStorePartner } from 'redux/storePartner/storePartnerSlice';
 //
-import { Params, StorePartnerToUpdate, StorePartnerToUpdateApi } from '@types';
+import { Params, StorePartnerToUpdateApi } from '@types';
 import { Color, Status } from 'common/enum';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
@@ -39,6 +39,7 @@ function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: Upd
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const { pathname } = useLocation();
   const { translate } = useLocales();
   const { schemaUpdateStorePartner } = useValidationForm();
 
@@ -46,7 +47,7 @@ function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: Upd
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const updateStorePartnerForm = useForm<StorePartnerToUpdate>({
+  const updateStorePartnerForm = useForm<Omit<StorePartnerToUpdateApi, 'status'>>({
     defaultValues: {
       userName: storePartner?.userName,
       password: storePartner?.password,
@@ -57,7 +58,7 @@ function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: Upd
 
   const { handleSubmit } = updateStorePartnerForm;
 
-  const onSubmit = async (values: StorePartnerToUpdate) => {
+  const onSubmit = async (values: Omit<StorePartnerToUpdateApi, 'status'>) => {
     const data = { ...values };
     const params: Params<StorePartnerToUpdateApi> = {
       data: { ...data, status: storePartner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE },
@@ -65,6 +66,7 @@ function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: Upd
         partnerId,
         storeId,
       },
+      pathname,
       navigate,
     };
     dispatch(updateStorePartner(params));
@@ -87,7 +89,7 @@ function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: Upd
                 </IconButton>
               </Stack>
 
-              <Stack alignItems="center" pt={3} pb={1}>
+              <Stack alignItems="center" pt={4} pb={1}>
                 <Grid container columnSpacing={2}>
                   <Grid item md={3}>
                     <Stack alignItems="center" gap={1}>
@@ -101,16 +103,9 @@ function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: Upd
                   </Grid>
                   <Grid item md={9}>
                     <Stack width="100%" gap={2}>
+                      <InputField fullWidth name="userName" label={translate('page.form.userName')} type="text" />
                       <InputField
                         fullWidth
-                        size="large"
-                        name="userName"
-                        label={translate('page.form.userName')}
-                        type="text"
-                      />
-                      <InputField
-                        fullWidth
-                        size="large"
                         name="password"
                         label={translate('page.form.password')}
                         type={showPassword ? 'text' : 'password'}
@@ -118,10 +113,23 @@ function UpdateStorePartnerModal({ isOpen, handleOpen, partnerId, storeId }: Upd
                           endAdornment: (
                             <InputAdornment position="end">
                               <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                {showPassword ? (
+                                  <VisibilityIcon fontSize="small" />
+                                ) : (
+                                  <VisibilityOffIcon fontSize="small" />
+                                )}
                               </IconButton>
                             </InputAdornment>
                           ),
+                        }}
+                      />
+                      <InputField
+                        fullWidth
+                        type="number"
+                        name="commission"
+                        label={translate('page.form.commission')}
+                        InputProps={{
+                          endAdornment: <InputAdornment position="end">%</InputAdornment>,
                         }}
                       />
                     </Stack>

@@ -342,10 +342,6 @@ function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProduct
           </Box>
         </Card>
       )}
-
-      <Stack direction="row" justifyContent="right" mt={10}>
-        <Skeleton variant="rounded" width={79} height={36} />
-      </Stack>
     </>
   );
 }

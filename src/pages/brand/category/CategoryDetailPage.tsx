@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
@@ -6,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Avatar, Box, Button, Card, Grid, Stack, Tab, Typography } from '@mui/material';
 //redux
-import { getCategoryDetail, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
+import { deleteCategory, getCategoryDetail, setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
@@ -44,16 +45,26 @@ function CategoryDetailPage() {
   const params = useMemo(() => {
     return {
       categoryId,
+      categoryType,
       navigate,
     };
-  }, [categoryId, navigate]);
+  }, [categoryId, categoryType]);
 
   useEffect(() => {
     dispatch(getCategoryDetail(params));
   }, [dispatch, navigate, params, categoryId]);
 
   const handleDelete = () => {
-    handleOpenModal(category?.name);
+    handleOpenModal();
+    dispatch(
+      deleteCategory({
+        idParams: { categoryId: category?.categoryId },
+        optionParams: {
+          type: categoryType,
+        },
+        navigate,
+      })
+    );
   };
 
   return (

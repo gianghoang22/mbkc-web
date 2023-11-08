@@ -35,6 +35,7 @@ interface ProductTableRowProps {
   selected?: readonly string[];
   filterName?: string;
   productType?: string;
+  sortBy?: string;
 }
 
 function ProductTableRow({
@@ -49,6 +50,7 @@ function ProductTableRow({
   selected,
   filterName,
   productType,
+  sortBy,
 }: ProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -62,9 +64,9 @@ function ProductTableRow({
 
   const handleNavigateDetail = () => {
     navigate(PATH_BRAND_APP.product.root + `/${product?.productId}`);
-    dispatch(setRoutesToBack(pathname));
     dispatch(getProductDetail_local(product));
     dispatch(setProductType(product.type));
+    dispatch(setRoutesToBack(pathname));
     dispatch(setIsProduct());
   };
 
@@ -87,6 +89,7 @@ function ProductTableRow({
           itemsPerPage: rowsPerPage,
           currentPage: page,
           type: productType,
+          sortBy: sortBy,
         },
         pathname: pathname,
         navigate,
@@ -107,8 +110,8 @@ function ProductTableRow({
         itemsPerPage: rowsPerPage,
         currentPage: page,
         type: productType,
+        sortBy: sortBy,
       },
-      pathname: pathname,
       navigate,
     };
     dispatch(updateStatusProduct(paramUpdate));
