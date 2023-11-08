@@ -31,13 +31,13 @@ export enum PartnerProductStatusEnum {
   AVAILABLE = 'Available',
   IN_STOCK = 'In_stock',
   OUT_OF_STOCK_TODAY = 'Out of stock today',
-  OUT_OF_STOCK_INDEFINITELY = 'Out of stock indefinitely',
+  OUT_OF_STOCK_INDEFINITELY = 'Out of stock Indentifinitely',
 }
 export enum PartnerProductStatusUpdateEnum {
   AVAILABLE = 'Available',
   IN_STOCK = 'In_stock',
-  OUT_OF_STOCK_TODAY = 'Out_of_stock_today',
-  OUT_OF_STOCK_INDEFINITELY = 'Out_of_stock_indefinitely',
+  OUT_OF_STOCK_TODAY = 'out_of_stock_today',
+  OUT_OF_STOCK_INDEFINITELY = 'out_of_stock_indentifinitely',
 }
 
 export const PARTNER_PRODUCT_STATUS_OPTIONS = [
@@ -53,7 +53,7 @@ export const PARTNER_PRODUCT_STATUS_OPTIONS = [
   },
   {
     value: PartnerProductStatusUpdateEnum.OUT_OF_STOCK_INDEFINITELY,
-    label: 'Out of stock indefinitely',
+    label: 'Out of stock indentifinitely',
     id: 'Out_indefinitely',
   },
 ];

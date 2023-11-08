@@ -34,9 +34,16 @@ import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hook
 interface AddExtraToCategoryModalProps {
   isOpen: boolean;
   handleOpen: (title: any) => void;
+  filterName: string;
+  sortBy: string;
 }
 
-function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModalProps) {
+function AddExtraToCategoryModal({
+  isOpen,
+  handleOpen,
+  filterName: filterNameInTab,
+  sortBy,
+}: AddExtraToCategoryModalProps) {
   const { id: categoryId } = useParams();
 
   const navigate = useNavigate();
@@ -138,6 +145,7 @@ function AddExtraToCategoryModal({ isOpen, handleOpen }: AddExtraToCategoryModal
     const params: Params<AddExtraCategory> = {
       data: { extraCategoryIds: [...selected] },
       idParams: { categoryId: Number(categoryId) },
+      optionParams: { searchValue: filterNameInTab, sortBy: sortBy },
       navigate,
     };
     dispatch<any>(addExtraCategory(params));

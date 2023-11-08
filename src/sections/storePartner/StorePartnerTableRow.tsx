@@ -104,7 +104,7 @@ function StorePartnerTableRow({ index, store }: StorePartnerTableRowProps) {
           <Collapse in={openList === index} timeout="auto" unmountOnExit>
             {isLoading ? (
               <Stack direction="column">
-                <OnlyPartnerRowSkeleton />
+                <OnlyPartnerRowSkeleton length={listPartners[0]?.storePartners.length} />
               </Stack>
             ) : (
               <Stack direction="column">

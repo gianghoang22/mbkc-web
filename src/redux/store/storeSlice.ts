@@ -21,7 +21,7 @@ interface StoreState {
   stores: Store[];
   store: Store | null;
   storeId: number;
-  totalPage: number;
+  totalPages: number;
   numberItems: number;
 }
 
@@ -40,7 +40,7 @@ const initialState: StoreState = {
   stores: [],
   store: null,
   storeId: getStoreIdlInStorage,
-  totalPage: 0,
+  totalPages: 0,
   numberItems: 5,
 };
 
@@ -106,7 +106,7 @@ const storeSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.stores = [...action.payload?.stores];
-        state.totalPage = action.payload?.totalPage;
+        state.totalPages = action.payload?.totalPages;
         state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllStores.rejected, (state) => {

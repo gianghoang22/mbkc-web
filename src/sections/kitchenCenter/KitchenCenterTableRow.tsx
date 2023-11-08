@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Switch, TableCell, TableRow } from '@mui/material';
@@ -15,16 +16,18 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { KitchenCenter, OrderSortBy, Params, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
+import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { removeLocalStorage } from 'utils';
-import { StorageKeys } from 'constants/storageKeys';
+import { removeLocalStorage, setLocalStorage } from 'utils';
 
 interface KitchenCenterTableRowProps {
   kitchenCenter: KitchenCenter;
   index: number;
+  length: number;
   page: number;
   rowsPerPage: number;
+  setPage: Dispatch<SetStateAction<number>>;
   selected: readonly string[];
   filterName: string;
   sortBy: string;
@@ -33,8 +36,10 @@ interface KitchenCenterTableRowProps {
 function KitchenCenterTableRow({
   index,
   kitchenCenter,
+  length,
   page,
   rowsPerPage,
+  setPage,
   selected,
   filterName,
   sortBy,
@@ -62,13 +67,18 @@ function KitchenCenterTableRow({
 
   const handleDelete = () => {
     handleOpen();
+    const newPage = length === 1 ? page - 1 : page;
+    if (length === 1) {
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
+    }
     dispatch<any>(
       deleteKitchenCenter({
         idParams: { kitchenCenterId: kitchenCenter?.kitchenCenterId },
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: page + 1,
+          currentPage: newPage + 1,
           sortBy: sortBy,
         },
         pathname,

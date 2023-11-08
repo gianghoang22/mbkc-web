@@ -32,29 +32,40 @@ import {
   PartnerProductToCreate,
   PartnerProductToUpdate,
 } from '@types';
-import { Color, Language } from 'common/enum';
+import { Color, Language, Status } from 'common/enum';
 import { AutoCompleteField, InputField, SelectField } from 'components';
-import { useLocales, useValidationForm } from 'hooks';
+import { useLocales, usePagination, useValidationForm } from 'hooks';
 
 interface CreatePartnerProductModalProps {
   isOpen: boolean;
   handleOpen: () => void;
   partnerProduct?: PartnerProduct | null;
   filterName?: string;
+  sortBy?: string;
 }
 
-function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct, filterName }: CreatePartnerProductModalProps) {
+function CreatePartnerProductModal({
+  isOpen,
+  handleOpen,
+  partnerProduct,
+  filterName,
+  sortBy,
+}: CreatePartnerProductModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { translate, currentLang } = useLocales();
   const { schemaPartnerProduct } = useValidationForm();
+  const { page, rowsPerPage } = usePagination();
 
   const { stores } = useAppSelector((state) => state.store);
   const { partners } = useAppSelector((state) => state.partner);
   const { products } = useAppSelector((state) => state.product);
   const { brandProfile } = useAppSelector((state) => state.profile);
   const { isLoading, isEditing } = useAppSelector((state) => state.partnerProduct);
+
+  console.log('partnerProduct', partnerProduct);
+  console.log('sortBy', sortBy);
 
   const productOptions = products.map((product) => ({
     label: product.name,
@@ -68,12 +79,15 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct, filterN
     if (!option.value) return productOptions.find((opt) => opt.value === option);
     return option;
   };
-  const storeOptions = stores.map((store) => ({
-    label: store.name,
-    value: store.storeId,
-    center: store.kitchenCenter.name,
-    image: store.logo,
-  }));
+
+  const storeOptions = stores
+    .filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED)
+    .map((store) => ({
+      label: store.name,
+      value: store.storeId,
+      center: store.kitchenCenter.name,
+      image: store.logo,
+    }));
 
   const getOpObjStore = (option: any) => {
     if (!option) return option;
@@ -125,11 +139,13 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct, filterN
       storeId: isEditing ? partnerProduct?.storeId : 0,
       productCode: isEditing ? partnerProduct?.productCode : '',
       status: isEditing
-        ? partnerProduct?.status === PartnerProductStatusEnum.AVAILABLE
-          ? PartnerProductStatusEnum.AVAILABLE
-          : partnerProduct?.status === PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
-          ? PartnerProductStatusEnum.OUT_OF_STOCK_TODAY
-          : PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY
+        ? partnerProduct?.status.toLowerCase() === PartnerProductStatusEnum.AVAILABLE.toLowerCase()
+          ? PartnerProductStatusUpdateEnum.AVAILABLE
+          : partnerProduct?.status.toLowerCase() === PartnerProductStatusEnum.OUT_OF_STOCK_TODAY.toLowerCase()
+          ? PartnerProductStatusUpdateEnum.OUT_OF_STOCK_TODAY
+          : partnerProduct?.status.toLowerCase() === PartnerProductStatusEnum.OUT_OF_STOCK_INDEFINITELY.toLowerCase()
+          ? PartnerProductStatusUpdateEnum.OUT_OF_STOCK_INDEFINITELY
+          : ''
         : '',
       price: isEditing ? partnerProduct?.price : 0,
     },
@@ -153,13 +169,14 @@ function CreatePartnerProductModal({ isOpen, handleOpen, partnerProduct, filterN
           partnerId: data?.partnerId,
           storeId: data?.storeId,
         },
+        optionParams: { searchValue: filterName, currentPage: page + 1, itemsPerPage: rowsPerPage, sortBy: sortBy },
         navigate,
       };
       dispatch(updatePartnerProduct(paramsToUpdate));
     } else {
       const paramsToCreate: Params<PartnerProductToCreate> = {
         data,
-        optionParams: { searchValue: filterName },
+        optionParams: { searchValue: filterName, currentPage: page + 1, itemsPerPage: rowsPerPage, sortBy: sortBy },
         navigate,
       };
       dispatch(createNewPartnerProduct(paramsToCreate));

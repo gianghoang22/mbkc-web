@@ -110,6 +110,16 @@ export const handleResponseMessage = (response: string) => {
         ? EngMessageConstant.UpdatedPartnerProductStatusSuccessfully
         : response === EngMessageConstant.UpdatedConfigurationsSuccessfully
         ? EngMessageConstant.UpdatedConfigurationsSuccessfully
+        : response === EngMessageConstant.UpdateOrderSuccessfully
+        ? EngMessageConstant.UpdateOrderSuccessfully
+        : response === EngMessageConstant.CancelOrderSuccessfully
+        ? EngMessageConstant.CancelOrderSuccessfully
+        : response === EngMessageConstant.MoneyExchangeToKitchenCenterSuccessfully
+        ? EngMessageConstant.MoneyExchangeToKitchenCenterSuccessfully
+        : response === EngMessageConstant.WithdrawMoneySuccessfully
+        ? EngMessageConstant.WithdrawMoneySuccessfully
+        : response === EngMessageConstant.UpdateSchedulingTimeJob
+        ? EngMessageConstant.UpdateSchedulingTimeJob
         : response === EngErrorMessageConstant.notAccessSystem // error message
         ? EngErrorMessageConstant.notAccessSystem
         : response === EngErrorMessageConstant.imageIsNotNull
@@ -352,6 +362,94 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.ProductCodeInPartnerNotExist
         : response === EngErrorMessageConstant.PriceGreaterThan0
         ? EngErrorMessageConstant.PriceGreaterThan0
+        : response === EngErrorMessageConstant.AgeOfCashierFrom18to55
+        ? EngErrorMessageConstant.AgeOfCashierFrom18to55
+        : response === EngErrorMessageConstant.OrderNotBelongToKitchenCenter
+        ? EngErrorMessageConstant.OrderNotBelongToKitchenCenter
+        : response === EngErrorMessageConstant.OrderShipperPhoneNotMatch
+        ? EngErrorMessageConstant.OrderShipperPhoneNotMatch
+        : response === EngErrorMessageConstant.OrderIsPreparing
+        ? EngErrorMessageConstant.OrderIsPreparing
+        : response === EngErrorMessageConstant.OrderIsReady
+        ? EngErrorMessageConstant.OrderIsReady
+        : response === EngErrorMessageConstant.OrderIsUpcoming
+        ? EngErrorMessageConstant.OrderIsUpcoming
+        : response === EngErrorMessageConstant.OrderIsCompleted
+        ? EngErrorMessageConstant.OrderIsCompleted
+        : response === EngErrorMessageConstant.OrderIsCancelled
+        ? EngErrorMessageConstant.OrderIsCancelled
+        : response === EngErrorMessageConstant.OrderAlreadyPaid
+        ? EngErrorMessageConstant.OrderAlreadyPaid
+        : response === EngErrorMessageConstant.OrderPartnerIdNotExist
+        ? EngErrorMessageConstant.OrderPartnerIdNotExist
+        : response === EngErrorMessageConstant.OrderPartnerIdAlreadyExist
+        ? EngErrorMessageConstant.OrderPartnerIdAlreadyExist
+        : response === EngErrorMessageConstant.DisplayIdAlreadyExist
+        ? EngErrorMessageConstant.DisplayIdAlreadyExist
+        : response === EngErrorMessageConstant.ProductPartnerNotMappingBefore
+        ? EngErrorMessageConstant.ProductPartnerNotMappingBefore
+        : response === EngErrorMessageConstant.ProductExtraPartnerNotMappingBefore
+        ? EngErrorMessageConstant.ProductExtraPartnerNotMappingBefore
+        : response === EngErrorMessageConstant.ProductInOrderNotExistInTheSystem
+        ? EngErrorMessageConstant.ProductInOrderNotExistInTheSystem
+        : response === EngErrorMessageConstant.ProductExtraInOrderDetailNotExistInTheSystem
+        ? EngErrorMessageConstant.ProductExtraInOrderDetailNotExistInTheSystem
+        : response === EngErrorMessageConstant.OrderIdNotExist
+        ? EngErrorMessageConstant.OrderIdNotExist
+        : response === EngErrorMessageConstant.OrderIdNotBelongToStore
+        ? EngErrorMessageConstant.OrderIdNotBelongToStore
+        : response === EngErrorMessageConstant.OrderIdNotBelongToKitchenCenter
+        ? EngErrorMessageConstant.OrderIdNotBelongToKitchenCenter
+        : response === EngErrorMessageConstant.OrderIsReady_Change_To_Ready
+        ? EngErrorMessageConstant.OrderIsReady_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsUpcoming_Change_To_Ready
+        ? EngErrorMessageConstant.OrderIsUpcoming_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsCompleted_Change_To_Ready
+        ? EngErrorMessageConstant.OrderIsCompleted_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsCancelled_Change_To_Ready
+        ? EngErrorMessageConstant.OrderIsCancelled_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsReadyDelivery_Change_To_Ready
+        ? EngErrorMessageConstant.OrderIsReadyDelivery_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsPreparing_Change_To_ReadyDelivery
+        ? EngErrorMessageConstant.OrderIsPreparing_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsUpcoming_Change_To_ReadyDelivery
+        ? EngErrorMessageConstant.OrderIsUpcoming_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsCompeleted_Change_To_ReadyDelivery
+        ? EngErrorMessageConstant.OrderIsCompeleted_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsCancelled_Change_To_ReadyDelivery
+        ? EngErrorMessageConstant.OrderIsCancelled_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsReadyDelivery_Change_To_ReadyDelivery
+        ? EngErrorMessageConstant.OrderIsReadyDelivery_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsReady_Cancel
+        ? EngErrorMessageConstant.OrderIsReady_Cancel
+        : response === EngErrorMessageConstant.OrderIsCompleted_Cancel
+        ? EngErrorMessageConstant.OrderIsCompleted_Cancel
+        : response === EngErrorMessageConstant.OrderIsCancelled_Cancel
+        ? EngErrorMessageConstant.OrderIsCancelled_Cancel
+        : response === EngErrorMessageConstant.OrderIsReadyDelivery_Cancel
+        ? EngErrorMessageConstant.OrderIsReadyDelivery_Cancel
+        : response === EngErrorMessageConstant.NoChangeOrderStatusWhenClosedShift
+        ? EngErrorMessageConstant.NoChangeOrderStatusWhenClosedShift
+        : response === EngErrorMessageConstant.BalanceIsInvalid
+        ? EngErrorMessageConstant.BalanceIsInvalid
+        : response === EngErrorMessageConstant.BalanceIsNotEnough
+        ? EngErrorMessageConstant.BalanceIsNotEnough
+        : response === EngErrorMessageConstant.StoreIdNotBelogToKitchenCenter
+        ? EngErrorMessageConstant.StoreIdNotBelogToKitchenCenter
+        : response === EngErrorMessageConstant.BalanceDoesNotEnough
+        ? EngErrorMessageConstant.BalanceDoesNotEnough
+        : response === EngErrorMessageConstant.AlreadyTransferredToStore
+        ? EngErrorMessageConstant.AlreadyTransferredToStore
+        : response === EngErrorMessageConstant.AlreadyTransferredToKitchenCenter
+        ? EngErrorMessageConstant.AlreadyTransferredToKitchenCenter
+        : response === EngErrorMessageConstant.TransferToStoreSuccessfully
+        ? EngErrorMessageConstant.TransferToStoreSuccessfully
+        : response === EngErrorMessageConstant.TransferToKitchenCenterSuccessfully
+        ? EngErrorMessageConstant.TransferToKitchenCenterSuccessfully
+        : response === EngErrorMessageConstant.NotExistJobId
+        ? EngErrorMessageConstant.NotExistJobId
+        : response === EngErrorMessageConstant.ConfigDoesNotExist
+        ? EngErrorMessageConstant.ConfigDoesNotExist
         : response
       : currentLanguage === Language.VIETNAMESE
       ? response === EngMessageConstant.LoginSuccessfully
@@ -454,6 +552,16 @@ export const handleResponseMessage = (response: string) => {
         ? VieMessageConstant.UpdatedPartnerProductStatusSuccessfully
         : response === EngMessageConstant.UpdatedConfigurationsSuccessfully
         ? VieMessageConstant.UpdatedConfigurationsSuccessfully
+        : response === EngMessageConstant.UpdateOrderSuccessfully
+        ? VieMessageConstant.UpdateOrderSuccessfully
+        : response === EngMessageConstant.CancelOrderSuccessfully
+        ? VieMessageConstant.CancelOrderSuccessfully
+        : response === EngMessageConstant.MoneyExchangeToKitchenCenterSuccessfully
+        ? VieMessageConstant.MoneyExchangeToKitchenCenterSuccessfully
+        : response === EngMessageConstant.WithdrawMoneySuccessfully
+        ? VieMessageConstant.WithdrawMoneySuccessfully
+        : response === EngMessageConstant.UpdateSchedulingTimeJob
+        ? VieMessageConstant.UpdateSchedulingTimeJob
         : response === EngErrorMessageConstant.notAccessSystem // error message
         ? VieErrorMessageConstant.notAccessSystem
         : response === EngErrorMessageConstant.imageIsNotNull
@@ -696,6 +804,94 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.ProductCodeInPartnerNotExist
         : response === EngErrorMessageConstant.PriceGreaterThan0
         ? VieErrorMessageConstant.PriceGreaterThan0
+        : response === EngErrorMessageConstant.AgeOfCashierFrom18to55
+        ? VieErrorMessageConstant.AgeOfCashierFrom18to55
+        : response === EngErrorMessageConstant.OrderNotBelongToKitchenCenter
+        ? VieErrorMessageConstant.OrderNotBelongToKitchenCenter
+        : response === EngErrorMessageConstant.OrderShipperPhoneNotMatch
+        ? VieErrorMessageConstant.OrderShipperPhoneNotMatch
+        : response === EngErrorMessageConstant.OrderIsPreparing
+        ? VieErrorMessageConstant.OrderIsPreparing
+        : response === EngErrorMessageConstant.OrderIsReady
+        ? VieErrorMessageConstant.OrderIsReady
+        : response === EngErrorMessageConstant.OrderIsUpcoming
+        ? VieErrorMessageConstant.OrderIsUpcoming
+        : response === EngErrorMessageConstant.OrderIsCompleted
+        ? VieErrorMessageConstant.OrderIsCompleted
+        : response === EngErrorMessageConstant.OrderIsCancelled
+        ? VieErrorMessageConstant.OrderIsCancelled
+        : response === EngErrorMessageConstant.OrderAlreadyPaid
+        ? VieErrorMessageConstant.OrderAlreadyPaid
+        : response === EngErrorMessageConstant.OrderPartnerIdNotExist
+        ? VieErrorMessageConstant.OrderPartnerIdNotExist
+        : response === EngErrorMessageConstant.OrderPartnerIdAlreadyExist
+        ? VieErrorMessageConstant.OrderPartnerIdAlreadyExist
+        : response === EngErrorMessageConstant.DisplayIdAlreadyExist
+        ? VieErrorMessageConstant.DisplayIdAlreadyExist
+        : response === EngErrorMessageConstant.ProductPartnerNotMappingBefore
+        ? VieErrorMessageConstant.ProductPartnerNotMappingBefore
+        : response === EngErrorMessageConstant.ProductExtraPartnerNotMappingBefore
+        ? VieErrorMessageConstant.ProductExtraPartnerNotMappingBefore
+        : response === EngErrorMessageConstant.ProductInOrderNotExistInTheSystem
+        ? VieErrorMessageConstant.ProductInOrderNotExistInTheSystem
+        : response === EngErrorMessageConstant.ProductExtraInOrderDetailNotExistInTheSystem
+        ? VieErrorMessageConstant.ProductExtraInOrderDetailNotExistInTheSystem
+        : response === EngErrorMessageConstant.OrderIdNotExist
+        ? VieErrorMessageConstant.OrderIdNotExist
+        : response === EngErrorMessageConstant.OrderIdNotBelongToStore
+        ? VieErrorMessageConstant.OrderIdNotBelongToStore
+        : response === EngErrorMessageConstant.OrderIdNotBelongToKitchenCenter
+        ? VieErrorMessageConstant.OrderIdNotBelongToKitchenCenter
+        : response === EngErrorMessageConstant.OrderIsReady_Change_To_Ready
+        ? VieErrorMessageConstant.OrderIsReady_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsUpcoming_Change_To_Ready
+        ? VieErrorMessageConstant.OrderIsUpcoming_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsCompleted_Change_To_Ready
+        ? VieErrorMessageConstant.OrderIsCompleted_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsCancelled_Change_To_Ready
+        ? VieErrorMessageConstant.OrderIsCancelled_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsReadyDelivery_Change_To_Ready
+        ? VieErrorMessageConstant.OrderIsReadyDelivery_Change_To_Ready
+        : response === EngErrorMessageConstant.OrderIsPreparing_Change_To_ReadyDelivery
+        ? VieErrorMessageConstant.OrderIsPreparing_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsUpcoming_Change_To_ReadyDelivery
+        ? VieErrorMessageConstant.OrderIsUpcoming_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsCompeleted_Change_To_ReadyDelivery
+        ? VieErrorMessageConstant.OrderIsCompeleted_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsCancelled_Change_To_ReadyDelivery
+        ? VieErrorMessageConstant.OrderIsCancelled_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsReadyDelivery_Change_To_ReadyDelivery
+        ? VieErrorMessageConstant.OrderIsReadyDelivery_Change_To_ReadyDelivery
+        : response === EngErrorMessageConstant.OrderIsReady_Cancel
+        ? VieErrorMessageConstant.OrderIsReady_Cancel
+        : response === EngErrorMessageConstant.OrderIsCompleted_Cancel
+        ? VieErrorMessageConstant.OrderIsCompleted_Cancel
+        : response === EngErrorMessageConstant.OrderIsCancelled_Cancel
+        ? VieErrorMessageConstant.OrderIsCancelled_Cancel
+        : response === EngErrorMessageConstant.OrderIsReadyDelivery_Cancel
+        ? VieErrorMessageConstant.OrderIsReadyDelivery_Cancel
+        : response === EngErrorMessageConstant.NoChangeOrderStatusWhenClosedShift
+        ? VieErrorMessageConstant.NoChangeOrderStatusWhenClosedShift
+        : response === EngErrorMessageConstant.BalanceIsInvalid
+        ? VieErrorMessageConstant.BalanceIsInvalid
+        : response === EngErrorMessageConstant.BalanceIsNotEnough
+        ? VieErrorMessageConstant.BalanceIsNotEnough
+        : response === EngErrorMessageConstant.StoreIdNotBelogToKitchenCenter
+        ? VieErrorMessageConstant.StoreIdNotBelogToKitchenCenter
+        : response === EngErrorMessageConstant.BalanceDoesNotEnough
+        ? VieErrorMessageConstant.BalanceDoesNotEnough
+        : response === EngErrorMessageConstant.AlreadyTransferredToStore
+        ? VieErrorMessageConstant.AlreadyTransferredToStore
+        : response === EngErrorMessageConstant.AlreadyTransferredToKitchenCenter
+        ? VieErrorMessageConstant.AlreadyTransferredToKitchenCenter
+        : response === EngErrorMessageConstant.TransferToStoreSuccessfully
+        ? VieErrorMessageConstant.TransferToStoreSuccessfully
+        : response === EngErrorMessageConstant.TransferToKitchenCenterSuccessfully
+        ? VieErrorMessageConstant.TransferToKitchenCenterSuccessfully
+        : response === EngErrorMessageConstant.NotExistJobId
+        ? VieErrorMessageConstant.NotExistJobId
+        : response === EngErrorMessageConstant.ConfigDoesNotExist
+        ? VieErrorMessageConstant.ConfigDoesNotExist
         : response
       : response;
 

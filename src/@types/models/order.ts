@@ -1,4 +1,4 @@
-import { PartnerOrderStatus, PartnerOrderStatusToFilter, SystemStatus, SystemStatusToFilter } from 'common/enum';
+import { PartnerOrderStatus, SystemStatusToFilter } from 'common/enum';
 import { Partner } from './partner';
 import { Product } from './product';
 import { _ShipperPayment } from './shipperPayment';

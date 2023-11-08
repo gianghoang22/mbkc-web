@@ -112,6 +112,8 @@ function ListPartnerPage() {
                             index={index}
                             partner={partner}
                             lengthPartners={partners.length}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
                             setPage={setPage}
                             selected={selected}
                             filterName={filterName}

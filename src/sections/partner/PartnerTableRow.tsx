@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Stack, Switch, TableCell, TableRow } from '@mui/material';
@@ -13,14 +14,18 @@ import PartnerDetailModal from './PartnerDetailModal';
 import { OrderSortBy, Params, Partner, ToUpdateStatus } from '@types';
 import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
-import { useLocales, useModal, usePagination, usePopover } from 'hooks';
+import { StorageKeys } from 'constants/storageKeys';
+import { useLocales, useModal, usePopover } from 'hooks';
+import { setLocalStorage } from 'utils';
 
 interface PartnerTableRowProps {
   partner: Partner;
   index: number;
   lengthPartners: number;
   showAction?: boolean;
-  setPage?: any;
+  page: number;
+  rowsPerPage: number;
+  setPage: Dispatch<SetStateAction<number>>;
   selected: readonly string[];
   filterName: string;
   sortBy: string;
@@ -31,6 +36,8 @@ function PartnerTableRow({
   index,
   partner,
   showAction = false,
+  page,
+  rowsPerPage,
   setPage,
   selected,
   filterName,
@@ -41,7 +48,6 @@ function PartnerTableRow({
 
   const { translate } = useLocales();
   const { handleOpen, isOpen } = useModal();
-  const { page, rowsPerPage } = usePagination();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
   const { handleOpen: handleOpenCreate, isOpen: isOpenCreate } = useModal();
   const { handleOpen: handleOpenDetail, isOpen: isOpenDetail } = useModal();
@@ -53,8 +59,10 @@ function PartnerTableRow({
 
   const handleDelete = () => {
     handleOpen();
+    const newPage = lengthPartners === 1 ? page - 1 : page;
     if (lengthPartners === 1) {
-      setPage(0);
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
     }
     dispatch(
       deletePartner({
@@ -62,7 +70,7 @@ function PartnerTableRow({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: lengthPartners === 1 ? 1 : page + 1,
+          currentPage: newPage + 1,
           sortBy: sortBy,
         },
         navigate,

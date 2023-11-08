@@ -18,12 +18,17 @@ import { useLocales, useModal, usePopover } from 'hooks';
 
 import BankingAccountDetailModal from './BankingAccountDetailModal';
 import CreateBankingAccountModal from './CreateBankingAccountModal';
+import { Dispatch, SetStateAction } from 'react';
+import { setLocalStorage } from 'utils';
+import { StorageKeys } from 'constants/storageKeys';
 
 interface BankingAccountTableRowProps {
   index: number;
+  length?: number;
   bankingAccount: BankingAccount;
   page: number;
   rowsPerPage: number;
+  setPage: Dispatch<SetStateAction<number>>;
   selected: readonly string[];
   filterName: string;
   sortBy: string;
@@ -31,9 +36,11 @@ interface BankingAccountTableRowProps {
 
 function BankingAccountTableRow({
   index,
+  length,
   bankingAccount,
   page,
   rowsPerPage,
+  setPage,
   selected,
   filterName,
   sortBy,
@@ -54,13 +61,18 @@ function BankingAccountTableRow({
 
   const handleDelete = () => {
     handleOpenDelete();
+    const newPage = length === 1 ? page - 1 : page;
+    if (setPage && length === 1) {
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
+    }
     dispatch(
       deleteBankingAccount({
         idParams: { bankingAccountId: bankingAccount?.bankingAccountId },
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: page,
+          currentPage: newPage + 1,
           sortBy: sortBy,
         },
         navigate,
@@ -77,7 +89,7 @@ function BankingAccountTableRow({
       optionParams: {
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
-        currentPage: page,
+        currentPage: page + 1,
         sortBy: sortBy,
       },
       navigate,
@@ -157,7 +169,7 @@ function BankingAccountTableRow({
 
       {isOpenCreate && (
         <CreateBankingAccountModal
-          page={page}
+          page={page + 1}
           rowsPerPage={rowsPerPage}
           isOpen={isOpenCreate}
           handleOpen={handleOpenCreate}

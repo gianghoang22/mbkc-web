@@ -65,7 +65,7 @@ function ProductDetailPage() {
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
-  const { partnerProduct } = useAppSelector((state) => state.partnerProduct);
+  const { isLoading: isLoadingPartnerProduct, partnerProduct } = useAppSelector((state) => state.partnerProduct);
   const { isLoading, isProduct, product } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -183,7 +183,7 @@ function ProductDetailPage() {
           return listAction;
         }}
       >
-        {isLoading ? (
+        {isLoading || isLoadingPartnerProduct ? (
           <ProductDetailPageSkeleton lengthChildProducts={childProductRows?.length} />
         ) : (
           <>
@@ -427,12 +427,6 @@ function ProductDetailPage() {
                 </Box>
               </Card>
             )}
-
-            <Box mt={10} textAlign="right">
-              <Button color="inherit" variant="outlined" onClick={() => navigate(pathnameToBack)}>
-                {translate('button.back')}
-              </Button>
-            </Box>
           </>
         )}
       </Page>

@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Stack, Switch, TableCell, TableRow } from '@mui/material';
@@ -14,19 +15,31 @@ import { ConfirmDialog, Label, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { removeLocalStorage } from 'utils';
+import { removeLocalStorage, setLocalStorage } from 'utils';
 
 interface BrandTableRowProps {
   index: number;
+  length: number;
   brand: Brand;
   page: number;
   rowsPerPage: number;
   selected: readonly string[];
   filterName: string;
   sortBy: string;
+  setPage: Dispatch<SetStateAction<number>>;
 }
 
-function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName, sortBy }: BrandTableRowProps) {
+function BrandTableRow({
+  index,
+  length,
+  brand,
+  page,
+  rowsPerPage,
+  setPage,
+  selected,
+  filterName,
+  sortBy,
+}: BrandTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -50,13 +63,18 @@ function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName, 
 
   const handleDelete = () => {
     handleOpen();
+    const newPage = length === 1 ? page - 1 : page;
+    if (length === 1) {
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
+    }
     dispatch<any>(
       deleteBrand({
         idParams: { brandId: brand?.brandId },
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: page,
+          currentPage: newPage + 1,
           sortBy: sortBy,
         },
         pathname,
@@ -76,7 +94,7 @@ function BrandTableRow({ index, brand, page, rowsPerPage, selected, filterName, 
       optionParams: {
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
-        currentPage: page,
+        currentPage: page + 1,
         sortBy: sortBy,
       },
       navigate,

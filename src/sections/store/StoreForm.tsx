@@ -17,7 +17,10 @@ function StoreForm() {
   const kitchenCenterOptions = kitchenCenters.map((kitchenCenter) => ({
     label: kitchenCenter.name,
     value: kitchenCenter.kitchenCenterId,
-    address: kitchenCenter.address,
+    address: kitchenCenter.address
+      .split(', ')
+      .slice(0, kitchenCenter?.address.split(', ').length - 3)
+      .join(', '),
     image: kitchenCenter.logo,
   }));
 

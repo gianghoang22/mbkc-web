@@ -4,17 +4,16 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import ReplayIcon from '@mui/icons-material/Replay';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { IconButton, InputAdornment, Stack, TextField, Tooltip } from '@mui/material';
+import { Autocomplete, IconButton, InputAdornment, Stack, TextField, Tooltip } from '@mui/material';
 // redux
 import { useAppDispatch } from 'redux/configStore';
 import { getAllStores } from 'redux/store/storeSlice';
+import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 //
-import { Autocomplete } from '@mui/material';
 import { ListParams, OptionSelect, STATUS_OPTIONS } from '@types';
 import { Status } from 'common/enum';
 import { useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
-import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +38,16 @@ function StoreTableToolbar({ filterName, onFilterName, status, setStatus, haveSe
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         searchValue: filterName,
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, filterName]);
+
+  const paramsStorePartner: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
       },
       navigate,
     };
@@ -88,7 +97,7 @@ function StoreTableToolbar({ filterName, onFilterName, status, setStatus, haveSe
         <IconButton
           onClick={() => {
             dispatch<any>(getAllStores(params));
-            dispatch<any>(getAllStorePartners(params));
+            dispatch<any>(getAllStorePartners(paramsStorePartner));
           }}
         >
           <ReplayIcon />

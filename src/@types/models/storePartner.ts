@@ -48,12 +48,6 @@ interface PartnerAccount {
   commission: number;
 }
 
-export interface StorePartnerToUpdate {
-  userName: string;
-  password: string;
-  commission: number;
-}
-
 export interface StorePartnerToUpdateApi {
   userName: string;
   password: string;

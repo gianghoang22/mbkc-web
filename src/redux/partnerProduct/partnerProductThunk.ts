@@ -1,5 +1,6 @@
 import {
   ListParams,
+  ListResponse,
   MessageResponse,
   Params,
   PartnerProduct,
@@ -18,7 +19,9 @@ export const getAllPartnerProductsThunk = async (params: ListParams, thunkAPI: a
   const { optionParams, navigate } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_PARTNER_PRODUCTS.GET_ALL_PARTNER_PRODUCT(optionParams));
+    const response: ListResponse<PartnerProduct> = await axiosClient.get(
+      ROUTES_API_PARTNER_PRODUCTS.GET_ALL_PARTNER_PRODUCT(optionParams)
+    );
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
@@ -32,7 +35,7 @@ export const getPartnerProductDetailThunk = async (params: any, thunkAPI: any) =
   const { productId, partnerId, storeId, navigate } = params;
 
   try {
-    const response = await axiosClient.get(
+    const response: PartnerProduct = await axiosClient.get(
       ROUTES_API_PARTNER_PRODUCTS.GET_PARTNER_PRODUCT_DETAIL(productId, partnerId, storeId)
     );
     return response;
@@ -52,15 +55,11 @@ export const createNewPartnerProductThunk = async (params: Params<PartnerProduct
   try {
     const response: MessageResponse = await axiosClient.post(ROUTES_API_PARTNER_PRODUCTS.CREATE_PARTNER_PRODUCT, data);
     if (response) {
-      const paramsCallback = {
-        optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-        },
+      const paramsCallback: ListParams = {
+        optionParams: optionParams ? optionParams : {},
         navigate,
       };
       thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
-      navigate(PATH_BRAND_APP.partnerProduct.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
@@ -86,13 +85,6 @@ export const updatePartnerProductThunk = async (params: Params<PartnerProductToU
       data
     );
     if (response) {
-      const paramsCallback = {
-        optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-        },
-        navigate,
-      };
       const pathToBack = pathname
         ?.split('/')
         .slice(2)
@@ -100,9 +92,12 @@ export const updatePartnerProductThunk = async (params: Params<PartnerProductToU
       if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
         await thunkAPI.dispatch(getPartnerProductDetail({ productId: idParams?.productId, navigate }));
       } else {
+        const paramsCallback: ListParams = {
+          optionParams: optionParams ? optionParams : {},
+          navigate,
+        };
         await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       }
-      navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.product.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
@@ -116,7 +111,7 @@ export const updatePartnerProductThunk = async (params: Params<PartnerProductToU
 };
 
 export const updateStatusPartnerProductThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
-  const { data, idParams, pathname, optionParams, navigate } = params;
+  const { data, idParams, optionParams, navigate } = params;
 
   try {
     const response: MessageResponse = await axiosClient.put(
@@ -129,15 +124,10 @@ export const updateStatusPartnerProductThunk = async (params: Params<ToUpdateSta
     );
     if (response) {
       const paramsCallback: ListParams = {
-        optionParams: {
-          searchValue: optionParams?.searchValue,
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
-        },
+        optionParams: optionParams ? optionParams : {},
         navigate,
       };
       await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
-      navigate(pathname !== undefined ? pathname : PATH_BRAND_APP.partnerProduct.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
@@ -162,24 +152,15 @@ export const deletePartnerProductThunk = async (params: Params<PartnerProduct>, 
       )
     );
     if (response) {
-      const paramsCallback = {
-        optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-        },
-        navigate,
-      };
-      const pathToBack = pathname
-        ?.split('/')
-        .slice(2)
-        .filter((x) => x)[1];
-      if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
+      if (pathname === PATH_BRAND_APP.partnerProduct.list) {
+        const paramsCallback: ListParams = {
+          optionParams: optionParams ? optionParams : {},
+          navigate,
+        };
         await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
       } else {
-        await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
+        navigate(PATH_BRAND_APP.partnerProduct.list);
       }
-      await thunkAPI.dispatch(getAllPartnerProducts(paramsCallback));
-      navigate(PATH_BRAND_APP.product.list);
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

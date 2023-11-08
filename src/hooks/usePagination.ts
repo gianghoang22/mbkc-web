@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { StorageKeys } from 'constants/storageKeys';
+import { useState } from 'react';
 import { getNumberInStorage, setLocalStorage } from 'utils';
 
 function usePagination() {

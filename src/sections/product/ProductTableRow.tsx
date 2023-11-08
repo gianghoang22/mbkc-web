@@ -20,8 +20,10 @@ import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
-import { fCurrencyVN } from 'utils';
+import { fCurrencyVN, setLocalStorage } from 'utils';
 import { getRuleWidths } from './rules';
+import { Dispatch, SetStateAction } from 'react';
+import { StorageKeys } from 'constants/storageKeys';
 
 interface ProductTableRowProps {
   product: Product;
@@ -31,10 +33,11 @@ interface ProductTableRowProps {
   page?: number;
   rowsPerPage?: number;
   length: number;
-  setPage?: any;
+  setPage?: Dispatch<SetStateAction<number>>;
   selected?: readonly string[];
   filterName?: string;
   productType?: string;
+  sortBy?: string;
 }
 
 function ProductTableRow({
@@ -49,6 +52,7 @@ function ProductTableRow({
   selected,
   filterName,
   productType,
+  sortBy,
 }: ProductTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -62,9 +66,9 @@ function ProductTableRow({
 
   const handleNavigateDetail = () => {
     navigate(PATH_BRAND_APP.product.root + `/${product?.productId}`);
-    dispatch(setRoutesToBack(pathname));
     dispatch(getProductDetail_local(product));
     dispatch(setProductType(product.type));
+    dispatch(setRoutesToBack(pathname));
     dispatch(setIsProduct());
   };
 
@@ -76,8 +80,10 @@ function ProductTableRow({
 
   const handleDelete = () => {
     handleOpen();
-    if (length === 1) {
-      setPage(0);
+    const newPage = length === 1 ? page - 1 : page;
+    if (setPage && length === 1) {
+      setPage(newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage);
     }
     dispatch(
       deleteProduct({
@@ -85,8 +91,9 @@ function ProductTableRow({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: page,
+          currentPage: newPage + 1,
           type: productType,
+          sortBy: sortBy,
         },
         pathname: pathname,
         navigate,
@@ -105,10 +112,10 @@ function ProductTableRow({
       optionParams: {
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
-        currentPage: page,
+        currentPage: page + 1,
         type: productType,
+        sortBy: sortBy,
       },
-      pathname: pathname,
       navigate,
     };
     dispatch(updateStatusProduct(paramUpdate));

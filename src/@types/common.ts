@@ -20,6 +20,7 @@ export interface OptionParams {
   keySortCommission?: string | null;
   systemStatus?: string | null;
   partnerOrderStatus?: string | null;
+  isUpdateStatus?: boolean;
 }
 
 export interface IdParams {

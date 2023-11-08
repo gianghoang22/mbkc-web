@@ -18,7 +18,7 @@ interface KitchenCenterState {
   isSuccess: boolean;
   kitchenCenters: KitchenCenter[];
   kitchenCenter: KitchenCenter | null;
-  totalPage: number;
+  totalPages: number;
   numberItems: number;
 }
 
@@ -33,7 +33,7 @@ const initialState: KitchenCenterState = {
   isSuccess: false,
   kitchenCenters: [],
   kitchenCenter: null,
-  totalPage: 0,
+  totalPages: 0,
   numberItems: 0,
 };
 
@@ -99,7 +99,7 @@ const kitchenCenterSlice = createSlice({
         state.isSuccess = true;
         state.kitchenCenters = [...action.payload?.kitchenCenters];
         state.numberItems = action.payload?.numberItems;
-        state.totalPage = action.payload?.totalPages;
+        state.totalPages = action.payload?.totalPagess;
       })
       .addCase(getAllKitchenCenters.rejected, (state) => {
         state.isLoading = false;
