@@ -20,6 +20,7 @@
   "gender": "Giới tính",
   "avatar": "Ảnh đại diện",
   "type": "Loại",
+  "exchangeType": "Loại trao đổi",
   "historicalPrice": "Giá gốc",
   "sellingPrice": "Giá bán",
   "discountPrice": "Giảm giá",
@@ -43,6 +44,9 @@
   "storeName": "Cửa hàng",
   "totalPrice": "Tổng giá",
   "createdDate": "Ngày tạo",
+  "sender": "Người gửi",
+  "receiver": "Người nhận",
+
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

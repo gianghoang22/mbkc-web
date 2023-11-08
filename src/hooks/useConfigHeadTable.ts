@@ -14,6 +14,7 @@ import {
   StorePartnerTable,
   StoreTable,
   PartnerProductTable,
+  ShiftTable,
 } from '@types';
 import useLocales from './useLocales';
 import { Language } from 'common/enum';
@@ -596,28 +597,28 @@ function useConfigHeadTable() {
   const MoneyExchangeHeadCells: HeadCell<MoneyExchangeTable>[] = [
     {
       id: 'sender',
-      label: 'Sender',
+      label: translate('table.sender'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
       id: 'receiver',
-      label: 'Receiver',
+      label: translate('table.receiver'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
       id: 'amount',
-      label: 'Amount',
+      label: translate('page.form.amount'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
     },
     {
       id: 'exchangeType',
-      label: 'Type',
+      label: translate('table.exchangeType'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -625,6 +626,45 @@ function useConfigHeadTable() {
     {
       id: 'status',
       label: translate('table.status'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const ShiftHeadCells: HeadCell<ShiftTable>[] = [
+    {
+      id: 'cashierName',
+      label: 'Cashier',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+
+    {
+      id: 'date',
+      label: 'Date',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'totalOrder',
+      label: 'Total Order',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'totalMoneyInWallet',
+      label: 'Money In Wallet',
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'totalMoneyOfToday',
+      label: 'Money Of Today',
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -692,6 +732,7 @@ function useConfigHeadTable() {
     storePartnerDetailHeadCells,
     ShipperPaymentHeadCells,
     partnerProductHeadCells,
+    ShiftHeadCells,
   };
 }
 
