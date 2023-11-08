@@ -17,6 +17,8 @@ import { Color, Status } from 'common/enum';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
+import { removeLocalStorage } from 'utils';
+import { StorageKeys } from 'constants/storageKeys';
 
 interface KitchenCenterTableRowProps {
   kitchenCenter: KitchenCenter;
@@ -25,6 +27,7 @@ interface KitchenCenterTableRowProps {
   rowsPerPage: number;
   selected: readonly string[];
   filterName: string;
+  sortBy: string;
 }
 
 function KitchenCenterTableRow({
@@ -34,6 +37,7 @@ function KitchenCenterTableRow({
   rowsPerPage,
   selected,
   filterName,
+  sortBy,
 }: KitchenCenterTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -44,8 +48,10 @@ function KitchenCenterTableRow({
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
   const handleNavigateDetail = () => {
-    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/${kitchenCenter.kitchenCenterId}`);
     dispatch(setRoutesToBack(pathname));
+    removeLocalStorage(StorageKeys.PAGE);
+    removeLocalStorage(StorageKeys.ROW_PER_PAGE);
+    navigate(PATH_ADMIN_APP.kitchenCenter.root + `/${kitchenCenter.kitchenCenterId}`);
   };
 
   const handleEdit = () => {
@@ -59,7 +65,13 @@ function KitchenCenterTableRow({
     dispatch<any>(
       deleteKitchenCenter({
         idParams: { kitchenCenterId: kitchenCenter?.kitchenCenterId },
-        optionParams: { searchValue: filterName },
+        optionParams: {
+          searchValue: filterName,
+          itemsPerPage: rowsPerPage,
+          currentPage: page + 1,
+          sortBy: sortBy,
+        },
+        pathname,
         navigate,
       })
     );
@@ -77,6 +89,7 @@ function KitchenCenterTableRow({
         searchValue: filterName,
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
+        sortBy: sortBy,
       },
       navigate,
     };

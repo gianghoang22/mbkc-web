@@ -116,6 +116,7 @@ function CategoryTableTab({ categoryId }: CategoryTableTabProps) {
                       categoryType={CategoryType.EXTRA}
                       selected={selected}
                       filterName={filterName}
+                      sortBy={`${orderBy}_${order}`}
                     />
                   );
                 })}

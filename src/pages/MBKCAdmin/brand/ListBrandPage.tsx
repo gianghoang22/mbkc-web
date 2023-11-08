@@ -121,10 +121,11 @@ function ListBrandPage() {
                             key={index}
                             index={index}
                             brand={brand}
-                            page={page}
+                            page={page + 1}
                             rowsPerPage={rowsPerPage}
                             selected={selected}
                             filterName={filterName}
+                            sortBy={`${orderBy}_${orderSort}`}
                           />
                         );
                       })}

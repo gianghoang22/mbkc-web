@@ -1,4 +1,4 @@
-import { ListParams, MessageResponse, Params, Partner, PartnerToCreate, PartnerToUpdate, ToUpdateStatus } from '@types';
+import { ListParams, MessageResponse, Params, Partner, PartnerToUpdate, ToUpdateStatus } from '@types';
 import { axiosClient, axiosFormData } from 'api/axiosClient';
 import { ROUTES_API_PARTNERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -33,34 +33,6 @@ export const getPartnerDetailThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const createNewPartnerThunk = async (params: Params<PartnerToCreate>, thunkAPI: any) => {
-  const { data, optionParams, navigate } = params;
-  const formData = appendData(data);
-
-  try {
-    const response: MessageResponse = await axiosFormData.post(ROUTES_API_PARTNERS.CREATE_PARTNER, formData);
-    if (response) {
-      const paramsCallback: ListParams = {
-        optionParams: {
-          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-        },
-        navigate,
-      };
-      await thunkAPI.dispatch(getAllPartners(paramsCallback));
-      const message = handleResponseMessage(response.message);
-      thunkAPI.dispatch(setMessageSuccess(message));
-    }
-    return response;
-  } catch (error: any) {
-    const errorResponse = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
-    thunkAPI.dispatch(setMessageError(messageMultiLang));
-    return thunkAPI.rejectWithValue(error);
-  }
-};
-
 export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkAPI: any) => {
   const { data, idParams, optionParams, navigate } = params;
   const formData = appendData(data);
@@ -72,11 +44,7 @@ export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkA
     );
     if (response) {
       const paramsCallback: ListParams = {
-        optionParams: {
-          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-        },
+        optionParams: optionParams ? optionParams : {},
         navigate,
       };
       await thunkAPI.dispatch(getAllPartners(paramsCallback));
@@ -93,7 +61,6 @@ export const updatePartnerThunk = async (params: Params<PartnerToUpdate>, thunkA
 };
 
 export const updateStatusPartnerThunk = async (params: Params<ToUpdateStatus>, thunkAPI: any) => {
-  console.log(params);
   const { data, idParams, optionParams, navigate } = params;
 
   try {
@@ -103,11 +70,7 @@ export const updateStatusPartnerThunk = async (params: Params<ToUpdateStatus>, t
     );
     if (response) {
       const paramsCallback: ListParams = {
-        optionParams: {
-          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
-          itemsPerPage: optionParams?.itemsPerPage,
-          currentPage: optionParams?.currentPage,
-        },
+        optionParams: optionParams ? optionParams : {},
         navigate,
       };
       await thunkAPI.dispatch(getAllPartners(paramsCallback));
@@ -132,11 +95,7 @@ export const deletePartnerThunk = async (params: Params<Partner>, thunkAPI: any)
     );
     if (response) {
       const paramsCallback: ListParams = {
-        optionParams: {
-          searchValue: optionParams?.searchValue ? optionParams?.searchValue : '',
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-        },
+        optionParams: optionParams ? optionParams : {},
         navigate,
       };
       await thunkAPI.dispatch(getAllPartners(paramsCallback));

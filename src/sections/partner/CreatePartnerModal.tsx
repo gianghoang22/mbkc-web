@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { createNewPartner, updatePartner } from 'redux/partner/partnerSlice';
+import { updatePartner } from 'redux/partner/partnerSlice';
 //
 import { Params, PartnerToCreate, PartnerToUpdate } from '@types';
 import { Color, Language, Status } from 'common/enum';
@@ -19,9 +19,10 @@ interface CreatePartnerModalProps {
   isOpen: boolean;
   handleOpen: (title: any) => void;
   filterName: string;
+  sortBy: string;
 }
 
-function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen, filterName }: CreatePartnerModalProps) {
+function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen, filterName, sortBy }: CreatePartnerModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -44,37 +45,25 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen, filterName 
   const onSubmit = async (values: PartnerToCreate) => {
     const data = { ...values };
 
-    if (isEditing) {
-      const paramUpdate: Params<PartnerToUpdate> = {
-        data: {
-          name: data.name,
-          status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
-          logo: typeof values.logo === 'string' ? '' : data.logo,
-          webUrl: data.webUrl,
-        },
-        optionParams: {
-          searchValue: filterName,
-          currentPage: page + 1,
-          itemsPerPage: rowsPerPage,
-        },
-        idParams: {
-          partnerId: partner?.partnerId,
-        },
-        navigate,
-      };
-      dispatch(updatePartner(paramUpdate));
-    } else {
-      const paramCreate: Params<PartnerToCreate> = {
-        data: data,
-        optionParams: {
-          currentPage: page + 1,
-          itemsPerPage: rowsPerPage,
-        },
-        navigate,
-      };
-      dispatch(createNewPartner(paramCreate));
-      handleOpen('create partner');
-    }
+    const paramUpdate: Params<PartnerToUpdate> = {
+      data: {
+        name: data.name,
+        status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
+        logo: typeof values.logo === 'string' ? '' : data.logo,
+        webUrl: data.webUrl,
+      },
+      optionParams: {
+        searchValue: filterName,
+        currentPage: page,
+        itemsPerPage: rowsPerPage,
+        sortBy: sortBy,
+      },
+      idParams: {
+        partnerId: partner?.partnerId,
+      },
+      navigate,
+    };
+    dispatch(updatePartner(paramUpdate));
   };
 
   return (
