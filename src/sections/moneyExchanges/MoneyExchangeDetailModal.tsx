@@ -47,7 +47,7 @@ function MoneyExchangeDetailModal({ isOpen, handleOpen }: MoneyExchangeDetailMod
 
             <Stack width="100%">
               <Stack direction="row" gap={1}>
-                <Typography variant="subtitle1">Exchange ID: </Typography>
+                <Typography variant="subtitle1">ID: </Typography>
                 <Typography>#MBKC1234</Typography>
               </Stack>
 
@@ -76,31 +76,31 @@ function MoneyExchangeDetailModal({ isOpen, handleOpen }: MoneyExchangeDetailMod
                 </Grid>
                 <Grid item md={7}>
                   <Stack direction="row" justifyContent="space-between">
-                    <Typography variant="subtitle1">Sender: </Typography>
+                    <Typography variant="subtitle1">{translate('table.sender')}: </Typography>
                     <Typography>Kitchen Center Đồng Khởi</Typography>
                   </Stack>
                   <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">Receiver: </Typography>
+                    <Typography variant="subtitle1">{translate('table.receiver')}: </Typography>
                     <Typography>Yo! Sushi Store</Typography>
                   </Stack>
 
                   <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">Payment time:</Typography>
+                    <Typography variant="subtitle1">{translate('model.capitalizeOne.paymentTime')}:</Typography>
                     <Typography>12 Aug 2022 10:00 PM</Typography>
                   </Stack>
 
                   <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">Transaction type:</Typography>
+                    <Typography variant="subtitle1">{translate('table.exchangeType')}:</Typography>
                     <Label>Send</Label>
                   </Stack>
 
                   <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">Status:</Typography>
+                    <Typography variant="subtitle1">{translate('table.status')}:</Typography>
                     <Label color={Color.SUCCESS}>Successful</Label>
                   </Stack>
 
                   <Stack justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">Content:</Typography>
+                    <Typography variant="subtitle1">{translate('page.form.content')}:</Typography>
                     <Typography gutterBottom mt={1} maxWidth="100%">
                       body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde
                       suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos

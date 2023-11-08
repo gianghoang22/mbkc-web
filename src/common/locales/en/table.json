@@ -20,6 +20,7 @@
   "gender": "Gender",
   "avatar": "Avatar",
   "type": "Type",
+  "exchangeType": "Exchange type",
   "historicalPrice": "Original price",
   "sellingPrice": "Selling price",
   "discountPrice": "Discount price",
@@ -43,6 +44,8 @@
   "storeName": "Store name",
   "totalPrice": "Total price",
   "createdDate": "Created date",
+  "sender": "Sender",
+  "receiver": "Receiver",
   "lowercase": {
     "address": "address",
     "email": "email",
