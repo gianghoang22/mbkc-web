@@ -143,4 +143,60 @@ export const VieErrorMessageConstant = {
 
   ProductCodeInPartnerNotExist: 'Mã sản phẩm không tồn tại trên hệ thống GrabFood.',
   PriceGreaterThan0: 'Giá phải lớn hơn 0.',
+
+  OrderNotBelongToKitchenCenter: 'Id đặt hàng đối tác không thuộc trung tâm bếp của bạn.',
+  OrderShipperPhoneNotMatch: 'Điện thoại của người gửi không khớp với số điện thoại của người gửi theo thứ tự.',
+  OrderIsPreparing: 'Đơn hàng này đang ở trạng thái ĐANG CHUẨN BỊ nên Bạn không thể xác nhận đơn hàng đã hoàn thành.',
+  OrderIsReady: 'Đơn hàng này ở trạng thái SẴN SÀNG nên Bạn không thể xác nhận đơn hàng đã hoàn thành.',
+  OrderIsUpcoming: 'Đơn hàng này đang ở trạng thái SẮP TỚI nên Bạn không thể xác nhận đơn hàng đã hoàn thành.',
+  OrderIsCompleted: 'Đơn hàng này đã ở trạng thái HOÀN THÀNH nên Bạn không thể xác nhận đơn hàng đã hoàn thành.',
+  OrderIsCancelled: 'Đơn hàng này đã ở trạng thái HỦY nên Bạn không thể xác nhận đơn hàng đã hoàn thành.',
+  OrderAlreadyPaid: 'Đơn hàng này đã được thanh toán nên Bạn không thể xác nhận đơn hàng đã hoàn thành.',
+  OrderPartnerIdNotExist: 'Id đặt hàng đối tác không tồn tại trong hệ thống.',
+  OrderPartnerIdAlreadyExist: 'Id đặt hàng đối tác đã tồn tại trong hệ thống.',
+  DisplayIdAlreadyExist: 'Id hiển thị đã tồn tại trong hệ thống.',
+  ProductPartnerNotMappingBefore: 'Sản phẩm trong đơn hàng vẫn chưa được ánh xạ tới sản phẩm đối tác của cửa hàng.',
+  ProductExtraPartnerNotMappingBefore:
+    'Sản phẩm bổ sung trong đơn hàng Chi tiết vẫn chưa được ánh xạ tới sản phẩm bổ sung của đối tác của cửa hàng.',
+  ProductInOrderNotExistInTheSystem: 'Id sản phẩm trong đơn hàng không tồn tại trong hệ thống.',
+  ProductExtraInOrderDetailNotExistInTheSystem: 'Id bổ sung sản phẩm trong đơn hàng không tồn tại trong hệ thống.',
+  OrderIdNotExist: 'Id đơn hàng không tồn tại trong hệ thống.',
+  OrderIdNotBelongToStore: 'Id đơn hàng không thuộc về cửa hàng.',
+  OrderIdNotBelongToKitchenCenter: 'Id đơn hàng không thuộc về trung tâm bếp.',
+  OrderIsReady_Change_To_Ready: 'Đơn hàng này ở trạng thái SẴN SÀNG nên Bạn không thể chuyển sang trạng thái sẵn sàng.',
+  OrderIsUpcoming_Change_To_Ready:
+    'Đơn hàng này đang ở trạng thái SẮP TỚI nên Bạn không thể chuyển sang trạng thái sẵn sàng.',
+  OrderIsCompleted_Change_To_Ready:
+    'Đơn hàng này ở trạng thái ĐÃ HOÀN THÀNH nên Bạn không thể chuyển sang trạng thái sẵn sàng.',
+  OrderIsCancelled_Change_To_Ready:
+    'Đơn hàng này đang ở trạng thái HỦY nên Bạn không thể chuyển sang trạng thái sẵn sàng.',
+  OrderIsReadyDelivery_Change_To_Ready:
+    'Đơn hàng này đang ở trạng thái READY_DELIVERY nên Bạn không thể chuyển sang trạng thái sẵn sàng.',
+  OrderIsPreparing_Change_To_ReadyDelivery:
+    'Đơn hàng này đang ở trạng thái ĐANG CHUẨN BỊ nên Bạn không thể chuyển sang trạng thái giao hàng sẵn sàng.',
+  OrderIsUpcoming_Change_To_ReadyDelivery:
+    'Đơn hàng này đang ở trạng thái SẮP TỚI nên Bạn không thể chuyển sang trạng thái giao hàng sẵn sàng.',
+  OrderIsCompeleted_Change_To_ReadyDelivery:
+    'Đơn hàng này ở trạng thái ĐÃ HOÀN THÀNH nên Bạn không thể chuyển sang trạng thái giao hàng sẵn sàng.',
+  OrderIsCancelled_Change_To_ReadyDelivery:
+    'Đơn hàng này ở trạng thái Đã hủy nên Bạn không thể chuyển sang trạng thái giao hàng sẵn sàng.',
+  OrderIsReadyDelivery_Change_To_ReadyDelivery:
+    'Đơn hàng này đang ở trạng thái READY_DELIVERY nên Bạn không thể chuyển sang trạng thái giao hàng sẵn sàng.',
+  OrderIsReady_Cancel: 'Đơn hàng này ở trạng thái SẴN SÀNG nên Bạn không thể hủy đơn hàng.',
+  OrderIsCompleted_Cancel: 'Đơn hàng này ở trạng thái ĐÃ HOÀN THÀNH nên Bạn không thể hủy đơn hàng.',
+  OrderIsCancelled_Cancel: 'Đơn hàng này ở trạng thái HỦY nên Bạn không thể hủy đơn hàng.',
+  OrderIsReadyDelivery_Cancel: 'Đơn hàng này ở trạng thái READY_DELIVERY nên Bạn không thể hủy đơn hàng.',
+  NoChangeOrderStatusWhenClosedShift: 'Hôm nay bạn đã đóng ca nên không thể thay đổi trạng thái.',
+
+  BalanceIsNotEnough: 'Số dư của bạn không đủ để chuyển tiền.',
+
+  StoreIdNotBelogToKitchenCenter: 'Id cửa hàng không thuộc trung tâm bếp của bạn.',
+  BalanceIsInvalid: 'Số dư cửa hàng này không hợp lệ.',
+  BalanceDoesNotEnough: 'Cửa hàng này không có đủ số dư để rút tiền.',
+  AlreadyTransferredToStore: 'Hôm nay tiền đã được chuyển vào cửa hàng.',
+  AlreadyTransferredToKitchenCenter: 'Hôm nay tiền đã được chuyển về trung tâm bếp ăn.',
+  TransferToStoreSuccessfully: 'Chuyển tiền về kho thành công.',
+  TransferToKitchenCenterSuccessfully: 'Chuyển tiền về trung tâm bếp thành công.',
+  NotExistJobId: 'Id công việc không tồn tại trong Hệ thống MBKC.',
+  ConfigDoesNotExist: 'Cấu hình để chạy tác vụ nền không tồn tại.',
 };

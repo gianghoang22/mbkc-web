@@ -60,4 +60,11 @@ export const VieMessageConstant = {
   UpdatedPartnerProductStatusSuccessfully: 'Đã cập nhật trạng thái sản phẩm của đối tác thành công.',
 
   UpdatedConfigurationsSuccessfully: 'Đã cập nhật cấu hình hệ thống thành công.',
+
+  UpdateOrderSuccessfully: 'Cập nhật đơn hàng thành công.',
+  CancelOrderSuccessfully: 'Hủy đơn hàng thành công.',
+
+  MoneyExchangeToKitchenCenterSuccessfully: 'Đã gửi tiền tới Kitchen Center thành công.',
+  WithdrawMoneySuccessfully: 'Rút tiền về cửa hàng thành công.',
+  UpdateSchedulingTimeJob: 'Đã Thay Đổi Thời Gian Tự Động Chuyển Tiền Thành Công.',
 };

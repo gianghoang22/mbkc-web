@@ -60,4 +60,11 @@ export const EngMessageConstant = {
   UpdatedPartnerProductStatusSuccessfully: 'Updated Partner Product Status Successfully.',
 
   UpdatedConfigurationsSuccessfully: 'Updated Configuration Successfully.',
+
+  UpdateOrderSuccessfully: 'Update Order Successfully.',
+  CancelOrderSuccessfully: 'Cancel Order Successfully.',
+
+  MoneyExchangeToKitchenCenterSuccessfully: 'Sent Money To Kitchen Center Successfully.',
+  WithdrawMoneySuccessfully: 'Withdraw Money To Store Successfully.',
+  UpdateSchedulingTimeJob: 'Changed The Time To Automatically Transfer Money Successfully.',
 };
