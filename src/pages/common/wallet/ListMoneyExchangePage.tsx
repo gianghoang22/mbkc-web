@@ -14,7 +14,7 @@ import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
 import { useDispatch } from 'react-redux';
 import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
-import { EXCHANGE_STATUS_OPTIONS, EXCHANGE_TYPE_OPTIONS } from 'common/models';
+import { EXCHANGE_TYPE_OPTIONS, FILTER_STATUS_OPTIONS } from 'common/models';
 import { Role } from 'common/enums';
 
 function ListMoneyExchangePage() {
@@ -35,13 +35,15 @@ function ListMoneyExchangePage() {
   const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
   const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
   const [exchangeType, setExchangeType] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
-  const [exchangeStatus, setExchangeStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [filterStatus, setFilterStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof MoneyExchangeTable) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+
+  // console.log(exchangeStatus, exchangeType);
 
   const handleChangeSearchDateFrom = (date: Date | null) => {
     setSearchDateFrom(date as Date);
@@ -55,8 +57,8 @@ function ListMoneyExchangePage() {
     setExchangeType(newType);
   };
 
-  const handleChangeExchangeStatus = (newStatus: OptionSelect | null) => {
-    setExchangeStatus(newStatus);
+  const handleChangeFilterStatus = (newStatus: OptionSelect | null) => {
+    setFilterStatus(newStatus);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -70,7 +72,7 @@ function ListMoneyExchangePage() {
         sortBy: `${orderBy}_${order}`,
         searchDateFrom: searchDateFrom === null ? '' : fDate(searchDateFrom as Date),
         searchDateTo: searchDateTo === null ? '' : fDate(searchDateTo as Date),
-        status: exchangeStatus?.value,
+        status: filterStatus?.value,
         exchangeType: exchangeType?.value,
       },
       navigate,
@@ -82,7 +84,7 @@ function ListMoneyExchangePage() {
     order,
     searchDateFrom,
     searchDateTo,
-    exchangeStatus?.value,
+    filterStatus?.value,
     exchangeType?.value,
     navigate,
   ]);
@@ -118,12 +120,10 @@ function ListMoneyExchangePage() {
                 haveSelectSearchDateTo
                 haveFilterName={false}
                 options={EXCHANGE_TYPE_OPTIONS}
-                secondOptions={EXCHANGE_STATUS_OPTIONS}
-                exchangeType={exchangeType}
-                exchangeStatus={exchangeStatus}
-                haveSelectExchangeStatus
+                secondOptions={FILTER_STATUS_OPTIONS}
+                haveSelectFilterStatus
                 haveSelectExchangeType
-                handleChangeExchangeStatus={handleChangeExchangeStatus}
+                handleChangeFilterStatus={handleChangeFilterStatus}
                 handleChangeExchangeType={handleChangeExchangeType}
                 handleChangeSearchDateFrom={handleChangeSearchDateFrom}
                 handleChangeSearchDateTo={handleChangeSearchDateTo}

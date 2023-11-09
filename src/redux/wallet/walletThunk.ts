@@ -1,7 +1,7 @@
 import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
 import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
-import { MoneyExchange, PaymentForStoresToCreate } from 'common/models';
-import { ROUTES_API_BANKING_ACCOUNTS, ROUTES_API_MONEY_EXCHANGES } from 'constants/routesApiKeys';
+import { MoneyExchange, PaymentForStoresToCreate, ShipperPayment } from 'common/models';
+import { ROUTES_API_MONEY_EXCHANGES, ROUTES_API_SHIPPER_PAYMENTS } from 'constants/routesApiKeys';
 
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
@@ -27,7 +27,9 @@ export const getAllShipperPaymentThunk = async (params: ListParams, thunkAPI: an
   const { navigate, optionParams } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
+    const response: ListResponse<ShipperPayment> = await axiosClient.get(
+      ROUTES_API_SHIPPER_PAYMENTS.GET_ALL_SHIPPER_PAYMENTS(optionParams)
+    );
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
@@ -46,6 +48,7 @@ export const createPaymentForStoreThunk = async (params: Params<PaymentForStores
       ROUTES_API_MONEY_EXCHANGES.CREATE_PAYMENT_FOR_STORES,
       formData
     );
+    console.log(response);
     if (response) {
       const paramsCallback = {
         optionParams: {

@@ -3,16 +3,19 @@ import { Dialog, DialogContent, Divider, IconButton, Stack, Typography } from '@
 // @mui icon
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 //
-import { Color, Language } from 'common/enums';
+import { Color, FilterStatus, Language, PaymentMethod } from 'common/enums';
 import { Label } from 'components';
 import { useLocales } from 'hooks';
+import { ShipperPayment } from 'common/models';
+import { fDateTime, formatCurrency } from 'utils';
 
 interface ShipperPaymentDetailModalProps {
   isOpen: boolean;
   handleOpen: (title: any) => void;
+  shipperPayment: ShipperPayment;
 }
 
-function ShipperPaymentDetailModal({ isOpen, handleOpen }: ShipperPaymentDetailModalProps) {
+function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: ShipperPaymentDetailModalProps) {
   const { translate, currentLang } = useLocales();
 
   return (
@@ -37,39 +40,61 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen }: ShipperPaymentDetailM
             <Divider sx={{ mt: 1.5, mb: 2 }} />
 
             <Stack width="100%">
-              <Stack direction="row" gap={1}>
-                <Typography variant="subtitle1">PAYMENT ID: </Typography>
-                <Typography>#MBKC1234</Typography>
+              <Stack direction="row" justifyContent="space-between" mt={1}>
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('table.cashierCreated')}:{' '}
+                </Typography>
+                <Typography variant="body1">{shipperPayment.cashierCreated}</Typography>
               </Stack>
 
               <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1">Banking Account: </Typography>
-                <Typography>MOMO</Typography>
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('model.capitalizeOne.bankingAccount')}:{' '}
+                </Typography>
+                <Typography variant="body1">{shipperPayment.kcBankingAccountName}</Typography>
               </Stack>
 
               <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1">Amount: </Typography>
-                <Typography>132.000 đ</Typography>
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('page.form.amount')}:{' '}
+                </Typography>
+                <Typography variant="body1">{formatCurrency(shipperPayment.amount)}</Typography>
               </Stack>
 
               <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1">Create date:</Typography>
-                <Typography>12 Aug 2022 10:00 PM</Typography>
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('table.createDate')}:
+                </Typography>
+                <Typography variant="body1">{fDateTime(shipperPayment.createDate)}</Typography>
               </Stack>
 
               <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1">Payment method:</Typography>
-                <Typography>Cash</Typography>
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('page.content.paymentMethod')}:
+                </Typography>
+                <Typography variant="body1">
+                  {shipperPayment.paymentMethod === PaymentMethod.CASH
+                    ? translate('page.content.cash')
+                    : translate('page.content.cashless')}
+                </Typography>
               </Stack>
 
               <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1">Status:</Typography>
-                <Label color={Color.SUCCESS}>Successful</Label>
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('table.status')}:
+                </Typography>
+                <Label color={shipperPayment.status === FilterStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
+                  {shipperPayment.status === FilterStatus.SUCCESS
+                    ? translate('status.success')
+                    : translate('status.fail')}
+                </Label>
               </Stack>
 
               <Stack justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1">Content:</Typography>
-                <Typography gutterBottom mt={1} maxWidth="100%">
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('page.form.content')}:
+                </Typography>
+                <Typography variant="body1" gutterBottom mt={1} maxWidth="100%">
                   body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde
                   suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos
                   laborum fugiat deleniti? Eum quasi quidem quibusdam.

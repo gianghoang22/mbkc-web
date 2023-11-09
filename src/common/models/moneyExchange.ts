@@ -1,11 +1,11 @@
-import { ExchangeStatus, ExchangeType } from 'common/enums';
+import { FilterStatus, ExchangeType } from 'common/enums';
 
 export interface MoneyExchange {
   exchangeId: number;
   amount: number;
   exchangeType: ExchangeType;
   content: string;
-  status: ExchangeStatus;
+  status: FilterStatus;
   senderId: number;
   senderName: string;
   receiveId: number;

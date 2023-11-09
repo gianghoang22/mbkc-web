@@ -51,7 +51,9 @@
   "toDate": "Đến ngày",
   "receive": "Nhận",
   "withdraw": "Rút",
+  "createDate": " Ngày tạo",
   "send": "Gửi",
+  "cashierCreated": "Nhân viên thu ngân",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

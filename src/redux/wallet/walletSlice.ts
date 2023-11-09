@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { MoneyExchange, ShipperPayment } from 'common/models';
 import { createPaymentForStoreThunk, getAllMoneyExchangeThunk, getAllShipperPaymentThunk } from './walletThunk';
-import shipperPayment from 'mock/shipperPayment';
 
 interface BankingAccountState {
   isEditing: boolean;
@@ -22,7 +21,7 @@ const initialState: BankingAccountState = {
   isSuccess: false,
   moneyExchanges: [],
   moneyExchange: null,
-  shipperPayments: shipperPayment,
+  shipperPayments: [],
   shipperPayment: null,
   numberItems: 0,
 };
@@ -37,14 +36,10 @@ export const createPaymentForStore = createAsyncThunk(
   createPaymentForStoreThunk
 );
 
-const BankingAccountSlice = createSlice({
-  name: 'money-exchange',
+const WalletSlice = createSlice({
+  name: 'wallet',
   initialState,
-  reducers: {
-    getBankingAccountDetail_local: (state, action) => {
-      state.moneyExchange = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(getAllMoneyExchange.pending, (state) => {
@@ -69,7 +64,8 @@ const BankingAccountSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.moneyExchanges = [...action.payload?.moneyExchanges];
+        state.shipperPayments = [...action.payload?.shipperPayments];
+        state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllShipperPayment.rejected, (state, action) => {
         state.isLoading = false;
@@ -92,7 +88,6 @@ const BankingAccountSlice = createSlice({
   },
 });
 
-export const { getBankingAccountDetail_local } = BankingAccountSlice.actions;
-const BankingAccountReducer = BankingAccountSlice.reducer;
+const WalletReducer = WalletSlice.reducer;
 
-export default BankingAccountReducer;
+export default WalletReducer;

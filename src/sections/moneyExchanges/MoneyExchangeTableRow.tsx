@@ -2,7 +2,7 @@
 import { TableCell, TableRow } from '@mui/material';
 //
 import { MoneyExchange } from 'common/models';
-import { Color, ExchangeStatus, ExchangeType } from 'common/enums';
+import { Color, FilterStatus, ExchangeType } from 'common/enums';
 import { Label } from 'components';
 import { useLocales, useModal } from 'hooks';
 import MoneyExchangeDetailModal from './MoneyExchangeDetailModal';
@@ -45,8 +45,8 @@ function MoneyExchangeTableRow({ index, moneyExchange }: MoneyExchangeTableRowPr
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          <Label color={moneyExchange?.status === ExchangeStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
-            {moneyExchange?.status === ExchangeStatus.SUCCESS ? translate('status.success') : translate('status.fail')}
+          <Label color={moneyExchange?.status === FilterStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
+            {moneyExchange?.status === FilterStatus.SUCCESS ? translate('status.success') : translate('status.fail')}
           </Label>
         </TableCell>
       </TableRow>

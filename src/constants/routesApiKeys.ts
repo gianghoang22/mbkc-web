@@ -19,6 +19,7 @@ const ROOTS_TRANSACTION = '/transactions';
 const ROOTS_ADDRESS = '/province';
 const ROOTS_CONFIGURATION = '/configurations';
 const ROOTS_MONEY_EXCHANGES = '/money-exchanges';
+const ROOTS_SHIPPER_PAYMENTS = '/shipper-payments';
 
 export const ROUTES_API_AUTH = {
   LOGIN: path(ROOTS_AUTH, `/login`),
@@ -80,6 +81,22 @@ export const ROUTES_API_MONEY_EXCHANGES = {
     path(
       ROOTS_MONEY_EXCHANGES,
       `?ItemsPerPage=${itemsPerPage}&CurrentPage=${currentPage}&SearchDateFrom=${searchDateFrom}&SearchDateTo=${searchDateTo}&ExchangeType=${exchangeType}&Status=${status}&SortBy=${sortBy}`
+    ),
+};
+
+export const ROUTES_API_SHIPPER_PAYMENTS = {
+  GET_ALL_SHIPPER_PAYMENTS: ({
+    itemsPerPage = '',
+    currentPage = '',
+    searchDateFrom = '',
+    searchDateTo = '',
+    paymentMethod = '',
+    status = '',
+    sortBy = '',
+  }: OptionParams) =>
+    path(
+      ROOTS_SHIPPER_PAYMENTS,
+      `?ItemsPerPage=${itemsPerPage}&CurrentPage=${currentPage}&SearchDateFrom=${searchDateFrom}&SearchDateTo=${searchDateTo}&PaymentMethod=${paymentMethod}&Status=${status}&SortBy=${sortBy}`
     ),
 };
 

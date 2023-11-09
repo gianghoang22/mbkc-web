@@ -1,4 +1,4 @@
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Grid,
@@ -24,12 +24,38 @@ import { useAppSelector } from 'redux/configStore';
 import { Label, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color, Language, Role } from 'common/enums';
+import { Color, ExchangeType, FilterStatus, Language, PaymentMethod, Role } from 'common/enums';
+import { useEffect, useMemo } from 'react';
+import { ListParams } from 'common/@types';
+import { getAllMoneyExchange, getAllShipperPayment } from 'redux/wallet/walletSlice';
+import { useDispatch } from 'react-redux';
+import { fDateTime, formatCurrency } from 'utils';
 
 function WalletPage() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { translate, currentLang } = useLocales();
   const { userAuth } = useAppSelector((state) => state.auth);
+  const { moneyExchanges, isLoading, numberItems, shipperPayments } = useAppSelector((state) => state.wallet);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: 5,
+        currentPage: 1,
+      },
+      navigate,
+    };
+  }, [navigate]);
+
+  useEffect(() => {
+    dispatch<any>(getAllShipperPayment(params));
+  }, [dispatch, params]);
+
+  useEffect(() => {
+    dispatch<any>(getAllMoneyExchange(params));
+  }, [dispatch, params]);
 
   return (
     <>
@@ -49,7 +75,7 @@ function WalletPage() {
             <MainBalanceCard />
           </Grid>
 
-          <Grid item xs={12} sm={3.5} md={3.5}>
+          <Grid item xs={12} sm={3.5} md={3.2}>
             <TotalDaily
               color={Color.SUCCESS}
               date="27/8/2023"
@@ -59,7 +85,7 @@ function WalletPage() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={3.5} md={3.5}>
+          <Grid item xs={12} sm={3.5} md={3.8}>
             <TotalDaily
               color={Color.INFO}
               date="27/8/2023"
@@ -92,42 +118,50 @@ function WalletPage() {
                   <TableHead>
                     <TableRow>
                       <TableCell>{translate('table.no')}</TableCell>
-                      <TableCell>Sender</TableCell>
-                      <TableCell>Receiver</TableCell>
-                      <TableCell>Amount (đ)</TableCell>
-                      <TableCell>Exchange type</TableCell>
+                      <TableCell>{translate('table.sender')}</TableCell>
+                      <TableCell>{translate('table.receiver')}</TableCell>
+                      <TableCell>{translate('page.form.amount')}</TableCell>
+                      <TableCell>{translate('table.exchangeType')}</TableCell>
                       <TableCell>{translate('table.status')}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     <>
-                      {Array(5)
-                        .fill(0)
-                        .map((_, index) => (
-                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell component="th" scope="row">
-                              {index + 1}
-                            </TableCell>
-                            <TableCell>
-                              <Typography variant="body2">Le Hong Thanh</Typography>
-                            </TableCell>
+                      {moneyExchanges?.map((moneyExchange, index) => (
+                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                          <TableCell component="th" scope="row">
+                            {index + 1}
+                          </TableCell>
+                          <TableCell>
+                            <Typography variant="body2">{moneyExchange.senderName}</Typography>
+                          </TableCell>
 
-                            <TableCell>
-                              <Typography variant="body2">Le Xuan Bach</Typography>
-                            </TableCell>
+                          <TableCell>
+                            <Typography variant="body2">{moneyExchange.receiveName}</Typography>
+                          </TableCell>
 
-                            <TableCell>
-                              <Typography variant="body2">50.000</Typography>
-                            </TableCell>
+                          <TableCell>
+                            <Typography variant="body2">{formatCurrency(moneyExchange.amount)}</Typography>
+                          </TableCell>
 
-                            <TableCell>
-                              <Typography variant="body2">Online payment</Typography>
-                            </TableCell>
-                            <TableCell>
-                              <Label color={Color.SUCCESS}>Successful</Label>
-                            </TableCell>
-                          </TableRow>
-                        ))}
+                          <TableCell>
+                            <Typography variant="body2">
+                              {moneyExchange.exchangeType === ExchangeType.RECEIVE
+                                ? translate('table.receive')
+                                : moneyExchange.exchangeType === ExchangeType.SEND
+                                ? translate('table.send')
+                                : translate('table.withdraw')}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Label color={Color.SUCCESS}>
+                              {moneyExchange.status === FilterStatus.SUCCESS
+                                ? translate('status.success')
+                                : translate('status.fail')}
+                            </Label>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                     </>
                   </TableBody>
                 </Table>
@@ -179,53 +213,54 @@ function WalletPage() {
                     <TableHead>
                       <TableRow>
                         <TableCell>{translate('table.no')}</TableCell>
-                        <TableCell>Order</TableCell>
-                        <TableCell>Created date</TableCell>
-                        <TableCell>Created by</TableCell>
-                        <TableCell>Amount (đ)</TableCell>
-                        <TableCell>Payment method</TableCell>
-                        <TableCell>Banking account</TableCell>
+                        <TableCell>{translate('table.cashierCreated')}</TableCell>
+                        <TableCell>{translate('table.createdDate')}</TableCell>
+                        <TableCell>{translate('page.form.amount')} </TableCell>
+                        <TableCell>{translate('page.content.paymentMethod')}</TableCell>
+                        <TableCell>{translate('model.capitalizeOne.bankingAccount')}</TableCell>
                         <TableCell>{translate('table.status')}</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       <>
-                        {Array(5)
-                          .fill(0)
-                          .map((_, index) => (
-                            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                              <TableCell component="th" scope="row">
-                                {index + 1}
-                              </TableCell>
-                              <TableCell>
-                                <Typography variant="body2">#MBKC1234</Typography>
-                              </TableCell>
+                        {shipperPayments?.map((shipperPayment, index) => (
+                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell component="th" scope="row">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell>
+                              <Typography variant="body2">{shipperPayment.cashierCreated}</Typography>
+                            </TableCell>
 
-                              <TableCell>
-                                <Typography variant="body2">27/8/2023</Typography>
-                              </TableCell>
+                            <TableCell>
+                              <Typography variant="body2">{fDateTime(shipperPayment.createDate)}</Typography>
+                            </TableCell>
 
-                              <TableCell>
-                                <Typography variant="body2">Le Xuan Bach</Typography>
-                              </TableCell>
+                            <TableCell>
+                              <Typography variant="body2">{formatCurrency(shipperPayment.amount)}</Typography>
+                            </TableCell>
 
-                              <TableCell>
-                                <Typography variant="body2">250.000</Typography>
-                              </TableCell>
+                            <TableCell>
+                              <Typography variant="body2">
+                                {shipperPayment.paymentMethod === PaymentMethod.CASH
+                                  ? translate('page.content.cash')
+                                  : translate('page.content.cashless')}
+                              </Typography>
+                            </TableCell>
 
-                              <TableCell>
-                                <Typography variant="body2">Online payment</Typography>
-                              </TableCell>
+                            <TableCell>
+                              <Typography variant="body2">{shipperPayment.kcBankingAccountName}</Typography>
+                            </TableCell>
 
-                              <TableCell>
-                                <Typography variant="body2">MOMO</Typography>
-                              </TableCell>
-
-                              <TableCell>
-                                <Label color={Color.SUCCESS}>Successful</Label>
-                              </TableCell>
-                            </TableRow>
-                          ))}
+                            <TableCell>
+                              <Label color={Color.SUCCESS}>
+                                {shipperPayment.status === FilterStatus.SUCCESS
+                                  ? translate('status.success')
+                                  : translate('status.fail')}
+                              </Label>
+                            </TableCell>
+                          </TableRow>
+                        ))}
                       </>
                     </TableBody>
                   </Table>

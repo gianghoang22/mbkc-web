@@ -155,12 +155,11 @@ export interface MoneyExchangeTable {
 }
 
 export interface ShipperPaymentTable {
-  order: string;
-  createdDate: string;
-  createdBy: string;
+  createDate: string;
+  cashierCreated: string;
   amount: number;
   paymentMethod: string;
-  KCBankingAccount: string;
+  kcBankingAccountName: string;
   status: string;
 }
 

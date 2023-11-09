@@ -58,7 +58,8 @@
     "switchToConfiguration": "Switch to configuration",
     "mainBalance": "Main Balance",
     "cash": "Cash",
-    "cashless": "Chuyển khoản"
+    "cashless": "Cashless",
+    "paymentMethod": "Payment method"
   },
   "form": {
     "email": "Email",

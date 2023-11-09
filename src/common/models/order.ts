@@ -1,4 +1,4 @@
-import { ExchangeStatus, ExchangeType, PartnerOrderStatus, SystemStatusToFilter } from 'common/enums';
+import { ExchangeType, FilterStatus, PartnerOrderStatus, PaymentMethod, SystemStatusToFilter } from 'common/enums';
 import { Partner } from './partner';
 import { Product } from './product';
 import { _ShipperPayment } from './shipperPayment';
@@ -168,15 +168,28 @@ export const EXCHANGE_TYPE_OPTIONS = [
   },
 ];
 
-export const EXCHANGE_STATUS_OPTIONS = [
+export const FILTER_STATUS_OPTIONS = [
   {
-    value: ExchangeStatus.FAIL,
+    value: FilterStatus.FAIL,
     label: 'Fail',
     id: 'Fai',
   },
   {
-    value: ExchangeStatus.SUCCESS,
+    value: FilterStatus.SUCCESS,
     label: 'Success',
     id: 'Suc',
+  },
+];
+
+export const PAYMENT_METHOD_OPTIONS = [
+  {
+    value: PaymentMethod.CASH,
+    label: 'Cash',
+    id: 'Cas',
+  },
+  {
+    value: PaymentMethod.CASH_LESS,
+    label: 'Cashless',
+    id: 'Cas',
   },
 ];
