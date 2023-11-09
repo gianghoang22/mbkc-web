@@ -3,7 +3,7 @@ import { Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography, Bu
 // @mui icon
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 //
-import { Color, ExchangeStatus, ExchangeType, Language } from 'common/enums';
+import { Color, ExchangeType, FilterStatus, Language } from 'common/enums';
 import { Label } from 'components';
 import { useLocales } from 'hooks';
 import { useState } from 'react';
@@ -100,8 +100,8 @@ function MoneyExchangeDetailModal({ isOpen, handleOpen, moneyExchange }: MoneyEx
                     <Typography color={(theme) => theme.palette.grey[600]} variant="subtitle1">
                       {translate('table.status')}:
                     </Typography>
-                    <Label color={moneyExchange?.status === ExchangeStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
-                      {moneyExchange?.status === ExchangeStatus.SUCCESS
+                    <Label color={moneyExchange?.status === FilterStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
+                      {moneyExchange?.status === FilterStatus.SUCCESS
                         ? translate('status.success')
                         : translate('status.fail')}
                     </Label>

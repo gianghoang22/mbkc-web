@@ -7,6 +7,7 @@ export interface ShipperPayment {
   content: string;
   amount: number;
   createDate: string;
+  cashierCreated: string;
   paymentMethod: string;
   orderId: number;
   kcBankingAccountId: number;

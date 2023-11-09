@@ -58,7 +58,8 @@
     "finalTotalPrice": "Giá cuối cùng",
     "mainBalance": "Số dư",
     "cash": "Tiền mặt",
-    "cashless": "Cashless"
+    "cashless": "Chuyển khoản",
+    "paymentMethod": "Hình thức thanh toán"
   },
   "form": {
     "email": "Email",

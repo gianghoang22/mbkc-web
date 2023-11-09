@@ -2,10 +2,11 @@
 import { TableCell, TableRow } from '@mui/material';
 //
 import { ShipperPayment } from 'common/models';
-import { Color, Status } from 'common/enums';
+import { Color, FilterStatus, PaymentMethod } from 'common/enums';
 import { Label } from 'components';
 import { useLocales, useModal } from 'hooks';
 import ShipperPaymentDetailModal from './ShipperPaymentDetailModal';
+import { fDateTime, formatCurrency } from 'utils';
 
 interface ShipperPaymentTableRowProps {
   shipperPayment: ShipperPayment;
@@ -25,19 +26,21 @@ function ShipperPaymentTableRow({ index, shipperPayment }: ShipperPaymentTableRo
           {index + 1}
         </TableCell>
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          {shipperPayment.orderId}
+          {shipperPayment.cashierCreated}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          {shipperPayment.createDate}
+          {fDateTime(shipperPayment.createDate)}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          {shipperPayment.amount}
+          {formatCurrency(shipperPayment.amount)}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          {shipperPayment.paymentMethod}
+          {shipperPayment.paymentMethod === PaymentMethod.CASH
+            ? translate('page.content.cash')
+            : translate('page.content.cashless')}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
@@ -45,25 +48,21 @@ function ShipperPaymentTableRow({ index, shipperPayment }: ShipperPaymentTableRo
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          <Label
-            color={
-              shipperPayment?.status === Status.ACTIVE
-                ? Color.SUCCESS
-                : shipperPayment?.status === Status.INACTIVE
-                ? Color.WARNING
-                : Color.ERROR
-            }
-          >
-            {shipperPayment?.status === Status.INACTIVE
-              ? translate('status.inactive')
-              : shipperPayment?.status === Status.ACTIVE
-              ? translate('status.active')
-              : translate('status.deActive')}
+          <Label color={shipperPayment?.status === FilterStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
+            {shipperPayment?.status === FilterStatus.SUCCESS
+              ? translate('status.success')
+              : translate('status.success')}
           </Label>
         </TableCell>
       </TableRow>
 
-      {isOpenModalDetail && <ShipperPaymentDetailModal isOpen={isOpenModalDetail} handleOpen={handleOpenModalDetail} />}
+      {isOpenModalDetail && (
+        <ShipperPaymentDetailModal
+          shipperPayment={shipperPayment}
+          isOpen={isOpenModalDetail}
+          handleOpen={handleOpenModalDetail}
+        />
+      )}
     </>
   );
 }

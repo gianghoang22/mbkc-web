@@ -24,6 +24,7 @@ export interface OptionParams {
   searchDateFrom?: Date | string | null;
   searchDateTo?: Date | string | null;
   exchangeType?: string | null;
+  paymentMethod?: string | null;
 }
 
 export interface IdParams {

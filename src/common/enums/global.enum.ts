@@ -75,7 +75,7 @@ export enum ExchangeType {
   WITHDRAW = 'Withdraw',
 }
 
-export enum ExchangeStatus {
+export enum FilterStatus {
   FAIL = 'Fail',
   SUCCESS = 'Success',
 }

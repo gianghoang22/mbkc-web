@@ -23,7 +23,15 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { useAppSelector } from 'redux/configStore';
 //
 import { HeadCell, OptionSelect, OrderSortBy } from 'common/@types';
-import { ExchangeStatus, ExchangeType, PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enums';
+import {
+  ExchangeType,
+  FilterStatus,
+  PartnerOrderStatus,
+  PaymentMethod,
+  Role,
+  Status,
+  SystemStatusToFilter,
+} from 'common/enums';
 import { ProductTypeEnum } from 'common/models';
 import { useLocales, usePopover } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
@@ -39,11 +47,14 @@ interface CustomTableToolbarProps<T> {
   haveSelectSystemStatus?: boolean;
   haveSelectPartnerOrderStatus?: boolean;
   haveSelectExchangeType?: boolean;
-  haveSelectExchangeStatus?: boolean;
+  haveSelectFilterStatus?: boolean;
+  haveSelectPaymentMethod?: boolean;
   exchangeType?: OptionSelect | null;
-  exchangeStatus?: OptionSelect | null;
+  filterStatus?: OptionSelect | null;
+  paymentMethod?: OptionSelect | null;
   handleChangeExchangeType?: (newType: OptionSelect | null) => void;
-  handleChangeExchangeStatus?: (newStatus: OptionSelect | null) => void;
+  handleChangeFilterStatus?: (newStatus: OptionSelect | null) => void;
+  handleChangePaymentMethod?: (newPaymentMethod: OptionSelect | null) => void;
   haveFilterName?: boolean;
   options?: OptionSelect[];
   secondOptions?: OptionSelect[];
@@ -78,18 +89,21 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
     status,
     searchDateFrom,
     searchDateTo,
+    paymentMethod,
+    handleChangePaymentMethod,
     handleChangeSearchDateFrom,
     handleChangeSearchDateTo,
     handleChangeStatus,
     handleChangeSystemStatus,
     handleChangePartnerOrderStatus,
-    handleChangeExchangeStatus,
+    handleChangeFilterStatus,
     handleChangeExchangeType,
-    haveSelectExchangeStatus,
+    haveSelectFilterStatus,
     exchangeType,
-    exchangeStatus,
+    filterStatus,
     haveSelectExchangeType,
     haveSelectStatus,
+    haveSelectPaymentMethod,
     haveSelectSystemStatus,
     haveSelectPartnerOrderStatus,
     haveSelectSearchDateFrom,
@@ -317,20 +331,40 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
             </Stack>
           )}
 
-          {handleChangeExchangeStatus && haveSelectExchangeStatus && (
+          {handleChangeFilterStatus && haveSelectFilterStatus && (
             <Stack width={250}>
               <Autocomplete
                 fullWidth
                 size="small"
                 options={secondOptions ? secondOptions : []}
                 getOptionLabel={(option) =>
-                  option.value === ExchangeStatus.SUCCESS ? translate('status.success') : translate('status.fail')
+                  option.value === FilterStatus.SUCCESS ? translate('status.success') : translate('status.fail')
+                }
+                renderInput={(params) => (
+                  <TextField {...params} label={translate('table.status')} InputLabelProps={{}} />
+                )}
+                value={filterStatus}
+                onChange={(event: any, newValue: OptionSelect | null) => handleChangeFilterStatus(newValue)}
+              />
+            </Stack>
+          )}
+
+          {handleChangePaymentMethod && haveSelectPaymentMethod && (
+            <Stack width={250}>
+              <Autocomplete
+                fullWidth
+                size="small"
+                options={options ? options : []}
+                getOptionLabel={(option) =>
+                  option.value === PaymentMethod.CASH
+                    ? translate('page.content.cash')
+                    : translate('page.content.cashless')
                 }
                 renderInput={(params) => (
                   <TextField {...params} label={translate('table.exchangeStatus')} InputLabelProps={{}} />
                 )}
-                value={exchangeStatus}
-                onChange={(event: any, newValue: OptionSelect | null) => handleChangeExchangeStatus(newValue)}
+                value={paymentMethod}
+                onChange={(event: any, newValue: OptionSelect | null) => handleChangePaymentMethod(newValue)}
               />
             </Stack>
           )}

@@ -52,6 +52,7 @@
   "receive": "Receive",
   "withdraw": "Withdraw",
   "send": "Send",
+  "cashierCreated": "Cashier created",
   "lowercase": {
     "address": "address",
     "email": "email",
