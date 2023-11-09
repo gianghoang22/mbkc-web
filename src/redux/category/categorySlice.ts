@@ -8,6 +8,7 @@ import {
   deleteCategoryThunk,
   getAllCategoriesThunk,
   getAllExtraCategoriesInCategoryThunk,
+  getAllExtraCategoriesThunk,
   getCategoryDetailThunk,
   updateCategoryThunk,
 } from './categoryThunk';
@@ -23,6 +24,7 @@ interface CategoryState {
   category: Category | null;
   totalPages: number;
   numberItems: number;
+  numberExtraItems: number;
 }
 
 const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_CATEGORY)
@@ -41,11 +43,13 @@ const initialState: CategoryState = {
   category: null,
   totalPages: 0,
   numberItems: 5,
+  numberExtraItems: 5,
 };
 
 export const createNewCategory = createAsyncThunk('category/create-category', createNewCategoryThunk);
 export const addExtraCategory = createAsyncThunk('category/add-extra-category', addExtraCategoryThunk);
 export const getAllCategories = createAsyncThunk('category/get-all-categories', getAllCategoriesThunk);
+export const getAllExtraCategories = createAsyncThunk('category/get-all-extra-categories', getAllExtraCategoriesThunk);
 export const getAllExtraCategoriesInCategory = createAsyncThunk(
   'category/get-all-extra-categories-in-category',
   getAllExtraCategoriesInCategoryThunk
@@ -115,6 +119,20 @@ const categorySlice = createSlice({
         state.numberItems = action.payload?.totalItems;
       })
       .addCase(getAllCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getAllExtraCategories.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllExtraCategories.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.numberExtraItems = action.payload?.totalItems;
+      })
+      .addCase(getAllExtraCategories.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

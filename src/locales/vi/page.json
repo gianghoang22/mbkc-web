@@ -12,7 +12,8 @@
     "timeMoneyExchange": "Thời gian chuyển tiền",
     "confirmCompletedOrder": "Xác nhận hoàn tất {{model}}",
     "totalDaily": "Tổng {{model}} hàng ngày",
-    "new": "{{model}} mới nhất"
+    "new": "{{model}} mới nhất",
+    "brandManagement": "Quản lý thương hiệu"
   },
   "content": {
     "noHavePartner": "Chưa có đối tác",
@@ -125,5 +126,8 @@
     "discountPriceGreaterThan0": "Giá chiết khấu phải lớn hơn hoặc bằng 0.",
     "historicalPriceGreaterThan0": "Giá gốc phải lớn hơn hoặc bằng 0.",
     "priceGreaterThan0": "Giá phải lớn hơn 0."
+  },
+  "dashboard": {
+    "titleSummary": "Tổng số {{model}}"
   }
 }

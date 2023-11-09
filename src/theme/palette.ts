@@ -212,6 +212,7 @@ const palette = {
   divider: GREY[500_24],
   text: {
     primary: GREY[800],
+    blue: '#2B3674',
     secondary: GREY[600],
     disabled: GREY[500],
   },

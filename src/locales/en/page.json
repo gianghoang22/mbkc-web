@@ -12,7 +12,8 @@
     "timeMoneyExchange": "Money transaction time",
     "completedOrder": "Confirm completed {{model}}",
     "totalDaily": "Total daily {{model}}",
-    "new": "New {{model}}"
+    "new": "New {{model}}",
+    "brandManagement": "Brand management"
   },
   "content": {
     "noHavePartner": "No partner yet",
@@ -124,5 +125,8 @@
     "discountPriceGreaterThan0": "Discount price is required greater than or equal to 0.",
     "historicalPriceGreaterThan0": "Historical price is required greater than or equal to 0.",
     "priceGreaterThan0": "Price must be greater than 0."
+  },
+  "dashboard": {
+    "titleSummary": "Total {{model}}"
   }
 }
