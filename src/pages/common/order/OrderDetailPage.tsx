@@ -444,7 +444,7 @@ function OrderDetailPage() {
           page={page}
           rowsPerPage={rowsPerPage}
           paymentMethod={order?.paymentMethod as string}
-          partnerOrderId={order?.partner.partnerId as number}
+          orderPartnerId={order?.orderPartnerId as string}
         />
       )}
     </>

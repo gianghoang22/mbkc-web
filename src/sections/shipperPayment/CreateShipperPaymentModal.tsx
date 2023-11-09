@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // @mui
@@ -5,20 +6,19 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { confirmOrderToCompleted } from 'redux/order/orderSlice';
+import { getAllBankingAccounts } from 'redux/bankingAccount/bankingAccountSlice';
 //
 import { CompletedOrderParams, ListParams, Params } from '@types';
 import { Color, PaymentMethod } from 'common/enum';
 import { AutoCompleteField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
-import { useEffect, useMemo, useState } from 'react';
-import { confirmOrderToCompleted } from 'redux/order/orderSlice';
-import { getAllBankingAccounts } from 'redux/bankingAccount/bankingAccountSlice';
 
 interface CreateShipperPaymentModalProps {
   page: number;
   rowsPerPage: number;
   isOpen: boolean;
-  partnerOrderId: number;
+  orderPartnerId: string;
   paymentMethod: string;
   handleOpen: (title: any) => void;
 }
@@ -29,7 +29,7 @@ function CreateShipperPaymentModal({
   isOpen,
   handleOpen,
   paymentMethod,
-  partnerOrderId,
+  orderPartnerId,
 }: CreateShipperPaymentModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -42,11 +42,9 @@ function CreateShipperPaymentModal({
     defaultValues: {
       BankingAccountId: '',
       Image: '',
-      OrderPartnerId: 0,
+      OrderPartnerId: '',
     },
   });
-
-  console.log(isOpen);
 
   const { handleSubmit } = createShipperPaymentForm;
 
@@ -67,7 +65,7 @@ function CreateShipperPaymentModal({
 
     handleOpen('');
 
-    const createShipperPaymentParams = { ...data, OrderPartnerId: partnerOrderId };
+    const createShipperPaymentParams = { ...data, OrderPartnerId: orderPartnerId };
 
     const paramsToCompleted: Params<CompletedOrderParams> = {
       data: createShipperPaymentParams,

@@ -261,14 +261,16 @@ export const ROUTES_API_ORDERS = {
     sortBy = '',
     systemStatus = '',
     partnerOrderStatus = '',
+    searchDateFrom = '',
+    searchDateTo = '',
   }: OptionParams) => {
     return path(
       ROOTS_ORDERS,
-      `?SearchValue=${searchValue}&CurrentPage=${currentPage}&ItemsPerPage=${itemsPerPage}&SystemStatus=${systemStatus}&PartnerOrderStatus=${partnerOrderStatus}&SortBy=${sortBy}`
+      `?SearchValue=${searchValue}&SearchDateFrom=${searchDateFrom}&SearchDateTo=${searchDateTo}&CurrentPage=${currentPage}&ItemsPerPage=${itemsPerPage}&SystemStatus=${systemStatus}&PartnerOrderStatus=${partnerOrderStatus}&SortBy=${sortBy}`
     );
   },
   GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),
-  CONFIRM_ORDER_TO_COMPLETED: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}/confirm-order-to-completed`),
+  CONFIRM_ORDER_TO_COMPLETED: () => path(ROOTS_ORDERS, '/confirm-order-to-completed'),
   CHANGE_ORDER_TO_READY: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}/change-order-to-ready`),
   CHANGE_ORDER_TO_READY_DELIVERY: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}/change-order-to-ready-delivery`),
   CANCEL_ORDER: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}/cancel-order`),

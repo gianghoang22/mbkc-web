@@ -21,6 +21,8 @@ export interface OptionParams {
   systemStatus?: string | null;
   partnerOrderStatus?: string | null;
   isUpdateStatus?: boolean;
+  searchDateFrom?: Date | string | null;
+  searchDateTo?: Date | string | null;
 }
 
 export interface IdParams {
