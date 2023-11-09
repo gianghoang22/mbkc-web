@@ -1,34 +1,46 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //redux
 import { useAppSelector } from 'redux/configStore';
 // section
-import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/moneyExchanges';
-import MoneyExchangeDetailModal from 'sections/moneyExchanges/MoneyExchangeDetailModal';
+import {
+  MoneyExchangeTableRow,
+  MoneyExchangeTableRowSkeleton,
+  MoneyExchangeTableToolbar,
+} from 'sections/moneyExchanges';
 import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
 //
-import { MoneyExchangeTable, OrderSort } from 'common/@types';
+import { ListParams, MoneyExchangeTable, OrderSort } from 'common/@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { useDispatch } from 'react-redux';
+import { fDate } from 'utils';
+import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
+import { ExchangeType } from 'common/enums';
 
 function ListOfPaymentForStoresPage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { handleOpen, isOpen } = useModal();
-  const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { moneyExchanges } = useAppSelector((state) => state.wallet);
+  const { moneyExchanges, numberItems, isLoading } = useAppSelector((state) => state.wallet);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('sender');
+  const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('amount');
   const [filterName, setFilterName] = useState<string>('');
+
+  const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
+  const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
+  const [exchangeStatus, setExchangeStatus] = useState('');
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof MoneyExchangeTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -42,9 +54,28 @@ function ListOfPaymentForStoresPage() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - moneyExchanges.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
-  const isNotFound = !moneyExchanges.length && !!filterName;
+  const isNotFound = !numberItems && !!filterName;
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        itemsPerPage: rowsPerPage,
+        currentPage: page + 1,
+        sortBy: `${orderBy}_${order}`,
+        searchDateFrom: searchDateFrom === null ? '' : fDate(searchDateFrom as Date),
+        searchDateTo: searchDateTo === null ? '' : fDate(searchDateTo as Date),
+        status: exchangeStatus,
+        exchangeType: ExchangeType.WITHDRAW,
+      },
+      navigate,
+    };
+  }, [rowsPerPage, page, orderBy, order, searchDateFrom, searchDateTo, exchangeStatus, navigate]);
+
+  useEffect(() => {
+    dispatch<any>(getAllMoneyExchange(params));
+  }, [dispatch, params]);
 
   return (
     <>
@@ -77,26 +108,30 @@ function ListOfPaymentForStoresPage() {
                     onRequestSort={handleRequestSort}
                   />
 
-                  <TableBody>
-                    {moneyExchanges.map((moneyExchange, index) => {
-                      return (
-                        <MoneyExchangeTableRow
-                          key={index}
-                          index={index}
-                          page={page}
-                          rowsPerPage={rowsPerPage}
-                          moneyExchange={moneyExchange}
-                        />
-                      );
-                    })}
-                    {emptyRows > 0 ||
-                      (moneyExchanges.length === 0 && !filterName && (
-                        <EmptyTable
-                          colNumber={MoneyExchangeHeadCells.length + 2}
-                          model={translate('model.lowercase.moneyExchanges')}
-                        />
-                      ))}
-                  </TableBody>
+                  {isLoading ? (
+                    <MoneyExchangeTableRowSkeleton length={numberItems} />
+                  ) : (
+                    <TableBody>
+                      {moneyExchanges.map((moneyExchange, index) => {
+                        return (
+                          <MoneyExchangeTableRow
+                            key={index}
+                            index={index}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                            moneyExchange={moneyExchange}
+                          />
+                        );
+                      })}
+                      {emptyRows > 0 ||
+                        (moneyExchanges.length === 0 && !filterName && (
+                          <EmptyTable
+                            colNumber={MoneyExchangeHeadCells.length + 2}
+                            model={translate('model.lowercase.paymentForStores')}
+                          />
+                        ))}
+                    </TableBody>
+                  )}
 
                   {isNotFound && (
                     <SearchNotFound colNumber={MoneyExchangeHeadCells.length + 2} searchQuery={filterName} />
@@ -106,7 +141,7 @@ function ListOfPaymentForStoresPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={moneyExchanges.length}
+                count={numberItems}
                 rowsPerPage={rowsPerPage}
                 labelRowsPerPage={translate('table.rowsPerPage')}
                 page={page}
@@ -121,8 +156,6 @@ function ListOfPaymentForStoresPage() {
       {isOpen && (
         <CreatePaymentForStoreModal isOpen={isOpen} handleOpen={handleOpen} page={page} rowsPerPage={rowsPerPage} />
       )}
-
-      {isOpenModalDetail && <MoneyExchangeDetailModal isOpen={isOpenModalDetail} handleOpen={handleOpenModalDetail} />}
     </>
   );
 }

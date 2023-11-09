@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { MoneyExchange, ShipperPayment } from 'common/models';
 import { createPaymentForStoreThunk, getAllMoneyExchangeThunk, getAllShipperPaymentThunk } from './walletThunk';
-import moneyExchange from 'mock/moneyExchange';
 import shipperPayment from 'mock/shipperPayment';
 
 interface BankingAccountState {
@@ -13,6 +12,7 @@ interface BankingAccountState {
   moneyExchange: MoneyExchange | null;
   shipperPayments: ShipperPayment[];
   shipperPayment: ShipperPayment | null;
+  numberItems: number;
 }
 
 const initialState: BankingAccountState = {
@@ -20,10 +20,11 @@ const initialState: BankingAccountState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  moneyExchanges: moneyExchange,
+  moneyExchanges: [],
   moneyExchange: null,
   shipperPayments: shipperPayment,
   shipperPayment: null,
+  numberItems: 0,
 };
 
 export const getAllMoneyExchange = createAsyncThunk('money-exchange/get-all-money-exchanges', getAllMoneyExchangeThunk);
@@ -54,6 +55,7 @@ const BankingAccountSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.moneyExchanges = [...action.payload?.moneyExchanges];
+        state.numberItems = action.payload?.numberItems;
       })
       .addCase(getAllMoneyExchange.rejected, (state, action) => {
         state.isLoading = false;

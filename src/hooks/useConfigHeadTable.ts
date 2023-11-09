@@ -599,14 +599,14 @@ function useConfigHeadTable() {
       id: 'sender',
       label: translate('table.sender'),
       numeric: false,
-      hideSortIcon: false,
+      hideSortIcon: true,
       disablePadding: false,
     },
     {
       id: 'receiver',
       label: translate('table.receiver'),
       numeric: false,
-      hideSortIcon: false,
+      hideSortIcon: true,
       disablePadding: false,
     },
     {
@@ -620,14 +620,14 @@ function useConfigHeadTable() {
       id: 'exchangeType',
       label: translate('table.exchangeType'),
       numeric: false,
-      hideSortIcon: false,
+      hideSortIcon: true,
       disablePadding: false,
     },
     {
       id: 'status',
       label: translate('table.status'),
       numeric: false,
-      hideSortIcon: false,
+      hideSortIcon: true,
       disablePadding: false,
     },
   ];

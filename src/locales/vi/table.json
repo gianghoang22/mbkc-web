@@ -21,6 +21,7 @@
   "avatar": "Ảnh đại diện",
   "type": "Loại",
   "exchangeType": "Loại trao đổi",
+  "exchangeStatus": "Loại trang thái",
   "historicalPrice": "Giá gốc",
   "sellingPrice": "Giá bán",
   "discountPrice": "Giảm giá",
@@ -46,7 +47,11 @@
   "createdDate": "Ngày tạo",
   "sender": "Người gửi",
   "receiver": "Người nhận",
-
+  "fromDate": "Từ ngày",
+  "toDate": "Đến ngày",
+  "receive": "Nhận",
+  "withdraw": "Rút",
+  "send": "Gửi",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

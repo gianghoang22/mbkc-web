@@ -68,3 +68,14 @@ export enum PaymentMethod {
   CASH = 'Cash',
   CASH_LESS = 'Cashless',
 }
+
+export enum ExchangeType {
+  SEND = 'Send',
+  RECEIVE = 'Receive',
+  WITHDRAW = 'Withdraw',
+}
+
+export enum ExchangeStatus {
+  FAIL = 'Fail',
+  SUCCESS = 'Success',
+}

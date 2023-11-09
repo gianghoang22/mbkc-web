@@ -68,6 +68,19 @@ export const ROUTES_API_KITCHEN_CENTER = {
 
 export const ROUTES_API_MONEY_EXCHANGES = {
   CREATE_PAYMENT_FOR_STORES: path(ROOTS_MONEY_EXCHANGES, '/withdraw-money-to-store'),
+  GET_ALL_MONEY_EXCHANGES: ({
+    itemsPerPage = '',
+    currentPage = '',
+    searchDateFrom = '',
+    searchDateTo = '',
+    exchangeType = '',
+    status = '',
+    sortBy = '',
+  }: OptionParams) =>
+    path(
+      ROOTS_MONEY_EXCHANGES,
+      `?ItemsPerPage=${itemsPerPage}&CurrentPage=${currentPage}&SearchDateFrom=${searchDateFrom}&SearchDateTo=${searchDateTo}&ExchangeType=${exchangeType}&Status=${status}&SortBy=${sortBy}`
+    ),
 };
 
 export const ROUTES_API_BRANDS = {
