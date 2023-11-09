@@ -12,6 +12,8 @@
     "deActive": "Deactive",
     "beConfirming": "Confirming",
     "reject": "Rejected",
+    "success": "Success",
+    "fail": "Fail",
     "available": "Available",
     "inStock": "In Stock",
     "outOfStockToday": "Out of stock today",

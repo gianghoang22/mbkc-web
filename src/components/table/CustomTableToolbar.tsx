@@ -23,7 +23,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { useAppSelector } from 'redux/configStore';
 //
 import { HeadCell, OptionSelect, OrderSortBy } from 'common/@types';
-import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enums';
+import { ExchangeStatus, ExchangeType, PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enums';
 import { ProductTypeEnum } from 'common/models';
 import { useLocales, usePopover } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
@@ -31,13 +31,20 @@ import { StyledRoot, StyledSearch } from './styles';
 
 interface CustomTableToolbarProps<T> {
   headCells: HeadCell<T>[];
-  filterName: string;
-  onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  filterName?: string;
+  onFilterName?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   selected: readonly string[];
   setSelected: Dispatch<SetStateAction<readonly string[]>>;
   haveSelectStatus?: boolean;
   haveSelectSystemStatus?: boolean;
   haveSelectPartnerOrderStatus?: boolean;
+  haveSelectExchangeType?: boolean;
+  haveSelectExchangeStatus?: boolean;
+  exchangeType?: OptionSelect | null;
+  exchangeStatus?: OptionSelect | null;
+  handleChangeExchangeType?: (newType: OptionSelect | null) => void;
+  handleChangeExchangeStatus?: (newStatus: OptionSelect | null) => void;
+  haveFilterName?: boolean;
   options?: OptionSelect[];
   secondOptions?: OptionSelect[];
   status?: OptionSelect | null;
@@ -76,11 +83,18 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
     handleChangeStatus,
     handleChangeSystemStatus,
     handleChangePartnerOrderStatus,
+    handleChangeExchangeStatus,
+    handleChangeExchangeType,
+    haveSelectExchangeStatus,
+    exchangeType,
+    exchangeStatus,
+    haveSelectExchangeType,
     haveSelectStatus,
     haveSelectSystemStatus,
     haveSelectPartnerOrderStatus,
     haveSelectSearchDateFrom,
     haveSelectSearchDateTo,
+    haveFilterName = true,
     handleReloadData,
     model,
     addAction,
@@ -212,7 +226,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
           {handleChangeSearchDateFrom && haveSelectSearchDateFrom && (
             <DatePicker
               slotProps={{ textField: { size: 'small' } }}
-              label="From date"
+              label={translate('table.fromDate')}
               value={searchDateFrom}
               onChange={(newValue: Date | null) => handleChangeSearchDateFrom(newValue)}
             />
@@ -221,7 +235,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
           {handleChangeSearchDateTo && haveSelectSearchDateTo && (
             <DatePicker
               slotProps={{ textField: { size: 'small' } }}
-              label="To date"
+              label={translate('table.toDate')}
               value={searchDateTo}
               onChange={(newValue: Date | null) => handleChangeSearchDateTo(newValue)}
             />
@@ -281,6 +295,46 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
             </Stack>
           )}
 
+          {handleChangeExchangeType && haveSelectExchangeType && (
+            <Stack width={250}>
+              <Autocomplete
+                fullWidth
+                size="small"
+                options={options ? options : []}
+                getOptionLabel={(option) =>
+                  option.value === ExchangeType.RECEIVE
+                    ? translate('table.receive')
+                    : option.value === ExchangeType.SEND
+                    ? translate('table.send')
+                    : translate('table.withdraw')
+                }
+                renderInput={(params) => (
+                  <TextField {...params} label={translate('table.exchangeType')} InputLabelProps={{}} />
+                )}
+                value={exchangeType}
+                onChange={(event: any, newValue: OptionSelect | null) => handleChangeExchangeType(newValue)}
+              />
+            </Stack>
+          )}
+
+          {handleChangeExchangeStatus && haveSelectExchangeStatus && (
+            <Stack width={250}>
+              <Autocomplete
+                fullWidth
+                size="small"
+                options={secondOptions ? secondOptions : []}
+                getOptionLabel={(option) =>
+                  option.value === ExchangeStatus.SUCCESS ? translate('status.success') : translate('status.fail')
+                }
+                renderInput={(params) => (
+                  <TextField {...params} label={translate('table.exchangeStatus')} InputLabelProps={{}} />
+                )}
+                value={exchangeStatus}
+                onChange={(event: any, newValue: OptionSelect | null) => handleChangeExchangeStatus(newValue)}
+              />
+            </Stack>
+          )}
+
           {setProductType && haveSelectProductType && (
             <Stack width={250}>
               <Autocomplete
@@ -305,17 +359,19 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
             </Stack>
           )}
 
-          <StyledSearch
-            size="small"
-            value={filterName}
-            onChange={onFilterName}
-            placeholder={translate('page.title.search', { model: model })}
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-              </InputAdornment>
-            }
-          />
+          {haveFilterName && onFilterName && (
+            <StyledSearch
+              size="small"
+              value={filterName}
+              onChange={onFilterName}
+              placeholder={translate('page.title.search', { model: model })}
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                </InputAdornment>
+              }
+            />
+          )}
         </Stack>
 
         <Stack direction="row" gap={1}>

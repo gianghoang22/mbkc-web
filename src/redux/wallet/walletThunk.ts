@@ -1,6 +1,6 @@
 import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
-import { ListParams, MessageResponse, Params } from 'common/@types';
-import { PaymentForStoresToCreate } from 'common/models';
+import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
+import { MoneyExchange, PaymentForStoresToCreate } from 'common/models';
 import { ROUTES_API_BANKING_ACCOUNTS, ROUTES_API_MONEY_EXCHANGES } from 'constants/routesApiKeys';
 
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
@@ -11,7 +11,9 @@ export const getAllMoneyExchangeThunk = async (params: ListParams, thunkAPI: any
   const { navigate, optionParams } = params;
 
   try {
-    const response = await axiosClient.get(ROUTES_API_BANKING_ACCOUNTS.GET_ALL_BANKING_ACCOUNTS(optionParams));
+    const response: ListResponse<MoneyExchange> = await axiosClient.get(
+      ROUTES_API_MONEY_EXCHANGES.GET_ALL_MONEY_EXCHANGES(optionParams)
+    );
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);

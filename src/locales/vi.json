@@ -12,6 +12,8 @@
     "deActive": "Vô hiệu hóa",
     "beConfirming": "Đang xác nhận",
     "reject": "Bị từ chối",
+    "success": "Thành công",
+    "fail": "Thất bại",
     "available": "Có sẵn",
     "inStock": "Còn hàng",
     "outOfStockToday": "Hết hàng hôm nay",

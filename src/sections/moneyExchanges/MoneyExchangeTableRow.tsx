@@ -2,10 +2,11 @@
 import { TableCell, TableRow } from '@mui/material';
 //
 import { MoneyExchange } from 'common/models';
-import { Color, Status } from 'common/enums';
+import { Color, ExchangeStatus, ExchangeType } from 'common/enums';
 import { Label } from 'components';
 import { useLocales, useModal } from 'hooks';
 import MoneyExchangeDetailModal from './MoneyExchangeDetailModal';
+import { formatCurrency } from 'utils';
 
 interface MoneyExchangeTableRowProps {
   moneyExchange: MoneyExchange;
@@ -17,7 +18,6 @@ interface MoneyExchangeTableRowProps {
 function MoneyExchangeTableRow({ index, moneyExchange }: MoneyExchangeTableRowProps) {
   const { translate } = useLocales();
   const { handleOpen: handleOpenModalDetail, isOpen: isOpenModalDetail } = useModal();
-
   return (
     <>
       <TableRow hover tabIndex={-1} key={moneyExchange.amount} sx={{ cursor: 'pointer' }}>
@@ -33,33 +33,31 @@ function MoneyExchangeTableRow({ index, moneyExchange }: MoneyExchangeTableRowPr
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          {moneyExchange.amount}
+          {formatCurrency(moneyExchange.amount)}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          {moneyExchange.exchangeType}
+          {moneyExchange.exchangeType === ExchangeType.RECEIVE
+            ? translate('table.receive')
+            : moneyExchange.exchangeType === ExchangeType.SEND
+            ? translate('table.send')
+            : translate('table.withdraw')}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
-          <Label
-            color={
-              moneyExchange?.status === Status.ACTIVE
-                ? Color.SUCCESS
-                : moneyExchange?.status === Status.INACTIVE
-                ? Color.WARNING
-                : Color.ERROR
-            }
-          >
-            {moneyExchange?.status === Status.INACTIVE
-              ? translate('status.inactive')
-              : moneyExchange?.status === Status.ACTIVE
-              ? translate('status.active')
-              : translate('status.deActive')}
+          <Label color={moneyExchange?.status === ExchangeStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
+            {moneyExchange?.status === ExchangeStatus.SUCCESS ? translate('status.success') : translate('status.fail')}
           </Label>
         </TableCell>
       </TableRow>
 
-      {isOpenModalDetail && <MoneyExchangeDetailModal isOpen={isOpenModalDetail} handleOpen={handleOpenModalDetail} />}
+      {isOpenModalDetail && (
+        <MoneyExchangeDetailModal
+          isOpen={isOpenModalDetail}
+          handleOpen={handleOpenModalDetail}
+          moneyExchange={moneyExchange}
+        />
+      )}
     </>
   );
 }

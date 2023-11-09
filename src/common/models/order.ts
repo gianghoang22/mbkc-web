@@ -1,4 +1,4 @@
-import { PartnerOrderStatus, SystemStatusToFilter } from 'common/enums';
+import { ExchangeStatus, ExchangeType, PartnerOrderStatus, SystemStatusToFilter } from 'common/enums';
 import { Partner } from './partner';
 import { Product } from './product';
 import { _ShipperPayment } from './shipperPayment';
@@ -147,5 +147,36 @@ export const PARTNER_ORDER_STATUS = [
     value: PartnerOrderStatus.CANCELLED,
     label: 'Cancelled',
     id: 'Can',
+  },
+];
+
+export const EXCHANGE_TYPE_OPTIONS = [
+  {
+    value: ExchangeType.RECEIVE,
+    label: 'Receive',
+    id: 'Rec',
+  },
+  {
+    value: ExchangeType.SEND,
+    label: 'Send',
+    id: 'Sen',
+  },
+  {
+    value: ExchangeType.WITHDRAW,
+    label: 'Withdraw',
+    id: 'Wit',
+  },
+];
+
+export const EXCHANGE_STATUS_OPTIONS = [
+  {
+    value: ExchangeStatus.FAIL,
+    label: 'Fail',
+    id: 'Fai',
+  },
+  {
+    value: ExchangeStatus.SUCCESS,
+    label: 'Success',
+    id: 'Suc',
   },
 ];

@@ -3,17 +3,20 @@ import { Dialog, DialogContent, Divider, Grid, IconButton, Stack, Typography, Bu
 // @mui icon
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 //
-import { Color, Language } from 'common/enums';
+import { Color, ExchangeStatus, ExchangeType, Language } from 'common/enums';
 import { Label } from 'components';
 import { useLocales } from 'hooks';
 import { useState } from 'react';
+import { MoneyExchange } from 'common/models';
+import { fDateTime } from 'utils';
 
 interface MoneyExchangeDetailModalProps {
   isOpen: boolean;
   handleOpen: (title: any) => void;
+  moneyExchange: MoneyExchange;
 }
 
-function MoneyExchangeDetailModal({ isOpen, handleOpen }: MoneyExchangeDetailModalProps) {
+function MoneyExchangeDetailModal({ isOpen, handleOpen, moneyExchange }: MoneyExchangeDetailModalProps) {
   const { translate, currentLang } = useLocales();
   const [openBackdrop, setOpenBackdrop] = useState(false);
 
@@ -46,65 +49,70 @@ function MoneyExchangeDetailModal({ isOpen, handleOpen }: MoneyExchangeDetailMod
             <Divider sx={{ mt: 1.5, mb: 3.5 }} />
 
             <Stack width="100%">
-              <Stack direction="row" gap={1}>
-                <Typography variant="subtitle1">ID: </Typography>
-                <Typography>#MBKC1234</Typography>
-              </Stack>
-
               <Grid container columnSpacing={4} mt={2}>
                 <Grid item md={5} ml={-2}>
-                  <Button onClick={handleOpenBackdrop}>
-                    <img
-                      src="https://www.skynova.com/learn/invoicing/images/Skynova_Invoice_Example.jpg"
-                      alt="invoice"
-                      width="100%"
-                      height="100%"
-                    />
+                  <Button disabled={moneyExchange.exchangeImage === null} onClick={handleOpenBackdrop}>
+                    <img src={moneyExchange.exchangeImage} alt="Exchange img" width="100%" height="100%" />
                   </Button>
                   <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={openBackdrop}
                     onClick={handleCloseBackdrop}
                   >
-                    <img
-                      src="https://www.skynova.com/learn/invoicing/images/Skynova_Invoice_Example.jpg"
-                      alt="invoice"
-                      width="80%"
-                      height="80%"
-                    />
+                    <img src={moneyExchange.exchangeImage} alt="invoice" width="80%" height="80%" />
                   </Backdrop>
                 </Grid>
                 <Grid item md={7}>
                   <Stack direction="row" justifyContent="space-between">
-                    <Typography variant="subtitle1">{translate('table.sender')}: </Typography>
-                    <Typography>Kitchen Center Đồng Khởi</Typography>
+                    <Typography color={(theme) => theme.palette.grey[600]} variant="subtitle1">
+                      {translate('table.sender')}:{' '}
+                    </Typography>
+                    <Typography variant="body1">{moneyExchange.senderName}</Typography>
                   </Stack>
                   <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">{translate('table.receiver')}: </Typography>
-                    <Typography>Yo! Sushi Store</Typography>
-                  </Stack>
-
-                  <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">{translate('model.capitalizeOne.paymentTime')}:</Typography>
-                    <Typography>12 Aug 2022 10:00 PM</Typography>
-                  </Stack>
-
-                  <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">{translate('table.exchangeType')}:</Typography>
-                    <Label>Send</Label>
+                    <Typography color={(theme) => theme.palette.grey[600]} variant="subtitle1">
+                      {translate('table.receiver')}:{' '}
+                    </Typography>
+                    <Typography variant="body1">{moneyExchange.receiveName}</Typography>
                   </Stack>
 
                   <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">{translate('table.status')}:</Typography>
-                    <Label color={Color.SUCCESS}>Successful</Label>
+                    <Typography color={(theme) => theme.palette.grey[600]} variant="subtitle1">
+                      {translate('model.capitalizeOne.paymentTime')}:
+                    </Typography>
+                    <Typography variant="body1">{fDateTime(moneyExchange.createdDate)}</Typography>
+                  </Stack>
+
+                  <Stack direction="row" justifyContent="space-between" mt={2}>
+                    <Typography color={(theme) => theme.palette.grey[600]} variant="subtitle1">
+                      {translate('table.exchangeType')}:
+                    </Typography>
+                    <Typography variant="body1">
+                      {moneyExchange.exchangeType === ExchangeType.RECEIVE
+                        ? translate('table.receive')
+                        : moneyExchange.exchangeType === ExchangeType.SEND
+                        ? translate('table.send')
+                        : translate('table.withdraw')}
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" justifyContent="space-between" mt={2}>
+                    <Typography color={(theme) => theme.palette.grey[600]} variant="subtitle1">
+                      {translate('table.status')}:
+                    </Typography>
+                    <Label color={moneyExchange?.status === ExchangeStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
+                      {moneyExchange?.status === ExchangeStatus.SUCCESS
+                        ? translate('status.success')
+                        : translate('status.fail')}
+                    </Label>
                   </Stack>
 
                   <Stack justifyContent="space-between" mt={2}>
-                    <Typography variant="subtitle1">{translate('page.form.content')}:</Typography>
+                    <Typography color={(theme) => theme.palette.grey[600]} variant="subtitle1">
+                      {translate('page.form.content')}:
+                    </Typography>
                     <Typography gutterBottom mt={1} maxWidth="100%">
-                      body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde
-                      suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos
-                      laborum fugiat deleniti? Eum quasi quidem quibusdam.
+                      {moneyExchange.content}
                     </Typography>
                   </Stack>
                 </Grid>
