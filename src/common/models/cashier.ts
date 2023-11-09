@@ -1,4 +1,4 @@
-import { Gender, Status } from 'common/enum';
+import { Gender, Status } from 'common/enums';
 import { KitchenCenter } from './kitchenCenter';
 
 export interface Cashier {

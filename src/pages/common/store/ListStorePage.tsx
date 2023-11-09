@@ -12,8 +12,9 @@ import { getAllStores, setAddStore } from 'redux/store/storeSlice';
 // section
 import { StoreTableRow, StoreTableRowSkeleton } from 'sections/store';
 //
-import { ListParams, OptionSelect, OrderSort, OrderSortBy, STATUS_OPTIONS, StoreTable } from '@types';
-import { Role } from 'common/enum';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from 'common/@types';
+import { Role } from 'common/enums';
+import { STATUS_OPTIONS } from 'common/models';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';

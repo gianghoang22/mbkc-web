@@ -14,8 +14,9 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 //
-import { ListParams, StorePartnerToCreate } from '@types';
-import { Language, Status } from 'common/enum';
+import { ListParams } from 'common/@types';
+import { StorePartnerToCreate } from 'common/models';
+import { Language, Status } from 'common/enums';
 import { AutoCompleteField, InputField } from 'components';
 import { useLocales } from 'hooks';
 

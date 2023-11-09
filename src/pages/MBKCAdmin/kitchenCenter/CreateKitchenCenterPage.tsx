@@ -15,8 +15,9 @@ import {
 // section
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
 //
-import { AddressFormInterface, KitchenCenterToAdd, KitchenCenterToUpdate, Params } from '@types';
-import { Color, Status } from 'common/enum';
+import { AddressFormInterface, Params } from 'common/@types';
+import { KitchenCenterToAdd, KitchenCenterToUpdate } from 'common/models';
+import { Color, Status } from 'common/enums';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

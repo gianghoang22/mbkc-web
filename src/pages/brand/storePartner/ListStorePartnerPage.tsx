@@ -14,7 +14,7 @@ import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 import { StoreTableToolbar } from 'sections/store';
 import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
 //
-import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from '@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from 'common/@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';

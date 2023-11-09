@@ -1,5 +1,5 @@
 import { IconButton, Skeleton, Stack, TableCell, TableRow } from '@mui/material';
-import { OrderSortBy } from '@types';
+import { OrderSortBy } from 'common/@types';
 
 function BankingAccountTableRow({ length = 5, selected }: { length: number; selected: readonly string[] }) {
   return (

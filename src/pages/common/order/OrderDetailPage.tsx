@@ -29,11 +29,11 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import { OrderDetailPageSkeleton, OrderHistoryTableRow, OrderHistoryTableRowSkeleton, OrderItem } from 'sections/order';
 import { CreateShipperPaymentModal } from 'sections/shipperPayment';
 //redux
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
-import { useAppSelector, useAppDispatch } from 'redux/configStore';
 //
-import { OrderHistory, OrderStatusActions } from '@types';
-import { Color, PartnerOrderStatus, PaymentMethod, Role, SystemStatus } from 'common/enum';
+import { Color, PartnerOrderStatus, PaymentMethod, Role, SystemStatus } from 'common/enums';
+import { OrderHistory, OrderStatusActions } from 'common/models';
 import { ConfirmDialog, EmptyTable, Helmet, Label } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';

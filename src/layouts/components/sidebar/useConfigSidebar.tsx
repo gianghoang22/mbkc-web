@@ -18,7 +18,7 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 //
-import { NavSection } from '@types';
+import { NavSection } from 'common/@types';
 import useLocales from 'hooks/useLocales';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 

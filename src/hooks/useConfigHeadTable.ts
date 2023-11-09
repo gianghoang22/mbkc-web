@@ -1,4 +1,4 @@
-import { OrderHistoryTable, ShipperPaymentTable } from './../@types/table';
+import { OrderHistoryTable, ShipperPaymentTable } from '../common/@types/table';
 import {
   BankingAccountTable,
   BrandTable,
@@ -15,9 +15,9 @@ import {
   StoreTable,
   PartnerProductTable,
   ShiftTable,
-} from '@types';
+} from 'common/@types';
 import useLocales from './useLocales';
-import { Language } from 'common/enum';
+import { Language } from 'common/enums';
 
 function useConfigHeadTable() {
   const { translate, currentLang } = useLocales();

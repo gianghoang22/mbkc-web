@@ -1,4 +1,4 @@
-import { Route } from '@types';
+import { Route } from 'common/@types';
 import { CashierDashboard, EndOfShiftPage } from 'pages/cashier';
 import { ListOrdersPage, OrderDetailPage } from 'pages/common';
 import { ListMoneyExchangePage, ListShipperPaymentPage, WalletPage } from 'pages/kitchenCenter';

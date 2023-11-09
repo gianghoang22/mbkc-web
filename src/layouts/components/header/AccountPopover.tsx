@@ -11,7 +11,7 @@ import { alpha } from '@mui/material/styles';
 import { logout, setUserInfo } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { Role } from 'common/enum';
+import { Role } from 'common/enums';
 import { MenuPopover } from 'components';
 import { useLocales, useNavigate, usePopover } from 'hooks';
 import account from 'mock/account';

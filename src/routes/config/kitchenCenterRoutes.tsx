@@ -1,4 +1,4 @@
-import { Route } from '@types';
+import { Route } from 'common/@types';
 import { ListOrdersPage, ListStorePage, OrderDetailPage, StoreDetailPage } from 'pages/common';
 import {
   CashierDetailPage,

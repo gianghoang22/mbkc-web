@@ -10,16 +10,9 @@ import { getAllCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProductsParent, getProductDetail, updateProduct } from 'redux/product/productSlice';
 //
-import {
-  CategoryType,
-  ListParams,
-  Params,
-  ProductSizeEnum,
-  ProductToCreate,
-  ProductToUpdate,
-  ProductTypeEnum,
-} from '@types';
-import { Color, Status } from 'common/enum';
+import { ListParams, Params } from 'common/@types';
+import { Color, Status } from 'common/enums';
+import { CategoryType, ProductSizeEnum, ProductToCreate, ProductToUpdate, ProductTypeEnum } from 'common/models';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

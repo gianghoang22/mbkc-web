@@ -12,7 +12,8 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { ProductTableRow, ProductTableRowSkeleton } from 'sections/product';
 //
-import { ListParams, OrderSort, OrderSortBy, PRODUCT_TYPE_TABS, ProductTable, ProductTypeEnum } from '@types';
+import { ListParams, OrderSort, OrderSortBy, ProductTable } from 'common/@types';
+import { PRODUCT_TYPE_TABS, ProductTypeEnum } from 'common/models';
 import { CustomTableHead, CustomTableToolbar, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

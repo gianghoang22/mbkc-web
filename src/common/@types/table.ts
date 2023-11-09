@@ -1,5 +1,5 @@
-import { Brand } from './models/brand';
-import { KitchenCenter } from './models/kitchenCenter';
+import { Brand } from '../models/brand';
+import { KitchenCenter } from '../models/kitchenCenter';
 
 export type OrderSort = 'asc' | 'desc';
 

@@ -11,8 +11,9 @@ import { deletePartner, setEditPartner, updateStatusPartner } from 'redux/partne
 import CreatePartnerModal from './CreatePartnerModal';
 import PartnerDetailModal from './PartnerDetailModal';
 //
-import { OrderSortBy, Params, Partner, ToUpdateStatus } from '@types';
-import { Color, Status } from 'common/enum';
+import { OrderSortBy, Params } from 'common/@types';
+import { Partner, ToUpdateStatus } from 'common/models';
+import { Color, Status } from 'common/enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';

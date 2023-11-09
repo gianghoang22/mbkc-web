@@ -15,8 +15,9 @@ import {
   updateStatusStorePartner,
 } from 'redux/storePartner/storePartnerSlice';
 //
-import { Params, PartnerInStore, ToUpdateStatus } from '@types';
-import { Color, Status } from 'common/enum';
+import { Params } from 'common/@types';
+import { PartnerInStore, ToUpdateStatus } from 'common/models';
+import { Color, Status } from 'common/enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import UpdateStorePartnerModal from './UpdateStorePartnerModal';

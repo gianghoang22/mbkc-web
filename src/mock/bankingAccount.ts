@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Status } from 'common/enum';
+import { Status } from 'common/enums';
 import { sample } from 'lodash'; // random in array
 
 // ----------------------------------------------------------------------

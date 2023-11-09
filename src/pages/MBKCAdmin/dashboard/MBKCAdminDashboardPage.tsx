@@ -33,8 +33,8 @@ import { BrandTableRowDashboardSkeleton } from 'sections/brand';
 import { AppWidgetSummary } from 'sections/dashboard';
 import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
 //
-import { ListParams, OrderSortBy } from '@types';
-import { Color, Status } from 'common/enum';
+import { ListParams, OrderSortBy } from 'common/@types';
+import { Color, Status } from 'common/enums';
 import { Helmet, Label } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

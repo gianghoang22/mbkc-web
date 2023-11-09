@@ -4,7 +4,7 @@ import { Box, Card, Stack, Typography, alpha } from '@mui/material';
 // section
 import { StyledIcon } from 'sections/dashboard/AppWidgetSummary';
 //
-import { Color, Role } from 'common/enum';
+import { Color, Role } from 'common/enums';
 import { Label } from 'components';
 import { useLocales } from 'hooks';
 import { useAppSelector } from 'redux/configStore';

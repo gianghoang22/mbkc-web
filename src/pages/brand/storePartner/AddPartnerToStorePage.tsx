@@ -10,7 +10,8 @@ import { createNewStorePartner } from 'redux/storePartner/storePartnerSlice';
 // section
 import { AddStorePartnerConfirm, StorePartnerForm } from 'sections/storePartner';
 //
-import { Params, StorePartnerToCreate, StorePartnerToCreateAPI } from '@types';
+import { StorePartnerToCreate, StorePartnerToCreateAPI } from 'common/models';
+import { Params } from 'common/@types';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useModal, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

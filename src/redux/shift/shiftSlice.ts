@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Shift } from '@types';
+import { Shift } from 'common/models';
 import shifts from 'mock/shift';
 import { getAllShiftsThunk } from './shiftThunk';
 

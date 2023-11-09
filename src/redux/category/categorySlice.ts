@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Category, CategoryType } from '@types';
+import { Category, CategoryType } from 'common/models';
 import { StorageKeys } from 'constants/storageKeys';
 import { getCategoryType, getIsEditing, setLocalStorage } from 'utils';
 import {

@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 // i18n
-import './common/locales/i18n';
+import './locales/i18n';
 // react toastify
 import 'react-toastify/dist/ReactToastify.css';
 //redux
 import { Provider } from 'react-redux';
 import { store } from 'redux/configStore';
 //
-import setupAxiosClient from 'api/setupClientInterceptors';
-import setupAxiosFormData from 'api/setupFormDataInterceptors';
+import setupAxiosClient from 'axiosClient/setupClientInterceptors';
+import setupAxiosFormData from 'axiosClient/setupFormDataInterceptors';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

@@ -11,8 +11,9 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
 import { BrandForm } from 'sections/brand';
 //
-import { AddressFormInterface, BrandToCreate, BrandToUpdate, Params } from '@types';
-import { Color, Status } from 'common/enum';
+import { AddressFormInterface, Params } from 'common/@types';
+import { Color, Status } from 'common/enums';
+import { BrandToCreate, BrandToUpdate } from 'common/models';
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

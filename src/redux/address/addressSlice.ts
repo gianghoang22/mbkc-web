@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { District, Province, Ward } from '@types';
+import { District, Province, Ward } from 'common/models';
 import { StorageKeys } from 'constants/storageKeys';
 import { getNumberInStorage, setLocalStorage } from 'utils';
 import { getAllDistrictByProvinceIdThunk, getAllProvincesThunk, getAllWardByDistrictIdThunk } from './addressThunk';

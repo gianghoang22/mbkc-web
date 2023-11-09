@@ -23,7 +23,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { UpdatePasswordModal, UpdatePasswordToUseModal } from 'sections/auth';
 import { ProfileDetailSkeleton } from 'sections/information';
 //
-import { Color, Role, Status } from 'common/enum';
+import { Color, Role, Status } from 'common/enums';
 import { Label, Page } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import account from 'mock/account';

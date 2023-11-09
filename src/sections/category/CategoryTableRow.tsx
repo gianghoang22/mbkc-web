@@ -9,8 +9,9 @@ import { deleteCategory, setCategoryType, setEditCategory, updateCategory } from
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 //
-import { Category, CategoryToUpdate, CategoryType, OrderSortBy, Params } from '@types';
-import { Color, Status } from 'common/enum';
+import { OrderSortBy, Params } from 'common/@types';
+import { Color, Status } from 'common/enums';
+import { Category, CategoryToUpdate, CategoryType } from 'common/models';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';

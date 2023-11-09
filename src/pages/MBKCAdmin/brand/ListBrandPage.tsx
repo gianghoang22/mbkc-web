@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
 import { BrandTableRow, BrandTableRowSkeleton } from 'sections/brand';
 //
-import { BrandTable, ListParams, OrderSort, OrderSortBy } from '@types';
+import { BrandTable, ListParams, OrderSort, OrderSortBy } from 'common/@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';

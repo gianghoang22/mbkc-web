@@ -6,11 +6,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { confirmOrderToCompleted } from 'redux/order/orderSlice';
 import { getAllBankingAccounts } from 'redux/bankingAccount/bankingAccountSlice';
+import { confirmOrderToCompleted } from 'redux/order/orderSlice';
 //
-import { CompletedOrderParams, ListParams, Params } from '@types';
-import { Color, PaymentMethod } from 'common/enum';
+import { ListParams, Params } from 'common/@types';
+import { Color, PaymentMethod } from 'common/enums';
+import { CompletedOrderParams } from 'common/models';
 import { AutoCompleteField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 

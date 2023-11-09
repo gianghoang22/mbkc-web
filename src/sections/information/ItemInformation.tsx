@@ -1,7 +1,7 @@
 import { Avatar, Divider } from '@mui/material';
 import { Box, Card, Paper, Stack, Typography } from '@mui/material';
-import { Brand, KitchenCenter } from '@types';
-import { Color, Status } from 'common/enum';
+import { Brand, KitchenCenter } from 'common/models';
+import { Color, Status } from 'common/enums';
 import { Label } from 'components';
 
 interface Props {

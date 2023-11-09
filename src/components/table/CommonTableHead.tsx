@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { HeadCell, OrderSort } from '@types';
+import { HeadCell, OrderSort } from 'common/@types';
 import { useLocales } from 'hooks';
 
 interface CustomTableHeadProps<T> {

@@ -1,19 +1,11 @@
-import {
-  ListParams,
-  ListResponse,
-  MessageResponse,
-  Params,
-  PartnerProduct,
-  PartnerProductToCreate,
-  PartnerProductToUpdate,
-  ToUpdateStatus,
-} from '@types';
-import { axiosClient } from 'api/axiosClient';
+import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
+import { axiosClient } from 'axiosClient/axiosClient';
 import { ROUTES_API_PARTNER_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllPartnerProducts, getPartnerProductDetail } from './partnerProductSlice';
+import { PartnerProduct, PartnerProductToCreate, PartnerProductToUpdate, ToUpdateStatus } from 'common/models';
 
 export const getAllPartnerProductsThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;

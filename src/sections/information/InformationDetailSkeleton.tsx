@@ -1,5 +1,5 @@
 import { Box, Card, Paper, Skeleton, Stack } from '@mui/material';
-import { Role } from 'common/enum';
+import { Role } from 'common/enums';
 import { useAppSelector } from 'redux/configStore';
 
 function InformationPageDetailSkeleton() {

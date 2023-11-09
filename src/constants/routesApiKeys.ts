@@ -1,4 +1,4 @@
-import { OptionParams } from '@types';
+import { OptionParams } from 'common/@types';
 import { path, pathRoot } from 'utils';
 
 const ROOTS_AUTH = '/authentications';

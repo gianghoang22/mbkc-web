@@ -8,8 +8,9 @@ import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typogr
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { updatePartner } from 'redux/partner/partnerSlice';
 //
-import { Params, PartnerToCreate, PartnerToUpdate } from '@types';
-import { Color, Language, Status } from 'common/enum';
+import { Params } from 'common/@types';
+import { PartnerToCreate, PartnerToUpdate } from 'common/models';
+import { Color, Language, Status } from 'common/enums';
 import { InputField, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 

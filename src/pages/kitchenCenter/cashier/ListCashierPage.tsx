@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
 import { CashierTableRow, CashierTableRowSkeleton } from 'sections/cashier';
 //
-import { CashierTable, ListParams, OrderSort, OrderSortBy } from '@types';
+import { CashierTable, ListParams, OrderSort, OrderSortBy } from 'common/@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

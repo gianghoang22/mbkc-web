@@ -1,5 +1,5 @@
 import { Skeleton, TableCell, TableRow, IconButton, Stack } from '@mui/material';
-import { OrderSortBy } from '@types';
+import { OrderSortBy } from 'common/@types';
 
 function CashierTableRow({ length, selected }: { length: number; selected: readonly string[] }) {
   return (

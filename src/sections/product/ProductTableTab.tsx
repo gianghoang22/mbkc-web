@@ -11,14 +11,13 @@ import ProductTableRow from './ProductTableRow';
 import ProductTableRowSkeleton from './ProductTableRowSkeleton';
 //
 import {
-  CategoryType,
   ListParams,
   OptionSelect,
   OrderSort,
   OrderSortBy,
-  PRODUCT_TYPE_OPTIONS,
   ProductTable,
-} from '@types';
+} from 'common/@types';
+import { CategoryType, PRODUCT_TYPE_OPTIONS } from 'common/models';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 

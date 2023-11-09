@@ -1,14 +1,14 @@
+import { ErrorResponse } from 'common/@types';
+import { Error } from 'common/enums';
 import {
   BrandProfile,
   CategoryType,
-  ErrorResponse,
   KitchenCenterProfile,
   PartnerProduct,
   ProductTypeEnum,
   UserAuth,
   UserInfo,
-} from '@types';
-import { Error } from 'common/enum';
+} from 'common/models';
 import { StorageKeys } from 'constants/storageKeys';
 import Cookie from 'js-cookie';
 import { PATH_ERROR } from 'routes/paths';

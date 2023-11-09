@@ -1,4 +1,4 @@
-import { Status } from 'common/enum';
+import { Status } from 'common/enums';
 import { Brand } from './brand';
 import { KitchenCenter } from './kitchenCenter';
 import { Partner } from './partner';

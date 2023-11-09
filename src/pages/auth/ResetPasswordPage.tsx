@@ -21,7 +21,7 @@ import {
 import { resetPassword } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { Params, ResetForm } from '@types';
+import { Params, ResetForm } from 'common/@types';
 import images from 'assets';
 import { Helmet, InputField, Logo } from 'components';
 import { useLocales, useValidationForm } from 'hooks';

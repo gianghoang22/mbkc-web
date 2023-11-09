@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { KitchenCenter } from '@types';
+import { KitchenCenter } from 'common/models';
 import { StorageKeys } from 'constants/storageKeys';
 import { getIsEditing, setLocalStorage } from 'utils';
 import {

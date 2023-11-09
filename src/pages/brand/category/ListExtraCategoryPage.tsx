@@ -12,7 +12,8 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { CategoryTableRow, CategoryTableRowSkeleton } from 'sections/category';
 //
-import { CategoryTable, CategoryType, ListParams, OrderSort, OrderSortBy } from '@types';
+import { CategoryTable, ListParams, OrderSort, OrderSortBy } from 'common/@types';
+import { CategoryType } from 'common/models';
 import { CommonTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

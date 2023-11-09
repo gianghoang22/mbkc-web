@@ -3,7 +3,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 // redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { Language } from 'common/enum';
+import { Language } from 'common/enums';
 import { InputField, InputNumber, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 

@@ -1,5 +1,5 @@
 import { getLanguage } from './utils';
-import { Language } from 'common/enum';
+import { Language } from 'common/enums';
 import { EngMessageConstant } from 'constants/EngMessageConstant';
 import { VieMessageConstant } from 'constants/VieMessageConstant';
 import { EngErrorMessageConstant } from 'constants/EngErrorMessageConstant';

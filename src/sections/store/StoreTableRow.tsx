@@ -13,8 +13,9 @@ import { deleteStore, setEditStore, updateStatusStore } from 'redux/store/storeS
 // section
 import ConfirmRegistrationStore from './ConfirmRegistrationStore';
 //
-import { OptionSelect, OrderSortBy, Params, Store, ToUpdateStatus } from '@types';
-import { Color, PopoverType, Role, Status } from 'common/enum';
+import { OptionSelect, OrderSortBy, Params } from 'common/@types';
+import { Color, PopoverType, Role, Status } from 'common/enums';
+import { Store, ToUpdateStatus } from 'common/models';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';

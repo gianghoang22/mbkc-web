@@ -10,8 +10,9 @@ import { useAppDispatch } from 'redux/configStore';
 import { getAllStores } from 'redux/store/storeSlice';
 import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 //
-import { ListParams, OptionSelect, STATUS_OPTIONS } from '@types';
-import { Status } from 'common/enum';
+import { ListParams, OptionSelect } from 'common/@types';
+import { Status } from 'common/enums';
+import { STATUS_OPTIONS } from 'common/models';
 import { useLocales, usePagination } from 'hooks';
 import { StyledRoot, StyledSearch } from '../styles';
 

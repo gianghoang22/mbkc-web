@@ -24,7 +24,7 @@ import { useAppSelector } from 'redux/configStore';
 import { Label, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color, Language, Role } from 'common/enum';
+import { Color, Language, Role } from 'common/enums';
 
 function WalletPage() {
   const { pathname } = useLocation();

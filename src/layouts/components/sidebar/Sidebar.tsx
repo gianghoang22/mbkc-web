@@ -8,7 +8,7 @@ import { useResponsive } from 'hooks';
 import { Logo, NavSection } from 'components';
 //
 import images from 'assets';
-import { Role } from 'common/enum';
+import { Role } from 'common/enums';
 import { useAppSelector } from 'redux/configStore';
 import { useConfigSidebar } from './useConfigSidebar';
 

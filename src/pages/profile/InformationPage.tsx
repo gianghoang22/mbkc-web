@@ -10,7 +10,7 @@ import { getBrandProfile, getKitchenCenterProfile } from 'redux/profile/profileS
 // section
 import { InformationDetail, InformationDetailSkeleton } from 'sections/information';
 //
-import { Role } from 'common/enum';
+import { Role } from 'common/enums';
 import { Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 // @mui
 import ReplayIcon from '@mui/icons-material/Replay';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
@@ -22,8 +22,9 @@ import { DatePicker } from '@mui/x-date-pickers';
 //redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { HeadCell, OptionSelect, OrderSortBy, ProductTypeEnum } from '@types';
-import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enum';
+import { HeadCell, OptionSelect, OrderSortBy } from 'common/@types';
+import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enums';
+import { ProductTypeEnum } from 'common/models';
 import { useLocales, usePopover } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StyledRoot, StyledSearch } from './styles';

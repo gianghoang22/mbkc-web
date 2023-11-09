@@ -1,5 +1,5 @@
 import { IconButton, Skeleton, Stack, TableCell, TableRow, TableBody } from '@mui/material';
-import { OrderSortBy } from '@types';
+import { OrderSortBy } from 'common/@types';
 
 function BrandTableRowSkeleton({ length, selected }: { length: number; selected: readonly string[] }) {
   return (

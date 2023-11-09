@@ -1,4 +1,5 @@
-import { Brand, Category, ChildrenProduct, KitchenCenter, OrderSort } from '@types';
+import { OrderSort } from 'common/@types';
+import { Brand, Category, ChildrenProduct, KitchenCenter } from 'common/models';
 
 export function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

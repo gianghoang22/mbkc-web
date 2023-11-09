@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BrandProfile, KitchenCenterProfile } from '@types';
+import { BrandProfile, KitchenCenterProfile } from 'common/models';
 import { getBrandInfo, getKitchenCenterInfo } from 'utils';
 import { getBrandProfileThunk, getKitchenCenterProfileThunk, updateBrandProfileThunk } from './profileThunk';
 

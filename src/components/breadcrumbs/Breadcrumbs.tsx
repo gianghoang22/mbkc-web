@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Link, Breadcrumbs as MUIBreadcrumbs, Stack, Typography } from '@mui/material';
 //
-import { Breadcrumb, Role } from 'common/enum';
+import { Breadcrumb, Role } from 'common/enums';
 import { useLocales } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';

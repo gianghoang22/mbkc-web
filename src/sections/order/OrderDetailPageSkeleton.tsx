@@ -2,7 +2,7 @@
 import { Box, Card, Divider, Grid, Paper, Stack, Typography, Container, Skeleton } from '@mui/material';
 
 //
-import { Role } from 'common/enum';
+import { Role } from 'common/enums';
 import { useAppSelector } from 'redux/configStore';
 
 function OrderDetailPageSkeleton() {

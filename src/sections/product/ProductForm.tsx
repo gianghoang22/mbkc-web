@@ -13,8 +13,8 @@ import {
   ProductSizeEnum,
   ProductToCreate,
   ProductTypeEnum,
-} from '@types';
-import { Language } from 'common/enum';
+} from 'common/models';
+import { Language } from 'common/enums';
 import { AutoCompleteField, InputField, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 

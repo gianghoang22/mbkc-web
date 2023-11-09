@@ -12,7 +12,7 @@ import { setRoutesToBack } from 'redux/routes/routesSlice';
 import OnlyPartnerRow from './OnlyPartnerRow';
 import OnlyPartnerRowSkeleton from './OnlyPartnerRowSkeleton';
 //
-import { Store, StorePartnerDetail, StorePartnerToList } from '@types';
+import { Store, StorePartnerDetail, StorePartnerToList } from 'common/models';
 import { useLocales } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 

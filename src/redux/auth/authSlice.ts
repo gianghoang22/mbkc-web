@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { UserAuth, UserInfo } from '@types';
+import { UserAuth, UserInfo } from 'common/models';
 import { toast } from 'react-toastify';
 import {
   getAuthenticated,

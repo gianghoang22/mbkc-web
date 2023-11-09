@@ -1,7 +1,7 @@
 // @mui
 import { Stack, TableCell, TableRow, Avatar, Typography } from '@mui/material';
 //
-import { Shift } from '@types';
+import { Shift } from 'common/models';
 
 interface MoneyExchangeTableRowProps {
   shift: Shift;

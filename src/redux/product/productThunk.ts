@@ -1,14 +1,6 @@
-import {
-  ListParams,
-  ListResponse,
-  MessageResponse,
-  Params,
-  Product,
-  ProductToCreateParams,
-  ProductToUpdate,
-  ToUpdateStatus,
-} from '@types';
-import { axiosClient, axiosFormData } from 'api/axiosClient';
+import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
+import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
+import { Product, ProductToCreateParams, ProductToUpdate, ToUpdateStatus } from 'common/models';
 import { ROUTES_API_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';

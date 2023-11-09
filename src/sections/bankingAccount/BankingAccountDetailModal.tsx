@@ -14,13 +14,13 @@ import {
 // @mui icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // redux
-import { useAppDispatch } from 'redux/configStore';
 import { deleteBankingAccount, setEditBankingAccount } from 'redux/bankingAccount/bankingAccountSlice';
+import { useAppDispatch } from 'redux/configStore';
 // section
 import CreateBankingAccountModal from './CreateBankingAccountModal';
 //
-import { BankingAccount } from '@types';
-import { Color, Language, Status } from 'common/enum';
+import { Color, Language, Status } from 'common/enums';
+import { BankingAccount } from 'common/models';
 import { ConfirmDialog, ContentLabel, Popover } from 'components';
 import { useLocales, useModal, usePagination, usePopover } from 'hooks';
 

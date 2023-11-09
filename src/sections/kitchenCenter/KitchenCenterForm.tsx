@@ -8,7 +8,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 import { getAllDistrictByProvinceId, getAllProvinces, getAllWardByDistrictId } from 'redux/address/addressSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { Language } from 'common/enum';
+import { Language } from 'common/enums';
 import { AutoCompleteField, InputField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 

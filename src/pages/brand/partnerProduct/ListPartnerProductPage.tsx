@@ -15,7 +15,7 @@ import {
   PartnerProductTableRowSkeleton,
 } from 'sections/partnerProduct';
 //
-import { ListParams, OrderSort, OrderSortBy, PartnerProductTable } from '@types';
+import { ListParams, OrderSort, OrderSortBy, PartnerProductTable } from 'common/@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, LoadingScreen, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

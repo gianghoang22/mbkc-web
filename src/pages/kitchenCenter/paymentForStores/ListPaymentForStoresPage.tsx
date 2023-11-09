@@ -10,7 +10,7 @@ import { MoneyExchangeTableRow, MoneyExchangeTableToolbar } from 'sections/money
 import MoneyExchangeDetailModal from 'sections/moneyExchanges/MoneyExchangeDetailModal';
 import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
 //
-import { MoneyExchangeTable, OrderSort } from '@types';
+import { MoneyExchangeTable, OrderSort } from 'common/@types';
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
