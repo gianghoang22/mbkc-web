@@ -1,11 +1,12 @@
 import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
-import { Cashier, CashierToCreate, CashierToUpdate, ToUpdateStatus } from 'common/models';
+import { Cashier, CashierToCreate, CashierToUpdate, ShiftReport, ToUpdateStatus } from 'common/models';
 import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
 import { ROUTES_API_CASHIERS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllCashiers } from './cashierSlice';
+import { NavigateFunction } from 'react-router-dom';
 
 export const getAllCashiersThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -130,6 +131,19 @@ export const deleteCashierThunk = async (params: Params<Cashier>, thunkAPI: any)
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const confirmEndOfShiftThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
+  try {
+    const response: ShiftReport = await axiosClient.get(ROUTES_API_CASHIERS.CONFIRM_END_OF_SHIFT);
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    console.log(errorResponse);
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);

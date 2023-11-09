@@ -6,6 +6,7 @@ import { ROUTES_API_MONEY_EXCHANGES, ROUTES_API_SHIPPER_PAYMENTS } from 'constan
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllMoneyExchange } from './walletSlice';
+import { NavigateFunction } from 'react-router-dom';
 
 export const getAllMoneyExchangeThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -61,6 +62,18 @@ export const createPaymentForStoreThunk = async (params: Params<PaymentForStores
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const sendMoneyToKitchenCenterThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
+  try {
+    const response: MessageResponse = await axiosClient.put(ROUTES_API_MONEY_EXCHANGES.SEND_MONEY_TO_KITCHEN_CENTER);
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);

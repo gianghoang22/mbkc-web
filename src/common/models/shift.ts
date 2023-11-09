@@ -1,10 +1,8 @@
-export interface Shift {
-  shiftId: number;
+export interface ShiftReport {
   cashierName: string;
-  cashierImage: string;
-  date: string;
   kitchenCenterName: string;
-  totalOrder: number;
-  totalMoneyInWallet: number;
-  totalMoneyOfToday: number;
+  cashierImage: string;
+  totalOrderToday: number;
+  totalMoneyToday: number;
+  balance: number;
 }

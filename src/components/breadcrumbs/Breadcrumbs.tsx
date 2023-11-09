@@ -169,6 +169,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.information')
             : path === Breadcrumb.CONFIGURATIONS
             ? translate('breadcrumb.configurations')
+            : path === Breadcrumb.END_OF_SHIFT
+            ? translate('breadcrumb.endOfShift')
             : path === Breadcrumb.PAYMENT_FOR_STORES
             ? translate('breadcrumb.payment-for-stores')
             : path;

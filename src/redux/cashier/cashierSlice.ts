@@ -3,6 +3,7 @@ import { Cashier } from 'common/models';
 import { StorageKeys } from 'constants/storageKeys';
 import { getIsEditing, setLocalStorage } from 'utils';
 import {
+  confirmEndOfShiftThunk,
   createNewCashierThunk,
   deleteCashierThunk,
   getAllCashiersThunk,
@@ -41,6 +42,7 @@ export const getCashierDetail = createAsyncThunk('cashier/get-cashier-detail', g
 export const updateCashier = createAsyncThunk('cashier/update-cashier', updateCashierThunk);
 export const updateCashierStatus = createAsyncThunk('cashier/update-cashier-status', updateCashierStatusThunk);
 export const deleteCashier = createAsyncThunk('cashier/delete-cashier', deleteCashierThunk);
+export const confirmEndOfShift = createAsyncThunk('cashier/confirm-end-of-shift', confirmEndOfShiftThunk);
 
 const cashierSlice = createSlice({
   name: 'cashier',
@@ -138,6 +140,19 @@ const cashierSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(deleteCashier.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(confirmEndOfShift.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(confirmEndOfShift.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(confirmEndOfShift.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

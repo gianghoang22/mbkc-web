@@ -17,7 +17,6 @@ import routesReducer from './routes/routesSlice';
 import storeReducer from './store/storeSlice';
 import storePartnerReducer from './storePartner/storePartnerSlice';
 import walletReducer from './wallet/walletSlice';
-import shiftReducer from './shift/shiftSlice';
 
 export const store = configureStore({
   reducer: {
@@ -38,7 +37,6 @@ export const store = configureStore({
     partnerProduct: partnerProductReducer,
     address: addressReducer,
     configuration: configurationReducer,
-    shift: shiftReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

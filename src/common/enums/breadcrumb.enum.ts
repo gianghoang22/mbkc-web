@@ -37,4 +37,5 @@ export enum Breadcrumb {
   PROFILE = 'profile',
   INFORMATION = 'information',
   CONFIGURATIONS = 'configurations',
+  END_OF_SHIFT = 'end-of-shift',
 }
