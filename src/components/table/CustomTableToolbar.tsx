@@ -18,12 +18,14 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
+//redux
+import { useAppSelector } from 'redux/configStore';
 //
 import { HeadCell, OptionSelect, OrderSortBy } from 'common/@types';
 import { PartnerOrderStatus, Role, Status, SystemStatusToFilter } from 'common/enums';
 import { ProductTypeEnum } from 'common/models';
 import { useLocales, usePopover } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StyledRoot, StyledSearch } from './styles';
 
@@ -39,6 +41,12 @@ interface CustomTableToolbarProps<T> {
   options?: OptionSelect[];
   secondOptions?: OptionSelect[];
   status?: OptionSelect | null;
+  haveSelectSearchDateFrom?: boolean;
+  searchDateFrom?: Date | null;
+  handleChangeSearchDateFrom?: (date: Date | null) => void;
+  haveSelectSearchDateTo?: boolean;
+  searchDateTo?: Date | null;
+  handleChangeSearchDateTo?: (date: Date | null) => void;
   handleChangeStatus?: (option: OptionSelect | null) => void;
   handleChangeSystemStatus?: (option: OptionSelect | null) => void;
   handleChangePartnerOrderStatus?: (option: OptionSelect | null) => void;
@@ -61,12 +69,18 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
     options,
     secondOptions,
     status,
+    searchDateFrom,
+    searchDateTo,
+    handleChangeSearchDateFrom,
+    handleChangeSearchDateTo,
     handleChangeStatus,
     handleChangeSystemStatus,
     handleChangePartnerOrderStatus,
     haveSelectStatus,
     haveSelectSystemStatus,
     haveSelectPartnerOrderStatus,
+    haveSelectSearchDateFrom,
+    haveSelectSearchDateTo,
     handleReloadData,
     model,
     addAction,
@@ -193,6 +207,24 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
                 onChange={(event: any, newValue: OptionSelect | null) => handleChangeStatus(newValue)}
               />
             </Stack>
+          )}
+
+          {handleChangeSearchDateFrom && haveSelectSearchDateFrom && (
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              label="From date"
+              value={searchDateFrom}
+              onChange={(newValue: Date | null) => handleChangeSearchDateFrom(newValue)}
+            />
+          )}
+
+          {handleChangeSearchDateTo && haveSelectSearchDateTo && (
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              label="To date"
+              value={searchDateTo}
+              onChange={(newValue: Date | null) => handleChangeSearchDateTo(newValue)}
+            />
           )}
 
           {handleChangeSystemStatus && haveSelectSystemStatus && (

@@ -13,25 +13,29 @@ import { ListParams, OptionSelect, OrderSort, OrderTable } from 'common/@types';
 import { PARTNER_ORDER_STATUS, SYSTEM_STATUS_OPTIONS } from 'common/models';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { fDate } from 'utils';
+import { Role } from 'common/enums';
 
 function ListOrdersPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { orderHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { orders, isLoading, numberItems } = useAppSelector((state) => state.order);
+  const { userAuth } = useAppSelector((state) => state.auth);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof OrderTable>('partnerName');
+  const [orderBy, setOrderBy] = useState<keyof OrderTable>('finalTotalPrice');
   const [filterName, setFilterName] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [systemStatus, setSystemStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
   const [partnerOrderStatus, setPartnerOrderStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
+  const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -56,13 +60,25 @@ function ListOrdersPage() {
         searchValue: debounceValue,
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
-        // sortBy: `${orderBy}_${order}`,
+        sortBy: `${orderBy}_${order}`,
         systemStatus: systemStatus?.value,
         partnerOrderStatus: partnerOrderStatus?.value,
+        searchDateFrom: searchDateFrom === null ? '' : fDate(searchDateFrom as Date),
+        searchDateTo: searchDateTo === null ? '' : fDate(searchDateTo as Date),
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, orderBy, order, systemStatus?.value, partnerOrderStatus?.value]);
+  }, [
+    page,
+    rowsPerPage,
+    debounceValue,
+    orderBy,
+    order,
+    systemStatus?.value,
+    partnerOrderStatus?.value,
+    searchDateFrom,
+    searchDateTo,
+  ]);
 
   useEffect(() => {
     dispatch(getAllOrders(params));
@@ -80,28 +96,44 @@ function ListOrdersPage() {
     setPartnerOrderStatus(status);
   };
 
+  const handleChangeSearchDateFrom = (date: Date | null) => {
+    setSearchDateFrom(date as Date);
+  };
+
+  const handleChangeSearchDateTo = (date: Date | null) => {
+    setSearchDateTo(date as Date);
+  };
+
   return (
     <>
       <Page
         title={translate('page.title.list', { model: translate('model.lowercase.orders') })}
         pathname={pathname}
-        navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
+        navigateDashboard={
+          userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER ? PATH_KITCHEN_CENTER_APP.root : PATH_CASHIER_APP.root
+        }
       >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar<OrderTable>
-                model={translate('model.lowercase.orders')}
                 selected={selected}
-                setSelected={setSelected}
                 headCells={orderHeadCells}
                 filterName={filterName}
                 options={SYSTEM_STATUS_OPTIONS}
                 secondOptions={PARTNER_ORDER_STATUS}
+                searchDateFrom={searchDateFrom}
+                searchDateTo={searchDateTo}
+                model={translate('model.lowercase.store')}
+                setSelected={setSelected}
                 onFilterName={handleFilterByName}
+                handleChangeSearchDateFrom={handleChangeSearchDateFrom}
+                handleChangeSearchDateTo={handleChangeSearchDateTo}
                 handleReloadData={handleReloadData}
                 haveSelectSystemStatus
                 haveSelectPartnerOrderStatus
+                haveSelectSearchDateFrom
+                haveSelectSearchDateTo
                 handleChangeSystemStatus={handleChangeSystemStatus}
                 handleChangePartnerOrderStatus={handleChangePartnerOrderStatus}
               />
@@ -120,16 +152,7 @@ function ListOrdersPage() {
                   ) : (
                     <TableBody>
                       {orders.map((order, index) => {
-                        return (
-                          <OrderTableRow
-                            key={order.id}
-                            index={index}
-                            order={order}
-                            page={page}
-                            rowsPerPage={rowsPerPage}
-                            selected={selected}
-                          />
-                        );
+                        return <OrderTableRow key={order.id} index={index} order={order} selected={selected} />;
                       })}
                       {emptyRows > 0 ||
                         (orders.length === 0 && !filterName && (

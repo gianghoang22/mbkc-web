@@ -20,12 +20,10 @@ import { formatCurrency } from 'utils';
 interface OrderTableRowProps {
   order: Order;
   index: number;
-  page: number;
-  rowsPerPage: number;
   selected: readonly string[];
 }
 
-function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTableRowProps) {
+function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -49,36 +47,36 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
   return (
     <>
       <TableRow hover tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(order.id)}>
+        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(order?.id)}>
           {index + 1}
         </TableCell>
 
         {selected.includes(OrderSortBy.ORDER_PARTNER_ID) && (
-          <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
-            {order.orderPartnerId}
+          <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
+            {order?.orderPartnerId}
           </TableCell>
         )}
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
-          {order.partner.name}
+        <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
+          {order?.partner.name}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
-          {order.store.name}
+        <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
+          {order?.store.name}
         </TableCell>
 
         {selected.includes(OrderSortBy.FINAL_TOTAL_PRICE) && (
-          <TableCell align="left" onClick={() => handleNavigateDetail(order.id)}>
-            {formatCurrency(order.finalTotalPrice)}
+          <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
+            {formatCurrency(order?.finalTotalPrice)}
           </TableCell>
         )}
 
         <TableCell align="left">
           <Label
             color={
-              order.systemStatus === SystemStatus.COMPLETED
+              order?.systemStatus === SystemStatus.COMPLETED
                 ? Color.SUCCESS
-                : order.systemStatus === SystemStatus.CANCELLED
+                : order?.systemStatus === SystemStatus.CANCELLED
                 ? Color.ERROR
                 : Color.DEFAULT
             }
@@ -96,9 +94,9 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
         <TableCell align="left">
           <Label
             color={
-              order.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+              order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
                 ? Color.SUCCESS
-                : order.partnerOrderStatus === PartnerOrderStatus.CANCELLED
+                : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                 ? Color.ERROR
                 : Color.DEFAULT
             }
@@ -126,7 +124,7 @@ function OrderTableRow({ index, order, page, rowsPerPage, selected }: OrderTable
         <TableCell colSpan={7} sx={{ paddingBottom: 0, paddingTop: 0, paddingLeft: 5, paddingRight: 5, border: 0 }}>
           <Collapse in={openList === index} timeout="auto" unmountOnExit>
             <Stack direction="column">
-              {order.orderDetails.map((detail) => {
+              {order?.orderDetails.map((detail) => {
                 return (
                   <Stack justifyContent="space-between" direction="row" padding={2}>
                     <Stack direction="row" alignItems="center" spacing={2} width={200}>

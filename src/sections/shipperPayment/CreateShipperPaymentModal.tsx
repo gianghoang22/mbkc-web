@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // @mui
@@ -6,42 +6,48 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-//
-import { ListParams, Params } from 'common/@types';
-import { Color } from 'common/enums';
-import { CompletedOrderParams } from 'common/models';
-import { AutoCompleteField, UploadImageField } from 'components';
-import { useLocales, useValidationForm } from 'hooks';
-import { useEffect, useMemo } from 'react';
 import { getAllBankingAccounts } from 'redux/bankingAccount/bankingAccountSlice';
 import { confirmOrderToCompleted } from 'redux/order/orderSlice';
+//
+import { ListParams, Params } from 'common/@types';
+import { Color, PaymentMethod } from 'common/enums';
+import { CompletedOrderParams } from 'common/models';
+import { AutoCompleteField, UploadImageField } from 'components';
+import { useLocales } from 'hooks';
 
-interface ConfirmCompletedOrderModalProps {
+interface CreateShipperPaymentModalProps {
   page: number;
   rowsPerPage: number;
   isOpen: boolean;
+  orderPartnerId: string;
+  paymentMethod: string;
   handleOpen: (title: any) => void;
 }
 
-function ConfirmCompletedOrderModal({ page, rowsPerPage, isOpen, handleOpen }: ConfirmCompletedOrderModalProps) {
+function CreateShipperPaymentModal({
+  page,
+  rowsPerPage,
+  isOpen,
+  handleOpen,
+  paymentMethod,
+  orderPartnerId,
+}: CreateShipperPaymentModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
-  const { schemaPaymentForStore } = useValidationForm();
 
   const { bankingAccounts } = useAppSelector((state) => state.bankingAccount);
-  const { isLoading } = useAppSelector((state) => state.wallet);
+  const { isLoading: isLoadingOrder } = useAppSelector((state) => state.order);
 
-  const confirmCompletedOrderForm = useForm<CompletedOrderParams>({
+  const createShipperPaymentForm = useForm<CompletedOrderParams>({
     defaultValues: {
       BankingAccountId: '',
       Image: '',
       OrderPartnerId: '',
     },
-    resolver: yupResolver<any>(schemaPaymentForStore),
   });
 
-  const { handleSubmit } = confirmCompletedOrderForm;
+  const { handleSubmit } = createShipperPaymentForm;
 
   const bankingAccountOptions = bankingAccounts.map((bankingAccount) => ({
     label: bankingAccount.name,
@@ -57,8 +63,13 @@ function ConfirmCompletedOrderModal({ page, rowsPerPage, isOpen, handleOpen }: C
 
   const onSubmit = async (values: CompletedOrderParams) => {
     const data = { ...values };
+
+    handleOpen('');
+
+    const createShipperPaymentParams = { ...data, OrderPartnerId: orderPartnerId };
+
     const paramsToCompleted: Params<CompletedOrderParams> = {
-      data: data,
+      data: createShipperPaymentParams,
       optionParams: {
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
@@ -84,14 +95,12 @@ function ConfirmCompletedOrderModal({ page, rowsPerPage, isOpen, handleOpen }: C
   return (
     <>
       {isOpen && (
-        <Dialog maxWidth="sm" fullWidth open={isOpen} onClose={handleOpen}>
-          <FormProvider {...confirmCompletedOrderForm}>
+        <Dialog maxWidth="sm" fullWidth open={isOpen}>
+          <FormProvider {...createShipperPaymentForm}>
             <DialogContent>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography variant="h4">
-                  {translate('page.title.completedOrder', {
-                    model: ` ${translate('model.lowercase.order')}`,
-                  })}
+                  {translate('page.title.create', { model: translate('model.lowercase.shipperPayment') })}
                 </Typography>
                 <IconButton onClick={handleOpen}>
                   <CloseIcon />
@@ -105,36 +114,40 @@ function ConfirmCompletedOrderModal({ page, rowsPerPage, isOpen, handleOpen }: C
                   margin="auto"
                   name="Image"
                   defaultValue=""
+                  width={500}
+                  borderRadius="unset"
                 />
 
-                <Stack width="100%" gap={2}>
-                  <AutoCompleteField
-                    options={bankingAccountOptions}
-                    getOptionLabel={(value: any) => {
-                      const label = getOpObjBankingAccount(value)?.label;
-                      return label === undefined ? '' : label;
-                    }}
-                    isOptionEqualToValue={(option: any, value: any) => {
-                      if (!option) return option;
-                      return option.value === getOpObjBankingAccount(value)?.value;
-                    }}
-                    transformValue={(opt: any) => opt.value}
-                    name="BankingAccountId"
-                    type="text"
-                    label={translate('model.capitalizeOne.bankingAccount')}
-                  />
-                </Stack>
+                {paymentMethod === PaymentMethod.CASH_LESS && (
+                  <Stack width="100%" gap={2}>
+                    <AutoCompleteField
+                      options={bankingAccountOptions}
+                      getOptionLabel={(value: any) => {
+                        const label = getOpObjBankingAccount(value)?.label;
+                        return label === undefined ? '' : label;
+                      }}
+                      isOptionEqualToValue={(option: any, value: any) => {
+                        if (!option) return option;
+                        return option.value === getOpObjBankingAccount(value)?.value;
+                      }}
+                      transformValue={(opt: any) => opt.value}
+                      name="BankingAccountId"
+                      type="text"
+                      label={translate('model.capitalizeOne.bankingAccount')}
+                    />
+                  </Stack>
+                )}
               </Stack>
             </DialogContent>
             <DialogActions sx={{ px: 3, pb: 3 }}>
               <Button
-                disabled={isLoading}
+                disabled={isLoadingOrder}
                 type="submit"
                 variant="contained"
-                color={Color.SUCCESS}
+                color={Color.PRIMARY}
                 onClick={handleSubmit(onSubmit)}
               >
-                {translate('button.confirm')}
+                {translate('button.create')}
               </Button>
             </DialogActions>
           </FormProvider>
@@ -144,4 +157,4 @@ function ConfirmCompletedOrderModal({ page, rowsPerPage, isOpen, handleOpen }: C
   );
 }
 
-export default ConfirmCompletedOrderModal;
+export default CreateShipperPaymentModal;

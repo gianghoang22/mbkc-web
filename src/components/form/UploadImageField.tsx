@@ -12,6 +12,8 @@ interface UploadImageFieldProps {
   defaultValue?: any;
   isEditing?: boolean;
   margin?: string;
+  width?: number;
+  borderRadius?: string;
   captionWidth?: number;
 }
 
@@ -22,6 +24,8 @@ const UploadImageField: FC<UploadImageFieldProps> = ({
   defaultValue = '',
   isEditing,
   margin,
+  width = 200,
+  borderRadius = '50%',
   captionWidth,
   ...others
 }) => {
@@ -35,7 +39,8 @@ const UploadImageField: FC<UploadImageFieldProps> = ({
       render={({ field, fieldState }) => (
         <Box sx={{ mb: 5, width: 'fit-content' }} {...others}>
           <UploadAvatar
-            sx={{ margin }}
+            sx={{ margin, width, borderRadius }}
+            borderRadius={borderRadius}
             captionWidth={captionWidth}
             caption={
               <Typography
