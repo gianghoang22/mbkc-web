@@ -82,6 +82,7 @@ export const ROUTES_API_MONEY_EXCHANGES = {
       ROOTS_MONEY_EXCHANGES,
       `?ItemsPerPage=${itemsPerPage}&CurrentPage=${currentPage}&SearchDateFrom=${searchDateFrom}&SearchDateTo=${searchDateTo}&ExchangeType=${exchangeType}&Status=${status}&SortBy=${sortBy}`
     ),
+  SEND_MONEY_TO_KITCHEN_CENTER: path(ROOTS_MONEY_EXCHANGES, '/money-exchange-to-kitchen-center'),
 };
 
 export const ROUTES_API_SHIPPER_PAYMENTS = {
@@ -266,6 +267,7 @@ export const ROUTES_API_CASHIERS = {
   UPDATE_CASHIER: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}`),
   UPDATE_CASHIER_STATUS: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}/updating-status`),
   DELETE_CASHIER: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}`),
+  CONFIRM_END_OF_SHIFT: path('/cashier/report'),
 };
 
 export const ROUTES_API_BANKING_ACCOUNTS = {

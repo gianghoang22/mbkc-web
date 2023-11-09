@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { MoneyExchange, ShipperPayment } from 'common/models';
-import { createPaymentForStoreThunk, getAllMoneyExchangeThunk, getAllShipperPaymentThunk } from './walletThunk';
+import {
+  createPaymentForStoreThunk,
+  getAllMoneyExchangeThunk,
+  getAllShipperPaymentThunk,
+  sendMoneyToKitchenCenterThunk,
+} from './walletThunk';
 
 interface BankingAccountState {
   isEditing: boolean;
@@ -34,6 +39,10 @@ export const getAllShipperPayment = createAsyncThunk(
 export const createPaymentForStore = createAsyncThunk(
   'money-exchange/create-payment-for-store',
   createPaymentForStoreThunk
+);
+export const sendMoneyToKitchenCenter = createAsyncThunk(
+  'money-exchange/send-money-to-kitchen-center',
+  sendMoneyToKitchenCenterThunk
 );
 
 const WalletSlice = createSlice({
@@ -81,6 +90,19 @@ const WalletSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(createPaymentForStore.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(sendMoneyToKitchenCenter.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(sendMoneyToKitchenCenter.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(sendMoneyToKitchenCenter.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

@@ -123,7 +123,8 @@
     "update": "Cập nhật",
     "registration": "Đăng ký",
     "create-new": "Tạo mới",
-    "information": "Thông tin"
+    "information": "Thông tin",
+    "endOfShift": "Kết thúc ca làm việc"
   },
   "categoryType": {
     "normal": "Thường",
