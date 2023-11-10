@@ -32,7 +32,7 @@ function OrderHistoryTableRow({ index, orderHistory }: OrderHistoryTableRowProps
                   ? Color.SUCCESS
                   : orderHistory?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                   ? Color.ERROR
-                  : Color.DEFAULT
+                  : Color.INFO
               }
             >
               {orderHistory?.partnerOrderStatus === PartnerOrderStatus.READY
@@ -54,7 +54,7 @@ function OrderHistoryTableRow({ index, orderHistory }: OrderHistoryTableRowProps
                   ? Color.SUCCESS
                   : orderHistory?.systemStatus === SystemStatus.CANCELLED
                   ? Color.ERROR
-                  : Color.DEFAULT
+                  : Color.PRIMARY
               }
             >
               {orderHistory?.systemStatus === SystemStatus.IN_STORE
