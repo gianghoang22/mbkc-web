@@ -22,7 +22,7 @@ function ListShiftPage() {
   return (
     <>
       <Page title={translate('breadcrumb.endOfShift')} pathname={pathname} navigateDashboard={PATH_CASHIER_APP.root}>
-        <Box sx={{ width: '70%' }}>
+        <Box sx={{ width: '100%' }}>
           <Card>
             <Paper sx={{ width: '100%', mb: 4 }}>
               <Stack justifyContent="center" direction="row">

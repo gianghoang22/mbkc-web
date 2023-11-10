@@ -50,9 +50,10 @@ function CreateShipperPaymentModal({
   const { handleSubmit } = createShipperPaymentForm;
 
   const bankingAccountOptions = bankingAccounts.map((bankingAccount) => ({
-    label: bankingAccount.name,
+    label: bankingAccount.numberAccount,
     value: bankingAccount.bankingAccountId,
     image: bankingAccount.logoUrl,
+    description: bankingAccount.name,
   }));
 
   const getOpObjBankingAccount = (option: any) => {
@@ -118,9 +119,10 @@ function CreateShipperPaymentModal({
                   borderRadius="unset"
                 />
 
-                {paymentMethod === PaymentMethod.CASH_LESS && (
+                {paymentMethod === PaymentMethod.CASH && (
                   <Stack width="100%" gap={2}>
                     <AutoCompleteField
+                      customLabel
                       options={bankingAccountOptions}
                       getOptionLabel={(value: any) => {
                         const label = getOpObjBankingAccount(value)?.label;

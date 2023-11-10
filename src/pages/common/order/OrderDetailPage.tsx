@@ -316,6 +316,12 @@ function OrderDetailPage() {
 
                           <Stack direction="row" justifyContent="flex-end" mt={3}>
                             <Button
+                              disabled={
+                                order?.systemStatus === SystemStatus.READY_DELIVERY &&
+                                order.partnerOrderStatus === PartnerOrderStatus.READY
+                                  ? false
+                                  : true
+                              }
                               onClick={() => {
                                 handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
                               }}

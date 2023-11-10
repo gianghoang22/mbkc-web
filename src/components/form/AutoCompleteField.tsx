@@ -10,6 +10,7 @@ interface Option {
   address?: string;
   center?: string;
   category?: string;
+  description?: string;
 }
 
 interface AutoCompleteFieldProps {
@@ -26,6 +27,7 @@ interface AutoCompleteFieldProps {
   disabled?: boolean;
   type: string;
   size?: 'small' | 'medium';
+  customLabel?: boolean;
 }
 
 const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
@@ -41,6 +43,7 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
   getOptionLabel,
   transformValue,
   isOptionEqualToValue,
+  customLabel = false,
   ...props
 }) => {
   const { translate } = useLocales();
@@ -67,6 +70,7 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
             center: option.center,
             category: option.category,
             image: option.image,
+            description: option.description,
           }))}
           getOptionLabel={getOptionLabel}
           renderOption={(props, option) => (
@@ -80,9 +84,18 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
                     sx={{ width: 40, height: 40, borderRadius: '8px', objectFit: 'cover' }}
                   />
                 )}
-
                 <Stack direction="column">
-                  <Typography>{option.label}</Typography>
+                  {customLabel ? (
+                    <Stack direction="column">
+                      <Typography variant="subtitle2">{option.label}</Typography>
+                      <Typography variant="caption" color={(theme) => theme.palette.grey[700]}>
+                        {option.description}
+                      </Typography>
+                    </Stack>
+                  ) : (
+                    <Typography>{option.label}</Typography>
+                  )}
+
                   {option.address && (
                     <Typography variant="body2" color="GrayText">
                       {translate('table.address')}: {option.address}
