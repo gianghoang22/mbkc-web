@@ -84,6 +84,8 @@ function OrderDetailPage() {
     );
   };
 
+  console.log(orderId);
+
   return (
     <>
       <Box>
@@ -115,7 +117,7 @@ function OrderDetailPage() {
                             ? Color.SUCCESS
                             : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                             ? Color.ERROR
-                            : Color.DEFAULT
+                            : Color.INFO
                         }
                       >
                         {order?.partnerOrderStatus === PartnerOrderStatus.READY
@@ -135,7 +137,7 @@ function OrderDetailPage() {
                             ? Color.SUCCESS
                             : order?.systemStatus === SystemStatus.CANCELLED
                             ? Color.ERROR
-                            : Color.DEFAULT
+                            : Color.PRIMARY
                         }
                       >
                         {order?.systemStatus === SystemStatus.IN_STORE
