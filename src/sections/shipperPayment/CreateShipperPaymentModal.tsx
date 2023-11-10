@@ -20,6 +20,7 @@ interface CreateShipperPaymentModalProps {
   rowsPerPage: number;
   isOpen: boolean;
   orderPartnerId: string;
+  orderId: number;
   paymentMethod: string;
   handleOpen: (title: any) => void;
 }
@@ -31,6 +32,7 @@ function CreateShipperPaymentModal({
   handleOpen,
   paymentMethod,
   orderPartnerId,
+  orderId,
 }: CreateShipperPaymentModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -74,6 +76,9 @@ function CreateShipperPaymentModal({
       optionParams: {
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
+      },
+      idParams: {
+        orderId: orderId,
       },
       navigate,
     };

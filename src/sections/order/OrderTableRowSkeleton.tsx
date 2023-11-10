@@ -10,12 +10,16 @@ function OrderTableRowSkeleton({ length }: { length: number }) {
               <Skeleton />
             </TableCell>
 
-            <TableCell align="left">
-              <Skeleton width={140} />
+            <TableCell align="center">
+              <Skeleton width={60} />
             </TableCell>
 
             <TableCell align="left">
-              <Skeleton width={120} />
+              <Skeleton width={100} />
+            </TableCell>
+
+            <TableCell align="left">
+              <Skeleton width={100} />
             </TableCell>
 
             <TableCell align="left">

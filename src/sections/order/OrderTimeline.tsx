@@ -19,39 +19,49 @@ import { OrderHistory } from 'common/models';
 //
 import { Label } from 'components';
 import { useLocales } from 'hooks';
-import { fDateTime } from 'utils';
+import { fTime, formatDate } from 'utils';
 
 export default function OrderTimeline() {
   const { translate } = useLocales();
 
-  const { order, isLoading } = useAppSelector((state) => state.order);
+  const { order } = useAppSelector((state) => state.order);
 
   const orderHistories: OrderHistory[] = order?.orderHistories as OrderHistory[];
+
+  const createDate = orderHistories.map((history) => history.createdDate);
 
   return (
     <Card>
       <Box width="100%" pb={2}>
         <Paper sx={{ width: '100%' }}>
-          <Stack
-            gap={1}
-            direction="row"
-            alignItems="center"
-            sx={{
-              px: 3,
-              py: 2,
-              mb: 2,
-              borderBottom: 1,
-              borderColor: 'divider',
-            }}
-          >
+          <Stack gap={1} direction="row" alignItems="center" px={3} py={2}>
             <HistoryIcon />
             <Typography variant="subtitle1">{translate('model.capitalizeOne.orderHistories')}</Typography>
+          </Stack>
+
+          <Stack
+            py={1}
+            px={7}
+            sx={{
+              mb: 5,
+              borderTop: 1,
+              borderBottom: 1,
+              borderColor: (theme) => theme.palette.grey[400],
+              bgcolor: (theme) => theme.palette.grey[200],
+            }}
+          >
+            <Typography>
+              {translate('table.createdDate')}:{' '}
+              <Typography variant="subtitle1" component="span">
+                {formatDate(createDate[0])}
+              </Typography>
+            </Typography>
           </Stack>
 
           <Timeline
             sx={{
               [`& .${timelineOppositeContentClasses.root}`]: {
-                flex: 0.3,
+                flex: 0.6,
               },
             }}
           >
@@ -62,14 +72,14 @@ export default function OrderTimeline() {
                 return (
                   <TimelineItem key={orderHistory.orderHistoryId}>
                     <TimelineOppositeContent color="text.secondary">
-                      {fDateTime(orderHistory.createdDate)}
+                      {fTime(orderHistory.createdDate)}
                     </TimelineOppositeContent>
                     <TimelineSeparator>
                       <TimelineDot />
                       {!isLast && <TimelineConnector />}
                     </TimelineSeparator>
                     <TimelineContent>
-                      <Stack direction="column" gap={2}>
+                      <Stack direction="column" gap={2} pb={3}>
                         <Stack direction="row" alignItems="center" gap={1}>
                           <Typography variant="subtitle2" component="span">
                             {translate('table.partnerOrderStatus')}

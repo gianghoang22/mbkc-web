@@ -51,6 +51,7 @@ export interface KitchenCenterTable {
 }
 
 export interface OrderTable {
+  orderId: string;
   orderPartnerId: string;
   storeName: string;
   partnerName: number;
@@ -155,6 +156,7 @@ export interface MoneyExchangeTable {
 }
 
 export interface ShipperPaymentTable {
+  orderId: string;
   createDate: string;
   cashierCreated: string;
   amount: number;

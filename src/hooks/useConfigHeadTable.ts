@@ -527,6 +527,13 @@ function useConfigHeadTable() {
 
   const orderHeadCells: HeadCell<OrderTable>[] = [
     {
+      id: 'orderId',
+      label: translate('table.orderId'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
       id: 'orderPartnerId',
       label: translate('table.partnerOrderId'),
       numeric: false,
@@ -672,6 +679,13 @@ function useConfigHeadTable() {
   ];
 
   const ShipperPaymentHeadCells: HeadCell<ShipperPaymentTable>[] = [
+    {
+      id: 'orderId',
+      label: translate('table.orderId'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
     {
       id: 'cashierCreated',
       label: translate('table.cashierCreated'),

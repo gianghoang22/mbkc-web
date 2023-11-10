@@ -5,6 +5,7 @@ import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import {
   Box,
   Button,
@@ -67,7 +68,7 @@ function OrderDetailPage() {
   const handleOrderReadyDelivery = () => {
     dispatch<any>(
       changeOrderToReadyDelivery({
-        orderId,
+        orderId: order?.id,
         navigate,
       })
     );
@@ -84,7 +85,7 @@ function OrderDetailPage() {
             <OrderDetailPageSkeleton />
           ) : (
             <Box>
-              <Stack mb={7} direction="row" justifyContent="space-between">
+              <Stack mb={5} direction="row" justifyContent="space-between">
                 <Stack direction="row" alignItems="center" gap={1}>
                   <IconButton
                     onClick={
@@ -96,28 +97,9 @@ function OrderDetailPage() {
                     <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
                   </IconButton>
                   <Typography variant="h4">
-                    {translate('model.capitalizeOne.order')} #{order?.orderPartnerId} | {order?.partner.name} |
+                    {translate('model.capitalizeOne.order')} {order?.id} - {order?.partner.name}
                   </Typography>
-                  <Label
-                    color={
-                      order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
-                        ? Color.SUCCESS
-                        : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
-                        ? Color.ERROR
-                        : Color.INFO
-                    }
-                  >
-                    {order?.partnerOrderStatus === PartnerOrderStatus.READY
-                      ? translate('status.ready')
-                      : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
-                      ? translate('status.upcoming')
-                      : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
-                      ? translate('status.preparing')
-                      : order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
-                      ? translate('status.completed')
-                      : translate('status.cancelled')}
-                  </Label>
-                  <Stack> - </Stack>
+
                   <Label
                     color={
                       order?.systemStatus === SystemStatus.COMPLETED
@@ -137,7 +119,7 @@ function OrderDetailPage() {
                   </Label>
                 </Stack>
 
-                {userAuth?.roleName === Role.CASHIER && (
+                {userAuth?.roleName === Role.CASHIER && order?.systemStatus !== SystemStatus.COMPLETED && (
                   <Button
                     color="inherit"
                     variant="outlined"
@@ -149,74 +131,149 @@ function OrderDetailPage() {
                   </Button>
                 )}
               </Stack>
+
               <Grid container columnSpacing={5} rowSpacing={5}>
                 <Grid item xs={12} sm={12} md={8}>
                   <Card>
-                    <Box sx={{ width: '100%' }} p={2} pt={2}>
-                      <Paper sx={{ width: '100%', mb: 2 }}>
-                        <Stack direction="row" alignItems="center" mb={1}>
-                          <Typography variant="subtitle1" mr={1}>
-                            {translate('table.store')}
+                    <Box sx={{ width: '100%' }}>
+                      <Paper sx={{ width: '100%' }}>
+                        <Stack
+                          gap={1}
+                          direction="row"
+                          alignItems="center"
+                          px={3}
+                          py={2}
+                          sx={{
+                            borderBottom: 1,
+                            borderColor: (theme) => theme.palette.grey[400],
+                          }}
+                        >
+                          <ListAltIcon />
+                          <Typography variant="subtitle1">
+                            {translate('page.title.detail', { model: translate('model.lowercase.order') })}
                           </Typography>
-                          <Typography variant="body1">{order?.store.name}</Typography>
                         </Stack>
 
-                        {order?.orderDetails.map((order) => {
-                          return (
-                            <OrderItem
-                              key={order.product.productId}
-                              paddingTop={2}
-                              divider
-                              logoUrl={order.product.image}
-                              name={order.product.name}
-                              category={order.product.categoryName}
-                              quantity={order.quantity}
-                              price={order.product.sellingPrice}
-                              noteContent={order.note}
-                              note
-                            />
-                          );
-                        })}
+                        <Stack px={3} py={2}>
+                          <Stack direction="row" justifyContent="space-between">
+                            <Stack direction="row" alignItems="center" mb={2}>
+                              <Typography variant="subtitle1" mr={1}>
+                                {translate('table.partnerOrderId')}:
+                              </Typography>
+                              <Typography variant="body1">{order?.orderPartnerId}</Typography>
+                            </Stack>
+                            <Stack direction="row" justifyContent="space-between" spacing={1}>
+                              <Typography variant="subtitle1">{translate('table.partnerOrderStatus')}:</Typography>
+                              <Label
+                                color={
+                                  order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                                    ? Color.SUCCESS
+                                    : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
+                                    ? Color.ERROR
+                                    : Color.INFO
+                                }
+                              >
+                                {order?.partnerOrderStatus === PartnerOrderStatus.READY
+                                  ? translate('status.ready')
+                                  : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+                                  ? translate('status.upcoming')
+                                  : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
+                                  ? translate('status.preparing')
+                                  : order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                                  ? translate('status.completed')
+                                  : translate('status.cancelled')}
+                              </Label>
+                            </Stack>
+                          </Stack>
 
-                        <Typography variant="subtitle1" mt={1} mb={1}>
-                          {translate('page.content.note')}:{' '}
-                          <Typography variant="body1" component="span">
-                            {order?.note}
+                          <Stack direction="row" alignItems="center" mb={1}>
+                            <Typography variant="subtitle1" mr={1}>
+                              {translate('table.store')}:
+                            </Typography>
+                            <Typography variant="body1">{order?.store.name}</Typography>
+                          </Stack>
+
+                          {order?.orderDetails.map((order) => {
+                            return (
+                              <OrderItem
+                                key={order.product.productId}
+                                paddingTop={2}
+                                divider
+                                logoUrl={order.product.image}
+                                name={order.product.name}
+                                category={order.product.categoryName}
+                                quantity={order.quantity}
+                                price={order.product.sellingPrice}
+                                noteContent={order.note}
+                                note
+                              />
+                            );
+                          })}
+
+                          <Typography variant="subtitle1" mt={1} mb={1}>
+                            {translate('page.content.note')}:{' '}
+                            <Typography variant="body1" component="span">
+                              {order?.note}
+                            </Typography>
                           </Typography>
-                        </Typography>
 
-                        <Stack>
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                              {translate('page.content.subTotalPrice')}
-                            </Typography>
-                            <Typography width={100} variant="body2">
-                              {formatCurrency(order?.subTotalPrice as number)}
-                            </Typography>
-                          </Stack>
+                          <Stack>
+                            <Stack
+                              direction="row"
+                              justifyContent="flex-end"
+                              alignItems="center"
+                              textAlign="right"
+                              mt={1}
+                            >
+                              <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                                {translate('page.content.subTotalPrice')}
+                              </Typography>
+                              <Typography width={100} variant="body2">
+                                {formatCurrency(order?.subTotalPrice as number)}
+                              </Typography>
+                            </Stack>
 
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                              {translate('page.content.deliveryFee')}
-                            </Typography>
-                            <Typography width={100} variant="body2">
-                              {formatCurrency(order?.deliveryFee as number)}
-                            </Typography>
-                          </Stack>
+                            <Stack
+                              direction="row"
+                              justifyContent="flex-end"
+                              alignItems="center"
+                              textAlign="right"
+                              mt={1}
+                            >
+                              <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                                {translate('page.content.deliveryFee')}
+                              </Typography>
+                              <Typography width={100} variant="body2">
+                                {formatCurrency(order?.deliveryFee as number)}
+                              </Typography>
+                            </Stack>
 
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                              {translate('page.content.totalDiscount')}
-                            </Typography>
-                            <Typography width={100} variant="body2">
-                              {formatCurrency(order?.totalDiscount as number)}
-                            </Typography>
-                          </Stack>
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="subtitle2">{translate('page.content.finalTotalPrice')}</Typography>
-                            <Typography width={100} variant="subtitle2">
-                              {formatCurrency(order?.finalTotalPrice as number)}
-                            </Typography>
+                            <Stack
+                              direction="row"
+                              justifyContent="flex-end"
+                              alignItems="center"
+                              textAlign="right"
+                              mt={1}
+                            >
+                              <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                                {translate('page.content.totalDiscount')}
+                              </Typography>
+                              <Typography width={100} variant="body2">
+                                {formatCurrency(order?.totalDiscount as number)}
+                              </Typography>
+                            </Stack>
+                            <Stack
+                              direction="row"
+                              justifyContent="flex-end"
+                              alignItems="center"
+                              textAlign="right"
+                              mt={1}
+                            >
+                              <Typography variant="subtitle2">{translate('page.content.finalTotalPrice')}</Typography>
+                              <Typography width={100} variant="subtitle2">
+                                {formatCurrency(order?.finalTotalPrice as number)}
+                              </Typography>
+                            </Stack>
                           </Stack>
                         </Stack>
                       </Paper>
@@ -227,6 +284,7 @@ function OrderDetailPage() {
                     <OrderTimeline />
                   </Box>
                 </Grid>
+
                 <Grid item xs={12} sm={12} md={4}>
                   <Card>
                     <Box width="100%" padding={2}>
@@ -298,25 +356,31 @@ function OrderDetailPage() {
                             </Stack>
                           </Stack>
 
-                          <Divider />
+                          {userAuth?.roleName === Role.CASHIER && order?.systemStatus !== SystemStatus.COMPLETED && (
+                            <>
+                              <Divider />
 
-                          <Stack direction="row" justifyContent="flex-end">
-                            <Button
-                              disabled={
-                                order?.systemStatus === SystemStatus.READY_DELIVERY &&
-                                order.partnerOrderStatus === PartnerOrderStatus.READY
-                                  ? false
-                                  : true
-                              }
-                              onClick={() => {
-                                handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
-                              }}
-                              variant="outlined"
-                              startIcon={<PaymentsIcon />}
-                            >
-                              {translate('page.title.create', { model: translate('model.lowercase.shipperPayment') })}
-                            </Button>
-                          </Stack>
+                              <Stack direction="row" justifyContent="flex-end">
+                                <Button
+                                  disabled={
+                                    order?.systemStatus === SystemStatus.READY_DELIVERY &&
+                                    order.partnerOrderStatus === PartnerOrderStatus.READY
+                                      ? false
+                                      : true
+                                  }
+                                  onClick={() => {
+                                    handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
+                                  }}
+                                  variant="outlined"
+                                  startIcon={<PaymentsIcon />}
+                                >
+                                  {translate('page.title.create', {
+                                    model: translate('model.lowercase.shipperPayment'),
+                                  })}
+                                </Button>
+                              </Stack>
+                            </>
+                          )}
                         </Stack>
                       </Paper>
                     </Box>
@@ -384,6 +448,7 @@ function OrderDetailPage() {
           rowsPerPage={rowsPerPage}
           paymentMethod={order?.paymentMethod as string}
           orderPartnerId={order?.orderPartnerId as string}
+          orderId={order?.id as number}
         />
       )}
     </>
