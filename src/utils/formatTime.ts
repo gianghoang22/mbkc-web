@@ -13,7 +13,7 @@ export function fDate(date: string | number | Date, formatStr: string = 'dd/MM/y
  * @param date
  * @returns yyyy/mm/dd
  */
-export function formatDate(date: string | number | Date, formatStr: string = 'yyyy/MM/dd') {
+export function formatDate(date: string | number | Date, formatStr: string = 'dd/MM/yyyy') {
   return format(new Date(date), formatStr);
 }
 
@@ -48,7 +48,8 @@ export function fmdatetime(date: string | number | Date) {
 
 export const DATE_FORMAT = 'DD/MM/YYYY';
 
-export const convertStrToDate = (string: string, format = DATE_FORMAT) => moment(string, format);
+export const convertStrToDate = ({ string, format = DATE_FORMAT }: { string: string; format?: string }) =>
+  moment(string, format);
 
 export const convertDateToStr = (date: any, format = DATE_FORMAT) =>
   moment(date).isValid() ? moment(date).format(format).toString() : '-';

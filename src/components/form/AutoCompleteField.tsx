@@ -27,7 +27,6 @@ interface AutoCompleteFieldProps {
   disabled?: boolean;
   type: string;
   size?: 'small' | 'medium';
-  customLabel?: boolean;
 }
 
 const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
@@ -43,7 +42,6 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
   getOptionLabel,
   transformValue,
   isOptionEqualToValue,
-  customLabel = false,
   ...props
 }) => {
   const { translate } = useLocales();
@@ -85,7 +83,7 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
                   />
                 )}
                 <Stack direction="column">
-                  {customLabel ? (
+                  {option.description ? (
                     <Stack direction="column">
                       <Typography variant="subtitle2">{option.label}</Typography>
                       <Typography variant="caption" color={(theme) => theme.palette.grey[700]}>

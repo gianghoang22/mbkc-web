@@ -1,9 +1,9 @@
 // @mui
-import { Box, Card, Divider, Grid, Paper, Stack, Typography, Container, Skeleton } from '@mui/material';
-
+import { Box, Card, Container, Divider, Grid, IconButton, Paper, Skeleton, Stack, Typography } from '@mui/material';
+// redux
+import { useAppSelector } from 'redux/configStore';
 //
 import { Role } from 'common/enums';
-import { useAppSelector } from 'redux/configStore';
 
 function OrderDetailPageSkeleton() {
   const { userAuth } = useAppSelector((state) => state.auth);
@@ -14,7 +14,9 @@ function OrderDetailPageSkeleton() {
         <Container maxWidth="lg">
           <Stack mb={4} direction="row" justifyContent="space-between">
             <Stack direction="row" alignItems="center" spacing={1}>
-              <Skeleton width={30} height={30} />
+              <IconButton color="inherit">
+                <Skeleton variant="circular" width={28} height={28} />
+              </IconButton>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Typography variant="h4">
                   <Skeleton width={350} />
