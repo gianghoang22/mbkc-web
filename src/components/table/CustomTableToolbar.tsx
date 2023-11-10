@@ -242,6 +242,8 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
               slotProps={{ textField: { size: 'small' } }}
               label={translate('table.fromDate')}
               value={searchDateFrom}
+              format="DD/MM/YYYY"
+              disableFuture
               onChange={(newValue: Date | null) => handleChangeSearchDateFrom(newValue)}
             />
           )}
@@ -251,6 +253,8 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
               slotProps={{ textField: { size: 'small' } }}
               label={translate('table.toDate')}
               value={searchDateTo}
+              format="DD/MM/YYYY"
+              disableFuture
               onChange={(newValue: Date | null) => handleChangeSearchDateTo(newValue)}
             />
           )}

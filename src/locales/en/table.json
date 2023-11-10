@@ -53,6 +53,7 @@
   "withdraw": "Withdraw",
   "send": "Send",
   "cashierCreated": "Cashier created",
+  "orderId": "Order id",
   "lowercase": {
     "address": "address",
     "email": "email",

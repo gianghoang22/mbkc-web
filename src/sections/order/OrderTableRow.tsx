@@ -51,6 +51,10 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
           {index + 1}
         </TableCell>
 
+        <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
+          {order?.id}
+        </TableCell>
+
         {selected.includes(OrderSortBy.ORDER_PARTNER_ID) && (
           <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
             {order?.orderPartnerId}
