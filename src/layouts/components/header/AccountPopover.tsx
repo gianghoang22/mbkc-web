@@ -11,10 +11,10 @@ import { alpha } from '@mui/material/styles';
 import { logout, setUserInfo } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
+import images from 'assets';
 import { Role } from 'common/enums';
 import { MenuPopover } from 'components';
 import { useLocales, useNavigate, usePopover } from 'hooks';
-import account from 'mock/account';
 
 function AccountPopover() {
   const { navigate, handleNavigateProfile } = useNavigate();
@@ -66,7 +66,7 @@ function AccountPopover() {
         }}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        <Avatar src={account.photoURL} alt="PhuSon" />
+        <Avatar src={images.common.avatar_default} alt="PhuSon" />
         <Stack alignItems="start" sx={{ ml: 1, my: 0.5 }}>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {userAuth?.roleName === Role.MBKC_ADMIN

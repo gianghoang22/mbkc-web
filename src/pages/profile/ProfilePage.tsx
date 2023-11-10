@@ -23,10 +23,10 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { UpdatePasswordModal, UpdatePasswordToUseModal } from 'sections/auth';
 import { ProfileDetailSkeleton } from 'sections/information';
 //
+import images from 'assets';
 import { Color, Role, Status } from 'common/enums';
 import { Label, Page } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
-import account from 'mock/account';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function ProfilePage() {
@@ -93,7 +93,7 @@ function ProfilePage() {
               <Stack gap={1.5} p={3} mt={-8}>
                 <Stack direction="row" alignItems="end" justifyContent="space-between" spacing={2}>
                   <Stack direction="row" alignItems="end" gap={2}>
-                    <Avatar src={account.photoURL} alt="PhuSon" sx={{ width: 100, height: 100 }} />
+                    <Avatar src={images.common.avatar_default} alt="PhuSon" sx={{ width: 100, height: 100 }} />
                     <Stack>
                       <Typography variant="body1" noWrap sx={{ textDecoration: 'underline' }}>
                         {translate('header.account')}:

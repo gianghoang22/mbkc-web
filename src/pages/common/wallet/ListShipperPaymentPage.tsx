@@ -22,7 +22,7 @@ function ListShipperPaymentPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { ShipperPaymentHeadCells } = useConfigHeadTable();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ShipperPaymentTable>('amount');
