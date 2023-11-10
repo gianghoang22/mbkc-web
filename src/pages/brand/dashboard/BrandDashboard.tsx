@@ -3,10 +3,12 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { Container, Grid, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // @mui icon
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import SummarizeIcon from '@mui/icons-material/Summarize';
+import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 // redux
 import { getAllCategories, getAllExtraCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
@@ -16,15 +18,17 @@ import { getAllStores } from 'redux/store/storeSlice';
 // interface
 import { ListParams } from 'common/@types';
 import { Color } from 'common/enums';
+import { CategoryType } from 'common/models';
 //
 import { Helmet } from 'components';
 import { useLocales } from 'hooks';
-import { AppWidgetSummaryOutline } from 'sections/dashboard';
-import { CategoryType } from 'common/models';
+import { AppCurrentIncomes, AppWidgetSummaryOutline } from 'sections/dashboard';
 
 function BrandDashboard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const theme = useTheme();
 
   const { translate } = useLocales();
 
@@ -91,7 +95,7 @@ function BrandDashboard() {
               total={totalCategoryItems}
               isLoading={isLoadingCategory}
               color={Color.INFO}
-              icon={<RestaurantMenuIcon fontSize="large" />}
+              icon={<SummarizeIcon fontSize="large" />}
             />
           </Grid>
 
@@ -101,7 +105,7 @@ function BrandDashboard() {
               total={numberExtraItems}
               isLoading={isLoadingCategory}
               color={Color.WARNING}
-              icon={<SummarizeIcon fontSize="large" />}
+              icon={<LanOutlinedIcon fontSize="large" />}
             />
           </Grid>
 
@@ -111,7 +115,28 @@ function BrandDashboard() {
               total={totalProductItems}
               isLoading={isLoadingProduct}
               color={Color.SUCCESS}
-              icon={<LanOutlinedIcon fontSize="large" />}
+              icon={<DinnerDiningIcon fontSize="large" />}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={3} mt={3}>
+          <Grid item xs={12} sm={6} md={9}>
+            <AppCurrentIncomes
+              title="Môn thể thao được đặt nhiều"
+              subheader="Môn thể thao được đặt nhiều"
+              chartData={[
+                { label: 'America', value: 4344 },
+                { label: 'Asia', value: 5435 },
+                { label: 'Europe', value: 1443 },
+                { label: 'Africa', value: 4443 },
+              ]}
+              chartColors={[
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.warning.main,
+                theme.palette.error.main,
+              ]}
             />
           </Grid>
         </Grid>

@@ -43,8 +43,8 @@ function AppWidgetSummaryOutline({
         boxShadow: 0,
         border: 2,
         textAlign: 'center',
-        borderColor: (theme) => theme.palette.grey[300],
-        color: (theme: any) => theme.palette.text.blue,
+        borderColor: (theme: any) => theme.palette[color].light,
+        color: (theme: any) => theme.palette[color].darker,
         height: '100%',
         ...sx,
       }}
@@ -55,9 +55,9 @@ function AppWidgetSummaryOutline({
           sx={{
             color: (theme: any) => theme.palette[color].dark,
             backgroundImage: (theme: any) =>
-              `linear-gradient(135deg, ${alpha(theme.palette[color].dark, 0.1)} 0%, ${alpha(
+              `linear-gradient(135deg, ${alpha(theme.palette[color].dark, 0.08)} 0%, ${alpha(
                 theme.palette[color].dark,
-                0.2
+                0.12
               )} 100%)`,
           }}
         >
@@ -70,7 +70,7 @@ function AppWidgetSummaryOutline({
               <CircularProgress
                 size={26}
                 sx={{
-                  color: (theme: any) => theme.palette[color].dark,
+                  color: (theme: any) => theme.palette[color].darker,
                 }}
               />
             </Box>

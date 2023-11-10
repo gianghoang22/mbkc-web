@@ -45,17 +45,7 @@ const DatePickerField = ({
             }}
             value={dayjs(field.value)}
             inputRef={field.ref}
-            sx={{
-              '.css-1hnu5ex-MuiInputBase-root-MuiOutlinedInput-root': {
-                height: '41px',
-              },
-              '.css-e9crry-MuiInputBase-input-MuiOutlinedInput-input': {
-                py: '8.5px',
-              },
-              '.css-1qcidu4-MuiFormLabel-root-MuiInputLabel-root': {
-                top: -7,
-              },
-            }}
+            slotProps={{ textField: { size: 'small' } }}
             {...props}
           />
           <FormHelperText sx={{ color: 'red' }}>{fieldState.error && fieldState.error.message}</FormHelperText>
