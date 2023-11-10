@@ -54,6 +54,7 @@
   "createDate": " Ngày tạo",
   "send": "Gửi",
   "cashierCreated": "Nhân viên thu ngân",
+  "orderId": "Id đơn hàng",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

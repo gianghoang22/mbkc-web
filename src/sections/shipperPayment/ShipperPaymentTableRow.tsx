@@ -26,6 +26,10 @@ function ShipperPaymentTableRow({ index, shipperPayment }: ShipperPaymentTableRo
           {index + 1}
         </TableCell>
         <TableCell align="left" onClick={handleOpenModalDetail}>
+          {shipperPayment.orderId}
+        </TableCell>
+
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           {shipperPayment.cashierCreated}
         </TableCell>
 

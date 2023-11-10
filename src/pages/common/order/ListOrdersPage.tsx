@@ -97,11 +97,11 @@ function ListOrdersPage() {
   };
 
   const handleChangeSearchDateFrom = (date: Date | null) => {
-    setSearchDateFrom(date as Date);
+    setSearchDateFrom(date);
   };
 
   const handleChangeSearchDateTo = (date: Date | null) => {
-    setSearchDateTo(date as Date);
+    setSearchDateTo(date);
   };
 
   return (

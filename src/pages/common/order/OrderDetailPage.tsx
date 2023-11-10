@@ -78,7 +78,7 @@ function OrderDetailPage() {
   const handleOrderReadyDelivery = () => {
     dispatch<any>(
       changeOrderToReadyDelivery({
-        orderId,
+        orderId: order?.id,
         navigate,
       })
     );
@@ -107,30 +107,11 @@ function OrderDetailPage() {
                     >
                       <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
                     </IconButton>
-                    <Stack direction="row" alignItems="center" gap={1}>
+                    <Stack direction="row" alignItems="center" gap={2}>
                       <Typography variant="h4">
-                        {translate('model.capitalizeOne.order')} #{order?.orderPartnerId} | {order?.partner.name} |
+                        {translate('model.capitalizeOne.order')} {order?.id} - {order?.partner.name}
                       </Typography>
-                      <Label
-                        color={
-                          order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
-                            ? Color.SUCCESS
-                            : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
-                            ? Color.ERROR
-                            : Color.INFO
-                        }
-                      >
-                        {order?.partnerOrderStatus === PartnerOrderStatus.READY
-                          ? translate('status.ready')
-                          : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
-                          ? translate('status.upcoming')
-                          : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
-                          ? translate('status.preparing')
-                          : order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
-                          ? translate('status.completed')
-                          : translate('status.cancelled')}
-                      </Label>
-                      <Stack> - </Stack>
+
                       <Label
                         color={
                           order?.systemStatus === SystemStatus.COMPLETED
@@ -172,9 +153,40 @@ function OrderDetailPage() {
                   <Card>
                     <Box sx={{ width: '100%' }} p={2} pt={2}>
                       <Paper sx={{ width: '100%', mb: 2 }}>
+                        <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" alignItems="center" mb={2}>
+                            <Typography variant="subtitle1" mr={1}>
+                              {translate('table.partnerOrderId')}:
+                            </Typography>
+                            <Typography variant="body1">{order?.orderPartnerId}</Typography>
+                          </Stack>
+                          <Stack direction="row" justifyContent="space-between" spacing={1}>
+                            <Typography variant="subtitle1">{translate('table.partnerOrderStatus')}:</Typography>
+                            <Label
+                              color={
+                                order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                                  ? Color.SUCCESS
+                                  : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
+                                  ? Color.ERROR
+                                  : Color.INFO
+                              }
+                            >
+                              {order?.partnerOrderStatus === PartnerOrderStatus.READY
+                                ? translate('status.ready')
+                                : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+                                ? translate('status.upcoming')
+                                : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
+                                ? translate('status.preparing')
+                                : order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                                ? translate('status.completed')
+                                : translate('status.cancelled')}
+                            </Label>
+                          </Stack>
+                        </Stack>
+
                         <Stack direction="row" alignItems="center" mb={1}>
                           <Typography variant="subtitle1" mr={1}>
-                            {translate('table.store')}
+                            {translate('table.store')}:
                           </Typography>
                           <Typography variant="body1">{order?.store.name}</Typography>
                         </Stack>
@@ -314,25 +326,31 @@ function OrderDetailPage() {
                             </Stack>
                           </Stack>
 
-                          <Divider />
+                          {userAuth?.roleName === Role.CASHIER && (
+                            <>
+                              <Divider />
 
-                          <Stack direction="row" justifyContent="flex-end" mt={3}>
-                            <Button
-                              disabled={
-                                order?.systemStatus === SystemStatus.READY_DELIVERY &&
-                                order.partnerOrderStatus === PartnerOrderStatus.READY
-                                  ? false
-                                  : true
-                              }
-                              onClick={() => {
-                                handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
-                              }}
-                              variant="outlined"
-                              startIcon={<PaymentsIcon />}
-                            >
-                              {translate('page.title.create', { model: translate('model.lowercase.shipperPayment') })}
-                            </Button>
-                          </Stack>
+                              <Stack direction="row" justifyContent="flex-end" mt={3}>
+                                <Button
+                                  disabled={
+                                    order?.systemStatus === SystemStatus.READY_DELIVERY &&
+                                    order.partnerOrderStatus === PartnerOrderStatus.READY
+                                      ? false
+                                      : true
+                                  }
+                                  onClick={() => {
+                                    handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
+                                  }}
+                                  variant="outlined"
+                                  startIcon={<PaymentsIcon />}
+                                >
+                                  {translate('page.title.create', {
+                                    model: translate('model.lowercase.shipperPayment'),
+                                  })}
+                                </Button>
+                              </Stack>
+                            </>
+                          )}
                         </Paper>
                       </Box>
                     </Card>
@@ -453,6 +471,7 @@ function OrderDetailPage() {
           rowsPerPage={rowsPerPage}
           paymentMethod={order?.paymentMethod as string}
           orderPartnerId={order?.orderPartnerId as string}
+          orderId={order?.id as number}
         />
       )}
     </>

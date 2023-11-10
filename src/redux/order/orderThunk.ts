@@ -47,9 +47,9 @@ export const confirmOrderToCompletedThunk = async (params: Params<CompletedOrder
   const { data, idParams, navigate } = params;
   const formData = appendData(data);
   try {
-    const response: MessageResponse = await axiosFormData.put(ROUTES_API_ORDERS.CONFIRM_ORDER_TO_COMPLETED(), formData);
+    const response: MessageResponse = await axiosFormData.put(ROUTES_API_ORDERS.CONFIRM_ORDER_TO_COMPLETED, formData);
     if (response) {
-      await thunkAPI.dispatch(getOrderDetail(idParams?.orderId));
+      await thunkAPI.dispatch(getOrderDetail(idParams?.orderId as number));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
@@ -87,7 +87,7 @@ export const changeOrderToReadyDeliveryThunk = async (params: any, thunkAPI: any
 
   try {
     const response: MessageResponse = await axiosClient.put(
-      ROUTES_API_ORDERS.CHANGE_ORDER_TO_READY_DELIVERY(orderId ? (orderId as number) : 0)
+      ROUTES_API_ORDERS.CHANGE_ORDER_TO_READY_DELIVERY(orderId ? orderId : 0)
     );
     if (response) {
       await thunkAPI.dispatch(getOrderDetail(orderId));

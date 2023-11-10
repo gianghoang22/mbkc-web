@@ -42,6 +42,13 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
             <Stack width="100%">
               <Stack direction="row" justifyContent="space-between" mt={1}>
                 <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('table.orderId')}:{' '}
+                </Typography>
+                <Typography variant="body1">{shipperPayment.orderId}</Typography>
+              </Stack>
+
+              <Stack direction="row" justifyContent="space-between" mt={2}>
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
                   {translate('table.cashierCreated')}:{' '}
                 </Typography>
                 <Typography variant="body1">{shipperPayment.cashierCreated}</Typography>
@@ -95,9 +102,7 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
                   {translate('page.form.content')}:
                 </Typography>
                 <Typography variant="body1" gutterBottom mt={1} maxWidth="100%">
-                  body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde
-                  suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos
-                  laborum fugiat deleniti? Eum quasi quidem quibusdam.
+                  {shipperPayment.content}
                 </Typography>
               </Stack>
             </Stack>

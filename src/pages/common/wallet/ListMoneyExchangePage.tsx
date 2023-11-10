@@ -44,8 +44,6 @@ function ListMoneyExchangePage() {
     setOrderBy(property);
   };
 
-  // console.log(exchangeStatus, exchangeType);
-
   const handleChangeSearchDateFrom = (date: Date | null) => {
     setSearchDateFrom(date as Date);
   };
