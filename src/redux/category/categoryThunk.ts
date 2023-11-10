@@ -23,6 +23,22 @@ export const getAllCategoriesThunk = async (params: ListParams, thunkAPI: any) =
   }
 };
 
+export const getAllExtraCategoriesThunk = async (params: ListParams, thunkAPI: any) => {
+  const { optionParams, navigate } = params;
+
+  try {
+    const response: ListResponse<Category> = await axiosClient.get(
+      ROUTES_API_CATEGORIES.GET_ALL_CATEGORY(optionParams)
+    );
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
 export const getAllExtraCategoriesInCategoryThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
 
