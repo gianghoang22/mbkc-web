@@ -2,6 +2,7 @@ const images = {
   common: {
     kitchen_login: require('assets/images/kitchen_login.png'),
     cashier_sidebar: require('assets/images/cashier_sidebar.png'),
+    avatar_default: require('assets/images/avatar_default.jpg'),
   },
   illustrations: {
     kitchen_login: require('assets/illustrations/illustration_store.svg').default,

@@ -1,10 +1,10 @@
 // @mui
-import { TableCell, TableRow, Skeleton } from '@mui/material';
+import { TableCell, TableRow, Skeleton, TableBody } from '@mui/material';
 //
 
 function ShipperPaymentTableRowSkeleton({ length }: { length: number }) {
   return (
-    <>
+    <TableBody>
       {Array.from({ length }).map((_, index) => (
         <TableRow hover tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
           <TableCell width={60} align="center">
@@ -35,7 +35,7 @@ function ShipperPaymentTableRowSkeleton({ length }: { length: number }) {
           </TableCell>
         </TableRow>
       ))}
-    </>
+    </TableBody>
   );
 }
 

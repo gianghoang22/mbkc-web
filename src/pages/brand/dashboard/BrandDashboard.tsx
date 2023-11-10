@@ -121,21 +121,23 @@ function BrandDashboard() {
         </Grid>
 
         <Grid container spacing={3} mt={3}>
-          <Grid item xs={12} sm={6} md={9}>
+          <Grid item xs={12} sm={6} md={12}>
             <AppCurrentIncomes
-              title="Môn thể thao được đặt nhiều"
-              subheader="Môn thể thao được đặt nhiều"
+              title="Thu nhập trong năm 2023 của cửa hàng"
+              subheader="Chi tiết số liệu thu nhập trong từng tháng"
               chartData={[
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
-              ]}
-              chartColors={[
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.warning.main,
-                theme.palette.error.main,
+                { label: 'Jan', value: 400 },
+                { label: 'Feb', value: 430 },
+                { label: 'Mar', value: 448 },
+                { label: 'Apr', value: 470 },
+                { label: 'May', value: 540 },
+                { label: 'Jun', value: 580 },
+                { label: 'July', value: 690 },
+                { label: 'Aug', value: 1100 },
+                { label: 'Sep', value: 1200 },
+                { label: 'Oct', value: 1380 },
+                { label: 'Nov', value: 1380 },
+                { label: 'Dec', value: 2000 },
               ]}
             />
           </Grid>

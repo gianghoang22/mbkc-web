@@ -37,7 +37,7 @@ function WalletPage() {
   const dispatch = useDispatch();
   const { translate, currentLang } = useLocales();
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { moneyExchanges, isLoading, numberItems, shipperPayments } = useAppSelector((state) => state.wallet);
+  const { moneyExchanges, shipperPayments } = useAppSelector((state) => state.wallet);
 
   const params: ListParams = useMemo(() => {
     return {
