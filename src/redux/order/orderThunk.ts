@@ -7,7 +7,6 @@ import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { appendData, getErrorMessage, getUserAuth, handleResponseMessage } from 'utils';
 import { getOrderDetail } from './orderSlice';
-import { NavigateFunction } from 'react-router';
 
 export const getAllOrdersThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
