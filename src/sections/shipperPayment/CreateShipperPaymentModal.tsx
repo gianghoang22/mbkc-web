@@ -122,7 +122,6 @@ function CreateShipperPaymentModal({
                 {paymentMethod === PaymentMethod.CASH && (
                   <Stack width="100%" gap={2}>
                     <AutoCompleteField
-                      customLabel
                       options={bankingAccountOptions}
                       getOptionLabel={(value: any) => {
                         const label = getOpObjBankingAccount(value)?.label;
