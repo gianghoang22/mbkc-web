@@ -18,12 +18,13 @@ import { EXCHANGE_TYPE_OPTIONS, FILTER_STATUS_OPTIONS } from 'common/models';
 import { Role } from 'common/enums';
 
 function ListMoneyExchangePage() {
-  const { pathname } = useLocation();
-  const { translate } = useLocales();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
+  const { translate } = useLocales();
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { moneyExchanges, isLoading, numberItems } = useAppSelector((state) => state.wallet);
   const { userAuth } = useAppSelector((state) => state.auth);
