@@ -42,6 +42,10 @@ function ShipperPaymentTableRow({ index, shipperPayment }: ShipperPaymentTableRo
         </TableCell>
 
         <TableCell align="left" onClick={handleOpenModalDetail}>
+          {formatCurrency(shipperPayment.finalTotalPrice)}
+        </TableCell>
+
+        <TableCell align="left" onClick={handleOpenModalDetail}>
           {shipperPayment.paymentMethod === PaymentMethod.CASH
             ? translate('page.content.cash')
             : translate('page.content.cashless')}

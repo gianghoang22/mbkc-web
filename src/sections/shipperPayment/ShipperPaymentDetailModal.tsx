@@ -70,6 +70,13 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
 
               <Stack direction="row" justifyContent="space-between" mt={2}>
                 <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
+                  {translate('page.content.finalTotalPrice')}:{' '}
+                </Typography>
+                <Typography variant="body1">{formatCurrency(shipperPayment.finalTotalPrice)}</Typography>
+              </Stack>
+
+              <Stack direction="row" justifyContent="space-between" mt={2}>
+                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
                   {translate('table.createDate')}:
                 </Typography>
                 <Typography variant="body1">{fDateTime(shipperPayment.createDate)}</Typography>

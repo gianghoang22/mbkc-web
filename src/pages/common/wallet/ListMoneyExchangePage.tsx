@@ -138,7 +138,7 @@ function ListMoneyExchangePage() {
                   />
 
                   {isLoading ? (
-                    <MoneyExchangeTableRowSkeleton length={numberItems} />
+                    <MoneyExchangeTableRowSkeleton length={5} />
                   ) : (
                     <TableBody>
                       {moneyExchanges.map((moneyExchange, index) => {

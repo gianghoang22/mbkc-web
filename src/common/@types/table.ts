@@ -160,6 +160,7 @@ export interface ShipperPaymentTable {
   createDate: string;
   cashierCreated: string;
   amount: number;
+  finalTotalPrice: number;
   paymentMethod: string;
   kcBankingAccountName: string;
   status: string;

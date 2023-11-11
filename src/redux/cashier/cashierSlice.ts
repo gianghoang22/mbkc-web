@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Cashier } from 'common/models';
+import { Cashier, ShiftReport } from 'common/models';
 import { StorageKeys } from 'constants/storageKeys';
 import { getIsEditing, setLocalStorage } from 'utils';
 import {
-  confirmEndOfShiftThunk,
   createNewCashierThunk,
   deleteCashierThunk,
   getAllCashiersThunk,
   getCashierDetailThunk,
+  getCashierReportShiftThunk,
   updateCashierStatusThunk,
   updateCashierThunk,
 } from './cashierThunk';
@@ -24,6 +24,7 @@ interface CashierState {
   cashiers: Cashier[];
   cashier: Cashier | null;
   numberItems: number;
+  shiftReport: ShiftReport | null;
 }
 
 const initialState: CashierState = {
@@ -34,6 +35,7 @@ const initialState: CashierState = {
   cashiers: [],
   cashier: null,
   numberItems: 0,
+  shiftReport: null,
 };
 
 export const createNewCashier = createAsyncThunk('cashier/create-cashier', createNewCashierThunk);
@@ -42,7 +44,7 @@ export const getCashierDetail = createAsyncThunk('cashier/get-cashier-detail', g
 export const updateCashier = createAsyncThunk('cashier/update-cashier', updateCashierThunk);
 export const updateCashierStatus = createAsyncThunk('cashier/update-cashier-status', updateCashierStatusThunk);
 export const deleteCashier = createAsyncThunk('cashier/delete-cashier', deleteCashierThunk);
-export const confirmEndOfShift = createAsyncThunk('cashier/confirm-end-of-shift', confirmEndOfShiftThunk);
+export const getCashierReportShift = createAsyncThunk('cashier/get-cashier-report-shift', getCashierReportShiftThunk);
 
 const cashierSlice = createSlice({
   name: 'cashier',
@@ -144,15 +146,16 @@ const cashierSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(confirmEndOfShift.pending, (state) => {
+      .addCase(getCashierReportShift.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(confirmEndOfShift.fulfilled, (state, action) => {
+      .addCase(getCashierReportShift.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.shiftReport = action.payload;
       })
-      .addCase(confirmEndOfShift.rejected, (state, action) => {
+      .addCase(getCashierReportShift.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
