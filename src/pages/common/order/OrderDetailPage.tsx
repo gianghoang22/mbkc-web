@@ -69,7 +69,7 @@ function OrderDetailPage() {
   const handleOrderReadyDelivery = () => {
     dispatch<any>(
       changeOrderToReadyDelivery({
-        orderId: order?.id,
+        orderId,
         navigate,
       })
     );
