@@ -21,15 +21,17 @@ import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 //redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { Label, Page } from 'components';
-import { useLocales } from 'hooks';
+import { CommonTableHead, Label, Page } from 'components';
+import { useConfigHeadTable, useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { Color, ExchangeType, FilterStatus, Language, PaymentMethod, Role } from 'common/enums';
 import { useEffect, useMemo } from 'react';
-import { ListParams } from 'common/@types';
+import { ListParams, MoneyExchangeTable, ShipperPaymentTable } from 'common/@types';
 import { getAllMoneyExchange, getAllShipperPayment } from 'redux/wallet/walletSlice';
 import { useDispatch } from 'react-redux';
 import { fDateTime, formatCurrency } from 'utils';
+import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
+import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 
 function WalletPage() {
   const { pathname } = useLocation();
@@ -37,7 +39,10 @@ function WalletPage() {
   const dispatch = useDispatch();
   const { translate, currentLang } = useLocales();
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { moneyExchanges, shipperPayments } = useAppSelector((state) => state.wallet);
+  const { moneyExchanges, shipperPayments, isLoading } = useAppSelector((state) => state.wallet);
+  const { ShipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
+
+  const handleRequestSort = () => {};
 
   const params: ListParams = useMemo(() => {
     return {
@@ -110,61 +115,35 @@ function WalletPage() {
                 }}
               >
                 {currentLang.value === Language.ENGLISH
-                  ? translate('page.title.new', { model: translate('model.lowercase.moneyExchanges') })
-                  : translate('page.title.new', { model: translate('model.capitalizeOne.moneyExchange') })}
+                  ? translate('page.title.new', { model: translate('model.lowercase.shipperPayments') })
+                  : translate('page.title.new', { model: translate('model.capitalizeOne.shipperPayments') })}
               </Typography>
-              <TableContainer component={Paper}>
-                <Table aria-label="simple table" size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{translate('table.no')}</TableCell>
-                      <TableCell>{translate('table.sender')}</TableCell>
-                      <TableCell>{translate('table.receiver')}</TableCell>
-                      <TableCell>{translate('page.form.amount')}</TableCell>
-                      <TableCell>{translate('table.exchangeType')}</TableCell>
-                      <TableCell>{translate('table.status')}</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <>
-                      {moneyExchanges?.map((moneyExchange, index) => (
-                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                          <TableCell component="th" scope="row">
-                            {index + 1}
-                          </TableCell>
-                          <TableCell>
-                            <Typography variant="body2">{moneyExchange.senderName}</Typography>
-                          </TableCell>
+              <TableContainer>
+                <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                  <CommonTableHead<ShipperPaymentTable>
+                    headCells={ShipperPaymentHeadCells}
+                    onRequestSort={handleRequestSort}
+                  />
 
-                          <TableCell>
-                            <Typography variant="body2">{moneyExchange.receiveName}</Typography>
-                          </TableCell>
-
-                          <TableCell>
-                            <Typography variant="body2">{formatCurrency(moneyExchange.amount)}</Typography>
-                          </TableCell>
-
-                          <TableCell>
-                            <Typography variant="body2">
-                              {moneyExchange.exchangeType === ExchangeType.RECEIVE
-                                ? translate('table.receive')
-                                : moneyExchange.exchangeType === ExchangeType.SEND
-                                ? translate('table.send')
-                                : translate('table.withdraw')}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Label color={Color.SUCCESS}>
-                              {moneyExchange.status === FilterStatus.SUCCESS
-                                ? translate('status.success')
-                                : translate('status.fail')}
-                            </Label>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </>
-                  </TableBody>
+                  {isLoading ? (
+                    <ShipperPaymentTableRowSkeleton length={5} />
+                  ) : (
+                    <TableBody>
+                      {shipperPayments.map((shipperPayment, index) => {
+                        return (
+                          <ShipperPaymentTableRow
+                            key={index}
+                            index={index}
+                            page={1}
+                            rowsPerPage={5}
+                            shipperPayment={shipperPayment}
+                          />
+                        );
+                      })}
+                    </TableBody>
+                  )}
                 </Table>
+
                 <Link
                   style={{
                     display: 'flex',
@@ -178,8 +157,8 @@ function WalletPage() {
                   }}
                   to={
                     userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-                      ? PATH_KITCHEN_CENTER_APP.wallet.moneyExchanges
-                      : PATH_CASHIER_APP.wallet.moneyExchanges
+                      ? PATH_KITCHEN_CENTER_APP.wallet.shipperPayments
+                      : PATH_CASHIER_APP.wallet.shipperPayments
                   }
                 >
                   <Typography>{translate('page.content.viewAll')}</Typography>
@@ -205,86 +184,55 @@ function WalletPage() {
                   }}
                 >
                   {currentLang.value === Language.ENGLISH
-                    ? translate('page.title.new', { model: translate('model.lowercase.shipperPayments') })
-                    : translate('page.title.new', { model: translate('model.capitalizeOne.shipperPayment') })}
+                    ? translate('page.title.new', { model: translate('model.lowercase.moneyExchanges') })
+                    : translate('page.title.new', { model: translate('model.capitalizeOne.moneyExchanges') })}
                 </Typography>
-                <TableContainer component={Paper}>
-                  <Table aria-label="simple table" size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>{translate('table.no')}</TableCell>
-                        <TableCell>{translate('table.cashierCreated')}</TableCell>
-                        <TableCell>{translate('table.createdDate')}</TableCell>
-                        <TableCell>{translate('page.form.amount')} </TableCell>
-                        <TableCell>{translate('page.content.paymentMethod')}</TableCell>
-                        <TableCell>{translate('model.capitalizeOne.bankingAccount')}</TableCell>
-                        <TableCell>{translate('table.status')}</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <>
-                        {shipperPayments?.map((shipperPayment, index) => (
-                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell component="th" scope="row">
-                              {index + 1}
-                            </TableCell>
-                            <TableCell>
-                              <Typography variant="body2">{shipperPayment.cashierCreated}</Typography>
-                            </TableCell>
+                <TableContainer>
+                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                    <CommonTableHead<MoneyExchangeTable>
+                      headCells={MoneyExchangeHeadCells}
+                      onRequestSort={handleRequestSort}
+                    />
 
-                            <TableCell>
-                              <Typography variant="body2">{fDateTime(shipperPayment.createDate)}</Typography>
-                            </TableCell>
-
-                            <TableCell>
-                              <Typography variant="body2">{formatCurrency(shipperPayment.amount)}</Typography>
-                            </TableCell>
-
-                            <TableCell>
-                              <Typography variant="body2">
-                                {shipperPayment.paymentMethod === PaymentMethod.CASH
-                                  ? translate('page.content.cash')
-                                  : translate('page.content.cashless')}
-                              </Typography>
-                            </TableCell>
-
-                            <TableCell>
-                              <Typography variant="body2">{shipperPayment.kcBankingAccountName}</Typography>
-                            </TableCell>
-
-                            <TableCell>
-                              <Label color={Color.SUCCESS}>
-                                {shipperPayment.status === FilterStatus.SUCCESS
-                                  ? translate('status.success')
-                                  : translate('status.fail')}
-                              </Label>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </>
-                    </TableBody>
+                    {isLoading ? (
+                      <MoneyExchangeTableRowSkeleton length={5} />
+                    ) : (
+                      <TableBody>
+                        {moneyExchanges.map((moneyExchange, index) => {
+                          return (
+                            <MoneyExchangeTableRow
+                              key={index}
+                              index={index}
+                              page={1}
+                              rowsPerPage={5}
+                              moneyExchange={moneyExchange}
+                            />
+                          );
+                        })}
+                      </TableBody>
+                    )}
                   </Table>
-                  <Link
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      textDecoration: 'none',
-                      color: '#000',
-                      fontSize: '16px',
-                      fontWeight: 400,
-                      letterSpacing: '0.4px',
-                      alignItems: 'center',
-                    }}
-                    to={
-                      userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-                        ? PATH_KITCHEN_CENTER_APP.wallet.shipperPayments
-                        : PATH_CASHIER_APP.wallet.shipperPayments
-                    }
-                  >
-                    <Typography>{translate('page.content.viewAll')}</Typography>
-                    <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
-                  </Link>
                 </TableContainer>
+                <Link
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    textDecoration: 'none',
+                    color: '#000',
+                    fontSize: '16px',
+                    fontWeight: 400,
+                    letterSpacing: '0.4px',
+                    alignItems: 'center',
+                  }}
+                  to={
+                    userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                      ? PATH_KITCHEN_CENTER_APP.wallet.moneyExchanges
+                      : PATH_CASHIER_APP.wallet.moneyExchanges
+                  }
+                >
+                  <Typography>{translate('page.content.viewAll')}</Typography>
+                  <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
+                </Link>
               </Paper>
             </Box>
           </Card>

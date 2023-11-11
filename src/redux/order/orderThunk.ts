@@ -26,6 +26,7 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
 
   try {
     const response: Order = await axiosClient.get(ROUTES_API_ORDERS.GET_ORDER_DETAIL(orderId));
+
     return response;
   } catch (error: any) {
     const getUserInStorage: UserAuth = getUserAuth();

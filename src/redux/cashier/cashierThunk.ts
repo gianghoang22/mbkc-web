@@ -137,9 +137,9 @@ export const deleteCashierThunk = async (params: Params<Cashier>, thunkAPI: any)
   }
 };
 
-export const confirmEndOfShiftThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
+export const getCashierReportShiftThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
   try {
-    const response: ShiftReport = await axiosClient.get(ROUTES_API_CASHIERS.CONFIRM_END_OF_SHIFT);
+    const response: ShiftReport = await axiosClient.get(ROUTES_API_CASHIERS.CASHIER_REPORT_SHIFT);
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);

@@ -267,7 +267,7 @@ export const ROUTES_API_CASHIERS = {
   UPDATE_CASHIER: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}`),
   UPDATE_CASHIER_STATUS: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}/updating-status`),
   DELETE_CASHIER: (cashierId: number) => path(ROOTS_CASHIERS, `/${cashierId}`),
-  CONFIRM_END_OF_SHIFT: path('/cashier/report'),
+  CASHIER_REPORT_SHIFT: path(ROOTS_CASHIERS, '/report'),
 };
 
 export const ROUTES_API_BANKING_ACCOUNTS = {

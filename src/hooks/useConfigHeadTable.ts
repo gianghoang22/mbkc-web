@@ -708,6 +708,13 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
+      id: 'finalTotalPrice',
+      label: translate('page.content.finalTotalPrice'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
       id: 'paymentMethod',
       label: translate('page.content.paymentMethod'),
       numeric: false,

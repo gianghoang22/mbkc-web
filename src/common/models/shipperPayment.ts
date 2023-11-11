@@ -6,6 +6,7 @@ export interface ShipperPayment {
   status: string;
   content: string;
   amount: number;
+  finalTotalPrice: number;
   createDate: string;
   cashierCreated: string;
   paymentMethod: string;

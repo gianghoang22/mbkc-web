@@ -78,9 +78,9 @@ function MoneyExchangeDetailModal({ isOpen, handleOpen, moneyExchange }: MoneyEx
 
                   <Stack direction="row" justifyContent="space-between" mt={2}>
                     <Typography color={(theme) => theme.palette.grey[600]} variant="subtitle1">
-                      {translate('model.capitalizeOne.paymentTime')}:
+                      {translate('model.capitalizeOne.transactionTime')}:
                     </Typography>
-                    <Typography variant="body1">{fDateTime(moneyExchange.createdDate)}</Typography>
+                    <Typography variant="body1">{fDateTime(moneyExchange.transactionTime)}</Typography>
                   </Stack>
 
                   <Stack direction="row" justifyContent="space-between" mt={2}>
