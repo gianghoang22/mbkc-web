@@ -531,14 +531,14 @@ function useConfigHeadTable() {
       label: translate('table.orderId'),
       numeric: false,
       hideSortIcon: true,
-      disablePadding: false,
+      disablePadding: true,
     },
     {
       id: 'orderPartnerId',
       label: translate('table.partnerOrderId'),
       numeric: false,
       hideSortIcon: true,
-      disablePadding: false,
+      disablePadding: true,
     },
     {
       id: 'partnerName',

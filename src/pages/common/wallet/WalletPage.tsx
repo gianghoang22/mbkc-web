@@ -1,30 +1,31 @@
 import { useEffect, useMemo } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Grid, Card, Box, Paper, Typography, TableContainer, Table, TableBody } from '@mui/material';
-import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import AddchartIcon from '@mui/icons-material/Addchart';
+import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { Box, Card, Grid, Paper, Table, TableBody, TableContainer, Typography } from '@mui/material';
 // section
-import { MainBalanceCard, TotalDaily, WalletCardSkeleton } from 'sections/wallet';
-import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
+import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
+import { MainBalanceCard, TotalDaily, WalletCardSkeleton } from 'sections/wallet';
 //redux
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'redux/configStore';
 import { getAllMoneyExchange, getAllShipperPayment, getWalletInformation } from 'redux/wallet/walletSlice';
-import { useDispatch } from 'react-redux';
 //
+import { ListParams, MoneyExchangeTable, ShipperPaymentTable } from 'common/@types';
+import { Color, Language, Role } from 'common/enums';
 import { CommonTableHead, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color, Language, Role } from 'common/enums';
-import { ListParams, MoneyExchangeTable, ShipperPaymentTable } from 'common/@types';
 import { formatCurrency } from 'utils';
 
 function WalletPage() {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
   const { ShipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
 

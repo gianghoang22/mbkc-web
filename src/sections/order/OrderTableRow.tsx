@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Collapse, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Collapse, IconButton, Stack, TableCell, TableRow, Typography, Box } from '@mui/material';
 // @mui icon
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -51,10 +51,16 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
           {index + 1}
         </TableCell>
 
-        <TableCell onClick={handleNavigateDetail}>{order?.id}</TableCell>
+        <TableCell onClick={handleNavigateDetail} padding="none">
+          <Box textAlign="center" pr={3.5}>
+            {order?.id}
+          </Box>
+        </TableCell>
 
         {selected.includes(OrderSortBy.ORDER_PARTNER_ID) && (
-          <TableCell onClick={handleNavigateDetail}>{order?.orderPartnerId}</TableCell>
+          <TableCell padding="none" onClick={handleNavigateDetail}>
+            {order?.orderPartnerId}
+          </TableCell>
         )}
 
         <TableCell onClick={handleNavigateDetail}>{order?.partner.name}</TableCell>
