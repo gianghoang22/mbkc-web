@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import dayjs from 'dayjs';
+import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -17,8 +19,6 @@ import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound }
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
-import moment from 'moment';
-import dayjs from 'dayjs';
 
 function ListOrdersPage() {
   const navigate = useNavigate();
@@ -168,7 +168,7 @@ function ListOrdersPage() {
                     onRequestSort={handleRequestSort}
                     selectedCol={selected}
                   />
-                  {isLoading ? (
+                  {!isLoading ? (
                     <OrderTableRowSkeleton length={orders.length} />
                   ) : (
                     <TableBody>

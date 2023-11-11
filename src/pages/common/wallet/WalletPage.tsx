@@ -1,43 +1,32 @@
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Grid,
-  Card,
-  Box,
-  Paper,
-  Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from '@mui/material';
-import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import AddchartIcon from '@mui/icons-material/Addchart';
+import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { Box, Card, Grid, Paper, Table, TableBody, TableContainer, Typography } from '@mui/material';
 // section
 import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 //redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { CommonTableHead, Label, Page } from 'components';
-import { useConfigHeadTable, useLocales } from 'hooks';
-import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color, ExchangeType, FilterStatus, Language, PaymentMethod, Role } from 'common/enums';
-import { useEffect, useMemo } from 'react';
 import { ListParams, MoneyExchangeTable, ShipperPaymentTable } from 'common/@types';
-import { getAllMoneyExchange, getAllShipperPayment } from 'redux/wallet/walletSlice';
+import { Color, Language, Role } from 'common/enums';
+import { CommonTableHead, Page } from 'components';
+import { useConfigHeadTable, useLocales } from 'hooks';
+import { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { fDateTime, formatCurrency } from 'utils';
-import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
+import { getAllMoneyExchange, getAllShipperPayment } from 'redux/wallet/walletSlice';
+import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
+import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 
 function WalletPage() {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
+
   const { userAuth } = useAppSelector((state) => state.auth);
   const { moneyExchanges, shipperPayments, isLoading } = useAppSelector((state) => state.wallet);
   const { ShipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();

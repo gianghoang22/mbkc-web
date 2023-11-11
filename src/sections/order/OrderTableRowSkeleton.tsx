@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Skeleton, TableBody } from '@mui/material';
+import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
 function OrderTableRowSkeleton({ length }: { length: number }) {
   return (
@@ -7,14 +7,18 @@ function OrderTableRowSkeleton({ length }: { length: number }) {
         return (
           <TableRow hover tabIndex={-1} key={index}>
             <TableCell width={60} align="center">
-              <Skeleton />
+              <Stack direction="row" alignItems="center" justifyContent="center">
+                <Skeleton width={20} />
+              </Stack>
             </TableCell>
 
-            <TableCell align="center">
-              <Skeleton width={60} />
+            <TableCell padding="none">
+              <Stack alignItems="center" pr={3.5}>
+                <Skeleton width={60} />
+              </Stack>
             </TableCell>
 
-            <TableCell align="left">
+            <TableCell padding="none" align="left">
               <Skeleton width={100} />
             </TableCell>
 
@@ -30,13 +34,15 @@ function OrderTableRowSkeleton({ length }: { length: number }) {
               <Skeleton width={100} />
             </TableCell>
             <TableCell align="left">
-              <Skeleton width={130} />
+              <Skeleton variant="rounded" width={130} height={24} />
             </TableCell>
             <TableCell align="left">
-              <Skeleton width={130} />
+              <Skeleton variant="rounded" width={130} height={24} />
             </TableCell>
             <TableCell align="right">
-              <Skeleton variant="circular" width={30} height={30} />
+              <IconButton color="inherit">
+                <Skeleton variant="circular" width={28} height={28} />
+              </IconButton>
             </TableCell>
           </TableRow>
         );
