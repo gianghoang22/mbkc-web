@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import AddchartIcon from '@mui/icons-material/Addchart';
@@ -5,20 +6,20 @@ import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOu
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Box, Card, Grid, Paper, Table, TableBody, TableContainer, Typography } from '@mui/material';
 // section
-import { MainBalanceCard, TotalDaily } from 'sections/wallet';
+import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
+import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
+import { MainBalanceCard, TotalDaily, WalletCardSkeleton } from 'sections/wallet';
 //redux
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'redux/configStore';
+import { getAllMoneyExchange, getAllShipperPayment, getWalletInformation } from 'redux/wallet/walletSlice';
 //
 import { ListParams, MoneyExchangeTable, ShipperPaymentTable } from 'common/@types';
 import { Color, Language, Role } from 'common/enums';
-import { CommonTableHead, Page } from 'components';
+import { CommonTableHead, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales } from 'hooks';
-import { useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
-import { getAllMoneyExchange, getAllShipperPayment } from 'redux/wallet/walletSlice';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
-import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
+import { formatCurrency } from 'utils';
 
 function WalletPage() {
   const navigate = useNavigate();
@@ -26,12 +27,13 @@ function WalletPage() {
 
   const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
-
-  const { userAuth } = useAppSelector((state) => state.auth);
-  const { moneyExchanges, shipperPayments, isLoading } = useAppSelector((state) => state.wallet);
   const { ShipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
 
-  const handleRequestSort = () => {};
+  const { userAuth } = useAppSelector((state) => state.auth);
+  const { moneyExchanges, shipperPayments, isLoading, walletInformation } = useAppSelector((state) => state.wallet);
+
+  const newShipperPayments = shipperPayments.slice(0, 5);
+  const newMoneyExchanges = moneyExchanges.slice(0, 5);
 
   const params: ListParams = useMemo(() => {
     return {
@@ -51,6 +53,10 @@ function WalletPage() {
     dispatch<any>(getAllMoneyExchange(params));
   }, [dispatch, params]);
 
+  useEffect(() => {
+    dispatch<any>(getWalletInformation(navigate));
+  }, []);
+
   return (
     <>
       <Page
@@ -64,31 +70,35 @@ function WalletPage() {
           userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER ? PATH_KITCHEN_CENTER_APP.root : PATH_CASHIER_APP.root
         }
       >
-        <Grid container columnSpacing={3} mb={3}>
-          <Grid item xs={12} sm={5} md={5}>
-            <MainBalanceCard />
-          </Grid>
+        {isLoading ? (
+          <WalletCardSkeleton />
+        ) : (
+          <Grid container columnSpacing={3} mb={3}>
+            <Grid item xs={12} sm={5} md={5}>
+              <MainBalanceCard balance={walletInformation?.balance as number} />
+            </Grid>
 
-          <Grid item xs={12} sm={3.5} md={3.2}>
-            <TotalDaily
-              color={Color.SUCCESS}
-              date="27/8/2023"
-              icon={<CurrencyExchangeOutlinedIcon fontSize="medium" />}
-              title={translate('page.title.totalDaily', { model: translate('model.lowercase.moneyExchanges') })}
-              totalMoney="16.520.000"
-            />
-          </Grid>
+            <Grid item xs={12} sm={3.5} md={3.2}>
+              <TotalDaily
+                color={Color.SUCCESS}
+                date={new Date()}
+                icon={<CurrencyExchangeOutlinedIcon fontSize="medium" />}
+                title={translate('page.title.totalDaily', { model: translate('model.lowercase.moneyExchanges') })}
+                totalMoney={formatCurrency(walletInformation?.totalDailyMoneyExchange as number)}
+              />
+            </Grid>
 
-          <Grid item xs={12} sm={3.5} md={3.8}>
-            <TotalDaily
-              color={Color.INFO}
-              date="27/8/2023"
-              icon={<AddchartIcon fontSize="medium" />}
-              title={translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })}
-              totalMoney="16.520.000"
-            />
+            <Grid item xs={12} sm={3.5} md={3.8}>
+              <TotalDaily
+                color={Color.INFO}
+                date={new Date()}
+                icon={<AddchartIcon fontSize="medium" />}
+                title={translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })}
+                totalMoney={formatCurrency(walletInformation?.totalDailyShipperPayment as number)}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        )}
 
         <Card>
           <Box sx={{ width: '100%' }} padding={2}>
@@ -109,16 +119,13 @@ function WalletPage() {
               </Typography>
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<ShipperPaymentTable>
-                    headCells={ShipperPaymentHeadCells}
-                    onRequestSort={handleRequestSort}
-                  />
+                  <CommonTableHead<ShipperPaymentTable> headCells={ShipperPaymentHeadCells} onRequestSort={() => {}} />
 
                   {isLoading ? (
                     <ShipperPaymentTableRowSkeleton length={5} />
                   ) : (
                     <TableBody>
-                      {shipperPayments.map((shipperPayment, index) => {
+                      {newShipperPayments.map((shipperPayment, index) => {
                         return (
                           <ShipperPaymentTableRow
                             key={index}
@@ -129,6 +136,13 @@ function WalletPage() {
                           />
                         );
                       })}
+
+                      {newShipperPayments.length === 0 && (
+                        <EmptyTable
+                          colNumber={ShipperPaymentHeadCells.length + 2}
+                          model={translate('model.lowercase.shipperPayments')}
+                        />
+                      )}
                     </TableBody>
                   )}
                 </Table>
@@ -143,6 +157,7 @@ function WalletPage() {
                     fontWeight: 400,
                     letterSpacing: '0.4px',
                     alignItems: 'center',
+                    marginTop: 8,
                   }}
                   to={
                     userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
@@ -178,16 +193,13 @@ function WalletPage() {
                 </Typography>
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<MoneyExchangeTable>
-                      headCells={MoneyExchangeHeadCells}
-                      onRequestSort={handleRequestSort}
-                    />
+                    <CommonTableHead<MoneyExchangeTable> headCells={MoneyExchangeHeadCells} onRequestSort={() => {}} />
 
                     {isLoading ? (
                       <MoneyExchangeTableRowSkeleton length={5} />
                     ) : (
                       <TableBody>
-                        {moneyExchanges.map((moneyExchange, index) => {
+                        {newMoneyExchanges.map((moneyExchange, index) => {
                           return (
                             <MoneyExchangeTableRow
                               key={index}
@@ -198,6 +210,13 @@ function WalletPage() {
                             />
                           );
                         })}
+
+                        {newMoneyExchanges.length === 0 && (
+                          <EmptyTable
+                            colNumber={MoneyExchangeHeadCells.length + 2}
+                            model={translate('model.lowercase.moneyExchanges')}
+                          />
+                        )}
                       </TableBody>
                     )}
                   </Table>
@@ -212,6 +231,7 @@ function WalletPage() {
                     fontWeight: 400,
                     letterSpacing: '0.4px',
                     alignItems: 'center',
+                    marginTop: 8,
                   }}
                   to={
                     userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER

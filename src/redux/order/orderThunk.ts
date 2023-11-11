@@ -23,7 +23,6 @@ export const getAllOrdersThunk = async (params: ListParams, thunkAPI: any) => {
 };
 export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
   const { orderId, navigate } = params;
-
   try {
     const response: Order = await axiosClient.get(ROUTES_API_ORDERS.GET_ORDER_DETAIL(orderId));
 
@@ -50,7 +49,7 @@ export const confirmOrderToCompletedThunk = async (params: Params<CompletedOrder
   try {
     const response: MessageResponse = await axiosFormData.put(ROUTES_API_ORDERS.CONFIRM_ORDER_TO_COMPLETED, formData);
     if (response) {
-      await thunkAPI.dispatch(getOrderDetail(idParams?.orderId as number));
+      await thunkAPI.dispatch(getOrderDetail({ orderId: idParams?.orderId }));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }
@@ -91,7 +90,7 @@ export const changeOrderToReadyDeliveryThunk = async (params: any, thunkAPI: any
       ROUTES_API_ORDERS.CHANGE_ORDER_TO_READY_DELIVERY(orderId ? orderId : 0)
     );
     if (response) {
-      await thunkAPI.dispatch(getOrderDetail(orderId));
+      await thunkAPI.dispatch(getOrderDetail({ orderId }));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

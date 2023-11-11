@@ -8,8 +8,9 @@ import { Color, Role } from 'common/enums';
 import { Label } from 'components';
 import { useLocales } from 'hooks';
 import { useAppSelector } from 'redux/configStore';
+import { fDate, formatCurrency } from 'utils';
 
-function MainBalanceCard() {
+function MainBalanceCard({ balance }: { balance: number }) {
   const { translate } = useLocales();
 
   const { userAuth } = useAppSelector((state) => state.auth);
@@ -22,7 +23,7 @@ function MainBalanceCard() {
             <Typography variant="h5" color={(theme) => theme.palette.grey[600]} letterSpacing={1}>
               {translate('page.content.mainBalance')}
             </Typography>
-            <Typography variant="h3">16.520.000 đ</Typography>
+            <Typography variant="h3">{formatCurrency(balance)}</Typography>
           </Stack>
           <Stack>
             <StyledIcon
@@ -45,7 +46,7 @@ function MainBalanceCard() {
               ? translate('model.capitalize.kitchenCenter')
               : translate('model.capitalize.cashier')}
           </Typography>
-          <Label color={Color.PRIMARY}>27/8/2023</Label>
+          <Label color={Color.PRIMARY}>{fDate(new Date())}</Label>
         </Stack>
       </Box>
     </Card>

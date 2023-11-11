@@ -18,3 +18,4 @@ export * from './store';
 export * from './storePartner';
 export * from './token';
 export * from './user';
+export * from './wallet';

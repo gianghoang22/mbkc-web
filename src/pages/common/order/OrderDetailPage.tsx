@@ -69,7 +69,7 @@ function OrderDetailPage() {
   const handleOrderReadyDelivery = () => {
     dispatch<any>(
       changeOrderToReadyDelivery({
-        orderId: order?.id,
+        orderId,
         navigate,
       })
     );
@@ -368,6 +368,7 @@ function OrderDetailPage() {
       <MUIPopover
         open={Boolean(openConfirm)}
         anchorEl={openConfirm}
+        hidden={order?.systemStatus !== SystemStatus.COMPLETED ? false : true}
         onClose={handleCloseMenuConfirm}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}

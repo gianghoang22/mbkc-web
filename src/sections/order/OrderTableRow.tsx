@@ -126,9 +126,12 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
       </TableRow>
 
       <TableRow>
-        <TableCell colSpan={9} sx={{ py: openList !== index ? 0 : 2, px: 5 }}>
+        <TableCell
+          colSpan={9}
+          sx={{ py: openList !== index ? 0 : 2, px: 2, bgcolor: (theme) => theme.palette.grey[200] }}
+        >
           <Collapse in={openList === index} timeout="auto" unmountOnExit>
-            <Stack direction="column" p={1} sx={{ bgcolor: (theme) => theme.palette.grey[200], borderRadius: 2 }}>
+            <Stack direction="column" p={1} sx={{ bgcolor: 'white', borderRadius: 2 }}>
               {order?.orderDetails.map((detail, indexDetail) => {
                 const isLast = indexDetail === order?.orderDetails.length - 1;
 

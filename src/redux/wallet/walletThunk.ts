@@ -1,7 +1,7 @@
 import { axiosClient, axiosFormData } from 'axiosClient/axiosClient';
 import { ListParams, ListResponse, MessageResponse, Params } from 'common/@types';
-import { MoneyExchange, PaymentForStoresToCreate, ShipperPayment } from 'common/models';
-import { ROUTES_API_MONEY_EXCHANGES, ROUTES_API_SHIPPER_PAYMENTS } from 'constants/routesApiKeys';
+import { MoneyExchange, PaymentForStoresToCreate, ShipperPayment, Wallet } from 'common/models';
+import { ROUTES_API_MONEY_EXCHANGES, ROUTES_API_SHIPPER_PAYMENTS, ROUTES_API_WALLET } from 'constants/routesApiKeys';
 
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
@@ -78,6 +78,18 @@ export const sendMoneyToKitchenCenterThunk = async (navigate: NavigateFunction, 
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const getWalletInformationThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
+  try {
+    const response: Wallet = await axiosClient.get(ROUTES_API_WALLET.GET_WALLET_INFORMATION);
+    return response;
+  } catch (error: any) {
+    const errorMessage = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorMessage ? errorMessage?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
     return thunkAPI.rejectWithValue(error);
   }
