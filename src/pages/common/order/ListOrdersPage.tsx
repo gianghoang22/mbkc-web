@@ -168,7 +168,7 @@ function ListOrdersPage() {
                     onRequestSort={handleRequestSort}
                     selectedCol={selected}
                   />
-                  {!isLoading ? (
+                  {isLoading ? (
                     <OrderTableRowSkeleton length={orders.length} />
                   ) : (
                     <TableBody>
