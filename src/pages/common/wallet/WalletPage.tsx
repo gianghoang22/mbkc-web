@@ -1,18 +1,6 @@
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Grid,
-  Card,
-  Box,
-  Paper,
-  Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from '@mui/material';
+import { Grid, Card, Box, Paper, Typography, TableContainer, Table, TableBody } from '@mui/material';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -21,15 +9,14 @@ import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 //redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { CommonTableHead, Label, Page } from 'components';
+import { CommonTableHead, Page } from 'components';
 import { useConfigHeadTable, useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { Color, ExchangeType, FilterStatus, Language, PaymentMethod, Role } from 'common/enums';
+import { Color, Language, Role } from 'common/enums';
 import { useEffect, useMemo } from 'react';
 import { ListParams, MoneyExchangeTable, ShipperPaymentTable } from 'common/@types';
 import { getAllMoneyExchange, getAllShipperPayment } from 'redux/wallet/walletSlice';
 import { useDispatch } from 'react-redux';
-import { fDateTime, formatCurrency } from 'utils';
 import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 
@@ -38,11 +25,13 @@ function WalletPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { translate, currentLang } = useLocales();
-  const { userAuth } = useAppSelector((state) => state.auth);
-  const { moneyExchanges, shipperPayments, isLoading } = useAppSelector((state) => state.wallet);
   const { ShipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
 
-  const handleRequestSort = () => {};
+  const { userAuth } = useAppSelector((state) => state.auth);
+  const { moneyExchanges, shipperPayments, isLoading } = useAppSelector((state) => state.wallet);
+
+  const newShipperPayments = shipperPayments.slice(0, 5);
+  const newMoneyExchanges = moneyExchanges.slice(0, 5);
 
   const params: ListParams = useMemo(() => {
     return {
@@ -120,16 +109,13 @@ function WalletPage() {
               </Typography>
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                  <CommonTableHead<ShipperPaymentTable>
-                    headCells={ShipperPaymentHeadCells}
-                    onRequestSort={handleRequestSort}
-                  />
+                  <CommonTableHead<ShipperPaymentTable> headCells={ShipperPaymentHeadCells} onRequestSort={() => {}} />
 
                   {isLoading ? (
                     <ShipperPaymentTableRowSkeleton length={5} />
                   ) : (
                     <TableBody>
-                      {shipperPayments.map((shipperPayment, index) => {
+                      {newShipperPayments.map((shipperPayment, index) => {
                         return (
                           <ShipperPaymentTableRow
                             key={index}
@@ -189,16 +175,13 @@ function WalletPage() {
                 </Typography>
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
-                    <CommonTableHead<MoneyExchangeTable>
-                      headCells={MoneyExchangeHeadCells}
-                      onRequestSort={handleRequestSort}
-                    />
+                    <CommonTableHead<MoneyExchangeTable> headCells={MoneyExchangeHeadCells} onRequestSort={() => {}} />
 
                     {isLoading ? (
                       <MoneyExchangeTableRowSkeleton length={5} />
                     ) : (
                       <TableBody>
-                        {moneyExchanges.map((moneyExchange, index) => {
+                        {newMoneyExchanges.map((moneyExchange, index) => {
                           return (
                             <MoneyExchangeTableRow
                               key={index}
