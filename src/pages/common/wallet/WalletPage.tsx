@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 // @mui
 import { Grid, Card, Box, Paper, Typography, TableContainer, Table, TableBody } from '@mui/material';
@@ -5,22 +6,20 @@ import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOu
 import AddchartIcon from '@mui/icons-material/Addchart';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 // section
-import { MainBalanceCard, TotalDaily } from 'sections/wallet';
+import { MainBalanceCard, TotalDaily, WalletCardSkeleton } from 'sections/wallet';
+import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
+import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 //redux
 import { useAppSelector } from 'redux/configStore';
+import { getAllMoneyExchange, getAllShipperPayment, getWalletInformation } from 'redux/wallet/walletSlice';
+import { useDispatch } from 'react-redux';
 //
 import { CommonTableHead, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { Color, Language, Role } from 'common/enums';
-import { useEffect, useMemo } from 'react';
 import { ListParams, MoneyExchangeTable, ShipperPaymentTable } from 'common/@types';
-import { getAllMoneyExchange, getAllShipperPayment, getWalletInformation } from 'redux/wallet/walletSlice';
-import { useDispatch } from 'react-redux';
-import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
-import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 import { formatCurrency } from 'utils';
-import WalletCardSkeleton from 'sections/wallet/WalletCardSkeleton';
 
 function WalletPage() {
   const { pathname } = useLocation();
