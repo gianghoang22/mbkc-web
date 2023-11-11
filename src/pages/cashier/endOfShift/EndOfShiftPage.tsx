@@ -28,8 +28,8 @@ import { PATH_CASHIER_APP } from 'routes/paths';
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { fDate, formatCurrency } from 'utils';
-import { ListParams, OptionSelect, OrderSort, OrderTable } from 'common/@types';
-import { PARTNER_ORDER_STATUS, SYSTEM_STATUS_OPTIONS } from 'common/models';
+import { ListParams, OrderSort, OrderTable } from 'common/@types';
+import { PartnerOrderStatus, SystemStatus } from 'common/enums';
 
 function EndOfShiftPage() {
   const dispatch = useDispatch();
@@ -47,8 +47,6 @@ function EndOfShiftPage() {
   const [orderBy, setOrderBy] = useState<keyof OrderTable>('finalTotalPrice');
   const [filterName, setFilterName] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
-  const [systemStatus, setSystemStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
-  const [partnerOrderStatus, setPartnerOrderStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
@@ -71,14 +69,6 @@ function EndOfShiftPage() {
     dispatch<any>(getAllOrders(params));
   };
 
-  const handleChangeSystemStatus = (status: OptionSelect | null) => {
-    setSystemStatus(status);
-  };
-
-  const handleChangePartnerOrderStatus = (status: OptionSelect | null) => {
-    setPartnerOrderStatus(status);
-  };
-
   const handleEndOfShift = () => {
     dispatch<any>(sendMoneyToKitchenCenter(navigate));
   };
@@ -92,24 +82,14 @@ function EndOfShiftPage() {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         sortBy: `${orderBy}_${order}`,
-        systemStatus: systemStatus?.value,
-        partnerOrderStatus: partnerOrderStatus?.value,
+        systemStatus: SystemStatus.COMPLETED,
+        partnerOrderStatus: PartnerOrderStatus.COMPLETED,
         searchDateFrom: today,
         searchDateTo: today,
       },
       navigate,
     };
-  }, [
-    page,
-    rowsPerPage,
-    debounceValue,
-    orderBy,
-    order,
-    today,
-    systemStatus?.value,
-    partnerOrderStatus?.value,
-    navigate,
-  ]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order, today, navigate]);
 
   useEffect(() => {
     dispatch<any>(getCashierReportShift(navigate));
@@ -192,16 +172,10 @@ function EndOfShiftPage() {
                 selected={selected}
                 headCells={orderHeadCells}
                 filterName={filterName}
-                options={SYSTEM_STATUS_OPTIONS}
-                secondOptions={PARTNER_ORDER_STATUS}
                 model={translate('model.lowercase.store')}
                 setSelected={setSelected}
                 onFilterName={handleFilterByName}
                 handleReloadData={handleReloadData}
-                haveSelectSystemStatus
-                haveSelectPartnerOrderStatus
-                handleChangeSystemStatus={handleChangeSystemStatus}
-                handleChangePartnerOrderStatus={handleChangePartnerOrderStatus}
               />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
