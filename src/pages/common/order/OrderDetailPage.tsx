@@ -74,8 +74,6 @@ function OrderDetailPage() {
     );
   };
 
-  console.log(orderId);
-
   return (
     <>
       <Box>

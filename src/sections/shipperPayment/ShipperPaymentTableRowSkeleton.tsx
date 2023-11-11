@@ -33,6 +33,14 @@ function ShipperPaymentTableRowSkeleton({ length }: { length: number }) {
           <TableCell align="left">
             <Skeleton />
           </TableCell>
+
+          <TableCell align="left">
+            <Skeleton />
+          </TableCell>
+
+          <TableCell align="left">
+            <Skeleton />
+          </TableCell>
         </TableRow>
       ))}
     </TableBody>

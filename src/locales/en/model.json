@@ -37,7 +37,7 @@
     "cashiers": "Cashiers",
     "paymentForStores": "Payment for stores",
     "paymentForStore": "Payment for store",
-    "paymentTime": "Payment time",
+    "transactionTime": "Transaction time",
     "order": "Order",
     "orders": "Orders",
     "wallet": "Wallet",

@@ -15,7 +15,7 @@ import { Box, Card, Paper, Stack, Typography } from '@mui/material';
 import { useAppSelector } from 'redux/configStore';
 // interface
 import { Color, PartnerOrderStatus, SystemStatus } from 'common/enums';
-import { OrderHistory } from 'common/models';
+import { Order, OrderHistory } from 'common/models';
 //
 import { Label } from 'components';
 import { useLocales } from 'hooks';
