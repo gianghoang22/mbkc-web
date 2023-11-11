@@ -9,16 +9,18 @@ import { MainBalanceCard, TotalDaily } from 'sections/wallet';
 //redux
 import { useAppSelector } from 'redux/configStore';
 //
-import { CommonTableHead, Page } from 'components';
+import { CommonTableHead, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { Color, Language, Role } from 'common/enums';
 import { useEffect, useMemo } from 'react';
 import { ListParams, MoneyExchangeTable, ShipperPaymentTable } from 'common/@types';
-import { getAllMoneyExchange, getAllShipperPayment } from 'redux/wallet/walletSlice';
+import { getAllMoneyExchange, getAllShipperPayment, getWalletInformation } from 'redux/wallet/walletSlice';
 import { useDispatch } from 'react-redux';
 import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
+import { formatCurrency } from 'utils';
+import WalletCardSkeleton from 'sections/wallet/WalletCardSkeleton';
 
 function WalletPage() {
   const { pathname } = useLocation();
@@ -28,7 +30,7 @@ function WalletPage() {
   const { ShipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { moneyExchanges, shipperPayments, isLoading } = useAppSelector((state) => state.wallet);
+  const { moneyExchanges, shipperPayments, isLoading, walletInformation } = useAppSelector((state) => state.wallet);
 
   const newShipperPayments = shipperPayments.slice(0, 5);
   const newMoneyExchanges = moneyExchanges.slice(0, 5);
@@ -51,6 +53,10 @@ function WalletPage() {
     dispatch<any>(getAllMoneyExchange(params));
   }, [dispatch, params]);
 
+  useEffect(() => {
+    dispatch<any>(getWalletInformation(navigate));
+  }, []);
+
   return (
     <>
       <Page
@@ -64,31 +70,35 @@ function WalletPage() {
           userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER ? PATH_KITCHEN_CENTER_APP.root : PATH_CASHIER_APP.root
         }
       >
-        <Grid container columnSpacing={3} mb={3}>
-          <Grid item xs={12} sm={5} md={5}>
-            <MainBalanceCard />
-          </Grid>
+        {isLoading ? (
+          <WalletCardSkeleton />
+        ) : (
+          <Grid container columnSpacing={3} mb={3}>
+            <Grid item xs={12} sm={5} md={5}>
+              <MainBalanceCard balance={walletInformation?.balance as number} />
+            </Grid>
 
-          <Grid item xs={12} sm={3.5} md={3.2}>
-            <TotalDaily
-              color={Color.SUCCESS}
-              date="27/8/2023"
-              icon={<CurrencyExchangeOutlinedIcon fontSize="medium" />}
-              title={translate('page.title.totalDaily', { model: translate('model.lowercase.moneyExchanges') })}
-              totalMoney="16.520.000"
-            />
-          </Grid>
+            <Grid item xs={12} sm={3.5} md={3.2}>
+              <TotalDaily
+                color={Color.SUCCESS}
+                date={new Date()}
+                icon={<CurrencyExchangeOutlinedIcon fontSize="medium" />}
+                title={translate('page.title.totalDaily', { model: translate('model.lowercase.moneyExchanges') })}
+                totalMoney={formatCurrency(walletInformation?.totalDailyMoneyExchange as number)}
+              />
+            </Grid>
 
-          <Grid item xs={12} sm={3.5} md={3.8}>
-            <TotalDaily
-              color={Color.INFO}
-              date="27/8/2023"
-              icon={<AddchartIcon fontSize="medium" />}
-              title={translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })}
-              totalMoney="16.520.000"
-            />
+            <Grid item xs={12} sm={3.5} md={3.8}>
+              <TotalDaily
+                color={Color.INFO}
+                date={new Date()}
+                icon={<AddchartIcon fontSize="medium" />}
+                title={translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })}
+                totalMoney={formatCurrency(walletInformation?.totalDailyShipperPayment as number)}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        )}
 
         <Card>
           <Box sx={{ width: '100%' }} padding={2}>
@@ -126,6 +136,13 @@ function WalletPage() {
                           />
                         );
                       })}
+
+                      {newShipperPayments.length === 0 && (
+                        <EmptyTable
+                          colNumber={ShipperPaymentHeadCells.length + 2}
+                          model={translate('model.lowercase.shipperPayments')}
+                        />
+                      )}
                     </TableBody>
                   )}
                 </Table>
@@ -140,6 +157,7 @@ function WalletPage() {
                     fontWeight: 400,
                     letterSpacing: '0.4px',
                     alignItems: 'center',
+                    marginTop: 8,
                   }}
                   to={
                     userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
@@ -192,6 +210,13 @@ function WalletPage() {
                             />
                           );
                         })}
+
+                        {newMoneyExchanges.length === 0 && (
+                          <EmptyTable
+                            colNumber={MoneyExchangeHeadCells.length + 2}
+                            model={translate('model.lowercase.moneyExchanges')}
+                          />
+                        )}
                       </TableBody>
                     )}
                   </Table>
@@ -206,6 +231,7 @@ function WalletPage() {
                     fontWeight: 400,
                     letterSpacing: '0.4px',
                     alignItems: 'center',
+                    marginTop: 8,
                   }}
                   to={
                     userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER

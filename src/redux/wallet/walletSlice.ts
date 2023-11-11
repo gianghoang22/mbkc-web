@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { MoneyExchange, ShipperPayment } from 'common/models';
+import { MoneyExchange, ShipperPayment, Wallet } from 'common/models';
 import {
   createPaymentForStoreThunk,
   getAllMoneyExchangeThunk,
   getAllShipperPaymentThunk,
+  getWalletInformationThunk,
   sendMoneyToKitchenCenterThunk,
 } from './walletThunk';
 
@@ -17,6 +18,7 @@ interface BankingAccountState {
   shipperPayments: ShipperPayment[];
   shipperPayment: ShipperPayment | null;
   numberItems: number;
+  walletInformation: Wallet | null;
 }
 
 const initialState: BankingAccountState = {
@@ -29,6 +31,7 @@ const initialState: BankingAccountState = {
   shipperPayments: [],
   shipperPayment: null,
   numberItems: 0,
+  walletInformation: null,
 };
 
 export const getAllMoneyExchange = createAsyncThunk('money-exchange/get-all-money-exchanges', getAllMoneyExchangeThunk);
@@ -44,6 +47,8 @@ export const sendMoneyToKitchenCenter = createAsyncThunk(
   'money-exchange/send-money-to-kitchen-center',
   sendMoneyToKitchenCenterThunk
 );
+
+export const getWalletInformation = createAsyncThunk('wallet/get-wallet-information', getWalletInformationThunk);
 
 const WalletSlice = createSlice({
   name: 'wallet',
@@ -61,7 +66,7 @@ const WalletSlice = createSlice({
         state.moneyExchanges = [...action.payload?.moneyExchanges];
         state.numberItems = action.payload?.numberItems;
       })
-      .addCase(getAllMoneyExchange.rejected, (state, action) => {
+      .addCase(getAllMoneyExchange.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -76,7 +81,7 @@ const WalletSlice = createSlice({
         state.shipperPayments = [...action.payload?.shipperPayments];
         state.numberItems = action.payload?.numberItems;
       })
-      .addCase(getAllShipperPayment.rejected, (state, action) => {
+      .addCase(getAllShipperPayment.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -84,12 +89,12 @@ const WalletSlice = createSlice({
       .addCase(createPaymentForStore.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createPaymentForStore.fulfilled, (state, action) => {
+      .addCase(createPaymentForStore.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(createPaymentForStore.rejected, (state, action) => {
+      .addCase(createPaymentForStore.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -97,12 +102,26 @@ const WalletSlice = createSlice({
       .addCase(sendMoneyToKitchenCenter.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(sendMoneyToKitchenCenter.fulfilled, (state, action) => {
+      .addCase(sendMoneyToKitchenCenter.fulfilled, (state) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(sendMoneyToKitchenCenter.rejected, (state, action) => {
+      .addCase(sendMoneyToKitchenCenter.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getWalletInformation.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getWalletInformation.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.walletInformation = action.payload;
+      })
+      .addCase(getWalletInformation.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

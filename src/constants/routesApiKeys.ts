@@ -16,6 +16,7 @@ const ROOTS_ORDERS = '/orders';
 const ROOTS_CASHIERS = '/cashiers';
 const ROOTS_BANKING_ACCOUNTS = '/banking-accounts';
 const ROOTS_TRANSACTION = '/transactions';
+const ROOTS_WALLET = '/wallets';
 const ROOTS_ADDRESS = '/province';
 const ROOTS_CONFIGURATION = '/configurations';
 const ROOTS_MONEY_EXCHANGES = '/money-exchanges';
@@ -314,4 +315,8 @@ export const ROUTES_API_TRANSACTIONS = {
   GET_TRANSACTION_DETAIL: (transactionId: number) => path(ROOTS_TRANSACTION, `/${transactionId}`),
   UPDATE_TRANSACTION: (transactionId: number) => path(ROOTS_TRANSACTION, `/${transactionId}`),
   DELETE_TRANSACTION: (transactionId: number) => path(ROOTS_TRANSACTION, `/${transactionId}`),
+};
+
+export const ROUTES_API_WALLET = {
+  GET_WALLET_INFORMATION: path(ROOTS_WALLET, '/transaction-money-exchange-shipper-payment-information'),
 };
