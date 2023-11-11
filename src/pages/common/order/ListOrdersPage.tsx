@@ -8,25 +8,29 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllOrders } from 'redux/order/orderSlice';
 // section
 import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
-//
+// interface
 import { ListParams, OptionSelect, OrderSort, OrderTable } from 'common/@types';
+import { Role } from 'common/enums';
 import { PARTNER_ORDER_STATUS, SYSTEM_STATUS_OPTIONS } from 'common/models';
+//
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
-import { Role } from 'common/enums';
+import moment from 'moment';
+import dayjs from 'dayjs';
 
 function ListOrdersPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { orderHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { orders, isLoading, numberItems } = useAppSelector((state) => state.order);
   const { userAuth } = useAppSelector((state) => state.auth);
+  const { orders, isLoading, numberItems } = useAppSelector((state) => state.order);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof OrderTable>('finalTotalPrice');
@@ -36,6 +40,7 @@ function ListOrdersPage() {
   const [partnerOrderStatus, setPartnerOrderStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
   const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
   const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
+  const [showWarning, setShowWarning] = useState<boolean>(false);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -80,9 +85,23 @@ function ListOrdersPage() {
     searchDateTo,
   ]);
 
+  const dateTo = moment(dayjs(searchDateTo).toDate()).format('yyyy-MM-DD');
+  const dateForm = moment(dayjs(searchDateFrom).toDate()).format('yyyy-MM-DD');
+
   useEffect(() => {
-    dispatch(getAllOrders(params));
-  }, [params]);
+    if (searchDateTo === null || searchDateFrom === null) {
+      dispatch(getAllOrders(params));
+    } else if (searchDateFrom !== null && searchDateTo !== null) {
+      if (moment(dateForm).isBefore(dateTo)) {
+        setShowWarning(false);
+        setSearchDateTo(searchDateTo);
+        dispatch(getAllOrders(params));
+      } else {
+        setShowWarning(true);
+        setSearchDateTo(null);
+      }
+    }
+  }, [params, searchDateTo, searchDateFrom]);
 
   const handleReloadData = () => {
     dispatch<any>(getAllOrders(params));
@@ -107,6 +126,7 @@ function ListOrdersPage() {
   return (
     <>
       <Page
+        containerWidth="xl"
         title={translate('page.title.list', { model: translate('model.lowercase.orders') })}
         pathname={pathname}
         navigateDashboard={
@@ -117,6 +137,7 @@ function ListOrdersPage() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar<OrderTable>
+                showWarning={showWarning}
                 selected={selected}
                 headCells={orderHeadCells}
                 filterName={filterName}
@@ -151,7 +172,7 @@ function ListOrdersPage() {
                     <OrderTableRowSkeleton length={orders.length} />
                   ) : (
                     <TableBody>
-                      {orders.map((order, index) => {
+                      {orders?.map((order, index) => {
                         return <OrderTableRow key={order.id} index={index} order={order} selected={selected} />;
                       })}
                       {emptyRows > 0 ||
@@ -170,12 +191,12 @@ function ListOrdersPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
+                page={page}
                 count={numberItems}
                 rowsPerPage={rowsPerPage}
-                labelRowsPerPage={translate('table.rowsPerPage')}
-                page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage={translate('table.rowsPerPage')}
               />
             </Paper>
           </Box>

@@ -8,12 +8,13 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-//
+// interface
 import { OrderSortBy } from 'common/@types';
 import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enums';
 import { Order } from 'common/models';
-import { Label, Popover } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
+//
+import { Label } from 'components';
+import { useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { formatCurrency } from 'utils';
 
@@ -26,20 +27,19 @@ interface OrderTableRowProps {
 function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const { open, handleCloseMenu } = usePopover();
-  const { handleOpen } = useModal();
 
   const { userAuth } = useAppSelector((state) => state.auth);
 
   const [openList, setOpenList] = useState(-1);
 
-  const handleNavigateDetail = (orderId: number) => {
+  const handleNavigateDetail = () => {
     navigate(
       userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-        ? PATH_KITCHEN_CENTER_APP.order.root + `/${orderId}`
-        : PATH_CASHIER_APP.order.root + `/${orderId}`
+        ? PATH_KITCHEN_CENTER_APP.order.root + `/${order.id}`
+        : PATH_CASHIER_APP.order.root + `/${order.id}`
     );
     dispatch(setRoutesToBack(pathname));
   };
@@ -47,35 +47,25 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
   return (
     <>
       <TableRow hover tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
-        <TableCell width={60} align="center" onClick={() => handleNavigateDetail(order?.id)}>
+        <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
-          {order?.id}
-        </TableCell>
+        <TableCell onClick={handleNavigateDetail}>{order?.id}</TableCell>
 
         {selected.includes(OrderSortBy.ORDER_PARTNER_ID) && (
-          <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
-            {order?.orderPartnerId}
-          </TableCell>
+          <TableCell onClick={handleNavigateDetail}>{order?.orderPartnerId}</TableCell>
         )}
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
-          {order?.partner.name}
-        </TableCell>
+        <TableCell onClick={handleNavigateDetail}>{order?.partner.name}</TableCell>
 
-        <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
-          {order?.store.name}
-        </TableCell>
+        <TableCell onClick={handleNavigateDetail}>{order?.store.name}</TableCell>
 
         {selected.includes(OrderSortBy.FINAL_TOTAL_PRICE) && (
-          <TableCell align="left" onClick={() => handleNavigateDetail(order?.id)}>
-            {formatCurrency(order?.finalTotalPrice)}
-          </TableCell>
+          <TableCell onClick={handleNavigateDetail}>{formatCurrency(order?.finalTotalPrice)}</TableCell>
         )}
 
-        <TableCell align="left">
+        <TableCell onClick={handleNavigateDetail}>
           <Label
             color={
               order?.systemStatus === SystemStatus.COMPLETED
@@ -95,13 +85,17 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
           </Label>
         </TableCell>
 
-        <TableCell align="left">
+        <TableCell onClick={handleNavigateDetail}>
           <Label
             color={
               order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
                 ? Color.SUCCESS
                 : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                 ? Color.ERROR
+                : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
+                ? Color.WARNING
+                : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+                ? Color.DEFAULT
                 : Color.INFO
             }
           >
@@ -124,15 +118,29 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
           </IconButton>
         </TableCell>
       </TableRow>
+
       <TableRow>
-        <TableCell colSpan={7} sx={{ paddingBottom: 0, paddingTop: 0, paddingLeft: 5, paddingRight: 5, border: 0 }}>
+        <TableCell colSpan={9} sx={{ py: openList !== index ? 0 : 2, px: 5 }}>
           <Collapse in={openList === index} timeout="auto" unmountOnExit>
-            <Stack direction="column">
-              {order?.orderDetails.map((detail) => {
+            <Stack direction="column" p={1} sx={{ bgcolor: (theme) => theme.palette.grey[200], borderRadius: 2 }}>
+              {order?.orderDetails.map((detail, indexDetail) => {
+                const isLast = indexDetail === order?.orderDetails.length - 1;
+
                 return (
-                  <Stack justifyContent="space-between" direction="row" padding={2}>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    p={2}
+                    sx={{
+                      border: 0,
+                      borderBottom: isLast ? 0 : 1,
+                      borderStyle: 'dashed',
+                      borderColor: (theme) => theme.palette.grey[400],
+                    }}
+                  >
                     <Stack direction="row" alignItems="center" spacing={2} width={200}>
-                      <Avatar alt={'Product Image'} src={detail.product.image} />
+                      <Avatar alt={detail.product.name} src={detail.product.image} />
                       <Stack direction="column">
                         <Typography variant="body2" noWrap>
                           {detail.product.name}
@@ -151,8 +159,6 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
           </Collapse>
         </TableCell>
       </TableRow>
-
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onDelete={handleOpen} />
     </>
   );
 }
