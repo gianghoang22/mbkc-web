@@ -14,7 +14,7 @@ function CashierReportSkeleton() {
             </Stack>
             <Stack direction="row" justifyContent="center" m={2}>
               <Typography variant="h4">
-                <Skeleton width={180} />
+                <Skeleton width={240} />
               </Typography>
             </Stack>
 
@@ -29,34 +29,32 @@ function CashierReportSkeleton() {
 
             <Stack direction="row" justifyContent="space-between" ml={20} mr={20} mt={3}>
               <Typography variant="h6" color={(theme) => theme.palette.grey[500]}>
-                <Skeleton width={180} />
+                <Skeleton width={280} />
               </Typography>
               <Typography variant="h6">
-                <Skeleton width={180} />
+                <Skeleton width={120} />
               </Typography>
             </Stack>
 
             <Stack direction="row" justifyContent="space-between" ml={20} mr={20} mt={3}>
               <Typography variant="h6" color={(theme) => theme.palette.grey[500]}>
-                <Skeleton width={180} />
+                <Skeleton width={240} />
               </Typography>
               <Typography variant="h6">
-                <Skeleton width={180} />
+                <Skeleton width={100} />
               </Typography>
             </Stack>
 
             <Stack direction="row" justifyContent="space-between" ml={20} mr={20} mt={3}>
               <Typography variant="h6" color={(theme) => theme.palette.grey[500]}>
-                <Skeleton width={180} />
+                <Skeleton width={120} />
               </Typography>
               <Typography variant="h6">
-                <Skeleton width={180} />
+                <Skeleton width={100} />
               </Typography>
             </Stack>
 
             <Stack mt={4} justifyContent="center" direction="row" gap={2}>
-              <Skeleton width={200} height={60} />
-
               <Skeleton width={200} height={60} />
             </Stack>
           </Paper>
