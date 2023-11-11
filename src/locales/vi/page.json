@@ -130,5 +130,8 @@
   },
   "dashboard": {
     "titleSummary": "Tổng số {{model}}"
+  },
+  "alert": {
+    "compareDate": "'Đến ngày' phải lớn hơn 'Từ ngày'"
   }
 }

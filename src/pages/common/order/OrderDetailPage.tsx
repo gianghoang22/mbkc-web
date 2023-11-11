@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // @mui
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
-import PaymentsIcon from '@mui/icons-material/Payments';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import PaymentsIcon from '@mui/icons-material/Payments';
 import {
   Box,
   Button,
@@ -59,11 +60,11 @@ function OrderDetailPage() {
       orderId,
       navigate,
     };
-  }, [orderId, navigate]);
+  }, [orderId]);
 
   useEffect(() => {
     dispatch<any>(getOrderDetail(paramsDetails));
-  }, [paramsDetails, dispatch]);
+  }, [paramsDetails]);
 
   const handleOrderReadyDelivery = () => {
     dispatch<any>(
@@ -285,7 +286,7 @@ function OrderDetailPage() {
 
                 <Grid item xs={12} sm={12} md={4}>
                   <Card>
-                    <Box width="100%" padding={2}>
+                    <Box width="100%" p={2}>
                       <Paper sx={{ width: '100%' }}>
                         <Stack gap={2}>
                           <Stack gap={1}>

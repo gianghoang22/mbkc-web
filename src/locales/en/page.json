@@ -129,5 +129,8 @@
   },
   "dashboard": {
     "titleSummary": "Total {{model}}"
+  },
+  "alert": {
+    "compareDate": "'To date' must be greater than 'From date'"
   }
 }
