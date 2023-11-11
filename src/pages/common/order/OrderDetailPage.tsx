@@ -394,6 +394,7 @@ function OrderDetailPage() {
       <MUIPopover
         open={Boolean(openConfirm)}
         anchorEl={openConfirm}
+        hidden={userAuth?.roleName === Role.CASHIER && order?.systemStatus !== SystemStatus.COMPLETED ? false : true}
         onClose={handleCloseMenuConfirm}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
