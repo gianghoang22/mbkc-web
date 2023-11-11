@@ -142,7 +142,8 @@ function EndOfShiftPage() {
 
                 <Stack direction="row" justifyContent="space-between" ml={20} mr={20} mt={3}>
                   <Typography variant="h6" color={(theme) => theme.palette.grey[500]}>
-                    {translate('page.content.totalOrdersOfToday')}
+                    {translate('page.content.totalOrdersOfToday')} (
+                    <Button onClick={handleOpen}>{translate('breadcrumb.detail')}</Button>)
                   </Typography>
 
                   <Typography variant="h6">{shiftReport?.totalOrderToday}</Typography>
@@ -163,9 +164,6 @@ function EndOfShiftPage() {
                 </Stack>
 
                 <Stack mt={4} justifyContent="center" direction="row" gap={2}>
-                  <Button variant="outlined" onClick={handleOpen}>
-                    {translate('page.title.listOfToday', { model: translate('model.lowercase.orders') })}
-                  </Button>
                   <Button onClick={handleEndOfShift} variant="contained" disabled={isLoadingShift}>
                     {translate('button.confirmEndOfShift')}
                   </Button>
