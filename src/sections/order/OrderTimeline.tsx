@@ -1,3 +1,4 @@
+import moment from 'moment';
 // @mui
 import HistoryIcon from '@mui/icons-material/History';
 import {
@@ -15,20 +16,16 @@ import { Box, Card, Paper, Stack, Typography } from '@mui/material';
 import { useAppSelector } from 'redux/configStore';
 // interface
 import { Color, PartnerOrderStatus, SystemStatus } from 'common/enums';
-import { Order, OrderHistory } from 'common/models';
 //
 import { Label } from 'components';
 import { useLocales } from 'hooks';
-import { fTime, formatDate } from 'utils';
 
 export default function OrderTimeline() {
   const { translate } = useLocales();
 
   const { order } = useAppSelector((state) => state.order);
 
-  const orderHistories: OrderHistory[] = order?.orderHistories as OrderHistory[];
-
-  const createDate = orderHistories.map((history) => history.createdDate);
+  const createDate = order?.orderHistories?.map((history) => history.createdDate);
 
   return (
     <Card>
@@ -43,7 +40,7 @@ export default function OrderTimeline() {
             py={1}
             px={7}
             sx={{
-              mb: 5,
+              mb: 4.5,
               borderTop: 1,
               borderBottom: 1,
               borderColor: (theme) => theme.palette.grey[400],
@@ -53,7 +50,7 @@ export default function OrderTimeline() {
             <Typography>
               {translate('table.createdDate')}:{' '}
               <Typography variant="subtitle1" component="span">
-                {formatDate(createDate[0])}
+                {moment(createDate ? createDate[0] : '').format('DD/MM/YYYY')}
               </Typography>
             </Typography>
           </Stack>
@@ -65,14 +62,14 @@ export default function OrderTimeline() {
               },
             }}
           >
-            {orderHistories &&
-              orderHistories.map((orderHistory, index) => {
-                const isLast = index === orderHistories.length - 1;
+            {order?.orderHistories &&
+              order?.orderHistories?.map((orderHistory, index) => {
+                const isLast = index === order?.orderHistories.length - 1;
 
                 return (
                   <TimelineItem key={orderHistory.orderHistoryId}>
                     <TimelineOppositeContent color="text.secondary">
-                      {fTime(orderHistory.createdDate)}
+                      {moment(orderHistory?.createdDate).format('HH:mm:ss')}
                     </TimelineOppositeContent>
                     <TimelineSeparator>
                       <TimelineDot />

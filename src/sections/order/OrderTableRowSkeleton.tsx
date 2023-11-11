@@ -1,9 +1,9 @@
-import { TableRow, TableCell, Skeleton } from '@mui/material';
+import { TableRow, TableCell, Skeleton, TableBody } from '@mui/material';
 
 function OrderTableRowSkeleton({ length }: { length: number }) {
   return (
-    <>
-      {Array.from({ length }).map((_, index) => {
+    <TableBody>
+      {Array.from({ length: length > 0 ? length : 5 }).map((_, index) => {
         return (
           <TableRow hover tabIndex={-1} key={index}>
             <TableCell width={60} align="center">
@@ -41,7 +41,7 @@ function OrderTableRowSkeleton({ length }: { length: number }) {
           </TableRow>
         );
       })}
-    </>
+    </TableBody>
   );
 }
 

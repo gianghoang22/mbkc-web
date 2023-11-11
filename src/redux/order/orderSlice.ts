@@ -44,14 +44,10 @@ export const changeOrderToReadyDelivery = createAsyncThunk(
 );
 export const cancelOrder = createAsyncThunk('order/cancel-order', cancelOrderThunk);
 
-const productSlice = createSlice({
-  name: 'product',
+const orderSlice = createSlice({
+  name: 'order',
   initialState,
-  reducers: {
-    getProductDetail_local: (state, action) => {
-      state.order = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(getAllOrders.pending, (state) => {
@@ -65,7 +61,7 @@ const productSlice = createSlice({
         state.totalPages = action.payload?.totalPages;
         state.numberItems = action.payload?.numberItems;
       })
-      .addCase(getAllOrders.rejected, (state, action) => {
+      .addCase(getAllOrders.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -74,6 +70,7 @@ const productSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getOrderDetail.fulfilled, (state, action) => {
+        console.log(action);
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
@@ -139,7 +136,7 @@ const productSlice = createSlice({
   },
 });
 
-export const { getProductDetail_local } = productSlice.actions;
-const productReducer = productSlice.reducer;
+// export const { } = orderSlice.actions;
+const productReducer = orderSlice.reducer;
 
 export default productReducer;

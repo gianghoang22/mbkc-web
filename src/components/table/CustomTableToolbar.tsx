@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLocation, useParams } from 'react-router-dom';
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 // @mui
 import ReplayIcon from '@mui/icons-material/Replay';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
+  Alert,
   Autocomplete,
   Button,
   Checkbox,
@@ -21,7 +22,7 @@ import {
 import { DatePicker } from '@mui/x-date-pickers';
 //redux
 import { useAppSelector } from 'redux/configStore';
-//
+// interface
 import { HeadCell, OptionSelect, OrderSortBy } from 'common/@types';
 import {
   ExchangeType,
@@ -33,11 +34,13 @@ import {
   SystemStatusToFilter,
 } from 'common/enums';
 import { ProductTypeEnum } from 'common/models';
+//
 import { useLocales, usePopover } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
 import { StyledRoot, StyledSearch } from './styles';
 
 interface CustomTableToolbarProps<T> {
+  showWarning?: boolean;
   headCells: HeadCell<T>[];
   filterName?: string;
   onFilterName?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -79,6 +82,7 @@ interface CustomTableToolbarProps<T> {
 
 function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
   const {
+    showWarning = false,
     headCells,
     filterName,
     onFilterName,
@@ -211,6 +215,20 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
     <>
       <StyledRoot>
         <Stack direction="row" gap={2}>
+          {haveFilterName && onFilterName && (
+            <StyledSearch
+              size="small"
+              value={filterName}
+              onChange={onFilterName}
+              placeholder={translate('page.title.search', { model: model })}
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                </InputAdornment>
+              }
+            />
+          )}
+
           {handleChangeStatus && haveSelectStatus && (
             <Stack width={250}>
               <Autocomplete
@@ -396,23 +414,9 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
               />
             </Stack>
           )}
-
-          {haveFilterName && onFilterName && (
-            <StyledSearch
-              size="small"
-              value={filterName}
-              onChange={onFilterName}
-              placeholder={translate('page.title.search', { model: model })}
-              startAdornment={
-                <InputAdornment position="start">
-                  <SearchRoundedIcon sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-                </InputAdornment>
-              }
-            />
-          )}
         </Stack>
 
-        <Stack direction="row" gap={1}>
+        <Stack direction="row" gap={1} ml={3}>
           <Tooltip title={translate('button.reload')}>
             <IconButton onClick={handleReloadData}>
               <ReplayIcon />
@@ -432,6 +436,12 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
           )}
         </Stack>
       </StyledRoot>
+
+      {showWarning && (
+        <Stack px={3} mb={2}>
+          <Alert severity="warning">{translate('page.alert.compareDate')}</Alert>
+        </Stack>
+      )}
 
       <MUIPopover
         open={Boolean(open)}
