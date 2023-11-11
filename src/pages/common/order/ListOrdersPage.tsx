@@ -92,7 +92,7 @@ function ListOrdersPage() {
     if (searchDateTo === null || searchDateFrom === null) {
       dispatch(getAllOrders(params));
     } else if (searchDateFrom !== null && searchDateTo !== null) {
-      if (moment(dateForm).isBefore(dateTo)) {
+      if (moment(dateForm).isSameOrBefore(dateTo)) {
         setShowWarning(false);
         setSearchDateTo(searchDateTo);
         dispatch(getAllOrders(params));
