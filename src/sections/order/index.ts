@@ -5,4 +5,5 @@ export { default as OrderHistoryTableRowSkeleton } from './OrderHistoryTableRowS
 export { default as OrderDetailPageSkeleton } from './OrderDetailPageSkeleton';
 export { default as OrderItem } from './OrderItem';
 export { default as OrderTimeline } from './OrderTimeline';
+export { default as OrderTimelineSkeleton } from './OrderTimelineSkeleton';
 export { default as OrderHistoryTableRow } from './OrderHistoryTableRow';

@@ -4,6 +4,7 @@ import { Box, Card, Container, Divider, Grid, IconButton, Paper, Skeleton, Stack
 import { useAppSelector } from 'redux/configStore';
 //
 import { Role } from 'common/enums';
+import OrderTimelineSkeleton from './OrderTimelineSkeleton';
 
 function OrderDetailPageSkeleton() {
   const { userAuth } = useAppSelector((state) => state.auth);
@@ -76,6 +77,10 @@ function OrderDetailPageSkeleton() {
                   </Paper>
                 </Box>
               </Card>
+
+              <Box mt={5}>
+                <OrderTimelineSkeleton />
+              </Box>
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <Stack gap={3}>

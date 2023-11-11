@@ -363,7 +363,7 @@ function OrderDetailPage() {
                                 <Button
                                   disabled={
                                     order?.systemStatus === SystemStatus.READY_DELIVERY &&
-                                    order.partnerOrderStatus === PartnerOrderStatus.READY
+                                    order?.partnerOrderStatus === PartnerOrderStatus.READY
                                       ? false
                                       : true
                                   }
