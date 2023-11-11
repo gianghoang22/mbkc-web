@@ -13,7 +13,8 @@
     "completedOrder": "Confirm completed {{model}}",
     "totalDaily": "Total daily {{model}}",
     "new": "New {{model}}",
-    "brandManagement": "Brand management"
+    "brandManagement": "Brand management",
+    "listOfToday": "List {{model}} of today"
   },
   "content": {
     "noHavePartner": "No partner yet",
@@ -60,7 +61,10 @@
     "mainBalance": "Main Balance",
     "cash": "Cash",
     "cashless": "Cashless",
-    "paymentMethod": "Payment method"
+    "paymentMethod": "Payment method",
+    "totalOrdersOfToday": "Total orders of today",
+    "totalRevenueOfToday": "Total revenue of today",
+    "balance": "Balance"
   },
   "form": {
     "email": "Email",
