@@ -25,7 +25,6 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
   const { orderId, navigate } = params;
   try {
     const response: Order = await axiosClient.get(ROUTES_API_ORDERS.GET_ORDER_DETAIL(orderId));
-
     return response;
   } catch (error: any) {
     const getUserInStorage: UserAuth = getUserAuth();
@@ -105,6 +104,7 @@ export const changeOrderToReadyDeliveryThunk = async (params: any, thunkAPI: any
 
 export const cancelOrderThunk = async (params: any, thunkAPI: any) => {
   const { idParams, navigate } = params;
+
   try {
     const response: MessageResponse = await axiosClient.put(
       ROUTES_API_ORDERS.CANCEL_ORDER(idParams?.orderId ? idParams?.orderId : 0)

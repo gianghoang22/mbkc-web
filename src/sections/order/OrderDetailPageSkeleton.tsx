@@ -1,5 +1,15 @@
 // @mui
-import { Box, Card, Container, Divider, Grid, IconButton, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineOppositeContent,
+  TimelineSeparator,
+  timelineOppositeContentClasses,
+} from '@mui/lab';
+import { Box, Card, Container, Divider, Grid, IconButton, Paper, Skeleton, Stack } from '@mui/material';
 // redux
 import { useAppSelector } from 'redux/configStore';
 //
@@ -15,130 +25,231 @@ function OrderDetailPageSkeleton() {
           <IconButton color="inherit">
             <Skeleton variant="circular" width={28} height={28} />
           </IconButton>
-          <Skeleton width={350} />
+          <Skeleton variant="rounded" width={290} height={24} />
           <Skeleton variant="rounded" width={130} height={24} />
         </Stack>
 
         {userAuth?.roleName === Role.CASHIER && (
           <Stack>
-            <Skeleton width={142} />
+            <Skeleton variant="rounded" width={180} height={40} />
           </Stack>
         )}
       </Stack>
       <Grid container columnSpacing={5} rowSpacing={5}>
-        <Grid item xs={12} sm={12} md={8}>
+        <Grid item xs={12} sm={12} md={7.5}>
           <Card>
-            <Box sx={{ width: '100%' }} padding={2} paddingTop={2}>
-              <Paper sx={{ width: '100%', mb: 2 }}>
-                <Stack direction="row" alignItems="center" mb={1}>
-                  <Typography variant="subtitle1" mr={1}>
-                    <Typography variant="subtitle1" mr={1}>
-                      <Skeleton width={100} />
-                    </Typography>
-                  </Typography>
-                  <Skeleton width={170} />
+            <Box sx={{ width: '100%' }}>
+              <Paper sx={{ width: '100%' }}>
+                <Stack
+                  gap={1}
+                  direction="row"
+                  alignItems="center"
+                  px={3}
+                  py={2}
+                  sx={{
+                    borderBottom: 1,
+                    borderColor: (theme) => theme.palette.grey[400],
+                  }}
+                >
+                  <Skeleton width={160} />
                 </Stack>
 
-                <Stack>
-                  <Skeleton width={680} height={102} />
-                </Stack>
-
-                <Stack direction="row" alignItems="center" mt={1} mb={1}>
-                  <Typography variant="subtitle1" mr={1}>
-                    <Skeleton width={100} />
-                  </Typography>
-                  <Skeleton width={200} />
-                </Stack>
-
-                <Stack>
-                  <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                <Stack px={3} py={2} gap={2}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between">
                     <Skeleton width={200} />
+
+                    <Stack direction="row" justifyContent="space-between" gap={1}>
+                      <Skeleton width={140} />
+                      <Skeleton variant="rounded" width={100} height={24} />
+                    </Stack>
                   </Stack>
 
-                  <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                  <Skeleton width={270} />
+                  <Skeleton />
+
+                  <Stack gap={1}>
                     <Skeleton width={200} />
+                    <Skeleton variant="rounded" height={70} />
                   </Stack>
 
-                  <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                    <Skeleton width={200} />
-                  </Stack>
-                  <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                    <Skeleton width={200} />
+                  <Divider />
+
+                  <Stack gap={1} alignItems="end">
+                    <Skeleton width={250} />
+                    <Skeleton width={250} />
+                    <Skeleton width={250} />
+                    <Skeleton width={250} />
                   </Stack>
                 </Stack>
               </Paper>
             </Box>
           </Card>
+
+          <Box mt={5}>
+            <Card>
+              <Box width="100%" pb={2}>
+                <Paper sx={{ width: '100%' }}>
+                  <Stack px={3} py={2}>
+                    <Skeleton width={160} />
+                  </Stack>
+
+                  <Stack
+                    py={1}
+                    px={7}
+                    sx={{
+                      mb: 4.5,
+                      borderTop: 1,
+                      borderBottom: 1,
+                      borderColor: (theme) => theme.palette.grey[400],
+                      bgcolor: (theme) => theme.palette.grey[200],
+                    }}
+                  >
+                    <Skeleton width={180} />
+                  </Stack>
+
+                  <Timeline
+                    sx={{
+                      [`& .${timelineOppositeContentClasses.root}`]: {
+                        flex: 0.6,
+                      },
+                    }}
+                  >
+                    <TimelineItem>
+                      <TimelineOppositeContent color="text.secondary">
+                        <Stack alignItems="end">
+                          <Skeleton width={120} />
+                        </Stack>
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineDot />
+                        <TimelineConnector />
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Stack direction="column" gap={2} pb={3}>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <Skeleton width={116} />
+                            <Skeleton variant="rounded" width={140} height={24} />
+                          </Stack>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <Skeleton width={130} />
+                            <Skeleton variant="rounded" width={140} height={24} />
+                          </Stack>
+                        </Stack>
+                      </TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                      <TimelineOppositeContent color="text.secondary">
+                        <Stack alignItems="end">
+                          <Skeleton width={120} />
+                        </Stack>
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineDot />
+                        <TimelineConnector />
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Stack direction="column" gap={2} pb={3}>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <Skeleton width={116} />
+                            <Skeleton variant="rounded" width={140} height={24} />
+                          </Stack>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <Skeleton width={130} />
+                            <Skeleton variant="rounded" width={140} height={24} />
+                          </Stack>
+                        </Stack>
+                      </TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                      <TimelineOppositeContent color="text.secondary">
+                        <Stack alignItems="end">
+                          <Skeleton width={120} />
+                        </Stack>
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineDot />
+                        <TimelineConnector />
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Stack direction="column" gap={2} pb={3}>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <Skeleton width={116} />
+                            <Skeleton variant="rounded" width={140} height={24} />
+                          </Stack>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <Skeleton width={130} />
+                            <Skeleton variant="rounded" width={140} height={24} />
+                          </Stack>
+                        </Stack>
+                      </TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                      <TimelineOppositeContent color="text.secondary">
+                        <Stack alignItems="end">
+                          <Skeleton width={120} />
+                        </Stack>
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineDot />
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Stack direction="column" gap={2} pb={3}>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <Skeleton width={116} />
+                            <Skeleton variant="rounded" width={140} height={24} />
+                          </Stack>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <Skeleton width={130} />
+                            <Skeleton variant="rounded" width={140} height={24} />
+                          </Stack>
+                        </Stack>
+                      </TimelineContent>
+                    </TimelineItem>
+                  </Timeline>
+                </Paper>
+              </Box>
+            </Card>
+          </Box>
         </Grid>
-        <Grid item xs={12} sm={12} md={4}>
+        <Grid item xs={12} sm={12} md={4.5}>
           <Stack gap={3}>
             <Card>
-              <Box sx={{ width: '100%' }} padding={2} minHeight={460}>
-                <Paper sx={{ width: '100%', mb: 2 }}>
-                  <Stack>
-                    <Typography variant="subtitle1">
+              <Box sx={{ width: '100%' }}>
+                <Paper sx={{ width: '100%' }}>
+                  <Stack
+                    gap={1}
+                    direction="row"
+                    alignItems="center"
+                    px={3}
+                    py={2}
+                    sx={{
+                      borderBottom: 1,
+                      borderColor: (theme) => theme.palette.grey[400],
+                    }}
+                  >
+                    <Skeleton width={180} />
+                  </Stack>
+
+                  <Stack gap={2} p={2}>
+                    <Stack gap={1}>
+                      <Skeleton width={160} />
+                      <Skeleton width={180} />
+                      <Skeleton width={180} />
+                      <Skeleton />
+                    </Stack>
+                    <Divider />
+                    <Stack gap={1}>
+                      <Skeleton width={180} />
+                      <Skeleton width={240} />
+                      <Skeleton width={300} />
+                    </Stack>
+                    <Divider />
+                    <Stack gap={1}>
                       <Skeleton width={100} />
-                    </Typography>
-                    <Stack direction="row" alignItems="center" spacing={2} mt={2} mb={2}>
-                      <Stack direction="row" spacing={1} mt={1} alignItems="center">
-                        <Typography color={(theme) => theme.palette.grey[500]}>
-                          <Skeleton width={100} />
-                        </Typography>
-                        <Skeleton width={150} />
+                      <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <Skeleton width={140} />
+                        <Skeleton variant="rounded" width={80} height={24} />
                       </Stack>
-                    </Stack>
-                  </Stack>
-                  <Divider />
-
-                  <Stack>
-                    <Typography variant="subtitle1" mt={2}>
-                      <Skeleton width={100} />
-                    </Typography>
-                    <Stack direction="row" spacing={1} mt={1} alignItems="center">
-                      <Typography color={(theme) => theme.palette.grey[500]}>
-                        <Skeleton width={100} />
-                      </Typography>
-                      <Skeleton width={150} />
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" spacing={1} mt={1} mb={2}>
-                      <Typography color={(theme) => theme.palette.grey[500]}>
-                        <Skeleton width={100} />
-                      </Typography>
-                      <Skeleton width={150} />
-                    </Stack>
-                  </Stack>
-                  <Divider />
-
-                  <Stack>
-                    <Typography variant="subtitle1" mt={2}>
-                      <Skeleton width={100} />
-                    </Typography>
-                    <Stack direction="row" spacing={1} mt={1}>
-                      <Typography sx={{ color: '#919EAB;' }}>
-                        <Skeleton width={100} />
-                      </Typography>
-                      <Skeleton width={150} />
-                    </Stack>
-
-                    <Stack direction="row" alignItems="center" spacing={1} mt={1} mb={2}>
-                      <Typography sx={{ color: '#919EAB;' }}>
-                        <Skeleton width={100} />
-                      </Typography>
-                      <Skeleton width={150} />
-                    </Stack>
-                  </Stack>
-                  <Divider />
-
-                  <Typography variant="subtitle2" mt={2}>
-                    <Skeleton width={100} />
-                  </Typography>
-                  <Stack rowGap={2} mt={1}>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                      <Typography>
-                        <Skeleton width={100} />
-                      </Typography>
-                      <Skeleton width={150} />
                     </Stack>
                   </Stack>
                 </Paper>
