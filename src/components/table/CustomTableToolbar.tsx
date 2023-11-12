@@ -257,7 +257,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
 
           {handleChangeSearchDateFrom && haveSelectSearchDateFrom && (
             <DatePicker
-              slotProps={{ textField: { size: 'small' } }}
+              slotProps={{ textField: { size: 'small' }, actionBar: { actions: ['clear'] } }}
               label={translate('table.fromDate')}
               value={searchDateFrom}
               format="DD/MM/YYYY"
@@ -268,7 +268,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
 
           {handleChangeSearchDateTo && haveSelectSearchDateTo && (
             <DatePicker
-              slotProps={{ textField: { size: 'small' } }}
+              slotProps={{ textField: { size: 'small' }, actionBar: { actions: ['clear'] } }}
               label={translate('table.toDate')}
               value={searchDateTo}
               format="DD/MM/YYYY"

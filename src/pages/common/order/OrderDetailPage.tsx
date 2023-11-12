@@ -7,6 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import InfoIcon from '@mui/icons-material/Info';
 import {
   Box,
   Button,
@@ -131,7 +132,7 @@ function OrderDetailPage() {
             </Stack>
 
             <Grid container columnSpacing={5} rowSpacing={5}>
-              <Grid item xs={12} sm={12} md={8}>
+              <Grid item xs={12} sm={12} md={7.5}>
                 <Card>
                   <Box sx={{ width: '100%' }}>
                     <Paper sx={{ width: '100%' }}>
@@ -152,15 +153,16 @@ function OrderDetailPage() {
                         </Typography>
                       </Stack>
 
-                      <Stack px={3} py={2}>
+                      <Stack px={3} py={2} gap={2}>
                         <Stack direction="row" justifyContent="space-between">
-                          <Stack direction="row" alignItems="center" mb={2}>
-                            <Typography variant="subtitle1" mr={1}>
-                              {translate('table.partnerOrderId')}:
+                          <Typography variant="subtitle1">
+                            {translate('table.partnerOrderId')}:{' '}
+                            <Typography variant="body1" component="span">
+                              {order?.orderPartnerId}
                             </Typography>
-                            <Typography variant="body1">{order?.orderPartnerId}</Typography>
-                          </Stack>
-                          <Stack direction="row" justifyContent="space-between" spacing={1}>
+                          </Typography>
+
+                          <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
                             <Typography variant="subtitle1">{translate('table.partnerOrderStatus')}:</Typography>
                             <Label
                               color={
@@ -184,67 +186,81 @@ function OrderDetailPage() {
                           </Stack>
                         </Stack>
 
-                        <Stack direction="row" alignItems="center" mb={1}>
-                          <Typography variant="subtitle1" mr={1}>
-                            {translate('table.store')}:
+                        <Typography variant="subtitle1">
+                          {translate('table.store')}:{' '}
+                          <Typography variant="body1" component="span">
+                            {order?.store.name}
                           </Typography>
-                          <Typography variant="body1">{order?.store.name}</Typography>
-                        </Stack>
+                        </Typography>
 
-                        {order?.orderDetails.map((order) => {
-                          return (
-                            <OrderItem
-                              key={order.product.productId}
-                              paddingTop={2}
-                              divider
-                              logoUrl={order.product.image}
-                              name={order.product.name}
-                              category={order.product.categoryName}
-                              quantity={order.quantity}
-                              price={order.product.sellingPrice}
-                              noteContent={order.note}
-                              note
-                            />
-                          );
-                        })}
-
-                        <Typography variant="subtitle1" mt={1} mb={1}>
-                          {translate('page.content.note')}:{' '}
+                        <Typography variant="subtitle1">
+                          {translate('page.content.orderNote')}:{' '}
                           <Typography variant="body1" component="span">
                             {order?.note}
                           </Typography>
                         </Typography>
 
                         <Stack>
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Typography variant="subtitle1">
+                            {translate('page.title.details', { model: translate('model.lowercase.products') })}:
+                          </Typography>
+                          {order?.orderDetails.map((orderDetail, index) => {
+                            const isLast = index === order?.orderDetails.length - 1;
+
+                            return (
+                              <Stack
+                                sx={{
+                                  border: 0,
+                                  borderBottom: isLast ? 0 : 1,
+                                  borderStyle: 'dashed',
+                                  borderColor: (theme) => theme.palette.grey[400],
+                                }}
+                              >
+                                <OrderItem
+                                  key={orderDetail.product.productId}
+                                  paddingTop={2}
+                                  productDetail={orderDetail.product}
+                                  quantity={orderDetail.quantity}
+                                  noteContent={orderDetail.note}
+                                />
+                              </Stack>
+                            );
+                          })}
+                        </Stack>
+
+                        <Divider />
+
+                        <Stack gap={1} textAlign="right">
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
                             <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('page.content.subTotalPrice')}
                             </Typography>
-                            <Typography width={100} variant="body2">
+                            <Typography width={150} variant="body2">
                               {formatCurrency(order?.subTotalPrice as number)}
                             </Typography>
                           </Stack>
 
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
                             <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('page.content.deliveryFee')}
                             </Typography>
-                            <Typography width={100} variant="body2">
+                            <Typography width={150} variant="body2">
                               {formatCurrency(order?.deliveryFee as number)}
                             </Typography>
                           </Stack>
 
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
                             <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('page.content.totalDiscount')}
                             </Typography>
-                            <Typography width={100} variant="body2">
+                            <Typography width={150} variant="body2" color="red">
                               {formatCurrency(order?.totalDiscount as number)}
                             </Typography>
                           </Stack>
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center" textAlign="right" mt={1}>
-                            <Typography variant="subtitle2">{translate('page.content.finalTotalPrice')}</Typography>
-                            <Typography width={100} variant="subtitle2">
+
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
+                            <Typography variant="subtitle1">{translate('page.content.finalTotalPrice')}</Typography>
+                            <Typography width={150} variant="subtitle1">
                               {formatCurrency(order?.finalTotalPrice as number)}
                             </Typography>
                           </Stack>
@@ -259,17 +275,45 @@ function OrderDetailPage() {
                 </Box>
               </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
+              <Grid item xs={12} sm={12} md={4.5}>
                 <Card>
-                  <Box width="100%" p={2}>
+                  <Box width="100%">
                     <Paper sx={{ width: '100%' }}>
-                      <Stack gap={2}>
+                      <Stack
+                        gap={1}
+                        direction="row"
+                        alignItems="center"
+                        px={3}
+                        py={2}
+                        sx={{
+                          borderBottom: 1,
+                          borderColor: (theme) => theme.palette.grey[400],
+                        }}
+                      >
+                        <InfoIcon />
+                        <Typography variant="subtitle1">{translate('page.content.orderInformation')}</Typography>
+                      </Stack>
+                      <Stack gap={2} p={2}>
                         <Stack gap={1}>
-                          <Typography variant="subtitle1">{translate('page.content.customer')}</Typography>
+                          <Typography variant="subtitle1">{translate('page.content.shipping')}</Typography>
                           <Typography variant="body2" color={(theme) => theme.palette.grey[500]}>
-                            {translate('table.name')}:{' '}
+                            {translate('page.content.customer')}:{' '}
                             <Typography variant="body2" component="span" color="black">
                               {order?.customerName}
+                            </Typography>
+                          </Typography>
+
+                          <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                            {translate('model.capitalize.phone')}:{' '}
+                            <Typography variant="body2" component="span" color="black">
+                              {order?.customerPhone}
+                            </Typography>
+                          </Typography>
+
+                          <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                            {translate('table.address')}:{' '}
+                            <Typography variant="body2" component="span" color="black">
+                              {order?.address}
                             </Typography>
                           </Typography>
                         </Stack>
@@ -289,27 +333,6 @@ function OrderDetailPage() {
                             {translate('page.content.shipperPhone')}:{' '}
                             <Typography variant="body2" component="span" color="black">
                               {order?.shipperPhone}
-                            </Typography>
-                          </Typography>
-                        </Stack>
-
-                        <Divider />
-
-                        <Stack gap={1}>
-                          <Typography variant="subtitle1">{translate('page.content.shipping')}</Typography>
-                          <Stack direction="row" spacing={0.2}>
-                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }} width={60}>
-                              {translate('table.address')}:{' '}
-                            </Typography>
-                            <Typography variant="body2" component="span" color="black">
-                              {order?.address}
-                            </Typography>
-                          </Stack>
-
-                          <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                            {translate('model.capitalize.phone')}:{' '}
-                            <Typography variant="body2" component="span" color="black">
-                              {order?.customerPhone}
                             </Typography>
                           </Typography>
                         </Stack>
