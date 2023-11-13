@@ -49,31 +49,28 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
         <TableCell width={60} align="center" onClick={handleNavigateDetail}>
           {index + 1}
         </TableCell>
-
-        <TableCell onClick={handleNavigateDetail} padding="none">
-          <Box textAlign="center" pr={3.5}>
-            {order?.id}
-          </Box>
-        </TableCell>
-
-        {selected.includes(OrderSortBy.ORDER_PARTNER_ID) && (
-          <TableCell padding="none" onClick={handleNavigateDetail}>
-            {order?.orderPartnerId}
+        {selected.includes(OrderSortBy.ORDER_ID) && (
+          <TableCell onClick={handleNavigateDetail} padding="none">
+            <Box textAlign="center" pr={3.5}>
+              {order?.id}
+            </Box>
           </TableCell>
         )}
-
-        <TableCell onClick={handleNavigateDetail}>
-          {moment(createDate ? createDate[0] : '').format('DD/MM/YYYY HH:mm')}
+        <TableCell padding="none" onClick={handleNavigateDetail}>
+          {order?.orderPartnerId}
         </TableCell>
-
-        <TableCell onClick={handleNavigateDetail}>{order?.partner.name}</TableCell>
-
-        <TableCell onClick={handleNavigateDetail}>{order?.store.name}</TableCell>
-
-        {selected.includes(OrderSortBy.FINAL_TOTAL_PRICE) && (
-          <TableCell onClick={handleNavigateDetail}>{formatCurrency(order?.finalTotalPrice)}</TableCell>
+        {selected.includes(OrderSortBy.CREATE_DATE) && (
+          <TableCell onClick={handleNavigateDetail}>
+            {moment(createDate ? createDate[0] : '').format('DD/MM/YYYY HH:mm')}
+          </TableCell>
         )}
-
+        {selected.includes(OrderSortBy.PARTNER_NAME) && (
+          <TableCell onClick={handleNavigateDetail}>{order?.partner.name}</TableCell>
+        )}
+        {selected.includes(OrderSortBy.STORE_NAME) && (
+          <TableCell onClick={handleNavigateDetail}>{order?.store.name}</TableCell>
+        )}
+        <TableCell onClick={handleNavigateDetail}>{formatCurrency(order?.finalTotalPrice)}</TableCell>
         <TableCell onClick={handleNavigateDetail}>
           <Label
             color={
@@ -95,7 +92,6 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
               : translate('status.cancelled')}
           </Label>
         </TableCell>
-
         <TableCell onClick={handleNavigateDetail}>
           <Label
             color={
@@ -132,7 +128,7 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
 
       <TableRow>
         <TableCell
-          colSpan={9}
+          colSpan={10}
           sx={{ py: openList !== index ? 0 : 2, px: 2, bgcolor: (theme) => theme.palette.grey[200] }}
         >
           <Collapse in={openList === index} timeout="auto" unmountOnExit>

@@ -57,7 +57,7 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
       aria-describedby="alert-dialog-description"
       {...props}
     >
-      <DialogTitle id="alert-dialog-title" variant="h4">
+      <DialogTitle id="alert-dialog-title" variant="h5">
         {title}
       </DialogTitle>
       <DialogContent>

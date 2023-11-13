@@ -1,63 +1,85 @@
-// @mui
-import { Box, Card, Paper, Stack, Typography } from '@mui/material';
-
-import { Skeleton } from '@mui/material';
+import { Box, Card, Grid, Skeleton, Stack } from '@mui/material';
 
 function CashierReportSkeleton() {
   return (
     <Stack alignItems="center" width="100%">
       <Box sx={{ width: '100%' }}>
         <Card>
-          <Paper sx={{ width: '100%', mb: 4, mt: 4 }}>
-            <Stack justifyContent="center" direction="row">
-              <Skeleton variant="circular" width={150} height={150} />
-            </Stack>
-            <Stack direction="row" justifyContent="center" m={2}>
-              <Typography variant="h4">
-                <Skeleton width={240} />
-              </Typography>
-            </Stack>
+          <Stack
+            gap={1}
+            direction="row"
+            alignItems="center"
+            px={3}
+            py={2}
+            sx={{
+              color: '#2B3674',
+              borderBottom: 1,
+              borderColor: (theme) => theme.palette.grey[400],
+            }}
+          >
+            <Skeleton variant="rounded" width={200} height={28} />
+          </Stack>
+          <Stack p={4} pb={2}>
+            <Grid container columnSpacing={4} rowSpacing={3}>
+              <Grid item xs={12} md={4}>
+                <Stack
+                  gap={2}
+                  sx={{
+                    borderRight: 1,
+                    borderColor: (theme) => theme.palette.grey[400],
+                  }}
+                >
+                  <Skeleton width={180} />
 
-            <Stack direction="row" justifyContent="space-between" ml={20} mr={20} mt={4}>
-              <Typography variant="h6" color={(theme) => theme.palette.grey[500]}>
-                <Skeleton width={180} />
-              </Typography>
-              <Typography variant="h6">
-                <Skeleton width={180} />
-              </Typography>
-            </Stack>
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <Skeleton variant="circular" sx={{ width: 100, height: 100 }} />
 
-            <Stack direction="row" justifyContent="space-between" ml={20} mr={20} mt={3}>
-              <Typography variant="h6" color={(theme) => theme.palette.grey[500]}>
-                <Skeleton width={280} />
-              </Typography>
-              <Typography variant="h6">
-                <Skeleton width={120} />
-              </Typography>
-            </Stack>
+                    <Stack gap={1}>
+                      <Skeleton width={150} />
+                      <Skeleton width={150} />
+                    </Stack>
+                  </Stack>
 
-            <Stack direction="row" justifyContent="space-between" ml={20} mr={20} mt={3}>
-              <Typography variant="h6" color={(theme) => theme.palette.grey[500]}>
-                <Skeleton width={240} />
-              </Typography>
-              <Typography variant="h6">
-                <Skeleton width={100} />
-              </Typography>
-            </Stack>
+                  <Skeleton width={160} />
+                </Stack>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Stack gap={2}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between">
+                    <Skeleton width={110} />
+                    <Skeleton width={225} />
+                  </Stack>
 
-            <Stack direction="row" justifyContent="space-between" ml={20} mr={20} mt={3}>
-              <Typography variant="h6" color={(theme) => theme.palette.grey[500]}>
-                <Skeleton width={120} />
-              </Typography>
-              <Typography variant="h6">
-                <Skeleton width={100} />
-              </Typography>
-            </Stack>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between">
+                    <Skeleton width={275} />
+                    <Skeleton width={50} />
+                  </Stack>
 
-            <Stack mt={4} justifyContent="center" direction="row" gap={2}>
-              <Skeleton width={200} height={60} />
+                  <Stack direction="row" alignItems="center" justifyContent="space-between">
+                    <Skeleton width={210} />
+                    <Skeleton width={100} />
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" justifyContent="space-between">
+                    <Skeleton width={50} />
+                    <Skeleton width={100} />
+                  </Stack>
+                </Stack>
+              </Grid>
+            </Grid>
+            <Stack
+              direction="row"
+              justifyContent="right"
+              mt={4}
+              sx={{
+                pt: 2,
+                borderTop: 1,
+                borderColor: (theme) => theme.palette.grey[400],
+              }}
+            >
+              <Skeleton variant="rounded" width={250} height={36} />
             </Stack>
-          </Paper>
+          </Stack>
         </Card>
       </Box>
     </Stack>

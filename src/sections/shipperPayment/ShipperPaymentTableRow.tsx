@@ -46,7 +46,7 @@ function ShipperPaymentTableRow({ index, shipperPayment }: ShipperPaymentTableRo
         </TableCell>
 
         <TableCell align="left" onClick={handleOpen}>
-          {shipperPayment.paymentMethod === PaymentMethod.CASH
+          {shipperPayment.paymentMethod.toLowerCase() === PaymentMethod.CASH.toLowerCase()
             ? translate('page.content.cash')
             : translate('page.content.cashless')}
         </TableCell>

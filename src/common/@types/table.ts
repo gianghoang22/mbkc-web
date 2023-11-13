@@ -4,6 +4,7 @@ import { KitchenCenter } from '../models/kitchenCenter';
 export type OrderSort = 'asc' | 'desc';
 
 export enum OrderSortBy {
+  ID = 'id',
   NAME = 'name',
   LOGO = 'logo',
   LOGO_URL = 'logoUrl',
@@ -29,6 +30,7 @@ export enum OrderSortBy {
   STATUS = 'status',
   EMAIL = 'email',
   GENDER = 'gender',
+  ORDER_ID = 'orderId',
   ORDER_PARTNER_ID = 'orderPartnerId',
   FINAL_TOTAL_PRICE = 'finalTotalPrice',
   SYSTEM_STATUS = 'systemStatus',

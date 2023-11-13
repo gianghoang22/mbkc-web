@@ -36,6 +36,8 @@ export interface Order {
   subTotalPrice: number;
   totalDiscount: number;
   finalTotalPrice: number;
+  collectedPrice: number;
+  isPaid: boolean;
   commission: number;
   tax: number;
   systemStatus: string;

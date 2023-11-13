@@ -8,6 +8,8 @@
   "confirmCancelOrderContent": "Bạn chắc chắn muốn hủy {{model}}",
   "confirmOrderReadyDeliveryTitle": "Xác nhận đơn hàng sẵn sàng để giao",
   "confirmOrderReadyDeliveryContent": "Bạn có chắc chắn đơn hàng",
+  "confirmOrderEndOfShift": "Xác nhận kết thúc ca làm việc",
+  "contentOrderEndOfShift": "Bạn hãy kiểm tra lại thông tin trước khi kết thúc ca làm việc nhé!",
   "updatePasswordContent": "Bạn cần cập nhật mật khẩu để bắt đầu sử dung tài khoản!",
   "updatePasswordSuccess": "Bạn đã có thể tiếp tục sử dụng App!"
 }

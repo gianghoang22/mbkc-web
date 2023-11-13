@@ -1,32 +1,43 @@
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
-//mui
-import { Container, Typography, Grid, Card, Paper, TableContainer, TableBody, TablePagination } from '@mui/material';
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import { useNavigate } from 'react-router-dom';
+// @mui
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import { Box } from '@mui/material';
-import { Table } from '@mui/material';
-//redux
-import { useAppSelector } from 'redux/configStore';
-import { useDispatch } from 'react-redux';
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import {
+  Box,
+  Card,
+  Container,
+  Grid,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TablePagination,
+  Typography,
+} from '@mui/material';
+// redux
 import { getCashierReportShift } from 'redux/cashier/cashierSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllOrders } from 'redux/order/orderSlice';
-//sections
-import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
+// sections
 import { AppWidgetSummaryOutline } from 'sections/dashboard';
+import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
+// interface
+import { ListParams, OrderSort, OrderTable } from 'common/@types';
+import { Color, PartnerOrderStatus, SystemStatus } from 'common/enums';
 //
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Helmet } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
-import { Color, PartnerOrderStatus, SystemStatus } from 'common/enums';
-import { ListParams, OrderSort, OrderTable } from 'common/@types';
 import { fDate } from 'utils';
 
 function CashierDashboard() {
-  const { translate } = useLocales();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const dispatch = useAppDispatch();
+
+  const { translate } = useLocales();
   const { orderHeadCells } = useConfigHeadTable();
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof OrderTable>('finalTotalPrice');
@@ -90,37 +101,44 @@ function CashierDashboard() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={6}>
             <AppWidgetSummaryOutline
-              title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.revenueOfToday') })}
-              total={shiftReport?.totalMoneyToday as number}
+              isPrice
               isLoading={isLoadingShift}
               icon={<PaidOutlinedIcon fontSize="large" />}
+              total={shiftReport?.totalMoneyToday as number}
+              title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.revenueOfToday') })}
             />
           </Grid>
 
           <Grid item xs={12} sm={6} md={6}>
             <AppWidgetSummaryOutline
-              title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.ordersOfToday') })}
-              total={shiftReport?.totalOrderToday as number}
-              isLoading={isLoadingShift}
               color={Color.INFO}
+              isLoading={isLoadingShift}
+              total={shiftReport?.totalOrderToday as number}
               icon={<DescriptionOutlinedIcon fontSize="large" />}
+              title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.ordersOfToday') })}
             />
           </Grid>
         </Grid>
 
         <Box width="100%" mt={4}>
           <Card>
-            <Typography
-              color="#2B3674"
-              style={{
-                letterSpacing: '0.6px',
-                marginLeft: 28,
-                marginTop: 20,
+            <Stack
+              gap={1}
+              direction="row"
+              alignItems="center"
+              px={3}
+              py={2}
+              sx={{
+                color: '#2B3674',
+                borderBottom: 1,
+                borderColor: (theme) => theme.palette.grey[400],
               }}
-              variant="subtitle1"
             >
-              {translate('page.title.list', { model: translate('model.lowercase.ordersSuccess') })}
-            </Typography>
+              <Typography variant="subtitle1">
+                {translate('page.title.list', { model: translate('model.lowercase.ordersSuccess') })}
+              </Typography>
+            </Stack>
+
             <Box sx={{ width: '100%' }}>
               <Paper sx={{ width: '100%', mb: 2 }}>
                 <CustomTableToolbar<OrderTable>
