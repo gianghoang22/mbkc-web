@@ -123,7 +123,7 @@ function ListShipperPaymentPage() {
                   />
 
                   {isLoading ? (
-                    <ShipperPaymentTableRowSkeleton length={numberItems} />
+                    <ShipperPaymentTableRowSkeleton length={shipperPayments.length > 0 ? shipperPayments.length : 5} />
                   ) : (
                     <TableBody>
                       {shipperPayments.map((shipperPayment, index) => {

@@ -159,6 +159,9 @@
     "gender": "gender",
     "phone": "phone",
     "orderHistories": "order histories",
-    "readyToDelivery": "ready to delivery"
+    "readyToDelivery": "ready to delivery",
+    "revenueOfToday": "revenue of today",
+    "ordersOfToday": "orders of today",
+    "ordersSuccess": "orders delivered successfully"
   }
 }
