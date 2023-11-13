@@ -172,7 +172,7 @@ function EndOfShiftPage() {
                 selected={selected}
                 headCells={orderHeadCells}
                 filterName={filterName}
-                model={translate('model.lowercase.store')}
+                model={translate('table.lowercase.partnerOrderId')}
                 setSelected={setSelected}
                 onFilterName={handleFilterByName}
                 handleReloadData={handleReloadData}

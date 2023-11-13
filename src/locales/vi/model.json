@@ -159,6 +159,9 @@
     "gender": "giới tính",
     "phone": "số điện thoại",
     "orderHistories": "lịch sử đơn hàng",
-    "readyToDelivery": "sẵn sàng để giao"
+    "readyToDelivery": "sẵn sàng để giao",
+    "revenueOfToday": "doanh thu của hôm nay",
+    "ordersOfToday": "đơn hàng của hôm nay",
+    "ordersSuccess": "đơn hàng đã giao thành công"
   }
 }
