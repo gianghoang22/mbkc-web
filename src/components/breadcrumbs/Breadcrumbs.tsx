@@ -42,6 +42,7 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
       pathnames[0] === Breadcrumb.ORDERS ||
       pathnames[0] === Breadcrumb.BANKING_ACCOUNTS ||
       pathnames[0] === Breadcrumb.TRANSACTIONS ||
+      pathnames[1] === Breadcrumb.MONEY_EXCHANGES ||
       pathnames[0] === Breadcrumb.PAYMENT_FOR_STORES
     ? [...pathnames, Breadcrumb.LIST]
     : pathnames;
@@ -148,7 +149,7 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             : path === Breadcrumb.STORE_PARTNERS
             ? translate('breadcrumb.storePartners')
             : path === Breadcrumb.MONEY_EXCHANGES
-            ? translate('breadcrumb.moneyExchanges')
+            ? translate('breadcrumb.transactions')
             : path === Breadcrumb.SHIPPER_PAYMENTS
             ? translate('breadcrumb.shipperPayments')
             : path === Breadcrumb.WALLET

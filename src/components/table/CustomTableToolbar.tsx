@@ -41,6 +41,7 @@ import { StyledRoot, StyledSearch } from './styles';
 
 interface CustomTableToolbarProps<T> {
   showWarning?: boolean;
+  showSetting?: boolean;
   headCells: HeadCell<T>[];
   filterName?: string;
   onFilterName?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -83,6 +84,7 @@ interface CustomTableToolbarProps<T> {
 function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
   const {
     showWarning = false,
+    showSetting = true,
     headCells,
     filterName,
     onFilterName,
@@ -423,11 +425,13 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={translate('button.setting')}>
-            <IconButton onClick={handleOpenMenu}>
-              <SettingsIcon />
-            </IconButton>
-          </Tooltip>
+          {showSetting && (
+            <Tooltip title={translate('button.setting')}>
+              <IconButton onClick={handleOpenMenu}>
+                <SettingsIcon />
+              </IconButton>
+            </Tooltip>
+          )}
 
           {addAction && (
             <Button variant="outlined" onClick={onAction}>

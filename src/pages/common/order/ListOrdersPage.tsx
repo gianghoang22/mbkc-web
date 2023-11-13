@@ -32,8 +32,8 @@ function ListOrdersPage() {
   const { userAuth } = useAppSelector((state) => state.auth);
   const { orders, isLoading, numberItems } = useAppSelector((state) => state.order);
 
-  const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof OrderTable>('finalTotalPrice');
+  const [order, setOrder] = useState<OrderSort>('desc');
+  const [orderBy, setOrderBy] = useState<keyof OrderTable>('orderPartnerId');
   const [filterName, setFilterName] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [systemStatus, setSystemStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
@@ -145,7 +145,7 @@ function ListOrdersPage() {
                 secondOptions={PARTNER_ORDER_STATUS}
                 searchDateFrom={searchDateFrom}
                 searchDateTo={searchDateTo}
-                model={translate('model.lowercase.store')}
+                model={translate('table.partnerOrderId')}
                 setSelected={setSelected}
                 onFilterName={handleFilterByName}
                 handleChangeSearchDateFrom={handleChangeSearchDateFrom}

@@ -1,45 +1,46 @@
-// @mui
-import { TableCell, TableRow, Skeleton, TableBody } from '@mui/material';
-//
+import { TableCell, TableRow, Skeleton, TableBody, Stack } from '@mui/material';
 
-function ShipperPaymentTableRowSkeleton({ length }: { length: number }) {
+function ShipperPaymentTableRowSkeleton() {
   return (
     <TableBody>
-      {Array.from({ length }).map((_, index) => (
-        <TableRow hover tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
+      {Array.from({ length: 5 }).map((_, index) => (
+        <TableRow tabIndex={-1} key={index} sx={{ cursor: 'pointer', height: '60px' }}>
           <TableCell width={60} align="center">
-            <Skeleton />
+            <Stack direction="row" alignItems="center" justifyContent="center">
+              <Skeleton width={20} />
+            </Stack>
           </TableCell>
-          <TableCell align="left">
+
+          <TableCell width={125}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
+          <TableCell width={180}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
+          <TableCell width={155}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
+          <TableCell width={117}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
+          <TableCell width={140}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
+          <TableCell width={192}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
+          <TableCell width={190}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
-            <Skeleton />
+          <TableCell>
+            <Skeleton variant="rounded" width={130} height={24} />
           </TableCell>
         </TableRow>
       ))}

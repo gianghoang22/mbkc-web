@@ -1,33 +1,38 @@
-// @mui
-import { TableCell, TableRow, Skeleton } from '@mui/material';
-//
+import { TableCell, TableRow, Skeleton, Stack } from '@mui/material';
 
-function MoneyExchangeTableRowSkeleton({ length }: { length: number }) {
+function MoneyExchangeTableRowSkeleton() {
   return (
     <>
-      {Array.from({ length }).map((_, index) => (
-        <TableRow hover tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
+      {Array.from({ length: 5 }).map((_, index) => (
+        <TableRow tabIndex={-1} key={index} sx={{ cursor: 'pointer', height: '60px' }}>
           <TableCell width={60} align="center">
+            <Stack direction="row" alignItems="center" justifyContent="center">
+              <Skeleton width={20} />
+            </Stack>
+          </TableCell>
+
+          <TableCell width={192}>
             <Skeleton />
           </TableCell>
-          <TableCell align="left">
-            <Skeleton width={180} />
+
+          <TableCell width={291}>
+            <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
-            <Skeleton width={180} />
+          <TableCell width={240.43}>
+            <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
-            <Skeleton width={170} />
+          <TableCell width={156}>
+            <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
-            <Skeleton width={150} />
+          <TableCell width={173}>
+            <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
-            <Skeleton width={120} />
+          <TableCell>
+            <Skeleton variant="rounded" width={120} height={24} />
           </TableCell>
         </TableRow>
       ))}

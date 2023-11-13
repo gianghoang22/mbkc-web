@@ -26,6 +26,7 @@ interface CreatePaymentForStoreModalProps {
 function CreatePaymentForStoreModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePaymentForStoreModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
   const { schemaPaymentForStore } = useValidationForm();
 
@@ -106,6 +107,8 @@ function CreatePaymentForStoreModal({ page, rowsPerPage, isOpen, handleOpen }: C
                   margin="auto"
                   name="Image"
                   defaultValue=""
+                  width={500}
+                  borderRadius="unset"
                 />
 
                 <Stack width="100%" gap={2}>

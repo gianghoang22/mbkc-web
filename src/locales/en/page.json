@@ -54,20 +54,21 @@
     "shipping": "Shipping information",
     "shipperName": "Shipper name",
     "shipperPhone": "Shipper phone",
-    "paidBy": "Paid by",
     "payment": "Payment",
     "subTotalPrice": "Sub total price",
     "deliveryFee": "Delivery fee",
     "totalDiscount": "Total discount",
     "finalTotalPrice": "Final total price",
     "switchToConfiguration": "Switch to configuration",
-    "mainBalance": "Main Balance",
+    "mainBalance": "Wallet Balance",
     "cash": "Cash",
     "cashless": "Cashless",
     "paymentMethod": "Payment method",
     "totalOrdersOfToday": "Total orders of today",
     "totalRevenueOfToday": "Total revenue of today",
-    "balance": "Balance"
+    "balance": "Balance",
+    "date": "Date",
+    "noImage": "No images available"
   },
   "form": {
     "email": "Email",
@@ -99,6 +100,7 @@
     "province": "Province",
     "district": "District",
     "ward": "Ward",
+    "paymentMethod": "Payment methods",
     "lowercase": {
       "userName": "user name",
       "password": "password"

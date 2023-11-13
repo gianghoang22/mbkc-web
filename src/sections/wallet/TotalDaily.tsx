@@ -1,54 +1,50 @@
 // @mui
-import { Box, Card, Stack, Typography, alpha } from '@mui/material';
+import { Card, Stack, Typography } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
 // section
-import { StyledIcon } from 'sections/dashboard/AppWidgetSummary';
-//
 import { Color } from 'common/enums';
-import { fDate } from 'utils';
+import { formatCurrency } from 'utils';
 
-interface Props {
+export const StyledIcon = styled('div')(({ theme }) => ({
+  display: 'flex',
+  borderRadius: '50%',
+  alignItems: 'center',
+  width: theme.spacing(8),
+  height: theme.spacing(8),
+  justifyContent: 'center',
+}));
+
+interface TotalDailyProps {
   title: string;
-  date: Date;
   icon: React.ReactNode;
-  totalMoney: string;
+  totalMoney: number;
   color: Color;
 }
 
-function TotalDaily({ date, icon, title, totalMoney, color }: Props) {
+function TotalDaily({ icon, title, totalMoney, color }: TotalDailyProps) {
   return (
-    <Card sx={{ p: 1, boxShadow: 'none', border: 1, borderColor: (theme) => theme.palette.grey[400] }}>
-      <Box padding={2}>
-        <Typography variant="subtitle1">{title}</Typography>
-        <Typography variant="subtitle2" color={(theme) => theme.palette.grey[600]} mt={1}>
-          {fDate(date)}
-        </Typography>
+    <Card sx={{ height: '100%', boxShadow: 'none', border: 1, borderColor: (theme) => theme.palette.grey[400] }}>
+      <Stack justifyContent="center" gap={2} p={3}>
+        <Typography variant="h6">{title}</Typography>
 
-        <Stack direction="row" alignItems="center" justifyContent="left" mt={2}>
-          <Stack>
-            <StyledIcon
-              sx={{
-                color: (theme: any) => theme.palette[color].dark,
-                backgroundImage: (theme: any) =>
-                  `linear-gradient(135deg, ${alpha(theme.palette[color].dark, 0)} 0%, ${alpha(
-                    theme.palette[color].dark,
-                    0.24
-                  )} 100%)`,
-                width: 44,
-                height: 44,
-                marginBottom: 0,
-                marginRight: 1,
-              }}
-            >
-              {icon}
-            </StyledIcon>
-          </Stack>
-          <Stack>
-            <Typography variant="h4" color={(theme: any) => theme.palette[color].dark}>
-              {totalMoney}
-            </Typography>
-          </Stack>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <StyledIcon
+            sx={{
+              color: (theme: any) => theme.palette[color].dark,
+              backgroundImage: (theme: any) =>
+                `linear-gradient(135deg, ${alpha(theme.palette[color].dark, 0)} 0%, ${alpha(
+                  theme.palette[color].dark,
+                  0.24
+                )} 100%)`,
+            }}
+          >
+            {icon}
+          </StyledIcon>
+          <Typography variant="h3" color={(theme: any) => theme.palette[color].dark}>
+            {formatCurrency(totalMoney as number)}
+          </Typography>
         </Stack>
-      </Box>
+      </Stack>
     </Card>
   );
 }

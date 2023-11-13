@@ -85,6 +85,8 @@ export default function OrderTimeline() {
                             color={
                               orderHistory?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
                                 ? Color.SUCCESS
+                                : orderHistory?.partnerOrderStatus === PartnerOrderStatus.READY
+                                ? Color.WARNING
                                 : orderHistory?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                                 ? Color.ERROR
                                 : Color.INFO
@@ -109,6 +111,8 @@ export default function OrderTimeline() {
                             color={
                               orderHistory?.systemStatus === SystemStatus.COMPLETED
                                 ? Color.SUCCESS
+                                : orderHistory?.systemStatus === SystemStatus.READY_DELIVERY
+                                ? Color.WARNING
                                 : orderHistory?.systemStatus === SystemStatus.CANCELLED
                                 ? Color.ERROR
                                 : Color.PRIMARY

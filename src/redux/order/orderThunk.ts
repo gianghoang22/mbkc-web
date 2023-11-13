@@ -42,9 +42,13 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const confirmOrderToCompletedThunk = async (params: Params<CompletedOrderParams>, thunkAPI: any) => {
+export const confirmOrderToCompletedThunk = async (
+  params: Params<Omit<CompletedOrderParams, 'paymentType'>>,
+  thunkAPI: any
+) => {
   const { data, idParams, navigate } = params;
   const formData = appendData(data);
+
   try {
     const response: MessageResponse = await axiosFormData.put(ROUTES_API_ORDERS.CONFIRM_ORDER_TO_COMPLETED, formData);
     if (response) {

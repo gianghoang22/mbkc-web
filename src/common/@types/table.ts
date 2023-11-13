@@ -33,6 +33,8 @@ export enum OrderSortBy {
   FINAL_TOTAL_PRICE = 'finalTotalPrice',
   SYSTEM_STATUS = 'systemStatus',
   PARTNER_ORDER_STATUS = 'partnerOrderStatus',
+  CREATE_DATE = 'createDate',
+  TRANSACTION_TIME = 'transactionTime',
 }
 
 export interface HeadCell<T> {
@@ -152,6 +154,7 @@ export interface MoneyExchangeTable {
   exchangeType: string;
   sender: string;
   receiver: string;
+  transactionTime: string;
   status: string;
 }
 

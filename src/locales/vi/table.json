@@ -47,6 +47,7 @@
   "createdDate": "Ngày tạo",
   "sender": "Người gửi",
   "receiver": "Người nhận",
+  "transactionTime": "Thời gian giao dịch",
   "fromDate": "Từ ngày",
   "toDate": "Đến ngày",
   "receive": "Nhận",

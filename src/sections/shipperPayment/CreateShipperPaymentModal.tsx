@@ -5,35 +5,25 @@ import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 // redux
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllBankingAccounts } from 'redux/bankingAccount/bankingAccountSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { confirmOrderToCompleted } from 'redux/order/orderSlice';
-//
+// interface
 import { ListParams, Params } from 'common/@types';
-import { Color, PaymentMethod } from 'common/enums';
+import { Color, PAYMENT_METHOD_OPTIONS, PaymentMethod } from 'common/enums';
 import { CompletedOrderParams } from 'common/models';
-import { AutoCompleteField, UploadImageField } from 'components';
+//
+import { AutoCompleteField, SelectField, UploadImageField } from 'components';
 import { useLocales } from 'hooks';
 
 interface CreateShipperPaymentModalProps {
-  page: number;
-  rowsPerPage: number;
   isOpen: boolean;
   orderPartnerId: string;
   orderId: number;
-  paymentMethod: string;
   handleOpen: (title: any) => void;
 }
 
-function CreateShipperPaymentModal({
-  page,
-  rowsPerPage,
-  isOpen,
-  handleOpen,
-  paymentMethod,
-  orderPartnerId,
-  orderId,
-}: CreateShipperPaymentModalProps) {
+function CreateShipperPaymentModal({ isOpen, handleOpen, orderPartnerId, orderId }: CreateShipperPaymentModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { translate } = useLocales();
@@ -43,13 +33,15 @@ function CreateShipperPaymentModal({
 
   const createShipperPaymentForm = useForm<CompletedOrderParams>({
     defaultValues: {
-      BankingAccountId: '',
-      Image: '',
-      OrderPartnerId: '',
+      bankingAccountId: '',
+      image: '',
+      orderPartnerId: '',
     },
   });
 
-  const { handleSubmit } = createShipperPaymentForm;
+  const { handleSubmit, watch } = createShipperPaymentForm;
+
+  const paymentType = watch('paymentType');
 
   const bankingAccountOptions = bankingAccounts.map((bankingAccount) => ({
     label: bankingAccount.numberAccount,
@@ -69,13 +61,11 @@ function CreateShipperPaymentModal({
 
     handleOpen('');
 
-    const createShipperPaymentParams = { ...data, OrderPartnerId: orderPartnerId };
-
-    const paramsToCompleted: Params<CompletedOrderParams> = {
-      data: createShipperPaymentParams,
-      optionParams: {
-        currentPage: page + 1,
-        itemsPerPage: rowsPerPage,
+    const paramsToCompleted: Params<Omit<CompletedOrderParams, 'paymentType'>> = {
+      data: {
+        orderPartnerId: orderPartnerId,
+        image: data.image,
+        bankingAccountId: paymentType === PaymentMethod.CASH_LESS ? data.bankingAccountId : '',
       },
       idParams: {
         orderId: orderId,
@@ -118,14 +108,22 @@ function CreateShipperPaymentModal({
                   label={translate('page.content.dragDrop')}
                   subLabel={translate('page.content.imageAllowed')}
                   margin="auto"
-                  name="Image"
+                  name="image"
                   defaultValue=""
                   width={500}
                   borderRadius="unset"
                 />
 
-                {paymentMethod === PaymentMethod.CASH && (
-                  <Stack width="100%" gap={2}>
+                <Stack width="100%" gap={2}>
+                  <SelectField<PaymentMethod>
+                    fullWidth
+                    name="paymentType"
+                    disabled={isLoadingOrder}
+                    options={PAYMENT_METHOD_OPTIONS}
+                    label={translate('page.form.paymentMethod')}
+                  />
+
+                  {paymentType === PaymentMethod.CASH_LESS && (
                     <AutoCompleteField
                       options={bankingAccountOptions}
                       getOptionLabel={(value: any) => {
@@ -137,12 +135,12 @@ function CreateShipperPaymentModal({
                         return option.value === getOpObjBankingAccount(value)?.value;
                       }}
                       transformValue={(opt: any) => opt.value}
-                      name="BankingAccountId"
+                      name="bankingAccountId"
                       type="text"
                       label={translate('model.capitalizeOne.bankingAccount')}
                     />
-                  </Stack>
-                )}
+                  )}
+                </Stack>
               </Stack>
             </DialogContent>
             <DialogActions sx={{ px: 3, pb: 3 }}>

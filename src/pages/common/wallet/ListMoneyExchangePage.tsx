@@ -3,31 +3,31 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //redux
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
 // section
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
-//
+// interface
 import { ListParams, MoneyExchangeTable, OptionSelect, OrderSort } from 'common/@types';
+import { Role } from 'common/enums';
+import { EXCHANGE_TYPE_OPTIONS, FILTER_STATUS_OPTIONS } from 'common/models';
+//
 import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
-import { useDispatch } from 'react-redux';
-import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
-import { EXCHANGE_TYPE_OPTIONS, FILTER_STATUS_OPTIONS } from 'common/models';
-import { Role } from 'common/enums';
 
 function ListMoneyExchangePage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { moneyExchanges, isLoading, numberItems } = useAppSelector((state) => state.wallet);
   const { userAuth } = useAppSelector((state) => state.auth);
+  const { moneyExchanges, isLoading, numberItems } = useAppSelector((state) => state.wallet);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('amount');
@@ -60,7 +60,6 @@ function ListMoneyExchangePage() {
     setFilterStatus(newStatus);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const params: ListParams = useMemo(() => {
@@ -99,7 +98,7 @@ function ListMoneyExchangePage() {
   return (
     <>
       <Page
-        title={translate('page.title.list', { model: translate('model.lowercase.moneyExchanges') })}
+        title={translate('page.title.list', { model: translate('model.lowercase.transactions') })}
         pathname={pathname}
         navigateDashboard={
           userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER ? PATH_KITCHEN_CENTER_APP.root : PATH_CASHIER_APP.root
@@ -138,19 +137,11 @@ function ListMoneyExchangePage() {
                   />
 
                   {isLoading ? (
-                    <MoneyExchangeTableRowSkeleton length={5} />
+                    <MoneyExchangeTableRowSkeleton />
                   ) : (
                     <TableBody>
                       {moneyExchanges.map((moneyExchange, index) => {
-                        return (
-                          <MoneyExchangeTableRow
-                            key={index}
-                            index={index}
-                            page={page}
-                            rowsPerPage={rowsPerPage}
-                            moneyExchange={moneyExchange}
-                          />
-                        );
+                        return <MoneyExchangeTableRow key={index} index={index} moneyExchange={moneyExchange} />;
                       })}
                       {emptyRows > 0 ||
                         (moneyExchanges.length === 0 && (
