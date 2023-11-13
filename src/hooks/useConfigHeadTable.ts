@@ -617,6 +617,13 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
+      id: 'transactionTime',
+      label: translate('table.transactionTime'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
       id: 'amount',
       label: translate('page.form.amount'),
       numeric: false,
@@ -678,7 +685,7 @@ function useConfigHeadTable() {
     },
   ];
 
-  const ShipperPaymentHeadCells: HeadCell<ShipperPaymentTable>[] = [
+  const shipperPaymentHeadCells: HeadCell<ShipperPaymentTable>[] = [
     {
       id: 'orderId',
       label: translate('table.orderId'),
@@ -697,7 +704,7 @@ function useConfigHeadTable() {
       id: 'createDate',
       label: translate('table.createdDate'),
       numeric: false,
-      hideSortIcon: true,
+      hideSortIcon: false,
       disablePadding: false,
     },
     {
@@ -751,7 +758,7 @@ function useConfigHeadTable() {
     MoneyExchangeHeadCells,
     storePartnerHeadCells,
     storePartnerDetailHeadCells,
-    ShipperPaymentHeadCells,
+    shipperPaymentHeadCells,
     partnerProductHeadCells,
     ShiftHeadCells,
   };

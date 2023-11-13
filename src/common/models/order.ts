@@ -51,9 +51,10 @@ export interface Order {
 }
 
 export interface CompletedOrderParams {
-  OrderPartnerId: string;
-  BankingAccountId: string;
-  Image: string;
+  orderPartnerId: string;
+  bankingAccountId: string;
+  image: string;
+  paymentType: string;
 }
 
 export enum OrderTypeEnum {

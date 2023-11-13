@@ -76,6 +76,8 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
             color={
               order?.systemStatus === SystemStatus.COMPLETED
                 ? Color.SUCCESS
+                : order?.systemStatus === SystemStatus.READY_DELIVERY
+                ? Color.WARNING
                 : order?.systemStatus === SystemStatus.CANCELLED
                 ? Color.ERROR
                 : Color.PRIMARY
@@ -98,7 +100,7 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
                 ? Color.SUCCESS
                 : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                 ? Color.ERROR
-                : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
+                : order?.partnerOrderStatus === PartnerOrderStatus.READY
                 ? Color.WARNING
                 : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
                 ? Color.DEFAULT

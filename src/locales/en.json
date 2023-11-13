@@ -24,7 +24,9 @@
     "completed": "Completed",
     "cancelled": "Cancelled",
     "inStore": "In Store",
-    "readyDelivery": "Ready Delivery"
+    "readyDelivery": "Ready Delivery",
+    "paid": "Paid",
+    "notPaid": "Not paid"
   },
   "header": {
     "account": "Account",

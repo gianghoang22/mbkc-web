@@ -4,7 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //redux
-import { useAppSelector } from 'redux/configStore';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
 // section
 import {
   MoneyExchangeTableRow,
@@ -12,21 +13,21 @@ import {
   MoneyExchangeTableToolbar,
 } from 'sections/moneyExchanges';
 import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
-//
+// interface
 import { ListParams, MoneyExchangeTable, OrderSort } from 'common/@types';
+import { ExchangeType } from 'common/enums';
+//
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { useDispatch } from 'react-redux';
 import { fDate } from 'utils';
-import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
-import { ExchangeType } from 'common/enums';
 
 function ListOfPaymentForStoresPage() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { handleOpen, isOpen } = useModal();
@@ -53,7 +54,6 @@ function ListOfPaymentForStoresPage() {
     setFilterName(event.target.value.trimStart());
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const isNotFound = !numberItems && !!filterName;
@@ -109,19 +109,11 @@ function ListOfPaymentForStoresPage() {
                   />
 
                   {isLoading ? (
-                    <MoneyExchangeTableRowSkeleton length={numberItems} />
+                    <MoneyExchangeTableRowSkeleton />
                   ) : (
                     <TableBody>
                       {moneyExchanges.map((moneyExchange, index) => {
-                        return (
-                          <MoneyExchangeTableRow
-                            key={index}
-                            index={index}
-                            page={page}
-                            rowsPerPage={rowsPerPage}
-                            moneyExchange={moneyExchange}
-                          />
-                        );
+                        return <MoneyExchangeTableRow key={index} index={index} moneyExchange={moneyExchange} />;
                       })}
                       {emptyRows > 0 ||
                         (moneyExchanges.length === 0 && !filterName && (

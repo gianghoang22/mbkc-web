@@ -24,7 +24,9 @@
     "completed": "Đã hoàn tất",
     "cancelled": "Đã hủy",
     "inStore": "Trong cửa hàng",
-    "readyDelivery": "Sẵn sàng để giao"
+    "readyDelivery": "Sẵn sàng để giao",
+    "paid": "Đã thanh toán",
+    "notPaid": "Chưa thanh toán"
   },
   "header": {
     "account": "Tài khoản",

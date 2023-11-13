@@ -3,11 +3,11 @@ import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // @mui
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
+import InfoIcon from '@mui/icons-material/Info';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PaymentsIcon from '@mui/icons-material/Payments';
-import InfoIcon from '@mui/icons-material/Info';
 import {
   Box,
   Button,
@@ -33,7 +33,7 @@ import { Color, Language, PartnerOrderStatus, PaymentMethod, Role, SystemStatus 
 import { OrderStatusActions } from 'common/models';
 //
 import { ConfirmDialog, Helmet, Label } from 'components';
-import { useLocales, useModal, usePagination, usePopover } from 'hooks';
+import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { formatCurrency } from 'utils';
 
@@ -49,7 +49,6 @@ function OrderDetailPage() {
     handleOpenMenu: handleOpenMenuConfirm,
     handleCloseMenu: handleCloseMenuConfirm,
   } = usePopover();
-  const { page, rowsPerPage } = usePagination();
   const { handleOpen: handleOpenCreateShipperPaymentModal, isOpen: isOpenCreateShipperPaymentModal } = useModal();
   const { handleOpen: handleOpenModalReadyDelivery, isOpen: isOpenModalConfirmReadyDelivery } = useModal();
 
@@ -103,6 +102,8 @@ function OrderDetailPage() {
                   color={
                     order?.systemStatus === SystemStatus.COMPLETED
                       ? Color.SUCCESS
+                      : order?.systemStatus === SystemStatus.READY_DELIVERY
+                      ? Color.WARNING
                       : order?.systemStatus === SystemStatus.CANCELLED
                       ? Color.ERROR
                       : Color.PRIMARY
@@ -119,8 +120,8 @@ function OrderDetailPage() {
               </Stack>
 
               {userAuth?.roleName === Role.CASHIER &&
-                order?.systemStatus !== SystemStatus.COMPLETED &&
-                order?.systemStatus !== SystemStatus.READY_DELIVERY && (
+                order?.systemStatus === SystemStatus.IN_STORE &&
+                order?.partnerOrderStatus === PartnerOrderStatus.READY && (
                   <Button
                     color="inherit"
                     variant="outlined"
@@ -170,6 +171,8 @@ function OrderDetailPage() {
                               color={
                                 order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
                                   ? Color.SUCCESS
+                                  : order?.partnerOrderStatus === PartnerOrderStatus.READY
+                                  ? Color.WARNING
                                   : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                                   ? Color.ERROR
                                   : Color.INFO
@@ -348,41 +351,37 @@ function OrderDetailPage() {
                           <Typography variant="subtitle1">{translate('page.content.payment')}</Typography>
                           <Stack direction="row" alignItems="center" justifyContent="space-between">
                             <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                              {translate('page.content.paidBy')}
+                              {translate('table.status')}:
                             </Typography>
-                            <Label color={Color.PRIMARY}>
+                            <Label color={order?.paymentMethod === PaymentMethod.CASH ? Color.ERROR : Color.SUCCESS}>
                               {order?.paymentMethod === PaymentMethod.CASH
-                                ? translate('page.content.cash')
-                                : translate('page.content.cashless')}
+                                ? translate('status.notPaid')
+                                : translate('status.paid')}
                             </Label>
                           </Stack>
                         </Stack>
 
-                        {userAuth?.roleName === Role.CASHIER && order?.systemStatus !== SystemStatus.COMPLETED && (
-                          <>
-                            <Divider />
+                        {userAuth?.roleName === Role.CASHIER &&
+                          order?.systemStatus === SystemStatus.READY_DELIVERY &&
+                          order.partnerOrderStatus === PartnerOrderStatus.READY && (
+                            <>
+                              <Divider />
 
-                            <Stack direction="row" justifyContent="flex-end">
-                              <Button
-                                disabled={
-                                  order?.systemStatus === SystemStatus.READY_DELIVERY &&
-                                  order.partnerOrderStatus === PartnerOrderStatus.READY
-                                    ? false
-                                    : true
-                                }
-                                onClick={() => {
-                                  handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
-                                }}
-                                variant="outlined"
-                                startIcon={<PaymentsIcon />}
-                              >
-                                {translate('page.title.create', {
-                                  model: translate('model.lowercase.shipperPayment'),
-                                })}
-                              </Button>
-                            </Stack>
-                          </>
-                        )}
+                              <Stack direction="row" justifyContent="flex-end">
+                                <Button
+                                  onClick={() => {
+                                    handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
+                                  }}
+                                  variant="outlined"
+                                  startIcon={<PaymentsIcon />}
+                                >
+                                  {translate('page.title.create', {
+                                    model: translate('model.lowercase.shipperPayment'),
+                                  })}
+                                </Button>
+                              </Stack>
+                            </>
+                          )}
                       </Stack>
                     </Paper>
                   </Box>
@@ -444,9 +443,6 @@ function OrderDetailPage() {
         <CreateShipperPaymentModal
           isOpen={isOpenCreateShipperPaymentModal}
           handleOpen={handleOpenCreateShipperPaymentModal}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          paymentMethod={order?.paymentMethod as string}
           orderPartnerId={order?.orderPartnerId as string}
           orderId={order?.id as number}
         />

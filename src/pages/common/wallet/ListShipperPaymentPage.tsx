@@ -3,29 +3,30 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // redux
-import { useAppSelector } from 'redux/configStore';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllShipperPayment } from 'redux/wallet/walletSlice';
 // section
 import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
-//
+// interface
 import { ListParams, OptionSelect, OrderSort, ShipperPaymentTable } from 'common/@types';
+import { FILTER_STATUS_OPTIONS, PAYMENT_METHOD_OPTIONS } from 'common/models';
+//
 import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
-import { FILTER_STATUS_OPTIONS, PAYMENT_METHOD_OPTIONS } from 'common/models';
 
 function ListShipperPaymentPage() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { translate } = useLocales();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { ShipperPaymentHeadCells } = useConfigHeadTable();
+  const { shipperPaymentHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ShipperPaymentTable>('amount');
+  const [orderBy, setOrderBy] = useState<keyof ShipperPaymentTable>('createDate');
   const [selected, setSelected] = useState<readonly string[]>([]);
 
   const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
@@ -41,7 +42,6 @@ function ListShipperPaymentPage() {
     setOrderBy(property);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
   const params: ListParams = useMemo(() => {
@@ -86,19 +86,21 @@ function ListShipperPaymentPage() {
   return (
     <>
       <Page
-        title={translate('page.title.list', { model: translate('model.lowercase.shipperPayments') })}
+        containerWidth="xl"
         pathname={pathname}
         navigateDashboard={PATH_KITCHEN_CENTER_APP.root}
+        title={translate('page.title.list', { model: translate('model.lowercase.shipperPayments') })}
       >
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar
+                showSetting={false}
                 selected={selected}
                 setSelected={setSelected}
                 searchDateFrom={searchDateFrom}
                 searchDateTo={searchDateTo}
-                headCells={ShipperPaymentHeadCells}
+                headCells={shipperPaymentHeadCells}
                 handleReloadData={handleReloadData}
                 haveSelectSearchDateFrom
                 haveSelectSearchDateTo
@@ -116,31 +118,23 @@ function ListShipperPaymentPage() {
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<ShipperPaymentTable>
-                    headCells={ShipperPaymentHeadCells}
+                    headCells={shipperPaymentHeadCells}
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
 
                   {isLoading ? (
-                    <ShipperPaymentTableRowSkeleton length={shipperPayments.length > 0 ? shipperPayments.length : 5} />
+                    <ShipperPaymentTableRowSkeleton />
                   ) : (
                     <TableBody>
                       {shipperPayments.map((shipperPayment, index) => {
-                        return (
-                          <ShipperPaymentTableRow
-                            key={index}
-                            index={index}
-                            page={page}
-                            rowsPerPage={rowsPerPage}
-                            shipperPayment={shipperPayment}
-                          />
-                        );
+                        return <ShipperPaymentTableRow key={index} index={index} shipperPayment={shipperPayment} />;
                       })}
                       {emptyRows > 0 ||
                         (shipperPayments.length === 0 && (
                           <EmptyTable
-                            colNumber={ShipperPaymentHeadCells.length + 2}
+                            colNumber={shipperPaymentHeadCells.length + 2}
                             model={translate('model.lowercase.shipperPayments')}
                           />
                         ))}

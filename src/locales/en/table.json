@@ -47,6 +47,7 @@
   "createdDate": "Created date",
   "sender": "Sender",
   "receiver": "Receiver",
+  "transactionTime": "Transaction time",
   "fromDate": "From date",
   "toDate": "To date",
   "receive": "Receive",

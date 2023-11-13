@@ -61,13 +61,15 @@
     "deliveryFee": "Phí giao hàng",
     "totalDiscount": "Tổng giảm giá",
     "finalTotalPrice": "Giá cuối cùng",
-    "mainBalance": "Số dư",
+    "mainBalance": "Số dư trong ví",
     "cash": "Tiền mặt",
     "cashless": "Chuyển khoản",
     "paymentMethod": "Hình thức thanh toán",
     "totalOrdersOfToday": "Tổng đơn hàng của hôm nay",
     "totalRevenueOfToday": "Tổng doanh thu của hôm nay",
-    "balance": "Số dư"
+    "balance": "Số dư",
+    "date": "Ngày",
+    "noImage": "Không có hình ảnh"
   },
   "form": {
     "email": "Email",
@@ -99,7 +101,7 @@
     "province": "Tỉnh",
     "district": "Quận - Huyện",
     "ward": "Phường",
-
+    "paymentMethod": "Phuong thức thanh toán",
     "lowercase": {
       "userName": "tên tài khoản",
       "password": "mật khẩu"

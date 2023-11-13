@@ -64,10 +64,28 @@ export enum Error {
   SERVER_ERROR = 'ERR_NETWORK',
 }
 
+export enum PaymentStatus {
+  PAID = 'Paid',
+  NOT_PAID = 'Not paid',
+}
+
 export enum PaymentMethod {
   CASH = 'Cash',
   CASH_LESS = 'Cashless',
 }
+
+export const PAYMENT_METHOD_OPTIONS = [
+  {
+    value: PaymentMethod.CASH,
+    label: 'Cash',
+    id: 'ca',
+  },
+  {
+    value: PaymentMethod.CASH_LESS,
+    label: 'Cashless',
+    id: 'cl',
+  },
+];
 
 export enum ExchangeType {
   SEND = 'Send',

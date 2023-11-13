@@ -1,20 +1,26 @@
-import { Grid, Skeleton } from '@mui/material';
+import { Grid, Skeleton, Stack } from '@mui/material';
 
 function WalletCardSkeleton() {
   return (
-    <Grid container columnSpacing={3} mb={3} mt={-5}>
-      <Grid item xs={12} sm={5} md={5}>
-        <Skeleton height={240} />
-      </Grid>
+    <>
+      <Stack mb={3}>
+        <Skeleton width={150} height={20} />
+      </Stack>
 
-      <Grid item xs={12} sm={3.5} md={3.2}>
-        <Skeleton height={240} />
-      </Grid>
+      <Grid container rowSpacing={3} columnSpacing={3} mb={5}>
+        <Grid item xs={12} sm={12} md={4}>
+          <Skeleton variant="rounded" width="100%" height={156} />
+        </Grid>
 
-      <Grid item xs={12} sm={3.5} md={3.8}>
-        <Skeleton height={240} />
+        <Grid item xs={12} sm={6} md={4}>
+          <Skeleton variant="rounded" width="100%" height={156} />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <Skeleton variant="rounded" width="100%" height={156} />
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
 

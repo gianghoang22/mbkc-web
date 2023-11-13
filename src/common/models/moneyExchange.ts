@@ -10,7 +10,6 @@ export interface MoneyExchange {
   senderName: string;
   receiveId: number;
   receiveName: string;
-  createdDate: string;
   exchangeImage: string;
   transactionTime: string;
 }

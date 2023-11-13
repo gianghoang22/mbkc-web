@@ -2,11 +2,12 @@
 import { Dialog, DialogContent, Divider, IconButton, Stack, Typography } from '@mui/material';
 // @mui icon
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-//
+// interface
 import { Color, FilterStatus, Language, PaymentMethod } from 'common/enums';
+import { ShipperPayment } from 'common/models';
+//
 import { Label } from 'components';
 import { useLocales } from 'hooks';
-import { ShipperPayment } from 'common/models';
 import { fDateTime, formatCurrency } from 'utils';
 
 interface ShipperPaymentDetailModalProps {
@@ -39,53 +40,39 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
 
             <Divider sx={{ mt: 1.5, mb: 2 }} />
 
-            <Stack width="100%">
-              <Stack direction="row" justifyContent="space-between" mt={1}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('table.orderId')}:{' '}
-                </Typography>
+            <Stack width="100%" gap={2}>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle1">{translate('table.orderId')}: </Typography>
                 <Typography variant="body1">{shipperPayment.orderId}</Typography>
               </Stack>
 
-              <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('table.cashierCreated')}:{' '}
-                </Typography>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle1">{translate('table.cashierCreated')}: </Typography>
                 <Typography variant="body1">{shipperPayment.cashierCreated}</Typography>
               </Stack>
 
-              <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('model.capitalizeOne.bankingAccount')}:{' '}
-                </Typography>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle1">{translate('model.capitalizeOne.bankingAccount')}: </Typography>
                 <Typography variant="body1">{shipperPayment.kcBankingAccountName}</Typography>
               </Stack>
 
-              <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('page.form.amount')}:{' '}
-                </Typography>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle1">{translate('page.form.amount')}: </Typography>
                 <Typography variant="body1">{formatCurrency(shipperPayment.amount)}</Typography>
               </Stack>
 
-              <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('page.content.finalTotalPrice')}:{' '}
-                </Typography>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle1">{translate('page.content.finalTotalPrice')}: </Typography>
                 <Typography variant="body1">{formatCurrency(shipperPayment.finalTotalPrice)}</Typography>
               </Stack>
 
-              <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('table.createDate')}:
-                </Typography>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle1">{translate('table.createDate')}:</Typography>
                 <Typography variant="body1">{fDateTime(shipperPayment.createDate)}</Typography>
               </Stack>
 
-              <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('page.content.paymentMethod')}:
-                </Typography>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle1">{translate('page.content.paymentMethod')}:</Typography>
                 <Typography variant="body1">
                   {shipperPayment.paymentMethod === PaymentMethod.CASH
                     ? translate('page.content.cash')
@@ -93,10 +80,8 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
                 </Typography>
               </Stack>
 
-              <Stack direction="row" justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('table.status')}:
-                </Typography>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle1">{translate('table.status')}:</Typography>
                 <Label color={shipperPayment.status === FilterStatus.SUCCESS ? Color.SUCCESS : Color.ERROR}>
                   {shipperPayment.status === FilterStatus.SUCCESS
                     ? translate('status.success')
@@ -104,14 +89,12 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
                 </Label>
               </Stack>
 
-              <Stack justifyContent="space-between" mt={2}>
-                <Typography variant="subtitle1" color={(theme) => theme.palette.grey[600]}>
-                  {translate('page.form.content')}:
-                </Typography>
-                <Typography variant="body1" gutterBottom mt={1} maxWidth="100%">
+              <Typography variant="subtitle1">
+                {translate('page.form.content')}:{' '}
+                <Typography variant="body1" component="span">
                   {shipperPayment.content}
                 </Typography>
-              </Stack>
+              </Typography>
             </Stack>
           </DialogContent>
         </Dialog>

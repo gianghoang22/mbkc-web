@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { PartnerProductStatusEnum, ProductTypeEnum } from 'common/models';
-import { Gender, Status } from 'common/enums';
+import { Gender, PaymentMethod, Status } from 'common/enums';
 import { useLocales } from 'hooks';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -94,6 +94,10 @@ function SelectField<T extends string | number>({
                     ? translate('gender.male')
                     : value === Gender.FEMALE
                     ? translate('gender.female')
+                    : value === PaymentMethod.CASH
+                    ? translate('page.content.cash')
+                    : value === PaymentMethod.CASH_LESS
+                    ? translate('page.content.cashless')
                     : label}
                 </MenuItem>
               ))}

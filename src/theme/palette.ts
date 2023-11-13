@@ -200,7 +200,7 @@ const REPORT_PALETTE = {
 const palette = {
   common: { black: '#000', white: '#fff' },
   primary: { ...PRIMARY, contrastText: '#fff' },
-  secondary: { ...SECONDARY, contrastText: '#fff' },
+  secondary: { ...SECONDARY, contrastText: '#fff', textBlue: '#2B3674' },
   info: { ...INFO, contrastText: '#fff' },
   success: { ...SUCCESS, contrastText: '#fff' },
   warning: { ...WARNING, contrastText: GREY[800] },
@@ -212,7 +212,6 @@ const palette = {
   divider: GREY[500_24],
   text: {
     primary: GREY[800],
-    blue: '#2B3674',
     secondary: GREY[600],
     disabled: GREY[500],
   },
