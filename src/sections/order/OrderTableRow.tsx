@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Collapse, IconButton, Stack, TableCell, TableRow, Typography, Box } from '@mui/material';
+import { Avatar, Box, Collapse, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 // redux
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { useAppSelector } from 'redux/configStore';
 // interface
 import { OrderSortBy } from 'common/@types';
 import { Color, PartnerOrderStatus, Role, SystemStatus } from 'common/enums';
@@ -17,6 +16,7 @@ import { Label } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { formatCurrency } from 'utils';
+import moment from 'moment';
 
 interface OrderTableRowProps {
   order: Order;
@@ -26,14 +26,14 @@ interface OrderTableRowProps {
 
 function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  const { pathname } = useLocation();
   const { translate } = useLocales();
 
   const { userAuth } = useAppSelector((state) => state.auth);
 
   const [openList, setOpenList] = useState(-1);
+
+  const createDate = order?.orderHistories?.map((history) => history.createdDate);
 
   const handleNavigateDetail = () => {
     navigate(
@@ -41,7 +41,6 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
         ? PATH_KITCHEN_CENTER_APP.order.root + `/${order.id}`
         : PATH_CASHIER_APP.order.root + `/${order.id}`
     );
-    dispatch(setRoutesToBack(pathname));
   };
 
   return (
@@ -62,6 +61,10 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
             {order?.orderPartnerId}
           </TableCell>
         )}
+
+        <TableCell onClick={handleNavigateDetail}>
+          {moment(createDate ? createDate[0] : '').format('DD/MM/YYYY HH:mm')}
+        </TableCell>
 
         <TableCell onClick={handleNavigateDetail}>{order?.partner.name}</TableCell>
 

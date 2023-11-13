@@ -55,6 +55,7 @@ export interface KitchenCenterTable {
 export interface OrderTable {
   orderId: string;
   orderPartnerId: string;
+  createDate: string;
   storeName: string;
   partnerName: number;
   finalTotalPrice: number;

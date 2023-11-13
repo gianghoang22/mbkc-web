@@ -108,6 +108,7 @@ function ListMoneyExchangePage() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar
+                showSetting={false}
                 selected={selected}
                 setSelected={setSelected}
                 searchDateFrom={searchDateFrom}
@@ -120,7 +121,7 @@ function ListMoneyExchangePage() {
                 options={EXCHANGE_TYPE_OPTIONS}
                 secondOptions={FILTER_STATUS_OPTIONS}
                 haveSelectFilterStatus
-                haveSelectExchangeType
+                haveSelectExchangeType={userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER}
                 handleChangeFilterStatus={handleChangeFilterStatus}
                 handleChangeExchangeType={handleChangeExchangeType}
                 handleChangeSearchDateFrom={handleChangeSearchDateFrom}

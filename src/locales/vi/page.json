@@ -101,7 +101,7 @@
     "province": "Tỉnh",
     "district": "Quận - Huyện",
     "ward": "Phường",
-    "paymentMethod": "Phuong thức thanh toán",
+    "paymentMethod": "Phương thức thanh toán",
     "lowercase": {
       "userName": "tên tài khoản",
       "password": "mật khẩu"

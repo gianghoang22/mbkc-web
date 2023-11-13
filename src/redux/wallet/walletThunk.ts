@@ -49,13 +49,9 @@ export const createPaymentForStoreThunk = async (params: Params<PaymentForStores
       ROUTES_API_MONEY_EXCHANGES.CREATE_PAYMENT_FOR_STORES,
       formData
     );
-    console.log(response);
     if (response) {
       const paramsCallback = {
-        optionParams: {
-          itemsPerPage: optionParams?.itemsPerPage ? optionParams?.itemsPerPage : 5,
-          currentPage: optionParams?.currentPage ? optionParams?.currentPage : 1,
-        },
+        optionParams: optionParams ? optionParams : {},
         navigate,
       };
       await thunkAPI.dispatch(getAllMoneyExchange(paramsCallback));

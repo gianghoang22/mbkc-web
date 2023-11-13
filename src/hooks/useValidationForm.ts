@@ -449,7 +449,25 @@ function useValidationForm() {
   });
 
   const schemaPaymentForStore = yup.object({
-    Amount: yup.string().required(translate('page.validation.required', { name: translate('page.form.amount') })),
+    storeId: yup
+      .number()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.store') }))
+      .min(1, translate('page.validation.select', { name: translate('model.lowercase.store') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.store') })),
+    amount: yup.string().required(translate('page.validation.required', { name: translate('page.form.amount') })),
+  });
+
+  const schemaShipperPayment = yup.object({
+    bankingAccountId: yup
+      .string()
+      .typeError(translate('page.validation.select', { name: translate('model.lowercase.store') }))
+      .min(1, translate('page.validation.select', { name: translate('model.lowercase.store') }))
+      .required(translate('page.validation.select', { name: translate('model.lowercase.store') })),
+    paymentType: yup.string().required(
+      translate('page.validation.select', {
+        name: translate('page.form.paymentMethod'),
+      })
+    ),
   });
 
   const schemaCashier = yup.object({
@@ -537,6 +555,7 @@ function useValidationForm() {
     schemaPartnerProduct,
     schemaStorePartner,
     schemaPaymentForStore,
+    schemaShipperPayment,
   };
 }
 

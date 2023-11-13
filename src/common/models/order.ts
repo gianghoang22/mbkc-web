@@ -50,11 +50,16 @@ export interface Order {
   orderHistories: OrderHistory[];
 }
 
+export interface CompletedOrderForm {
+  orderPartnerId?: string;
+  bankingAccountId: string;
+  image?: string;
+  paymentType: string;
+}
 export interface CompletedOrderParams {
   orderPartnerId: string;
   bankingAccountId: string;
   image: string;
-  paymentType: string;
 }
 
 export enum OrderTypeEnum {

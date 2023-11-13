@@ -9,10 +9,11 @@ import { Box, Button, Card, Stack } from '@mui/material';
 import { getAllCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { createNewProduct, getAllProductsParent, getProductParentDetail } from 'redux/product/productSlice';
-//
+// interface
 import { ListParams, Params } from 'common/@types';
 import { Color } from 'common/enums';
 import { CategoryType, ProductSizeEnum, ProductToCreate, ProductToCreateParams, ProductTypeEnum } from 'common/models';
+//
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

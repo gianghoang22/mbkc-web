@@ -11,19 +11,33 @@ import { getAllStores } from 'redux/store/storeSlice';
 import { createPaymentForStore } from 'redux/wallet/walletSlice';
 //
 import { ListParams, Params } from 'common/@types';
-import { Color } from 'common/enums';
+import { Color, ExchangeType } from 'common/enums';
 import { PaymentForStoresToCreate } from 'common/models';
 import { AutoCompleteField, InputNumber, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
+import { fDate } from 'utils';
 
 interface CreatePaymentForStoreModalProps {
   page: number;
   rowsPerPage: number;
   isOpen: boolean;
   handleOpen: (title: any) => void;
+  sortBy: string;
+  searchDateFrom: Date | null;
+  searchDateTo: Date | null;
+  status: string;
 }
 
-function CreatePaymentForStoreModal({ page, rowsPerPage, isOpen, handleOpen }: CreatePaymentForStoreModalProps) {
+function CreatePaymentForStoreModal({
+  page,
+  rowsPerPage,
+  isOpen,
+  handleOpen,
+  sortBy,
+  searchDateFrom,
+  searchDateTo,
+  status,
+}: CreatePaymentForStoreModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -35,11 +49,11 @@ function CreatePaymentForStoreModal({ page, rowsPerPage, isOpen, handleOpen }: C
 
   const createPaymentForStoreForm = useForm<PaymentForStoresToCreate>({
     defaultValues: {
-      StoreId: '',
-      Amount: '',
-      Image: '',
+      storeId: 0,
+      amount: '',
+      image: '',
     },
-    resolver: yupResolver<any>(schemaPaymentForStore),
+    resolver: yupResolver(schemaPaymentForStore),
   });
 
   const { handleSubmit } = createPaymentForStoreForm;
@@ -59,11 +73,17 @@ function CreatePaymentForStoreModal({ page, rowsPerPage, isOpen, handleOpen }: C
 
   const onSubmit = async (values: PaymentForStoresToCreate) => {
     const data = { ...values };
+    handleOpen('');
     const paramCreate: Params<PaymentForStoresToCreate> = {
       data: data,
       optionParams: {
         currentPage: page + 1,
         itemsPerPage: rowsPerPage,
+        sortBy: sortBy,
+        searchDateFrom: searchDateFrom === null ? '' : fDate(searchDateFrom as Date),
+        searchDateTo: searchDateTo === null ? '' : fDate(searchDateTo as Date),
+        status: status,
+        exchangeType: ExchangeType.WITHDRAW,
       },
       navigate,
     };
@@ -105,7 +125,7 @@ function CreatePaymentForStoreModal({ page, rowsPerPage, isOpen, handleOpen }: C
                   label={translate('page.content.dragDrop')}
                   subLabel={translate('page.content.imageAllowed')}
                   margin="auto"
-                  name="Image"
+                  name="image"
                   defaultValue=""
                   width={500}
                   borderRadius="unset"
@@ -123,12 +143,12 @@ function CreatePaymentForStoreModal({ page, rowsPerPage, isOpen, handleOpen }: C
                       return option.value === getOpObjStore(value)?.value;
                     }}
                     transformValue={(opt: any) => opt.value}
-                    name="StoreId"
+                    name="storeId"
                     type="text"
                     label={translate('model.capitalizeOne.store')}
                   />
 
-                  <InputNumber fullWidth name="Amount" label={translate('page.form.amount')} />
+                  <InputNumber fullWidth name="amount" label={translate('page.form.amount')} />
                 </Stack>
               </Stack>
             </DialogContent>

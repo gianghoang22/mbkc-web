@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -11,10 +13,10 @@ import { confirmOrderToCompleted } from 'redux/order/orderSlice';
 // interface
 import { ListParams, Params } from 'common/@types';
 import { Color, PAYMENT_METHOD_OPTIONS, PaymentMethod } from 'common/enums';
-import { CompletedOrderParams } from 'common/models';
+import { CompletedOrderForm, CompletedOrderParams } from 'common/models';
 //
 import { AutoCompleteField, SelectField, UploadImageField } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useValidationForm } from 'hooks';
 
 interface CreateShipperPaymentModalProps {
   isOpen: boolean;
@@ -26,22 +28,27 @@ interface CreateShipperPaymentModalProps {
 function CreateShipperPaymentModal({ isOpen, handleOpen, orderPartnerId, orderId }: CreateShipperPaymentModalProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { translate } = useLocales();
+  const { schemaShipperPayment } = useValidationForm();
 
   const { bankingAccounts } = useAppSelector((state) => state.bankingAccount);
   const { isLoading: isLoadingOrder } = useAppSelector((state) => state.order);
 
-  const createShipperPaymentForm = useForm<CompletedOrderParams>({
-    defaultValues: {
-      bankingAccountId: '',
-      image: '',
-      orderPartnerId: '',
-    },
+  const createShipperPaymentForm = useForm<CompletedOrderForm>({
+    defaultValues: {},
+    resolver: yupResolver(schemaShipperPayment),
   });
 
-  const { handleSubmit, watch } = createShipperPaymentForm;
+  const { handleSubmit, watch, setValue } = createShipperPaymentForm;
 
   const paymentType = watch('paymentType');
+
+  useEffect(() => {
+    if (paymentType === PaymentMethod.CASH) {
+      setValue('bankingAccountId', 'string');
+    }
+  }, [paymentType]);
 
   const bankingAccountOptions = bankingAccounts.map((bankingAccount) => ({
     label: bankingAccount.numberAccount,
@@ -56,16 +63,16 @@ function CreateShipperPaymentModal({ isOpen, handleOpen, orderPartnerId, orderId
     return option;
   };
 
-  const onSubmit = async (values: CompletedOrderParams) => {
+  const onSubmit = async (values: CompletedOrderForm) => {
     const data = { ...values };
 
     handleOpen('');
 
-    const paramsToCompleted: Params<Omit<CompletedOrderParams, 'paymentType'>> = {
+    const paramsToCompleted: Params<CompletedOrderParams> = {
       data: {
         orderPartnerId: orderPartnerId,
-        image: data.image,
-        bankingAccountId: paymentType === PaymentMethod.CASH_LESS ? data.bankingAccountId : '',
+        image: data.image ? data.image : '',
+        bankingAccountId: paymentType === PaymentMethod.CASH ? '' : data.bankingAccountId,
       },
       idParams: {
         orderId: orderId,

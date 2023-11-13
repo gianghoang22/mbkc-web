@@ -7,20 +7,17 @@ import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagina
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
 // section
-import {
-  MoneyExchangeTableRow,
-  MoneyExchangeTableRowSkeleton,
-  MoneyExchangeTableToolbar,
-} from 'sections/moneyExchanges';
+import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
 // interface
-import { ListParams, MoneyExchangeTable, OrderSort } from 'common/@types';
-import { ExchangeType } from 'common/enums';
+import { ListParams, MoneyExchangeTable, OptionSelect, OrderSort } from 'common/@types';
+import { FILTER_STATUS_OPTIONS } from 'common/models';
 //
-import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
+import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
+import { ExchangeType } from 'common/enums';
 
 function ListOfPaymentForStoresPage() {
   const navigate = useNavigate();
@@ -29,19 +26,19 @@ function ListOfPaymentForStoresPage() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
 
-  const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { handleOpen, isOpen } = useModal();
-  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { MoneyExchangeHeadCells } = useConfigHeadTable();
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { moneyExchanges, numberItems, isLoading } = useAppSelector((state) => state.wallet);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('amount');
-  const [filterName, setFilterName] = useState<string>('');
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
   const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
   const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
-  const [exchangeStatus, setExchangeStatus] = useState('');
+  const [exchangeStatus, setExchangeStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof MoneyExchangeTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -49,14 +46,19 @@ function ListOfPaymentForStoresPage() {
     setOrderBy(property);
   };
 
-  const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setFilterName(event.target.value.trimStart());
+  const handleChangeSearchDateFrom = (date: Date | null) => {
+    setSearchDateFrom(date as Date);
+  };
+
+  const handleChangeSearchDateTo = (date: Date | null) => {
+    setSearchDateTo(date as Date);
+  };
+
+  const handleChangeFilterStatus = (newStatus: OptionSelect | null) => {
+    setExchangeStatus(newStatus);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
-
-  const isNotFound = !numberItems && !!filterName;
 
   const params: ListParams = useMemo(() => {
     return {
@@ -66,7 +68,7 @@ function ListOfPaymentForStoresPage() {
         sortBy: `${orderBy}_${order}`,
         searchDateFrom: searchDateFrom === null ? '' : fDate(searchDateFrom as Date),
         searchDateTo: searchDateTo === null ? '' : fDate(searchDateTo as Date),
-        status: exchangeStatus,
+        status: exchangeStatus?.value,
         exchangeType: ExchangeType.WITHDRAW,
       },
       navigate,
@@ -76,6 +78,10 @@ function ListOfPaymentForStoresPage() {
   useEffect(() => {
     dispatch<any>(getAllMoneyExchange(params));
   }, [dispatch, params]);
+
+  const handleReloadData = () => {
+    dispatch<any>(getAllMoneyExchange(params));
+  };
 
   return (
     <>
@@ -98,7 +104,24 @@ function ListOfPaymentForStoresPage() {
         <Card>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-              <MoneyExchangeTableToolbar filterName={filterName} onFilterName={handleFilterByName} />
+              <CustomTableToolbar
+                showSetting={false}
+                selected={selected}
+                setSelected={setSelected}
+                searchDateFrom={searchDateFrom}
+                searchDateTo={searchDateTo}
+                headCells={MoneyExchangeHeadCells}
+                handleReloadData={handleReloadData}
+                haveSelectSearchDateFrom
+                haveSelectSearchDateTo
+                haveFilterName={false}
+                secondOptions={FILTER_STATUS_OPTIONS}
+                haveSelectFilterStatus
+                handleChangeFilterStatus={handleChangeFilterStatus}
+                handleChangeSearchDateFrom={handleChangeSearchDateFrom}
+                handleChangeSearchDateTo={handleChangeSearchDateTo}
+                model={translate('model.lowercase.moneyExchanges')}
+              />
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<MoneyExchangeTable>
@@ -116,17 +139,13 @@ function ListOfPaymentForStoresPage() {
                         return <MoneyExchangeTableRow key={index} index={index} moneyExchange={moneyExchange} />;
                       })}
                       {emptyRows > 0 ||
-                        (moneyExchanges.length === 0 && !filterName && (
+                        (moneyExchanges.length === 0 && (
                           <EmptyTable
                             colNumber={MoneyExchangeHeadCells.length + 2}
                             model={translate('model.lowercase.paymentForStores')}
                           />
                         ))}
                     </TableBody>
-                  )}
-
-                  {isNotFound && (
-                    <SearchNotFound colNumber={MoneyExchangeHeadCells.length + 2} searchQuery={filterName} />
                   )}
                 </Table>
               </TableContainer>
@@ -146,7 +165,16 @@ function ListOfPaymentForStoresPage() {
       </Page>
 
       {isOpen && (
-        <CreatePaymentForStoreModal isOpen={isOpen} handleOpen={handleOpen} page={page} rowsPerPage={rowsPerPage} />
+        <CreatePaymentForStoreModal
+          isOpen={isOpen}
+          handleOpen={handleOpen}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          sortBy={`${orderBy}_${order}`}
+          searchDateFrom={searchDateFrom}
+          searchDateTo={searchDateTo}
+          status={exchangeStatus?.value ? exchangeStatus?.value : ''}
+        />
       )}
     </>
   );

@@ -42,10 +42,7 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
-export const confirmOrderToCompletedThunk = async (
-  params: Params<Omit<CompletedOrderParams, 'paymentType'>>,
-  thunkAPI: any
-) => {
+export const confirmOrderToCompletedThunk = async (params: Params<CompletedOrderParams>, thunkAPI: any) => {
   const { data, idParams, navigate } = params;
   const formData = appendData(data);
 

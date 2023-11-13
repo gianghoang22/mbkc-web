@@ -541,6 +541,13 @@ function useConfigHeadTable() {
       disablePadding: true,
     },
     {
+      id: 'createDate',
+      label: translate('table.createdDate'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: false,
+    },
+    {
       id: 'partnerName',
       label: translate('table.partnerName'),
       numeric: false,
