@@ -68,7 +68,8 @@
     "status": "status",
     "historicalPrice": "original price",
     "sellingPrice": "selling price",
-    "discountPrice": "discount price"
+    "discountPrice": "discount price",
+    "partnerOrderId": "order partner id"
   },
   "uppercase": {
     "code": "CODE"

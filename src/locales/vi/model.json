@@ -28,6 +28,7 @@
     "normalCategory": "Danh mục thường",
     "extraCategory": "Danh mục extra",
     "product": "Sản phẩm",
+    "products": "Các sản phẩm",
     "mappingProduct": "Liên kết sản phẩm",
     "paymentForStores": "thanh toán cho cửa hàng",
     "paymentForStore": "thanh toán cho cửa hàng",
@@ -159,6 +160,9 @@
     "gender": "giới tính",
     "phone": "số điện thoại",
     "orderHistories": "lịch sử đơn hàng",
-    "readyToDelivery": "sẵn sàng để giao"
+    "readyToDelivery": "sẵn sàng để giao",
+    "revenueOfToday": "doanh thu của hôm nay",
+    "ordersOfToday": "đơn hàng của hôm nay",
+    "ordersSuccess": "đơn hàng đã giao thành công"
   }
 }

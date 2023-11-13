@@ -29,7 +29,7 @@ import { CreateShipperPaymentModal } from 'sections/shipperPayment';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
 // interface
-import { Color, PartnerOrderStatus, PaymentMethod, Role, SystemStatus } from 'common/enums';
+import { Color, Language, PartnerOrderStatus, PaymentMethod, Role, SystemStatus } from 'common/enums';
 import { OrderStatusActions } from 'common/models';
 //
 import { ConfirmDialog, Helmet, Label } from 'components';
@@ -43,7 +43,7 @@ function OrderDetailPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { translate } = useLocales();
+  const { translate, currentLang } = useLocales();
   const {
     open: openConfirm,
     handleOpenMenu: handleOpenMenuConfirm,
@@ -207,7 +207,10 @@ function OrderDetailPage() {
 
                         <Stack>
                           <Typography variant="subtitle1">
-                            {translate('page.title.details', { model: translate('model.lowercase.products') })}:
+                            {currentLang.value === Language.VIETNAMESE
+                              ? translate('page.title.details', { model: translate('model.lowercase.products') })
+                              : translate('page.title.details', { model: translate('model.capitalizeOne.products') })}
+                            :
                           </Typography>
                           {order?.orderDetails.map((orderDetail, index) => {
                             const isLast = index === order?.orderDetails.length - 1;
@@ -389,40 +392,38 @@ function OrderDetailPage() {
         )}
       </Container>
 
-      <MUIPopover
-        open={Boolean(openConfirm)}
-        anchorEl={openConfirm}
-        hidden={order?.systemStatus !== SystemStatus.COMPLETED ? false : true}
-        onClose={handleCloseMenuConfirm}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            mt: 0.5,
-            width: 180,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem
-          disabled={
-            order?.systemStatus === SystemStatus.IN_STORE && order?.partnerOrderStatus === PartnerOrderStatus.READY
-              ? false
-              : true
-          }
-          onClick={() => {
-            handleOpenModalReadyDelivery(OrderStatusActions.READY_DELIVERY);
-          }}
-        >
-          <DeliveryDiningIcon fontSize="small" sx={{ mr: 2 }} />
-          {translate('status.readyDelivery')}
-        </MenuItem>
-      </MUIPopover>
+      {!isLoadingOrder &&
+        order?.systemStatus !== SystemStatus.COMPLETED &&
+        order?.systemStatus !== SystemStatus.READY_DELIVERY && (
+          <MUIPopover
+            open={Boolean(openConfirm)}
+            anchorEl={openConfirm}
+            onClose={handleCloseMenuConfirm}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            PaperProps={{
+              sx: {
+                p: 1,
+                mt: 0.5,
+                width: 180,
+                '& .MuiMenuItem-root': {
+                  px: 1,
+                  typography: 'body2',
+                  borderRadius: 0.75,
+                },
+              },
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                handleOpenModalReadyDelivery(OrderStatusActions.READY_DELIVERY);
+              }}
+            >
+              <DeliveryDiningIcon fontSize="small" sx={{ mr: 2 }} />
+              {translate('status.readyDelivery')}
+            </MenuItem>
+          </MUIPopover>
+        )}
 
       {isOpenModalConfirmReadyDelivery && (
         <ConfirmDialog

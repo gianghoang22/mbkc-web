@@ -69,7 +69,8 @@
     "historicalPrice": "giá gốc",
     "sellingPrice": "giá bán",
     "discountPrice": "giảm giá",
-    "price": "giá"
+    "price": "giá",
+    "partnerOrderId": "id đối tác"
   },
   "uppercase": {
     "code": "MÃ"
