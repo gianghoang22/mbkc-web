@@ -145,7 +145,7 @@ function ListOrdersPage() {
                 secondOptions={PARTNER_ORDER_STATUS}
                 searchDateFrom={searchDateFrom}
                 searchDateTo={searchDateTo}
-                model={translate('model.lowercase.store')}
+                model={translate('table.lowercase.partnerOrderId')}
                 setSelected={setSelected}
                 onFilterName={handleFilterByName}
                 handleChangeSearchDateFrom={handleChangeSearchDateFrom}
