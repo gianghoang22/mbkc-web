@@ -4,7 +4,7 @@ import { Box, Card, CircularProgress, Stack, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 //
 import { Color } from 'common/enums';
-import { fShortenNumber } from 'utils';
+import { fShortenNumber, formatCurrency } from 'utils';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +19,7 @@ export const StyledIcon = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 interface AppWidgetSummaryOutlineProps {
+  isPrice?: boolean;
   color?: Color;
   icon: ReactNode;
   title: string;
@@ -28,6 +29,7 @@ interface AppWidgetSummaryOutlineProps {
 }
 
 function AppWidgetSummaryOutline({
+  isPrice,
   title,
   total,
   icon,
@@ -75,7 +77,13 @@ function AppWidgetSummaryOutline({
               />
             </Box>
           ) : (
-            <Typography variant="h3">{fShortenNumber(total)}</Typography>
+            <>
+              {isPrice ? (
+                <Typography variant="h3">{formatCurrency(total) || 0}</Typography>
+              ) : (
+                <Typography variant="h3">{fShortenNumber(total)}</Typography>
+              )}
+            </>
           )}
 
           <Typography variant="subtitle1">{title}</Typography>

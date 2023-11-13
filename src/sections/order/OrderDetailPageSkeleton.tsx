@@ -79,6 +79,7 @@ function OrderDetailPageSkeleton() {
                     <Skeleton width={250} />
                     <Skeleton width={250} />
                     <Skeleton width={250} />
+                    <Skeleton width={250} />
                   </Stack>
                 </Stack>
               </Paper>
@@ -247,8 +248,12 @@ function OrderDetailPageSkeleton() {
                     <Stack gap={1}>
                       <Skeleton width={100} />
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Skeleton width={140} />
+                        <Skeleton width={200} />
                         <Skeleton variant="rounded" width={80} height={24} />
+                      </Stack>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between" mt={1}>
+                        <Skeleton width={120} />
+                        <Skeleton variant="rounded" width={140} height={24} />
                       </Stack>
                     </Stack>
                   </Stack>

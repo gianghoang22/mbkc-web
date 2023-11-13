@@ -15,9 +15,11 @@
     "totalDaily": "Tổng {{model}} hàng ngày",
     "new": "{{model}} mới nhất",
     "brandManagement": "Quản lý thương hiệu",
-    "listOfToday": "Danh sách {{model}} của hôm nay"
+    "listOfToday": "Danh sách {{model}} của hôm nay",
+    "summaryWorkShift": "Tổng kết ca làm việc"
   },
   "content": {
+    "dayWorks": "Ngày làm việc",
     "noHavePartner": "Chưa có đối tác",
     "logo": "Logo",
     "image": "Hình ảnh",
@@ -61,6 +63,7 @@
     "deliveryFee": "Phí giao hàng",
     "totalDiscount": "Tổng giảm giá",
     "finalTotalPrice": "Giá cuối cùng",
+    "collectedPrice": "Số tiền thu hộ",
     "mainBalance": "Số dư trong ví",
     "cash": "Tiền mặt",
     "cashless": "Chuyển khoản",
@@ -69,7 +72,8 @@
     "totalRevenueOfToday": "Tổng doanh thu của hôm nay",
     "balance": "Số dư",
     "date": "Ngày",
-    "noImage": "Không có hình ảnh"
+    "noImage": "Không có hình ảnh",
+    "paymentMethodPartner": "Phương thức thanh toán của đối tác"
   },
   "form": {
     "email": "Email",

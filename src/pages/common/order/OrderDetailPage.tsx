@@ -267,9 +267,16 @@ function OrderDetailPage() {
                           </Stack>
 
                           <Stack direction="row" justifyContent="flex-end" alignItems="center">
-                            <Typography variant="subtitle1">{translate('page.content.finalTotalPrice')}</Typography>
-                            <Typography width={150} variant="subtitle1">
+                            <Typography variant="body2">{translate('page.content.finalTotalPrice')}</Typography>
+                            <Typography width={150} variant="body2">
                               {formatCurrency(order?.finalTotalPrice as number)}
+                            </Typography>
+                          </Stack>
+
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
+                            <Typography variant="subtitle1">{translate('page.content.collectedPrice')}</Typography>
+                            <Typography width={150} variant="subtitle1">
+                              {formatCurrency(order?.collectedPrice as number)}
                             </Typography>
                           </Stack>
                         </Stack>
@@ -351,12 +358,20 @@ function OrderDetailPage() {
                           <Typography variant="subtitle1">{translate('page.content.payment')}</Typography>
                           <Stack direction="row" alignItems="center" justifyContent="space-between">
                             <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                              {translate('page.content.paymentMethodPartner')}:
+                            </Typography>
+                            <Label color={Color.PRIMARY}>
+                              {order?.paymentMethod.toLowerCase() === PaymentMethod.CASH.toLowerCase()
+                                ? translate('status.cash')
+                                : translate('status.cashLess')}
+                            </Label>
+                          </Stack>
+                          <Stack direction="row" alignItems="center" justifyContent="space-between" mt={1}>
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('table.status')}:
                             </Typography>
-                            <Label color={order?.paymentMethod === PaymentMethod.CASH ? Color.ERROR : Color.SUCCESS}>
-                              {order?.paymentMethod === PaymentMethod.CASH
-                                ? translate('status.notPaid')
-                                : translate('status.paid')}
+                            <Label color={order?.isPaid ? Color.SUCCESS : Color.ERROR}>
+                              {order?.isPaid ? translate('status.paid') : translate('status.notPaid')}
                             </Label>
                           </Stack>
                         </Stack>

@@ -15,9 +15,11 @@
     "totalDaily": "Total daily {{model}}",
     "new": "New {{model}}",
     "brandManagement": "Brand management",
-    "listOfToday": "List {{model}} of today"
+    "listOfToday": "List {{model}} of today",
+    "summaryWorkShift": "Summary of work shift"
   },
   "content": {
+    "dayWorks": "Working day",
     "noHavePartner": "No partner yet",
     "logo": "Logo",
     "image": "Image",
@@ -59,6 +61,7 @@
     "deliveryFee": "Delivery fee",
     "totalDiscount": "Total discount",
     "finalTotalPrice": "Final total price",
+    "collectedPrice": "Collected price",
     "switchToConfiguration": "Switch to configuration",
     "mainBalance": "Wallet Balance",
     "cash": "Cash",
@@ -68,7 +71,8 @@
     "totalRevenueOfToday": "Total revenue of today",
     "balance": "Balance",
     "date": "Date",
-    "noImage": "No images available"
+    "noImage": "No images available",
+    "paymentMethodPartner": "Payment method of partner"
   },
   "form": {
     "email": "Email",

@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Box,
+  Card,
   Container,
   Grid,
   Paper,
@@ -16,7 +17,7 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Card,
+  Stack,
 } from '@mui/material';
 // @mui icon
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
@@ -30,15 +31,16 @@ import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 // section
 import { BrandTableRowDashboardSkeleton } from 'sections/brand';
-import { AppWidgetSummary } from 'sections/dashboard';
+import { AppWidgetSummaryOutline } from 'sections/dashboard';
 import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
-//
+import { StoreTableRowSkeleton } from 'sections/store';
+// interface
 import { ListParams, OrderSortBy } from 'common/@types';
 import { Color, Status } from 'common/enums';
 import { Helmet, Label } from 'components';
+//
 import { useLocales } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { StoreTableRowSkeleton } from 'sections/store';
 
 // ----------------------------------------------------------------------
 
@@ -86,7 +88,8 @@ function MBKCAdminDashboardPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
-            <AppWidgetSummary
+            <AppWidgetSummaryOutline
+              isLoading={isLoadingBrands}
               title={translate('page.content.total', {
                 model: translate('model.lowercase.brands'),
               })}
@@ -96,7 +99,8 @@ function MBKCAdminDashboardPage() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
-            <AppWidgetSummary
+            <AppWidgetSummaryOutline
+              isLoading={isLoadingKitchenCenters}
               title={translate('page.content.total', {
                 model: translate('model.lowercase.kitchenCenters'),
               })}
@@ -107,7 +111,8 @@ function MBKCAdminDashboardPage() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
-            <AppWidgetSummary
+            <AppWidgetSummaryOutline
+              isLoading={isLoadingStores}
               title={translate('page.content.total', {
                 model: translate('model.lowercase.stores'),
               })}
@@ -118,7 +123,7 @@ function MBKCAdminDashboardPage() {
           </Grid>
         </Grid>
 
-        <Box mb={3} mt={1}>
+        <Stack gap={3} mt={3}>
           <Card>
             <Box p={2}>
               <Typography
@@ -202,9 +207,7 @@ function MBKCAdminDashboardPage() {
               </TableContainer>
             </Box>
           </Card>
-        </Box>
 
-        <Box>
           <Card>
             <Box p={2}>
               <Typography
@@ -296,9 +299,7 @@ function MBKCAdminDashboardPage() {
               </TableContainer>
             </Box>
           </Card>
-        </Box>
 
-        <Box mt={3}>
           <Card>
             <Box p={2}>
               <Typography
@@ -396,7 +397,7 @@ function MBKCAdminDashboardPage() {
               </TableContainer>
             </Box>
           </Card>
-        </Box>
+        </Stack>
       </Container>
     </>
   );

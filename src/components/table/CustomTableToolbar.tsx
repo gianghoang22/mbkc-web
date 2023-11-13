@@ -138,7 +138,11 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
       cell !== OrderSortBy.STATUS &&
       cell !== OrderSortBy.FULL_NAME &&
       cell !== OrderSortBy.PRODUCT_NAME &&
-      cell !== OrderSortBy.PRODUCT_CODE
+      cell !== OrderSortBy.PRODUCT_CODE &&
+      cell !== OrderSortBy.SYSTEM_STATUS &&
+      cell !== OrderSortBy.PARTNER_ORDER_STATUS &&
+      cell !== OrderSortBy.ORDER_PARTNER_ID &&
+      cell !== OrderSortBy.FINAL_TOTAL_PRICE
   );
   const headCellFilter = headCells.filter(
     (cell) =>
@@ -146,7 +150,11 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
       cell.id.toString() !== OrderSortBy.FULL_NAME &&
       cell.id.toString() !== OrderSortBy.STATUS &&
       cell.id.toString() !== OrderSortBy.PRODUCT_NAME &&
-      cell.id.toString() !== OrderSortBy.PRODUCT_CODE
+      cell.id.toString() !== OrderSortBy.PRODUCT_CODE &&
+      cell.id.toString() !== OrderSortBy.SYSTEM_STATUS &&
+      cell.id.toString() !== OrderSortBy.PARTNER_ORDER_STATUS &&
+      cell.id.toString() !== OrderSortBy.ORDER_PARTNER_ID &&
+      cell.id.toString() !== OrderSortBy.FINAL_TOTAL_PRICE
   );
 
   useEffect(() => {
@@ -191,6 +199,10 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
       OrderSortBy.PRODUCT_NAME,
       OrderSortBy.PRODUCT_CODE,
       OrderSortBy.FULL_NAME,
+      OrderSortBy.SYSTEM_STATUS,
+      OrderSortBy.PARTNER_ORDER_STATUS,
+      OrderSortBy.ORDER_PARTNER_ID,
+      OrderSortBy.FINAL_TOTAL_PRICE,
     ]);
   };
 
@@ -486,7 +498,11 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
               cell.id.toString() !== OrderSortBy.FULL_NAME &&
               cell.id.toString() !== OrderSortBy.STATUS &&
               cell.id.toString() !== OrderSortBy.PRODUCT_NAME &&
-              cell.id.toString() !== OrderSortBy.PRODUCT_CODE
+              cell.id.toString() !== OrderSortBy.PRODUCT_CODE &&
+              cell.id.toString() !== OrderSortBy.SYSTEM_STATUS &&
+              cell.id.toString() !== OrderSortBy.PARTNER_ORDER_STATUS &&
+              cell.id.toString() !== OrderSortBy.ORDER_PARTNER_ID &&
+              cell.id.toString() !== OrderSortBy.FINAL_TOTAL_PRICE
           )
           .map((cell, index) => {
             const isItemSelected = isSelected(cell.id as string);

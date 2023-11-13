@@ -7,6 +7,8 @@
   "confirmCancelOrderContent": "You definitely want to cancel {{model}}",
   "confirmOrderReadyDeliveryTitle": "Confirm order from ready to ready delivery",
   "confirmOrderReadyDeliveryContent": "Are you sure order",
+  "confirmOrderEndOfShift": "Confirm end of shift",
+  "contentOrderEndOfShift": "Please check the information again before ending your shift!",
   "updatePasswordContent": "You need to update your password to start using your account!",
   "updatePasswordSuccess": "You can now continue using the App!"
 }
