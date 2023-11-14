@@ -92,7 +92,7 @@ function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
               {translate('page.title.detail', {
                 model:
                   currentLang.value === Language.ENGLISH
-                    ? translate('model.form.store')
+                    ? translate('model.capitalizeOne.store')
                     : translate('model.lowercase.store'),
               })}
             </Typography>

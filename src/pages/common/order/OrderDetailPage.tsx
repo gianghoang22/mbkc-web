@@ -218,6 +218,7 @@ function OrderDetailPage() {
                             return (
                               <Stack
                                 sx={{
+                                  pb: 1,
                                   border: 0,
                                   borderBottom: isLast ? 0 : 1,
                                   borderStyle: 'dashed',
@@ -236,7 +237,7 @@ function OrderDetailPage() {
                           })}
                         </Stack>
 
-                        <Divider />
+                        <Divider sx={{ mt: -1 }} />
 
                         <Stack gap={1} textAlign="right">
                           <Stack direction="row" justifyContent="flex-end" alignItems="center">

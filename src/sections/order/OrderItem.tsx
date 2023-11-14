@@ -28,8 +28,10 @@ function OrderItem({ padding, paddingTop, productDetail, quantity, noteContent }
             </Typography>
           </Stack>
         </Stack>
-        <Typography>x{quantity}</Typography>
-        <Typography>{formatCurrency(productDetail.sellingPrice)}</Typography>
+        <Stack direction="row" justifyContent="space-between" width="17rem">
+          <Typography>x{quantity}</Typography>
+          <Typography>{formatCurrency(productDetail.sellingPrice)}</Typography>
+        </Stack>
       </Stack>
 
       {noteContent && (
