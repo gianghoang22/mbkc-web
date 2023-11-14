@@ -49,7 +49,7 @@ export default function AppCurrentIncomes({ title, subheader, chartData, ...othe
       </Stack>
 
       <Box sx={{ mx: 3 }} dir="ltr">
-        <ReactApexChart type="bar" series={[{ data: chartSeries }]} options={chartOptions} height={364} />
+        <ReactApexChart type="area" series={[{ data: chartSeries }]} options={chartOptions} height={364} />
       </Box>
     </Card>
   );

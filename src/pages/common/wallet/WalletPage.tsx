@@ -28,7 +28,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllMoneyExchange, getAllShipperPayment, getWalletInformation } from 'redux/wallet/walletSlice';
 // interface
 import { ListParams, MoneyExchangeTable, OrderSortBy, ShipperPaymentTable } from 'common/@types';
-import { Color, Language, Role } from 'common/enums';
+import { Color, Role } from 'common/enums';
 //
 import { CommonTableHead, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales } from 'hooks';
@@ -40,7 +40,7 @@ function WalletPage() {
   const dispatch = useAppDispatch();
 
   const { pathname } = useLocation();
-  const { translate, currentLang } = useLocales();
+  const { translate } = useLocales();
   const { shipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
 
   const { userAuth } = useAppSelector((state) => state.auth);
@@ -51,6 +51,8 @@ function WalletPage() {
       optionParams: {
         itemsPerPage: 5,
         currentPage: 1,
+        searchDateFrom: fDate(new Date()),
+        searchDateTo: fDate(new Date()),
       },
       navigate,
     };
@@ -61,6 +63,8 @@ function WalletPage() {
       optionParams: {
         itemsPerPage: 5,
         currentPage: 1,
+        searchDateFrom: fDate(new Date()),
+        searchDateTo: fDate(new Date()),
         sortBy: `${OrderSortBy.CREATE_DATE}_desc`,
       },
       navigate,
@@ -135,9 +139,7 @@ function WalletPage() {
             <Box sx={{ width: '100%' }} p={2}>
               <Paper sx={{ width: '100%' }}>
                 <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
-                  {currentLang.value === Language.ENGLISH
-                    ? translate('page.title.new', { model: translate('model.lowercase.shipperPayments') })
-                    : translate('page.title.new', { model: translate('model.capitalizeOne.shipperPayments') })}
+                  {translate('page.title.payOrderToday')}
                 </Typography>
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
@@ -145,7 +147,6 @@ function WalletPage() {
                       headCells={shipperPaymentHeadCells}
                       onRequestSort={() => {}}
                     />
-
                     {isLoading ? (
                       <ShipperPaymentTableRowSkeleton />
                     ) : (
@@ -190,9 +191,7 @@ function WalletPage() {
           <Box sx={{ width: '100%' }} p={2}>
             <Paper sx={{ width: '100%' }}>
               <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
-                {currentLang.value === Language.ENGLISH
-                  ? translate('page.title.new', { model: translate('model.lowercase.transactions') })
-                  : translate('page.title.new', { model: translate('model.capitalizeOne.transactions') })}
+                {translate('page.title.transactionToday')}
               </Typography>
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">

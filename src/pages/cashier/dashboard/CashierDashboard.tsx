@@ -6,6 +6,7 @@ import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import {
   Box,
   Card,
+  CardHeader,
   Container,
   Grid,
   Paper,
@@ -123,20 +124,13 @@ function CashierDashboard() {
         <Box width="100%" mt={4}>
           <Card>
             <Stack
-              gap={1}
-              direction="row"
-              alignItems="center"
-              px={3}
-              py={2}
               sx={{
-                color: '#2B3674',
+                pb: 2,
                 borderBottom: 1,
                 borderColor: (theme) => theme.palette.grey[400],
               }}
             >
-              <Typography variant="subtitle1">
-                {translate('page.title.list', { model: translate('model.lowercase.ordersSuccess') })}
-              </Typography>
+              <CardHeader title={translate('page.title.list', { model: translate('model.lowercase.ordersSuccess') })} />
             </Stack>
 
             <Box sx={{ width: '100%' }}>

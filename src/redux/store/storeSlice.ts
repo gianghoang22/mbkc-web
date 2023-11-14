@@ -6,6 +6,7 @@ import {
   confirmRegistrationStoreThunk,
   createNewStoreThunk,
   deleteStoreThunk,
+  getAllStoresDashboardThunk,
   getAllStoresThunk,
   getStoreDetailThunk,
   updateStatusStoreThunk,
@@ -23,6 +24,7 @@ interface StoreState {
   storeId: number;
   totalPages: number;
   numberItems: number;
+  numberItemsInDashboard: number;
 }
 
 const getIsEditingInStorage =
@@ -42,10 +44,12 @@ const initialState: StoreState = {
   storeId: getStoreIdlInStorage,
   totalPages: 0,
   numberItems: 5,
+  numberItemsInDashboard: 0,
 };
 
 export const createNewStore = createAsyncThunk('store/create-store', createNewStoreThunk);
-export const getAllStores = createAsyncThunk('store/get-allsStores', getAllStoresThunk);
+export const getAllStores = createAsyncThunk('store/get-all-stores', getAllStoresThunk);
+export const getAllStoresDashboard = createAsyncThunk('store/get-all-stores-dashboard', getAllStoresDashboardThunk);
 export const getStoreDetail = createAsyncThunk('store/get-store-detail', getStoreDetailThunk);
 export const updateStore = createAsyncThunk('store/update-store', updateStoreThunk);
 export const updateStatusStore = createAsyncThunk('store/update-status-store', updateStatusStoreThunk);
@@ -72,7 +76,6 @@ const storeSlice = createSlice({
       setLocalStorage(StorageKeys.IS_EDIT_STORE, true);
     },
     setAddFormDetail: (state, action) => {
-      console.log(action.payload);
       state.isAddFormDetail = true;
       state.store = action.payload;
       setLocalStorage(StorageKeys.IS_ADD_FORM_DETAIL, true);
@@ -114,6 +117,21 @@ const storeSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
+      .addCase(getAllStoresDashboard.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllStoresDashboard.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.numberItemsInDashboard = action.payload?.numberItems;
+      })
+      .addCase(getAllStoresDashboard.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+
       .addCase(getStoreDetail.pending, (state) => {
         state.isLoading = true;
       })

@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PersonIcon from '@mui/icons-material/Person';
-import PhoneIcon from '@mui/icons-material/Phone';
+import EmailIcon from '@mui/icons-material/Email';
 import TaskIcon from '@mui/icons-material/Task';
 import {
   Box,
@@ -135,29 +135,29 @@ function EndOfShiftPage() {
                     <Grid item xs={12} md={4}>
                       <Stack
                         gap={2}
+                        pr={3}
                         sx={{
+                          height: '100%',
                           borderRight: 1,
                           borderColor: (theme) => theme.palette.grey[400],
                         }}
                       >
                         <Typography variant="subtitle1">{translate('model.capitalizeOne.cashier')}</Typography>
 
-                        <Stack direction="row" alignItems="center" gap={1}>
-                          <Avatar src={shiftReport?.cashierImage} sx={{ width: 100, height: 100 }} />
+                        <Stack direction="column" alignItems="center" gap={1}>
+                          <Avatar src={shiftReport?.cashier.avatar} sx={{ width: 100, height: 100 }} />
 
-                          <Stack gap={1}>
-                            <Stack direction="row" alignItems="center" gap={1}>
-                              <PersonIcon color="primary" />
-                              <Typography component="span" color="black">
-                                {shiftReport?.cashierName}
-                              </Typography>
-                            </Stack>
-                            <Stack direction="row" alignItems="center" gap={1}>
-                              <PhoneIcon color="primary" />
-                              <Typography component="span" color="black">
-                                094360736
-                              </Typography>
-                            </Stack>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <PersonIcon color="primary" />
+                            <Typography component="span" color="black">
+                              {shiftReport?.cashier.fullName}
+                            </Typography>
+                          </Stack>
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <EmailIcon color="primary" />
+                            <Typography component="span" color="black">
+                              {shiftReport?.cashier.email}
+                            </Typography>
                           </Stack>
                         </Stack>
 
@@ -169,9 +169,35 @@ function EndOfShiftPage() {
                     </Grid>
                     <Grid item xs={12} md={8}>
                       <Stack gap={2}>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between">
-                          <Typography>{translate('model.capitalize.kitchenCenter')}</Typography>
-                          <Typography variant="h6">{shiftReport?.kitchenCenterName}</Typography>
+                        <Stack direction="column" gap={1.5}>
+                          <Typography variant="subtitle1">{translate('model.capitalize.kitchenCenter')}</Typography>
+                          <Stack direction="row" gap={2}>
+                            <img
+                              src={shiftReport?.cashier.kitchenCenter.logo}
+                              alt={shiftReport?.cashier.kitchenCenter.name}
+                              style={{ height: 100, width: 100 }}
+                            />
+                            <Stack>
+                              <Typography>
+                                {translate('table.name')}:{' '}
+                                <Typography component="span" variant="subtitle1">
+                                  {shiftReport?.cashier.kitchenCenter.name}
+                                </Typography>
+                              </Typography>
+                              <Typography>
+                                {translate('table.address')}:{' '}
+                                <Typography component="span" variant="subtitle1">
+                                  {shiftReport?.cashier.kitchenCenter.address}
+                                </Typography>
+                              </Typography>
+                              <Typography>
+                                {translate('table.manageEmail')}:{' '}
+                                <Typography component="span" variant="subtitle1">
+                                  {shiftReport?.cashier.kitchenCenter.kitchenCenterManagerEmail}
+                                </Typography>
+                              </Typography>
+                            </Stack>
+                          </Stack>
                         </Stack>
 
                         <Stack direction="row" alignItems="center" justifyContent="space-between">

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -15,6 +16,8 @@ import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'component
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
+import moment from 'moment';
+import dayjs from 'dayjs';
 
 function ListShipperPaymentPage() {
   const navigate = useNavigate();
@@ -33,6 +36,7 @@ function ListShipperPaymentPage() {
   const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
   const [filterStatus, setFilterStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [showWarning, setShowWarning] = useState<boolean>(false);
 
   const { shipperPayments, isLoading, numberItems } = useAppSelector((state) => state.wallet);
 
@@ -59,9 +63,23 @@ function ListShipperPaymentPage() {
     };
   }, [rowsPerPage, page, orderBy, order, searchDateFrom, searchDateTo, paymentMethod, filterStatus, navigate]);
 
+  const dateTo = moment(dayjs(searchDateTo).toDate()).format('yyyy-MM-DD');
+  const dateForm = moment(dayjs(searchDateFrom).toDate()).format('yyyy-MM-DD');
+
   useEffect(() => {
-    dispatch<any>(getAllShipperPayment(params));
-  }, [dispatch, params]);
+    if (searchDateTo === null || searchDateFrom === null) {
+      dispatch<any>(getAllShipperPayment(params));
+    } else if (searchDateFrom !== null && searchDateTo !== null) {
+      if (moment(dateForm).isSameOrBefore(dateTo)) {
+        setShowWarning(false);
+        setSearchDateTo(searchDateTo);
+        dispatch<any>(getAllShipperPayment(params));
+      } else {
+        setShowWarning(true);
+        setSearchDateTo(null);
+      }
+    }
+  }, [params, searchDateTo, searchDateFrom]);
 
   const handleReloadData = () => {
     dispatch<any>(getAllShipperPayment(params));
@@ -95,6 +113,7 @@ function ListShipperPaymentPage() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar
+                showWarning={showWarning}
                 showSetting={false}
                 selected={selected}
                 setSelected={setSelected}

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -16,6 +17,8 @@ import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'component
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
+import moment from 'moment';
+import dayjs from 'dayjs';
 
 function ListMoneyExchangePage() {
   const navigate = useNavigate();
@@ -37,6 +40,7 @@ function ListMoneyExchangePage() {
   const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
   const [exchangeType, setExchangeType] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
   const [filterStatus, setFilterStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
+  const [showWarning, setShowWarning] = useState<boolean>(false);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof MoneyExchangeTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -87,9 +91,23 @@ function ListMoneyExchangePage() {
     navigate,
   ]);
 
+  const dateTo = moment(dayjs(searchDateTo).toDate()).format('yyyy-MM-DD');
+  const dateForm = moment(dayjs(searchDateFrom).toDate()).format('yyyy-MM-DD');
+
   useEffect(() => {
-    dispatch<any>(getAllMoneyExchange(params));
-  }, [dispatch, params]);
+    if (searchDateTo === null || searchDateFrom === null) {
+      dispatch<any>(getAllMoneyExchange(params));
+    } else if (searchDateFrom !== null && searchDateTo !== null) {
+      if (moment(dateForm).isSameOrBefore(dateTo)) {
+        setShowWarning(false);
+        setSearchDateTo(searchDateTo);
+        dispatch<any>(getAllMoneyExchange(params));
+      } else {
+        setShowWarning(true);
+        setSearchDateTo(null);
+      }
+    }
+  }, [params, searchDateTo, searchDateFrom]);
 
   const handleReloadData = () => {
     dispatch<any>(getAllMoneyExchange(params));
@@ -108,6 +126,7 @@ function ListMoneyExchangePage() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar
+                showWarning={showWarning}
                 showSetting={false}
                 selected={selected}
                 setSelected={setSelected}
