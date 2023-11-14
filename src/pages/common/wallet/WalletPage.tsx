@@ -46,8 +46,6 @@ function WalletPage() {
   const { userAuth } = useAppSelector((state) => state.auth);
   const { moneyExchanges, shipperPayments, isLoading, walletInformation } = useAppSelector((state) => state.wallet);
 
-  console.log('shipperPayments', shipperPayments);
-
   const paramMoneyExchange: ListParams = useMemo(() => {
     return {
       optionParams: {
