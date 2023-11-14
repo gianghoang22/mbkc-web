@@ -73,7 +73,7 @@ interface CustomTableToolbarProps<T> {
   handleChangeSystemStatus?: (option: OptionSelect | null) => void;
   handleChangePartnerOrderStatus?: (option: OptionSelect | null) => void;
   handleReloadData: () => void;
-  model: string;
+  model?: string;
   addAction?: boolean;
   onAction?: () => void;
   haveSelectProductType?: boolean;

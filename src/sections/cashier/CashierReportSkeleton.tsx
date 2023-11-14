@@ -6,13 +6,9 @@ function CashierReportSkeleton() {
       <Box sx={{ width: '100%' }}>
         <Card>
           <Stack
-            gap={1}
-            direction="row"
-            alignItems="center"
             px={3}
             py={2}
             sx={{
-              color: '#2B3674',
               borderBottom: 1,
               borderColor: (theme) => theme.palette.grey[400],
             }}
@@ -31,13 +27,11 @@ function CashierReportSkeleton() {
                 >
                   <Skeleton width={180} />
 
-                  <Stack direction="row" alignItems="center" gap={1}>
+                  <Stack direction="column" alignItems="center" gap={1}>
                     <Skeleton variant="circular" sx={{ width: 100, height: 100 }} />
 
-                    <Stack gap={1}>
-                      <Skeleton width={150} />
-                      <Skeleton width={150} />
-                    </Stack>
+                    <Skeleton width={150} />
+                    <Skeleton width={170} />
                   </Stack>
 
                   <Skeleton width={160} />
@@ -45,9 +39,16 @@ function CashierReportSkeleton() {
               </Grid>
               <Grid item xs={12} md={8}>
                 <Stack gap={2}>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between">
-                    <Skeleton width={110} />
-                    <Skeleton width={225} />
+                  <Stack direction="column" gap={1.5}>
+                    <Skeleton width={120} />
+                    <Stack direction="row" gap={2}>
+                      <Skeleton variant="rectangular" width={100} height={100} />
+                      <Stack>
+                        <Skeleton width={400} />
+                        <Skeleton width={400} />
+                        <Skeleton width={400} />
+                      </Stack>
+                    </Stack>
                   </Stack>
 
                   <Stack direction="row" alignItems="center" justifyContent="space-between">

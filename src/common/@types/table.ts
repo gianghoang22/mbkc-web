@@ -136,6 +136,17 @@ export interface ProductTable {
   status: string;
 }
 
+export interface ProductDashboardTable {
+  image: string;
+  name: string;
+  code: string;
+  quantity: number;
+  sellingPrice: number;
+  type: string;
+  category: string;
+  status: string;
+}
+
 export interface CashierTable {
   avatar: string;
   fullName: string;

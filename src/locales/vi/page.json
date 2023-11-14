@@ -14,9 +14,15 @@
     "confirmCompletedOrder": "Xác nhận hoàn tất {{model}}",
     "totalDaily": "Tổng {{model}} hàng ngày",
     "new": "{{model}} mới nhất",
+    "confirmationStore": "Danh sách cửa hàng đang chờ xác nhận",
     "brandManagement": "Quản lý thương hiệu",
+    "kitchenCenterManagement": "Quản lý bếp trung tâm",
     "listOfToday": "Danh sách {{model}} của hôm nay",
-    "summaryWorkShift": "Tổng kết ca làm việc"
+    "summaryWorkShift": "Tổng kết ca làm việc",
+    "storeRevenue": "Thu nhập của cửa hàng",
+    "productStatistics": "Thống kê số lượng sản phẩm đã bán",
+    "payOrderToday": "Thanh toán đơn hàng hôm nay",
+    "transactionToday": "Giao dịch hôm nay"
   },
   "content": {
     "dayWorks": "Ngày làm việc",
@@ -73,7 +79,8 @@
     "balance": "Số dư",
     "date": "Ngày",
     "noImage": "Không có hình ảnh",
-    "paymentMethodPartner": "Phương thức thanh toán của đối tác"
+    "paymentMethodPartner": "Phương thức thanh toán của đối tác",
+    "storeRevenue": "Số liệu thu nhập chi tiết của cửa hàng"
   },
   "form": {
     "email": "Email",

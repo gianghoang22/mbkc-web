@@ -1,7 +1,7 @@
+import { Cashier } from './cashier';
+
 export interface ShiftReport {
-  cashierName: string;
-  kitchenCenterName: string;
-  cashierImage: string;
+  cashier: Cashier;
   totalOrderToday: number;
   totalMoneyToday: number;
   balance: number;

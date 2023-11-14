@@ -14,9 +14,15 @@
     "completedOrder": "Confirm completed {{model}}",
     "totalDaily": "Total daily {{model}}",
     "new": "New {{model}}",
+    "confirmationStore": "List of stores awaiting confirmation",
     "brandManagement": "Brand management",
+    "kitchenCenterManagement": "Kitchen center management",
     "listOfToday": "List {{model}} of today",
-    "summaryWorkShift": "Summary of work shift"
+    "summaryWorkShift": "Summary of work shift",
+    "storeRevenue": "Store's revenue",
+    "productStatistics": "Statistics on the number of products sold",
+    "payOrderToday": "Pay for order today",
+    "transactionToday": "Transaction today"
   },
   "content": {
     "dayWorks": "Working day",
@@ -72,7 +78,8 @@
     "balance": "Balance",
     "date": "Date",
     "noImage": "No images available",
-    "paymentMethodPartner": "Payment method of partner"
+    "paymentMethodPartner": "Payment method of partner",
+    "storeRevenue": "Detailed store income figures"
   },
   "form": {
     "email": "Email",

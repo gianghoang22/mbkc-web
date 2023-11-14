@@ -15,6 +15,7 @@ import {
   StoreTable,
   PartnerProductTable,
   ShiftTable,
+  ProductDashboardTable,
 } from 'common/@types';
 import useLocales from './useLocales';
 import { Language } from 'common/enums';
@@ -261,6 +262,88 @@ function useConfigHeadTable() {
       hideSortIcon: false,
       disablePadding: false,
     },
+    {
+      id: 'category',
+      label: translate('model.capitalizeOne.category'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'type',
+      label: translate('table.type'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'status',
+      label: translate('table.status'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+  ];
+
+  const productDashboardHeadCells: HeadCell<ProductDashboardTable>[] = [
+    {
+      id: 'image',
+      label: translate('table.image'),
+      numeric: false,
+      hideSortIcon: true,
+      disablePadding: true,
+    },
+    {
+      id: 'name',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.product'),
+              name: translate('page.form.nameLower'),
+            }
+          : {
+              model: translate('page.form.name'),
+              name: translate('model.lowercase.product'),
+            }
+      ),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'code',
+      label: translate(
+        'page.form.nameExchange',
+        currentLang.value === Language.ENGLISH
+          ? {
+              model: translate('model.capitalizeOne.product'),
+              name: translate('page.form.codeLower'),
+            }
+          : {
+              model: translate('page.form.code'),
+              name: translate('model.lowercase.product'),
+            }
+      ),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+    {
+      id: 'quantity',
+      label: translate('table.displayOrder'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
+      id: 'sellingPrice',
+      label: translate('table.sellingPrice'),
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: false,
+    },
+
     {
       id: 'category',
       label: translate('model.capitalizeOne.category'),
@@ -768,6 +851,7 @@ function useConfigHeadTable() {
     shipperPaymentHeadCells,
     partnerProductHeadCells,
     ShiftHeadCells,
+    productDashboardHeadCells,
   };
 }
 

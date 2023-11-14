@@ -1,4 +1,5 @@
 // @mui icons
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
@@ -9,17 +10,16 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import LinkIcon from '@mui/icons-material/Link';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import PaymentsIcon from '@mui/icons-material/Payments';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import StoreIcon from '@mui/icons-material/Store';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import WalletIcon from '@mui/icons-material/Wallet';
-import PaymentsIcon from '@mui/icons-material/Payments';
-import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
-import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 //
 import { NavSection } from 'common/@types';
-import useLocales from 'hooks/useLocales';
+import { useLocales } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function useConfigSidebar() {

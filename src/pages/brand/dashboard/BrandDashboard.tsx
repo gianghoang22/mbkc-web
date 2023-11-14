@@ -1,20 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Container, Grid, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Container, Grid, Stack, Typography } from '@mui/material';
 // @mui icon
+import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import SummarizeIcon from '@mui/icons-material/Summarize';
-import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 // redux
 import { getAllCategories, getAllExtraCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProducts } from 'redux/product/productSlice';
 import { getBrandProfile } from 'redux/profile/profileSlice';
 import { getAllStores } from 'redux/store/storeSlice';
+// section
+import { AppCurrentIncomes, AppWidgetSummaryOutline, ListNewStores, ListProductStatistics } from 'sections/dashboard';
 // interface
 import { ListParams } from 'common/@types';
 import { Color } from 'common/enums';
@@ -22,14 +23,12 @@ import { CategoryType } from 'common/models';
 //
 import { Helmet } from 'components';
 import { useLocales } from 'hooks';
-import { AppCurrentIncomes, AppWidgetSummaryOutline } from 'sections/dashboard';
 
 function BrandDashboard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const theme = useTheme();
-
+  const { pathname } = useLocation();
   const { translate } = useLocales();
 
   const { numberItems: totalStoreItems, isLoading: isLoadingStore } = useAppSelector((state) => state.store);
@@ -123,14 +122,14 @@ function BrandDashboard() {
         <Grid container spacing={3} mt={3}>
           <Grid item xs={12} sm={6} md={12}>
             <AppCurrentIncomes
-              title="Thu nhập trong năm 2023 của cửa hàng"
-              subheader="Chi tiết số liệu thu nhập trong từng tháng"
+              title={translate('page.title.storeRevenue')}
+              subheader={translate('page.content.storeRevenue')}
               chartData={[
                 { label: 'Jan', value: 400 },
                 { label: 'Feb', value: 430 },
                 { label: 'Mar', value: 448 },
                 { label: 'Apr', value: 470 },
-                { label: 'May', value: 540 },
+                { label: 'May', value: 200 },
                 { label: 'Jun', value: 580 },
                 { label: 'July', value: 690 },
                 { label: 'Aug', value: 1100 },
@@ -142,6 +141,11 @@ function BrandDashboard() {
             />
           </Grid>
         </Grid>
+
+        <Stack gap={5} mt={5}>
+          <ListNewStores pathname={pathname} />
+          <ListProductStatistics />
+        </Stack>
       </Container>
     </>
   );
