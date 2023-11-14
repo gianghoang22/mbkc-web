@@ -1,9 +1,8 @@
-import { Stack } from '@mui/material';
-import { Skeleton, TableCell, TableRow } from '@mui/material';
+import { Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
-function KitchenCenterTableRowDashboardSkeleton({ length = 5 }: { length: number }) {
+function StoreTableRowDashboardSkeleton({ length = 5 }: { length: number }) {
   return (
-    <>
+    <TableBody>
       {Array.from({ length }).map((_, index) => (
         <TableRow key={index}>
           <TableCell width={60} align="center">
@@ -14,10 +13,13 @@ function KitchenCenterTableRowDashboardSkeleton({ length = 5 }: { length: number
           <TableCell width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell width={370}>
+          <TableCell width={307}>
             <Skeleton />
           </TableCell>
-          <TableCell width={600}>
+          <TableCell width={346}>
+            <Skeleton />
+          </TableCell>
+          <TableCell width={261}>
             <Skeleton />
           </TableCell>
           <TableCell>
@@ -25,8 +27,8 @@ function KitchenCenterTableRowDashboardSkeleton({ length = 5 }: { length: number
           </TableCell>
         </TableRow>
       ))}
-    </>
+    </TableBody>
   );
 }
 
-export default KitchenCenterTableRowDashboardSkeleton;
+export default StoreTableRowDashboardSkeleton;

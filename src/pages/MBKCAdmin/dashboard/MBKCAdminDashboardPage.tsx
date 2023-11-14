@@ -9,7 +9,9 @@ import {
   Card,
   Container,
   Grid,
+  Link as MUILink,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -17,7 +19,6 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Stack,
 } from '@mui/material';
 // @mui icon
 import BrandingWatermarkOutlinedIcon from '@mui/icons-material/BrandingWatermarkOutlined';
@@ -33,12 +34,12 @@ import { getAllStores } from 'redux/store/storeSlice';
 import { BrandTableRowDashboardSkeleton } from 'sections/brand';
 import { AppWidgetSummaryOutline } from 'sections/dashboard';
 import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
-import { StoreTableRowSkeleton } from 'sections/store';
+import { StoreTableRowDashboardSkeleton } from 'sections/store';
 // interface
-import { ListParams, OrderSortBy } from 'common/@types';
-import { Color, Status } from 'common/enums';
-import { Helmet, Label } from 'components';
+import { ListParams } from 'common/@types';
+import { Color, Language, Status } from 'common/enums';
 //
+import { Helmet, Label } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
@@ -48,7 +49,7 @@ function MBKCAdminDashboardPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { translate } = useLocales();
+  const { translate, currentLang } = useLocales();
 
   const { brands, isLoading: isLoadingBrands, numberItems: totalBrandItems } = useAppSelector((state) => state.brand);
   const {
@@ -66,7 +67,6 @@ function MBKCAdminDashboardPage() {
     optionParams: {
       itemsPerPage: 5,
       currentPage: 1,
-      keySearchName: '',
     },
     navigate,
   };
@@ -79,7 +79,7 @@ function MBKCAdminDashboardPage() {
 
   return (
     <>
-      <Helmet title="MBKC Admin" />
+      <Helmet title={translate('role.mbkcAdmin')} />
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
@@ -89,138 +89,47 @@ function MBKCAdminDashboardPage() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
             <AppWidgetSummaryOutline
-              isLoading={isLoadingBrands}
-              title={translate('page.content.total', {
-                model: translate('model.lowercase.brands'),
-              })}
-              total={totalBrandItems}
-              icon={<BrandingWatermarkOutlinedIcon fontSize="large" />}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <AppWidgetSummaryOutline
+              total={totalKitchenCenterItems}
               isLoading={isLoadingKitchenCenters}
+              icon={<BusinessIcon fontSize="large" />}
               title={translate('page.content.total', {
                 model: translate('model.lowercase.kitchenCenters'),
               })}
-              total={totalKitchenCenterItems}
-              color={Color.SECONDARY}
-              icon={<BusinessIcon fontSize="large" />}
             />
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
             <AppWidgetSummaryOutline
+              color={Color.SECONDARY}
+              total={totalBrandItems}
+              isLoading={isLoadingBrands}
+              icon={<BrandingWatermarkOutlinedIcon fontSize="large" />}
+              title={translate('page.content.total', {
+                model: translate('model.lowercase.brands'),
+              })}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <AppWidgetSummaryOutline
+              color={Color.SUCCESS}
+              total={totalStoreItems}
               isLoading={isLoadingStores}
+              icon={<StoreIcon fontSize="large" />}
               title={translate('page.content.total', {
                 model: translate('model.lowercase.stores'),
               })}
-              total={totalStoreItems}
-              color={Color.SUCCESS}
-              icon={<StoreIcon fontSize="large" />}
             />
           </Grid>
         </Grid>
 
-        <Stack gap={3} mt={3}>
+        <Stack gap={5} mt={5}>
           <Card>
             <Box p={2}>
-              <Typography
-                color="#2B3674"
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  lineHeight: '28px',
-                  marginBottom: 10,
-                  letterSpacing: '0.6px',
-                }}
-              >
-                {translate('model.capitalize.brands')}
-              </Typography>
-              <TableContainer component={Paper}>
-                <Table aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{translate('table.no')}</TableCell>
-                      <TableCell>Logo</TableCell>
-                      <TableCell>{translate('table.name')}</TableCell>
-                      <TableCell>{translate('table.address')}</TableCell>
-                      <TableCell>{translate('table.status')}</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {isLoadingBrands ? (
-                      <BrandTableRowDashboardSkeleton length={featuredBrands.length} />
-                    ) : (
-                      <>
-                        {featuredBrands.map((row, index) => (
-                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell width={60} component="th" scope="row">
-                              {index + 1}
-                            </TableCell>
-                            <TableCell>
-                              <Avatar src={row.logo} alt="logo" />
-                            </TableCell>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell width={600}> {row.address}</TableCell>
-                            <TableCell>
-                              <Label
-                                color={
-                                  row?.status === Status.ACTIVE
-                                    ? Color.SUCCESS
-                                    : row?.status === Status.INACTIVE
-                                    ? Color.WARNING
-                                    : Color.ERROR
-                                }
-                              >
-                                {row?.status === Status.INACTIVE
-                                  ? translate('status.inactive')
-                                  : row?.status === Status.ACTIVE
-                                  ? translate('status.active')
-                                  : translate('status.deActive')}
-                              </Label>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </>
-                    )}
-                  </TableBody>
-                </Table>
-
-                <Link
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    textDecoration: 'none',
-                    color: '#000',
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    letterSpacing: '0.4px',
-                    alignItems: 'center',
-                  }}
-                  to={PATH_ADMIN_APP.brand.list}
-                >
-                  <Typography>{translate('page.content.viewAll')}</Typography>
-                  <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
-                </Link>
-              </TableContainer>
-            </Box>
-          </Card>
-
-          <Card>
-            <Box p={2}>
-              <Typography
-                color="#2B3674"
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  marginBottom: 10,
-                  lineHeight: '28px',
-                  letterSpacing: '0.6px',
-                }}
-              >
-                {translate('model.capitalize.kitchenCenters')}
+              <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
+                {currentLang.value === Language.ENGLISH
+                  ? translate('page.title.new', { model: translate('model.lowercase.kitchenCenters') })
+                  : translate('page.title.new', { model: translate('model.capitalizeOne.kitchenCenters') })}
               </Typography>
               <TableContainer component={Paper}>
                 <Table aria-label="simple table">
@@ -238,38 +147,44 @@ function MBKCAdminDashboardPage() {
                       <KitchenCenterTableRowDashboardSkeleton length={kitchenCenters.length} />
                     ) : (
                       <>
-                        {featuredKitchenCenters.map((row, index) => (
-                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell width={60} component="th" scope="row">
+                        {featuredKitchenCenters.map((kitchenCenter, index) => (
+                          <TableRow
+                            key={index}
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() =>
+                              navigate(PATH_ADMIN_APP.kitchenCenter.root + `/${kitchenCenter.kitchenCenterId}`)
+                            }
+                          >
+                            <TableCell width={60} align="center">
                               {index + 1}
                             </TableCell>
-                            <TableCell align="left">
-                              <Avatar src={row.logo} alt="logo" />
+                            <TableCell width={80} align="left">
+                              <Avatar src={kitchenCenter.logo} alt="logo" />
                             </TableCell>
 
-                            <TableCell align="left">{row.name}</TableCell>
+                            <TableCell align="left">{kitchenCenter.name}</TableCell>
 
                             <TableCell width={600}>
                               {' '}
-                              {row?.address
+                              {kitchenCenter?.address
                                 .split(', ')
-                                .slice(0, row?.address.split(', ').length - 3)
+                                .slice(0, kitchenCenter?.address.split(', ').length - 3)
                                 .join(', ')}
                             </TableCell>
 
                             <TableCell align="left">
                               <Label
                                 color={
-                                  row?.status === Status.ACTIVE
+                                  kitchenCenter?.status === Status.ACTIVE
                                     ? Color.SUCCESS
-                                    : row?.status === Status.INACTIVE
+                                    : kitchenCenter?.status === Status.INACTIVE
                                     ? Color.WARNING
                                     : Color.ERROR
                                 }
                               >
-                                {row?.status === Status.INACTIVE
+                                {kitchenCenter?.status === Status.INACTIVE
                                   ? translate('status.inactive')
-                                  : row?.status === Status.ACTIVE
+                                  : kitchenCenter?.status === Status.ACTIVE
                                   ? translate('status.active')
                                   : translate('status.deActive')}
                               </Label>
@@ -280,39 +195,113 @@ function MBKCAdminDashboardPage() {
                     )}
                   </TableBody>
                 </Table>
-                <Link
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    textDecoration: 'none',
-                    color: '#000',
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    letterSpacing: '0.4px',
-                    alignItems: 'center',
-                  }}
-                  to={PATH_ADMIN_APP.kitchenCenter.list}
-                >
-                  <Typography>{translate('page.content.viewAll')}</Typography>
-                  <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
-                </Link>
+                <Stack alignItems="end" mt={2}>
+                  <Link
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textDecoration: 'none',
+                      color: '#000',
+                    }}
+                    to={PATH_ADMIN_APP.kitchenCenter.list}
+                  >
+                    <MUILink underline="hover" variant="subtitle2" color="#000">
+                      {translate('page.content.viewAll')}
+                    </MUILink>
+                    <KeyboardArrowRightIcon fontSize="small" />
+                  </Link>
+                </Stack>
               </TableContainer>
             </Box>
           </Card>
 
           <Card>
             <Box p={2}>
-              <Typography
-                color="#2B3674"
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  marginBottom: 10,
-                  lineHeight: '28px',
-                  letterSpacing: '0.6px',
-                }}
-              >
-                {translate('model.capitalize.stores')}
+              <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
+                {currentLang.value === Language.ENGLISH
+                  ? translate('page.title.new', { model: translate('model.lowercase.brands') })
+                  : translate('page.title.new', { model: translate('model.capitalizeOne.brands') })}
+              </Typography>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>{translate('table.no')}</TableCell>
+                      <TableCell>Logo</TableCell>
+                      <TableCell>{translate('table.name')}</TableCell>
+                      <TableCell>{translate('table.address')}</TableCell>
+                      <TableCell>{translate('table.status')}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {isLoadingBrands ? (
+                      <BrandTableRowDashboardSkeleton length={featuredBrands.length} />
+                    ) : (
+                      <>
+                        {featuredBrands.map((brand, index) => (
+                          <TableRow
+                            key={index}
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() => navigate(PATH_ADMIN_APP.brand.root + `/${brand.brandId}`)}
+                          >
+                            <TableCell width={60} align="center">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell width={80}>
+                              <Avatar src={brand.logo} alt="logo" />
+                            </TableCell>
+                            <TableCell>{brand.name}</TableCell>
+                            <TableCell width={600}> {brand.address}</TableCell>
+                            <TableCell>
+                              <Label
+                                color={
+                                  brand?.status === Status.ACTIVE
+                                    ? Color.SUCCESS
+                                    : brand?.status === Status.INACTIVE
+                                    ? Color.WARNING
+                                    : Color.ERROR
+                                }
+                              >
+                                {brand?.status === Status.INACTIVE
+                                  ? translate('status.inactive')
+                                  : brand?.status === Status.ACTIVE
+                                  ? translate('status.active')
+                                  : translate('status.deActive')}
+                              </Label>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    )}
+                  </TableBody>
+                </Table>
+
+                <Stack alignItems="end" mt={2}>
+                  <Link
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textDecoration: 'none',
+                      color: '#000',
+                    }}
+                    to={PATH_ADMIN_APP.brand.list}
+                  >
+                    <MUILink underline="hover" variant="subtitle2" color="#000">
+                      {translate('page.content.viewAll')}
+                    </MUILink>
+                    <KeyboardArrowRightIcon fontSize="small" />
+                  </Link>
+                </Stack>
+              </TableContainer>
+            </Box>
+          </Card>
+
+          <Card>
+            <Box p={2}>
+              <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
+                {currentLang.value === Language.ENGLISH
+                  ? translate('page.title.new', { model: translate('model.lowercase.stores') })
+                  : translate('page.title.new', { model: translate('model.capitalizeOne.stores') })}
               </Typography>
               <TableContainer component={Paper}>
                 <Table aria-label="simple table">
@@ -328,72 +317,64 @@ function MBKCAdminDashboardPage() {
                   </TableHead>
 
                   {isLoadingStores ? (
-                    <StoreTableRowSkeleton
-                      showAction={false}
-                      length={5}
-                      selected={[
-                        OrderSortBy.LOGO,
-                        OrderSortBy.NAME,
-                        OrderSortBy.KITCHEN_CENTER,
-                        OrderSortBy.BRAND,
-                        OrderSortBy.STATUS,
-                      ]}
-                    />
+                    <StoreTableRowDashboardSkeleton length={5} />
                   ) : (
-                    <>
-                      <TableBody>
-                        {featuredStores.map((row, index) => (
-                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell component="th" scope="row">
-                              {index + 1}
-                            </TableCell>
-                            <TableCell align="left">
-                              <Avatar src={row.logo} alt="logo" />
-                            </TableCell>
+                    <TableBody>
+                      {featuredStores.map((store, index) => (
+                        <TableRow
+                          key={index}
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => navigate(PATH_ADMIN_APP.store.root + `/${store.storeId}`)}
+                        >
+                          <TableCell width={60} align="center">
+                            {index + 1}
+                          </TableCell>
+                          <TableCell width={80} align="left">
+                            <Avatar src={store.logo} alt="logo" />
+                          </TableCell>
 
-                            <TableCell align="left">{row.name}</TableCell>
-                            <TableCell align="left">{row.kitchenCenter.name}</TableCell>
-                            <TableCell align="left">{row.brand.name}</TableCell>
+                          <TableCell align="left">{store.name}</TableCell>
+                          <TableCell align="left">{store.kitchenCenter.name}</TableCell>
+                          <TableCell align="left">{store.brand.name}</TableCell>
 
-                            <TableCell align="left">
-                              <Label
-                                color={
-                                  row?.status === Status.ACTIVE
-                                    ? Color.SUCCESS
-                                    : row?.status === Status.INACTIVE
-                                    ? Color.WARNING
-                                    : Color.ERROR
-                                }
-                              >
-                                {row?.status === Status.INACTIVE
-                                  ? translate('status.inactive')
-                                  : row?.status === Status.ACTIVE
-                                  ? translate('status.active')
-                                  : translate('status.deActive')}
-                              </Label>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </>
+                          <TableCell align="left">
+                            <Label
+                              color={
+                                store?.status === Status.ACTIVE
+                                  ? Color.SUCCESS
+                                  : store?.status === Status.INACTIVE
+                                  ? Color.WARNING
+                                  : Color.ERROR
+                              }
+                            >
+                              {store?.status === Status.INACTIVE
+                                ? translate('status.inactive')
+                                : store?.status === Status.ACTIVE
+                                ? translate('status.active')
+                                : translate('status.deActive')}
+                            </Label>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
                   )}
                 </Table>
-                <Link
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    textDecoration: 'none',
-                    color: '#000',
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    letterSpacing: '0.4px',
-                    alignItems: 'center',
-                  }}
-                  to={PATH_ADMIN_APP.store.list}
-                >
-                  <Typography>{translate('page.content.viewAll')}</Typography>
-                  <KeyboardArrowRightIcon style={{ fontSize: '18px' }} />
-                </Link>
+                <Stack alignItems="end" mt={2}>
+                  <Link
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textDecoration: 'none',
+                      color: '#000',
+                    }}
+                    to={PATH_ADMIN_APP.store.list}
+                  >
+                    <MUILink underline="hover" variant="subtitle2" color="#000">
+                      {translate('page.content.viewAll')}
+                    </MUILink>
+                    <KeyboardArrowRightIcon fontSize="small" />
+                  </Link>
+                </Stack>
               </TableContainer>
             </Box>
           </Card>

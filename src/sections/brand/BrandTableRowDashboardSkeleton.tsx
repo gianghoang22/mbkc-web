@@ -1,24 +1,26 @@
-import { Skeleton, TableCell, TableRow } from '@mui/material';
+import { Skeleton, Stack, TableCell, TableRow } from '@mui/material';
 
-function BrandTableRowDashboardSkeleton({ length = 3 }: { length: number }) {
+function BrandTableRowDashboardSkeleton({ length = 5 }: { length: number }) {
   return (
     <>
       {Array.from({ length }).map((_, index) => (
-        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-          <TableCell width={60} component="th" scope="row">
+        <TableRow key={index}>
+          <TableCell width={60} align="center">
+            <Stack direction="row" alignItems="center" justifyContent="center">
+              <Skeleton width={20} />
+            </Stack>
+          </TableCell>
+          <TableCell width={80}>
+            <Skeleton variant="circular" width={40} height={40} />
+          </TableCell>
+          <TableCell width={290}>
+            <Skeleton />
+          </TableCell>
+          <TableCell width={600}>
             <Skeleton />
           </TableCell>
           <TableCell>
-            <Skeleton variant="circular" width={40} height={40} />
-          </TableCell>
-          <TableCell>
-            <Skeleton width={100} />
-          </TableCell>
-          <TableCell>
-            <Skeleton width={600} />
-          </TableCell>
-          <TableCell>
-            <Skeleton width={60} height={30} />
+            <Skeleton variant="rounded" width={130} height={24} />
           </TableCell>
         </TableRow>
       ))}
