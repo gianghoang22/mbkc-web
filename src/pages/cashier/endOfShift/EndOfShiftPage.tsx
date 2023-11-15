@@ -53,7 +53,7 @@ function EndOfShiftPage() {
   const { isLoading: isLoadingOrder, orders, numberItems } = useAppSelector((state) => state.order);
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof OrderTable>('finalTotalPrice');
+  const [orderBy, setOrderBy] = useState<keyof OrderTable>('collectedPrice');
   const [filterName, setFilterName] = useState<string>('');
   const [selected, setSelected] = useState<readonly string[]>([]);
 
@@ -122,7 +122,6 @@ function EndOfShiftPage() {
                   px={3}
                   py={2}
                   sx={{
-                    color: '#2B3674',
                     borderBottom: 1,
                     borderColor: (theme) => theme.palette.grey[400],
                   }}
@@ -187,7 +186,10 @@ function EndOfShiftPage() {
                               <Typography>
                                 {translate('table.address')}:{' '}
                                 <Typography component="span" variant="subtitle1">
-                                  {shiftReport?.cashier.kitchenCenter.address}
+                                  {shiftReport?.cashier.kitchenCenter.address
+                                    .split(', ')
+                                    .slice(0, shiftReport?.cashier.kitchenCenter.address.split(', ').length - 3)
+                                    .join(', ')}
                                 </Typography>
                               </Typography>
                               <Typography>
@@ -252,7 +254,6 @@ function EndOfShiftPage() {
               px={3}
               py={2}
               sx={{
-                color: '#2B3674',
                 borderBottom: 1,
                 borderColor: (theme) => theme.palette.grey[400],
               }}

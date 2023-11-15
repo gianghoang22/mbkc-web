@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Avatar, Box, Collapse, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Collapse, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -14,9 +14,9 @@ import { Order } from 'common/models';
 //
 import { Label } from 'components';
 import { useLocales } from 'hooks';
+import moment from 'moment';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { formatCurrency } from 'utils';
-import moment from 'moment';
 
 interface OrderTableRowProps {
   order: Order;
@@ -50,10 +50,8 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
           {index + 1}
         </TableCell>
         {selected.includes(OrderSortBy.ORDER_ID) && (
-          <TableCell onClick={handleNavigateDetail} padding="none">
-            <Box textAlign="center" pr={3.5}>
-              {order?.id}
-            </Box>
+          <TableCell onClick={handleNavigateDetail} padding="none" sx={{ mr: 2 }}>
+            {order?.displayId}
           </TableCell>
         )}
         <TableCell padding="none" onClick={handleNavigateDetail}>
@@ -70,7 +68,7 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
         {selected.includes(OrderSortBy.STORE_NAME) && (
           <TableCell onClick={handleNavigateDetail}>{order?.store.name}</TableCell>
         )}
-        <TableCell onClick={handleNavigateDetail}>{formatCurrency(order?.finalTotalPrice)}</TableCell>
+        <TableCell onClick={handleNavigateDetail}>{formatCurrency(order?.collectedPrice)}</TableCell>
         <TableCell onClick={handleNavigateDetail}>
           <Label
             color={

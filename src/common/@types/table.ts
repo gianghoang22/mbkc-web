@@ -60,7 +60,7 @@ export interface OrderTable {
   createDate: string;
   storeName: string;
   partnerName: number;
-  finalTotalPrice: number;
+  collectedPrice: number;
   systemStatus: string;
   partnerOrderStatus: string;
 }
@@ -174,6 +174,7 @@ export interface MoneyExchangeTable {
 
 export interface ShipperPaymentTable {
   orderId: string;
+  orderPartnerId: string;
   createDate: string;
   cashierCreated: string;
   amount: number;

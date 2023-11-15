@@ -2,6 +2,7 @@
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // @mui
+import BurstModeIcon from '@mui/icons-material/BurstMode';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import InfoIcon from '@mui/icons-material/Info';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -23,14 +24,14 @@ import {
   Typography,
 } from '@mui/material';
 // section
-import { OrderDetailPageSkeleton, OrderItem, OrderTimeline } from 'sections/order';
+import { OrderDetailPageSkeleton, OrderDetailItem, OrderTimeline } from 'sections/order';
 import { CreateShipperPaymentModal } from 'sections/shipperPayment';
 //redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
 // interface
 import { Color, Language, PartnerOrderStatus, PaymentMethod, Role, SystemStatus } from 'common/enums';
-import { OrderStatusActions } from 'common/models';
+import { OrderDetails, OrderStatusActions } from 'common/models';
 //
 import { ConfirmDialog, Helmet, Label } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -54,6 +55,8 @@ function OrderDetailPage() {
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { order, isLoading: isLoadingOrder } = useAppSelector((state) => state.order);
+
+  const imageConfirm = order?.orderHistories?.map((history) => history.image);
 
   const paramsDetails = useMemo(() => {
     return {
@@ -95,7 +98,7 @@ function OrderDetailPage() {
                   <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
                 </IconButton>
                 <Typography variant="h4">
-                  {translate('model.capitalizeOne.order')} {order?.id} - {order?.partner.name}
+                  {translate('model.capitalizeOne.order')} {order?.displayId} - {order?.partner.name}
                 </Typography>
 
                 <Label
@@ -205,6 +208,13 @@ function OrderDetailPage() {
                           </Typography>
                         </Typography>
 
+                        <Typography variant="subtitle1">
+                          {translate('page.content.eatingUtensils')}:{' '}
+                          <Typography variant="body1" component="span">
+                            {order?.cutlery === 1 ? translate('button.yes') : translate('button.no')}
+                          </Typography>
+                        </Typography>
+
                         <Stack>
                           <Typography variant="subtitle1">
                             {currentLang.value === Language.VIETNAMESE
@@ -214,6 +224,8 @@ function OrderDetailPage() {
                           </Typography>
                           {order?.orderDetails.map((orderDetail, index) => {
                             const isLast = index === order?.orderDetails.length - 1;
+
+                            const orderDetailProps: OrderDetails = orderDetail;
 
                             return (
                               <Stack
@@ -225,10 +237,11 @@ function OrderDetailPage() {
                                   borderColor: (theme) => theme.palette.grey[400],
                                 }}
                               >
-                                <OrderItem
+                                <OrderDetailItem
                                   key={orderDetail.product.productId}
                                   paddingTop={2}
                                   productDetail={orderDetail.product}
+                                  orderDetail={orderDetailProps}
                                   quantity={orderDetail.quantity}
                                   noteContent={orderDetail.note}
                                 />
@@ -251,6 +264,24 @@ function OrderDetailPage() {
 
                           <Stack direction="row" justifyContent="flex-end" alignItems="center">
                             <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                              {translate('page.content.tax')} (%)
+                            </Typography>
+                            <Typography width={150} variant="body2">
+                              {order?.tax}
+                            </Typography>
+                          </Stack>
+
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                              {translate('page.content.discount')}
+                            </Typography>
+                            <Typography width={150} variant="body2" color="red">
+                              {formatCurrency(order?.totalDiscount as number)}
+                            </Typography>
+                          </Stack>
+
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('page.content.deliveryFee')}
                             </Typography>
                             <Typography width={150} variant="body2">
@@ -260,15 +291,17 @@ function OrderDetailPage() {
 
                           <Stack direction="row" justifyContent="flex-end" alignItems="center">
                             <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                              {translate('page.content.totalDiscount')}
+                              {translate('page.content.orderFee')}
                             </Typography>
-                            <Typography width={150} variant="body2" color="red">
-                              {formatCurrency(order?.totalDiscount as number)}
+                            <Typography width={150} variant="body2">
+                              {formatCurrency(order?.commission as number)}
                             </Typography>
                           </Stack>
 
                           <Stack direction="row" justifyContent="flex-end" alignItems="center">
-                            <Typography variant="body2">{translate('page.content.finalTotalPrice')}</Typography>
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                              {translate('page.content.finalTotalPrice')}
+                            </Typography>
                             <Typography width={150} variant="body2">
                               {formatCurrency(order?.finalTotalPrice as number)}
                             </Typography>
@@ -391,9 +424,11 @@ function OrderDetailPage() {
                                   variant="outlined"
                                   startIcon={<PaymentsIcon />}
                                 >
-                                  {translate('page.title.create', {
-                                    model: translate('model.lowercase.shipperPayment'),
-                                  })}
+                                  {order.isPaid
+                                    ? translate('button.confirmDelivery')
+                                    : translate('button.creation', {
+                                        model: translate('model.lowercase.shipperPayment'),
+                                      })}
                                 </Button>
                               </Stack>
                             </>
@@ -402,6 +437,34 @@ function OrderDetailPage() {
                     </Paper>
                   </Box>
                 </Card>
+
+                {imageConfirm && imageConfirm[3] && (
+                  <Box mt={5}>
+                    <Card>
+                      <Box width="100%">
+                        <Paper sx={{ width: '100%' }}>
+                          <Stack
+                            gap={1}
+                            direction="row"
+                            alignItems="center"
+                            px={3}
+                            py={2}
+                            sx={{
+                              borderBottom: 1,
+                              borderColor: (theme) => theme.palette.grey[400],
+                            }}
+                          >
+                            <BurstModeIcon />
+                            <Typography variant="subtitle1">{translate('page.title.imageConfirmDelivery')}</Typography>
+                          </Stack>
+                          <Stack gap={2} p={2}>
+                            <img src={imageConfirm ? imageConfirm[3] : ''} alt="order confirm" />
+                          </Stack>
+                        </Paper>
+                      </Box>
+                    </Card>
+                  </Box>
+                )}
               </Grid>
             </Grid>
           </Box>
@@ -461,6 +524,7 @@ function OrderDetailPage() {
           handleOpen={handleOpenCreateShipperPaymentModal}
           orderPartnerId={order?.orderPartnerId as string}
           orderId={order?.id as number}
+          order={order}
         />
       )}
     </>

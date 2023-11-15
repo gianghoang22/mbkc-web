@@ -44,6 +44,7 @@
   "partnerName": "Đối tác",
   "storeName": "Cửa hàng",
   "totalPrice": "Tổng giá",
+  "collect": "Thu hộ",
   "createdDate": "Ngày tạo",
   "sender": "Người gửi",
   "receiver": "Người nhận",
@@ -56,6 +57,7 @@
   "send": "Gửi",
   "cashierCreated": "Nhân viên thu ngân",
   "orderId": "Id đơn hàng",
+  "quantity": "Số lượng bán ra",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

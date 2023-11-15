@@ -43,6 +43,7 @@
     "updatePassword": "Cập nhật mật khẩu",
     "addMore": "Thêm",
     "add": "Thêm {{model}}",
+    "creation": "Tạo {{model}}",
     "register": "Đăng kí {{model}}",
     "registerNew": "Đăng kí",
     "create": "Tạo mới",
@@ -71,7 +72,8 @@
     "no": "Không",
     "showColumns": "Hiển thị cột",
     "editHours": "Chỉnh giờ",
-    "confirmEndOfShift": "Xác nhận kết thúc ca làm việc"
+    "confirmEndOfShift": "Xác nhận kết thúc ca làm việc",
+    "confirmDelivery": "Xác nhận giao hàng"
   },
   "gender": { "male": "Nam", "female": "Nữ" },
   "common": {

@@ -645,8 +645,8 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
-      id: 'finalTotalPrice',
-      label: translate('table.totalPrice'),
+      id: 'collectedPrice',
+      label: translate('table.collect'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,
@@ -777,8 +777,8 @@ function useConfigHeadTable() {
 
   const shipperPaymentHeadCells: HeadCell<ShipperPaymentTable>[] = [
     {
-      id: 'orderId',
-      label: translate('table.orderId'),
+      id: 'orderPartnerId',
+      label: translate('table.partnerOrderId'),
       numeric: false,
       hideSortIcon: true,
       disablePadding: false,
@@ -794,12 +794,12 @@ function useConfigHeadTable() {
       id: 'createDate',
       label: translate('table.createdDate'),
       numeric: false,
-      hideSortIcon: false,
+      hideSortIcon: true,
       disablePadding: false,
     },
     {
       id: 'amount',
-      label: translate('page.form.amount'),
+      label: translate('table.collect'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: false,

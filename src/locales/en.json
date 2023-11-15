@@ -44,6 +44,7 @@
     "create": "Create",
     "addMore": "Add",
     "add": "Add {{model}}",
+    "creation": "Create {{model}}",
     "register": "Register {{model}}",
     "registerNew": "Register",
     "delete": "Delete",
@@ -71,7 +72,8 @@
     "no": "No",
     "showColumns": "Show columns",
     "editHours": "Adjust hours",
-    "confirmEndOfShift": "Confirm end of shift"
+    "confirmEndOfShift": "Confirm end of shift",
+    "confirmDelivery": "Confirm delivery"
   },
   "gender": { "male": "Male", "female": "Female" },
   "common": {
