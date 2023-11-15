@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import dayjs from 'dayjs';
+import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
+import { getAllMoneyExchange } from 'redux/moneyExchange/moneyExchangeSlice';
 // section
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 // interface
@@ -17,8 +20,6 @@ import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'component
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
-import moment from 'moment';
-import dayjs from 'dayjs';
 
 function ListMoneyExchangePage() {
   const navigate = useNavigate();
@@ -30,10 +31,10 @@ function ListMoneyExchangePage() {
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { moneyExchanges, isLoading, numberItems } = useAppSelector((state) => state.wallet);
+  const { moneyExchanges, isLoading, numberItems } = useAppSelector((state) => state.moneyExchange);
 
-  const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('amount');
+  const [order, setOrder] = useState<OrderSort>('desc');
+  const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('transactionTime');
   const [selected, setSelected] = useState<readonly string[]>([]);
 
   const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);

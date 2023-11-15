@@ -16,39 +16,20 @@ interface AppCurrentIncomesProps {
   chartData: any[];
 }
 
-interface Option {
-  label: string;
-  value: number;
-  image: string;
-  center: string;
-}
-
 function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrentIncomesProps) {
   const { translate } = useLocales();
 
-  const { stores } = useAppSelector((state) => state.store);
+  const { stores, isLoading } = useAppSelector((state) => state.store);
 
-  const [store, setStore] = useState<Option | null>(null);
+  const [store, setStore] = useState<{ label: string; value: number } | null>(null);
   const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
   const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
-
-  console.log('store', store);
-
-  const handleChangeSearchDateFrom = (date: Date | null) => {
-    setSearchDateFrom(date);
-  };
-
-  const handleChangeSearchDateTo = (date: Date | null) => {
-    setSearchDateTo(date);
-  };
 
   const storeOptions = stores
     .filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED)
     .map((store) => ({
       label: store.name,
       value: store.storeId,
-      center: store.kitchenCenter.name,
-      image: store.logo,
     }));
 
   const getOpObjStore = (option: any) => {
@@ -63,7 +44,7 @@ function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrent
 
   const chartOptions = useChart({
     tooltip: {
-      marker: { show: false },
+      marker: { show: true },
       y: {
         formatter: (seriesName: any) => fNumber(seriesName),
         title: {
@@ -73,6 +54,9 @@ function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrent
     },
     plotOptions: {
       bar: { barWidth: '30px', borderRadius: 2 },
+    },
+    stroke: {
+      curve: 'smooth',
     },
     xaxis: {
       categories: chartLabels,
@@ -87,6 +71,7 @@ function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrent
         <Stack direction="row" alignItems="center" gap={2} pt={3} pr={3}>
           <Stack width={250}>
             <Autocomplete
+              disabled={isLoading}
               fullWidth
               size="small"
               options={storeOptions}
@@ -97,7 +82,7 @@ function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrent
                 <TextField {...params} label={translate('table.systemStatus')} InputLabelProps={{}} />
               )}
               value={store}
-              onChange={(event: any, newValue: Option | null) => setStore(newValue)}
+              onChange={(event: any, newValue: { label: string; value: number } | null) => setStore(newValue)}
             />
           </Stack>
 
@@ -107,8 +92,8 @@ function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrent
             value={searchDateFrom}
             format="DD/MM/YYYY"
             disableFuture
-            onChange={(newValue: Date | null) => handleChangeSearchDateFrom(newValue)}
-            sx={{ width: 160 }}
+            onChange={(newValue: Date | null) => setSearchDateFrom(newValue)}
+            sx={{ width: 170 }}
           />
 
           <DatePicker
@@ -117,13 +102,13 @@ function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrent
             value={searchDateTo}
             format="DD/MM/YYYY"
             disableFuture
-            onChange={(newValue: Date | null) => handleChangeSearchDateTo(newValue)}
-            sx={{ width: 160 }}
+            onChange={(newValue: Date | null) => setSearchDateTo(newValue)}
+            sx={{ width: 170 }}
           />
         </Stack>
       </Stack>
 
-      <Box sx={{ mx: 3 }} dir="ltr">
+      <Box sx={{ mx: 3, mt: 3 }} dir="ltr">
         <ReactApexChart type="area" series={[{ data: chartSeries }]} options={chartOptions} height={364} />
       </Box>
     </Card>

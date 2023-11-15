@@ -8,12 +8,14 @@ import cashierReducer from './cashier/cashierSlice';
 import categoryReducer from './category/categorySlice';
 import configurationReducer from './configuration/configurationsSlice';
 import kitchenCenterReducer from './kitchenCenter/kitchenCenterSlice';
+import moneyExchangeReducer from './moneyExchange/moneyExchangeSlice';
 import orderReducer from './order/orderSlice';
 import partnerReducer from './partner/partnerSlice';
 import partnerProductReducer from './partnerProduct/partnerProductSlice';
 import productReducer from './product/productSlice';
 import profileReducer from './profile/profileSlice';
 import routesReducer from './routes/routesSlice';
+import shipperPaymentReducer from './shipperPayment/shipperPaymentSlice';
 import storeReducer from './store/storeSlice';
 import storePartnerReducer from './storePartner/storePartnerSlice';
 import walletReducer from './wallet/walletSlice';
@@ -31,12 +33,14 @@ export const store = configureStore({
     partner: partnerReducer,
     order: orderReducer,
     routes: routesReducer,
-    wallet: walletReducer,
     profile: profileReducer,
     storePartner: storePartnerReducer,
     partnerProduct: partnerProductReducer,
     address: addressReducer,
     configuration: configurationReducer,
+    shipperPayment: shipperPaymentReducer,
+    moneyExchange: moneyExchangeReducer,
+    wallet: walletReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

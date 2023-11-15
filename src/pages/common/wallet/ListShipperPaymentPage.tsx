@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import dayjs from 'dayjs';
+import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 // @mui
 import { Box, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllShipperPayment } from 'redux/wallet/walletSlice';
+import { getAllShipperPayment } from 'redux/shipperPayment/shipperPaymentSlice';
 // section
 import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 // interface
@@ -16,8 +19,6 @@ import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'component
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
-import moment from 'moment';
-import dayjs from 'dayjs';
 
 function ListShipperPaymentPage() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function ListShipperPaymentPage() {
   const { shipperPaymentHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const [order, setOrder] = useState<OrderSort>('asc');
+  const [order, setOrder] = useState<OrderSort>('desc');
   const [orderBy, setOrderBy] = useState<keyof ShipperPaymentTable>('createDate');
   const [selected, setSelected] = useState<readonly string[]>([]);
 
@@ -38,7 +39,7 @@ function ListShipperPaymentPage() {
   const [filterStatus, setFilterStatus] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
   const [showWarning, setShowWarning] = useState<boolean>(false);
 
-  const { shipperPayments, isLoading, numberItems } = useAppSelector((state) => state.wallet);
+  const { shipperPayments, isLoading, numberItems } = useAppSelector((state) => state.shipperPayment);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ShipperPaymentTable) => {
     const isAsc = orderBy === property && order === 'asc';

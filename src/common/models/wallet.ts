@@ -3,6 +3,8 @@ export interface Wallet {
   balance: number;
   totalDailyMoneyExchange: number;
   totalDailyShipperPayment: number;
+  totalDailyReceive: number;
+  totalDailySend: number;
   toTalOrderDaily: null;
   totalRevenueDaily: null;
 }

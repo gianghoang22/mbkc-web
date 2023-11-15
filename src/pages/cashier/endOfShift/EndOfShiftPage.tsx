@@ -21,7 +21,7 @@ import {
   Grid,
 } from '@mui/material';
 // redux
-import { sendMoneyToKitchenCenter } from 'redux/wallet/walletSlice';
+import { sendMoneyToKitchenCenter } from 'redux/moneyExchange/moneyExchangeSlice';
 import { useAppSelector } from 'redux/configStore';
 import { getCashierReportShift } from 'redux/cashier/cashierSlice';
 import { getAllOrders } from 'redux/order/orderSlice';

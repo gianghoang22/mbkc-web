@@ -8,11 +8,12 @@ import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typogr
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllStores } from 'redux/store/storeSlice';
-import { createPaymentForStore } from 'redux/wallet/walletSlice';
-//
+import { createPaymentForStore } from 'redux/moneyExchange/moneyExchangeSlice';
+// interface
 import { ListParams, Params } from 'common/@types';
 import { Color, ExchangeType } from 'common/enums';
 import { PaymentForStoresToCreate } from 'common/models';
+//
 import { AutoCompleteField, InputNumber, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { fDate } from 'utils';

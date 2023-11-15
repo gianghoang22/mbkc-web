@@ -23,6 +23,7 @@ export interface OptionParams {
   isUpdateStatus?: boolean;
   searchDateFrom?: Date | string | null;
   searchDateTo?: Date | string | null;
+  searchDate?: Date | string | null;
   exchangeType?: string | null;
   paymentMethod?: string | null;
 }

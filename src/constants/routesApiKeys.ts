@@ -318,5 +318,6 @@ export const ROUTES_API_TRANSACTIONS = {
 };
 
 export const ROUTES_API_WALLET = {
-  GET_WALLET_INFORMATION: path(ROOTS_WALLET, '/transaction-money-exchange-shipper-payment-information'),
+  GET_WALLET_INFORMATION: ({ searchDate = '' }: OptionParams) =>
+    path(ROOTS_WALLET, `/transaction-money-exchange-shipper-payment-information?searchDate=${searchDate}`),
 };

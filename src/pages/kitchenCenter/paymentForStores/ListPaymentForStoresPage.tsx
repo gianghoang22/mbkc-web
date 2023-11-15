@@ -5,19 +5,19 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllMoneyExchange } from 'redux/wallet/walletSlice';
+import { getAllMoneyExchange } from 'redux/moneyExchange/moneyExchangeSlice';
 // section
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
 // interface
 import { ListParams, MoneyExchangeTable, OptionSelect, OrderSort } from 'common/@types';
+import { ExchangeType } from 'common/enums';
 import { FILTER_STATUS_OPTIONS } from 'common/models';
 //
 import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { fDate } from 'utils';
-import { ExchangeType } from 'common/enums';
 
 function ListOfPaymentForStoresPage() {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ function ListOfPaymentForStoresPage() {
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { moneyExchanges, numberItems, isLoading } = useAppSelector((state) => state.wallet);
+  const { moneyExchanges, numberItems, isLoading } = useAppSelector((state) => state.moneyExchange);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('amount');

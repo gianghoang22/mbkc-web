@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 // @mui icon
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import AddchartIcon from '@mui/icons-material/Addchart';
@@ -19,21 +21,23 @@ import {
   TableContainer,
   Typography,
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
 // section
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 import { TotalDaily, WalletCardSkeleton } from 'sections/wallet';
 //redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllMoneyExchange, getAllShipperPayment, getWalletInformation } from 'redux/wallet/walletSlice';
+import { getWalletInformation } from 'redux/wallet/walletSlice';
 // interface
 import { ListParams, MoneyExchangeTable, OrderSortBy, ShipperPaymentTable } from 'common/@types';
 import { Color, Role } from 'common/enums';
 //
 import { CommonTableHead, EmptyTable, Page } from 'components';
 import { useConfigHeadTable, useLocales } from 'hooks';
+import { getAllMoneyExchange } from 'redux/moneyExchange/moneyExchangeSlice';
+import { getAllShipperPayment } from 'redux/shipperPayment/shipperPaymentSlice';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { fDate } from 'utils';
 
 function WalletPage() {
   const navigate = useNavigate();
@@ -44,40 +48,56 @@ function WalletPage() {
   const { shipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
 
   const { userAuth } = useAppSelector((state) => state.auth);
-  const { moneyExchanges, shipperPayments, isLoading, walletInformation } = useAppSelector((state) => state.wallet);
+  const { isLoading: isLoadingWallet, walletInformation } = useAppSelector((state) => state.wallet);
+  const { moneyExchanges, isLoading: isLoadingMoneyExchange } = useAppSelector((state) => state.moneyExchange);
+  const { shipperPayments, isLoading: isLoadingShipperPayment } = useAppSelector((state) => state.shipperPayment);
+
+  console.log('moneyExchanges', moneyExchanges);
+  console.log('shipperPayments', shipperPayments);
+
+  const [filterDate, setFilterDate] = useState<Dayjs | null>(dayjs(new Date()));
 
   const paramMoneyExchange: ListParams = useMemo(() => {
     return {
       optionParams: {
         itemsPerPage: 5,
         currentPage: 1,
-        searchDateFrom: fDate(new Date()),
-        searchDateTo: fDate(new Date()),
+        searchDateFrom: dayjs(filterDate).format('DD/MM/YYYY'),
+        searchDateTo: dayjs(filterDate).format('DD/MM/YYYY'),
       },
       navigate,
     };
-  }, [navigate]);
+  }, [filterDate]);
 
   const paramShipperPayments: ListParams = useMemo(() => {
     return {
       optionParams: {
         itemsPerPage: 5,
         currentPage: 1,
-        searchDateFrom: fDate(new Date()),
-        searchDateTo: fDate(new Date()),
+        searchDateFrom: dayjs(filterDate).format('DD/MM/YYYY'),
+        searchDateTo: dayjs(filterDate).format('DD/MM/YYYY'),
         sortBy: `${OrderSortBy.CREATE_DATE}_desc`,
       },
       navigate,
     };
-  }, [navigate]);
+  }, [filterDate]);
+
+  const paramWallet: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        searchDate: dayjs(filterDate).format('DD/MM/YYYY'),
+      },
+      navigate,
+    };
+  }, [filterDate]);
 
   useEffect(() => {
     if (userAuth?.roleName === Role.CASHIER) {
       dispatch<any>(getAllShipperPayment(paramShipperPayments));
     }
     dispatch<any>(getAllMoneyExchange(paramMoneyExchange));
-    dispatch<any>(getWalletInformation(navigate));
-  }, [paramMoneyExchange, paramShipperPayments]);
+    dispatch<any>(getWalletInformation(paramWallet));
+  }, [paramMoneyExchange, paramShipperPayments, paramWallet]);
 
   return (
     <Page
@@ -92,45 +112,57 @@ function WalletPage() {
         userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER ? PATH_KITCHEN_CENTER_APP.root : PATH_CASHIER_APP.root
       }
     >
-      {isLoading ? (
+      <Stack alignItems="end" mb={3}>
+        <DatePicker
+          disabled={isLoadingWallet || isLoadingShipperPayment || isLoadingMoneyExchange}
+          slotProps={{ textField: { size: 'small' }, actionBar: { actions: ['clear'] } }}
+          label={translate('page.content.date')}
+          value={filterDate}
+          format="DD/MM/YYYY"
+          disableFuture
+          onChange={(newValue: Dayjs | null) => setFilterDate(newValue)}
+          sx={{ width: 250 }}
+        />
+      </Stack>
+      {isLoadingWallet ? (
         <WalletCardSkeleton />
       ) : (
-        <>
-          <Typography variant="h6" mb={3}>
-            {translate('page.content.date')}:{' '}
-            <Typography component="span" fontSize="1.125rem">
-              {fDate(new Date())}
-            </Typography>
-          </Typography>
-          <Grid container rowSpacing={3} columnSpacing={3} mb={5}>
-            <Grid item xs={12} sm={12} md={4}>
-              <TotalDaily
-                color={Color.PRIMARY}
-                icon={<AccountBalanceWalletOutlinedIcon fontSize="large" />}
-                title={translate('page.content.mainBalance')}
-                totalMoney={walletInformation?.balance as number}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <TotalDaily
-                color={Color.SUCCESS}
-                icon={<CurrencyExchangeOutlinedIcon fontSize="large" />}
-                title={translate('page.title.totalDaily', { model: translate('model.lowercase.transactions') })}
-                totalMoney={walletInformation?.totalDailyMoneyExchange as number}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <TotalDaily
-                color={Color.INFO}
-                icon={<AddchartIcon fontSize="large" />}
-                title={translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })}
-                totalMoney={walletInformation?.totalDailyShipperPayment as number}
-              />
-            </Grid>
+        <Grid container rowSpacing={3} columnSpacing={3} mb={5}>
+          <Grid item xs={12} sm={12} md={4}>
+            <TotalDaily
+              color={Color.PRIMARY}
+              icon={<AccountBalanceWalletOutlinedIcon fontSize="large" />}
+              title={translate('page.content.mainBalance')}
+              totalMoney={walletInformation?.balance as number}
+            />
           </Grid>
-        </>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <TotalDaily
+              color={Color.SUCCESS}
+              icon={<CurrencyExchangeOutlinedIcon fontSize="large" />}
+              title={translate('page.title.totalDaily', { model: translate('model.lowercase.transactions') })}
+              totalMoney={
+                userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                  ? (walletInformation?.totalDailyReceive as number)
+                  : (walletInformation?.totalDailyMoneyExchange as number)
+              }
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <TotalDaily
+              color={Color.INFO}
+              icon={<AddchartIcon fontSize="large" />}
+              title={translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })}
+              totalMoney={
+                userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                  ? (walletInformation?.totalDailyReceive as number)
+                  : (walletInformation?.totalDailyShipperPayment as number)
+              }
+            />
+          </Grid>
+        </Grid>
       )}
 
       <Stack gap={5}>
@@ -139,7 +171,8 @@ function WalletPage() {
             <Box sx={{ width: '100%' }} p={2}>
               <Paper sx={{ width: '100%' }}>
                 <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
-                  {translate('page.title.payOrderToday')}
+                  {translate('model.capitalize.shipperPayments')} {translate('page.content.date')}{' '}
+                  {dayjs(filterDate).format('DD/MM/YYYY')}
                 </Typography>
                 <TableContainer>
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
@@ -147,7 +180,7 @@ function WalletPage() {
                       headCells={shipperPaymentHeadCells}
                       onRequestSort={() => {}}
                     />
-                    {isLoading ? (
+                    {isLoadingShipperPayment ? (
                       <ShipperPaymentTableRowSkeleton />
                     ) : (
                       <TableBody>
@@ -191,13 +224,14 @@ function WalletPage() {
           <Box sx={{ width: '100%' }} p={2}>
             <Paper sx={{ width: '100%' }}>
               <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
-                {translate('page.title.transactionToday')}
+                {translate('model.capitalize.transaction')} {translate('page.content.date')}{' '}
+                {dayjs(filterDate).format('DD/MM/YYYY')}
               </Typography>
               <TableContainer>
                 <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                   <CommonTableHead<MoneyExchangeTable> headCells={MoneyExchangeHeadCells} onRequestSort={() => {}} />
 
-                  {isLoading ? (
+                  {isLoadingMoneyExchange ? (
                     <MoneyExchangeTableRowSkeleton />
                   ) : (
                     <TableBody>
