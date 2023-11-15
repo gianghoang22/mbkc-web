@@ -122,7 +122,6 @@ function EndOfShiftPage() {
                   px={3}
                   py={2}
                   sx={{
-                    color: '#2B3674',
                     borderBottom: 1,
                     borderColor: (theme) => theme.palette.grey[400],
                   }}
@@ -252,7 +251,6 @@ function EndOfShiftPage() {
               px={3}
               py={2}
               sx={{
-                color: '#2B3674',
                 borderBottom: 1,
                 borderColor: (theme) => theme.palette.grey[400],
               }}

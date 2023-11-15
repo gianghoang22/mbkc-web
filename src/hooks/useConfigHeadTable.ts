@@ -794,7 +794,7 @@ function useConfigHeadTable() {
       id: 'createDate',
       label: translate('table.createdDate'),
       numeric: false,
-      hideSortIcon: false,
+      hideSortIcon: true,
       disablePadding: false,
     },
     {

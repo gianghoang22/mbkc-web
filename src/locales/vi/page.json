@@ -78,6 +78,7 @@
     "totalRevenueOfToday": "Tổng doanh thu của hôm nay",
     "balance": "Số dư",
     "date": "Ngày",
+    "dateLowercase": "ngày",
     "noImage": "Không có hình ảnh",
     "paymentMethodPartner": "Phương thức thanh toán của đối tác",
     "storeRevenue": "Số liệu thu nhập chi tiết của cửa hàng"

@@ -52,9 +52,6 @@ function WalletPage() {
   const { moneyExchanges, isLoading: isLoadingMoneyExchange } = useAppSelector((state) => state.moneyExchange);
   const { shipperPayments, isLoading: isLoadingShipperPayment } = useAppSelector((state) => state.shipperPayment);
 
-  console.log('moneyExchanges', moneyExchanges);
-  console.log('shipperPayments', shipperPayments);
-
   const [filterDate, setFilterDate] = useState<Dayjs | null>(dayjs(new Date()));
 
   const paramMoneyExchange: ListParams = useMemo(() => {
@@ -171,7 +168,7 @@ function WalletPage() {
             <Box sx={{ width: '100%' }} p={2}>
               <Paper sx={{ width: '100%' }}>
                 <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
-                  {translate('model.capitalize.shipperPayments')} {translate('page.content.date')}{' '}
+                  {translate('model.capitalizeOne.shipperPayments')} {translate('page.content.dateLowercase')}{' '}
                   {dayjs(filterDate).format('DD/MM/YYYY')}
                 </Typography>
                 <TableContainer>
@@ -224,7 +221,7 @@ function WalletPage() {
           <Box sx={{ width: '100%' }} p={2}>
             <Paper sx={{ width: '100%' }}>
               <Typography variant="subtitle1" color="#2B3674" letterSpacing={0.6} lineHeight={1.75} mb={1}>
-                {translate('model.capitalize.transaction')} {translate('page.content.date')}{' '}
+                {translate('model.capitalizeOne.transaction')} {translate('page.content.dateLowercase')}{' '}
                 {dayjs(filterDate).format('DD/MM/YYYY')}
               </Typography>
               <TableContainer>

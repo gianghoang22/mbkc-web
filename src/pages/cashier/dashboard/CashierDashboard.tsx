@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // @mui
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import {
   Box,
@@ -9,6 +11,7 @@ import {
   CardHeader,
   Container,
   Grid,
+  Link as MUILink,
   Paper,
   Stack,
   Table,
@@ -18,26 +21,30 @@ import {
   Typography,
 } from '@mui/material';
 // redux
-import { getCashierReportShift } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllOrders } from 'redux/order/orderSlice';
+import { getAllMoneyExchange } from 'redux/moneyExchange/moneyExchangeSlice';
+import { getAllShipperPayment } from 'redux/shipperPayment/shipperPaymentSlice';
 // sections
 import { AppWidgetSummaryOutline } from 'sections/dashboard';
 import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
+import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
+import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 // interface
-import { ListParams, OrderSort, OrderTable } from 'common/@types';
-import { Color, PartnerOrderStatus, SystemStatus } from 'common/enums';
+import { ListParams, MoneyExchangeTable, OrderSort, OrderTable, ShipperPaymentTable } from 'common/@types';
+import { Color, Language, PartnerOrderStatus, SystemStatus } from 'common/enums';
 //
-import { CustomTableHead, CustomTableToolbar, EmptyTable, Helmet } from 'components';
+import { CommonTableHead, CustomTableHead, CustomTableToolbar, EmptyTable, Helmet } from 'components';
 import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { PATH_CASHIER_APP } from 'routes/paths';
 import { fDate } from 'utils';
 
 function CashierDashboard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { translate } = useLocales();
-  const { orderHeadCells } = useConfigHeadTable();
+  const { translate, currentLang } = useLocales();
+  const { orderHeadCells, shipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -48,6 +55,8 @@ function CashierDashboard() {
 
   const { shiftReport, isLoading: isLoadingShift } = useAppSelector((state) => state.cashier);
   const { isLoading: isLoadingOrder, orders, numberItems } = useAppSelector((state) => state.order);
+  const { moneyExchanges, isLoading: isLoadingMoneyExchange } = useAppSelector((state) => state.moneyExchange);
+  const { shipperPayments, isLoading: isLoadingShipperPayment } = useAppSelector((state) => state.shipperPayment);
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
 
@@ -72,6 +81,16 @@ function CashierDashboard() {
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
+        itemsPerPage: 5,
+        currentPage: 1,
+      },
+      navigate,
+    };
+  }, []);
+
+  const paramOrders: ListParams = useMemo(() => {
+    return {
+      optionParams: {
         itemsPerPage: rowsPerPage,
         currentPage: page + 1,
         sortBy: `${orderBy}_${order}`,
@@ -85,9 +104,9 @@ function CashierDashboard() {
   }, [page, rowsPerPage, orderBy, order, navigate, searchDateFrom, searchDateTo]);
 
   useEffect(() => {
-    dispatch<any>(getCashierReportShift(navigate));
-    dispatch<any>(getAllOrders(params));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch<any>(getAllShipperPayment(params));
+    dispatch<any>(getAllMoneyExchange(params));
+    dispatch<any>(getAllOrders(paramOrders));
   }, [params]);
 
   return (
@@ -121,17 +140,17 @@ function CashierDashboard() {
           </Grid>
         </Grid>
 
-        <Box width="100%" mt={4}>
+        <Stack gap={5} mt={5}>
           <Card>
-            <Stack
+            <CardHeader
+              title={translate('page.title.list', { model: translate('model.lowercase.ordersSuccess') })}
               sx={{
-                pb: 2,
+                p: 2,
+                px: 3,
                 borderBottom: 1,
                 borderColor: (theme) => theme.palette.grey[400],
               }}
-            >
-              <CardHeader title={translate('page.title.list', { model: translate('model.lowercase.ordersSuccess') })} />
-            </Stack>
+            />
 
             <Box sx={{ width: '100%' }}>
               <Paper sx={{ width: '100%', mb: 2 }}>
@@ -187,7 +206,119 @@ function CashierDashboard() {
               </Paper>
             </Box>
           </Card>
-        </Box>
+
+          <Card>
+            <Box sx={{ width: '100%' }} p={2}>
+              <Paper sx={{ width: '100%' }}>
+                <CardHeader
+                  title={translate('page.title.new', {
+                    model:
+                      currentLang.value === Language.ENGLISH
+                        ? translate('model.lowercase.shipperPayments')
+                        : translate('model.capitalizeOne.shipperPayments'),
+                  })}
+                  sx={{ p: 0, pb: 2 }}
+                />
+                <TableContainer>
+                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                    <CommonTableHead<ShipperPaymentTable>
+                      headCells={shipperPaymentHeadCells}
+                      onRequestSort={() => {}}
+                    />
+                    {isLoadingShipperPayment ? (
+                      <ShipperPaymentTableRowSkeleton />
+                    ) : (
+                      <TableBody>
+                        {shipperPayments.map((shipperPayment, index) => {
+                          return <ShipperPaymentTableRow key={index} index={index} shipperPayment={shipperPayment} />;
+                        })}
+
+                        {shipperPayments.length === 0 && (
+                          <EmptyTable
+                            colNumber={shipperPaymentHeadCells.length + 2}
+                            model={translate('model.lowercase.shipperPayments')}
+                          />
+                        )}
+                      </TableBody>
+                    )}
+                  </Table>
+
+                  <Stack alignItems="end" mt={2}>
+                    <Link
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        textDecoration: 'none',
+                        color: '#000',
+                      }}
+                      to={PATH_CASHIER_APP.wallet.shipperPayments}
+                    >
+                      <MUILink underline="hover" variant="subtitle2" color="#000">
+                        {translate('page.content.viewAll')}
+                      </MUILink>
+                      <KeyboardArrowRightIcon fontSize="small" />
+                    </Link>
+                  </Stack>
+                </TableContainer>
+              </Paper>
+            </Box>
+          </Card>
+
+          <Card>
+            <Box sx={{ width: '100%' }} p={2}>
+              <Paper sx={{ width: '100%' }}>
+                <CardHeader
+                  title={translate('page.title.new', {
+                    model:
+                      currentLang.value === Language.ENGLISH
+                        ? translate('model.lowercase.transactions')
+                        : translate('model.capitalizeOne.transactions'),
+                  })}
+                  sx={{ p: 0, pb: 2 }}
+                />
+                <TableContainer>
+                  <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                    <CommonTableHead<MoneyExchangeTable> headCells={MoneyExchangeHeadCells} onRequestSort={() => {}} />
+
+                    {isLoadingMoneyExchange ? (
+                      <MoneyExchangeTableRowSkeleton />
+                    ) : (
+                      <TableBody>
+                        {moneyExchanges.map((moneyExchange, index) => {
+                          return <MoneyExchangeTableRow key={index} index={index} moneyExchange={moneyExchange} />;
+                        })}
+
+                        {moneyExchanges.length === 0 && (
+                          <EmptyTable
+                            colNumber={MoneyExchangeHeadCells.length + 2}
+                            model={translate('model.lowercase.moneyExchanges')}
+                          />
+                        )}
+                      </TableBody>
+                    )}
+                  </Table>
+                </TableContainer>
+
+                <Stack alignItems="end" mt={2}>
+                  <Link
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textDecoration: 'none',
+                      color: '#000',
+                    }}
+                    to={PATH_CASHIER_APP.wallet.moneyExchanges}
+                  >
+                    <MUILink underline="hover" variant="subtitle2" color="#000">
+                      {translate('page.content.viewAll')}
+                    </MUILink>
+                    <KeyboardArrowRightIcon fontSize="small" />
+                  </Link>
+                </Stack>
+              </Paper>
+            </Box>
+          </Card>
+        </Stack>
       </Container>
     </>
   );
