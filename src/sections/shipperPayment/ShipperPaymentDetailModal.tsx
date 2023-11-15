@@ -42,8 +42,8 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
 
             <Stack width="100%" gap={2}>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="subtitle1">{translate('table.orderId')}: </Typography>
-                <Typography variant="body1">{shipperPayment.orderId}</Typography>
+                <Typography variant="subtitle1">{translate('table.partnerOrderId')}: </Typography>
+                <Typography variant="body1">{shipperPayment.orderPartnerId}</Typography>
               </Stack>
 
               <Stack direction="row" justifyContent="space-between">
@@ -51,13 +51,15 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
                 <Typography variant="body1">{shipperPayment.cashierCreated}</Typography>
               </Stack>
 
-              <Stack direction="row" justifyContent="space-between">
-                <Typography variant="subtitle1">{translate('model.capitalizeOne.bankingAccount')}: </Typography>
-                <Typography variant="body1">{shipperPayment.kcBankingAccountName}</Typography>
-              </Stack>
+              {shipperPayment.kcBankingAccountName !== null && (
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="subtitle1">{translate('model.capitalizeOne.bankingAccount')}: </Typography>
+                  <Typography variant="body1">{shipperPayment.kcBankingAccountName}</Typography>
+                </Stack>
+              )}
 
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="subtitle1">{translate('page.form.amount')}: </Typography>
+                <Typography variant="subtitle1">{translate('table.collect')}: </Typography>
                 <Typography variant="body1">{formatCurrency(shipperPayment.amount)}</Typography>
               </Stack>
 

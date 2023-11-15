@@ -1,19 +1,27 @@
 // @mui
 import { Avatar, Stack, Typography } from '@mui/material';
-import { Product } from 'common/models';
+import { OrderDetails, Product } from 'common/models';
 //
 import { useLocales } from 'hooks';
 import { formatCurrency } from 'utils';
 
-interface OrderItemProps {
+interface OrderDetailItemProps {
   padding?: number;
   paddingTop?: number;
   quantity: number;
   noteContent: string;
   productDetail: Product;
+  orderDetail: OrderDetails;
 }
 
-function OrderItem({ padding, paddingTop, productDetail, quantity, noteContent }: OrderItemProps) {
+function OrderDetailItem({
+  padding,
+  paddingTop,
+  productDetail,
+  quantity,
+  noteContent,
+  orderDetail,
+}: OrderDetailItemProps) {
   const { translate } = useLocales();
 
   return (
@@ -34,6 +42,21 @@ function OrderItem({ padding, paddingTop, productDetail, quantity, noteContent }
         </Stack>
       </Stack>
 
+      {orderDetail.extraOrderDetails.length > 0 && (
+        <Typography variant="subtitle2">
+          {translate('page.content.extraProducts')}:{' '}
+          {orderDetail.extraOrderDetails.map((extraOrderDetail, index) => {
+            const isLast = index === orderDetail.extraOrderDetails.length - 1;
+
+            return (
+              <Typography variant="caption" component="span">
+                {extraOrderDetail.product.name} {isLast && '-'}
+              </Typography>
+            );
+          })}
+        </Typography>
+      )}
+
       {noteContent && (
         <Typography variant="subtitle2">
           {translate('page.content.note')}:{' '}
@@ -46,4 +69,4 @@ function OrderItem({ padding, paddingTop, productDetail, quantity, noteContent }
   );
 }
 
-export default OrderItem;
+export default OrderDetailItem;

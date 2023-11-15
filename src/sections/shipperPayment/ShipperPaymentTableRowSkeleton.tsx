@@ -11,23 +11,23 @@ function ShipperPaymentTableRowSkeleton() {
             </Stack>
           </TableCell>
 
-          <TableCell width={125}>
+          <TableCell width={250}>
             <Skeleton />
           </TableCell>
 
-          <TableCell width={180}>
-            <Skeleton />
-          </TableCell>
-
-          <TableCell width={155}>
-            <Skeleton />
-          </TableCell>
-
-          <TableCell width={117}>
+          <TableCell width={165}>
             <Skeleton />
           </TableCell>
 
           <TableCell width={140}>
+            <Skeleton />
+          </TableCell>
+
+          <TableCell width={105}>
+            <Skeleton />
+          </TableCell>
+
+          <TableCell width={105}>
             <Skeleton />
           </TableCell>
 

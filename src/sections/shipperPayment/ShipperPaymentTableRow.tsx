@@ -25,8 +25,8 @@ function ShipperPaymentTableRow({ index, shipperPayment }: ShipperPaymentTableRo
         <TableCell width={60} align="center" onClick={handleOpen}>
           {index + 1}
         </TableCell>
-        <TableCell align="left" onClick={handleOpen}>
-          {shipperPayment.orderId}
+        <TableCell align="left" width={250} onClick={handleOpen}>
+          {shipperPayment.orderPartnerId}
         </TableCell>
 
         <TableCell align="left" onClick={handleOpen}>

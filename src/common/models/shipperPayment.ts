@@ -5,12 +5,13 @@ export interface ShipperPayment {
   paymentId: number;
   status: string;
   content: string;
-  amount: number;
   finalTotalPrice: number;
+  amount: number;
   createDate: string;
   cashierCreated: string;
   paymentMethod: string;
   orderId: number;
+  orderPartnerId: string;
   kcBankingAccountId: number;
   kcBankingAccountName: string;
 }

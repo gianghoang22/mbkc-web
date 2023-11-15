@@ -22,7 +22,10 @@
     "storeRevenue": "Thu nhập của cửa hàng",
     "productStatistics": "Thống kê số lượng sản phẩm đã bán",
     "payOrderToday": "Thanh toán đơn hàng hôm nay",
-    "transactionToday": "Giao dịch hôm nay"
+    "transactionToday": "Giao dịch hôm nay",
+    "totalDailyReceive": "Tổng số tiền nhận hàng ngày",
+    "totalDailySend": "Tổng số tiền gửi hàng ngày",
+    "imageConfirmDelivery": "Hình ảnh xác nhận giao hàng"
   },
   "content": {
     "dayWorks": "Ngày làm việc",
@@ -57,6 +60,8 @@
     "switchToConfiguration": "Chuyển đổi để cấu hình",
     "note": "Ghi chú",
     "orderNote": "Ghi chú đơn hàng",
+    "eatingUtensils": "Dụng cụ ăn uống",
+    "extraProducts": "Sản phẩm đính kèm",
     "orderInformation": "Thông tin đơn hàng",
     "customer": "Khách hàng",
     "delivery": "Đơn vị vận chuyển",
@@ -67,8 +72,10 @@
     "payment": "Thanh toán",
     "subTotalPrice": "Tạm tính",
     "deliveryFee": "Phí giao hàng",
-    "totalDiscount": "Tổng giảm giá",
-    "finalTotalPrice": "Giá cuối cùng",
+    "orderFee": "Phí đơn hàng",
+    "tax": "Thuế",
+    "discount": "Giảm giá",
+    "finalTotalPrice": "Tổng cộng",
     "collectedPrice": "Số tiền thu hộ",
     "mainBalance": "Số dư trong ví",
     "cash": "Tiền mặt",

@@ -4,25 +4,6 @@ import { Product } from './product';
 import { _ShipperPayment } from './shipperPayment';
 import { Store } from './store';
 
-export interface OrderDetails {
-  orderDetailId: number;
-  sellingPrice: number;
-  quantity: number;
-  note: string;
-  orderId: number;
-  masterOrderDetail: string;
-  product: Product;
-  extraOrderDetails: string[];
-}
-
-export interface OrderHistory {
-  orderHistoryId: number;
-  image: string;
-  createdDate: string;
-  systemStatus: string;
-  partnerOrderStatus: string;
-}
-
 export interface Order {
   id: number;
   orderPartnerId: string;
@@ -51,6 +32,27 @@ export interface Order {
   orderDetails: OrderDetails[];
   orderHistories: OrderHistory[];
 }
+
+export interface OrderDetails {
+  orderDetailId: number;
+  sellingPrice: number;
+  quantity: number;
+  note: string;
+  orderId: number;
+  masterOrderDetail: string;
+  product: Product;
+  extraOrderDetails: ExtraOrderDetails[];
+}
+
+export interface OrderHistory {
+  orderHistoryId: number;
+  image: string;
+  createdDate: string;
+  systemStatus: string;
+  partnerOrderStatus: string;
+}
+
+export interface ExtraOrderDetails extends OrderDetails {}
 
 export interface CompletedOrderForm {
   orderPartnerId?: string;

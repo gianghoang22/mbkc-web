@@ -22,7 +22,10 @@
     "storeRevenue": "Store's revenue",
     "productStatistics": "Statistics on the number of products sold",
     "payOrderToday": "Pay for order today",
-    "transactionToday": "Transaction today"
+    "transactionToday": "Transaction today",
+    "totalDailyReceive": "Total daily receive",
+    "totalDailySend": "Total daily send",
+    "imageConfirmDelivery": "Image of delivery confirmation"
   },
   "content": {
     "dayWorks": "Working day",
@@ -56,6 +59,8 @@
     "moneyToStore": "Transfer money to store",
     "note": "Note",
     "orderNote": "Order notes",
+    "eatingUtensils": "Eating utensils",
+    "extraProducts": "Extra products",
     "orderInformation": "Order information",
     "customer": "Customer",
     "delivery": "Unit delivery ",
@@ -65,8 +70,10 @@
     "payment": "Payment",
     "subTotalPrice": "Sub total price",
     "deliveryFee": "Delivery fee",
-    "totalDiscount": "Total discount",
-    "finalTotalPrice": "Final total price",
+    "orderFee": "Order fee",
+    "tax": "Tax",
+    "discount": "Discount",
+    "finalTotalPrice": "Total",
     "collectedPrice": "Collected price",
     "switchToConfiguration": "Switch to configuration",
     "mainBalance": "Wallet Balance",

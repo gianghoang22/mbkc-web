@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import dayjs from 'dayjs';
+import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // @mui
@@ -22,13 +24,13 @@ import {
 } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllOrders } from 'redux/order/orderSlice';
 import { getAllMoneyExchange } from 'redux/moneyExchange/moneyExchangeSlice';
+import { getAllOrders } from 'redux/order/orderSlice';
 import { getAllShipperPayment } from 'redux/shipperPayment/shipperPaymentSlice';
 // sections
 import { AppWidgetSummaryOutline } from 'sections/dashboard';
-import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
+import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
 import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 // interface
 import { ListParams, MoneyExchangeTable, OrderSort, OrderTable, ShipperPaymentTable } from 'common/@types';
@@ -48,10 +50,11 @@ function CashierDashboard() {
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
   const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof OrderTable>('finalTotalPrice');
+  const [orderBy, setOrderBy] = useState<keyof OrderTable>('collectedPrice');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
   const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
+  const [showWarning, setShowWarning] = useState<boolean>(false);
 
   const { shiftReport, isLoading: isLoadingShift } = useAppSelector((state) => state.cashier);
   const { isLoading: isLoadingOrder, orders, numberItems } = useAppSelector((state) => state.order);
@@ -103,10 +106,27 @@ function CashierDashboard() {
     };
   }, [page, rowsPerPage, orderBy, order, navigate, searchDateFrom, searchDateTo]);
 
+  const dateTo = moment(dayjs(searchDateTo).toDate()).format('yyyy-MM-DD');
+  const dateForm = moment(dayjs(searchDateFrom).toDate()).format('yyyy-MM-DD');
+
+  useEffect(() => {
+    if (searchDateTo === null || searchDateFrom === null) {
+      dispatch(getAllOrders(paramOrders));
+    } else if (searchDateFrom !== null && searchDateTo !== null) {
+      if (moment(dateForm).isSameOrBefore(dateTo)) {
+        setShowWarning(false);
+        setSearchDateTo(searchDateTo);
+        dispatch(getAllOrders(paramOrders));
+      } else {
+        setShowWarning(true);
+        setSearchDateTo(null);
+      }
+    }
+  }, [params, searchDateTo, searchDateFrom]);
+
   useEffect(() => {
     dispatch<any>(getAllShipperPayment(params));
     dispatch<any>(getAllMoneyExchange(params));
-    dispatch<any>(getAllOrders(paramOrders));
   }, [params]);
 
   return (
@@ -155,6 +175,7 @@ function CashierDashboard() {
             <Box sx={{ width: '100%' }}>
               <Paper sx={{ width: '100%', mb: 2 }}>
                 <CustomTableToolbar<OrderTable>
+                  showWarning={showWarning}
                   selected={selected}
                   headCells={orderHeadCells}
                   model={translate('model.lowercase.store')}

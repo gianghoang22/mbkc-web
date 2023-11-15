@@ -76,30 +76,41 @@ function ListProductStatistics() {
 
   return (
     <Card>
-      <CardHeader title={translate('page.title.productStatistics')} />
+      <CardHeader
+        title={translate('page.title.productStatistics')}
+        sx={{
+          p: 2,
+          px: 3,
+          borderBottom: 1,
+          borderColor: (theme) => theme.palette.grey[400],
+        }}
+      />
+      <CustomTableToolbar<ProductDashboardTable>
+        showWarning={showWarning}
+        headCells={productDashboardHeadCells}
+        searchDateFrom={searchDateFrom}
+        searchDateTo={searchDateTo}
+        selected={selected}
+        setSelected={setSelected}
+        handleChangeSearchDateFrom={handleChangeSearchDateFrom}
+        handleChangeSearchDateTo={handleChangeSearchDateTo}
+        handleReloadData={handleReloadData}
+        haveSelectSearchDateFrom
+        haveSelectSearchDateTo
+      />
       <Box p={2}>
-        <CustomTableToolbar<ProductDashboardTable>
-          showWarning={showWarning}
-          headCells={productDashboardHeadCells}
-          searchDateFrom={searchDateFrom}
-          searchDateTo={searchDateTo}
-          selected={selected}
-          setSelected={setSelected}
-          handleChangeSearchDateFrom={handleChangeSearchDateFrom}
-          handleChangeSearchDateTo={handleChangeSearchDateTo}
-          handleReloadData={handleReloadData}
-          haveSelectSearchDateFrom
-          haveSelectSearchDateTo
-        />
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>{translate('table.no')}</TableCell>
-                <TableCell>Logo</TableCell>
+                <TableCell>{translate('table.image')}</TableCell>
                 <TableCell>{translate('table.name')}</TableCell>
-                <TableCell>{translate('table.kitchenCenter')}</TableCell>
-                <TableCell>{translate('table.brand')}</TableCell>
+                <TableCell>{translate('table.code')}</TableCell>
+                <TableCell>{translate('table.quantity')}</TableCell>
+                <TableCell>{translate('table.sellingPrice')}</TableCell>
+                <TableCell>{translate('model.capitalizeOne.category')}</TableCell>
+                <TableCell>{translate('table.type')}</TableCell>
                 <TableCell>{translate('table.status')}</TableCell>
               </TableRow>
             </TableHead>
@@ -117,12 +128,16 @@ function ListProductStatistics() {
                     <TableCell width={60} align="center">
                       {index + 1}
                     </TableCell>
-                    <TableCell width={80} align="left">
+                    <TableCell width={100} align="left">
                       <Avatar src={product.image} alt="logo" />
                     </TableCell>
 
                     <TableCell align="left">{product.name}</TableCell>
-                    <TableCell align="left">{product.brand?.name}</TableCell>
+                    <TableCell align="left">{product.code}</TableCell>
+                    <TableCell align="left">5</TableCell>
+                    <TableCell align="left">{product.sellingPrice}</TableCell>
+                    <TableCell align="left">{product.categoryName}</TableCell>
+                    <TableCell align="left">{product.type}</TableCell>
 
                     <TableCell align="left">
                       <Label

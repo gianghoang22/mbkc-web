@@ -138,7 +138,11 @@ function WalletPage() {
             <TotalDaily
               color={Color.SUCCESS}
               icon={<CurrencyExchangeOutlinedIcon fontSize="large" />}
-              title={translate('page.title.totalDaily', { model: translate('model.lowercase.transactions') })}
+              title={
+                userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                  ? translate('page.title.totalDailyReceive')
+                  : translate('page.title.totalDaily', { model: translate('model.lowercase.transactions') })
+              }
               totalMoney={
                 userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
                   ? (walletInformation?.totalDailyReceive as number)
@@ -151,10 +155,14 @@ function WalletPage() {
             <TotalDaily
               color={Color.INFO}
               icon={<AddchartIcon fontSize="large" />}
-              title={translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })}
+              title={
+                userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                  ? translate('page.title.totalDailySend')
+                  : translate('page.title.totalDaily', { model: translate('model.lowercase.shipperPayments') })
+              }
               totalMoney={
                 userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-                  ? (walletInformation?.totalDailyReceive as number)
+                  ? (walletInformation?.totalDailySend as number)
                   : (walletInformation?.totalDailyShipperPayment as number)
               }
             />

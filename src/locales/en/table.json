@@ -44,6 +44,7 @@
   "partnerName": "Partner name",
   "storeName": "Store name",
   "totalPrice": "Total price",
+  "collect": "Collect",
   "createdDate": "Created date",
   "sender": "Sender",
   "receiver": "Receiver",
@@ -55,6 +56,7 @@
   "send": "Send",
   "cashierCreated": "Cashier created",
   "orderId": "Order id",
+  "quantity": "Quantity sold",
   "lowercase": {
     "address": "address",
     "email": "email",

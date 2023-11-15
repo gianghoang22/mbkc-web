@@ -80,137 +80,13 @@ function OrderDetailPageSkeleton() {
                     <Skeleton width={250} />
                     <Skeleton width={250} />
                     <Skeleton width={250} />
+                    <Skeleton width={250} />
+                    <Skeleton width={250} />
                   </Stack>
                 </Stack>
               </Paper>
             </Box>
           </Card>
-
-          <Box mt={5}>
-            <Card>
-              <Box width="100%" pb={2}>
-                <Paper sx={{ width: '100%' }}>
-                  <Stack px={3} py={2}>
-                    <Skeleton width={160} />
-                  </Stack>
-
-                  <Stack
-                    py={1}
-                    px={7}
-                    sx={{
-                      mb: 4.5,
-                      borderTop: 1,
-                      borderBottom: 1,
-                      borderColor: (theme) => theme.palette.grey[400],
-                      bgcolor: (theme) => theme.palette.grey[200],
-                    }}
-                  >
-                    <Skeleton width={180} />
-                  </Stack>
-
-                  <Timeline
-                    sx={{
-                      [`& .${timelineOppositeContentClasses.root}`]: {
-                        flex: 0.6,
-                      },
-                    }}
-                  >
-                    <TimelineItem>
-                      <TimelineOppositeContent color="text.secondary">
-                        <Stack alignItems="end">
-                          <Skeleton width={120} />
-                        </Stack>
-                      </TimelineOppositeContent>
-                      <TimelineSeparator>
-                        <TimelineDot />
-                        <TimelineConnector />
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Stack direction="column" gap={2} pb={3}>
-                          <Stack direction="row" alignItems="center" gap={1}>
-                            <Skeleton width={116} />
-                            <Skeleton variant="rounded" width={140} height={24} />
-                          </Stack>
-                          <Stack direction="row" alignItems="center" gap={1}>
-                            <Skeleton width={130} />
-                            <Skeleton variant="rounded" width={140} height={24} />
-                          </Stack>
-                        </Stack>
-                      </TimelineContent>
-                    </TimelineItem>
-                    <TimelineItem>
-                      <TimelineOppositeContent color="text.secondary">
-                        <Stack alignItems="end">
-                          <Skeleton width={120} />
-                        </Stack>
-                      </TimelineOppositeContent>
-                      <TimelineSeparator>
-                        <TimelineDot />
-                        <TimelineConnector />
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Stack direction="column" gap={2} pb={3}>
-                          <Stack direction="row" alignItems="center" gap={1}>
-                            <Skeleton width={116} />
-                            <Skeleton variant="rounded" width={140} height={24} />
-                          </Stack>
-                          <Stack direction="row" alignItems="center" gap={1}>
-                            <Skeleton width={130} />
-                            <Skeleton variant="rounded" width={140} height={24} />
-                          </Stack>
-                        </Stack>
-                      </TimelineContent>
-                    </TimelineItem>
-                    <TimelineItem>
-                      <TimelineOppositeContent color="text.secondary">
-                        <Stack alignItems="end">
-                          <Skeleton width={120} />
-                        </Stack>
-                      </TimelineOppositeContent>
-                      <TimelineSeparator>
-                        <TimelineDot />
-                        <TimelineConnector />
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Stack direction="column" gap={2} pb={3}>
-                          <Stack direction="row" alignItems="center" gap={1}>
-                            <Skeleton width={116} />
-                            <Skeleton variant="rounded" width={140} height={24} />
-                          </Stack>
-                          <Stack direction="row" alignItems="center" gap={1}>
-                            <Skeleton width={130} />
-                            <Skeleton variant="rounded" width={140} height={24} />
-                          </Stack>
-                        </Stack>
-                      </TimelineContent>
-                    </TimelineItem>
-                    <TimelineItem>
-                      <TimelineOppositeContent color="text.secondary">
-                        <Stack alignItems="end">
-                          <Skeleton width={120} />
-                        </Stack>
-                      </TimelineOppositeContent>
-                      <TimelineSeparator>
-                        <TimelineDot />
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Stack direction="column" gap={2} pb={3}>
-                          <Stack direction="row" alignItems="center" gap={1}>
-                            <Skeleton width={116} />
-                            <Skeleton variant="rounded" width={140} height={24} />
-                          </Stack>
-                          <Stack direction="row" alignItems="center" gap={1}>
-                            <Skeleton width={130} />
-                            <Skeleton variant="rounded" width={140} height={24} />
-                          </Stack>
-                        </Stack>
-                      </TimelineContent>
-                    </TimelineItem>
-                  </Timeline>
-                </Paper>
-              </Box>
-            </Card>
-          </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={4.5}>
           <Stack gap={3}>
@@ -262,6 +138,135 @@ function OrderDetailPageSkeleton() {
             </Card>
           </Stack>
         </Grid>
+      </Grid>
+
+      <Grid container columnSpacing={5} rowSpacing={5} mt={0.1}>
+        <Grid item xs={12} sm={12} md={7.5}>
+          <Card>
+            <Box width="100%" pb={2}>
+              <Paper sx={{ width: '100%' }}>
+                <Stack px={3} py={2}>
+                  <Skeleton width={160} />
+                </Stack>
+
+                <Stack
+                  py={1}
+                  px={7}
+                  sx={{
+                    mb: 4.5,
+                    borderTop: 1,
+                    borderBottom: 1,
+                    borderColor: (theme) => theme.palette.grey[400],
+                    bgcolor: (theme) => theme.palette.grey[200],
+                  }}
+                >
+                  <Skeleton width={180} />
+                </Stack>
+
+                <Timeline
+                  sx={{
+                    [`& .${timelineOppositeContentClasses.root}`]: {
+                      flex: 0.6,
+                    },
+                  }}
+                >
+                  <TimelineItem>
+                    <TimelineOppositeContent color="text.secondary">
+                      <Stack alignItems="end">
+                        <Skeleton width={120} />
+                      </Stack>
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                      <TimelineDot />
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      <Stack direction="column" gap={2} pb={3}>
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Skeleton width={116} />
+                          <Skeleton variant="rounded" width={140} height={24} />
+                        </Stack>
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Skeleton width={130} />
+                          <Skeleton variant="rounded" width={140} height={24} />
+                        </Stack>
+                      </Stack>
+                    </TimelineContent>
+                  </TimelineItem>
+                  <TimelineItem>
+                    <TimelineOppositeContent color="text.secondary">
+                      <Stack alignItems="end">
+                        <Skeleton width={120} />
+                      </Stack>
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                      <TimelineDot />
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      <Stack direction="column" gap={2} pb={3}>
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Skeleton width={116} />
+                          <Skeleton variant="rounded" width={140} height={24} />
+                        </Stack>
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Skeleton width={130} />
+                          <Skeleton variant="rounded" width={140} height={24} />
+                        </Stack>
+                      </Stack>
+                    </TimelineContent>
+                  </TimelineItem>
+                  <TimelineItem>
+                    <TimelineOppositeContent color="text.secondary">
+                      <Stack alignItems="end">
+                        <Skeleton width={120} />
+                      </Stack>
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                      <TimelineDot />
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      <Stack direction="column" gap={2} pb={3}>
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Skeleton width={116} />
+                          <Skeleton variant="rounded" width={140} height={24} />
+                        </Stack>
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Skeleton width={130} />
+                          <Skeleton variant="rounded" width={140} height={24} />
+                        </Stack>
+                      </Stack>
+                    </TimelineContent>
+                  </TimelineItem>
+                  <TimelineItem>
+                    <TimelineOppositeContent color="text.secondary">
+                      <Stack alignItems="end">
+                        <Skeleton width={120} />
+                      </Stack>
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                      <TimelineDot />
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      <Stack direction="column" gap={2} pb={3}>
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Skeleton width={116} />
+                          <Skeleton variant="rounded" width={140} height={24} />
+                        </Stack>
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Skeleton width={130} />
+                          <Skeleton variant="rounded" width={140} height={24} />
+                        </Stack>
+                      </Stack>
+                    </TimelineContent>
+                  </TimelineItem>
+                </Timeline>
+              </Paper>
+            </Box>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={12} md={4.5}></Grid>
       </Grid>
     </Container>
   );
