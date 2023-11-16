@@ -195,10 +195,17 @@ export const ROUTES_API_STORE_PARTNERS = {
 
 export const ROUTES_API_CATEGORIES = {
   CREATE_CATEGORY: pathRoot(ROOTS_CATEGORY),
-  GET_ALL_CATEGORY: ({ type = '', searchValue = '', currentPage = '', itemsPerPage = '', sortBy = '' }: OptionParams) =>
+  GET_ALL_CATEGORY: ({
+    type = '',
+    searchValue = '',
+    currentPage = '',
+    itemsPerPage = '',
+    sortBy = '',
+    isGetAll = '',
+  }: OptionParams) =>
     path(
       ROOTS_CATEGORY,
-      `?type=${type}&searchValue=${searchValue}&itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&sortBy=${sortBy}`
+      `?type=${type}&searchValue=${searchValue}&itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&sortBy=${sortBy}&isGetAll=${isGetAll}`
     ),
   GET_EXTRA_CATEGORY_OF_CATEGORY: ({
     searchValue = '',

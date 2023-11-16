@@ -21,14 +21,6 @@ export const setLocalStorage = (name: string, value: any) => {
 export const getLocalStorage = (name: string) => localStorage.getItem(name);
 export const removeLocalStorage = (key: any) => localStorage.removeItem(key);
 
-// export const setAccessToken = (accessToken: string) => localStorage.setItem(StorageKeys.ACCESS_TOKEN, accessToken);
-// export const getAccessToken = () => localStorage.getItem(StorageKeys.ACCESS_TOKEN);
-// export const removeAccessToken = () => localStorage.removeItem(StorageKeys.ACCESS_TOKEN);
-
-// export const setRefreshToken = (refreshToken: string) => localStorage.setItem(StorageKeys.REFRESH_TOKEN, refreshToken);
-// export const getRefreshToken = () => localStorage.getItem(StorageKeys.REFRESH_TOKEN);
-// export const removeRefreshToken = () => localStorage.removeItem(StorageKeys.REFRESH_TOKEN);
-
 export const setUserAuth = (userAuth: UserAuth) => setLocalStorage(StorageKeys.USER_AUTH, JSON.stringify(userAuth));
 export const getUserAuth = () => {
   const userAuth = getLocalStorage(StorageKeys.USER_AUTH);
@@ -51,7 +43,6 @@ export const getUserInfo = () => {
     return userRaw;
   }
 };
-export const removeUserInfo = () => removeLocalStorage(StorageKeys.USER_INFO);
 
 export const setBrandInfo = (brandInfo: BrandProfile) =>
   setLocalStorage(StorageKeys.BRAND_INFO, JSON.stringify(brandInfo));

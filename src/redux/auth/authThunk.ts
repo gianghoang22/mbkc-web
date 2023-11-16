@@ -10,7 +10,7 @@ import {
   VerificationForm,
 } from 'common/@types';
 import { Role } from 'common/enums';
-import { UserInfo } from 'common/models';
+import { UserAuth, UserInfo } from 'common/models';
 import { ROUTES_API_ACCOUNT, ROUTES_API_AUTH } from 'constants/routesApiKeys';
 import { PATH_AUTH } from 'routes/paths';
 import {
@@ -19,13 +19,11 @@ import {
   handleResponseMessage,
   removeAuthenticated,
   removeSession,
-  removeUserInfo,
   setAccessToken,
   setAuthenticated,
   setLanguage,
   setRefreshToken,
   setUserAuth,
-  setUserInfo,
 } from 'utils';
 import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
 
@@ -94,16 +92,15 @@ export const getUserInfoThunk = async (params: any, thunkAPI: any) => {
   try {
     const response: UserInfo = await axiosClient.get(ROUTES_API_ACCOUNT.ACCOUNT_INFORMATION(accountId));
     if (response) {
-      const userStorage = {
+      const userStorage: UserAuth = {
         accountId: response?.accountId,
         email: response?.email,
         roleName: response?.roleName,
         isConfirmed: response?.isConfirmed,
       };
       setUserAuth(userStorage);
-      setUserInfo(response);
+      return { response, userStorage };
     }
-    return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
@@ -174,7 +171,6 @@ export const logoutThunk = async (navigate: any, thunkAPI: any) => {
     await navigate(PATH_AUTH.login);
     localStorage.clear();
     setLanguage(currentLanguage ? currentLanguage : '');
-    thunkAPI.dispatch(removeUserInfo);
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error);
   }

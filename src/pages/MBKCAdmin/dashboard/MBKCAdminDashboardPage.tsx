@@ -258,7 +258,12 @@ function MBKCAdminDashboardPage() {
                               <Avatar src={brand.logo} alt="logo" />
                             </TableCell>
                             <TableCell>{brand.name}</TableCell>
-                            <TableCell width={600}> {brand.address}</TableCell>
+                            <TableCell width={600}>
+                              {brand.address
+                                .split(', ')
+                                .slice(0, brand?.address.split(', ').length - 3)
+                                .join(', ')}
+                            </TableCell>
                             <TableCell>
                               <Label
                                 color={

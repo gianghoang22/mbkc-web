@@ -8,13 +8,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar, Button, Divider, MenuItem, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 // redux
-import { logout, setUserInfo } from 'redux/auth/authSlice';
+import { logout } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
 import images from 'assets';
 import { Role } from 'common/enums';
 import { MenuPopover } from 'components';
 import { useLocales, useNavigate, usePopover } from 'hooks';
+import { getCashierReportShift } from 'redux/cashier/cashierSlice';
 
 function AccountPopover() {
   const { navigate, handleNavigateProfile } = useNavigate();
@@ -22,6 +23,7 @@ function AccountPopover() {
   const { translate } = useLocales();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
+  const { shiftReport } = useAppSelector((state) => state.cashier);
   const { userAuth, isLogout } = useAppSelector((state) => state.auth);
 
   const MENU_OPTIONS = [
@@ -34,7 +36,6 @@ function AccountPopover() {
   const handleLogout = () => {
     handleCloseMenu();
     dispatch(logout(navigate));
-    dispatch(setUserInfo);
   };
 
   useEffect(() => {
@@ -42,6 +43,12 @@ function AccountPopover() {
       handleLogout();
     }
   }, [isLogout]);
+
+  useEffect(() => {
+    if (userAuth?.roleName === Role.CASHIER && userAuth.isConfirmed) {
+      dispatch<any>(getCashierReportShift(navigate));
+    }
+  }, []);
 
   return (
     <>
@@ -66,7 +73,10 @@ function AccountPopover() {
         }}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        <Avatar src={images.common.avatar_default} alt="PhuSon" />
+        <Avatar
+          src={userAuth?.roleName === Role.CASHIER ? shiftReport?.cashier.avatar : images.common.avatar_default}
+          alt="avatar"
+        />
         <Stack alignItems="start" sx={{ ml: 1, my: 0.5 }}>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {userAuth?.roleName === Role.MBKC_ADMIN
@@ -79,7 +89,7 @@ function AccountPopover() {
               ? translate('role.cashier')
               : translate('header.account')}
           </Typography>
-          <Typography variant="subtitle1" noWrap sx={{ textTransform: 'none', width: 140 }}>
+          <Typography variant="subtitle1" noWrap sx={{ textTransform: 'none', width: 150 }}>
             {userAuth?.email}
           </Typography>
         </Stack>

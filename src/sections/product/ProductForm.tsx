@@ -232,7 +232,7 @@ function ProductForm({ productsParent, categories }: ProductFormProps) {
               />
             )}
 
-            <InputField fullWidth name="description" label={translate('table.description')} multiline minRows={5} />
+            <InputField fullWidth name="description" label={translate('table.description')} multiline minRows={3} />
           </Stack>
         </Stack>
       </Grid>

@@ -70,7 +70,7 @@ function StoreDetailPageSkeleton({ rejectedReason = '' }: { rejectedReason: stri
 
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Skeleton width={80} />
-              <Skeleton variant="rounded" width={100} height={24} />
+              <Skeleton width={200} />
             </Stack>
 
             {(userAuth?.roleName === Role.MBKC_ADMIN || userAuth?.roleName === Role.BRAND_MANAGER) && (

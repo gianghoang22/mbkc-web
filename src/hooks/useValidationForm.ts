@@ -92,10 +92,6 @@ function useValidationForm() {
       .typeError(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
       .min(1, translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') }))
       .required(translate('page.validation.select', { name: translate('model.lowercase.kitchenCenter') })),
-    brandId: yup
-      .number()
-      .typeError(translate('page.validation.select', { name: translate('model.lowercase.brand') }))
-      .required(translate('page.validation.select', { name: translate('model.lowercase.brand') })),
   });
 
   const schemaCategory = yup.object({

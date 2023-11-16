@@ -3,39 +3,48 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
+import PersonIcon from '@mui/icons-material/Person';
 import TaskIcon from '@mui/icons-material/Task';
 import {
+  Avatar,
   Box,
+  Button,
   Card,
+  Grid,
+  Link,
   Paper,
   Stack,
-  Typography,
-  Avatar,
-  Button,
-  TableContainer,
   Table,
   TableBody,
+  TableContainer,
   TablePagination,
-  Grid,
+  Typography,
 } from '@mui/material';
 // redux
-import { sendMoneyToKitchenCenter } from 'redux/moneyExchange/moneyExchangeSlice';
-import { useAppSelector } from 'redux/configStore';
 import { getCashierReportShift } from 'redux/cashier/cashierSlice';
+import { useAppSelector } from 'redux/configStore';
+import { sendMoneyToKitchenCenter } from 'redux/moneyExchange/moneyExchangeSlice';
 import { getAllOrders } from 'redux/order/orderSlice';
 //sections
-import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
 import { CashierReportSkeleton } from 'sections/cashier';
-//
-import { PATH_CASHIER_APP } from 'routes/paths';
-import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
-import { ConfirmDialog, CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
-import { fDate, formatCurrency } from 'utils';
+import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
+// interface
 import { ListParams, OrderSort, OrderSortBy, OrderTable } from 'common/@types';
 import { Color, PartnerOrderStatus, SystemStatus } from 'common/enums';
-import { Link } from '@mui/material';
+//
+import {
+  ConfirmDialog,
+  CustomTableHead,
+  CustomTableToolbar,
+  EmptyTable,
+  LoadingScreen,
+  Page,
+  SearchNotFound,
+} from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
+import { PATH_CASHIER_APP } from 'routes/paths';
+import { fDate, formatCurrency } from 'utils';
 
 function EndOfShiftPage() {
   const dispatch = useDispatch();
@@ -48,8 +57,8 @@ function EndOfShiftPage() {
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
   const { handleOpen: handleOpenModalEndOfShift, isOpen: isOpenModalEndOfShift } = useModal();
 
-  const { isLoading: isLoadingWallet } = useAppSelector((state) => state.wallet);
   const { shiftReport, isLoading: isLoadingShift } = useAppSelector((state) => state.cashier);
+  const { isLoading: isLoadingMoneyExchange } = useAppSelector((state) => state.moneyExchange);
   const { isLoading: isLoadingOrder, orders, numberItems } = useAppSelector((state) => state.order);
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -82,8 +91,6 @@ function EndOfShiftPage() {
     dispatch<any>(sendMoneyToKitchenCenter(navigate));
   };
 
-  let today = fDate(new Date());
-
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
@@ -93,12 +100,12 @@ function EndOfShiftPage() {
         sortBy: `${orderBy}_${order}`,
         systemStatus: SystemStatus.COMPLETED,
         partnerOrderStatus: PartnerOrderStatus.COMPLETED,
-        searchDateFrom: today,
-        searchDateTo: today,
+        searchDateFrom: fDate(new Date()),
+        searchDateTo: fDate(new Date()),
       },
       navigate,
     };
-  }, [page, rowsPerPage, debounceValue, orderBy, order, today, navigate]);
+  }, [page, rowsPerPage, debounceValue, orderBy, order, navigate]);
 
   useEffect(() => {
     dispatch<any>(getCashierReportShift(navigate));
@@ -108,6 +115,12 @@ function EndOfShiftPage() {
 
   return (
     <>
+      {isLoadingMoneyExchange && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
+      )}
+
       <Page title={translate('breadcrumb.endOfShift')} pathname={pathname} navigateDashboard={PATH_CASHIER_APP.root}>
         {isLoadingShift ? (
           <CashierReportSkeleton />
@@ -236,7 +249,7 @@ function EndOfShiftPage() {
                       borderColor: (theme) => theme.palette.grey[400],
                     }}
                   >
-                    <Button onClick={handleOpenModalEndOfShift} variant="outlined" disabled={isLoadingWallet}>
+                    <Button onClick={handleOpenModalEndOfShift} variant="outlined" disabled={isLoadingMoneyExchange}>
                       {translate('button.confirmEndOfShift')}
                     </Button>
                   </Stack>

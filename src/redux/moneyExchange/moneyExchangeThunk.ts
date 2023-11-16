@@ -53,6 +53,10 @@ export const createPaymentForStoreThunk = async (params: Params<PaymentForStores
 export const sendMoneyToKitchenCenterThunk = async (navigate: NavigateFunction, thunkAPI: any) => {
   try {
     const response: MessageResponse = await axiosClient.put(ROUTES_API_MONEY_EXCHANGES.SEND_MONEY_TO_KITCHEN_CENTER);
+    if (response) {
+      const message = handleResponseMessage(response.message);
+      thunkAPI.dispatch(setMessageSuccess(message));
+    }
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);

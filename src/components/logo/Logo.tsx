@@ -2,7 +2,12 @@ import { forwardRef } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Box, Link } from '@mui/material';
+// redux
+import { useAppSelector } from 'redux/configStore';
+//
 import images from 'assets';
+import { Role } from 'common/enums';
+import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -12,6 +17,8 @@ export interface LogoProps {
 }
 
 const Logo = forwardRef(({ disabledLink = false, sx, ...other }: LogoProps, ref) => {
+  const { userAuth } = useAppSelector((state) => state.auth);
+
   const logo = (
     <Box
       ref={ref}
@@ -36,7 +43,19 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }: LogoProps, ref)
   }
 
   return (
-    <Link to="/" component={RouterLink} sx={{ display: 'contents' }}>
+    <Link
+      to={
+        userAuth?.roleName === Role.BRAND_MANAGER
+          ? PATH_BRAND_APP.root
+          : userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+          ? PATH_KITCHEN_CENTER_APP.root
+          : userAuth?.roleName === Role.CASHIER
+          ? PATH_CASHIER_APP.root
+          : PATH_ADMIN_APP.root
+      }
+      component={RouterLink}
+      sx={{ display: 'contents' }}
+    >
       {logo}
     </Link>
   );

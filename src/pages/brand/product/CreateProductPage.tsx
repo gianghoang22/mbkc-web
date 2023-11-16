@@ -74,6 +74,7 @@ function CreateProductPage() {
     return {
       optionParams: {
         type: type === ProductTypeEnum.EXTRA ? CategoryType.EXTRA : CategoryType.NORMAL,
+        isGetAll: true,
       },
       navigate,
     };
