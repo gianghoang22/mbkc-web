@@ -10,6 +10,7 @@ export interface Store {
   logo: string;
   storeManagerEmail: string;
   rejectedReason?: string | null;
+  walletBalance: number;
   kitchenCenter: KitchenCenter;
   brand: Brand;
   storePartners: {

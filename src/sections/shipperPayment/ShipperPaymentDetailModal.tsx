@@ -76,7 +76,7 @@ function ShipperPaymentDetailModal({ isOpen, handleOpen, shipperPayment }: Shipp
               <Stack direction="row" justifyContent="space-between">
                 <Typography variant="subtitle1">{translate('page.content.paymentMethod')}:</Typography>
                 <Typography variant="body1">
-                  {shipperPayment.paymentMethod === PaymentMethod.CASH
+                  {shipperPayment.paymentMethod.toLowerCase() === PaymentMethod.CASH.toLowerCase()
                     ? translate('page.content.cash')
                     : translate('page.content.cashless')}
                 </Typography>

@@ -11,5 +11,7 @@
   "confirmOrderEndOfShift": "Xác nhận kết thúc ca làm việc",
   "contentOrderEndOfShift": "Bạn hãy kiểm tra lại thông tin trước khi kết thúc ca làm việc nhé!",
   "updatePasswordContent": "Bạn cần cập nhật mật khẩu để bắt đầu sử dung tài khoản!",
-  "updatePasswordSuccess": "Bạn đã có thể tiếp tục sử dụng App!"
+  "updatePasswordSuccess": "Bạn đã có thể tiếp tục sử dụng App!",
+  "amountOfStoreWallet": "Số tiền có trong ví của cửa hàng",
+  "workShiftEnd": "Đã kết thúc ca làm việc"
 }
