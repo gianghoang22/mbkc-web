@@ -19,15 +19,16 @@ import {
   Typography,
 } from '@mui/material';
 // redux
-import { logout, setUserInfo, updatePassword } from 'redux/auth/authSlice';
+import { logout, updatePassword } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 //
-import { Params, UpdatePasswordForm } from 'common/@types';
 import images from 'assets';
+import { Params, UpdatePasswordForm } from 'common/@types';
 import { Color } from 'common/enums';
 import { InputField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { hashPasswordMD5 } from 'utils';
+import { CircularProgress } from '@mui/material';
 
 interface UpdatePasswordToUseModalProps {
   isOpen: boolean;
@@ -42,7 +43,7 @@ function UpdatePasswordToUseModal({ isOpen, handleOpen, handleClose }: UpdatePas
   const { translate } = useLocales();
   const { schemaUpdatePassword } = useValidationForm();
 
-  const { userAuth, userInfo, isLoading } = useAppSelector((state) => state.auth);
+  const { userAuth, isLoading } = useAppSelector((state) => state.auth);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
@@ -76,13 +77,7 @@ function UpdatePasswordToUseModal({ isOpen, handleOpen, handleClose }: UpdatePas
                     model: translate('page.form.password'),
                   })}
                 </Typography>
-                <IconButton
-                  disabled={!userInfo?.isConfirmed}
-                  onClick={() => {
-                    handleOpen();
-                    dispatch(setUserInfo);
-                  }}
-                >
+                <IconButton disabled={!userAuth?.isConfirmed} onClick={handleOpen}>
                   <CloseIcon />
                 </IconButton>
               </Stack>
@@ -90,7 +85,7 @@ function UpdatePasswordToUseModal({ isOpen, handleOpen, handleClose }: UpdatePas
               <Stack alignItems="center" pt={3} pb={1}>
                 <Stack alignItems="center" gap={4} py={3}>
                   <Box width={300} component="img" src={images.illustrations.kitchen_login} alt="store" />
-                  {userInfo?.isConfirmed ? (
+                  {userAuth?.isConfirmed ? (
                     <Stack direction="column" alignItems="center" gap={2}>
                       <Typography variant="h6" sx={{ color: (theme) => theme.palette.success.main }}>
                         {translate('common.welcomeMBKC')}
@@ -106,59 +101,61 @@ function UpdatePasswordToUseModal({ isOpen, handleOpen, handleClose }: UpdatePas
                   )}
                 </Stack>
 
-                {userInfo?.isConfirmed ? (
-                  <Stack width="100%" alignItems="center" pt={3} pb={1}>
-                    <IconButton color="success">
-                      <TaskAltIcon sx={{ fontSize: 100 }} />
-                    </IconButton>
+                {isLoading ? (
+                  <Stack alignItems="center" justifyContent="center" height={150}>
+                    <CircularProgress />
                   </Stack>
                 ) : (
-                  <Stack width="100%" gap={2}>
-                    <InputField
-                      fullWidth
-                      size="large"
-                      name="newPassword"
-                      label={translate('page.form.newPassword')}
-                      type={showPassword ? 'text' : 'password'}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <InputField
-                      fullWidth
-                      size="large"
-                      name="confirmPassword"
-                      label={translate('page.form.confirmPassword')}
-                      type={showPasswordConfirm ? 'text' : 'password'}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} edge="end">
-                              {showPasswordConfirm ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Stack>
+                  <>
+                    {userAuth?.isConfirmed ? (
+                      <Stack width="100%" alignItems="center" pt={3} pb={1}>
+                        <IconButton color="success">
+                          <TaskAltIcon sx={{ fontSize: 100 }} />
+                        </IconButton>
+                      </Stack>
+                    ) : (
+                      <Stack width="100%" gap={2}>
+                        <InputField
+                          fullWidth
+                          size="large"
+                          name="newPassword"
+                          label={translate('page.form.newPassword')}
+                          type={showPassword ? 'text' : 'password'}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                        <InputField
+                          fullWidth
+                          size="large"
+                          name="confirmPassword"
+                          label={translate('page.form.confirmPassword')}
+                          type={showPasswordConfirm ? 'text' : 'password'}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} edge="end">
+                                  {showPasswordConfirm ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Stack>
+                    )}
+                  </>
                 )}
               </Stack>
             </DialogContent>
-            {userInfo?.isConfirmed ? (
+            {userAuth?.isConfirmed ? (
               <DialogActions sx={{ px: 3, pb: 3 }}>
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    handleOpen();
-                    dispatch(setUserInfo);
-                  }}
-                >
+                <Button variant="contained" onClick={handleOpen}>
                   {translate('button.continue')}
                 </Button>
               </DialogActions>

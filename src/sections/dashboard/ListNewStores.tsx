@@ -113,6 +113,10 @@ function ListNewStores({ pathname }: ListNewStoresProps) {
                             ? Color.SUCCESS
                             : store?.status === Status.INACTIVE
                             ? Color.WARNING
+                            : store?.status === Status.BE_CONFIRMING
+                            ? Color.SECONDARY
+                            : store?.status === Status.REJECTED
+                            ? Color.ERROR
                             : Color.ERROR
                         }
                       >
@@ -120,6 +124,10 @@ function ListNewStores({ pathname }: ListNewStoresProps) {
                           ? translate('status.inactive')
                           : store?.status === Status.ACTIVE
                           ? translate('status.active')
+                          : store?.status === Status.BE_CONFIRMING
+                          ? translate('status.beConfirming')
+                          : store?.status === Status.REJECTED
+                          ? translate('status.reject')
                           : translate('status.deActive')}
                       </Label>
                     </TableCell>

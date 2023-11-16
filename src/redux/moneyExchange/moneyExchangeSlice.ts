@@ -55,7 +55,6 @@ const moneyExchangeSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
-
       .addCase(createPaymentForStore.pending, (state) => {
         state.isLoading = true;
       })

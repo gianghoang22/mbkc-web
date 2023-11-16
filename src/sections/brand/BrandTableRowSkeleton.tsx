@@ -4,7 +4,7 @@ import { OrderSortBy } from 'common/@types';
 function BrandTableRowSkeleton({ length, selected }: { length: number; selected: readonly string[] }) {
   return (
     <TableBody>
-      {Array.from({ length }).map((_, index) => (
+      {Array.from({ length: length > 0 ? length : 5 }).map((_, index) => (
         <TableRow key={index}>
           <TableCell width={60} align="center">
             <Stack direction="row" alignItems="center" justifyContent="center">

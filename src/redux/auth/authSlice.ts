@@ -82,9 +82,6 @@ const authSlice = createSlice({
     setUserAuth: (state) => {
       state.userAuth = getUserAuth() ? getUserAuth() : null;
     },
-    setUserInfo: (state) => {
-      state.userInfo = null;
-    },
     setIsLogout: (state, action) => {
       state.isLogout = action.payload;
     },
@@ -119,10 +116,12 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getUserInformation.fulfilled, (state, action) => {
+        console.log(action);
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.userInfo = action.payload;
+        state.userInfo = action.payload.response;
+        state.userAuth = action.payload.userStorage;
       })
       .addCase(getUserInformation.rejected, (state) => {
         state.isLoading = false;
@@ -203,7 +202,6 @@ export const {
   setMessageError,
   setEmail,
   setUserAuth,
-  setUserInfo,
   setIsLogout,
   updateLocalAccessToken,
   removeToken,

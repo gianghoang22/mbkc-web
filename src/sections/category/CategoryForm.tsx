@@ -98,7 +98,7 @@ function CategoryForm() {
               />
               <InputField type="number" fullWidth name="displayOrder" label={translate('table.displayOrder')} />
             </Stack>
-            <InputField fullWidth name="description" label={translate('table.description')} multiline minRows={8} />
+            <InputField fullWidth name="description" label={translate('table.description')} multiline minRows={3} />
           </Stack>
         </Stack>
       </Grid>

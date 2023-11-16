@@ -33,13 +33,12 @@ function CreateStorePage() {
   const { store, isEditing, isLoading } = useAppSelector((state) => state.store);
   const { isLoading: isLoadingKitchenCenters } = useAppSelector((state) => state.kitchenCenter);
 
-  const createStoreForm = useForm<StoreToCreate>({
+  const createStoreForm = useForm<Omit<StoreToCreate, 'brandId'>>({
     defaultValues: {
       name: isEditing && store ? store?.name : '',
       logo: isEditing && store ? store?.logo : '',
       storeManagerEmail: isEditing && store ? store?.storeManagerEmail : '',
       kitchenCenterId: isEditing && store ? store?.kitchenCenter.kitchenCenterId : 0,
-      brandId: brandProfile?.brandId,
     },
     resolver: yupResolver(schemaStore),
   });
@@ -75,7 +74,6 @@ function CreateStorePage() {
         logo: store?.logo,
         storeManagerEmail: store?.storeManagerEmail,
         kitchenCenterId: store?.kitchenCenter.kitchenCenterId,
-        brandId: store?.brand.brandId,
       });
     }
   }, [store]);
@@ -86,7 +84,7 @@ function CreateStorePage() {
     }
   }, [dispatch, navigate, params]);
 
-  const onSubmit = async (values: StoreToCreate) => {
+  const onSubmit = async (values: Omit<StoreToCreate, 'brandId'>) => {
     const data = { ...values };
 
     if (isEditing) {
@@ -106,7 +104,7 @@ function CreateStorePage() {
       dispatch(updateStore(paramUpdate));
     } else {
       const paramCreate: Params<StoreToCreate> = {
-        data: data,
+        data: { ...data, brandId: brandProfile ? brandProfile?.brandId : 0 },
         navigate,
       };
       dispatch(createNewStore(paramCreate));
