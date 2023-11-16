@@ -11,6 +11,7 @@ interface Option {
   center?: string;
   category?: string;
   description?: string;
+  amount?: number;
 }
 
 interface AutoCompleteFieldProps {
@@ -69,6 +70,7 @@ const AutoCompleteField: React.FC<AutoCompleteFieldProps> = ({
             category: option.category,
             image: option.image,
             description: option.description,
+            amount: option.amount,
           }))}
           getOptionLabel={getOptionLabel}
           renderOption={(props, option) => (

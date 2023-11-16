@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // @mui
@@ -12,11 +12,11 @@ import { createPaymentForStore } from 'redux/moneyExchange/moneyExchangeSlice';
 // interface
 import { ListParams, Params } from 'common/@types';
 import { Color, ExchangeType } from 'common/enums';
-import { PaymentForStoresToCreate } from 'common/models';
+import { PaymentForStoresToCreate, Store } from 'common/models';
 //
 import { AutoCompleteField, InputNumber, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { fDate } from 'utils';
+import { fDate, formatCurrency } from 'utils';
 
 interface CreatePaymentForStoreModalProps {
   page: number;
@@ -48,6 +48,8 @@ function CreatePaymentForStoreModal({
   const { stores } = useAppSelector((state) => state.store);
   const { isLoading } = useAppSelector((state) => state.wallet);
 
+  const [storeAmountWallet, setStoreAmountWallet] = useState<number>(0);
+
   const createPaymentForStoreForm = useForm<PaymentForStoresToCreate>({
     defaultValues: {
       storeId: 0,
@@ -57,18 +59,22 @@ function CreatePaymentForStoreModal({
     resolver: yupResolver(schemaPaymentForStore),
   });
 
-  const { handleSubmit } = createPaymentForStoreForm;
+  const { handleSubmit, watch } = createPaymentForStoreForm;
 
-  const storeOptions = stores.map((store) => ({
+  const storeId = watch('storeId');
+
+  const storeOptions = stores.map((store: Store) => ({
     label: store.name,
     value: store.storeId,
     center: store.kitchenCenter.name,
     image: store.logo,
+    amount: store.walletBalance,
   }));
 
   const getOpObjStore = (option: any) => {
     if (!option) return option;
     if (!option.value) return storeOptions.find((opt) => opt.value === option);
+    setStoreAmountWallet(option.amount);
     return option;
   };
 
@@ -148,6 +154,17 @@ function CreatePaymentForStoreModal({
                     type="text"
                     label={translate('model.capitalizeOne.store')}
                   />
+
+                  {storeId !== 0 && storeId !== undefined && (
+                    <Stack alignItems="left" width="100%" pl={2}>
+                      <Typography>
+                        {translate('dialog.amountOfStoreWallet')}:{' '}
+                        <Typography component="span" variant="subtitle1">
+                          {formatCurrency(storeAmountWallet)}
+                        </Typography>
+                      </Typography>
+                    </Stack>
+                  )}
 
                   <InputNumber fullWidth name="amount" label={translate('page.form.amount')} />
                 </Stack>

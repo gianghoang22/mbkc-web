@@ -5,4 +5,5 @@ export interface ShiftReport {
   totalOrderToday: number;
   totalMoneyToday: number;
   balance: number;
+  isShiftEnded: boolean;
 }

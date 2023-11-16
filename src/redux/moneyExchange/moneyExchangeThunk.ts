@@ -6,6 +6,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
 import { getAllMoneyExchange } from './moneyExchangeSlice';
+import { getCashierReportShift } from 'redux/cashier/cashierSlice';
 
 export const getAllMoneyExchangeThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
@@ -54,6 +55,7 @@ export const sendMoneyToKitchenCenterThunk = async (navigate: NavigateFunction, 
   try {
     const response: MessageResponse = await axiosClient.put(ROUTES_API_MONEY_EXCHANGES.SEND_MONEY_TO_KITCHEN_CENTER);
     if (response) {
+      await thunkAPI.dispatch(getCashierReportShift(navigate));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

@@ -303,10 +303,11 @@ export const ROUTES_API_ORDERS = {
     partnerOrderStatus = '',
     searchDateFrom = '',
     searchDateTo = '',
+    confirmedBy = '',
   }: OptionParams) => {
     return path(
       ROOTS_ORDERS,
-      `?SearchValue=${searchValue}&SearchDateFrom=${searchDateFrom}&SearchDateTo=${searchDateTo}&CurrentPage=${currentPage}&ItemsPerPage=${itemsPerPage}&SystemStatus=${systemStatus}&PartnerOrderStatus=${partnerOrderStatus}&SortBy=${sortBy}`
+      `?SearchValue=${searchValue}&SearchDateFrom=${searchDateFrom}&SearchDateTo=${searchDateTo}&CurrentPage=${currentPage}&ItemsPerPage=${itemsPerPage}&SystemStatus=${systemStatus}&PartnerOrderStatus=${partnerOrderStatus}&SortBy=${sortBy}&ConfirmedBy=${confirmedBy}`
     );
   },
   GET_ORDER_DETAIL: (orderId: number) => path(ROOTS_ORDERS, `/${orderId}`),
