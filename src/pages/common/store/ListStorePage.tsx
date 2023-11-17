@@ -106,7 +106,7 @@ function ListStorePage() {
       dispatch<any>(getAllStores(paramsAdminRole));
     } else if (userAuth?.roleName === Role.BRAND_MANAGER) {
       dispatch<any>(getAllStores(paramsBrandRole));
-    } else {
+    } else if (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) {
       dispatch<any>(getAllStores(paramsKitchenCenterRole));
     }
   }, [paramsAdminRole, paramsBrandRole]);

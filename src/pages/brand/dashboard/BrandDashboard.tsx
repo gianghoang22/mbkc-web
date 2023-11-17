@@ -12,7 +12,6 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import { getAllCategories, getAllExtraCategories } from 'redux/category/categorySlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProducts } from 'redux/product/productSlice';
-import { getBrandProfile } from 'redux/profile/profileSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 // section
 import { AppCurrentIncomes, AppWidgetSummaryOutline, ListNewStores, ListProductStatistics } from 'sections/dashboard';
@@ -62,7 +61,6 @@ function BrandDashboard() {
   };
 
   useEffect(() => {
-    dispatch<any>(getBrandProfile(navigate));
     dispatch<any>(getAllStores(params));
     dispatch<any>(getAllCategories(paramCategories));
     dispatch<any>(getAllExtraCategories(paramExtraCategories));

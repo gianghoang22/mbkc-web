@@ -10,12 +10,13 @@ import { alpha } from '@mui/material/styles';
 // redux
 import { logout } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { getCashierReportShift } from 'redux/cashier/cashierSlice';
+import { getBrandProfile, getKitchenCenterProfile } from 'redux/profile/profileSlice';
 //
 import images from 'assets';
 import { Role } from 'common/enums';
 import { MenuPopover } from 'components';
 import { useLocales, useNavigate, usePopover } from 'hooks';
-import { getCashierReportShift } from 'redux/cashier/cashierSlice';
 
 function AccountPopover() {
   const { navigate, handleNavigateProfile } = useNavigate();
@@ -45,8 +46,16 @@ function AccountPopover() {
   }, [isLogout]);
 
   useEffect(() => {
-    if (userAuth?.roleName === Role.CASHIER && userAuth.isConfirmed) {
-      dispatch<any>(getCashierReportShift(navigate));
+    if (userAuth && userAuth.isConfirmed) {
+      if (userAuth?.roleName === Role.CASHIER) {
+        dispatch<any>(getCashierReportShift(navigate));
+      }
+      if (userAuth?.roleName === Role.BRAND_MANAGER) {
+        dispatch<any>(getBrandProfile(navigate));
+      }
+      if (userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER) {
+        dispatch<any>(getKitchenCenterProfile(navigate));
+      }
     }
   }, []);
 
