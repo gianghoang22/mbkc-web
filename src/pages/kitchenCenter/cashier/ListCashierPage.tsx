@@ -48,7 +48,7 @@ function ListCashierPage() {
 
   const isNotFound = !cashiers.length && !!filterName;
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName.trim(), 500);
 
   const params: ListParams = useMemo(() => {
     return {

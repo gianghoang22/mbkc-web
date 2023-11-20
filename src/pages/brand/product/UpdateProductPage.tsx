@@ -65,8 +65,6 @@ function UpdateProductPage() {
   const parentProductId = watch('parentProductId');
   const categoryId = watch('categoryId');
 
-  console.log('size', size);
-
   // const params = useMemo(() => {
   //   return {
   //     productId: parentProductId,

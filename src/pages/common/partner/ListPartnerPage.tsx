@@ -49,7 +49,7 @@ function ListPartnerPage() {
 
   const isNotFound = !partners.length && !!filterName;
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName.trim(), 500);
 
   const params: ListParams = useMemo(() => {
     return {

@@ -71,7 +71,7 @@ function EndOfShiftPage() {
 
   const isNotFound = !orders.length && !!filterName;
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName.trim(), 500);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderTable) => {
     const isAsc = orderBy === property && order === 'asc';

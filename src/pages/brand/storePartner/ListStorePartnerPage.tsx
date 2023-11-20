@@ -53,7 +53,7 @@ function ListStorePartnerPage() {
 
   const isNotFound = !stores.length && !!filterName;
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName.trim(), 500);
 
   const paramsBrandRole: ListParams = useMemo(() => {
     return {
