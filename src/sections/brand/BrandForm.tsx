@@ -143,7 +143,8 @@ function BrandForm() {
               <AutoCompleteField
                 options={districtOptions}
                 getOptionLabel={(value: any) => {
-                  return getOpObjDistrict(value)?.label;
+                  const label = getOpObjDistrict(value)?.label;
+                  return label === undefined ? '' : label;
                 }}
                 isOptionEqualToValue={(option: any, value: any) => {
                   if (!option) return option;

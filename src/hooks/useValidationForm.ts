@@ -508,6 +508,21 @@ function useValidationForm() {
         name: translate('table.lowercase.address'),
       })
     ),
+    provinceId: yup
+      .number()
+      .required(translate('page.validation.select', { name: translate('page.form.province') }))
+      .typeError(translate('page.validation.select', { name: translate('page.form.province') }))
+      .min(1, translate('page.validation.select', { name: translate('page.form.province') })),
+    districtId: yup
+      .number()
+      .required(translate('page.validation.select', { name: translate('page.form.district') }))
+      .typeError(translate('page.validation.select', { name: translate('page.form.district') }))
+      .min(1, translate('page.validation.select', { name: translate('page.form.district') })),
+    wardId: yup
+      .number()
+      .required(translate('page.validation.select', { name: translate('page.form.ward') }))
+      .typeError(translate('page.validation.select', { name: translate('page.form.ward') }))
+      .min(1, translate('page.validation.select', { name: translate('page.form.ward') })),
   });
 
   const schemaUpdateStorePartner = yup.object({
