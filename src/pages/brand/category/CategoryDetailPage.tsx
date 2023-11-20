@@ -42,13 +42,6 @@ function CategoryDetailPage() {
     setActiveTab(newValue);
   };
 
-  const pathnames = pathname
-    .split('/')
-    .slice(2)
-    .filter((x) => x);
-
-  console.log(pathnames);
-
   const params = useMemo(() => {
     return {
       categoryId,
