@@ -16,6 +16,7 @@ export interface Product {
   displayOrder: number;
   parentProductId: string | null;
   childrenProducts: ChildrenProduct[];
+  extraProducts: ExtraProduct[];
   categoryId: number;
   categoryName: string;
   brand: Brand;
@@ -24,6 +25,7 @@ export interface Product {
 }
 
 export interface ChildrenProduct extends Product {}
+export interface ExtraProduct extends Product {}
 export interface ProductToCreate {
   name: string;
   code: string;

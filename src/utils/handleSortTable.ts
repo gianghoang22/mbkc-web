@@ -1,5 +1,5 @@
 import { OrderSort } from 'common/@types';
-import { Brand, Category, ChildrenProduct, KitchenCenter } from 'common/models';
+import { Brand, Category, ChildrenProduct, ExtraProduct, KitchenCenter } from 'common/models';
 
 export function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -15,8 +15,10 @@ export function getComparator<Key extends keyof any>(
   order: OrderSort,
   orderBy: Key
 ): (
-  a: { [key in Key]: Date | string | number | Brand | KitchenCenter | Category | ChildrenProduct | null },
-  b: { [key in Key]: Date | string | number | Brand | KitchenCenter | Category | ChildrenProduct | null }
+  a: {
+    [key in Key]: Date | string | number | Brand | KitchenCenter | Category | ChildrenProduct | ExtraProduct | null;
+  },
+  b: { [key in Key]: Date | string | number | Brand | KitchenCenter | Category | ChildrenProduct | ExtraProduct | null }
 ) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)

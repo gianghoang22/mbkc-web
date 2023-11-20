@@ -155,7 +155,10 @@
     "priceGreaterThan0": "Price must be greater than 0."
   },
   "dashboard": {
-    "titleSummary": "Total {{model}}"
+    "titleSummary": "Total {{model}}",
+    "totalAmountInWallet": "Total amount in wallet today",
+    "storeIsActive": "The store is active",
+    "kitchenCenterChartTitle": "Kitchen center income in the last 7 days"
   },
   "alert": {
     "compareDate": "'To date' must be greater than 'From date'"

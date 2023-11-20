@@ -1,51 +1,59 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import moment from 'moment';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Container, Grid, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardHeader,
+  Container,
+  Grid,
+  Link as MUILink,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 // @mui icon
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 // redux
-import { getAllBankingAccounts } from 'redux/bankingAccount/bankingAccountSlice';
-import { getAllCashiers } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllStores } from 'redux/store/storeSlice';
+import { getDashboardKitchenCenter } from 'redux/dashboard/dashboardSlice';
 // interface
-import { ListParams } from 'common/@types';
-import { Color } from 'common/enums';
+import { Color, Gender, Language, Status } from 'common/enums';
 // section
-import { AppCurrentIncomes, AppWidgetSummaryOutline } from 'sections/dashboard';
+import { BrandTableRowDashboardSkeleton } from 'sections/brand';
+import { AppAmountInWallet, AppWidgetSummaryOutline, ListNewStores } from 'sections/dashboard';
 //
-import { Helmet } from 'components';
+import { EmptyTable, Helmet, Label } from 'components';
 import { useLocales } from 'hooks';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function KitchenCenterDashboard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { translate } = useLocales();
+  const { pathname } = useLocation();
+  const { translate, currentLang } = useLocales();
 
-  const { numberItems: totalStoreItems, isLoading: isLoadingStore } = useAppSelector((state) => state.store);
-  const { numberItems: totalCashierItems, isLoading: isLoadingCashier } = useAppSelector((state) => state.cashier);
-  const { numberItems: totalBankingAccountItems, isLoading: isLoadingBankingAccount } = useAppSelector(
-    (state) => state.bankingAccount
+  const { kitchenCenterDashboard, isLoading: isLoadingDashboard } = useAppSelector((state) => state.dashboard);
+
+  const columnDate = [...(kitchenCenterDashboard ? kitchenCenterDashboard?.columnChartMoneyExchanges : [])].map(
+    (column) => column.date
   );
 
-  const params: ListParams = {
-    optionParams: {
-      itemsPerPage: 5,
-      currentPage: 1,
-    },
-    navigate,
-  };
-
   useEffect(() => {
-    dispatch<any>(getAllStores(params));
-    dispatch<any>(getAllCashiers(params));
-    dispatch<any>(getAllBankingAccounts(params));
+    dispatch<any>(getDashboardKitchenCenter(navigate));
   }, []);
 
   return (
@@ -58,68 +66,162 @@ function KitchenCenterDashboard() {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <AppWidgetSummaryOutline
-              title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.stores') })}
-              total={totalStoreItems}
-              isLoading={isLoadingStore}
+              isPrice
+              title={translate('page.dashboard.totalAmountInWallet')}
+              total={kitchenCenterDashboard?.totalBalancesDaily as number}
+              isLoading={isLoadingDashboard}
               icon={<ListAltIcon fontSize="large" />}
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <AppWidgetSummaryOutline
               title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.stores') })}
               color={Color.SECONDARY}
-              total={totalStoreItems}
-              isLoading={isLoadingStore}
+              total={kitchenCenterDashboard?.totalStores as number}
+              isLoading={isLoadingDashboard}
               icon={<RestaurantMenuIcon fontSize="large" />}
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <AppWidgetSummaryOutline
               title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.cashiers') })}
               color={Color.SUCCESS}
-              total={totalCashierItems}
-              isLoading={isLoadingCashier}
+              total={kitchenCenterDashboard?.totalCashiers as number}
+              isLoading={isLoadingDashboard}
               icon={<AssignmentIndIcon fontSize="large" />}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummaryOutline
-              title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.bankingAccounts') })}
-              color={Color.WARNING}
-              total={totalBankingAccountItems}
-              isLoading={isLoadingBankingAccount}
-              icon={<AccountBalanceOutlinedIcon fontSize="large" />}
             />
           </Grid>
         </Grid>
 
         <Grid container spacing={3} mt={3}>
-          <Grid item xs={12} sm={6} md={12}>
-            <AppCurrentIncomes
-              title="Thu nhập trong năm 2023 của cửa hàng"
-              subheader="Chi tiết số liệu thu nhập trong từng tháng"
+          <Grid item xs={12} sm={12} md={12}>
+            <AppAmountInWallet
+              title={translate('page.dashboard.kitchenCenterChartTitle')}
+              subheader={`${moment(columnDate[columnDate.length - 1]).format('DD/MM/YYYY')} - ${moment(
+                columnDate[0]
+              ).format('DD/MM/YYYY')}`}
+              chartLabels={[...(kitchenCenterDashboard ? kitchenCenterDashboard?.columnChartMoneyExchanges : [])].map(
+                (column) => {
+                  const date = column.date.split('+');
+                  return `${date[0]}.000Z`;
+                }
+              )}
               chartData={[
-                { label: 'Jan', value: 400 },
-                { label: 'Feb', value: 430 },
-                { label: 'Mar', value: 448 },
-                { label: 'Apr', value: 470 },
-                { label: 'May', value: 200 },
-                { label: 'Jun', value: 580 },
-                { label: 'July', value: 690 },
-                { label: 'Aug', value: 1100 },
-                { label: 'Sep', value: 1200 },
-                { label: 'Oct', value: 1380 },
-                { label: 'Nov', value: 1380 },
-                { label: 'Dec', value: 2000 },
+                {
+                  name: 'Amount',
+                  type: 'area',
+                  fill: 'gradient',
+                  data: [...(kitchenCenterDashboard ? kitchenCenterDashboard?.columnChartMoneyExchanges : [])].map(
+                    (column) => column.amount
+                  ),
+                },
               ]}
             />
           </Grid>
         </Grid>
+
+        <Stack gap={5} mt={5}>
+          <ListNewStores
+            pathname={pathname}
+            listStores={kitchenCenterDashboard ? kitchenCenterDashboard?.stores : []}
+          />
+
+          <Card>
+            <CardHeader
+              title={
+                currentLang.value === Language.ENGLISH
+                  ? translate('page.title.new', { model: translate('model.lowercase.brands') })
+                  : translate('page.title.new', { model: translate('model.capitalizeOne.brands') })
+              }
+            />
+            <Box p={2}>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>{translate('table.no')}</TableCell>
+                      <TableCell>Logo</TableCell>
+                      <TableCell>{translate('table.fullName')}</TableCell>
+                      <TableCell>{translate('table.email')}</TableCell>
+                      <TableCell>{translate('table.gender')}</TableCell>
+                      <TableCell>{translate('table.status')}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {isLoadingDashboard ? (
+                      <BrandTableRowDashboardSkeleton />
+                    ) : (
+                      <>
+                        {kitchenCenterDashboard?.cashiers.map((cashier, index) => (
+                          <TableRow
+                            key={index}
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() => navigate(PATH_KITCHEN_CENTER_APP.cashier.root + `/${cashier.accountId}`)}
+                          >
+                            <TableCell width={60} align="center">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell width={80}>
+                              <Avatar src={cashier.avatar} alt="logo" />
+                            </TableCell>
+                            <TableCell>{cashier.fullName}</TableCell>
+                            <TableCell width={600}>{cashier.email}</TableCell>
+                            <TableCell align="left">
+                              {cashier.gender.toLowerCase() === Gender.MALE
+                                ? translate('gender.male')
+                                : translate('gender.female')}
+                            </TableCell>
+                            <TableCell>
+                              <Label
+                                color={
+                                  cashier?.status === Status.ACTIVE
+                                    ? Color.SUCCESS
+                                    : cashier?.status === Status.INACTIVE
+                                    ? Color.WARNING
+                                    : Color.ERROR
+                                }
+                              >
+                                {cashier?.status === Status.INACTIVE
+                                  ? translate('status.inactive')
+                                  : cashier?.status === Status.ACTIVE
+                                  ? translate('status.active')
+                                  : translate('status.deActive')}
+                              </Label>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    )}
+                    {kitchenCenterDashboard?.cashiers?.length === 0 && (
+                      <EmptyTable colNumber={6} model={translate('model.lowercase.cashier')} />
+                    )}
+                  </TableBody>
+                </Table>
+
+                <Stack alignItems="end" mt={2}>
+                  <Link
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textDecoration: 'none',
+                      color: '#000',
+                    }}
+                    to={PATH_KITCHEN_CENTER_APP.cashier.list}
+                  >
+                    <MUILink underline="hover" variant="subtitle2" color="#000">
+                      {translate('page.content.viewAll')}
+                    </MUILink>
+                    <KeyboardArrowRightIcon fontSize="small" />
+                  </Link>
+                </Stack>
+              </TableContainer>
+            </Box>
+          </Card>
+        </Stack>
       </Container>
     </>
   );

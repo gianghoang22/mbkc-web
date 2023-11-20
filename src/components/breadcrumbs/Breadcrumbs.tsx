@@ -43,10 +43,12 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
       pathnames[0] === Breadcrumb.BANKING_ACCOUNTS ||
       pathnames[0] === Breadcrumb.TRANSACTIONS ||
       pathnames[1] === Breadcrumb.MONEY_EXCHANGES ||
+      pathnames[1] === Breadcrumb.SHIPPER_PAYMENTS ||
       pathnames[0] === Breadcrumb.PAYMENT_FOR_STORES
     ? [...pathnames, Breadcrumb.LIST]
     : pathnames;
 
+  console.log(pathnames[1]);
   const routeTo =
     pathnames[0] === Breadcrumb.BRANDS || pathnames[0] === Breadcrumb.BRAND
       ? PATH_ADMIN_APP.brand.list
@@ -78,6 +80,10 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
       ? userAuth?.roleName === Role.CASHIER
         ? PATH_CASHIER_APP.order.list
         : PATH_KITCHEN_CENTER_APP.order.list
+      : pathnames[0] === Breadcrumb.WALLET
+      ? userAuth?.roleName === Role.CASHIER
+        ? PATH_CASHIER_APP.wallet.root
+        : PATH_KITCHEN_CENTER_APP.wallet.root
       : pathnames[0] === Breadcrumb.BANKING_ACCOUNTS || pathnames[0] === Breadcrumb.BANKING_ACCOUNT
       ? PATH_KITCHEN_CENTER_APP.bankingAccount.list
       : '';
@@ -94,6 +100,9 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
         <Typography>{translate('breadcrumb.dashboard')}</Typography>
       )}
       {pathnameBread.map((path, index) => {
+        if (pathnames[1] === Breadcrumb.SHIPPER_PAYMENTS) {
+          console.log('routeTo', routeTo);
+        }
         const isLast = index === pathnameBread.length - 1;
         const nameFinal =
           path === Breadcrumb.BRAND
@@ -178,9 +187,17 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
         return isLast ? (
           <Typography key={path}>{nameFinal}</Typography>
         ) : (
-          <Link key={path} underline="none" sx={{ cursor: 'pointer' }} onClick={() => navigate(routeTo)}>
-            {nameFinal}
-          </Link>
+          <>
+            {path === Breadcrumb.SHIPPER_PAYMENTS || path === Breadcrumb.MONEY_EXCHANGES ? (
+              <Link key={path} underline="none">
+                {nameFinal}
+              </Link>
+            ) : (
+              <Link key={path} underline="none" sx={{ cursor: 'pointer' }} onClick={() => navigate(routeTo)}>
+                {nameFinal}
+              </Link>
+            )}
+          </>
         );
       })}
     </MUIBreadcrumbs>

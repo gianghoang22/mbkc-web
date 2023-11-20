@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -22,55 +20,30 @@ import {
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 // redux
 import { useAppSelector } from 'redux/configStore';
-import { getAllStores } from 'redux/store/storeSlice';
 // section
 import { StoreTableRowDashboardSkeleton } from 'sections/store';
 // interface
-import { ListParams } from 'common/@types';
-import { Color, Language, Status } from 'common/enums';
+import { Store } from 'common/models';
 //
-import { EmptyTable, Label } from 'components';
+import { EmptyTable } from 'components';
 import { useLocales } from 'hooks';
-import { PATH_ADMIN_APP } from 'routes/paths';
+import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 interface ListNewStoresProps {
   pathname: string;
+  listStores: Store[];
 }
 
-function ListNewStores({ pathname }: ListNewStoresProps) {
-  const dispatch = useDispatch();
+function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
   const navigate = useNavigate();
 
-  console.log(pathname);
+  const { translate } = useLocales();
 
-  const { translate, currentLang } = useLocales();
-
-  const { stores, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
-
-  const params: ListParams = {
-    optionParams: {
-      itemsPerPage: 5,
-      currentPage: 1,
-      status: pathname === PATH_ADMIN_APP.root ? Status.BE_CONFIRMING : '',
-    },
-    navigate,
-  };
-
-  useEffect(() => {
-    dispatch<any>(getAllStores(params));
-  }, []);
+  const { isLoading: isLoadingDashboard } = useAppSelector((state) => state.dashboard);
 
   return (
     <Card>
-      <CardHeader
-        title={
-          pathname === PATH_ADMIN_APP.root
-            ? translate('page.title.confirmationStore')
-            : currentLang.value === Language.ENGLISH
-            ? translate('page.title.new', { model: translate('model.lowercase.stores') })
-            : translate('page.title.new', { model: translate('model.capitalizeOne.stores') })
-        }
-      />
+      <CardHeader title={translate('page.dashboard.storeIsActive')} />
       <Box p={2}>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
@@ -79,17 +52,17 @@ function ListNewStores({ pathname }: ListNewStoresProps) {
                 <TableCell>{translate('table.no')}</TableCell>
                 <TableCell>Logo</TableCell>
                 <TableCell>{translate('table.name')}</TableCell>
-                <TableCell>{translate('table.kitchenCenter')}</TableCell>
-                <TableCell>{translate('table.brand')}</TableCell>
-                <TableCell>{translate('table.status')}</TableCell>
+                <TableCell>{translate('table.manageEmail')}</TableCell>
+                {pathname !== PATH_KITCHEN_CENTER_APP.root && <TableCell>{translate('table.kitchenCenter')}</TableCell>}
+                {pathname !== PATH_BRAND_APP.root && <TableCell>{translate('table.brand')}</TableCell>}
               </TableRow>
             </TableHead>
 
-            {isLoadingStores ? (
-              <StoreTableRowDashboardSkeleton length={5} />
+            {isLoadingDashboard ? (
+              <StoreTableRowDashboardSkeleton />
             ) : (
               <TableBody>
-                {stores.map((store, index) => (
+                {listStores?.map((store, index) => (
                   <TableRow
                     key={index}
                     sx={{ cursor: 'pointer' }}
@@ -102,39 +75,18 @@ function ListNewStores({ pathname }: ListNewStoresProps) {
                       <Avatar src={store.logo} alt="logo" />
                     </TableCell>
 
-                    <TableCell align="left">{store.name}</TableCell>
-                    <TableCell align="left">{store.kitchenCenter.name}</TableCell>
-                    <TableCell align="left">{store.brand.name}</TableCell>
-
-                    <TableCell align="left">
-                      <Label
-                        color={
-                          store?.status === Status.ACTIVE
-                            ? Color.SUCCESS
-                            : store?.status === Status.INACTIVE
-                            ? Color.WARNING
-                            : store?.status === Status.BE_CONFIRMING
-                            ? Color.SECONDARY
-                            : store?.status === Status.REJECTED
-                            ? Color.ERROR
-                            : Color.ERROR
-                        }
-                      >
-                        {store?.status === Status.INACTIVE
-                          ? translate('status.inactive')
-                          : store?.status === Status.ACTIVE
-                          ? translate('status.active')
-                          : store?.status === Status.BE_CONFIRMING
-                          ? translate('status.beConfirming')
-                          : store?.status === Status.REJECTED
-                          ? translate('status.reject')
-                          : translate('status.deActive')}
-                      </Label>
+                    <TableCell align="left" width={pathname === PATH_ADMIN_APP.root ? 300 : 400}>
+                      {store?.name}
                     </TableCell>
+                    <TableCell align="left">{store?.storeManagerEmail}</TableCell>
+                    {pathname !== PATH_KITCHEN_CENTER_APP.root && (
+                      <TableCell align="left">{store.kitchenCenter?.name}</TableCell>
+                    )}
+                    {pathname !== PATH_BRAND_APP.root && <TableCell align="left">{store.brand?.name}</TableCell>}
                   </TableRow>
                 ))}
 
-                {stores.length === 0 && <EmptyTable colNumber={6} model={translate('model.lowercase.store')} />}
+                {listStores.length === 0 && <EmptyTable colNumber={6} model={translate('model.lowercase.store')} />}
               </TableBody>
             )}
           </Table>

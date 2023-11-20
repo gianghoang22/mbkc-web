@@ -1,9 +1,9 @@
 import { Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
-function StoreTableRowDashboardSkeleton({ length = 5 }: { length: number }) {
+function StoreTableRowDashboardSkeleton() {
   return (
     <TableBody>
-      {Array.from({ length }).map((_, index) => (
+      {Array.from({ length: 5 }).map((_, index) => (
         <TableRow key={index}>
           <TableCell width={60} align="center">
             <Stack direction="row" alignItems="center" justifyContent="center">
@@ -13,7 +13,7 @@ function StoreTableRowDashboardSkeleton({ length = 5 }: { length: number }) {
           <TableCell width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell width={307}>
+          <TableCell width={400}>
             <Skeleton />
           </TableCell>
           <TableCell width={346}>

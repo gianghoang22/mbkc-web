@@ -3,12 +3,12 @@ import { KitchenCenter } from './kitchenCenter';
 
 export interface Cashier {
   accountId: number;
-  email: string;
   fullName: string;
   gender: Gender;
   dateOfBirth: string;
   avatar: string;
   citizenNumber: string;
+  email: string;
   status: Status;
   kitchenCenter: KitchenCenter;
 }

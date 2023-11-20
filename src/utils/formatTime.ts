@@ -8,12 +8,20 @@ export function fDate(date: string | number | Date, formatStr: string = 'dd/MM/y
   return format(new Date(date), formatStr);
 }
 
+export function fOnlyDate(date: string | number | Date, formatStr: string = 'dd/MM') {
+  return format(new Date(date), formatStr);
+}
+
 /**
  *
  * @param date
  * @returns yyyy/mm/dd
  */
-export function formatDate(date: string | number | Date, formatStr: string = 'dd/MM/yyyy') {
+export function formatDateYear(date: string | number | Date, formatStr: string = 'dd/MM/yyyy') {
+  return format(new Date(date), formatStr);
+}
+
+export function formatDate(date: string | number | Date, formatStr: string = 'dd/MM') {
   return format(new Date(date), formatStr);
 }
 
