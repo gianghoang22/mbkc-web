@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 // @mui
 import { Autocomplete, Box, Card, CardHeader, Stack, TextField } from '@mui/material';
@@ -36,6 +37,10 @@ function AppCurrentIncomes({ title, subheader, chartLabels, chartData, store, se
     if (!option.value) return storeOptions.find((opt) => opt.value === option);
     return option;
   };
+
+  useEffect(() => {
+    setStore(storeOptions[0]);
+  }, [stores.length]);
 
   const chartOptions = useChart({
     fill: { type: chartData.map((i) => i.fill) },

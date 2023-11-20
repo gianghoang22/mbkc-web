@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Container, Grid, Stack, Typography } from '@mui/material';
 // @mui icon
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
@@ -17,10 +17,10 @@ import { AppCurrentIncomes, AppWidgetSummaryOutline, ListNewStores, ListProductS
 // interface
 import { ListParams } from 'common/@types';
 import { Color, Status } from 'common/enums';
+import { Store } from 'common/models';
 //
-import { Helmet } from 'components';
+import { Helmet, LoadingScreen } from 'components';
 import { useLocales } from 'hooks';
-import { fDate } from 'utils';
 
 function BrandDashboard() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function BrandDashboard() {
   const { pathname } = useLocation();
   const { translate } = useLocales();
 
-  const { stores } = useAppSelector((state) => state.store);
+  const { stores, isLoading: isLoadingStore } = useAppSelector((state) => state.store);
   const { brandDashboard, isLoading: isLoadingDashboard } = useAppSelector((state) => state.dashboard);
 
   const storeOptions = stores
@@ -40,21 +40,6 @@ function BrandDashboard() {
     }));
 
   const [store, setStore] = useState<{ label: string; value: number } | null>(storeOptions[0]);
-  const [productDateFrom, setProductDateFrom] = useState<Date | null>(null);
-  const [productDateTo, setProductDateTo] = useState<Date | null>(null);
-
-  console.log(store);
-
-  const paramDashboard: ListParams = useMemo(() => {
-    return {
-      optionParams: {
-        idStore: store ? store?.value : storeOptions[0]?.value,
-        searchDateFrom: productDateFrom === null ? '' : fDate(productDateFrom as Date),
-        searchDateTo: productDateTo === null ? '' : fDate(productDateTo as Date),
-      },
-      navigate,
-    };
-  }, [store, productDateFrom, productDateTo]);
 
   const fetchAllStores = async () => {
     const params: ListParams = {
@@ -64,21 +49,38 @@ function BrandDashboard() {
       navigate,
     };
     await dispatch<any>(getAllStores(params));
-  };
-
-  useEffect(() => {
-    fetchAllStores();
     if (
       stores !== null &&
       stores.filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED).length > 0
     ) {
+      const paramDashboard: ListParams = {
+        optionParams: {
+          idStore: store ? store?.value : storeOptions[0]?.value,
+        },
+        navigate,
+      };
       dispatch<any>(getDashboardBrand(paramDashboard));
     }
-  }, [stores.length]);
+  };
+
+  useEffect(() => {
+    console.log('set store');
+    setStore(storeOptions[0]);
+  }, []);
+
+  useEffect(() => {
+    fetchAllStores();
+  }, [store, stores.length]);
 
   return (
     <>
       <Helmet title={translate('page.title.brandManagement')} />
+
+      {isLoadingStore && (
+        <Box sx={{ position: 'fixed', zIndex: 1300, top: 0, bottom: 0, left: 0, right: 0 }}>
+          <LoadingScreen />
+        </Box>
+      )}
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
@@ -127,26 +129,12 @@ function BrandDashboard() {
         </Grid>
 
         <Grid container spacing={3} mt={3}>
-          <Grid item xs={12} sm={6} md={12}>
+          <Grid item xs={12} sm={12} md={12}>
             <AppCurrentIncomes
               store={store}
               setStore={setStore}
               title={translate('page.title.storeRevenue')}
               subheader={translate('page.content.storeRevenue')}
-              // chartData={[
-              //   { label: 'Jan', value: 400 },
-              //   { label: 'Feb', value: 430 },
-              //   { label: 'Mar', value: 448 },
-              //   { label: 'Apr', value: 470 },
-              //   { label: 'May', value: 200 },
-              //   { label: 'Jun', value: 580 },
-              //   { label: 'July', value: 690 },
-              //   { label: 'Aug', value: 1100 },
-              //   { label: 'Sep', value: 1200 },
-              //   { label: 'Oct', value: 1380 },
-              //   { label: 'Nov', value: 1380 },
-              //   { label: 'Dec', value: 2000 },
-              // ]}
               chartLabels={[...(brandDashboard ? brandDashboard?.storeRevenues.revenues : [])].map((column) => {
                 const date = column.date.split('+');
                 return `${date[0]}.000Z`;
@@ -166,13 +154,8 @@ function BrandDashboard() {
         </Grid>
 
         <Stack gap={5} mt={5}>
-          <ListNewStores pathname={pathname} listStores={brandDashboard ? brandDashboard?.stores : []} />
-          <ListProductStatistics
-            productDateFrom={productDateFrom}
-            setProductDateFrom={setProductDateFrom}
-            productDateTo={productDateTo}
-            setProductDateTo={setProductDateTo}
-          />
+          <ListNewStores pathname={pathname} listStores={brandDashboard?.stores as Store[]} />
+          <ListProductStatistics />
         </Stack>
       </Container>
     </>

@@ -48,7 +48,6 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
     ? [...pathnames, Breadcrumb.LIST]
     : pathnames;
 
-  console.log(pathnames[1]);
   const routeTo =
     pathnames[0] === Breadcrumb.BRANDS || pathnames[0] === Breadcrumb.BRAND
       ? PATH_ADMIN_APP.brand.list

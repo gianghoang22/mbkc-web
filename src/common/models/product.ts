@@ -14,6 +14,7 @@ export interface Product {
   status: string;
   size: string | null;
   displayOrder: number;
+  numberOfProductsSold: number;
   parentProductId: string | null;
   childrenProducts: ChildrenProduct[];
   extraProducts: ExtraProduct[];

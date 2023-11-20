@@ -309,7 +309,7 @@ function useConfigHeadTable() {
       ),
       numeric: false,
       hideSortIcon: false,
-      disablePadding: true,
+      disablePadding: false,
     },
     {
       id: 'code',
@@ -330,8 +330,8 @@ function useConfigHeadTable() {
       disablePadding: false,
     },
     {
-      id: 'quantity',
-      label: translate('table.displayOrder'),
+      id: 'numberOfProductsSold',
+      label: translate('table.quantity'),
       numeric: false,
       hideSortIcon: false,
       disablePadding: true,
@@ -343,7 +343,6 @@ function useConfigHeadTable() {
       hideSortIcon: false,
       disablePadding: false,
     },
-
     {
       id: 'category',
       label: translate('model.capitalizeOne.category'),

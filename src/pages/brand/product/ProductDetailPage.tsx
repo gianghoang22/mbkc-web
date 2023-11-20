@@ -214,6 +214,14 @@ function ProductDetailPage() {
                   </Box>
 
                   <Stack gap={2} mt={2}>
+                    {product?.numberOfProductsSold && (
+                      <ContentSpace
+                        divider={false}
+                        title={translate('table.codeMapping')}
+                        content={partnerProduct?.productCode}
+                      />
+                    )}
+
                     {partnerProduct && !isProduct ? (
                       <>
                         <ContentSpace
@@ -224,7 +232,7 @@ function ProductDetailPage() {
                         <ContentSpace title={translate('table.codeSystem')} content={product?.code} />
 
                         <ContentLabel
-                          divider={!isProduct}
+                          divider={!isProduct || product?.numberOfProductsSold}
                           title={translate('table.status')}
                           color={
                             partnerProduct?.status === PartnerProductStatusEnum.AVAILABLE

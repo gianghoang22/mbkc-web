@@ -63,10 +63,10 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
           </TableCell>
         )}
         {selected.includes(OrderSortBy.PARTNER_NAME) && (
-          <TableCell onClick={handleNavigateDetail}>{order?.partner.name}</TableCell>
+          <TableCell onClick={handleNavigateDetail}>{order?.partner?.name}</TableCell>
         )}
         {selected.includes(OrderSortBy.STORE_NAME) && (
-          <TableCell onClick={handleNavigateDetail}>{order?.store.name}</TableCell>
+          <TableCell onClick={handleNavigateDetail}>{order?.store?.name}</TableCell>
         )}
         <TableCell onClick={handleNavigateDetail}>{formatCurrency(order?.collectedPrice)}</TableCell>
         <TableCell onClick={handleNavigateDetail}>

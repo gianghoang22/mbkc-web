@@ -35,6 +35,23 @@ export const getAllProductsParentThunk = async (params: any, thunkAPI: any) => {
   }
 };
 
+export const getAllProductsSoldThunk = async (params: any, thunkAPI: any) => {
+  const { optionParams, navigate } = params;
+  console.log(optionParams);
+
+  try {
+    const response: ListResponse<Product> = await axiosClient.get(
+      ROUTES_API_PRODUCTS.GET_ALL_PRODUCT_SOLD(optionParams)
+    );
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
 export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
   const { productId, navigate } = params;
 

@@ -30,21 +30,25 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getDashboardKitchenCenter } from 'redux/dashboard/dashboardSlice';
 // interface
-import { Color, Gender, Language, Status } from 'common/enums';
+import { Color, Gender } from 'common/enums';
 // section
-import { BrandTableRowDashboardSkeleton } from 'sections/brand';
 import { AppAmountInWallet, AppWidgetSummaryOutline, ListNewStores } from 'sections/dashboard';
 //
-import { EmptyTable, Helmet, Label } from 'components';
-import { useLocales } from 'hooks';
+import { EmptyTable, Helmet } from 'components';
+import { useLocales, useResponsive } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { CashierTableRowDashboardSkeleton } from 'sections/cashier';
+import { fDate } from 'utils';
 
 function KitchenCenterDashboard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const mdMd = useResponsive('up', 'md', 'md');
+  const mdSm = useResponsive('up', 'sm', 'sm');
+
   const { pathname } = useLocation();
-  const { translate, currentLang } = useLocales();
+  const { translate } = useLocales();
 
   const { kitchenCenterDashboard, isLoading: isLoadingDashboard } = useAppSelector((state) => state.dashboard);
 
@@ -131,13 +135,7 @@ function KitchenCenterDashboard() {
           />
 
           <Card>
-            <CardHeader
-              title={
-                currentLang.value === Language.ENGLISH
-                  ? translate('page.title.new', { model: translate('model.lowercase.brands') })
-                  : translate('page.title.new', { model: translate('model.capitalizeOne.brands') })
-              }
-            />
+            <CardHeader title={translate('model.capitalizeOne.cashiers')} />
             <Box p={2}>
               <TableContainer component={Paper}>
                 <Table aria-label="simple table">
@@ -147,13 +145,13 @@ function KitchenCenterDashboard() {
                       <TableCell>Logo</TableCell>
                       <TableCell>{translate('table.fullName')}</TableCell>
                       <TableCell>{translate('table.email')}</TableCell>
+                      <TableCell>{translate('model.capitalizeOne.dateOfBirth')}</TableCell>
                       <TableCell>{translate('table.gender')}</TableCell>
-                      <TableCell>{translate('table.status')}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {isLoadingDashboard ? (
-                      <BrandTableRowDashboardSkeleton />
+                      <CashierTableRowDashboardSkeleton />
                     ) : (
                       <>
                         {kitchenCenterDashboard?.cashiers.map((cashier, index) => (
@@ -168,29 +166,13 @@ function KitchenCenterDashboard() {
                             <TableCell width={80}>
                               <Avatar src={cashier.avatar} alt="logo" />
                             </TableCell>
-                            <TableCell>{cashier.fullName}</TableCell>
-                            <TableCell width={600}>{cashier.email}</TableCell>
+                            <TableCell width={mdMd ? 250 : mdSm ? 200 : 250}>{cashier.fullName}</TableCell>
+                            <TableCell width={mdMd ? 300 : mdSm ? 220 : 350}>{cashier.email}</TableCell>
+                            <TableCell width={mdMd ? 240 : mdSm ? 220 : 300}>{fDate(cashier.dateOfBirth)}</TableCell>
                             <TableCell align="left">
                               {cashier.gender.toLowerCase() === Gender.MALE
                                 ? translate('gender.male')
                                 : translate('gender.female')}
-                            </TableCell>
-                            <TableCell>
-                              <Label
-                                color={
-                                  cashier?.status === Status.ACTIVE
-                                    ? Color.SUCCESS
-                                    : cashier?.status === Status.INACTIVE
-                                    ? Color.WARNING
-                                    : Color.ERROR
-                                }
-                              >
-                                {cashier?.status === Status.INACTIVE
-                                  ? translate('status.inactive')
-                                  : cashier?.status === Status.ACTIVE
-                                  ? translate('status.active')
-                                  : translate('status.deActive')}
-                              </Label>
                             </TableCell>
                           </TableRow>
                         ))}

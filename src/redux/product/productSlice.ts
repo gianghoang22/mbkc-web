@@ -4,6 +4,7 @@ import {
   createNewProductThunk,
   deleteProductThunk,
   getAllProductsParentThunk,
+  getAllProductsSoldThunk,
   getAllProductsThunk,
   getProductDetailThunk,
   getProductParentDetailThunk,
@@ -22,8 +23,10 @@ interface ProductState {
   productType: ProductTypeEnum;
   products: Product[];
   productsParent: Product[];
+  productsSold: Product[];
   product: Product | null;
   productParent: Product | null;
+  productSold: Product | null;
   totalPages: number;
   numberItems: number;
 }
@@ -43,8 +46,10 @@ const initialState: ProductState = {
   productType: getProductTypeInStorage,
   products: [],
   productsParent: [],
+  productsSold: [],
   product: null,
   productParent: null,
+  productSold: null,
   totalPages: 0,
   numberItems: 5,
 };
@@ -52,6 +57,7 @@ const initialState: ProductState = {
 export const createNewProduct = createAsyncThunk('product/create-product', createNewProductThunk);
 export const getAllProducts = createAsyncThunk('product/get-all-products', getAllProductsThunk);
 export const getAllProductsParent = createAsyncThunk('product/get-all-products-parent', getAllProductsParentThunk);
+export const getAllProductsSold = createAsyncThunk('product/get-all-products-sold', getAllProductsSoldThunk);
 export const getProductDetail = createAsyncThunk('product/get-product-detail', getProductDetailThunk);
 export const getProductParentDetail = createAsyncThunk(
   'product/get-product-parent-detail',
@@ -137,6 +143,22 @@ const productSlice = createSlice({
       })
       .addCase(getAllProductsParent.rejected, (state, action) => {
         // state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(getAllProductsSold.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllProductsSold.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.productsSold = [...action.payload?.products];
+        state.totalPages = action.payload?.totalPages;
+        state.numberItems = action.payload?.numberItems;
+      })
+      .addCase(getAllProductsSold.rejected, (state, action) => {
+        state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
       })
