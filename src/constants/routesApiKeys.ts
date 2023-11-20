@@ -34,11 +34,7 @@ export const ROUTES_API_AUTH = {
 export const ROUTES_API_DASHBOARD = {
   GET_DASHBOARD_ADMIN: path(ROOTS_DASHBOARDS, `/admin`),
   GET_DASHBOARD_KITCHEN_CENTER: path(ROOTS_DASHBOARDS, `/kitchen-center`),
-  GET_DASHBOARD_BRAND: ({ idStore = '', searchDateFrom = '', searchDateTo = '' }: OptionParams) =>
-    path(
-      ROOTS_DASHBOARDS,
-      `/brand?storeId=${idStore}&productSearchDateFrom=${searchDateFrom}&productSearchDateTo=${searchDateTo}`
-    ),
+  GET_DASHBOARD_BRAND: ({ idStore = '' }: OptionParams) => path(ROOTS_DASHBOARDS, `/brand?storeId=${idStore}`),
   GET_DASHBOARD_CASHIER: ({ searchDateFrom = '', searchDateTo = '' }: OptionParams) =>
     path(ROOTS_DASHBOARDS, `/cashier?orderSearchDateFrom=${searchDateFrom}&orderSearchDateTo=${searchDateTo}`),
 };
@@ -252,6 +248,22 @@ export const ROUTES_API_PRODUCTS = {
     path(
       ROOTS_PRODUCTS,
       `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}&sortBy=${sortBy}`
+    ),
+  GET_ALL_PRODUCT_SOLD: ({
+    type = '',
+    searchValue = '',
+    currentPage = '',
+    itemsPerPage = '',
+    isGetAll = '',
+    idStore = '',
+    idCategory = '',
+    sortBy = '',
+    searchDateFrom = '',
+    searchDateTo = '',
+  }: OptionParams) =>
+    path(
+      ROOTS_PRODUCTS,
+      `/products-sold?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&productType=${type}&isGetAll=${isGetAll}&idCategory=${idCategory}&idStore=${idStore}&sortBy=${sortBy}&productSearchDateFrom=${searchDateFrom}&productSearchDateTo=${searchDateTo}`
     ),
   GET_PRODUCT_DETAIL: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),
   UPDATE_PRODUCT: (productId: number) => path(ROOTS_PRODUCTS, `/${productId}`),

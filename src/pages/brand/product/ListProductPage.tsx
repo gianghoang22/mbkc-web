@@ -11,9 +11,10 @@ import { getAllProducts, getProductEmpty, setAddProduct } from 'redux/product/pr
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { ProductTableRow, ProductTableRowSkeleton } from 'sections/product';
-//
+// interface
 import { ListParams, OrderSort, OrderSortBy, ProductTable } from 'common/@types';
 import { PRODUCT_TYPE_TABS, ProductTypeEnum } from 'common/models';
+//
 import { CustomTableHead, CustomTableToolbar, CustomTabs, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';

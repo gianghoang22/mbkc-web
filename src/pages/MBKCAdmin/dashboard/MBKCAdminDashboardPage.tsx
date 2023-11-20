@@ -36,7 +36,7 @@ import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
 import { Color, Language, Status } from 'common/enums';
 //
 import { EmptyTable, Helmet, Label } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useResponsive } from 'hooks';
 import { getDashboardAdmin } from 'redux/dashboard/dashboardSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
@@ -45,6 +45,9 @@ import { PATH_ADMIN_APP } from 'routes/paths';
 function MBKCAdminDashboardPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const mdMd = useResponsive('up', 'md', 'md');
+  const mdSm = useResponsive('up', 'sm', 'sm');
 
   const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
@@ -154,11 +157,11 @@ function MBKCAdminDashboardPage() {
                               <Avatar src={kitchenCenter.logo} alt="logo" />
                             </TableCell>
 
-                            <TableCell align="left" width={300}>
+                            <TableCell align="left" width={mdMd ? 260 : mdSm ? 220 : 300}>
                               {kitchenCenter.name}
                             </TableCell>
 
-                            <TableCell width={600}>
+                            <TableCell width={mdMd ? 550 : mdSm ? 300 : 600}>
                               {kitchenCenter?.address
                                 .split(', ')
                                 .slice(0, kitchenCenter?.address.split(', ').length - 3)
@@ -248,8 +251,8 @@ function MBKCAdminDashboardPage() {
                             <TableCell width={80}>
                               <Avatar src={brand.logo} alt="logo" />
                             </TableCell>
-                            <TableCell width={300}>{brand.name}</TableCell>
-                            <TableCell width={600}>
+                            <TableCell width={mdMd ? 260 : mdSm ? 150 : 300}>{brand.name}</TableCell>
+                            <TableCell width={mdMd ? 550 : mdSm ? 350 : 600}>
                               {brand.address
                                 .split(', ')
                                 .slice(0, brand?.address.split(', ').length - 3)

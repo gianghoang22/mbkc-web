@@ -37,6 +37,7 @@ export enum OrderSortBy {
   PARTNER_ORDER_STATUS = 'partnerOrderStatus',
   CREATE_DATE = 'createDate',
   TRANSACTION_TIME = 'transactionTime',
+  NUMBER_OF_PRODUCTS_SOLD = 'numberOfProductsSold',
 }
 
 export interface HeadCell<T> {
@@ -140,7 +141,7 @@ export interface ProductDashboardTable {
   image: string;
   name: string;
   code: string;
-  quantity: number;
+  numberOfProductsSold: number;
   sellingPrice: number;
   type: string;
   category: string;

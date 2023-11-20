@@ -26,7 +26,7 @@ import { StoreTableRowDashboardSkeleton } from 'sections/store';
 import { Store } from 'common/models';
 //
 import { EmptyTable } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useResponsive } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 interface ListNewStoresProps {
@@ -36,6 +36,9 @@ interface ListNewStoresProps {
 
 function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
   const navigate = useNavigate();
+
+  const mdMd = useResponsive('up', 'md', 'md');
+  const mdSm = useResponsive('up', 'sm', 'sm');
 
   const { translate } = useLocales();
 
@@ -75,7 +78,22 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
                       <Avatar src={store.logo} alt="logo" />
                     </TableCell>
 
-                    <TableCell align="left" width={pathname === PATH_ADMIN_APP.root ? 300 : 400}>
+                    <TableCell
+                      align="left"
+                      width={
+                        pathname === PATH_ADMIN_APP.root
+                          ? mdMd
+                            ? 280
+                            : mdSm
+                            ? 150
+                            : 300
+                          : mdMd
+                          ? 280
+                          : mdSm
+                          ? 200
+                          : 400
+                      }
+                    >
                       {store?.name}
                     </TableCell>
                     <TableCell align="left">{store?.storeManagerEmail}</TableCell>
@@ -86,7 +104,7 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
                   </TableRow>
                 ))}
 
-                {listStores.length === 0 && <EmptyTable colNumber={6} model={translate('model.lowercase.store')} />}
+                {listStores?.length === 0 && <EmptyTable colNumber={6} model={translate('model.lowercase.store')} />}
               </TableBody>
             )}
           </Table>

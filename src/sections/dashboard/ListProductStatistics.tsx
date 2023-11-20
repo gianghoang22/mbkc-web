@@ -1,83 +1,122 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+import moment from 'moment';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Avatar,
   Box,
   Card,
   CardHeader,
-  Link as MUILink,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
+  TablePagination,
   TableRow,
 } from '@mui/material';
-// @mui icon
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllProducts } from 'redux/product/productSlice';
+import { getAllProductsSold, getProductDetail_local, setIsProduct, setProductType } from 'redux/product/productSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
 import { StoreTableRowDashboardSkeleton } from 'sections/store';
 // interface
-import { ListParams, ProductDashboardTable } from 'common/@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, ProductDashboardTable } from 'common/@types';
 import { Color, Status } from 'common/enums';
+import { PRODUCT_TYPE_OPTIONS, ProductTypeEnum } from 'common/models';
 //
-import { CustomTableToolbar, EmptyTable, Label } from 'components';
-import { useConfigHeadTable, useLocales } from 'hooks';
+import { CustomTableHead, CustomTableToolbar, EmptyTable, Label, SearchNotFound } from 'components';
+import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
+import { fCurrencyVN, fDate } from 'utils';
 
-interface ListProductStatisticsProps {
-  productDateFrom: Date | null;
-  setProductDateFrom: Dispatch<SetStateAction<Date | null>>;
-  productDateTo: Date | null;
-  setProductDateTo: Dispatch<SetStateAction<Date | null>>;
-}
-
-function ListProductStatistics({
-  productDateFrom,
-  setProductDateFrom,
-  productDateTo,
-  setProductDateTo,
-}: ListProductStatisticsProps) {
+function ListProductStatistics() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const { pathname } = useLocation();
   const { translate } = useLocales();
   const { productDashboardHeadCells } = useConfigHeadTable();
+  const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { productsSold, numberItems, isLoading: isLoadingProduct } = useAppSelector((state) => state.product);
+
+  const [order, setOrder] = useState<OrderSort>('asc');
+  const [orderBy, setOrderBy] = useState<keyof ProductDashboardTable>(OrderSortBy.NAME);
+  const [filterName, setFilterName] = useState<string>('');
+  const [productTypeSelect, setProductTypeSelect] = useState<OptionSelect | null>({ value: '', label: '', id: '' });
   const [selected, setSelected] = useState<readonly string[]>([]);
+  const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
+  const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
   const [showWarning, setShowWarning] = useState<boolean>(false);
 
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductDashboardTable) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const handleFilterByName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(0);
+    setFilterName(event.target.value.trimStart());
+  };
+
   const handleChangeSearchDateFrom = (date: Date | null) => {
-    setProductDateFrom(date);
+    setSearchDateFrom(date);
   };
 
   const handleChangeSearchDateTo = (date: Date | null) => {
-    setProductDateTo(date);
+    setSearchDateTo(date);
   };
 
-  const { isLoading: isLoadingProduct, products } = useAppSelector((state) => state.product);
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - productsSold.length) : 0;
 
-  const params: ListParams = {
-    optionParams: {
-      itemsPerPage: 5,
-      currentPage: 1,
-    },
-    navigate,
-  };
+  const isNotFound = !productsSold.length && !!filterName;
+
+  const debounceValue = useDebounce(filterName.trim(), 500);
+
+  const params: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        searchValue: debounceValue,
+        currentPage: page + 1,
+        itemsPerPage: rowsPerPage,
+        type: productTypeSelect?.value,
+        sortBy: `${orderBy}_${order}`,
+        searchDateFrom: searchDateFrom === null ? '' : fDate(searchDateFrom as Date),
+        searchDateTo: searchDateTo === null ? '' : fDate(searchDateTo as Date),
+      },
+      navigate,
+    };
+  }, [page, rowsPerPage, debounceValue, productTypeSelect, orderBy, order, searchDateFrom, searchDateTo]);
+
+  const dateTo = moment(dayjs(searchDateTo).toDate()).format('yyyy-MM-DD');
+  const dateForm = moment(dayjs(searchDateFrom).toDate()).format('yyyy-MM-DD');
 
   useEffect(() => {
-    dispatch<any>(getAllProducts(params));
+    if (searchDateTo === null || searchDateFrom === null) {
+      dispatch<any>(getAllProductsSold(params));
+    } else if (searchDateFrom !== null && searchDateTo !== null) {
+      if (moment(dateForm).isSameOrBefore(dateTo)) {
+        setShowWarning(false);
+        setSearchDateTo(searchDateTo);
+        dispatch<any>(getAllProductsSold(params));
+      } else {
+        setShowWarning(true);
+        setSearchDateTo(null);
+      }
+    }
+  }, [params, searchDateTo, searchDateFrom]);
+
+  useEffect(() => {
+    dispatch<any>(getAllProductsSold(params));
   }, []);
 
   const handleReloadData = () => {
-    dispatch<any>(getAllProducts(params));
+    dispatch<any>(getAllProductsSold(params));
   };
 
   return (
@@ -92,58 +131,73 @@ function ListProductStatistics({
         }}
       />
       <CustomTableToolbar<ProductDashboardTable>
+        model={translate('model.lowercase.product')}
         showWarning={showWarning}
         headCells={productDashboardHeadCells}
-        searchDateFrom={productDateFrom}
-        searchDateTo={productDateTo}
+        searchDateFrom={searchDateFrom}
+        searchDateTo={searchDateTo}
         selected={selected}
         setSelected={setSelected}
         handleChangeSearchDateFrom={handleChangeSearchDateFrom}
         handleChangeSearchDateTo={handleChangeSearchDateTo}
         handleReloadData={handleReloadData}
+        onFilterName={handleFilterByName}
         haveSelectSearchDateFrom
         haveSelectSearchDateTo
+        options={PRODUCT_TYPE_OPTIONS.filter(
+          (option) => option.value !== ProductTypeEnum.PARENT && option.value !== ProductTypeEnum.EXTRA
+        )}
+        productType={productTypeSelect}
+        setProductType={setProductTypeSelect}
+        haveSelectProductType
       />
       <Box p={2}>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>{translate('table.no')}</TableCell>
-                <TableCell>{translate('table.image')}</TableCell>
-                <TableCell>{translate('table.name')}</TableCell>
-                <TableCell>{translate('table.code')}</TableCell>
-                <TableCell>{translate('table.quantity')}</TableCell>
-                <TableCell>{translate('table.sellingPrice')}</TableCell>
-                <TableCell>{translate('model.capitalizeOne.category')}</TableCell>
-                <TableCell>{translate('table.type')}</TableCell>
-                <TableCell>{translate('table.status')}</TableCell>
-              </TableRow>
-            </TableHead>
-
+            <CustomTableHead<ProductDashboardTable>
+              headCells={productDashboardHeadCells}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              selectedCol={selected}
+            />
             {isLoadingProduct ? (
               <StoreTableRowDashboardSkeleton />
             ) : (
               <TableBody>
-                {products.map((product, index) => (
+                {productsSold.map((product, index) => (
                   <TableRow
                     key={index}
                     sx={{ cursor: 'pointer' }}
-                    onClick={() => navigate(PATH_BRAND_APP.product.root + `/${product.productId}`)}
+                    onClick={() => {
+                      navigate(PATH_BRAND_APP.product.root + `/${product.productId}`);
+                      dispatch(getProductDetail_local(product));
+                      dispatch(setProductType(product.type));
+                      dispatch(setRoutesToBack(pathname));
+                      dispatch(setIsProduct());
+                    }}
                   >
                     <TableCell width={60} align="center">
                       {index + 1}
                     </TableCell>
-                    <TableCell width={100} align="left">
-                      <Avatar src={product.image} alt="logo" />
-                    </TableCell>
+                    {selected?.includes(OrderSortBy.IMAGE) && (
+                      <TableCell width={80} align="left">
+                        <Avatar src={product.image} alt="logo" />
+                      </TableCell>
+                    )}
 
                     <TableCell align="left">{product.name}</TableCell>
-                    <TableCell align="left">{product.code}</TableCell>
-                    <TableCell align="left">5</TableCell>
-                    <TableCell align="left">{product.sellingPrice}</TableCell>
-                    <TableCell align="left">{product.categoryName}</TableCell>
-                    <TableCell align="left">{product.type}</TableCell>
+                    {selected?.includes(OrderSortBy.CODE) && <TableCell align="left">{product.code}</TableCell>}
+                    <TableCell align="left" padding="none">
+                      {product.numberOfProductsSold}
+                    </TableCell>
+                    {selected?.includes(OrderSortBy.SELLING_PRICE) && (
+                      <TableCell align="left">{fCurrencyVN(product?.sellingPrice)} đ</TableCell>
+                    )}
+                    {selected?.includes(OrderSortBy.CATEGORY) && (
+                      <TableCell align="left">{product.categoryName}</TableCell>
+                    )}
+                    {selected?.includes(OrderSortBy.TYPE) && <TableCell align="left">{product.type}</TableCell>}
 
                     <TableCell align="left">
                       <Label
@@ -165,27 +219,28 @@ function ListProductStatistics({
                   </TableRow>
                 ))}
 
-                {products.length === 0 && <EmptyTable colNumber={6} model={translate('model.lowercase.store')} />}
+                {emptyRows > 0 ||
+                  (productsSold.length === 0 && !filterName && (
+                    <EmptyTable
+                      colNumber={productDashboardHeadCells.length + 1}
+                      model={translate('model.lowercase.product')}
+                    />
+                  ))}
               </TableBody>
             )}
+            {isNotFound && <SearchNotFound colNumber={productDashboardHeadCells.length + 1} searchQuery={filterName} />}
           </Table>
-          <Stack alignItems="end" mt={2}>
-            <Link
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                textDecoration: 'none',
-                color: '#000',
-              }}
-              to={PATH_BRAND_APP.product.list}
-            >
-              <MUILink underline="hover" variant="subtitle2" color="#000">
-                {translate('page.content.viewAll')}
-              </MUILink>
-              <KeyboardArrowRightIcon fontSize="small" />
-            </Link>
-          </Stack>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={numberItems}
+          rowsPerPage={rowsPerPage}
+          labelRowsPerPage={translate('table.rowsPerPage')}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Box>
     </Card>
   );

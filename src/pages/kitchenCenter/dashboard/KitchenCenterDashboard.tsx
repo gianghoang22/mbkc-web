@@ -32,17 +32,20 @@ import { getDashboardKitchenCenter } from 'redux/dashboard/dashboardSlice';
 // interface
 import { Color, Gender } from 'common/enums';
 // section
-import { BrandTableRowDashboardSkeleton } from 'sections/brand';
 import { AppAmountInWallet, AppWidgetSummaryOutline, ListNewStores } from 'sections/dashboard';
 //
 import { EmptyTable, Helmet } from 'components';
-import { useLocales } from 'hooks';
+import { useLocales, useResponsive } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { CashierTableRowDashboardSkeleton } from 'sections/cashier';
 import { fDate } from 'utils';
 
 function KitchenCenterDashboard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const mdMd = useResponsive('up', 'md', 'md');
+  const mdSm = useResponsive('up', 'sm', 'sm');
 
   const { pathname } = useLocation();
   const { translate } = useLocales();
@@ -148,7 +151,7 @@ function KitchenCenterDashboard() {
                   </TableHead>
                   <TableBody>
                     {isLoadingDashboard ? (
-                      <BrandTableRowDashboardSkeleton />
+                      <CashierTableRowDashboardSkeleton />
                     ) : (
                       <>
                         {kitchenCenterDashboard?.cashiers.map((cashier, index) => (
@@ -163,9 +166,9 @@ function KitchenCenterDashboard() {
                             <TableCell width={80}>
                               <Avatar src={cashier.avatar} alt="logo" />
                             </TableCell>
-                            <TableCell width={250}>{cashier.fullName}</TableCell>
-                            <TableCell width={350}>{cashier.email}</TableCell>
-                            <TableCell width={300}>{fDate(cashier.dateOfBirth)}</TableCell>
+                            <TableCell width={mdMd ? 250 : mdSm ? 200 : 250}>{cashier.fullName}</TableCell>
+                            <TableCell width={mdMd ? 300 : mdSm ? 220 : 350}>{cashier.email}</TableCell>
+                            <TableCell width={mdMd ? 240 : mdSm ? 220 : 300}>{fDate(cashier.dateOfBirth)}</TableCell>
                             <TableCell align="left">
                               {cashier.gender.toLowerCase() === Gender.MALE
                                 ? translate('gender.male')

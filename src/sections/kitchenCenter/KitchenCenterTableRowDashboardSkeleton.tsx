@@ -1,7 +1,11 @@
 import { Stack } from '@mui/material';
 import { Skeleton, TableCell, TableRow } from '@mui/material';
+import { useResponsive } from 'hooks';
 
 function KitchenCenterTableRowDashboardSkeleton() {
+  const mdMd = useResponsive('up', 'md', 'md');
+  const mdSm = useResponsive('up', 'sm', 'sm');
+
   return (
     <>
       {Array.from({ length: 5 }).map((_, index) => (
@@ -14,10 +18,10 @@ function KitchenCenterTableRowDashboardSkeleton() {
           <TableCell width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell width={300}>
+          <TableCell width={mdMd ? 260 : mdSm ? 220 : 300}>
             <Skeleton />
           </TableCell>
-          <TableCell width={600}>
+          <TableCell width={mdMd ? 550 : mdSm ? 300 : 600}>
             <Skeleton />
           </TableCell>
           <TableCell>

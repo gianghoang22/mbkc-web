@@ -142,7 +142,8 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
       cell !== OrderSortBy.SYSTEM_STATUS &&
       cell !== OrderSortBy.PARTNER_ORDER_STATUS &&
       cell !== OrderSortBy.ORDER_PARTNER_ID &&
-      cell !== OrderSortBy.FINAL_TOTAL_PRICE
+      cell !== OrderSortBy.FINAL_TOTAL_PRICE &&
+      cell !== OrderSortBy.NUMBER_OF_PRODUCTS_SOLD
   );
   const headCellFilter = headCells.filter(
     (cell) =>
@@ -154,7 +155,8 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
       cell.id.toString() !== OrderSortBy.SYSTEM_STATUS &&
       cell.id.toString() !== OrderSortBy.PARTNER_ORDER_STATUS &&
       cell.id.toString() !== OrderSortBy.ORDER_PARTNER_ID &&
-      cell.id.toString() !== OrderSortBy.FINAL_TOTAL_PRICE
+      cell.id.toString() !== OrderSortBy.FINAL_TOTAL_PRICE &&
+      cell.id.toString() !== OrderSortBy.NUMBER_OF_PRODUCTS_SOLD
   );
 
   useEffect(() => {
@@ -203,6 +205,7 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
       OrderSortBy.PARTNER_ORDER_STATUS,
       OrderSortBy.ORDER_PARTNER_ID,
       OrderSortBy.FINAL_TOTAL_PRICE,
+      OrderSortBy.NUMBER_OF_PRODUCTS_SOLD,
     ]);
   };
 
@@ -502,7 +505,8 @@ function CustomTableToolbar<T>(props: CustomTableToolbarProps<T>) {
               cell.id.toString() !== OrderSortBy.SYSTEM_STATUS &&
               cell.id.toString() !== OrderSortBy.PARTNER_ORDER_STATUS &&
               cell.id.toString() !== OrderSortBy.ORDER_PARTNER_ID &&
-              cell.id.toString() !== OrderSortBy.FINAL_TOTAL_PRICE
+              cell.id.toString() !== OrderSortBy.FINAL_TOTAL_PRICE &&
+              cell.id.toString() !== OrderSortBy.NUMBER_OF_PRODUCTS_SOLD
           )
           .map((cell, index) => {
             const isItemSelected = isSelected(cell.id as string);
