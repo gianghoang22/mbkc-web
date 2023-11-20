@@ -1,29 +1,28 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import ReactApexChart from 'react-apexcharts';
 // @mui
 import { Autocomplete, Box, Card, CardHeader, Stack, TextField } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers';
+// redux
+import { useAppSelector } from 'redux/configStore';
 //
-import { fNumber } from 'utils';
+import { Status } from 'common/enums';
 import { useChart } from 'components/chart';
 import { useLocales } from 'hooks';
-import { useAppSelector } from 'redux/configStore';
-import { Status } from 'common/enums';
+import { fCurrencyVN } from 'utils';
 
 interface AppCurrentIncomesProps {
   title: string;
   subheader: string;
+  chartLabels: string[];
   chartData: any[];
+  store: { label: string; value: number } | null;
+  setStore: Dispatch<SetStateAction<{ label: string; value: number } | null>>;
 }
 
-function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrentIncomesProps) {
+function AppCurrentIncomes({ title, subheader, chartLabels, chartData, store, setStore }: AppCurrentIncomesProps) {
   const { translate } = useLocales();
 
   const { stores, isLoading } = useAppSelector((state) => state.store);
-
-  const [store, setStore] = useState<{ label: string; value: number } | null>(null);
-  const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
-  const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
 
   const storeOptions = stores
     .filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED)
@@ -38,38 +37,34 @@ function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrent
     return option;
   };
 
-  const chartLabels = chartData.map((i) => i.label);
-
-  const chartSeries = chartData.map((i) => i.value);
-
   const chartOptions = useChart({
+    fill: { type: chartData.map((i) => i.fill) },
+    labels: chartLabels,
+    xaxis: { type: 'datetime' },
     tooltip: {
-      marker: { show: true },
+      shared: true,
+      intersect: false,
+      x: {
+        format: 'dd/MM/yy',
+      },
       y: {
-        formatter: (seriesName: any) => fNumber(seriesName),
-        title: {
-          formatter: () => '',
+        formatter: (y: any) => {
+          if (typeof y !== 'undefined') {
+            return `${fCurrencyVN(y)} đ`;
+          }
+          return y;
         },
       },
-    },
-    plotOptions: {
-      bar: { barWidth: '30px', borderRadius: 2 },
-    },
-    stroke: {
-      curve: 'smooth',
-    },
-    xaxis: {
-      categories: chartLabels,
     },
   });
 
   return (
-    <Card {...other}>
+    <Card>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <CardHeader title={title} subheader={subheader} />
 
         <Stack direction="row" alignItems="center" gap={2} pt={3} pr={3}>
-          <Stack width={250}>
+          <Stack width={300}>
             <Autocomplete
               disabled={isLoading}
               fullWidth
@@ -85,31 +80,11 @@ function AppCurrentIncomes({ title, subheader, chartData, ...other }: AppCurrent
               onChange={(event: any, newValue: { label: string; value: number } | null) => setStore(newValue)}
             />
           </Stack>
-
-          <DatePicker
-            slotProps={{ textField: { size: 'small' }, actionBar: { actions: ['clear'] } }}
-            label={translate('table.fromDate')}
-            value={searchDateFrom}
-            format="DD/MM/YYYY"
-            disableFuture
-            onChange={(newValue: Date | null) => setSearchDateFrom(newValue)}
-            sx={{ width: 170 }}
-          />
-
-          <DatePicker
-            slotProps={{ textField: { size: 'small' }, actionBar: { actions: ['clear'] } }}
-            label={translate('table.toDate')}
-            value={searchDateTo}
-            format="DD/MM/YYYY"
-            disableFuture
-            onChange={(newValue: Date | null) => setSearchDateTo(newValue)}
-            sx={{ width: 170 }}
-          />
         </Stack>
       </Stack>
 
       <Box sx={{ mx: 3, mt: 3 }} dir="ltr">
-        <ReactApexChart type="area" series={[{ data: chartSeries }]} options={chartOptions} height={364} />
+        <ReactApexChart type="area" series={chartData} options={chartOptions} height={364} />
       </Box>
     </Card>
   );

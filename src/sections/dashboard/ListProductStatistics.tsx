@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -32,7 +32,19 @@ import { CustomTableToolbar, EmptyTable, Label } from 'components';
 import { useConfigHeadTable, useLocales } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 
-function ListProductStatistics() {
+interface ListProductStatisticsProps {
+  productDateFrom: Date | null;
+  setProductDateFrom: Dispatch<SetStateAction<Date | null>>;
+  productDateTo: Date | null;
+  setProductDateTo: Dispatch<SetStateAction<Date | null>>;
+}
+
+function ListProductStatistics({
+  productDateFrom,
+  setProductDateFrom,
+  productDateTo,
+  setProductDateTo,
+}: ListProductStatisticsProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -40,16 +52,14 @@ function ListProductStatistics() {
   const { productDashboardHeadCells } = useConfigHeadTable();
 
   const [selected, setSelected] = useState<readonly string[]>([]);
-  const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
-  const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
   const [showWarning, setShowWarning] = useState<boolean>(false);
 
   const handleChangeSearchDateFrom = (date: Date | null) => {
-    setSearchDateFrom(date);
+    setProductDateFrom(date);
   };
 
   const handleChangeSearchDateTo = (date: Date | null) => {
-    setSearchDateTo(date);
+    setProductDateTo(date);
   };
 
   const {
@@ -88,8 +98,8 @@ function ListProductStatistics() {
       <CustomTableToolbar<ProductDashboardTable>
         showWarning={showWarning}
         headCells={productDashboardHeadCells}
-        searchDateFrom={searchDateFrom}
-        searchDateTo={searchDateTo}
+        searchDateFrom={productDateFrom}
+        searchDateTo={productDateTo}
         selected={selected}
         setSelected={setSelected}
         handleChangeSearchDateFrom={handleChangeSearchDateFrom}
@@ -116,7 +126,7 @@ function ListProductStatistics() {
             </TableHead>
 
             {isLoadingProduct ? (
-              <StoreTableRowDashboardSkeleton length={5} />
+              <StoreTableRowDashboardSkeleton />
             ) : (
               <TableBody>
                 {products.map((product, index) => (

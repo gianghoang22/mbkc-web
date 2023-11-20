@@ -26,6 +26,8 @@ export interface Order {
   address: string;
   cutlery: number;
   partnerOrderStatus: string;
+  totalQuantity: number;
+  confirmedBy: number;
   store: Store;
   partner: Partner;
   shipperPayments: _ShipperPayment[];

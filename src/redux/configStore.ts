@@ -19,6 +19,7 @@ import shipperPaymentReducer from './shipperPayment/shipperPaymentSlice';
 import storeReducer from './store/storeSlice';
 import storePartnerReducer from './storePartner/storePartnerSlice';
 import walletReducer from './wallet/walletSlice';
+import dashboardReducer from './dashboard/dashboardSlice';
 
 export const store = configureStore({
   reducer: {
@@ -41,6 +42,7 @@ export const store = configureStore({
     shipperPayment: shipperPaymentReducer,
     moneyExchange: moneyExchangeReducer,
     wallet: walletReducer,
+    dashboard: dashboardReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

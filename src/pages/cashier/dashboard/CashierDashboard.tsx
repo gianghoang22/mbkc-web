@@ -19,25 +19,22 @@ import {
   Table,
   TableBody,
   TableContainer,
-  TablePagination,
   Typography,
 } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllMoneyExchange } from 'redux/moneyExchange/moneyExchangeSlice';
-import { getAllOrders } from 'redux/order/orderSlice';
-import { getAllShipperPayment } from 'redux/shipperPayment/shipperPaymentSlice';
 // sections
 import { AppWidgetSummaryOutline } from 'sections/dashboard';
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 import { OrderTableRow, OrderTableRowSkeleton } from 'sections/order';
 import { ShipperPaymentTableRow, ShipperPaymentTableRowSkeleton } from 'sections/shipperPayment';
 // interface
-import { ListParams, MoneyExchangeTable, OrderSort, OrderTable, ShipperPaymentTable } from 'common/@types';
-import { Color, Language, PartnerOrderStatus, SystemStatus } from 'common/enums';
+import { ListParams, MoneyExchangeTable, OrderTable, ShipperPaymentTable } from 'common/@types';
+import { Color, Language } from 'common/enums';
 //
 import { CommonTableHead, CustomTableHead, CustomTableToolbar, EmptyTable, Helmet } from 'components';
-import { useConfigHeadTable, useLocales, usePagination } from 'hooks';
+import { useConfigHeadTable, useLocales } from 'hooks';
+import { getDashboardCashier } from 'redux/dashboard/dashboardSlice';
 import { PATH_CASHIER_APP } from 'routes/paths';
 import { fDate } from 'utils';
 
@@ -47,27 +44,13 @@ function CashierDashboard() {
 
   const { translate, currentLang } = useLocales();
   const { orderHeadCells, shipperPaymentHeadCells, MoneyExchangeHeadCells } = useConfigHeadTable();
-  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const [order, setOrder] = useState<OrderSort>('asc');
-  const [orderBy, setOrderBy] = useState<keyof OrderTable>('collectedPrice');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [searchDateFrom, setSearchDateFrom] = useState<Date | null>(null);
   const [searchDateTo, setSearchDateTo] = useState<Date | null>(null);
   const [showWarning, setShowWarning] = useState<boolean>(false);
 
-  const { shiftReport, isLoading: isLoadingShift } = useAppSelector((state) => state.cashier);
-  const { isLoading: isLoadingOrder, orders, numberItems } = useAppSelector((state) => state.order);
-  const { moneyExchanges, isLoading: isLoadingMoneyExchange } = useAppSelector((state) => state.moneyExchange);
-  const { shipperPayments, isLoading: isLoadingShipperPayment } = useAppSelector((state) => state.shipperPayment);
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - numberItems) : 0;
-
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof OrderTable) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+  const { cashierDashboard, isLoading: isLoadingDashboard } = useAppSelector((state) => state.dashboard);
 
   const handleChangeSearchDateFrom = (date: Date | null) => {
     setSearchDateFrom(date);
@@ -77,57 +60,37 @@ function CashierDashboard() {
     setSearchDateTo(date);
   };
 
-  const handleReloadData = () => {
-    dispatch<any>(getAllOrders(params));
-  };
-
-  const params: ListParams = useMemo(() => {
+  const paramDashboard: ListParams = useMemo(() => {
     return {
       optionParams: {
-        itemsPerPage: 5,
-        currentPage: 1,
-      },
-      navigate,
-    };
-  }, []);
-
-  const paramOrders: ListParams = useMemo(() => {
-    return {
-      optionParams: {
-        itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
-        sortBy: `${orderBy}_${order}`,
-        systemStatus: SystemStatus.COMPLETED,
-        partnerOrderStatus: PartnerOrderStatus.COMPLETED,
         searchDateFrom: searchDateFrom === null ? '' : fDate(searchDateFrom as Date),
         searchDateTo: searchDateTo === null ? '' : fDate(searchDateTo as Date),
       },
       navigate,
     };
-  }, [page, rowsPerPage, orderBy, order, navigate, searchDateFrom, searchDateTo]);
+  }, [searchDateFrom, searchDateTo]);
 
   const dateTo = moment(dayjs(searchDateTo).toDate()).format('yyyy-MM-DD');
   const dateForm = moment(dayjs(searchDateFrom).toDate()).format('yyyy-MM-DD');
 
   useEffect(() => {
     if (searchDateTo === null || searchDateFrom === null) {
-      dispatch(getAllOrders(paramOrders));
+      dispatch<any>(getDashboardCashier(paramDashboard));
     } else if (searchDateFrom !== null && searchDateTo !== null) {
       if (moment(dateForm).isSameOrBefore(dateTo)) {
         setShowWarning(false);
         setSearchDateTo(searchDateTo);
-        dispatch(getAllOrders(paramOrders));
+        dispatch<any>(getDashboardCashier(paramDashboard));
       } else {
         setShowWarning(true);
         setSearchDateTo(null);
       }
     }
-  }, [params, searchDateTo, searchDateFrom]);
+  }, [paramDashboard, searchDateTo, searchDateFrom]);
 
-  useEffect(() => {
-    dispatch<any>(getAllShipperPayment(params));
-    dispatch<any>(getAllMoneyExchange(params));
-  }, [params]);
+  const handleReloadData = () => {
+    dispatch<any>(getDashboardCashier(paramDashboard));
+  };
 
   return (
     <>
@@ -142,9 +105,9 @@ function CashierDashboard() {
           <Grid item xs={12} sm={6} md={6}>
             <AppWidgetSummaryOutline
               isPrice
-              isLoading={isLoadingShift}
+              isLoading={isLoadingDashboard}
               icon={<PaidOutlinedIcon fontSize="large" />}
-              total={shiftReport?.totalMoneyToday as number}
+              total={cashierDashboard?.totalRevenuesDaily as number}
               title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.revenueOfToday') })}
             />
           </Grid>
@@ -152,8 +115,8 @@ function CashierDashboard() {
           <Grid item xs={12} sm={6} md={6}>
             <AppWidgetSummaryOutline
               color={Color.INFO}
-              isLoading={isLoadingShift}
-              total={shiftReport?.totalOrderToday as number}
+              isLoading={isLoadingDashboard}
+              total={cashierDashboard?.totalOrdersDaily as number}
               icon={<DescriptionOutlinedIcon fontSize="large" />}
               title={translate('page.dashboard.titleSummary', { model: translate('model.lowercase.ordersOfToday') })}
             />
@@ -191,39 +154,42 @@ function CashierDashboard() {
                     <CustomTableHead<OrderTable>
                       showAction
                       headCells={orderHeadCells}
-                      order={order}
-                      orderBy={orderBy}
-                      onRequestSort={handleRequestSort}
                       selectedCol={selected}
+                      onRequestSort={() => {}}
                     />
-                    {isLoadingOrder ? (
-                      <OrderTableRowSkeleton length={orders.length} />
+                    {isLoadingDashboard ? (
+                      <OrderTableRowSkeleton length={5} />
                     ) : (
                       <TableBody>
-                        {orders?.map((order, index) => {
+                        {cashierDashboard?.orders?.map((order, index) => {
                           return <OrderTableRow key={order.id} index={index} order={order} selected={selected} />;
                         })}
-                        {emptyRows > 0 ||
-                          (orders.length === 0 && (
-                            <EmptyTable
-                              colNumber={orderHeadCells.length + 2}
-                              model={translate('model.lowercase.orders')}
-                            />
-                          ))}
+                        {cashierDashboard?.orders.length === 0 && (
+                          <EmptyTable
+                            colNumber={orderHeadCells.length + 2}
+                            model={translate('model.lowercase.orders')}
+                          />
+                        )}
                       </TableBody>
                     )}
                   </Table>
                 </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  component="div"
-                  page={page}
-                  count={numberItems}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  labelRowsPerPage={translate('table.rowsPerPage')}
-                />
+                <Stack alignItems="end" mt={2} pr={2}>
+                  <Link
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textDecoration: 'none',
+                      color: '#000',
+                    }}
+                    to={PATH_CASHIER_APP.order.list}
+                  >
+                    <MUILink underline="hover" variant="subtitle2" color="#000">
+                      {translate('page.content.viewAll')}
+                    </MUILink>
+                    <KeyboardArrowRightIcon fontSize="small" />
+                  </Link>
+                </Stack>
               </Paper>
             </Box>
           </Card>
@@ -246,15 +212,15 @@ function CashierDashboard() {
                       headCells={shipperPaymentHeadCells}
                       onRequestSort={() => {}}
                     />
-                    {isLoadingShipperPayment ? (
+                    {isLoadingDashboard ? (
                       <ShipperPaymentTableRowSkeleton />
                     ) : (
                       <TableBody>
-                        {shipperPayments.map((shipperPayment, index) => {
+                        {cashierDashboard?.shipperPayments.map((shipperPayment, index) => {
                           return <ShipperPaymentTableRow key={index} index={index} shipperPayment={shipperPayment} />;
                         })}
 
-                        {shipperPayments.length === 0 && (
+                        {cashierDashboard?.shipperPayments.length === 0 && (
                           <EmptyTable
                             colNumber={shipperPaymentHeadCells.length + 2}
                             model={translate('model.lowercase.shipperPayments')}
@@ -301,15 +267,15 @@ function CashierDashboard() {
                   <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
                     <CommonTableHead<MoneyExchangeTable> headCells={MoneyExchangeHeadCells} onRequestSort={() => {}} />
 
-                    {isLoadingMoneyExchange ? (
+                    {isLoadingDashboard ? (
                       <MoneyExchangeTableRowSkeleton />
                     ) : (
                       <TableBody>
-                        {moneyExchanges.map((moneyExchange, index) => {
+                        {cashierDashboard?.moneyExchanges.map((moneyExchange, index) => {
                           return <MoneyExchangeTableRow key={index} index={index} moneyExchange={moneyExchange} />;
                         })}
 
-                        {moneyExchanges.length === 0 && (
+                        {cashierDashboard?.moneyExchanges.length === 0 && (
                           <EmptyTable
                             colNumber={MoneyExchangeHeadCells.length + 2}
                             model={translate('model.lowercase.moneyExchanges')}

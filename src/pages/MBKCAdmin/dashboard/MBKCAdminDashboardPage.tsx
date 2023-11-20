@@ -27,20 +27,17 @@ import BusinessIcon from '@mui/icons-material/Business';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import StoreIcon from '@mui/icons-material/Store';
 // redux
-import { getAllBrands } from 'redux/brand/brandSlice';
 import { useAppSelector } from 'redux/configStore';
-import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { getAllStoresDashboard } from 'redux/store/storeSlice';
 // section
 import { BrandTableRowDashboardSkeleton } from 'sections/brand';
 import { AppWidgetSummaryOutline, ListNewStores } from 'sections/dashboard';
 import { KitchenCenterTableRowDashboardSkeleton } from 'sections/kitchenCenter';
 // interface
-import { ListParams } from 'common/@types';
 import { Color, Language, Status } from 'common/enums';
 //
 import { EmptyTable, Helmet, Label } from 'components';
 import { useLocales } from 'hooks';
+import { getDashboardAdmin } from 'redux/dashboard/dashboardSlice';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 // ----------------------------------------------------------------------
@@ -52,29 +49,10 @@ function MBKCAdminDashboardPage() {
   const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
 
-  const { brands, isLoading: isLoadingBrands, numberItems: totalBrandItems } = useAppSelector((state) => state.brand);
-  const {
-    kitchenCenters,
-    isLoading: isLoadingKitchenCenters,
-    numberItems: totalKitchenCenterItems,
-  } = useAppSelector((state) => state.kitchenCenter);
-  const { numberItemsInDashboard, isLoading: isLoadingStores } = useAppSelector((state) => state.store);
-
-  const featuredKitchenCenters = kitchenCenters.slice(0, 5);
-  const featuredBrands = brands.slice(0, 5);
-
-  const params: ListParams = {
-    optionParams: {
-      itemsPerPage: 5,
-      currentPage: 1,
-    },
-    navigate,
-  };
+  const { adminDashboard, isLoading } = useAppSelector((state) => state.dashboard);
 
   useEffect(() => {
-    dispatch<any>(getAllKitchenCenters(params));
-    dispatch<any>(getAllBrands(params));
-    dispatch<any>(getAllStoresDashboard(params));
+    dispatch<any>(getDashboardAdmin(navigate));
   }, []);
 
   return (
@@ -87,10 +65,10 @@ function MBKCAdminDashboardPage() {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummaryOutline
-              total={totalKitchenCenterItems}
-              isLoading={isLoadingKitchenCenters}
+              total={adminDashboard?.totalKitchenCenters as number}
+              isLoading={isLoading}
               icon={<BusinessIcon fontSize="large" />}
               title={translate('page.content.total', {
                 model: translate('model.lowercase.kitchenCenters'),
@@ -98,11 +76,11 @@ function MBKCAdminDashboardPage() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummaryOutline
               color={Color.SECONDARY}
-              total={totalBrandItems}
-              isLoading={isLoadingBrands}
+              total={adminDashboard?.totalBrands as number}
+              isLoading={isLoading}
               icon={<BrandingWatermarkOutlinedIcon fontSize="large" />}
               title={translate('page.content.total', {
                 model: translate('model.lowercase.brands'),
@@ -110,14 +88,26 @@ function MBKCAdminDashboardPage() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummaryOutline
-              color={Color.SUCCESS}
-              total={numberItemsInDashboard}
-              isLoading={isLoadingStores}
+              color={Color.WARNING}
+              total={adminDashboard?.totalStores as number}
+              isLoading={isLoading}
               icon={<StoreIcon fontSize="large" />}
               title={translate('page.content.total', {
                 model: translate('model.lowercase.stores'),
+              })}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummaryOutline
+              color={Color.SUCCESS}
+              total={adminDashboard?.totalPartners as number}
+              isLoading={isLoading}
+              icon={<StoreIcon fontSize="large" />}
+              title={translate('page.content.total', {
+                model: translate('model.lowercase.partners'),
               })}
             />
           </Grid>
@@ -145,11 +135,11 @@ function MBKCAdminDashboardPage() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {isLoadingKitchenCenters ? (
-                      <KitchenCenterTableRowDashboardSkeleton length={kitchenCenters.length} />
+                    {isLoading ? (
+                      <KitchenCenterTableRowDashboardSkeleton />
                     ) : (
                       <>
-                        {featuredKitchenCenters.map((kitchenCenter, index) => (
+                        {adminDashboard?.kitchenCenters.map((kitchenCenter, index) => (
                           <TableRow
                             key={index}
                             sx={{ cursor: 'pointer' }}
@@ -164,10 +154,11 @@ function MBKCAdminDashboardPage() {
                               <Avatar src={kitchenCenter.logo} alt="logo" />
                             </TableCell>
 
-                            <TableCell align="left">{kitchenCenter.name}</TableCell>
+                            <TableCell align="left" width={300}>
+                              {kitchenCenter.name}
+                            </TableCell>
 
                             <TableCell width={600}>
-                              {' '}
                               {kitchenCenter?.address
                                 .split(', ')
                                 .slice(0, kitchenCenter?.address.split(', ').length - 3)
@@ -195,7 +186,7 @@ function MBKCAdminDashboardPage() {
                         ))}
                       </>
                     )}
-                    {featuredKitchenCenters.length === 0 && (
+                    {adminDashboard?.kitchenCenters.length === 0 && (
                       <EmptyTable colNumber={6} model={translate('model.lowercase.kitchenCenter')} />
                     )}
                   </TableBody>
@@ -241,11 +232,11 @@ function MBKCAdminDashboardPage() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {isLoadingBrands ? (
-                      <BrandTableRowDashboardSkeleton length={featuredBrands.length} />
+                    {isLoading ? (
+                      <BrandTableRowDashboardSkeleton />
                     ) : (
                       <>
-                        {featuredBrands.map((brand, index) => (
+                        {adminDashboard?.brands.map((brand, index) => (
                           <TableRow
                             key={index}
                             sx={{ cursor: 'pointer' }}
@@ -257,7 +248,7 @@ function MBKCAdminDashboardPage() {
                             <TableCell width={80}>
                               <Avatar src={brand.logo} alt="logo" />
                             </TableCell>
-                            <TableCell>{brand.name}</TableCell>
+                            <TableCell width={300}>{brand.name}</TableCell>
                             <TableCell width={600}>
                               {brand.address
                                 .split(', ')
@@ -285,7 +276,7 @@ function MBKCAdminDashboardPage() {
                         ))}
                       </>
                     )}
-                    {featuredBrands.length === 0 && (
+                    {adminDashboard?.brands.length === 0 && (
                       <EmptyTable colNumber={6} model={translate('model.lowercase.brand')} />
                     )}
                   </TableBody>
@@ -311,7 +302,7 @@ function MBKCAdminDashboardPage() {
             </Box>
           </Card>
 
-          <ListNewStores pathname={pathname} />
+          <ListNewStores pathname={pathname} listStores={adminDashboard ? adminDashboard?.stores : []} />
         </Stack>
       </Container>
     </>

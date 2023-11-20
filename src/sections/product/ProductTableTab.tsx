@@ -10,13 +10,7 @@ import { getAllProducts } from 'redux/product/productSlice';
 import ProductTableRow from './ProductTableRow';
 import ProductTableRowSkeleton from './ProductTableRowSkeleton';
 //
-import {
-  ListParams,
-  OptionSelect,
-  OrderSort,
-  OrderSortBy,
-  ProductTable,
-} from 'common/@types';
+import { ListParams, OptionSelect, OrderSort, OrderSortBy, ProductTable } from 'common/@types';
 import { CategoryType, PRODUCT_TYPE_OPTIONS } from 'common/models';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
@@ -56,7 +50,7 @@ function ProductTableTab() {
 
   const isNotFound = !products.length && !!filterName;
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName.trim(), 500);
 
   const params: ListParams = useMemo(() => {
     return {

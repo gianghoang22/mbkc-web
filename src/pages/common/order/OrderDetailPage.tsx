@@ -404,9 +404,14 @@ function OrderDetailPage() {
                             <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
                               {translate('table.status')}:
                             </Typography>
-                            <Label color={order?.isPaid ? Color.SUCCESS : Color.ERROR}>
-                              {order?.isPaid ? translate('status.paid') : translate('status.notPaid')}
-                            </Label>
+                            {order?.systemStatus === SystemStatus.COMPLETED &&
+                            order.partnerOrderStatus === PartnerOrderStatus.COMPLETED ? (
+                              <Label color={Color.SUCCESS}>{translate('status.paid')}</Label>
+                            ) : (
+                              <Label color={order?.isPaid ? Color.SUCCESS : Color.ERROR}>
+                                {order?.isPaid ? translate('status.paid') : translate('status.notPaid')}
+                              </Label>
+                            )}
                           </Stack>
                         </Stack>
 

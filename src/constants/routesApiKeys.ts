@@ -2,6 +2,7 @@ import { OptionParams } from 'common/@types';
 import { path, pathRoot } from 'utils';
 
 const ROOTS_AUTH = '/authentications';
+const ROOTS_DASHBOARDS = '/dashboards';
 const ROOTS_ACCOUNT = '/accounts';
 const ROOTS_VERIFY = '/verifications';
 const ROOTS_KITCHEN_CENTERS = '/kitchen-centers';
@@ -28,6 +29,18 @@ export const ROUTES_API_AUTH = {
   RESET_PASSWORD: path(ROOTS_AUTH, `/password-resetation`),
   FORGOT_PASSWORD: path(ROOTS_VERIFY, `/email-verification`),
   VERIFY_OTP: path(ROOTS_VERIFY, `/otp-verification`),
+};
+
+export const ROUTES_API_DASHBOARD = {
+  GET_DASHBOARD_ADMIN: path(ROOTS_DASHBOARDS, `/admin`),
+  GET_DASHBOARD_KITCHEN_CENTER: path(ROOTS_DASHBOARDS, `/kitchen-center`),
+  GET_DASHBOARD_BRAND: ({ idStore = '', searchDateFrom = '', searchDateTo = '' }: OptionParams) =>
+    path(
+      ROOTS_DASHBOARDS,
+      `/brand?storeId=${idStore}&productSearchDateFrom=${searchDateFrom}&productSearchDateTo=${searchDateTo}`
+    ),
+  GET_DASHBOARD_CASHIER: ({ searchDateFrom = '', searchDateTo = '' }: OptionParams) =>
+    path(ROOTS_DASHBOARDS, `/cashier?orderSearchDateFrom=${searchDateFrom}&orderSearchDateTo=${searchDateTo}`),
 };
 
 export const ROUTES_API_ACCOUNT = {

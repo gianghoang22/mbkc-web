@@ -157,7 +157,10 @@
     "priceGreaterThan0": "Giá phải lớn hơn 0."
   },
   "dashboard": {
-    "titleSummary": "Tổng số {{model}}"
+    "titleSummary": "Tổng số {{model}}",
+    "totalAmountInWallet": "Tổng số tiền trong ví hôm nay",
+    "storeIsActive": "Cửa hàng đang hoạt động",
+    "kitchenCenterChartTitle": "Thu nhập của bếp trung tâm trong 7 ngày qua"
   },
   "alert": {
     "compareDate": "'Đến ngày' phải lớn hơn 'Từ ngày'"
