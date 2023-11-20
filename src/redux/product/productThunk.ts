@@ -37,7 +37,6 @@ export const getAllProductsParentThunk = async (params: any, thunkAPI: any) => {
 
 export const getAllProductsSoldThunk = async (params: any, thunkAPI: any) => {
   const { optionParams, navigate } = params;
-  console.log(optionParams);
 
   try {
     const response: ListResponse<Product> = await axiosClient.get(

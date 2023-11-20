@@ -51,6 +51,7 @@ function BrandDashboard() {
     await dispatch<any>(getAllStores(params));
     if (
       stores !== null &&
+      stores !== undefined &&
       stores.filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED).length > 0
     ) {
       const paramDashboard: ListParams = {
@@ -64,13 +65,12 @@ function BrandDashboard() {
   };
 
   useEffect(() => {
-    console.log('set store');
     setStore(storeOptions[0]);
-  }, []);
+  }, [storeOptions.length]);
 
   useEffect(() => {
     fetchAllStores();
-  }, [store, stores.length]);
+  }, [store]);
 
   return (
     <>

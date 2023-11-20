@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import ReactApexChart from 'react-apexcharts';
 // @mui
 import { Autocomplete, Box, Card, CardHeader, Stack, TextField } from '@mui/material';
@@ -38,10 +38,6 @@ function AppCurrentIncomes({ title, subheader, chartLabels, chartData, store, se
     return option;
   };
 
-  useEffect(() => {
-    setStore(storeOptions[0]);
-  }, [stores.length]);
-
   const chartOptions = useChart({
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartLabels,
@@ -79,9 +75,13 @@ function AppCurrentIncomes({ title, subheader, chartLabels, chartData, store, se
                 return getOpObjStore(option).label;
               }}
               renderInput={(params) => (
-                <TextField {...params} label={translate('table.systemStatus')} InputLabelProps={{}} />
+                <TextField {...params} label={translate('model.capitalizeOne.stores')} InputLabelProps={{}} />
               )}
-              value={store}
+              value={store === undefined ? storeOptions[0] : store}
+              isOptionEqualToValue={(option: any, value: any) => {
+                if (!option) return option;
+                return option.value === getOpObjStore(value)?.value;
+              }}
               onChange={(event: any, newValue: { label: string; value: number } | null) => setStore(newValue)}
             />
           </Stack>

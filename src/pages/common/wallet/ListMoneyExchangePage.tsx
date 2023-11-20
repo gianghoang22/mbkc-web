@@ -13,7 +13,7 @@ import { getAllMoneyExchange } from 'redux/moneyExchange/moneyExchangeSlice';
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 // interface
 import { ListParams, MoneyExchangeTable, OptionSelect, OrderSort } from 'common/@types';
-import { Role } from 'common/enums';
+import { ExchangeType, Role } from 'common/enums';
 import { EXCHANGE_TYPE_OPTIONS, FILTER_STATUS_OPTIONS } from 'common/models';
 //
 import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'components';
@@ -138,7 +138,7 @@ function ListMoneyExchangePage() {
                 haveSelectSearchDateFrom
                 haveSelectSearchDateTo
                 haveFilterName={false}
-                options={EXCHANGE_TYPE_OPTIONS}
+                options={EXCHANGE_TYPE_OPTIONS.filter((type) => type.value !== ExchangeType.WITHDRAW)}
                 secondOptions={FILTER_STATUS_OPTIONS}
                 haveSelectFilterStatus
                 haveSelectExchangeType={userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER}

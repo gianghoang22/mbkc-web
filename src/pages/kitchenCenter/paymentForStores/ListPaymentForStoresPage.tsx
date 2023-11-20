@@ -5,13 +5,12 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { Box, Button, Card, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 //redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-import { getAllMoneyExchange } from 'redux/moneyExchange/moneyExchangeSlice';
+import { getAllMoneyExchangeWithdraw } from 'redux/moneyExchange/moneyExchangeSlice';
 // section
 import { MoneyExchangeTableRow, MoneyExchangeTableRowSkeleton } from 'sections/moneyExchanges';
 import { CreatePaymentForStoreModal } from 'sections/paymentForStores';
 // interface
 import { ListParams, MoneyExchangeTable, OptionSelect, OrderSort } from 'common/@types';
-import { ExchangeType } from 'common/enums';
 import { FILTER_STATUS_OPTIONS } from 'common/models';
 //
 import { CommonTableHead, CustomTableToolbar, EmptyTable, Page } from 'components';
@@ -30,7 +29,7 @@ function ListOfPaymentForStoresPage() {
   const { MoneyExchangeHeadCells } = useConfigHeadTable();
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
-  const { moneyExchanges, numberItems, isLoading } = useAppSelector((state) => state.moneyExchange);
+  const { moneyExchangesWithdraw, numberItems, isLoading } = useAppSelector((state) => state.moneyExchange);
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof MoneyExchangeTable>('amount');
@@ -69,18 +68,17 @@ function ListOfPaymentForStoresPage() {
         searchDateFrom: searchDateFrom === null ? '' : fDate(searchDateFrom as Date),
         searchDateTo: searchDateTo === null ? '' : fDate(searchDateTo as Date),
         status: exchangeStatus?.value,
-        exchangeType: ExchangeType.WITHDRAW,
       },
       navigate,
     };
   }, [rowsPerPage, page, orderBy, order, searchDateFrom, searchDateTo, exchangeStatus, navigate]);
 
   useEffect(() => {
-    dispatch<any>(getAllMoneyExchange(params));
+    dispatch<any>(getAllMoneyExchangeWithdraw(params));
   }, [dispatch, params]);
 
   const handleReloadData = () => {
-    dispatch<any>(getAllMoneyExchange(params));
+    dispatch<any>(getAllMoneyExchangeWithdraw(params));
   };
 
   return (
@@ -135,11 +133,11 @@ function ListOfPaymentForStoresPage() {
                     <MoneyExchangeTableRowSkeleton />
                   ) : (
                     <TableBody>
-                      {moneyExchanges.map((moneyExchange, index) => {
+                      {moneyExchangesWithdraw.map((moneyExchange, index) => {
                         return <MoneyExchangeTableRow key={index} index={index} moneyExchange={moneyExchange} />;
                       })}
                       {emptyRows > 0 ||
-                        (moneyExchanges.length === 0 && (
+                        (moneyExchangesWithdraw.length === 0 && (
                           <EmptyTable
                             colNumber={MoneyExchangeHeadCells.length + 2}
                             model={translate('model.lowercase.paymentForStores')}
