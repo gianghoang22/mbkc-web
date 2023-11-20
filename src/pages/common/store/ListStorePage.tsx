@@ -58,7 +58,7 @@ function ListStorePage() {
 
   const isNotFound = !stores.length && !!filterName;
 
-  const debounceValue = useDebounce(filterName, 500);
+  const debounceValue = useDebounce(filterName.trim(), 500);
 
   const paramsAdminRole: ListParams = useMemo(() => {
     return {
