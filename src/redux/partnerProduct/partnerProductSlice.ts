@@ -12,6 +12,8 @@ import {
 } from './partnerProductThunk';
 
 interface PartnerProductState {
+  statusCode: number;
+  messageError: string;
   isEditing: boolean;
   isLoading: boolean;
   isError: boolean;
@@ -28,6 +30,8 @@ const getIsEditingInStorage = getIsEditing(StorageKeys.IS_EDIT_PARTNER_PRODUCT)
 const getPartnerProductInStorage = getPartnerProduct() ? getPartnerProduct() : null;
 
 const initialState: PartnerProductState = {
+  statusCode: 0,
+  messageError: '',
   isEditing: getIsEditingInStorage,
   isLoading: false,
   isError: false,
@@ -91,7 +95,7 @@ const partnerProductSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
       })
-      .addCase(createNewPartnerProduct.rejected, (state) => {
+      .addCase(createNewPartnerProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

@@ -90,7 +90,19 @@ export const ROUTES_API_MONEY_EXCHANGES = {
   }: OptionParams) =>
     path(
       ROOTS_MONEY_EXCHANGES,
-      `?ItemsPerPage=${itemsPerPage}&CurrentPage=${currentPage}&SearchDateFrom=${searchDateFrom}&SearchDateTo=${searchDateTo}&ExchangeType=${exchangeType}&Status=${status}&SortBy=${sortBy}`
+      `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchDateFrom=${searchDateFrom}&searchDateTo=${searchDateTo}&exchangeType=${exchangeType}&status=${status}&sortBy=${sortBy}`
+    ),
+  GET_ALL_MONEY_EXCHANGES_WITHDRAW: ({
+    itemsPerPage = '',
+    currentPage = '',
+    searchDateFrom = '',
+    searchDateTo = '',
+    status = '',
+    sortBy = '',
+  }: OptionParams) =>
+    path(
+      ROOTS_MONEY_EXCHANGES,
+      `/withdraw-type?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchDateFrom=${searchDateFrom}&searchDateTo=${searchDateTo}&status=${status}&sortBy=${sortBy}`
     ),
   SEND_MONEY_TO_KITCHEN_CENTER: path(ROOTS_MONEY_EXCHANGES, '/money-exchange-to-kitchen-center'),
 };

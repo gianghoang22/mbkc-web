@@ -61,10 +61,9 @@ function CreatePartnerProductModal({
   const { partners } = useAppSelector((state) => state.partner);
   const { products } = useAppSelector((state) => state.product);
   const { brandProfile } = useAppSelector((state) => state.profile);
-  const { isLoading, isEditing } = useAppSelector((state) => state.partnerProduct);
+  const { isLoading, isEditing, isSuccess } = useAppSelector((state) => state.partnerProduct);
 
-  console.log('partnerProduct', partnerProduct);
-  console.log('sortBy', sortBy);
+  console.log(isSuccess);
 
   const productOptions = products.map((product) => ({
     label: product.name,
@@ -155,7 +154,7 @@ function CreatePartnerProductModal({
 
   const onSubmit = async (values: PartnerProductToCreate) => {
     const data = { ...values };
-    handleOpen();
+
     if (isEditing) {
       const paramsToUpdate: Params<PartnerProductToUpdate> = {
         data: {
@@ -171,14 +170,20 @@ function CreatePartnerProductModal({
         optionParams: { searchValue: filterName, currentPage: page + 1, itemsPerPage: rowsPerPage, sortBy: sortBy },
         navigate,
       };
-      dispatch(updatePartnerProduct(paramsToUpdate));
+      await dispatch(updatePartnerProduct(paramsToUpdate));
+      if (isSuccess) {
+        handleOpen();
+      }
     } else {
       const paramsToCreate: Params<PartnerProductToCreate> = {
         data,
         optionParams: { searchValue: filterName, currentPage: page + 1, itemsPerPage: rowsPerPage, sortBy: sortBy },
         navigate,
       };
-      dispatch(createNewPartnerProduct(paramsToCreate));
+      await dispatch(createNewPartnerProduct(paramsToCreate));
+      if (isSuccess) {
+        handleOpen();
+      }
     }
   };
 

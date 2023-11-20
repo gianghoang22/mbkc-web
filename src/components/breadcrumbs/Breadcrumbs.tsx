@@ -186,17 +186,15 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
         return isLast ? (
           <Typography key={path}>{nameFinal}</Typography>
         ) : (
-          <>
+          <span key={path}>
             {path === Breadcrumb.SHIPPER_PAYMENTS || path === Breadcrumb.MONEY_EXCHANGES ? (
-              <Link key={path} underline="none">
-                {nameFinal}
-              </Link>
+              <Link underline="none">{nameFinal}</Link>
             ) : (
-              <Link key={path} underline="none" sx={{ cursor: 'pointer' }} onClick={() => navigate(routeTo)}>
+              <Link underline="none" sx={{ cursor: 'pointer' }} onClick={() => navigate(routeTo)}>
                 {nameFinal}
               </Link>
             )}
-          </>
+          </span>
         );
       })}
     </MUIBreadcrumbs>

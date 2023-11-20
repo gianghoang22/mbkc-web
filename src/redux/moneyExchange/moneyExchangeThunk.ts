@@ -24,6 +24,22 @@ export const getAllMoneyExchangeThunk = async (params: ListParams, thunkAPI: any
   }
 };
 
+export const getAllMoneyExchangeWithdrawThunk = async (params: ListParams, thunkAPI: any) => {
+  const { navigate, optionParams } = params;
+
+  try {
+    const response: ListResponse<MoneyExchange> = await axiosClient.get(
+      ROUTES_API_MONEY_EXCHANGES.GET_ALL_MONEY_EXCHANGES_WITHDRAW(optionParams)
+    );
+    return response;
+  } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
 export const createPaymentForStoreThunk = async (params: Params<PaymentForStoresToCreate>, thunkAPI: any) => {
   const { data, optionParams, navigate } = params;
   const formData = appendData(data);
