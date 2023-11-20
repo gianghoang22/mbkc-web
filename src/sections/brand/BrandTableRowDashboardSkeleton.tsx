@@ -13,14 +13,17 @@ function BrandTableRowDashboardSkeleton() {
           <TableCell width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
+          <TableCell width={250}>
+            <Skeleton />
+          </TableCell>
+          <TableCell width={350}>
+            <Skeleton />
+          </TableCell>
           <TableCell width={300}>
             <Skeleton />
           </TableCell>
-          <TableCell width={600}>
-            <Skeleton />
-          </TableCell>
           <TableCell>
-            <Skeleton variant="rounded" width={130} height={24} />
+            <Skeleton />
           </TableCell>
         </TableRow>
       ))}

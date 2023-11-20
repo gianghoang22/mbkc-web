@@ -62,11 +62,7 @@ function ListProductStatistics({
     setProductDateTo(date);
   };
 
-  const {
-    numberItems: totalProductItems,
-    isLoading: isLoadingProduct,
-    products,
-  } = useAppSelector((state) => state.product);
+  const { isLoading: isLoadingProduct, products } = useAppSelector((state) => state.product);
 
   const params: ListParams = {
     optionParams: {
