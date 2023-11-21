@@ -18,12 +18,12 @@ function KitchenCenterTableRowSkeleton({ length, selected }: { length: number; s
             </TableCell>
           )}
 
-          <TableCell align="left" width={selected.includes(OrderSortBy.LOGO) ? 292 : 240}>
+          <TableCell align="left" width={selected.includes(OrderSortBy.LOGO) ? 250 : 250}>
             <Skeleton />
           </TableCell>
 
           {selected.includes(OrderSortBy.ADDRESS) && (
-            <TableCell align="left" width={selected.includes(OrderSortBy.LOGO) ? 400 : 600}>
+            <TableCell align="left" width={selected.includes(OrderSortBy.LOGO) ? 450 : 600}>
               <Skeleton />
             </TableCell>
           )}

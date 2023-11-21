@@ -95,7 +95,7 @@ function ListOfPaymentForStoresPage() {
               handleOpen();
             }}
           >
-            {translate('button.add', { model: translate('model.lowercase.paymentForStore') })}
+            {translate('button.creation', { model: translate('model.lowercase.paymentForStore') })}
           </Button>,
         ]}
       >

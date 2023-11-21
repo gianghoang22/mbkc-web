@@ -10,10 +10,11 @@ import { createNewBrand, getBrandDetail, updateBrand } from 'redux/brand/brandSl
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // section
 import { BrandForm } from 'sections/brand';
-//
+// interface
 import { AddressFormInterface, Params } from 'common/@types';
 import { Color, Status } from 'common/enums';
 import { BrandToCreate, BrandToUpdate } from 'common/models';
+//
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -84,7 +85,7 @@ function CreateBrandPage() {
     if (isEditing) {
       dispatch(getBrandDetail(params));
     }
-  }, [params]);
+  }, [params, isEditing]);
 
   useEffect(() => {
     setValue('districtId', 0);
@@ -128,19 +129,6 @@ function CreateBrandPage() {
       dispatch<any>(createNewBrand(createBrand));
     }
   };
-
-  const paramsDetail = useMemo(() => {
-    return {
-      brandId,
-      navigate,
-    };
-  }, [brandId, navigate]);
-
-  useEffect(() => {
-    if (isEditing) {
-      dispatch<any>(getBrandDetail(paramsDetail));
-    }
-  }, [dispatch, navigate, paramsDetail, isEditing]);
 
   return (
     <>

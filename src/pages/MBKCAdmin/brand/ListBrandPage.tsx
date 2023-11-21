@@ -15,6 +15,7 @@ import { BrandTable, ListParams, OrderSort, OrderSortBy } from 'common/@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function ListBrandPage() {
   const navigate = useNavigate();
@@ -83,6 +84,7 @@ function ListBrandPage() {
             onClick={() => {
               navigate(PATH_ADMIN_APP.brand.newBrand);
               dispatch(setAddBrand());
+              dispatch(setRoutesToBack(pathname));
             }}
           >
             {translate('button.add', { model: translate('model.lowercase.brand') })}

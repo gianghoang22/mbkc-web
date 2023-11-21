@@ -120,7 +120,7 @@ function KitchenCenterTableRow({
           </TableCell>
         )}
 
-        <TableCell align="left" onClick={handleNavigateDetail}>
+        <TableCell align="left" width={250} onClick={handleNavigateDetail}>
           {kitchenCenter.name}
         </TableCell>
 
@@ -128,7 +128,7 @@ function KitchenCenterTableRow({
           <TableCell
             align="left"
             onClick={handleNavigateDetail}
-            width={selected.includes(OrderSortBy.LOGO) ? 400 : 600}
+            width={selected.includes(OrderSortBy.LOGO) ? 450 : 600}
           >
             {kitchenCenter?.address
               .split(', ')
