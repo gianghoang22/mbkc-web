@@ -41,24 +41,19 @@ export const createNewKitchenCenter = createAsyncThunk(
   'kitchenCenter/create-kitchen-center',
   createNewKitchenCenterThunk
 );
-
 export const getAllKitchenCenters = createAsyncThunk(
   'kitchenCenter/get-all-kitchen-centers',
   getAllKitchenCentersThunk
 );
-
 export const getKitchenCenterDetail = createAsyncThunk(
   'kitchenCenter/get-kitchen-center-detail',
   getKitchenCenterDetailThunk
 );
-
 export const updateKitchenCenter = createAsyncThunk('kitchenCenter/update-kitchen-center', updateKitchenCenterThunk);
-
 export const updateStatusKitchenCenter = createAsyncThunk(
   'kitchenCenter/update-status-kitchen-center',
   updateStatusKitchenCenterThunk
 );
-
 export const deleteKitchenCenter = createAsyncThunk('kitchenCenter/delete-kitchen-center', deleteKitchenCenterThunk);
 
 const kitchenCenterSlice = createSlice({

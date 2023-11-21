@@ -152,7 +152,9 @@
     "sellingPriceGreaterThan0": "Selling price is required greater than or equal to 0.",
     "discountPriceGreaterThan0": "Discount price is required greater than or equal to 0.",
     "historicalPriceGreaterThan0": "Historical price is required greater than or equal to 0.",
-    "priceGreaterThan0": "Price must be greater than 0."
+    "priceGreaterThan0": "Price must be greater than 0.",
+    "logoRequired": "Please select Logo",
+    "imageRequired": "Please select Image"
   },
   "dashboard": {
     "titleSummary": "Total {{model}}",

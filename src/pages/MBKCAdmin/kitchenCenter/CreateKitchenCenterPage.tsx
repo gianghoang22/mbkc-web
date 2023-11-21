@@ -14,10 +14,11 @@ import {
 } from 'redux/kitchenCenter/kitchenCenterSlice';
 // section
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
-//
+// interface
 import { AddressFormInterface, Params } from 'common/@types';
-import { KitchenCenterToAdd, KitchenCenterToUpdate } from 'common/models';
 import { Color, Status } from 'common/enums';
+import { KitchenCenterToAdd, KitchenCenterToUpdate } from 'common/models';
+//
 import { LoadingScreen, Page } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -131,19 +132,6 @@ function CreateKitchenCenterPage() {
       dispatch<any>(createNewKitchenCenter(createKitchenCenter));
     }
   };
-
-  const paramsDetail = useMemo(() => {
-    return {
-      kitchenCenterId,
-      navigate,
-    };
-  }, [kitchenCenterId, navigate]);
-
-  useEffect(() => {
-    if (isEditing) {
-      dispatch<any>(getKitchenCenterDetail(paramsDetail));
-    }
-  }, [dispatch, navigate, paramsDetail, isEditing]);
 
   return (
     <>

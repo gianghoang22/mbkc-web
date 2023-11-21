@@ -103,4 +103,8 @@ export enum FieldNameError {
   STORE_ID = 'Store id',
   PRODUCT_CODE = 'Product code',
   PRICE = 'Price',
+  LOGO = 'Logo',
+  IMAGE = 'Image',
+  IMAGE_URL = 'ImageUrl',
+  AVATAR = 'avatar',
 }

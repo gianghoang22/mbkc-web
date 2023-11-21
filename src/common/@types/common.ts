@@ -99,6 +99,7 @@ export interface OptionSelect {
 
 export interface ErrorResponse {
   errorMessage: string;
+  fieldNameError: string;
   statusCode: number;
 }
 

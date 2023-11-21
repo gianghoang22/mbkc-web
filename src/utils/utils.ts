@@ -1,4 +1,4 @@
-import { ErrorResponse } from 'common/@types';
+import { ActionPayloadErrorData, ErrorResponse } from 'common/@types';
 import { Error } from 'common/enums';
 import {
   BrandProfile,
@@ -194,8 +194,10 @@ export const hashPasswordMD5 = (password: string) => Md5.hashStr(password);
 export const getErrorMessage = (error: any, navigate: any) => {
   console.log('API_ERROR:', error);
 
-  const errorMessage = error?.data.Message[0].DescriptionError[0];
-  const statusCode = error?.data.StatusCode;
+  const errorData: ActionPayloadErrorData = error?.data;
+  const errorMessage = errorData.Message[0].DescriptionError[0];
+  const fieldNameError = errorData.Message[0].FieldNameError;
+  const statusCode = errorData.StatusCode;
 
   if (error?.code === Error.SERVER_ERROR) {
     console.log(error);
@@ -207,7 +209,11 @@ export const getErrorMessage = (error: any, navigate: any) => {
     navigate(PATH_ERROR.noPermission);
   }
 
-  const errorResponse: ErrorResponse = { errorMessage: errorMessage, statusCode: statusCode };
+  const errorResponse: ErrorResponse = {
+    errorMessage: errorMessage,
+    fieldNameError: fieldNameError,
+    statusCode: statusCode,
+  };
   return errorResponse;
 };
 
