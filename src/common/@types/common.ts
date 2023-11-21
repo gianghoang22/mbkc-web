@@ -101,3 +101,11 @@ export interface ErrorResponse {
   errorMessage: string;
   statusCode: number;
 }
+
+export interface ActionPayloadErrorData {
+  Message: {
+    FieldNameError: string;
+    DescriptionError: string[];
+  }[];
+  StatusCode: number;
+}

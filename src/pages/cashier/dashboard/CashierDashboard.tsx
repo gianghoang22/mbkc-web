@@ -13,7 +13,6 @@ import {
   CardHeader,
   Container,
   Grid,
-  Link as MUILink,
   Paper,
   Stack,
   Table,
@@ -181,12 +180,12 @@ function CashierDashboard() {
                       alignItems: 'center',
                       textDecoration: 'none',
                       color: '#000',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
                     }}
                     to={PATH_CASHIER_APP.order.list}
                   >
-                    <MUILink underline="hover" variant="subtitle2" color="#000">
-                      {translate('page.content.viewAll')}
-                    </MUILink>
+                    {translate('page.content.viewAll')}
                     <KeyboardArrowRightIcon fontSize="small" />
                   </Link>
                 </Stack>
@@ -237,12 +236,12 @@ function CashierDashboard() {
                         alignItems: 'center',
                         textDecoration: 'none',
                         color: '#000',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
                       }}
                       to={PATH_CASHIER_APP.wallet.shipperPayments}
                     >
-                      <MUILink underline="hover" variant="subtitle2" color="#000">
-                        {translate('page.content.viewAll')}
-                      </MUILink>
+                      {translate('page.content.viewAll')}
                       <KeyboardArrowRightIcon fontSize="small" />
                     </Link>
                   </Stack>
@@ -293,12 +292,12 @@ function CashierDashboard() {
                       alignItems: 'center',
                       textDecoration: 'none',
                       color: '#000',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
                     }}
                     to={PATH_CASHIER_APP.wallet.moneyExchanges}
                   >
-                    <MUILink underline="hover" variant="subtitle2" color="#000">
-                      {translate('page.content.viewAll')}
-                    </MUILink>
+                    {translate('page.content.viewAll')}
                     <KeyboardArrowRightIcon fontSize="small" />
                   </Link>
                 </Stack>

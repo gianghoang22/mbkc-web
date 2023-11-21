@@ -6,7 +6,6 @@ import {
   Box,
   Card,
   CardHeader,
-  Link as MUILink,
   Paper,
   Stack,
   Table,
@@ -43,6 +42,7 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
 
   const { translate } = useLocales();
 
+  const { isLoading: isLoadingStore } = useAppSelector((state) => state.store);
   const { isLoading: isLoadingDashboard } = useAppSelector((state) => state.dashboard);
 
   return (
@@ -62,7 +62,7 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
               </TableRow>
             </TableHead>
 
-            {isLoadingDashboard ? (
+            {isLoadingDashboard || isLoadingStore ? (
               <StoreTableRowDashboardSkeleton />
             ) : (
               <TableBody>
@@ -120,12 +120,12 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
                 alignItems: 'center',
                 textDecoration: 'none',
                 color: '#000',
+                fontSize: '14px',
+                fontWeight: 'bold',
               }}
               to={PATH_ADMIN_APP.store.list}
             >
-              <MUILink underline="hover" variant="subtitle2" color="#000">
-                {translate('page.content.viewAll')}
-              </MUILink>
+              {translate('page.content.viewAll')}
               <KeyboardArrowRightIcon fontSize="small" />
             </Link>
           </Stack>

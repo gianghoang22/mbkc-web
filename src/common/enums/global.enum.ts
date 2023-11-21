@@ -97,3 +97,10 @@ export enum FilterStatus {
   FAIL = 'Fail',
   SUCCESS = 'Success',
 }
+
+export enum FieldNameError {
+  MAPPING_PRODUCT = 'Mapping product',
+  STORE_ID = 'Store id',
+  PRODUCT_CODE = 'Product code',
+  PRICE = 'Price',
+}

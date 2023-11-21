@@ -49,9 +49,6 @@ function StoreTableRowDashboardSkeleton() {
           <TableCell width={261}>
             <Skeleton />
           </TableCell>
-          <TableCell>
-            <Skeleton variant="rounded" width={130} height={24} />
-          </TableCell>
         </TableRow>
       ))}
     </TableBody>

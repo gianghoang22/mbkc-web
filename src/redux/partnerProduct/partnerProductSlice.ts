@@ -10,9 +10,11 @@ import {
   updatePartnerProductThunk,
   updateStatusPartnerProductThunk,
 } from './partnerProductThunk';
+import { ActionPayloadErrorData } from 'common/@types';
 
 interface PartnerProductState {
   statusCode: number;
+  fieldNameError: string;
   messageError: string;
   isEditing: boolean;
   isLoading: boolean;
@@ -31,6 +33,7 @@ const getPartnerProductInStorage = getPartnerProduct() ? getPartnerProduct() : n
 
 const initialState: PartnerProductState = {
   statusCode: 0,
+  fieldNameError: '',
   messageError: '',
   isEditing: getIsEditingInStorage,
   isLoading: false,
@@ -71,6 +74,9 @@ const partnerProductSlice = createSlice({
   name: 'partnerProduct',
   initialState,
   reducers: {
+    setStatusCode: (state) => {
+      state.statusCode = 0;
+    },
     setAddPartnerProduct: (state) => {
       state.isEditing = false;
       setLocalStorage(StorageKeys.IS_EDIT_PARTNER_PRODUCT, false);
@@ -94,11 +100,16 @@ const partnerProductSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.statusCode = 200;
       })
-      .addCase(createNewPartnerProduct.rejected, (state, action) => {
+      .addCase(createNewPartnerProduct.rejected, (state, action: any) => {
+        console.log('action', action.payload.data);
+        const payloadData: ActionPayloadErrorData = action.payload.data;
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
+        state.statusCode = payloadData.StatusCode;
+        state.fieldNameError = payloadData.Message[0].FieldNameError;
       })
       .addCase(getAllPartnerProducts.pending, (state) => {
         state.isLoading = true;
@@ -172,7 +183,7 @@ const partnerProductSlice = createSlice({
   },
 });
 
-export const { setAddPartnerProduct, setEditPartnerProduct, getPartnerProductDetail_local } =
+export const { setAddPartnerProduct, setEditPartnerProduct, getPartnerProductDetail_local, setStatusCode } =
   partnerProductSlice.actions;
 const mappingProductReducer = partnerProductSlice.reducer;
 
