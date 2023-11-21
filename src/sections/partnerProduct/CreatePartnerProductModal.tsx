@@ -18,7 +18,12 @@ import {
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
-import { createNewPartnerProduct, setStatusCode, updatePartnerProduct } from 'redux/partnerProduct/partnerProductSlice';
+import {
+  createNewPartnerProduct,
+  setFieldNameError,
+  setStatusCode,
+  updatePartnerProduct,
+} from 'redux/partnerProduct/partnerProductSlice';
 import { getAllProducts } from 'redux/product/productSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 //
@@ -179,10 +184,15 @@ function CreatePartnerProductModal({
     }
   };
 
+  const handleCloseModal = () => {
+    handleOpen();
+    dispatch(setStatusCode());
+    dispatch(setFieldNameError());
+  };
+
   useEffect(() => {
     if (statusCode === 200) {
-      handleOpen();
-      dispatch(setStatusCode());
+      handleCloseModal();
     }
   }, [statusCode]);
 
@@ -204,14 +214,14 @@ function CreatePartnerProductModal({
   return (
     <>
       {isOpen && (
-        <Dialog maxWidth="sm" fullWidth open={isOpen} onClose={handleOpen}>
+        <Dialog maxWidth="sm" fullWidth open={isOpen} onClose={handleCloseModal}>
           <FormProvider {...partnerProductForm}>
             <DialogContent>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography variant="h4">
                   {isEditing ? translate('button.updateProductLink') : translate('button.createProductLink')}
                 </Typography>
-                <IconButton onClick={handleOpen}>
+                <IconButton onClick={handleCloseModal}>
                   <CloseIcon />
                 </IconButton>
               </Stack>
