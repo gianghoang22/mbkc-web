@@ -77,6 +77,9 @@ const partnerProductSlice = createSlice({
     setStatusCode: (state) => {
       state.statusCode = 0;
     },
+    setFieldNameError: (state) => {
+      state.fieldNameError = '';
+    },
     setAddPartnerProduct: (state) => {
       state.isEditing = false;
       setLocalStorage(StorageKeys.IS_EDIT_PARTNER_PRODUCT, false);
@@ -103,7 +106,6 @@ const partnerProductSlice = createSlice({
         state.statusCode = 200;
       })
       .addCase(createNewPartnerProduct.rejected, (state, action: any) => {
-        console.log('action', action.payload.data);
         const payloadData: ActionPayloadErrorData = action.payload.data;
         state.isLoading = false;
         state.isError = true;
@@ -148,6 +150,7 @@ const partnerProductSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.statusCode = 200;
       })
       .addCase(updatePartnerProduct.rejected, (state) => {
         state.isLoading = false;
@@ -183,8 +186,13 @@ const partnerProductSlice = createSlice({
   },
 });
 
-export const { setAddPartnerProduct, setEditPartnerProduct, getPartnerProductDetail_local, setStatusCode } =
-  partnerProductSlice.actions;
+export const {
+  setAddPartnerProduct,
+  setEditPartnerProduct,
+  getPartnerProductDetail_local,
+  setStatusCode,
+  setFieldNameError,
+} = partnerProductSlice.actions;
 const mappingProductReducer = partnerProductSlice.reducer;
 
 export default mappingProductReducer;
