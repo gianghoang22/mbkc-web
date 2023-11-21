@@ -197,15 +197,12 @@ function CategoryDetailPage() {
               <TabContext value={activeTab}>
                 <Box>
                   <TabList sx={{ height: 50, borderBottom: 1, borderColor: 'divider' }} onChange={handleChangeTab}>
+                    <Tab label={translate('model.capitalizeOne.products')} value="1" sx={{ height: 50, px: 3 }} />
                     <Tab
-                      label={translate('page.content.productInCategory', {
-                        model: translate('model.capitalizeOne.product'),
-                        name: translate('model.lowercase.category'),
-                      })}
-                      value="1"
+                      label={translate('model.capitalizeOne.extraCategories')}
+                      value="2"
                       sx={{ height: 50, px: 3 }}
                     />
-                    <Tab label={translate('page.content.extraInCategory')} value="2" sx={{ height: 50, px: 3 }} />
                   </TabList>
                 </Box>
 

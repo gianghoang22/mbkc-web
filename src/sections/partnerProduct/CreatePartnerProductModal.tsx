@@ -18,12 +18,12 @@ import {
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
-import { createNewPartnerProduct, updatePartnerProduct } from 'redux/partnerProduct/partnerProductSlice';
+import { createNewPartnerProduct, setStatusCode, updatePartnerProduct } from 'redux/partnerProduct/partnerProductSlice';
 import { getAllProducts } from 'redux/product/productSlice';
 import { getAllStores } from 'redux/store/storeSlice';
 //
 import { ListParams, Params } from 'common/@types';
-import { Color, Language, Status } from 'common/enums';
+import { Color, FieldNameError, Language, Status } from 'common/enums';
 import {
   PARTNER_PRODUCT_STATUS_OPTIONS,
   PartnerProduct,
@@ -61,9 +61,7 @@ function CreatePartnerProductModal({
   const { partners } = useAppSelector((state) => state.partner);
   const { products } = useAppSelector((state) => state.product);
   const { brandProfile } = useAppSelector((state) => state.profile);
-  const { isLoading, isEditing, isSuccess } = useAppSelector((state) => state.partnerProduct);
-
-  console.log(isSuccess);
+  const { isLoading, isEditing, statusCode, fieldNameError } = useAppSelector((state) => state.partnerProduct);
 
   const productOptions = products.map((product) => ({
     label: product.name,
@@ -150,7 +148,7 @@ function CreatePartnerProductModal({
     resolver: yupResolver(schemaPartnerProduct),
   });
 
-  const { handleSubmit, reset } = partnerProductForm;
+  const { handleSubmit, reset, setValue } = partnerProductForm;
 
   const onSubmit = async (values: PartnerProductToCreate) => {
     const data = { ...values };
@@ -171,9 +169,6 @@ function CreatePartnerProductModal({
         navigate,
       };
       await dispatch(updatePartnerProduct(paramsToUpdate));
-      if (isSuccess) {
-        handleOpen();
-      }
     } else {
       const paramsToCreate: Params<PartnerProductToCreate> = {
         data,
@@ -181,11 +176,30 @@ function CreatePartnerProductModal({
         navigate,
       };
       await dispatch(createNewPartnerProduct(paramsToCreate));
-      if (isSuccess) {
-        handleOpen();
-      }
     }
   };
+
+  useEffect(() => {
+    if (statusCode === 200) {
+      handleOpen();
+      dispatch(setStatusCode());
+    }
+  }, [statusCode]);
+
+  useEffect(() => {
+    if (fieldNameError === FieldNameError.PRICE) {
+      setValue('price', 0);
+    }
+    if (fieldNameError === FieldNameError.PRODUCT_CODE) {
+      setValue('productCode', '');
+    }
+    if (fieldNameError === FieldNameError.STORE_ID) {
+      setValue('storeId', 0);
+    }
+    if (fieldNameError === FieldNameError.MAPPING_PRODUCT) {
+      setValue('productId', 0);
+    }
+  }, [fieldNameError]);
 
   return (
     <>
@@ -216,7 +230,7 @@ function CreatePartnerProductModal({
                   transformValue={(opt: any) => opt.value}
                   name="productId"
                   type="text"
-                  disabled={isEditing}
+                  disabled={isEditing || isLoading}
                   label={translate('model.capitalizeOne.product')}
                 />
                 <AutoCompleteField
@@ -232,7 +246,7 @@ function CreatePartnerProductModal({
                   transformValue={(opt: any) => opt.value}
                   name="storeId"
                   type="text"
-                  disabled={isEditing}
+                  disabled={isEditing || isLoading}
                   label={translate('model.capitalizeOne.store')}
                 />
                 <AutoCompleteField
@@ -248,13 +262,14 @@ function CreatePartnerProductModal({
                   transformValue={(opt: any) => opt.value}
                   name="partnerId"
                   type="text"
-                  disabled={isEditing}
+                  disabled={isEditing || isLoading}
                   label={translate('model.capitalizeOne.partner')}
                 />
                 <InputField
                   fullWidth
                   type="text"
                   name="productCode"
+                  disabled={isLoading}
                   label={translate(
                     'page.form.nameExchange',
                     currentLang.value === Language.ENGLISH
@@ -271,6 +286,7 @@ function CreatePartnerProductModal({
                 <SelectField<PartnerProductStatusUpdateEnum>
                   fullWidth
                   name="status"
+                  disabled={isLoading}
                   options={PARTNER_PRODUCT_STATUS_OPTIONS}
                   label={translate('table.status') + ' ' + translate('model.lowercase.partnerProduct')}
                 />
@@ -278,6 +294,7 @@ function CreatePartnerProductModal({
                   fullWidth
                   type="number"
                   name="price"
+                  disabled={isLoading}
                   label={translate(
                     'page.form.nameExchange',
                     currentLang.value === Language.ENGLISH

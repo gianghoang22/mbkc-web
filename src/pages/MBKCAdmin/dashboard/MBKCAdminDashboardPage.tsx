@@ -10,7 +10,6 @@ import {
   CardHeader,
   Container,
   Grid,
-  Link as MUILink,
   Paper,
   Stack,
   Table,
@@ -202,12 +201,12 @@ function MBKCAdminDashboardPage() {
                       alignItems: 'center',
                       textDecoration: 'none',
                       color: '#000',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
                     }}
                     to={PATH_ADMIN_APP.kitchenCenter.list}
                   >
-                    <MUILink underline="hover" variant="subtitle2" color="#000">
-                      {translate('page.content.viewAll')}
-                    </MUILink>
+                    {translate('page.content.viewAll')}
                     <KeyboardArrowRightIcon fontSize="small" />
                   </Link>
                 </Stack>
@@ -293,12 +292,12 @@ function MBKCAdminDashboardPage() {
                       alignItems: 'center',
                       textDecoration: 'none',
                       color: '#000',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
                     }}
                     to={PATH_ADMIN_APP.brand.list}
                   >
-                    <MUILink underline="hover" variant="subtitle2" color="#000">
-                      {translate('page.content.viewAll')}
-                    </MUILink>
+                    {translate('page.content.viewAll')}
                     <KeyboardArrowRightIcon fontSize="small" />
                   </Link>
                 </Stack>

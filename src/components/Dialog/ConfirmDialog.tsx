@@ -79,7 +79,7 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button {...cancelProps} onClick={onClose} variant="text" color="secondary">
+        <Button {...cancelProps} onClick={onClose} variant="contained" color="inherit">
           {translate('button.cancel')}
         </Button>
         {onAction && (

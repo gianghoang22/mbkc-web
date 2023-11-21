@@ -252,19 +252,19 @@ function AddExtraToCategoryModal({
               )}
 
               <Stack direction="row" gap={2} ml="auto">
-                <Button onClick={handleOpen} variant="text" color="secondary">
+                <Button onClick={handleOpen} variant="contained" color="inherit">
                   {translate('button.cancel')}
                 </Button>
                 <Button
+                  autoFocus
+                  variant="contained"
                   onClick={() => {
                     handleOpen('addExtra');
                     handleAddExtraCategory();
                   }}
-                  variant="contained"
-                  color="warning"
-                  autoFocus
+                  disabled={categoriesExtra.length === 0}
                 >
-                  {translate('button.update')}
+                  {translate('button.addMore')}
                 </Button>
               </Stack>
             </Stack>
