@@ -1,14 +1,8 @@
-import { Stack } from '@mui/material';
-import { Skeleton, TableCell, TableRow } from '@mui/material';
-import { useResponsive } from 'hooks';
+import { Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
-function KitchenCenterTableRowDashboardSkeleton() {
-  const mdLg = useResponsive('up', 'lg', 'lg');
-  const mdMd = useResponsive('up', 'md', 'md');
-  const mdSm = useResponsive('up', 'sm', 'sm');
-
+function ProductTableRowDashboardSkeleton() {
   return (
-    <>
+    <TableBody>
       {Array.from({ length: 5 }).map((_, index) => (
         <TableRow key={index}>
           <TableCell width={60} align="center">
@@ -19,10 +13,22 @@ function KitchenCenterTableRowDashboardSkeleton() {
           <TableCell width={80}>
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
-          <TableCell width={mdLg ? 300 : mdMd ? 260 : mdSm ? 220 : 300}>
+          <TableCell width={200}>
             <Skeleton />
           </TableCell>
-          <TableCell width={mdLg ? 600 : mdMd ? 550 : mdSm ? 300 : 600}>
+          <TableCell width={192}>
+            <Skeleton />
+          </TableCell>
+          <TableCell width={176}>
+            <Skeleton />
+          </TableCell>
+          <TableCell width={143}>
+            <Skeleton />
+          </TableCell>
+          <TableCell width={164}>
+            <Skeleton />
+          </TableCell>
+          <TableCell width={113}>
             <Skeleton />
           </TableCell>
           <TableCell>
@@ -30,8 +36,8 @@ function KitchenCenterTableRowDashboardSkeleton() {
           </TableCell>
         </TableRow>
       ))}
-    </>
+    </TableBody>
   );
 }
 
-export default KitchenCenterTableRowDashboardSkeleton;
+export default ProductTableRowDashboardSkeleton;

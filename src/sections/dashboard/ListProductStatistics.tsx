@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllProductsSold, getProductDetail_local, setIsProduct, setProductType } from 'redux/product/productSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
-import { StoreTableRowDashboardSkeleton } from 'sections/store';
+import { ProductTableRowDashboardSkeleton } from 'sections/product';
 // interface
 import { ListParams, OptionSelect, OrderSort, OrderSortBy, ProductDashboardTable } from 'common/@types';
 import { Color, Status } from 'common/enums';
@@ -162,7 +162,7 @@ function ListProductStatistics() {
               selectedCol={selected}
             />
             {isLoadingProduct ? (
-              <StoreTableRowDashboardSkeleton />
+              <ProductTableRowDashboardSkeleton />
             ) : (
               <TableBody>
                 {productsSold.map((product, index) => (

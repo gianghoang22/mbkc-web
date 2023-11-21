@@ -37,6 +37,7 @@ interface ListNewStoresProps {
 function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
   const navigate = useNavigate();
 
+  const mdLg = useResponsive('up', 'lg', 'lg');
   const mdMd = useResponsive('up', 'md', 'md');
   const mdSm = useResponsive('up', 'sm', 'sm');
 
@@ -82,11 +83,15 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
                       align="left"
                       width={
                         pathname === PATH_ADMIN_APP.root
-                          ? mdMd
+                          ? mdLg
+                            ? 300
+                            : mdMd
                             ? 280
                             : mdSm
                             ? 150
                             : 300
+                          : mdLg
+                          ? 400
                           : mdMd
                           ? 280
                           : mdSm

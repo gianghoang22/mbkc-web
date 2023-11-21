@@ -44,6 +44,7 @@ function KitchenCenterDashboard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const mdLg = useResponsive('up', 'lg', 'lg');
   const mdMd = useResponsive('up', 'md', 'md');
   const mdSm = useResponsive('up', 'sm', 'sm');
 
@@ -167,8 +168,10 @@ function KitchenCenterDashboard() {
                               <Avatar src={cashier.avatar} alt="logo" />
                             </TableCell>
                             <TableCell width={mdMd ? 250 : mdSm ? 200 : 250}>{cashier.fullName}</TableCell>
-                            <TableCell width={mdMd ? 300 : mdSm ? 220 : 350}>{cashier.email}</TableCell>
-                            <TableCell width={mdMd ? 240 : mdSm ? 220 : 300}>{fDate(cashier.dateOfBirth)}</TableCell>
+                            <TableCell width={mdLg ? 350 : mdMd ? 300 : mdSm ? 220 : 350}>{cashier.email}</TableCell>
+                            <TableCell width={mdLg ? 300 : mdMd ? 240 : mdSm ? 220 : 300}>
+                              {fDate(cashier.dateOfBirth)}
+                            </TableCell>
                             <TableCell align="left">
                               {cashier.gender.toLowerCase() === Gender.MALE
                                 ? translate('gender.male')
