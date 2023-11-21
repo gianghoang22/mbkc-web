@@ -29,6 +29,7 @@ function ProductForm({ productsParent, categories }: ProductFormProps) {
   const { isEditing } = useAppSelector((state) => state.product);
 
   const { watch } = useFormContext<ProductToCreate>();
+
   const productType = watch('type');
 
   const categoriesOptions = categories.map((category) => ({

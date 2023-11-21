@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, SetStateAction } from 'react';
 import ReactApexChart from 'react-apexcharts';
 // @mui
-import { Autocomplete, Box, Card, CardHeader, Stack, TextField } from '@mui/material';
+import { Box, Card, CardHeader, Stack } from '@mui/material';
 // redux
 import { useAppSelector } from 'redux/configStore';
 //
 import { Status } from 'common/enums';
+import { AutoCompleteField } from 'components';
 import { useChart } from 'components/chart';
 import { useLocales } from 'hooks';
 import { fCurrencyVN } from 'utils';
@@ -16,14 +16,12 @@ interface AppCurrentIncomesProps {
   subheader: string;
   chartLabels: string[];
   chartData: any[];
-  store: { label: string; value: number } | null;
-  setStore: Dispatch<SetStateAction<{ label: string; value: number } | null>>;
 }
 
-function AppCurrentIncomes({ title, subheader, chartLabels, chartData, store, setStore }: AppCurrentIncomesProps) {
+function AppCurrentIncomes({ title, subheader, chartLabels, chartData }: AppCurrentIncomesProps) {
   const { translate } = useLocales();
 
-  const { stores, isLoading } = useAppSelector((state) => state.store);
+  const { stores } = useAppSelector((state) => state.store);
 
   const storeOptions = stores
     .filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED)
@@ -66,23 +64,19 @@ function AppCurrentIncomes({ title, subheader, chartLabels, chartData, store, se
 
         <Stack direction="row" alignItems="center" gap={2} pt={3} pr={3}>
           <Stack width={300}>
-            <Autocomplete
-              disabled={isLoading}
-              fullWidth
-              size="small"
+            <AutoCompleteField
+              type="text"
+              name="storeId"
+              label={translate('model.capitalizeOne.stores')}
               options={storeOptions}
-              getOptionLabel={(option) => {
-                return getOpObjStore(option).label;
+              getOptionLabel={(value: any) => {
+                return getOpObjStore(value)?.label;
               }}
-              renderInput={(params) => (
-                <TextField {...params} label={translate('model.capitalizeOne.stores')} InputLabelProps={{}} />
-              )}
-              value={store === undefined ? storeOptions[0] : store}
               isOptionEqualToValue={(option: any, value: any) => {
                 if (!option) return option;
                 return option.value === getOpObjStore(value)?.value;
               }}
-              onChange={(event: any, newValue: { label: string; value: number } | null) => setStore(newValue)}
+              transformValue={(opt: any) => opt.value}
             />
           </Stack>
         </Stack>

@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 function StoreTableRowDashboardSkeleton() {
+  const mdLg = useResponsive('up', 'lg', 'lg');
   const mdMd = useResponsive('up', 'md', 'md');
   const mdSm = useResponsive('up', 'sm', 'sm');
 
@@ -22,7 +23,23 @@ function StoreTableRowDashboardSkeleton() {
             <Skeleton variant="circular" width={40} height={40} />
           </TableCell>
           <TableCell
-            width={pathname === PATH_ADMIN_APP.root ? (mdMd ? 280 : mdSm ? 200 : 300) : mdMd ? 280 : mdSm ? 200 : 400}
+            width={
+              pathname === PATH_ADMIN_APP.root
+                ? mdLg
+                  ? 300
+                  : mdMd
+                  ? 280
+                  : mdSm
+                  ? 150
+                  : 300
+                : mdLg
+                ? 400
+                : mdMd
+                ? 280
+                : mdSm
+                ? 200
+                : 400
+            }
           >
             <Skeleton />
           </TableCell>

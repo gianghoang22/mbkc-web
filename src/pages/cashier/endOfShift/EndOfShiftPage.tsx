@@ -264,7 +264,9 @@ function EndOfShiftPage() {
                     <Button
                       onClick={handleOpenModalEndOfShift}
                       variant="outlined"
-                      disabled={isLoadingMoneyExchange || shiftReport?.isShiftEnded}
+                      disabled={
+                        isLoadingMoneyExchange || shiftReport?.isShiftEnded || shiftReport?.totalOrderToday === 0
+                      }
                     >
                       {translate('button.confirmEndOfShift')}
                     </Button>

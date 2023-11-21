@@ -2,6 +2,7 @@ import { Skeleton, Stack, TableCell, TableRow } from '@mui/material';
 import { useResponsive } from 'hooks';
 
 function CashierTableRowDashboardSkeleton() {
+  const mdLg = useResponsive('up', 'lg', 'lg');
   const mdMd = useResponsive('up', 'md', 'md');
   const mdSm = useResponsive('up', 'sm', 'sm');
 
@@ -20,10 +21,10 @@ function CashierTableRowDashboardSkeleton() {
           <TableCell width={mdMd ? 250 : mdSm ? 200 : 250}>
             <Skeleton />
           </TableCell>
-          <TableCell width={mdMd ? 300 : mdSm ? 220 : 350}>
+          <TableCell width={mdLg ? 350 : mdMd ? 300 : mdSm ? 220 : 350}>
             <Skeleton />
           </TableCell>
-          <TableCell width={mdMd ? 240 : mdSm ? 220 : 300}>
+          <TableCell width={mdLg ? 300 : mdMd ? 240 : mdSm ? 220 : 300}>
             <Skeleton />
           </TableCell>
           <TableCell>
