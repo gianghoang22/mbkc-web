@@ -14,7 +14,6 @@ import { Order } from 'common/models';
 //
 import { Label } from 'components';
 import { useLocales } from 'hooks';
-import moment from 'moment';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { formatCurrency } from 'utils';
 
@@ -32,8 +31,6 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
   const { userAuth } = useAppSelector((state) => state.auth);
 
   const [openList, setOpenList] = useState(-1);
-
-  const createDate = order?.orderHistories?.map((history) => history.createdDate);
 
   const handleNavigateDetail = () => {
     navigate(
@@ -57,11 +54,6 @@ function OrderTableRow({ index, order, selected }: OrderTableRowProps) {
         <TableCell padding="none" onClick={handleNavigateDetail}>
           {order?.orderPartnerId}
         </TableCell>
-        {selected.includes(OrderSortBy.CREATE_DATE) && (
-          <TableCell onClick={handleNavigateDetail}>
-            {moment(createDate ? createDate[0] : '').format('DD/MM/YYYY HH:mm')}
-          </TableCell>
-        )}
         {selected.includes(OrderSortBy.PARTNER_NAME) && (
           <TableCell onClick={handleNavigateDetail}>{order?.partner?.name}</TableCell>
         )}

@@ -184,13 +184,3 @@ export interface ShipperPaymentTable {
   kcBankingAccountName: string;
   status: string;
 }
-
-export interface ShiftTable {
-  cashierName: string;
-  cashierImage: string;
-  date: string;
-  kitchenCenterName: string;
-  totalOrder: number;
-  totalMoneyInWallet: number;
-  totalMoneyOfToday: number;
-}

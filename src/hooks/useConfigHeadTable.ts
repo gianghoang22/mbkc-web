@@ -1,4 +1,3 @@
-import { OrderHistoryTable, ShipperPaymentTable } from '../common/@types/table';
 import {
   BankingAccountTable,
   BrandTable,
@@ -7,18 +6,19 @@ import {
   HeadCell,
   KitchenCenterTable,
   MoneyExchangeTable,
+  OrderHistoryTable,
   OrderTable,
+  PartnerProductTable,
   PartnerTable,
+  ProductDashboardTable,
   ProductTable,
+  ShipperPaymentTable,
   StorePartnerDetailTable,
   StorePartnerTable,
   StoreTable,
-  PartnerProductTable,
-  ShiftTable,
-  ProductDashboardTable,
 } from 'common/@types';
-import useLocales from './useLocales';
 import { Language } from 'common/enums';
+import useLocales from './useLocales';
 
 function useConfigHeadTable() {
   const { translate, currentLang } = useLocales();
@@ -623,13 +623,6 @@ function useConfigHeadTable() {
       disablePadding: true,
     },
     {
-      id: 'createDate',
-      label: translate('table.createdDate'),
-      numeric: false,
-      hideSortIcon: true,
-      disablePadding: false,
-    },
-    {
       id: 'partnerName',
       label: translate('table.partnerName'),
       numeric: false,
@@ -735,45 +728,6 @@ function useConfigHeadTable() {
     },
   ];
 
-  const ShiftHeadCells: HeadCell<ShiftTable>[] = [
-    {
-      id: 'cashierName',
-      label: 'Cashier',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-
-    {
-      id: 'date',
-      label: 'Date',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'totalOrder',
-      label: 'Total Order',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'totalMoneyInWallet',
-      label: 'Money In Wallet',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-    {
-      id: 'totalMoneyOfToday',
-      label: 'Money Of Today',
-      numeric: false,
-      hideSortIcon: false,
-      disablePadding: false,
-    },
-  ];
-
   const shipperPaymentHeadCells: HeadCell<ShipperPaymentTable>[] = [
     {
       id: 'orderPartnerId',
@@ -849,7 +803,6 @@ function useConfigHeadTable() {
     storePartnerDetailHeadCells,
     shipperPaymentHeadCells,
     partnerProductHeadCells,
-    ShiftHeadCells,
     productDashboardHeadCells,
   };
 }
