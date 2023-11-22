@@ -1,11 +1,15 @@
-import { Language } from 'common/enums';
+import { useLocation } from 'react-router-dom';
 import * as yup from 'yup';
 import { ref } from 'yup';
-import useLocales from './useLocales';
+//
 import { LoginForm } from 'common/@types';
+import { Breadcrumb, Language } from 'common/enums';
+import useLocales from './useLocales';
 
 function useValidationForm() {
   const { translate, currentLang } = useLocales();
+
+  const { pathname } = useLocation();
 
   const schemaLogin: yup.ObjectSchema<LoginForm> = yup.object({
     email: yup
@@ -383,12 +387,24 @@ function useValidationForm() {
             'page.form.nameExchange',
             currentLang.value === Language.ENGLISH
               ? {
-                  model: translate('model.lowercase.brand'),
+                  model:
+                    pathname
+                      .split('/')
+                      .slice(2)
+                      .filter((x) => x)[0] === Breadcrumb.BRAND
+                      ? translate('model.lowercase.brand')
+                      : translate('model.lowercase.kitchenCenter'),
                   name: translate('page.form.nameLower'),
                 }
               : {
                   model: translate('page.form.nameLower'),
-                  name: translate('model.lowercase.brand'),
+                  name:
+                    pathname
+                      .split('/')
+                      .slice(2)
+                      .filter((x) => x)[0] === Breadcrumb.BRAND
+                      ? translate('model.lowercase.brand')
+                      : translate('model.lowercase.kitchenCenter'),
                 }
           ),
         })
