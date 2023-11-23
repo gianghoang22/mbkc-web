@@ -112,8 +112,6 @@ export const handleResponseMessage = (response: string) => {
         ? EngMessageConstant.UpdatedConfigurationsSuccessfully
         : response === EngMessageConstant.UpdateOrderSuccessfully
         ? EngMessageConstant.UpdateOrderSuccessfully
-        : response === EngMessageConstant.CancelOrderSuccessfully
-        ? EngMessageConstant.CancelOrderSuccessfully
         : response === EngMessageConstant.MoneyExchangeToKitchenCenterSuccessfully
         ? EngMessageConstant.MoneyExchangeToKitchenCenterSuccessfully
         : response === EngMessageConstant.WithdrawMoneySuccessfully
@@ -210,8 +208,6 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.NotVerifiedEmail
         : response === EngErrorMessageConstant.DeactiveKitchenCenter_Update
         ? EngErrorMessageConstant.DeactiveKitchenCenter_Update
-        : response === EngErrorMessageConstant.DeactiveKitchenCenter_Delete
-        ? EngErrorMessageConstant.DeactiveKitchenCenter_Delete
         : response === EngErrorMessageConstant.KitchenCenterManagerEmailExisted
         ? EngErrorMessageConstant.KitchenCenterManagerEmailExisted
         : response === EngErrorMessageConstant.ExistedActiveStores_Delete
@@ -358,12 +354,6 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.InactiveStore_Update
         : response === EngErrorMessageConstant.StatusInValid
         ? EngErrorMessageConstant.StatusInValid
-        : response === EngErrorMessageConstant.ProductCodeInPartnerNotExist
-        ? EngErrorMessageConstant.ProductCodeInPartnerNotExist
-        : response === EngErrorMessageConstant.PriceGreaterThan0
-        ? EngErrorMessageConstant.PriceGreaterThan0
-        : response === EngErrorMessageConstant.AgeOfCashierFrom18to55
-        ? EngErrorMessageConstant.AgeOfCashierFrom18to55
         : response === EngErrorMessageConstant.OrderNotBelongToKitchenCenter
         ? EngErrorMessageConstant.OrderNotBelongToKitchenCenter
         : response === EngErrorMessageConstant.OrderShipperPhoneNotMatch
@@ -432,8 +422,8 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.NoChangeOrderStatusWhenClosedShift
         : response === EngErrorMessageConstant.BalanceIsInvalid
         ? EngErrorMessageConstant.BalanceIsInvalid
-        : response === EngErrorMessageConstant.BalanceIsNotEnough
-        ? EngErrorMessageConstant.BalanceIsNotEnough
+        : response === EngErrorMessageConstant.BalanceIsInvalid
+        ? EngErrorMessageConstant.BalanceIsInvalid
         : response === EngErrorMessageConstant.StoreIdNotBelogToKitchenCenter
         ? EngErrorMessageConstant.StoreIdNotBelogToKitchenCenter
         : response === EngErrorMessageConstant.BalanceDoesNotEnough
@@ -450,6 +440,62 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.NotExistJobId
         : response === EngErrorMessageConstant.ConfigDoesNotExist
         ? EngErrorMessageConstant.ConfigDoesNotExist
+        : response === EngErrorMessageConstant.NotExistOrderPartnerId
+        ? EngErrorMessageConstant.NotExistOrderPartnerId
+        : response === EngErrorMessageConstant.AccountNoLongerActive
+        ? EngErrorMessageConstant.AccountNoLongerActive
+        : response === EngErrorMessageConstant.NoOneKitchenCenterAvailable
+        ? EngErrorMessageConstant.NoOneKitchenCenterAvailable
+        : response === EngErrorMessageConstant.StoreIdDoesNotExisted
+        ? EngErrorMessageConstant.StoreIdDoesNotExisted
+        : response === EngErrorMessageConstant.StoreIdNotBelongToBrand
+        ? EngErrorMessageConstant.StoreIdNotBelongToBrand
+        : response === EngErrorMessageConstant.CategoryCodeExistedInBrand
+        ? EngErrorMessageConstant.CategoryCodeExistedInBrand
+        : response === EngErrorMessageConstant.ProductIdNotBelongToBrand
+        ? EngErrorMessageConstant.ProductIdNotBelongToBrand
+        : response === EngErrorMessageConstant.InvalidProductTypeParent
+        ? EngErrorMessageConstant.InvalidProductTypeParent
+        : response === EngErrorMessageConstant.InvalidProductTypeChild
+        ? EngErrorMessageConstant.InvalidProductTypeChild
+        : response === EngErrorMessageConstant.InvalidProductTypeSingle
+        ? EngErrorMessageConstant.InvalidProductTypeSingle
+        : response === EngErrorMessageConstant.InvalidProductTypeExtra
+        ? EngErrorMessageConstant.InvalidProductTypeExtra
+        : response === EngErrorMessageConstant.InvalidOnField
+        ? EngErrorMessageConstant.InvalidOnField
+        : response === EngErrorMessageConstant.NoOneCashierAvailable
+        ? EngErrorMessageConstant.NoOneCashierAvailable
+        : response === EngErrorMessageConstant.BrandHasNoActiveProduct
+        ? EngErrorMessageConstant.BrandHasNoActiveProduct
+        : response === EngErrorMessageConstant.ParentProductMappingNotYet
+        ? EngErrorMessageConstant.ParentProductMappingNotYet
+        : response === EngErrorMessageConstant.ProductCodeExistedInTheSystem
+        ? EngErrorMessageConstant.ProductCodeExistedInTheSystem
+        : response === EngErrorMessageConstant.StatusInValid
+        ? EngErrorMessageConstant.StatusInValid
+        : response === EngErrorMessageConstant.ProductCodeNotExistInGrabFoodSystem
+        ? EngErrorMessageConstant.ProductCodeNotExistInGrabFoodSystem
+        : response === EngErrorMessageConstant.PriceNotMatchWithProductInGrabFoodSystem
+        ? EngErrorMessageConstant.PriceNotMatchWithProductInGrabFoodSystem
+        : response === EngErrorMessageConstant.StatusNotMatchWithProductInGrabFoodSystem
+        ? EngErrorMessageConstant.StatusNotMatchWithProductInGrabFoodSystem
+        : response === EngErrorMessageConstant.ProductPartnerNotAvailableNow
+        ? EngErrorMessageConstant.ProductPartnerNotAvailableNow
+        : response === EngErrorMessageConstant.ProductPriceNotMatchWithPartnerProduct
+        ? EngErrorMessageConstant.ProductPriceNotMatchWithPartnerProduct
+        : response === EngErrorMessageConstant.ExtraProductPriceNotMatchWithPartnerProduct
+        ? EngErrorMessageConstant.ExtraProductPriceNotMatchWithPartnerProduct
+        : response === EngErrorMessageConstant.NoOneOutOfStock
+        ? EngErrorMessageConstant.NoOneOutOfStock
+        : response === EngErrorMessageConstant.UpdatePartnerProductSuccessfully
+        ? EngErrorMessageConstant.UpdatePartnerProductSuccessfully
+        : response === EngErrorMessageConstant.NoChangeOrderStatusNotToday
+        ? EngErrorMessageConstant.NoChangeOrderStatusNotToday
+        : response === EngErrorMessageConstant.StoreBalanceIsInvalid
+        ? EngErrorMessageConstant.StoreBalanceIsInvalid
+        : response === EngErrorMessageConstant.NoOneOutOfStock
+        ? EngErrorMessageConstant.NoOneOutOfStock
         : response
       : currentLanguage === Language.VIETNAMESE
       ? response === EngMessageConstant.LoginSuccessfully
@@ -554,8 +600,6 @@ export const handleResponseMessage = (response: string) => {
         ? VieMessageConstant.UpdatedConfigurationsSuccessfully
         : response === EngMessageConstant.UpdateOrderSuccessfully
         ? VieMessageConstant.UpdateOrderSuccessfully
-        : response === EngMessageConstant.CancelOrderSuccessfully
-        ? VieMessageConstant.CancelOrderSuccessfully
         : response === EngMessageConstant.MoneyExchangeToKitchenCenterSuccessfully
         ? VieMessageConstant.MoneyExchangeToKitchenCenterSuccessfully
         : response === EngMessageConstant.WithdrawMoneySuccessfully
@@ -652,8 +696,6 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.NotVerifiedEmail
         : response === EngErrorMessageConstant.DeactiveKitchenCenter_Update
         ? VieErrorMessageConstant.DeactiveKitchenCenter_Update
-        : response === EngErrorMessageConstant.DeactiveKitchenCenter_Delete
-        ? VieErrorMessageConstant.DeactiveKitchenCenter_Delete
         : response === EngErrorMessageConstant.KitchenCenterManagerEmailExisted
         ? VieErrorMessageConstant.KitchenCenterManagerEmailExisted
         : response === EngErrorMessageConstant.ExistedActiveStores_Delete
@@ -800,12 +842,6 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.InactiveStore_Update
         : response === EngErrorMessageConstant.StatusInValid
         ? VieErrorMessageConstant.StatusInValid
-        : response === EngErrorMessageConstant.ProductCodeInPartnerNotExist
-        ? VieErrorMessageConstant.ProductCodeInPartnerNotExist
-        : response === EngErrorMessageConstant.PriceGreaterThan0
-        ? VieErrorMessageConstant.PriceGreaterThan0
-        : response === EngErrorMessageConstant.AgeOfCashierFrom18to55
-        ? VieErrorMessageConstant.AgeOfCashierFrom18to55
         : response === EngErrorMessageConstant.OrderNotBelongToKitchenCenter
         ? VieErrorMessageConstant.OrderNotBelongToKitchenCenter
         : response === EngErrorMessageConstant.OrderShipperPhoneNotMatch
@@ -874,8 +910,8 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.NoChangeOrderStatusWhenClosedShift
         : response === EngErrorMessageConstant.BalanceIsInvalid
         ? VieErrorMessageConstant.BalanceIsInvalid
-        : response === EngErrorMessageConstant.BalanceIsNotEnough
-        ? VieErrorMessageConstant.BalanceIsNotEnough
+        : response === EngErrorMessageConstant.BalanceIsInvalid
+        ? VieErrorMessageConstant.BalanceIsInvalid
         : response === EngErrorMessageConstant.StoreIdNotBelogToKitchenCenter
         ? VieErrorMessageConstant.StoreIdNotBelogToKitchenCenter
         : response === EngErrorMessageConstant.BalanceDoesNotEnough
@@ -892,6 +928,62 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.NotExistJobId
         : response === EngErrorMessageConstant.ConfigDoesNotExist
         ? VieErrorMessageConstant.ConfigDoesNotExist
+        : response === EngErrorMessageConstant.NotExistOrderPartnerId
+        ? VieErrorMessageConstant.NotExistOrderPartnerId
+        : response === EngErrorMessageConstant.AccountNoLongerActive
+        ? VieErrorMessageConstant.AccountNoLongerActive
+        : response === EngErrorMessageConstant.NoOneKitchenCenterAvailable
+        ? VieErrorMessageConstant.NoOneKitchenCenterAvailable
+        : response === EngErrorMessageConstant.StoreIdDoesNotExisted
+        ? VieErrorMessageConstant.StoreIdDoesNotExisted
+        : response === EngErrorMessageConstant.StoreIdNotBelongToBrand
+        ? VieErrorMessageConstant.StoreIdNotBelongToBrand
+        : response === EngErrorMessageConstant.CategoryCodeExistedInBrand
+        ? VieErrorMessageConstant.CategoryCodeExistedInBrand
+        : response === EngErrorMessageConstant.ProductIdNotBelongToBrand
+        ? VieErrorMessageConstant.ProductIdNotBelongToBrand
+        : response === EngErrorMessageConstant.InvalidProductTypeParent
+        ? VieErrorMessageConstant.InvalidProductTypeParent
+        : response === EngErrorMessageConstant.InvalidProductTypeChild
+        ? VieErrorMessageConstant.InvalidProductTypeChild
+        : response === EngErrorMessageConstant.InvalidProductTypeSingle
+        ? VieErrorMessageConstant.InvalidProductTypeSingle
+        : response === EngErrorMessageConstant.InvalidProductTypeExtra
+        ? VieErrorMessageConstant.InvalidProductTypeExtra
+        : response === EngErrorMessageConstant.InvalidOnField
+        ? VieErrorMessageConstant.InvalidOnField
+        : response === EngErrorMessageConstant.NoOneCashierAvailable
+        ? VieErrorMessageConstant.NoOneCashierAvailable
+        : response === EngErrorMessageConstant.BrandHasNoActiveProduct
+        ? VieErrorMessageConstant.BrandHasNoActiveProduct
+        : response === EngErrorMessageConstant.ParentProductMappingNotYet
+        ? VieErrorMessageConstant.ParentProductMappingNotYet
+        : response === EngErrorMessageConstant.ProductCodeExistedInTheSystem
+        ? VieErrorMessageConstant.ProductCodeExistedInTheSystem
+        : response === EngErrorMessageConstant.StatusInValid
+        ? VieErrorMessageConstant.StatusInValid
+        : response === EngErrorMessageConstant.ProductCodeNotExistInGrabFoodSystem
+        ? VieErrorMessageConstant.ProductCodeNotExistInGrabFoodSystem
+        : response === EngErrorMessageConstant.PriceNotMatchWithProductInGrabFoodSystem
+        ? VieErrorMessageConstant.PriceNotMatchWithProductInGrabFoodSystem
+        : response === EngErrorMessageConstant.StatusNotMatchWithProductInGrabFoodSystem
+        ? VieErrorMessageConstant.StatusNotMatchWithProductInGrabFoodSystem
+        : response === EngErrorMessageConstant.ProductPartnerNotAvailableNow
+        ? VieErrorMessageConstant.ProductPartnerNotAvailableNow
+        : response === EngErrorMessageConstant.ProductPriceNotMatchWithPartnerProduct
+        ? VieErrorMessageConstant.ProductPriceNotMatchWithPartnerProduct
+        : response === EngErrorMessageConstant.ExtraProductPriceNotMatchWithPartnerProduct
+        ? VieErrorMessageConstant.ExtraProductPriceNotMatchWithPartnerProduct
+        : response === EngErrorMessageConstant.NoOneOutOfStock
+        ? VieErrorMessageConstant.NoOneOutOfStock
+        : response === EngErrorMessageConstant.UpdatePartnerProductSuccessfully
+        ? VieErrorMessageConstant.UpdatePartnerProductSuccessfully
+        : response === EngErrorMessageConstant.NoChangeOrderStatusNotToday
+        ? VieErrorMessageConstant.NoChangeOrderStatusNotToday
+        : response === EngErrorMessageConstant.StoreBalanceIsInvalid
+        ? VieErrorMessageConstant.StoreBalanceIsInvalid
+        : response === EngErrorMessageConstant.NoOneOutOfStock
+        ? VieErrorMessageConstant.NoOneOutOfStock
         : response
       : response;
 

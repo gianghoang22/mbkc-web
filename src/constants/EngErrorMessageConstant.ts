@@ -1,8 +1,4 @@
 export const EngErrorMessageConstant = {
-  notAccessSystem: 'You do not have access to the system',
-
-  imageIsNotNull: 'Image is not null.',
-  logoIsNotNull: 'Logo is not null.',
   NotExistEmail: 'Email does not exist in the system.',
   AlreadyExistEmail: 'Email already exists in the system.',
   AlreadyExistCitizenNumber: 'Citizen number already exists in the system.',
@@ -20,6 +16,7 @@ export const EngErrorMessageConstant = {
   NotExistCategoryId: 'Category id does not exist in the system.',
   NotExistBankingAccountId: 'Banking account id does not exist in the system.',
   NotExistProductId: 'Product id does not exist in the system.',
+  NotExistOrderPartnerId: 'Order parnter id does not exist in the system.',
   NotExistCashierId: 'Cashier id does not exist in the system.',
   InvalidItemsPerPage: 'Items per page number is required more than 0.',
   InvalidCurrentPage: 'Current page number is required more than 0.',
@@ -29,12 +26,13 @@ export const EngErrorMessageConstant = {
   CategoryIdNotBelongToBrand: 'Category id does not belong to your brand.',
   CategoryIdNotBelongToStore: 'Category id does not belong to your store.',
   AlreadyExistPartnerProduct: 'Mapping product already exists in the system.',
-  NotExistPartnerProduct: 'Mapping priduct does not exist in the system.',
+  NotExistPartnerProduct: 'Mapping product does not exist in the system.',
 
   DisabledAccount: 'Account has been disabled.',
   InvalidEmailOrPassword: 'Email or Password is invalid.',
 
   AccountIdNotBelongYourAccount: 'Account id does not belong to your account.',
+  AccountNoLongerActive: 'Your account is no longer active.',
 
   NotAuthenticatedEmailBefore: 'Email has not been previously authenticated.',
   ExpiredOTPCode: 'OTP code has expired.',
@@ -51,10 +49,10 @@ export const EngErrorMessageConstant = {
   NotVerifiedEmail: 'Email is not yet authenticated with the previously sent OTP code.',
 
   DeactiveKitchenCenter_Update: 'Kitchen center was deleted before, so this kitchen center cannot update.',
-  DeactiveKitchenCenter_Delete: 'Kitchen center cannot delete because that was deleted before.',
   KitchenCenterManagerEmailExisted: 'Kitchen center manager email already existed in the system.',
   ExistedActiveStores_Delete: 'The kitchen center has active stores, so this kitchen center cannot be deleted.',
   NotBelongToKitchenCenter: 'Kitchen center id does not belong to your kitchen center.',
+  NoOneKitchenCenterAvailable: 'There is no kitchen center available.',
 
   InvalidStatusFilter: 'Key status filter is required ACTIVE, INACTIVE in the system.',
   NotBelongToBrand: 'Brand id does not belong to your brand.',
@@ -74,9 +72,12 @@ export const EngErrorMessageConstant = {
   ManageremailExisted: 'Store manager email already existed in the system.',
   NotConfirmingStore: 'Store is not a new store to confirm to become an ACTIVE store.',
   NotRejectedResonForNewStore: 'Rejected store registration is required a reason.',
+  StoreIdDoesNotExisted: 'Store id does not existed in system.',
   StoreIdNotBelongToStore: 'Store id does not belong to your store.',
+  StoreIdNotBelongToBrand: 'Store id does not belong to your brand.',
   StoresWithStatusNameParam: 'Status is required some type such as: Active, Inactive, Rejected, Be comfirming.',
 
+  CategoryCodeExistedInBrand: 'Category code already exist in brand.',
   CategoryCodeExisted: 'Category code already exist in the system.',
   DeactiveCategory_Delete: 'Category cannot delete because that was deleted before.',
   DeactiveCategory_Update: 'Category was deleted before, so this category cannot update.',
@@ -90,9 +91,11 @@ export const EngErrorMessageConstant = {
   ExtraCategoryIdNotBelongToBrand: 'Extra category Id does not belong to brand.',
   ExtraCategoryIdDoesNotExist: 'Extra category Id does not exist in the system.',
 
-  BankingAccountNotBelongToKitchenCenter: 'Your kitchen center does not have this banking account id.',
+  BankingAccountNotBelongToKitchenCenter: 'Banking account id does not belong to your kitchen center.',
   NumberAccountExisted: 'Number account already existed in the system.',
+  BankingAccountIsInactive: 'Banking account is no longer active.',
 
+  ProductCodeExistedInBrand: 'Code already exist in brand.',
   ProductCodeExisted: 'Code already exist in the system.',
   ParentProductIdNotExist: 'Parent product id does not exist in the system.',
   ParentProductIdNotBelongToBrand: 'Parent product id does not belong to your brand.',
@@ -101,12 +104,18 @@ export const EngErrorMessageConstant = {
   CategoryNotSuitableForEXTRAProductType: 'Category id is not suitable type for EXTRA product type.',
   CategoryIdNotBelongToKitchenCenter: 'Your kitchen center cannot get products with this category id.',
   InvalidProductType: 'Product type is required some types such as: SINGLE, PARENT, CHILD, EXTRA.',
+  ProductIdNotBelongToBrand: 'Product id does not belong to your brand.',
   ProductNotBelongToStore: 'Product id does not belong to your store.',
   ProductNotSpendToStore: 'Product id does not spend to your kitchen center.',
   ProductNameNotFollowingFormat:
     "Name of product Type CHILD is required following format: 'ParentName - Size x' With x is a your chosen size options.",
   ProductNameTypeChildNotAllowUpdate: 'Name of product which is type CHILD does not allow update.',
   ProductIdNotParentType: 'Product id is not a PARENT type.',
+  InvalidProductTypeParent: 'is invalid for product type: PARENT.',
+  InvalidProductTypeChild: 'is invalid for product type: CHILD.',
+  InvalidProductTypeSingle: 'is invalid for product type: SINGLE.',
+  InvalidProductTypeExtra: 'is invalid for product type: EXTRA.',
+  InvalidOnField: 'Invalid on field',
 
   DupplicatedPartnerName: 'Name already exist in the system.',
   DupplicatedWebUrl: 'Web Url already exist in the system.',
@@ -120,7 +129,7 @@ export const EngErrorMessageConstant = {
   CashierIdNotBelogToCashier: 'Cashier id is not suitable with your account.',
   StatusIsRequiredWithKitchenCenterManager: 'Status is not null',
   StatusIsNotRequiredWithCashier: 'Cashier does not allow to update Status property.',
-  AgeOfCashierFrom18to55: "Cashier's age is required from 18 to 55 years old.",
+  NoOneCashierAvailable: 'There is no cashier available.',
 
   InactiveStore_Create: 'This store has been inactive or disabled.',
   StoreNotBelongToBrand: 'Store does not belong to brand.',
@@ -133,14 +142,23 @@ export const EngErrorMessageConstant = {
   ItemOnGrabfoodCanNotMapping: 'The item on GrabFood cannot be mapped to any product in the MBKC System.',
   ModifierGroupOnGrabfoodCanNotMapping:
     'The modifier group on GrabFood cannot be mapped to any product in the MBKC System.',
+  BrandHasNoActiveProduct: 'Brand has no active products',
+  ParentProductMappingNotYet: 'You need to map the parent product before mapping this product.',
 
+  ProductCodeExistedInTheSystem: 'Product Code already exist in the system.',
   DeactiveProduct_Create_Update: 'This product is Deactive.',
   InactiveProduct_Create_Update: 'This product is Inactive.',
   InactiveStore_Update: 'This store has been inactive.',
-  StatusInValid: 'Status is ACTIVE or INACTIVE',
 
-  ProductCodeInPartnerNotExist: 'Product code does not exist in the GrabFood System.',
-  PriceGreaterThan0: 'Price must be greater than 0.',
+  StatusInValid: 'Status is AVAILABLE, OUT_OF_STOCK_TODAY or OUT_OF_STOCK_INDENTIFINITELY.',
+  ProductCodeNotExistInGrabFoodSystem: 'Product code does not exist in the GrabFood System.',
+  PriceNotMatchWithProductInGrabFoodSystem: 'Price does not match with product in the GrabFood System.',
+  StatusNotMatchWithProductInGrabFoodSystem: 'Status does not match with product status in the GrabFood System.',
+  ProductPartnerNotAvailableNow: 'Partner product is not available now.',
+  ProductPriceNotMatchWithPartnerProduct: 'Product price does not match with partner product.',
+  ExtraProductPriceNotMatchWithPartnerProduct: 'Extra Product price does not match with partner product.',
+  NoOneOutOfStock: 'No partner products are out of stock.',
+  UpdatePartnerProductSuccessfully: 'Change the status of partner product successfully.',
 
   OrderNotBelongToKitchenCenter: 'Order partner id does not belong to your kitchen center.',
   OrderShipperPhoneNotMatch: 'Shipper phone does not match with shipper phone in order.',
@@ -177,11 +195,12 @@ export const EngErrorMessageConstant = {
   OrderIsCancelled_Cancel: 'This order is CANCELLED status, so You can not cancel order.',
   OrderIsReadyDelivery_Cancel: 'This order is READY_DELIVERY status, so You can not cancel order.',
   NoChangeOrderStatusWhenClosedShift: "You've closed your shift today so you can't make a status change.",
+  NoChangeOrderStatusNotToday: "Only today's order status can be changed. This order is not from today.",
 
-  BalanceIsNotEnough: 'Your balance is not enough to transfer money.',
+  BalanceIsInvalid: 'Your balance is not enough to transfer money.',
 
   StoreIdNotBelogToKitchenCenter: 'Store id does not belong to your kitchen center.',
-  BalanceIsInvalid: 'This store balance is invalid.',
+  StoreBalanceIsInvalid: 'This store balance is invalid.',
   BalanceDoesNotEnough: 'This store does not have enough balance to make a withdraw.',
   AlreadyTransferredToStore: 'The money has been transferred to the store today.',
   AlreadyTransferredToKitchenCenter: 'The money has been transferred to the kitchen center today.',
@@ -189,4 +208,10 @@ export const EngErrorMessageConstant = {
   TransferToKitchenCenterSuccessfully: 'Transfer money to kitchen center successfully.',
   NotExistJobId: 'Job id is not existed in the MBKC System.',
   ConfigDoesNotExist: 'Config to run background job does not exist.',
+
+  notAccessSystem: 'You do not have access to the system',
+
+  //Validations
+  imageIsNotNull: 'Image is not null.',
+  logoIsNotNull: 'Logo is not null.',
 };

@@ -1,8 +1,4 @@
 export const VieErrorMessageConstant = {
-  notAccessSystem: 'Bạn không có quyền truy cập vào hệ thống',
-
-  imageIsNotNull: 'Hình ảnh không được để trống.',
-  logoIsNotNull: 'Logo không được để trống.',
   NotExistEmail: 'Email không tồn tại trong hệ thống.',
   AlreadyExistEmail: 'Email đã tồn tại trong hệ thống.',
   AlreadyExistCitizenNumber: 'Số căn cước công dân đã tồn tại trong hệ thống.',
@@ -20,6 +16,7 @@ export const VieErrorMessageConstant = {
   NotExistCategoryId: 'Id danh mục không tồn tại trong hệ thống.',
   NotExistBankingAccountId: 'Id tài khoản ngân hàng không tồn tại trong hệ thống.',
   NotExistProductId: 'Id sản phẩm không tồn tại trong hệ thống.',
+  NotExistOrderPartnerId: 'Id đơn hàng của đối tác không tồn tại trong hệ thống.',
   NotExistCashierId: 'Id nhân viên thu ngân không tồn tại trong hệ thống.',
   InvalidItemsPerPage: 'Các mục trên mỗi trang được yêu cầu lớn hơn 0.',
   InvalidCurrentPage: 'Số trang hiện tại phải lớn hơn 0.',
@@ -35,6 +32,7 @@ export const VieErrorMessageConstant = {
   InvalidEmailOrPassword: 'Email hoặc Mật khẩu không hợp lệ.',
 
   AccountIdNotBelongYourAccount: 'Id tài khoản không thuộc về tài khoản của bạn.',
+  AccountNoLongerActive: 'Tài khoản của bạn không còn hoạt động.',
 
   NotAuthenticatedEmailBefore: 'Email chưa được xác thực trước đó.',
   ExpiredOTPCode: 'Mã OTP đã hết hạn.',
@@ -50,13 +48,13 @@ export const VieErrorMessageConstant = {
   NotAuthenticatedEmail: 'Email chưa được xác thực trước đó.',
   NotVerifiedEmail: 'Email chưa được xác thực bằng mã OTP đã gửi trước đó.',
 
-  DeactiveKitchenCenter_Update: 'Bếp trung tâm đã bị xóa trước đó nên bếp trung tâm này không thể cập nhật.',
-  DeactiveKitchenCenter_Delete: 'Bếp trung tâm không thể xóa vì đã bị xóa trước đó.',
+  DeactiveKitchenCenter_Update: 'Bếp trung tâm đã bị xóa trước đó nên không thể cập nhật bếp trung tâm này.',
   KitchenCenterManagerEmailExisted: 'Email quản lý bếp trung tâm đã tồn tại trong hệ thống.',
-  ExistedActiveStores_Delete: 'Bếp trung tâm có các cửa hàng đang hoạt động nên không thể xóa trung tâm bếp này.',
+  ExistedActiveStores_Delete: 'Bếp trung tâm có các cửa hàng đang hoạt động nên không thể xóa bếp trung tâm này.',
   NotBelongToKitchenCenter: 'Id bếp trung tâm không thuộc về bếp trung tâm của bạn.',
+  NoOneKitchenCenterAvailable: 'Không có sẵn bếp trung tâm.',
 
-  InvalidStatusFilter: 'Bộ lọc trạng thái được yêu cầu là HOẠT ĐỘNG, KHÔNG HOẠT ĐỘNG trong hệ thống.',
+  InvalidStatusFilter: 'Bộ lọc trạng thái bắt buộc là HOẠT ĐỘNG, KHÔNG HOẠT ĐỘNG trong hệ thống.',
   NotBelongToBrand: 'Id thương hiệu không thuộc về thương hiệu của bạn.',
   DeactiveBrand_Delete: 'Thương hiệu không thể xóa vì đã bị xóa trước đó.',
   DeactiveBrand_Update: 'Thương hiệu đã bị xóa trước đó nên thương hiệu này không thể cập nhật.',
@@ -74,10 +72,13 @@ export const VieErrorMessageConstant = {
   ManageremailExisted: 'Email quản lý cửa hàng đã tồn tại trong hệ thống.',
   NotConfirmingStore: 'Cửa hàng không phải là cửa hàng mới để xác nhận trở thành cửa hàng HOẠT ĐỘNG.',
   NotRejectedResonForNewStore: 'Việc đăng ký cửa hàng bị từ chối phải có lý do.',
+  StoreIdDoesNotExisted: 'Id cửa hàng không tồn tại trong hệ thống.',
   StoreIdNotBelongToStore: 'Id cửa hàng không thuộc về cửa hàng của bạn.',
+  StoreIdNotBelongToBrand: 'Id cửa hàng không thuộc về thương hiệu của bạn.',
   StoresWithStatusNameParam:
     'Một số loại trạng thái được yêu cầu như: Đang hoạt động, Không hoạt động, Bị từ chối, Đang xác nhận.',
 
+  CategoryCodeExistedInBrand: 'Mã danh mục đã tồn tại trong thương hiệu.',
   CategoryCodeExisted: 'Mã danh mục đã tồn tại trong hệ thống.',
   DeactiveCategory_Delete: 'Danh mục không thể xóa vì đã bị xóa trước đó.',
   DeactiveCategory_Update: 'Danh mục đã bị xóa trước đó nên danh mục này không thể cập nhật.',
@@ -93,7 +94,9 @@ export const VieErrorMessageConstant = {
 
   BankingAccountNotBelongToKitchenCenter: 'Bếp trung tâm của bạn không có id tài khoản ngân hàng này.',
   NumberAccountExisted: 'Số tài khoản đã tồn tại trong hệ thống.',
+  BankingAccountIsInactive: 'Tài khoản ngân hàng không còn hoạt động.',
 
+  ProductCodeExistedInBrand: 'Mã đã tồn tại trong thương hiệu.',
   ProductCodeExisted: 'Mã đã tồn tại trong hệ thống.',
   ParentProductIdNotExist: 'Id sản phẩm cha không tồn tại trong hệ thống.',
   ParentProductIdNotBelongToBrand: 'Id sản phẩm cha không thuộc về thương hiệu của bạn.',
@@ -102,12 +105,18 @@ export const VieErrorMessageConstant = {
   CategoryNotSuitableForEXTRAProductType: 'Id danh mục không phải là loại phù hợp cho loại sản phẩm EXTRA.',
   CategoryIdNotBelongToKitchenCenter: 'Bếp trung tâm của bạn không thể nhận được sản phẩm có id danh mục này.',
   InvalidProductType: 'Loại sản phẩm bắt buộc phải có một số loại như: SINGLE, PARENT, CHILD, EXTRA.',
+  ProductIdNotBelongToBrand: 'Id sản phẩm không thuộc về thương hiệu của bạn.',
   ProductNotBelongToStore: 'Id sản phẩm không thuộc về cửa hàng của bạn.',
   ProductNotSpendToStore: 'Id sản phẩm không dành cho bếp trung tâm của bạn.',
   ProductNameNotFollowingFormat:
     "Tên sản phẩm loại CHILD bắt buộc phải có định dạng sau: 'ParentName - Size x' Với x là kích thước bạn đã chọn.",
   ProductNameTypeChildNotAllowUpdate: 'Tên sản phẩm thuộc loại CHILD không cho phép cập nhật.',
   ProductIdNotParentType: 'Id sản phẩm không phải là loại PARENT.',
+  InvalidProductTypeParent: 'Không hợp lệ đối với loại sản phẩm: PARENT.',
+  InvalidProductTypeChild: 'Không hợp lệ đối với loại sản phẩm: CHILD.',
+  InvalidProductTypeSingle: 'Không hợp lệ đối với loại sản phẩm: SINGLE.',
+  InvalidProductTypeExtra: 'Không hợp lệ đối với loại sản phẩm: EXTRA.',
+  InvalidOnField: 'Trường không hợp lệ',
 
   DupplicatedPartnerName: 'Tên đối tác đã tồn tại trong hệ thống.',
   DupplicatedWebUrl: 'Url Web đã tồn tại trong hệ thống.',
@@ -122,7 +131,7 @@ export const VieErrorMessageConstant = {
   CashierIdNotBelogToCashier: 'Id nhân viên thu ngân không phù hợp với tài khoản của bạn.',
   StatusIsRequiredWithKitchenCenterManager: 'Trạng thái không rỗng',
   StatusIsNotRequiredWithCashier: 'Nhân viên thu ngân không cho phép cập nhật thuộc tính Trạng thái.',
-  AgeOfCashierFrom18to55: 'Yêu cầu độ tuổi của nhân viên thu ngân từ 18 đến 55 tuổi.',
+  NoOneCashierAvailable: 'Không có sẵn nhân viên thu ngân.',
 
   InactiveStore_Create: 'Cửa hàng này đã không hoạt động hoặc bị vô hiệu hóa.',
   StoreNotBelongToBrand: 'Cửa hàng không thuộc về thương hiệu.',
@@ -135,14 +144,23 @@ export const VieErrorMessageConstant = {
   ItemOnGrabfoodCanNotMapping: 'Mặt hàng trên GrabFood không thể ánh xạ tới bất kỳ sản phẩm nào trong Hệ thống MBKC.',
   ModifierGroupOnGrabfoodCanNotMapping:
     'Nhóm sửa đổi trên GrabFood không thể ánh xạ tới bất kỳ sản phẩm nào trong Hệ thống MBKC.',
+  BrandHasNoActiveProduct: 'Thương hiệu không có sản phẩm đang hoạt động',
+  ParentProductMappingNotYet: 'Bạn cần ánh xạ sản phẩm cha trước khi ánh xạ sản phẩm này.',
 
+  ProductCodeExistedInTheSystem: 'Mã sản phẩm đã tồn tại trong hệ thống.',
   DeactiveProduct_Create_Update: 'Sản phẩm này đã ngừng hoạt động.',
   InactiveProduct_Create_Update: 'Sản phẩm này không hoạt động.',
   InactiveStore_Update: 'Cửa hàng này đã không hoạt động.',
-  StatusInValid: 'Trạng thái là HOẠT ĐỘNG hoặc KHÔNG HOẠT ĐỘNG',
 
-  ProductCodeInPartnerNotExist: 'Mã sản phẩm không tồn tại trên hệ thống GrabFood.',
-  PriceGreaterThan0: 'Giá phải lớn hơn 0.',
+  StatusInValid: 'Trạng thái phải là AVAILABLE, OUT_OF_STOCK_TODAY or OUT_OF_STOCK_INDENTIFINITELY.',
+  ProductCodeNotExistInGrabFoodSystem: 'Mã sản phẩm không tồn tại trên Hệ thống GrabFood.',
+  PriceNotMatchWithProductInGrabFoodSystem: 'Giá không khớp với sản phẩm trong Hệ thống GrabFood.',
+  StatusNotMatchWithProductInGrabFoodSystem: 'Trạng thái không khớp với trạng thái sản phẩm trong Hệ thống GrabFood.',
+  ProductPartnerNotAvailableNow: 'Sản phẩm của đối tác hiện không có sẵn.',
+  ProductPriceNotMatchWithPartnerProduct: 'Giá sản phẩm không phù hợp với sản phẩm của đối tác.',
+  ExtraProductPriceNotMatchWithPartnerProduct: 'Giá sản phẩm extra không khớp với sản phẩm của đối tác.',
+  NoOneOutOfStock: 'Không có sản phẩm đối tác nào hết hàng.',
+  UpdatePartnerProductSuccessfully: 'Thay đổi trạng thái sản phẩm của đối tác thành công.',
 
   OrderNotBelongToKitchenCenter: 'Id đặt hàng đối tác không thuộc trung tâm bếp của bạn.',
   OrderShipperPhoneNotMatch: 'Điện thoại của người gửi không khớp với số điện thoại của người gửi theo thứ tự.',
@@ -187,11 +205,13 @@ export const VieErrorMessageConstant = {
   OrderIsCancelled_Cancel: 'Đơn hàng này ở trạng thái HỦY nên Bạn không thể hủy đơn hàng.',
   OrderIsReadyDelivery_Cancel: 'Đơn hàng này ở trạng thái READY_DELIVERY nên Bạn không thể hủy đơn hàng.',
   NoChangeOrderStatusWhenClosedShift: 'Hôm nay bạn đã đóng ca nên không thể thay đổi trạng thái.',
+  NoChangeOrderStatusNotToday:
+    'Chỉ có thể thay đổi trạng thái đơn hàng của ngày hôm nay. Lệnh này không phải từ hôm nay.',
 
-  BalanceIsNotEnough: 'Số dư của bạn không đủ để chuyển tiền.',
+  BalanceIsInvalid: 'Số dư của bạn không đủ để chuyển tiền.',
 
   StoreIdNotBelogToKitchenCenter: 'Id cửa hàng không thuộc trung tâm bếp của bạn.',
-  BalanceIsInvalid: 'Số dư cửa hàng này không hợp lệ.',
+  StoreBalanceIsInvalid: 'Số dư cửa hàng này không hợp lệ.',
   BalanceDoesNotEnough: 'Cửa hàng này không có đủ số dư để rút tiền.',
   AlreadyTransferredToStore: 'Hôm nay tiền đã được chuyển vào cửa hàng.',
   AlreadyTransferredToKitchenCenter: 'Hôm nay tiền đã được chuyển về trung tâm bếp ăn.',
@@ -199,4 +219,9 @@ export const VieErrorMessageConstant = {
   TransferToKitchenCenterSuccessfully: 'Chuyển tiền về trung tâm bếp thành công.',
   NotExistJobId: 'Id công việc không tồn tại trong Hệ thống MBKC.',
   ConfigDoesNotExist: 'Cấu hình để chạy tác vụ nền không tồn tại.',
+
+  notAccessSystem: 'Bạn không có quyền truy cập vào hệ thống',
+
+  imageIsNotNull: 'Hình ảnh không được để trống.',
+  logoIsNotNull: 'Logo không được để trống.',
 };

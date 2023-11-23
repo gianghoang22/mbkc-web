@@ -1,7 +1,10 @@
 export const EngMessageConstant = {
   LoginSuccessfully: 'Login Successfully.',
+
   ResetPasswordSuccessfully: 'Reset Password Successfully.',
+
   UpdateAccountSuccessfully: 'Updated Account Successfully.',
+
   SentEmailConfirmationSuccessfully: 'Sent Email Confirmation Successfully.',
   ConfirmedOTPCodeSuccessfully: 'Confirmed OTP Code Successfully.',
 
@@ -22,7 +25,7 @@ export const EngMessageConstant = {
   RegisteredNewStoreSuccessfully: 'Registered New Store Successfully.',
   ConfirmedStoreRegistrationSuccessfully: 'Confirmed Store Registration Successfully.',
 
-  CreatedNewCategorySuccessfully: 'Created New Category Successfylly.',
+  CreatedNewCategorySuccessfully: 'Created New Category Successfully.',
   UpdatedCategorySuccessfully: 'Updated Category Successfully.',
   DeletedCategorySuccessfully: 'Deleted Category Successfully.',
   CreatedExtraCategoriesToNormalCategorySuccessfully: 'Create Extra-Categories To Normal Category Successfully.',
@@ -59,10 +62,9 @@ export const EngMessageConstant = {
   DeletedPartnerProductSuccessfully: 'Deleted Partner Product Successfully.',
   UpdatedPartnerProductStatusSuccessfully: 'Updated Partner Product Status Successfully.',
 
-  UpdatedConfigurationsSuccessfully: 'Updated Configuration Successfully.',
-
   UpdateOrderSuccessfully: 'Update Order Successfully.',
-  CancelOrderSuccessfully: 'Cancel Order Successfully.',
+
+  UpdatedConfigurationsSuccessfully: 'Updated Configuration Successfully.',
 
   MoneyExchangeToKitchenCenterSuccessfully: 'Sent Money To Kitchen Center Successfully.',
   WithdrawMoneySuccessfully: 'Withdraw Money To Store Successfully.',
