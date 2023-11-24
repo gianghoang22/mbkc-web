@@ -158,7 +158,7 @@
   },
   "dashboard": {
     "titleSummary": "Total {{model}}",
-    "totalAmountInWallet": "Total amount in wallet today",
+    "totalAmountInWallet": "Total balances in wallet daily",
     "storeIsActive": "The store is active",
     "kitchenCenterChartTitle": "Kitchen center income in the last 7 days"
   },
