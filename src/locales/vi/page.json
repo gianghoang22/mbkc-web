@@ -160,7 +160,7 @@
   },
   "dashboard": {
     "titleSummary": "Tổng số {{model}}",
-    "totalAmountInWallet": "Tổng số tiền trong ví hôm nay",
+    "totalAmountInWallet": "Tổng số dư trong ví hàng ngày",
     "storeIsActive": "Cửa hàng đang hoạt động",
     "kitchenCenterChartTitle": "Thu nhập của bếp trung tâm trong 7 ngày qua"
   },

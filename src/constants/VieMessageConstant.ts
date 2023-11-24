@@ -1,8 +1,11 @@
 export const VieMessageConstant = {
   LoginSuccessfully: 'Đăng nhập thành công.',
+
   ResetPasswordSuccessfully: 'Đặt lại mật khẩu thành công.',
+
   UpdateAccountSuccessfully: 'Cập nhật tài khoản thành công.',
-  SentEmailConfirmationSuccessfully: 'Đã gửi xác nhận email thành công.',
+
+  SentEmailConfirmationSuccessfully: 'Đã email gửi xác nhận thành công.',
   ConfirmedOTPCodeSuccessfully: 'Xác nhận mã OTP thành công.',
 
   CreatedNewKitchenCenterSuccessfully: 'Tạo bếp trung tâm mới thành công.',
@@ -59,12 +62,11 @@ export const VieMessageConstant = {
   DeletedPartnerProductSuccessfully: 'Đã xóa sản phẩm đối tác thành công.',
   UpdatedPartnerProductStatusSuccessfully: 'Đã cập nhật trạng thái sản phẩm của đối tác thành công.',
 
+  UpdateOrderSuccessfully: 'Cập nhật đơn hàng thành công.',
+
   UpdatedConfigurationsSuccessfully: 'Đã cập nhật cấu hình hệ thống thành công.',
 
-  UpdateOrderSuccessfully: 'Cập nhật đơn hàng thành công.',
-  CancelOrderSuccessfully: 'Hủy đơn hàng thành công.',
-
-  MoneyExchangeToKitchenCenterSuccessfully: 'Đã gửi tiền tới Kitchen Center thành công.',
-  WithdrawMoneySuccessfully: 'Rút tiền về cửa hàng thành công.',
-  UpdateSchedulingTimeJob: 'Đã Thay Đổi Thời Gian Tự Động Chuyển Tiền Thành Công.',
+  MoneyExchangeToKitchenCenterSuccessfully: 'Đã gửi tiền tới bếp trung tâm thành công.',
+  WithdrawMoneySuccessfully: 'Rút tiền cho cửa hàng thành công.',
+  UpdateSchedulingTimeJob: 'Đã thay đổi thời gian tự động chuyển tiền thành công.',
 };

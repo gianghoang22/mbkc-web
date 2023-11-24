@@ -13,7 +13,7 @@ import PartnerDetailModal from './PartnerDetailModal';
 //
 import { OrderSortBy, Params } from 'common/@types';
 import { Partner, ToUpdateStatus } from 'common/models';
-import { Color, Status } from 'common/enums';
+import { Color, PopoverType, Status } from 'common/enums';
 import { ConfirmDialog, Label, Popover } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useLocales, useModal, usePopover } from 'hooks';
@@ -149,7 +149,13 @@ function PartnerTableRow({
         )}
       </TableRow>
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpen} />
+      <Popover
+        type={PopoverType.EDIT}
+        open={open}
+        handleCloseMenu={handleCloseMenu}
+        onEdit={handleEdit}
+        onDelete={handleOpen}
+      />
 
       {isOpenCreate && (
         <CreatePartnerModal
