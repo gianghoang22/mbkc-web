@@ -9,9 +9,11 @@ import { Avatar, Button, Divider, MenuItem, Stack, Typography } from '@mui/mater
 import { alpha } from '@mui/material/styles';
 // redux
 import { logout } from 'redux/auth/authSlice';
-import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getCashierReportShift } from 'redux/cashier/cashierSlice';
+import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setBrandDashboard } from 'redux/dashboard/dashboardSlice';
 import { getBrandProfile, getKitchenCenterProfile } from 'redux/profile/profileSlice';
+import { setStores } from 'redux/store/storeSlice';
 //
 import images from 'assets';
 import { Role } from 'common/enums';
@@ -36,6 +38,8 @@ function AccountPopover() {
 
   const handleLogout = () => {
     handleCloseMenu();
+    dispatch(setStores());
+    dispatch(setBrandDashboard());
     dispatch(logout(navigate));
   };
 
@@ -46,7 +50,7 @@ function AccountPopover() {
   }, [isLogout]);
 
   useEffect(() => {
-    if (userAuth && userAuth.isConfirmed) {
+    if (userAuth && userAuth?.isConfirmed) {
       if (userAuth?.roleName === Role.CASHIER) {
         dispatch<any>(getCashierReportShift(navigate));
       }
@@ -57,7 +61,7 @@ function AccountPopover() {
         dispatch<any>(getKitchenCenterProfile(navigate));
       }
     }
-  }, []);
+  }, [userAuth?.isConfirmed]);
 
   return (
     <>

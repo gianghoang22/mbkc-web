@@ -90,6 +90,7 @@ function useValidationForm() {
           name: translate('table.lowercase.email'),
         })
       )
+      .email(translate('page.validation.emailFormat'))
       .max(100, translate('page.validation.max100')),
     kitchenCenterId: yup
       .number()

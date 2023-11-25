@@ -33,6 +33,8 @@ function ListStorePartnerPage() {
   const { brandProfile } = useAppSelector((state) => state.profile);
   const { stores, numberItems, isLoading: isLoadingStore } = useAppSelector((state) => state.store);
 
+  console.log(brandProfile?.brandId);
+
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof StoreTable>(OrderSortBy.NAME);
   const [filterName, setFilterName] = useState<string>('');

@@ -38,7 +38,11 @@ export const getDashboardCashier = createAsyncThunk('dashboard/get-dashboard-cas
 const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState,
-  reducers: {},
+  reducers: {
+    setBrandDashboard: (state) => {
+      state.brandDashboard = null;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getDashboardAdmin.pending, (state) => {
@@ -64,7 +68,7 @@ const dashboardSlice = createSlice({
         state.isSuccess = true;
         state.kitchenCenterDashboard = action.payload;
       })
-      .addCase(getDashboardKitchenCenter.rejected, (state, action) => {
+      .addCase(getDashboardKitchenCenter.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -78,7 +82,7 @@ const dashboardSlice = createSlice({
         state.isSuccess = true;
         state.brandDashboard = action.payload;
       })
-      .addCase(getDashboardBrand.rejected, (state, action) => {
+      .addCase(getDashboardBrand.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -92,7 +96,7 @@ const dashboardSlice = createSlice({
         state.isSuccess = true;
         state.cashierDashboard = action.payload;
       })
-      .addCase(getDashboardCashier.rejected, (state, action) => {
+      .addCase(getDashboardCashier.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -100,7 +104,7 @@ const dashboardSlice = createSlice({
   },
 });
 
-// export const {} = dashboardSlice.actions;
+export const { setBrandDashboard } = dashboardSlice.actions;
 const dashboardReducer = dashboardSlice.reducer;
 
 export default dashboardReducer;
