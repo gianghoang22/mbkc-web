@@ -109,7 +109,9 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
                   </TableRow>
                 ))}
 
-                {listStores?.length === 0 && <EmptyTable colNumber={6} model={translate('model.lowercase.store')} />}
+                {(listStores?.length === 0 || listStores === undefined) && (
+                  <EmptyTable colNumber={6} model={translate('model.lowercase.store')} />
+                )}
               </TableBody>
             )}
           </Table>

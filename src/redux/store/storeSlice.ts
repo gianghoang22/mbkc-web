@@ -63,6 +63,9 @@ const storeSlice = createSlice({
   name: 'store',
   initialState,
   reducers: {
+    setStores: (state) => {
+      state.stores = [];
+    },
     getStoreDetail_local: (state, action) => {
       state.store = action.payload;
     },
@@ -201,7 +204,8 @@ const storeSlice = createSlice({
   },
 });
 
-export const { getStoreDetail_local, setAddStore, setEditStore, setAddFormDetail, setAddFormList } = storeSlice.actions;
+export const { setStores, getStoreDetail_local, setAddStore, setEditStore, setAddFormDetail, setAddFormList } =
+  storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 
 export default storeReducer;
