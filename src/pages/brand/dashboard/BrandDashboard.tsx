@@ -72,22 +72,15 @@ function BrandDashboard() {
       },
       navigate,
     };
-  }, [storeId, storeOptions[0]?.value]);
+  }, [storeId]);
 
   useEffect(() => {
-    if (
-      stores.filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED).length === 0
-    ) {
-      dispatch<any>(getAllStores(params));
-    }
-    if (
-      stores !== null &&
-      stores !== undefined &&
-      stores.filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED).length > 0
-    ) {
-      dispatch<any>(getDashboardBrand(paramDashboard));
-    }
-  }, [params, paramDashboard]);
+    dispatch<any>(getAllStores(params));
+  }, [params]);
+
+  useEffect(() => {
+    dispatch<any>(getDashboardBrand(paramDashboard));
+  }, [paramDashboard]);
 
   return (
     <>
@@ -155,7 +148,11 @@ function BrandDashboard() {
               <AppCurrentIncomes
                 title={translate('page.title.storeRevenue')}
                 subheader={translate('page.content.storeRevenue')}
-                chartLabels={[...(brandDashboard ? brandDashboard?.storeRevenues.revenues : [])].map((column) => {
+                chartLabels={[
+                  ...(brandDashboard && brandDashboard?.storeRevenues !== null
+                    ? brandDashboard?.storeRevenues.revenues
+                    : []),
+                ].map((column) => {
                   const date = column.date.split('+');
                   return `${date[0]}.000Z`;
                 })}
@@ -164,9 +161,11 @@ function BrandDashboard() {
                     name: 'Amount',
                     type: 'area',
                     fill: 'gradient',
-                    data: [...(brandDashboard ? brandDashboard?.storeRevenues.revenues : [])].map(
-                      (column) => column.amount
-                    ),
+                    data: [
+                      ...(brandDashboard && brandDashboard?.storeRevenues !== null
+                        ? brandDashboard?.storeRevenues.revenues
+                        : []),
+                    ].map((column) => column.amount),
                   },
                 ]}
               />

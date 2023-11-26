@@ -42,6 +42,7 @@ function ListProductStatistics() {
   const { productDashboardHeadCells } = useConfigHeadTable();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
 
+  const { isLoading: isLoadingStore } = useAppSelector((state) => state.store);
   const { productsSold, numberItems, isLoading: isLoadingProduct } = useAppSelector((state) => state.product);
 
   const [order, setOrder] = useState<OrderSort>('asc');
@@ -112,8 +113,10 @@ function ListProductStatistics() {
   }, [params, searchDateTo, searchDateFrom]);
 
   useEffect(() => {
-    dispatch<any>(getAllProductsSold(params));
-  }, []);
+    if (isLoadingStore) {
+      dispatch<any>(getAllProductsSold(params));
+    }
+  }, [isLoadingStore]);
 
   const handleReloadData = () => {
     dispatch<any>(getAllProductsSold(params));

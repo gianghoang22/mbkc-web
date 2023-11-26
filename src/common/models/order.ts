@@ -28,6 +28,8 @@ export interface Order {
   partnerOrderStatus: string;
   totalQuantity: number;
   confirmedBy: number;
+  rejectedReason: string;
+  storePartnerCommission: number;
   store: Store;
   partner: Partner;
   shipperPayments: _ShipperPayment[];

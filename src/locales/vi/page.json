@@ -88,7 +88,8 @@
     "dateLowercase": "ngày",
     "noImage": "Không có hình ảnh",
     "paymentMethodPartner": "Phương thức thanh toán của đối tác",
-    "storeRevenue": "Số liệu thu nhập chi tiết của cửa hàng"
+    "storeRevenue": "Số liệu thu nhập chi tiết của cửa hàng",
+    "cancelReason": "Lý do hủy đơn hàng"
   },
   "form": {
     "email": "Email",
