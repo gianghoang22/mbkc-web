@@ -215,6 +215,15 @@ function OrderDetailPage() {
                           </Typography>
                         </Typography>
 
+                        {order?.rejectedReason !== null && (
+                          <Typography variant="subtitle1">
+                            {translate('page.content.cancelReason')}:{' '}
+                            <Typography variant="body1" component="span">
+                              {order?.rejectedReason}
+                            </Typography>
+                          </Typography>
+                        )}
+
                         <Stack>
                           <Typography variant="subtitle1">
                             {currentLang.value === Language.VIETNAMESE
@@ -294,7 +303,7 @@ function OrderDetailPage() {
                               {translate('page.content.orderFee')}
                             </Typography>
                             <Typography width={150} variant="body2">
-                              {formatCurrency(order?.commission as number)}
+                              {formatCurrency(order?.storePartnerCommission as number)}
                             </Typography>
                           </Stack>
 

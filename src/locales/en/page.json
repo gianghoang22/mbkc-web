@@ -86,7 +86,8 @@
     "date": "Date",
     "noImage": "No images available",
     "paymentMethodPartner": "Payment method of partner",
-    "storeRevenue": "Detailed store income figures"
+    "storeRevenue": "Detailed store income figures",
+    "cancelReason": "Reason for order cancellation"
   },
   "form": {
     "email": "Email",
