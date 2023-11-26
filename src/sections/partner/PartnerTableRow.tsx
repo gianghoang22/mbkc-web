@@ -61,9 +61,9 @@ function PartnerTableRow({
   const handleDelete = () => {
     handleOpen();
     const newPage = lengthPartners === 1 ? page - 1 : page;
-    if (lengthPartners === 1) {
-      setPage(newPage);
-      setLocalStorage(StorageKeys.PAGE, newPage);
+    if (setPage && lengthPartners === 1) {
+      setPage(newPage === -1 ? 0 : newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage === -1 ? 0 : newPage);
     }
     dispatch(
       deletePartner({
@@ -71,7 +71,7 @@ function PartnerTableRow({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: newPage + 1,
+          currentPage: (newPage === -1 ? 0 : newPage) + 1,
           sortBy: sortBy,
         },
         navigate,

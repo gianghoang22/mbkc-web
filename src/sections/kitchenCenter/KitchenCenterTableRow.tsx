@@ -69,9 +69,9 @@ function KitchenCenterTableRow({
   const handleDelete = () => {
     handleOpen();
     const newPage = length === 1 ? page - 1 : page;
-    if (length === 1) {
-      setPage(newPage);
-      setLocalStorage(StorageKeys.PAGE, newPage);
+    if (setPage && length === 1) {
+      setPage(newPage === -1 ? 0 : newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage === -1 ? 0 : newPage);
     }
     dispatch<any>(
       deleteKitchenCenter({
@@ -79,7 +79,7 @@ function KitchenCenterTableRow({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: newPage + 1,
+          currentPage: (newPage === -1 ? 0 : newPage) + 1,
           sortBy: sortBy,
         },
         pathname,

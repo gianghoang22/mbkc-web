@@ -78,8 +78,8 @@ function CategoryTableRow({
     handleOpen(category.name);
     const newPage = length === 1 ? page - 1 : page;
     if (setPage && length === 1) {
-      setPage(newPage);
-      setLocalStorage(StorageKeys.PAGE, newPage);
+      setPage(newPage === -1 ? 0 : newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage === -1 ? 0 : newPage);
     }
     dispatch(
       deleteCategory({
@@ -88,7 +88,7 @@ function CategoryTableRow({
           type: category.type,
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: newPage + 1,
+          currentPage: (newPage === -1 ? 0 : newPage) + 1,
           sortBy: sortBy,
         },
         pathname,

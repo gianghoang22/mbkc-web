@@ -91,11 +91,9 @@ function StoreTableRow({
   const handleDelete = () => {
     handleOpen();
     const newPage = length === 1 ? page - 1 : page;
-    if (length === 1) {
-      if (setPage) {
-        setPage(newPage);
-        setLocalStorage(StorageKeys.PAGE, newPage);
-      }
+    if (setPage && length === 1) {
+      setPage(newPage === -1 ? 0 : newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage === -1 ? 0 : newPage);
     }
     dispatch(
       deleteStore({
@@ -103,7 +101,7 @@ function StoreTableRow({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: newPage + 1,
+          currentPage: (newPage === -1 ? 0 : newPage) + 1,
           status: status?.value,
           sortBy: sortBy,
           idBrand: brandProfile?.brandId,

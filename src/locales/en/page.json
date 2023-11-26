@@ -87,7 +87,8 @@
     "noImage": "No images available",
     "paymentMethodPartner": "Payment method of partner",
     "storeRevenue": "Detailed store income figures",
-    "cancelReason": "Reason for order cancellation"
+    "cancelReason": "Reason for order cancellation",
+    "storePartnerCommission": "Store partner commission"
   },
   "form": {
     "email": "Email",
