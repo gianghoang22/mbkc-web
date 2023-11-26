@@ -143,7 +143,7 @@ function OrderDetailPage() {
               {shiftReport?.isShiftEnded && (
                 <Box pb={0}>
                   <Alert variant="standard" severity="info">
-                    {translate('dialog.workShiftEnd')}
+                    {translate('page.alert.transferMoneyNotChangeOrderStatus')}
                   </Alert>
                 </Box>
               )}

@@ -2,6 +2,7 @@
   "capitalizeOne": {
     "overview": "Overview",
     "manage": "Manage",
+    "transferMoney": "Transfer money",
     "configurations": "Configuration",
     "systemConfigurations": "System configuration",
     "dashboard": "Dashboard",
@@ -59,6 +60,7 @@
   "capitalize": {
     "overview": "Overview",
     "manage": "Manage",
+    "transferMoney": "Transfer Money",
     "configurations": "Configuration",
     "systemConfigurations": "System Configuration",
     "dashboard": "Dashboard",
@@ -108,6 +110,7 @@
   "lowercase": {
     "overview": "overview",
     "manage": "manage",
+    "transferMoney": "transfer money",
     "configurations": "configuration",
     "systemConfigurations": "system configuration",
     "dashboard": "dashboard",

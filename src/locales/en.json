@@ -73,7 +73,8 @@
     "showColumns": "Show columns",
     "editHours": "Adjust hours",
     "confirmEndOfShift": "Confirm end of shift",
-    "confirmDelivery": "Confirm delivery"
+    "confirmDelivery": "Confirm delivery",
+    "confirmTransferMoney": "Confirm transfer money"
   },
   "gender": { "male": "Male", "female": "Female" },
   "common": {

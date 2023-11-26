@@ -38,4 +38,5 @@ export enum Breadcrumb {
   INFORMATION = 'information',
   CONFIGURATIONS = 'configurations',
   END_OF_SHIFT = 'end-of-shift',
+  TRANSFER_MONEY = 'transfer-money',
 }
