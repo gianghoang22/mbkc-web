@@ -83,8 +83,8 @@ function ProductTableRow({
     handleOpen();
     const newPage = length === 1 ? page - 1 : page;
     if (setPage && length === 1) {
-      setPage(newPage);
-      setLocalStorage(StorageKeys.PAGE, newPage);
+      setPage(newPage === -1 ? 0 : newPage);
+      setLocalStorage(StorageKeys.PAGE, newPage === -1 ? 0 : newPage);
     }
     dispatch(
       deleteProduct({
@@ -92,7 +92,7 @@ function ProductTableRow({
         optionParams: {
           searchValue: filterName,
           itemsPerPage: rowsPerPage,
-          currentPage: newPage + 1,
+          currentPage: (newPage === -1 ? 0 : newPage) + 1,
           type: productType,
           sortBy: sortBy,
         },

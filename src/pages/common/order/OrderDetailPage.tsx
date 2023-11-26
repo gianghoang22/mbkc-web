@@ -303,7 +303,7 @@ function OrderDetailPage() {
                               {translate('page.content.orderFee')}
                             </Typography>
                             <Typography width={150} variant="body2">
-                              {formatCurrency(order?.storePartnerCommission as number)}
+                              {formatCurrency(order?.commission as number)}
                             </Typography>
                           </Stack>
 
@@ -313,6 +313,15 @@ function OrderDetailPage() {
                             </Typography>
                             <Typography width={150} variant="body2">
                               {formatCurrency(order?.finalTotalPrice as number)}
+                            </Typography>
+                          </Stack>
+
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                              {translate('page.content.storePartnerCommission')} (%)
+                            </Typography>
+                            <Typography width={150} variant="body2">
+                              {order?.storePartnerCommission}
                             </Typography>
                           </Stack>
 
