@@ -5,11 +5,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import BurstModeIcon from '@mui/icons-material/BurstMode';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import InfoIcon from '@mui/icons-material/Info';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -17,16 +17,15 @@ import {
   Divider,
   Grid,
   IconButton,
-  Popover as MUIPopover,
-  MenuItem,
   Paper,
   Stack,
   Typography,
 } from '@mui/material';
 // section
-import { OrderDetailPageSkeleton, OrderDetailItem, OrderTimeline } from 'sections/order';
+import { OrderDetailItem, OrderDetailPageSkeleton, OrderTimeline } from 'sections/order';
 import { CreateShipperPaymentModal } from 'sections/shipperPayment';
 //redux
+import { getCashierReportShift } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { changeOrderToReadyDelivery, getOrderDetail } from 'redux/order/orderSlice';
 // interface
@@ -34,7 +33,7 @@ import { Color, Language, PartnerOrderStatus, PaymentMethod, Role, SystemStatus 
 import { OrderDetails, OrderStatusActions } from 'common/models';
 //
 import { ConfirmDialog, Helmet, Label } from 'components';
-import { useLocales, useModal, usePopover } from 'hooks';
+import { useLocales, useModal } from 'hooks';
 import { PATH_CASHIER_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 import { formatCurrency } from 'utils';
 
@@ -45,15 +44,11 @@ function OrderDetailPage() {
   const dispatch = useAppDispatch();
 
   const { translate, currentLang } = useLocales();
-  const {
-    open: openConfirm,
-    handleOpenMenu: handleOpenMenuConfirm,
-    handleCloseMenu: handleCloseMenuConfirm,
-  } = usePopover();
   const { handleOpen: handleOpenCreateShipperPaymentModal, isOpen: isOpenCreateShipperPaymentModal } = useModal();
   const { handleOpen: handleOpenModalReadyDelivery, isOpen: isOpenModalConfirmReadyDelivery } = useModal();
 
   const { userAuth } = useAppSelector((state) => state.auth);
+  const { shiftReport } = useAppSelector((state) => state.cashier);
   const { order, isLoading: isLoadingOrder } = useAppSelector((state) => state.order);
 
   const imageConfirm = order?.orderHistories?.map((history) => history.image);
@@ -67,6 +62,7 @@ function OrderDetailPage() {
 
   useEffect(() => {
     dispatch<any>(getOrderDetail(paramsDetails));
+    dispatch<any>(getCashierReportShift(navigate));
   }, [paramsDetails]);
 
   const handleOrderReadyDelivery = () => {
@@ -86,55 +82,71 @@ function OrderDetailPage() {
           <OrderDetailPageSkeleton />
         ) : (
           <Box>
-            <Stack mb={5} direction="row" justifyContent="space-between">
-              <Stack direction="row" alignItems="center" gap={1}>
-                <IconButton
-                  onClick={
-                    userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
-                      ? () => navigate(PATH_KITCHEN_CENTER_APP.order.list)
-                      : () => navigate(PATH_CASHIER_APP.order.list)
-                  }
-                >
-                  <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
-                </IconButton>
-                <Typography variant="h4">
-                  {translate('model.capitalizeOne.order')} {order?.displayId} - {order?.partner.name}
-                </Typography>
+            <Stack direction="column" gap={4} mb={5}>
+              <Stack direction="row" justifyContent="space-between">
+                <Stack direction="row" alignItems="center" gap={1}>
+                  <IconButton
+                    onClick={
+                      userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                        ? () => navigate(PATH_KITCHEN_CENTER_APP.order.list)
+                        : () => navigate(PATH_CASHIER_APP.order.list)
+                    }
+                  >
+                    <KeyboardArrowLeftOutlinedIcon fontSize="medium" color="disabled" />
+                  </IconButton>
+                  <Typography variant="h4">
+                    {translate('model.capitalizeOne.order')} {order?.displayId} - {order?.partner.name}
+                  </Typography>
 
-                <Label
-                  color={
-                    order?.systemStatus === SystemStatus.COMPLETED
-                      ? Color.SUCCESS
+                  <Label
+                    color={
+                      order?.systemStatus === SystemStatus.IN_STORE
+                        ? Color.PRIMARY
+                        : order?.systemStatus === SystemStatus.COMPLETED
+                        ? Color.SUCCESS
+                        : order?.systemStatus === SystemStatus.READY_DELIVERY
+                        ? Color.WARNING
+                        : order?.systemStatus === SystemStatus.CANCELLED
+                        ? Color.ERROR
+                        : Color.ERROR
+                    }
+                  >
+                    {order?.systemStatus === SystemStatus.IN_STORE
+                      ? translate('status.inStore')
                       : order?.systemStatus === SystemStatus.READY_DELIVERY
-                      ? Color.WARNING
+                      ? translate('status.readyDelivery')
+                      : order?.systemStatus === SystemStatus.COMPLETED
+                      ? translate('status.completed')
                       : order?.systemStatus === SystemStatus.CANCELLED
-                      ? Color.ERROR
-                      : Color.PRIMARY
-                  }
-                >
-                  {order?.systemStatus === SystemStatus.IN_STORE
-                    ? translate('status.inStore')
-                    : order?.systemStatus === SystemStatus.READY_DELIVERY
-                    ? translate('status.readyDelivery')
-                    : order?.systemStatus === SystemStatus.COMPLETED
-                    ? translate('status.completed')
-                    : translate('status.cancelled')}
-                </Label>
+                      ? translate('status.cancelled')
+                      : translate('status.cancelled')}
+                  </Label>
+                </Stack>
+
+                {userAuth?.roleName === Role.CASHIER &&
+                  order?.systemStatus === SystemStatus.IN_STORE &&
+                  order?.partnerOrderStatus === PartnerOrderStatus.READY && (
+                    <Button
+                      color="warning"
+                      variant="contained"
+                      startIcon={<DeliveryDiningIcon />}
+                      disabled={shiftReport?.isShiftEnded}
+                      onClick={() => {
+                        handleOpenModalReadyDelivery(OrderStatusActions.READY_DELIVERY);
+                      }}
+                    >
+                      {translate('status.readyDelivery')}
+                    </Button>
+                  )}
               </Stack>
 
-              {userAuth?.roleName === Role.CASHIER &&
-                order?.systemStatus === SystemStatus.IN_STORE &&
-                order?.partnerOrderStatus === PartnerOrderStatus.READY && (
-                  <Button
-                    color="inherit"
-                    variant="outlined"
-                    endIcon={<KeyboardArrowDownIcon />}
-                    sx={{ width: 180 }}
-                    onClick={handleOpenMenuConfirm}
-                  >
-                    {translate('button.menuAction')}
-                  </Button>
-                )}
+              {shiftReport?.isShiftEnded && (
+                <Box pb={0}>
+                  <Alert variant="standard" severity="info">
+                    {translate('dialog.workShiftEnd')}
+                  </Alert>
+                </Box>
+              )}
             </Stack>
 
             <Grid container columnSpacing={5} rowSpacing={5}>
@@ -172,23 +184,29 @@ function OrderDetailPage() {
                             <Typography variant="subtitle1">{translate('table.partnerOrderStatus')}:</Typography>
                             <Label
                               color={
-                                order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
-                                  ? Color.SUCCESS
+                                order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+                                  ? Color.DEFAULT
+                                  : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
+                                  ? Color.INFO
                                   : order?.partnerOrderStatus === PartnerOrderStatus.READY
                                   ? Color.WARNING
+                                  : order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                                  ? Color.SUCCESS
                                   : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                                   ? Color.ERROR
-                                  : Color.INFO
+                                  : Color.ERROR
                               }
                             >
-                              {order?.partnerOrderStatus === PartnerOrderStatus.READY
-                                ? translate('status.ready')
-                                : order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+                              {order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
                                 ? translate('status.upcoming')
                                 : order?.partnerOrderStatus === PartnerOrderStatus.PREPARING
                                 ? translate('status.preparing')
+                                : order?.partnerOrderStatus === PartnerOrderStatus.READY
+                                ? translate('status.ready')
                                 : order?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
                                 ? translate('status.completed')
+                                : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
+                                ? translate('status.cancelled')
                                 : translate('status.cancelled')}
                             </Label>
                           </Stack>
@@ -436,11 +454,12 @@ function OrderDetailPage() {
 
                               <Stack direction="row" justifyContent="flex-end">
                                 <Button
+                                  variant="outlined"
+                                  startIcon={<PaymentsIcon />}
+                                  disabled={shiftReport?.isShiftEnded}
                                   onClick={() => {
                                     handleOpenCreateShipperPaymentModal(OrderStatusActions.COMPLETED);
                                   }}
-                                  variant="outlined"
-                                  startIcon={<PaymentsIcon />}
                                 >
                                   {order.isPaid
                                     ? translate('button.confirmDelivery')
@@ -488,39 +507,6 @@ function OrderDetailPage() {
           </Box>
         )}
       </Container>
-
-      {!isLoadingOrder &&
-        order?.systemStatus !== SystemStatus.COMPLETED &&
-        order?.systemStatus !== SystemStatus.READY_DELIVERY && (
-          <MUIPopover
-            open={Boolean(openConfirm)}
-            anchorEl={openConfirm}
-            onClose={handleCloseMenuConfirm}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            PaperProps={{
-              sx: {
-                p: 1,
-                mt: 0.5,
-                width: 180,
-                '& .MuiMenuItem-root': {
-                  px: 1,
-                  typography: 'body2',
-                  borderRadius: 0.75,
-                },
-              },
-            }}
-          >
-            <MenuItem
-              onClick={() => {
-                handleOpenModalReadyDelivery(OrderStatusActions.READY_DELIVERY);
-              }}
-            >
-              <DeliveryDiningIcon fontSize="small" sx={{ mr: 2 }} />
-              {translate('status.readyDelivery')}
-            </MenuItem>
-          </MUIPopover>
-        )}
 
       {isOpenModalConfirmReadyDelivery && (
         <ConfirmDialog

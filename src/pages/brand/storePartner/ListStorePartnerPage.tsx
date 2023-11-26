@@ -75,9 +75,7 @@ function ListStorePartnerPage() {
   const paramsStorePartner: ListParams = useMemo(() => {
     return {
       optionParams: {
-        itemsPerPage: rowsPerPage,
-        currentPage: page + 1,
-        searchName: debounceValue,
+        isGetAll: true,
       },
       navigate,
     };

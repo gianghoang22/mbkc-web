@@ -191,10 +191,16 @@ export const ROUTES_API_PARTNERS = {
 
 export const ROUTES_API_STORE_PARTNERS = {
   CREATE_STORE_PARTNER: pathRoot(ROOTS_STORE_PARTNERS),
-  GET_ALL_STORE_PARTNER: ({ searchValue = '', currentPage = '', itemsPerPage = '', sortBy = '' }: OptionParams) =>
+  GET_ALL_STORE_PARTNER: ({
+    searchValue = '',
+    currentPage = '',
+    itemsPerPage = '',
+    sortBy = '',
+    isGetAll = '',
+  }: OptionParams) =>
     path(
       ROOTS_STORE_PARTNERS,
-      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sortBy}`
+      `?searchValue=${searchValue}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sortBy}&isGetAll=${isGetAll}`
     ),
   GET_ALL_STORE_PARTNER_BY_STORE_ID: ({
     idStore = 0,

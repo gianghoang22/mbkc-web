@@ -16,6 +16,7 @@ import { Box, Card, Paper, Stack, Typography } from '@mui/material';
 import { useAppSelector } from 'redux/configStore';
 // interface
 import { Color, PartnerOrderStatus, SystemStatus } from 'common/enums';
+import { OrderHistory } from 'common/models';
 //
 import { Label } from 'components';
 import { useLocales } from 'hooks';
@@ -25,7 +26,7 @@ export default function OrderTimeline() {
 
   const { order } = useAppSelector((state) => state.order);
 
-  const createDate = order?.orderHistories?.map((history) => history.createdDate);
+  const createDate = order?.orderHistories?.map((history: OrderHistory) => history.createdDate);
 
   return (
     <Card>
@@ -83,23 +84,29 @@ export default function OrderTimeline() {
                           </Typography>
                           <Label
                             color={
-                              orderHistory?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
-                                ? Color.SUCCESS
+                              orderHistory?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+                                ? Color.DEFAULT
+                                : orderHistory?.partnerOrderStatus === PartnerOrderStatus.PREPARING
+                                ? Color.INFO
                                 : orderHistory?.partnerOrderStatus === PartnerOrderStatus.READY
                                 ? Color.WARNING
+                                : orderHistory?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
+                                ? Color.SUCCESS
                                 : orderHistory?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                                 ? Color.ERROR
-                                : Color.INFO
+                                : Color.ERROR
                             }
                           >
-                            {orderHistory?.partnerOrderStatus === PartnerOrderStatus.READY
-                              ? translate('status.ready')
-                              : orderHistory?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
+                            {orderHistory?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
                               ? translate('status.upcoming')
                               : orderHistory?.partnerOrderStatus === PartnerOrderStatus.PREPARING
                               ? translate('status.preparing')
+                              : orderHistory?.partnerOrderStatus === PartnerOrderStatus.READY
+                              ? translate('status.ready')
                               : orderHistory?.partnerOrderStatus === PartnerOrderStatus.COMPLETED
                               ? translate('status.completed')
+                              : orderHistory?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
+                              ? translate('status.cancelled')
                               : translate('status.cancelled')}
                           </Label>
                         </Stack>
@@ -109,21 +116,25 @@ export default function OrderTimeline() {
                           </Typography>
                           <Label
                             color={
-                              orderHistory?.systemStatus === SystemStatus.COMPLETED
+                              order?.systemStatus === SystemStatus.IN_STORE
+                                ? Color.PRIMARY
+                                : order?.systemStatus === SystemStatus.COMPLETED
                                 ? Color.SUCCESS
-                                : orderHistory?.systemStatus === SystemStatus.READY_DELIVERY
+                                : order?.systemStatus === SystemStatus.READY_DELIVERY
                                 ? Color.WARNING
-                                : orderHistory?.systemStatus === SystemStatus.CANCELLED
+                                : order?.systemStatus === SystemStatus.CANCELLED
                                 ? Color.ERROR
-                                : Color.PRIMARY
+                                : Color.ERROR
                             }
                           >
-                            {orderHistory?.systemStatus === SystemStatus.IN_STORE
+                            {order?.systemStatus === SystemStatus.IN_STORE
                               ? translate('status.inStore')
-                              : orderHistory?.systemStatus === SystemStatus.READY_DELIVERY
+                              : order?.systemStatus === SystemStatus.READY_DELIVERY
                               ? translate('status.readyDelivery')
-                              : orderHistory?.systemStatus === SystemStatus.COMPLETED
+                              : order?.systemStatus === SystemStatus.COMPLETED
                               ? translate('status.completed')
+                              : order?.systemStatus === SystemStatus.CANCELLED
+                              ? translate('status.cancelled')
                               : translate('status.cancelled')}
                           </Label>
                         </Stack>
