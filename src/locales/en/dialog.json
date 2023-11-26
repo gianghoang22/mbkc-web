@@ -10,6 +10,7 @@
   "confirmOrderReadyDeliveryContent": "Are you sure order",
   "confirmOrderEndOfShift": "Confirm end of shift",
   "contentOrderEndOfShift": "Please check the information again before ending your shift!",
+  "contentTransferMoneyToKC": "Please check the information again before transfer money to kitchen center!",
   "updatePasswordContent": "You need to update your password to start using your account!",
   "updatePasswordSuccess": "You can now continue using the App!",
   "amountOfStoreWallet": "The amount of money in the store's wallet",

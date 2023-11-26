@@ -2,6 +2,7 @@
   "capitalizeOne": {
     "overview": "Tổng quan",
     "manage": "Quản lý",
+    "transferMoney": "Chuyển tiền",
     "configurations": "Cấu hình",
     "systemConfigurations": "Cấu hình hệ thống",
     "dashboard": "Bảng điều khiển",
@@ -59,6 +60,7 @@
   "capitalize": {
     "overview": "Tổng Quan",
     "manage": "Quản Lý",
+    "transferMoney": "Chuyển Tiền",
     "configurations": "Cấu Hình",
     "systemConfigurations": "Cấu Hình Hệ Thống",
     "dashboard": "Bảng Điều Khiển",
@@ -109,6 +111,7 @@
   "lowercase": {
     "overview": "tổng quan",
     "manage": "quản lý",
+    "transferMoney": "chuyển tiền",
     "configurations": "cấu hình",
     "systemConfigurations": "cấu hình hệ thống",
     "dashboard": "bảng điều khiển",

@@ -25,7 +25,9 @@
     "transactionToday": "Transaction today",
     "totalDailyReceive": "Total daily receive",
     "totalDailySend": "Total daily send",
-    "imageConfirmDelivery": "Image of delivery confirmation"
+    "imageConfirmDelivery": "Image of delivery confirmation",
+    "transferMoneyToKitchenCenter": "Transfer money to kitchen center",
+    "transferMoneyInformation": "Summary of money transfer information"
   },
   "content": {
     "dayWorks": "Working day",
@@ -165,6 +167,8 @@
     "kitchenCenterChartTitle": "Kitchen center income in the last 7 days"
   },
   "alert": {
-    "compareDate": "'To date' must be greater than 'From date'"
+    "compareDate": "'To date' must be greater than 'From date'",
+    "transferMoneyToKC": "Today you have made a money transfer to the central kitchen so you cannot continue to make the money transfer!",
+    "transferMoneyNotChangeOrderStatus": "Today you have made a money transfer to the central kitchen so you cannot continue to confirm the order!!"
   }
 }

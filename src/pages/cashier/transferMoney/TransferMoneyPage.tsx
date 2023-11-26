@@ -7,7 +7,6 @@ import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
 import TaskIcon from '@mui/icons-material/Task';
 import {
-  Alert,
   Avatar,
   Box,
   Button,
@@ -46,8 +45,9 @@ import {
 import { useConfigHeadTable, useDebounce, useLocales, useModal, usePagination } from 'hooks';
 import { PATH_CASHIER_APP } from 'routes/paths';
 import { fDate, formatCurrency } from 'utils';
+import { Alert } from '@mui/material';
 
-function EndOfShiftPage() {
+function TransferMoneyPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -123,7 +123,11 @@ function EndOfShiftPage() {
         </Box>
       )}
 
-      <Page title={translate('breadcrumb.endOfShift')} pathname={pathname} navigateDashboard={PATH_CASHIER_APP.root}>
+      <Page
+        title={translate('page.title.transferMoneyToKitchenCenter')}
+        pathname={pathname}
+        navigateDashboard={PATH_CASHIER_APP.root}
+      >
         {isLoadingShift ? (
           <CashierReportSkeleton />
         ) : (
@@ -142,13 +146,13 @@ function EndOfShiftPage() {
                   }}
                 >
                   <DoneAllIcon />
-                  <Typography variant="h6">{translate('page.title.summaryWorkShift')}</Typography>
+                  <Typography variant="h6">{translate('page.title.transferMoneyInformation')}</Typography>
                 </Stack>
 
                 {shiftReport?.isShiftEnded && (
                   <Box p={4} pb={0}>
                     <Alert variant="standard" severity="info">
-                      {translate('dialog.workShiftEnd')}
+                      {translate('page.alert.transferMoneyToKC')}
                     </Alert>
                   </Box>
                 )}
@@ -268,7 +272,7 @@ function EndOfShiftPage() {
                         isLoadingMoneyExchange || shiftReport?.isShiftEnded || shiftReport?.totalOrderToday === 0
                       }
                     >
-                      {translate('button.confirmEndOfShift')}
+                      {translate('button.confirmTransferMoney')}
                     </Button>
                   </Stack>
                 </Stack>
@@ -356,14 +360,13 @@ function EndOfShiftPage() {
           open={isOpenModalEndOfShift}
           onClose={handleOpenModalEndOfShift}
           onAction={handleEndOfShift}
-          isOrder
           color={Color.SUCCESS}
-          title={translate('dialog.confirmOrderEndOfShift')}
-          description={translate('dialog.contentOrderEndOfShift')}
+          title={translate('button.confirmTransferMoney')}
+          description={translate('dialog.contentTransferMoneyToKC')}
         />
       )}
     </>
   );
 }
 
-export default EndOfShiftPage;
+export default TransferMoneyPage;

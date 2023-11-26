@@ -25,7 +25,9 @@
     "transactionToday": "Giao dịch hôm nay",
     "totalDailyReceive": "Tổng số tiền nhận hàng ngày",
     "totalDailySend": "Tổng số tiền gửi hàng ngày",
-    "imageConfirmDelivery": "Hình ảnh xác nhận giao hàng"
+    "imageConfirmDelivery": "Hình ảnh xác nhận giao hàng",
+    "transferMoneyToKitchenCenter": "Chuyển tiền tới trung tâm bếp",
+    "transferMoneyInformation": "Tổng kết thông tin chuyển tiền"
   },
   "content": {
     "dayWorks": "Ngày làm việc",
@@ -167,6 +169,8 @@
     "kitchenCenterChartTitle": "Thu nhập của bếp trung tâm trong 7 ngày qua"
   },
   "alert": {
-    "compareDate": "'Đến ngày' phải lớn hơn 'Từ ngày'"
+    "compareDate": "'Đến ngày' phải lớn hơn 'Từ ngày'",
+    "transferMoneyToKC": "Hôm nay bạn đã thực hiện chuyển tiền cho bếp trung tâm nên bạn không thể tiếp tục thực hiện chuyển tiền!",
+    "transferMoneyNotChangeOrderStatus": "Hôm nay bạn đã thực hiện chuyển tiền cho bếp trung tâm nên bạn không thể tiếp tục thực hiện xác nhận đơn hàng!"
   }
 }

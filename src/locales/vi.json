@@ -73,7 +73,8 @@
     "showColumns": "Hiển thị cột",
     "editHours": "Chỉnh giờ",
     "confirmEndOfShift": "Xác nhận kết thúc ca làm việc",
-    "confirmDelivery": "Xác nhận giao hàng"
+    "confirmDelivery": "Xác nhận giao hàng",
+    "confirmTransferMoney": "Xác nhận chuyển tiền"
   },
   "gender": { "male": "Nam", "female": "Nữ" },
   "common": {

@@ -182,6 +182,8 @@ function Breadcrumbs({ pathname, navigateDashboard, sx }: BreadcrumbsProps) {
             ? translate('breadcrumb.endOfShift')
             : path === Breadcrumb.PAYMENT_FOR_STORES
             ? translate('breadcrumb.payment-for-stores')
+            : path === Breadcrumb.TRANSFER_MONEY
+            ? translate('model.capitalizeOne.transferMoney')
             : path;
         return isLast ? (
           <Typography key={path}>{nameFinal}</Typography>

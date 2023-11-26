@@ -188,11 +188,6 @@ function useConfigSidebar() {
           path: PATH_CASHIER_APP.root,
           icon: <AssessmentIcon fontSize="medium" />,
         },
-        {
-          title: translate('model.lowercase.endOfShift'),
-          path: PATH_CASHIER_APP.endOfShift,
-          icon: <PendingActionsIcon fontSize="medium" />,
-        },
       ],
     },
     {
@@ -203,10 +198,20 @@ function useConfigSidebar() {
           path: PATH_CASHIER_APP.order.list,
           icon: <ListAltIcon fontSize="medium" />,
         },
+      ],
+    },
+    {
+      missions: translate('model.lowercase.transaction'),
+      listNav: [
         {
           title: translate('model.lowercase.wallet'),
           path: PATH_CASHIER_APP.wallet.root,
           icon: <WalletIcon fontSize="medium" />,
+        },
+        {
+          title: translate('model.lowercase.transferMoney'),
+          path: PATH_CASHIER_APP.transferMoney,
+          icon: <PendingActionsIcon fontSize="medium" />,
         },
       ],
     },

@@ -1,5 +1,5 @@
 import { Route } from 'common/@types';
-import { CashierDashboard, EndOfShiftPage } from 'pages/cashier';
+import { CashierDashboard, TransferMoneyPage } from 'pages/cashier';
 import { ListOrdersPage, OrderDetailPage } from 'pages/common';
 import { ListMoneyExchangePage, ListShipperPaymentPage, WalletPage } from 'pages/kitchenCenter';
 import { ProfilePage } from 'pages/profile';
@@ -12,8 +12,8 @@ export const cashierRoutes: Route[] = [
     index: true,
   },
   {
-    path: PATH_CASHIER_APP.endOfShift,
-    component: <EndOfShiftPage />,
+    path: PATH_CASHIER_APP.transferMoney,
+    component: <TransferMoneyPage />,
     index: true,
   },
   {
