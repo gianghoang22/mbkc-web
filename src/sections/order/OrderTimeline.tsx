@@ -116,24 +116,24 @@ export default function OrderTimeline() {
                           </Typography>
                           <Label
                             color={
-                              order?.systemStatus === SystemStatus.IN_STORE
+                              orderHistory?.systemStatus === SystemStatus.IN_STORE
                                 ? Color.PRIMARY
-                                : order?.systemStatus === SystemStatus.COMPLETED
+                                : orderHistory?.systemStatus === SystemStatus.COMPLETED
                                 ? Color.SUCCESS
-                                : order?.systemStatus === SystemStatus.READY_DELIVERY
+                                : orderHistory?.systemStatus === SystemStatus.READY_DELIVERY
                                 ? Color.WARNING
-                                : order?.systemStatus === SystemStatus.CANCELLED
+                                : orderHistory?.systemStatus === SystemStatus.CANCELLED
                                 ? Color.ERROR
                                 : Color.ERROR
                             }
                           >
-                            {order?.systemStatus === SystemStatus.IN_STORE
+                            {orderHistory?.systemStatus === SystemStatus.IN_STORE
                               ? translate('status.inStore')
-                              : order?.systemStatus === SystemStatus.READY_DELIVERY
+                              : orderHistory?.systemStatus === SystemStatus.READY_DELIVERY
                               ? translate('status.readyDelivery')
-                              : order?.systemStatus === SystemStatus.COMPLETED
+                              : orderHistory?.systemStatus === SystemStatus.COMPLETED
                               ? translate('status.completed')
-                              : order?.systemStatus === SystemStatus.CANCELLED
+                              : orderHistory?.systemStatus === SystemStatus.CANCELLED
                               ? translate('status.cancelled')
                               : translate('status.cancelled')}
                           </Label>
