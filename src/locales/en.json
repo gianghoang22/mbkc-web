@@ -9,7 +9,7 @@
     "all": "All",
     "active": "Active",
     "inactive": "Inactive",
-    "deActive": "Deactive",
+    "deActive": "Disable",
     "beConfirming": "Confirming",
     "reject": "Rejected",
     "success": "Success",
