@@ -262,7 +262,7 @@ function AddExtraToCategoryModal({
                     handleOpen('addExtra');
                     handleAddExtraCategory();
                   }}
-                  disabled={categoriesExtra.length === 0}
+                  disabled={selected.length === 0}
                 >
                   {translate('button.addMore')}
                 </Button>

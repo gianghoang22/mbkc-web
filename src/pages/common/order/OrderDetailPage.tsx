@@ -53,6 +53,8 @@ function OrderDetailPage() {
 
   const imageConfirm = order?.orderHistories?.map((history) => history.image);
 
+  console.log('imageConfirm', imageConfirm);
+
   const paramsDetails = useMemo(() => {
     return {
       orderId,
@@ -108,7 +110,7 @@ function OrderDetailPage() {
                         ? Color.WARNING
                         : order?.systemStatus === SystemStatus.CANCELLED
                         ? Color.ERROR
-                        : Color.ERROR
+                        : Color.DEFAULT
                     }
                   >
                     {order?.systemStatus === SystemStatus.IN_STORE
@@ -119,7 +121,7 @@ function OrderDetailPage() {
                       ? translate('status.completed')
                       : order?.systemStatus === SystemStatus.CANCELLED
                       ? translate('status.cancelled')
-                      : translate('status.cancelled')}
+                      : ''}
                   </Label>
                 </Stack>
 
@@ -194,7 +196,7 @@ function OrderDetailPage() {
                                   ? Color.SUCCESS
                                   : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                                   ? Color.ERROR
-                                  : Color.ERROR
+                                  : Color.DEFAULT
                               }
                             >
                               {order?.partnerOrderStatus === PartnerOrderStatus.UPCOMING
@@ -207,7 +209,7 @@ function OrderDetailPage() {
                                 ? translate('status.completed')
                                 : order?.partnerOrderStatus === PartnerOrderStatus.CANCELLED
                                 ? translate('status.cancelled')
-                                : translate('status.cancelled')}
+                                : ''}
                             </Label>
                           </Stack>
                         </Stack>
@@ -475,33 +477,53 @@ function OrderDetailPage() {
                   </Box>
                 </Card>
 
-                {imageConfirm && imageConfirm[3] && (
-                  <Box mt={5}>
-                    <Card>
-                      <Box width="100%">
-                        <Paper sx={{ width: '100%' }}>
-                          <Stack
-                            gap={1}
-                            direction="row"
-                            alignItems="center"
-                            px={3}
-                            py={2}
-                            sx={{
-                              borderBottom: 1,
-                              borderColor: (theme) => theme.palette.grey[400],
-                            }}
-                          >
-                            <BurstModeIcon />
-                            <Typography variant="subtitle1">{translate('page.title.imageConfirmDelivery')}</Typography>
-                          </Stack>
-                          <Stack gap={2} p={2}>
-                            <img src={imageConfirm ? imageConfirm[3] : ''} alt="order confirm" />
-                          </Stack>
-                        </Paper>
-                      </Box>
-                    </Card>
-                  </Box>
-                )}
+                {imageConfirm &&
+                  (imageConfirm[0] ||
+                    imageConfirm[1] ||
+                    imageConfirm[2] ||
+                    imageConfirm[3] ||
+                    imageConfirm[4] ||
+                    imageConfirm[5]) && (
+                    <Box mt={5}>
+                      <Card>
+                        <Box width="100%">
+                          <Paper sx={{ width: '100%' }}>
+                            <Stack
+                              gap={1}
+                              direction="row"
+                              alignItems="center"
+                              px={3}
+                              py={2}
+                              sx={{
+                                borderBottom: 1,
+                                borderColor: (theme) => theme.palette.grey[400],
+                              }}
+                            >
+                              <BurstModeIcon />
+                              <Typography variant="subtitle1">
+                                {translate('page.title.imageConfirmDelivery')}
+                              </Typography>
+                            </Stack>
+                            <Stack gap={2} p={2}>
+                              <img
+                                src={
+                                  imageConfirm
+                                    ? imageConfirm[0] ||
+                                      imageConfirm[1] ||
+                                      imageConfirm[2] ||
+                                      imageConfirm[3] ||
+                                      imageConfirm[4] ||
+                                      imageConfirm[5]
+                                    : ''
+                                }
+                                alt="order confirm"
+                              />
+                            </Stack>
+                          </Paper>
+                        </Box>
+                      </Card>
+                    </Box>
+                  )}
               </Grid>
             </Grid>
           </Box>
