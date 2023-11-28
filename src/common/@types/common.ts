@@ -13,6 +13,7 @@ export interface OptionParams {
   idKitchenCenter?: null | number | string;
   idCategory?: null | number | string;
   idStore?: null | number | string;
+  idProduct?: null | number | string;
   sortBy?: string | null;
   keySortName?: string | null;
   keySortCode?: string | null;
@@ -27,6 +28,7 @@ export interface OptionParams {
   exchangeType?: string | null;
   paymentMethod?: string | null;
   confirmedBy?: boolean | null | string;
+  isDetailList?: boolean | null;
 }
 
 export interface IdParams {

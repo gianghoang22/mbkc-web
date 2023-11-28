@@ -5,7 +5,7 @@ import { ROUTES_API_PRODUCTS } from 'constants/routesApiKeys';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
-import { getAllProducts } from './productSlice';
+import { getAllProducts, getProductDetail } from './productSlice';
 
 export const getAllProductsThunk = async (params: any, thunkAPI: any) => {
   const { optionParams, navigate } = params;
@@ -165,6 +165,9 @@ export const deleteProductThunk = async (params: Params<Product>, thunkAPI: any)
           navigate,
         };
         await thunkAPI.dispatch(getAllProducts(paramsCallback));
+      } else if (pathname && pathname !== PATH_BRAND_APP.product.list && optionParams?.isDetailList === true) {
+        await thunkAPI.dispatch(getProductDetail({ productId: optionParams?.idProduct as number, navigate }));
+        navigate(pathname);
       } else {
         navigate(PATH_BRAND_APP.product.list);
       }

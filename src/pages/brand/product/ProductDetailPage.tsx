@@ -63,6 +63,13 @@ function ProductDetailPage() {
     handleCloseMenu: handleCloseMenuPartnerProduct,
   } = usePopover();
   const { page, setPage, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const {
+    page: pageExtra,
+    setPage: setPageExtra,
+    rowsPerPage: rowsPerPageExtra,
+    handleChangePage: handleChangePageExtra,
+    handleChangeRowsPerPage: handleChangeRowsPerPageExtra,
+  } = usePagination();
 
   const { userAuth } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
@@ -71,6 +78,8 @@ function ProductDetailPage() {
 
   const [order, setOrder] = useState<OrderSort>('asc');
   const [orderBy, setOrderBy] = useState<keyof ProductTable>(OrderSortBy.NAME);
+  const [orderExtra, setOrderExtra] = useState<OrderSort>('asc');
+  const [orderByExtra, setOrderByExtra] = useState<keyof ProductTable>(OrderSortBy.NAME);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -78,10 +87,22 @@ function ProductDetailPage() {
     setOrderBy(property);
   };
 
+  const handleRequestSortExtra = (event: React.MouseEvent<unknown>, property: keyof ProductTable) => {
+    const isAsc = orderByExtra === property && orderExtra === 'asc';
+    setOrderExtra(isAsc ? 'desc' : 'asc');
+    setOrderByExtra(property);
+  };
+
   const childProductList =
     product?.childrenProducts && product.type === ProductTypeEnum.PARENT ? product?.childrenProducts : [];
 
+  const extraProductList =
+    product?.extraProducts && (product.type === ProductTypeEnum.CHILD || product.type === ProductTypeEnum.SINGLE)
+      ? product?.extraProducts
+      : [];
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - childProductList.length) : 0;
+  const emptyRowsExtra = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - extraProductList.length) : 0;
 
   const childProductRows = useMemo(
     () =>
@@ -90,6 +111,15 @@ function ProductDetailPage() {
         page * rowsPerPage + rowsPerPage
       ),
     [order, orderBy, page, rowsPerPage, childProductList]
+  );
+
+  const extraProductRows = useMemo(
+    () =>
+      stableSort(extraProductList, getComparator(orderExtra, orderByExtra)).slice(
+        pageExtra * rowsPerPageExtra,
+        pageExtra * rowsPerPageExtra + rowsPerPageExtra
+      ),
+    [orderExtra, orderByExtra, pageExtra, rowsPerPageExtra, extraProductList]
   );
 
   const paramPartnerProduct = useMemo(() => {
@@ -355,6 +385,7 @@ function ProductDetailPage() {
                                     length={childProductRows?.length}
                                     product={productChild}
                                     isInDetail
+                                    isDetailList={true}
                                   />
                                 );
                               })}
@@ -377,6 +408,72 @@ function ProductDetailPage() {
                           labelRowsPerPage={translate('table.rowsPerPage')}
                           onPageChange={handleChangePage}
                           onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                      </Paper>
+                    </Box>
+                  </Card>
+                )}
+              </>
+            )}
+
+            {isProduct && (
+              <>
+                {(product?.type === ProductTypeEnum.CHILD || product?.type === ProductTypeEnum.SINGLE) && (
+                  <Card sx={{ mt: 7 }}>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} py={2}>
+                      <Typography variant="h6">
+                        {translate('page.title.list', { model: translate('model.lowercase.extraProduct') })}
+                      </Typography>
+                    </Stack>
+
+                    <Box sx={{ width: '100%' }}>
+                      <Paper sx={{ width: '100%', mb: 2 }}>
+                        <TableContainer>
+                          <Table sx={{ minWidth: 800 }} aria-labelledby="tableTitle" size="medium">
+                            <CommonTableHead<ProductTable>
+                              hideCategory
+                              hideType
+                              showAction
+                              order={order}
+                              orderBy={orderBy}
+                              headCells={productHeadCells}
+                              onRequestSort={handleRequestSortExtra}
+                            />
+                            <TableBody>
+                              {extraProductRows?.map((productExtra, index) => {
+                                return (
+                                  <ProductTableRow
+                                    index={index}
+                                    key={productExtra.productId}
+                                    setPage={setPageExtra}
+                                    page={page + 1}
+                                    rowsPerPage={rowsPerPage}
+                                    length={extraProductRows?.length}
+                                    product={productExtra}
+                                    isInDetail
+                                    isDetailList={true}
+                                  />
+                                );
+                              })}
+                              {emptyRowsExtra > 0 ||
+                                (extraProductRows?.length === 0 && (
+                                  <EmptyTable
+                                    colNumber={productHeadCells.length + 2}
+                                    model={translate('model.lowercase.extraProduct')}
+                                  />
+                                ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                        <TablePagination
+                          rowsPerPageOptions={[5, 10, 25]}
+                          component="div"
+                          count={product?.childrenProducts ? product?.childrenProducts?.length : 3}
+                          page={page}
+                          rowsPerPage={rowsPerPage}
+                          labelRowsPerPage={translate('table.rowsPerPage')}
+                          onPageChange={handleChangePageExtra}
+                          onRowsPerPageChange={handleChangeRowsPerPageExtra}
                         />
                       </Paper>
                     </Box>
@@ -410,7 +507,6 @@ function ProductDetailPage() {
                                   <TableCell width={60} component="th" scope="row">
                                     {index + 1}
                                   </TableCell>
-
                                   <TableCell>{partnerProducts.partnerName}</TableCell>
                                   <TableCell width={600}> {partnerProducts.productCode}</TableCell>
                                 </TableRow>

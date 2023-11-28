@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Avatar, IconButton, Stack, Switch, TableCell, TableRow, Typography } from '@mui/material';
 // @mui icon
@@ -39,6 +39,7 @@ interface ProductTableRowProps {
   filterName?: string;
   productType?: string;
   sortBy?: string;
+  isDetailList?: boolean;
 }
 
 function ProductTableRow({
@@ -54,7 +55,10 @@ function ProductTableRow({
   filterName,
   productType,
   sortBy,
+  isDetailList = false,
 }: ProductTableRowProps) {
+  const { id: productId } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -95,6 +99,8 @@ function ProductTableRow({
           currentPage: (newPage === -1 ? 0 : newPage) + 1,
           type: productType,
           sortBy: sortBy,
+          isDetailList: isDetailList,
+          idProduct: productId,
         },
         pathname: pathname,
         navigate,
