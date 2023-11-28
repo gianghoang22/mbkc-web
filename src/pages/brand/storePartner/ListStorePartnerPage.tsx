@@ -20,6 +20,7 @@ import { StorageKeys } from 'constants/storageKeys';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { removeLocalStorage } from 'utils';
+import { Status } from 'common/enums';
 
 function ListStorePartnerPage() {
   const navigate = useNavigate();
@@ -133,9 +134,16 @@ function ListStorePartnerPage() {
                     <StorePartnerTableRowSkeleton />
                   ) : (
                     <TableBody>
-                      {stores.map((store, index) => {
-                        return <StorePartnerTableRow key={store.storeId} index={index} store={store} />;
-                      })}
+                      {stores
+                        .filter(
+                          (store) =>
+                            store.status !== Status.REJECTED &&
+                            store.status !== Status.BE_CONFIRMING &&
+                            store.status !== Status.DEACTIVE
+                        )
+                        .map((store, index) => {
+                          return <StorePartnerTableRow key={store.storeId} index={index} store={store} />;
+                        })}
                       {emptyRows > 0 ||
                         (stores.length === 0 && !filterName && (
                           <EmptyTable

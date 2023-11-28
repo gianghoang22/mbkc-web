@@ -53,8 +53,6 @@ function OrderDetailPage() {
 
   const imageConfirm = order?.orderHistories?.map((history) => history.image);
 
-  console.log('imageConfirm', imageConfirm);
-
   const paramsDetails = useMemo(() => {
     return {
       orderId,

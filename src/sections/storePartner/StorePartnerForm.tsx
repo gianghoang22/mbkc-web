@@ -37,7 +37,10 @@ function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const storeOptions = stores
-    .filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED)
+    .filter(
+      (store) =>
+        store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED && store.status !== Status.DEACTIVE
+    )
     .map((store) => ({
       label: store.name,
       value: store.storeId,
