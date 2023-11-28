@@ -236,7 +236,7 @@ function OrderDetailPage() {
                         {order?.rejectedReason !== null && (
                           <Typography variant="subtitle1">
                             {translate('page.content.cancelReason')}:{' '}
-                            <Typography variant="body1" component="span">
+                            <Typography variant="body1" component="span" color="error">
                               {order?.rejectedReason}
                             </Typography>
                           </Typography>

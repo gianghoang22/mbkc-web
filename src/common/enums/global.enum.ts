@@ -2,8 +2,8 @@ export enum Status {
   ALL = '',
   ACTIVE = 'Active',
   INACTIVE = 'Inactive',
-  DEACTIVE = 'Deactive',
-  BE_CONFIRMING = 'Be Confirming',
+  DEACTIVE = 'Disable',
+  BE_CONFIRMING = 'Confirming',
   REJECTED = 'Rejected',
 }
 
