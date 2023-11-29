@@ -3,20 +3,20 @@ import { useEffect, useMemo, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // @mui icon
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // @mui
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Box, Button, Grid, IconButton, Stack, Typography, InputAdornment } from '@mui/material';
+import { Box, Button, Grid, IconButton, InputAdornment, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllPartners } from 'redux/partner/partnerSlice';
-import { getAllStores } from 'redux/store/storeSlice';
+import { getAllStoresActiveInactive } from 'redux/store/storeSlice';
 //
 import { ListParams } from 'common/@types';
+import { Language } from 'common/enums';
 import { StorePartnerToCreate } from 'common/models';
-import { Language, Status } from 'common/enums';
 import { AutoCompleteField, InputField } from 'components';
 import { useLocales } from 'hooks';
 
@@ -32,21 +32,16 @@ function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
 
   const { stores } = useAppSelector((state) => state.store);
   const { partners } = useAppSelector((state) => state.partner);
+  const { brandProfile } = useAppSelector((state) => state.profile);
   const { isLoading } = useAppSelector((state) => state.storePartner);
-
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const storeOptions = stores
-    .filter(
-      (store) =>
-        store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED && store.status !== Status.DEACTIVE
-    )
-    .map((store) => ({
-      label: store.name,
-      value: store.storeId,
-      center: store.kitchenCenter.name,
-      image: store.logo,
-    }));
+  const storeOptions = stores.map((store) => ({
+    label: store.name,
+    value: store.storeId,
+    center: store.kitchenCenter.name,
+    image: store.logo,
+  }));
 
   const getOpObjStore = (option: any) => {
     if (!option) return option;
@@ -72,6 +67,16 @@ function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
     name: 'partnerAccounts',
   });
 
+  const paramsStore: ListParams = useMemo(() => {
+    return {
+      optionParams: {
+        idBrand: brandProfile?.brandId,
+        isGetAll: true,
+      },
+      navigate,
+    };
+  }, []);
+
   const params: ListParams = useMemo(() => {
     return {
       optionParams: {
@@ -82,7 +87,7 @@ function StorePartnerForm({ defaultValues }: StorePartnerFormProps) {
   }, []);
 
   useEffect(() => {
-    dispatch(getAllStores(params));
+    dispatch(getAllStoresActiveInactive(paramsStore));
     dispatch(getAllPartners(params));
   }, [params]);
 

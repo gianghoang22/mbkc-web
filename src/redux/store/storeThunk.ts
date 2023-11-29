@@ -22,11 +22,13 @@ export const getAllStoresThunk = async (params: ListParams, thunkAPI: any) => {
   }
 };
 
-export const getAllStoresDashboardThunk = async (params: ListParams, thunkAPI: any) => {
+export const getAllStoresActiveInactiveThunk = async (params: ListParams, thunkAPI: any) => {
   const { optionParams, navigate } = params;
 
   try {
-    const response: ListResponse<Store> = await axiosClient.get(ROUTES_API_STORES.GET_ALL_STORE(optionParams));
+    const response: ListResponse<Store> = await axiosClient.get(
+      ROUTES_API_STORES.GET_ALL_STORE_ACTIVE_INACTIVE(optionParams)
+    );
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);

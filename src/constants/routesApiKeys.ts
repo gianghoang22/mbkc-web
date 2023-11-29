@@ -162,6 +162,21 @@ export const ROUTES_API_STORES = {
       `?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}&status=${status}&isGetAll=${isGetAll}&sortBy=${sortBy}`
     );
   },
+  GET_ALL_STORE_ACTIVE_INACTIVE: ({
+    itemsPerPage = '',
+    currentPage = '',
+    searchValue = '',
+    idBrand = '',
+    idKitchenCenter = '',
+    status = '',
+    isGetAll = '',
+    sortBy = '',
+  }: OptionParams) => {
+    return path(
+      ROOTS_STORES,
+      `/active-inactive-stores?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&searchValue=${searchValue}&idBrand=${idBrand}&idKitchenCenter=${idKitchenCenter}&status=${status}&isGetAll=${isGetAll}&sortBy=${sortBy}`
+    );
+  },
   GET_STORE_DETAIL: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
   UPDATE_STORE_INFORMATION: (storeId: number) => path(ROOTS_STORES, `/${storeId}`),
   UPDATE_STORE_STATUS: (storeId: number) => path(ROOTS_STORES, `/${storeId}/updating-status`),

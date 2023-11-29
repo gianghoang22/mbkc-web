@@ -8,19 +8,19 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { getAllStores, setAddFormList } from 'redux/store/storeSlice';
+import { getAllStoresActiveInactive, setAddFormList } from 'redux/store/storeSlice';
 import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 // section
 import { StoreTableToolbar } from 'sections/store';
 import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
-//
+// interface
 import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from 'common/@types';
+//
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { removeLocalStorage } from 'utils';
-import { Status } from 'common/enums';
 
 function ListStorePartnerPage() {
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ function ListStorePartnerPage() {
   }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
-    dispatch<any>(getAllStores(paramsBrandRole));
+    dispatch<any>(getAllStoresActiveInactive(paramsBrandRole));
   }, [paramsBrandRole]);
 
   const paramsStorePartner: ListParams = useMemo(() => {
@@ -134,16 +134,9 @@ function ListStorePartnerPage() {
                     <StorePartnerTableRowSkeleton />
                   ) : (
                     <TableBody>
-                      {stores
-                        .filter(
-                          (store) =>
-                            store.status !== Status.REJECTED &&
-                            store.status !== Status.BE_CONFIRMING &&
-                            store.status !== Status.DEACTIVE
-                        )
-                        .map((store, index) => {
-                          return <StorePartnerTableRow key={store.storeId} index={index} store={store} />;
-                        })}
+                      {stores.map((store, index) => {
+                        return <StorePartnerTableRow key={store.storeId} index={index} store={store} />;
+                      })}
                       {emptyRows > 0 ||
                         (stores.length === 0 && !filterName && (
                           <EmptyTable
