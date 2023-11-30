@@ -104,7 +104,6 @@ function StoreTableRow({
           currentPage: (newPage === -1 ? 0 : newPage) + 1,
           status: status?.value,
           sortBy: sortBy,
-          idBrand: brandProfile?.brandId,
         },
         pathname,
         navigate,
