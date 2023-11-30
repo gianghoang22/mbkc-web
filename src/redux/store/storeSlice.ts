@@ -6,7 +6,7 @@ import {
   confirmRegistrationStoreThunk,
   createNewStoreThunk,
   deleteStoreThunk,
-  getAllStoresDashboardThunk,
+  getAllStoresActiveInactiveThunk,
   getAllStoresThunk,
   getStoreDetailThunk,
   updateStatusStoreThunk,
@@ -24,7 +24,6 @@ interface StoreState {
   storeId: number;
   totalPages: number;
   numberItems: number;
-  numberItemsInDashboard: number;
 }
 
 const getIsEditingInStorage =
@@ -44,12 +43,14 @@ const initialState: StoreState = {
   storeId: getStoreIdlInStorage,
   totalPages: 0,
   numberItems: 5,
-  numberItemsInDashboard: 0,
 };
 
 export const createNewStore = createAsyncThunk('store/create-store', createNewStoreThunk);
 export const getAllStores = createAsyncThunk('store/get-all-stores', getAllStoresThunk);
-export const getAllStoresDashboard = createAsyncThunk('store/get-all-stores-dashboard', getAllStoresDashboardThunk);
+export const getAllStoresActiveInactive = createAsyncThunk(
+  'store/get-all-stores-active-inactive',
+  getAllStoresActiveInactiveThunk
+);
 export const getStoreDetail = createAsyncThunk('store/get-store-detail', getStoreDetailThunk);
 export const updateStore = createAsyncThunk('store/update-store', updateStoreThunk);
 export const updateStatusStore = createAsyncThunk('store/update-status-store', updateStatusStoreThunk);
@@ -120,16 +121,18 @@ const storeSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
       })
-      .addCase(getAllStoresDashboard.pending, (state) => {
+      .addCase(getAllStoresActiveInactive.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAllStoresDashboard.fulfilled, (state, action) => {
+      .addCase(getAllStoresActiveInactive.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.numberItemsInDashboard = action.payload?.numberItems;
+        state.stores = [...action.payload?.stores];
+        state.totalPages = action.payload?.totalPages;
+        state.numberItems = action.payload?.numberItems;
       })
-      .addCase(getAllStoresDashboard.rejected, (state) => {
+      .addCase(getAllStoresActiveInactive.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

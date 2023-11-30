@@ -50,6 +50,7 @@ function UpdatePasswordModal({ isOpen, handleOpen }: UpdatePasswordModalProps) {
   const { handleSubmit } = updatePasswordForm;
 
   const onSubmit = async (values: UpdatePasswordForm) => {
+    handleOpen();
     const hashPassword = hashPasswordMD5(values.newPassword);
     const params: Params<Omit<UpdatePasswordForm, 'confirmPassword'>> = {
       data: { newPassword: hashPassword },

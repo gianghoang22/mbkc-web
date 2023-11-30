@@ -8,13 +8,14 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-import { getAllStores, setAddFormList } from 'redux/store/storeSlice';
+import { getAllStoresActiveInactive, setAddFormList } from 'redux/store/storeSlice';
 import { getAllStorePartners } from 'redux/storePartner/storePartnerSlice';
 // section
 import { StoreTableToolbar } from 'sections/store';
 import { StorePartnerTableRow, StorePartnerTableRowSkeleton } from 'sections/storePartner';
-//
+// interface
 import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from 'common/@types';
+//
 import { CommonTableHead, EmptyTable, Page, SearchNotFound } from 'components';
 import { StorageKeys } from 'constants/storageKeys';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
@@ -69,7 +70,7 @@ function ListStorePartnerPage() {
   }, [page, rowsPerPage, debounceValue, orderBy, order]);
 
   useEffect(() => {
-    dispatch<any>(getAllStores(paramsBrandRole));
+    dispatch<any>(getAllStoresActiveInactive(paramsBrandRole));
   }, [paramsBrandRole]);
 
   const paramsStorePartner: ListParams = useMemo(() => {
