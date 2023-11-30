@@ -20,7 +20,7 @@ import { deletePartner, setEditPartner } from 'redux/partner/partnerSlice';
 import CreatePartnerModal from './CreatePartnerModal';
 //
 import { Partner } from 'common/models';
-import { Color, Language, Status } from 'common/enums';
+import { Color, Language, PopoverType, Status } from 'common/enums';
 import { ConfirmDialog, ContentLabel, Popover } from 'components';
 import { useLocales, useModal, usePagination, usePopover } from 'hooks';
 
@@ -102,7 +102,7 @@ function PartnerDetailModal({ partner, isOpen, handleOpen, filterName, sortBy }:
                       ? translate('status.inactive')
                       : partner?.status === Status.ACTIVE
                       ? translate('status.active')
-                      : translate('status.deactive')
+                      : translate('status.deActive')
                   }
                 />
                 <Typography variant="subtitle1">
@@ -129,7 +129,13 @@ function PartnerDetailModal({ partner, isOpen, handleOpen, filterName, sortBy }:
         </Dialog>
       )}
 
-      <Popover open={open} handleCloseMenu={handleCloseMenu} onEdit={handleEdit} onDelete={handleOpenDelete} />
+      <Popover
+        type={PopoverType.EDIT}
+        open={open}
+        handleCloseMenu={handleCloseMenu}
+        onEdit={handleEdit}
+        onDelete={handleOpenDelete}
+      />
 
       {isOpenCreate && (
         <CreatePartnerModal
