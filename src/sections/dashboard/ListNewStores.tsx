@@ -27,6 +27,7 @@ import { Store } from 'common/models';
 import { EmptyTable } from 'components';
 import { useLocales, useResponsive } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP, PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { Role } from 'common/enums';
 
 interface ListNewStoresProps {
   pathname: string;
@@ -42,6 +43,7 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
 
   const { translate } = useLocales();
 
+  const { userAuth } = useAppSelector((state) => state.auth);
   const { isLoading: isLoadingStore } = useAppSelector((state) => state.store);
   const { isLoading: isLoadingDashboard } = useAppSelector((state) => state.dashboard);
 
@@ -125,7 +127,13 @@ function ListNewStores({ pathname, listStores }: ListNewStoresProps) {
                 fontSize: '14px',
                 fontWeight: 'bold',
               }}
-              to={PATH_ADMIN_APP.store.list}
+              to={
+                userAuth?.roleName === Role.KITCHEN_CENTER_MANAGER
+                  ? PATH_KITCHEN_CENTER_APP.store.list
+                  : userAuth?.roleName === Role.BRAND_MANAGER
+                  ? PATH_BRAND_APP.store.list
+                  : PATH_ADMIN_APP.store.list
+              }
             >
               {translate('page.content.viewAll')}
               <KeyboardArrowRightIcon fontSize="small" />

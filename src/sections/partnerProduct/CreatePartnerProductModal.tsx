@@ -2,7 +2,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -58,6 +58,7 @@ function CreatePartnerProductModal({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const { pathname } = useLocation();
   const { translate, currentLang } = useLocales();
   const { schemaPartnerProduct } = useValidationForm();
   const { page, rowsPerPage } = usePagination();
@@ -171,6 +172,7 @@ function CreatePartnerProductModal({
           storeId: data?.storeId,
         },
         optionParams: { searchValue: filterName, currentPage: page + 1, itemsPerPage: rowsPerPage, sortBy: sortBy },
+        pathname,
         navigate,
       };
       await dispatch(updatePartnerProduct(paramsToUpdate));
