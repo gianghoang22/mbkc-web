@@ -102,7 +102,7 @@ function PartnerDetailModal({ partner, isOpen, handleOpen, filterName, sortBy }:
                       ? translate('status.inactive')
                       : partner?.status === Status.ACTIVE
                       ? translate('status.active')
-                      : translate('status.deactive')
+                      : translate('status.deActive')
                   }
                 />
                 <Typography variant="subtitle1">

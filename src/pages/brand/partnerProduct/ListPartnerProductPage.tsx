@@ -108,7 +108,7 @@ function ListPartnerProductPage() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <CustomTableToolbar<PartnerProductTable>
-                model={translate('model.lowercase.category')}
+                model={translate('model.lowercase.partnerProduct')}
                 selected={selected}
                 setSelected={setSelected}
                 headCells={partnerProductHeadCells}
@@ -150,7 +150,7 @@ function ListPartnerProductPage() {
                         (partnerProducts.length === 0 && !filterName && (
                           <EmptyTable
                             colNumber={partnerProductHeadCells.length + 2}
-                            model={translate('model.lowercase.product')}
+                            model={translate('model.lowercase.partnerProduct')}
                           />
                         ))}
                     </TableBody>

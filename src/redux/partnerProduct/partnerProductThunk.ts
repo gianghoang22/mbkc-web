@@ -70,9 +70,9 @@ export const updatePartnerProductThunk = async (params: Params<PartnerProductToU
   try {
     const response: MessageResponse = await axiosClient.put(
       ROUTES_API_PARTNER_PRODUCTS.UPDATE_PARTNER_PRODUCT(
-        idParams?.productId ? idParams?.productId : 0,
-        idParams?.partnerId ? idParams?.partnerId : 0,
-        idParams?.storeId ? idParams?.storeId : 0
+        idParams?.productId as number,
+        idParams?.partnerId as number,
+        idParams?.storeId as number
       ),
       data
     );
@@ -82,7 +82,14 @@ export const updatePartnerProductThunk = async (params: Params<PartnerProductToU
         .slice(2)
         .filter((x) => x)[1];
       if (!isNaN(parseInt(pathToBack ? pathToBack : ''))) {
-        await thunkAPI.dispatch(getPartnerProductDetail({ productId: idParams?.productId, navigate }));
+        await thunkAPI.dispatch(
+          getPartnerProductDetail({
+            productId: idParams?.productId,
+            partnerId: idParams?.partnerId,
+            storeId: idParams?.storeId,
+            navigate,
+          })
+        );
       } else {
         const paramsCallback: ListParams = {
           optionParams: optionParams ? optionParams : {},

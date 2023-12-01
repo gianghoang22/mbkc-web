@@ -34,7 +34,7 @@ type Props = {
 const ConfirmDialog: FC<Props & DialogProps> = ({
   open,
   title,
-  isOrder,
+  isOrder = false,
   model,
   subModel,
   description,
@@ -63,28 +63,23 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           <Typography>
-            {description ? (
-              description
-            ) : (
-              <>
-                {isOrder ? (
-                  <>
-                    <Typography component="span" variant="subtitle1">
-                      {model}
-                      <Typography component="span"> {subModel}</Typography>
-                    </Typography>
-                    ?
-                  </>
-                ) : (
-                  <>
-                    <Typography component="span" variant="subtitle1">
-                      {model}
-                    </Typography>
-                    ?
-                  </>
-                )}
-              </>
-            )}{' '}
+            <>
+              {isOrder ? (
+                <Typography component="span" variant="subtitle1">
+                  {model}
+                  <Typography component="span"> {subModel}</Typography>
+                  {description}?
+                </Typography>
+              ) : (
+                <Typography>
+                  {description}{' '}
+                  <Typography component="span" variant="subtitle1">
+                    {model}
+                  </Typography>
+                  ?
+                </Typography>
+              )}
+            </>
           </Typography>
         </DialogContentText>
       </DialogContent>

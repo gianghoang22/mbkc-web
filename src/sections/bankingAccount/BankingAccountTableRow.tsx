@@ -185,7 +185,7 @@ function BankingAccountTableRow({
           onClose={handleOpenDelete}
           onAction={handleDelete}
           model={bankingAccount?.name}
-          title={translate('dialog.confirmDeleteTitle', { model: translate('model.capitalize.bankingAccount') })}
+          title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.bankingAccount') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.bankingAccount') })}
         />
       )}

@@ -244,7 +244,7 @@ function PartnerProductTableRow({
           open={isOpen}
           onClose={handleOpen}
           onAction={handleDelete}
-          model={partnerProduct?.partnerName}
+          model={partnerProduct?.productName}
           title={translate('dialog.confirmDeleteTitle', { model: translate('model.lowercase.partnerProduct') })}
           description={translate('dialog.confirmDeleteContent', { model: translate('model.lowercase.partnerProduct') })}
         />
