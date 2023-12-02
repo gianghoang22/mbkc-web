@@ -4,13 +4,12 @@ import { MoneyExchange, PaymentForStoresToCreate } from 'common/models';
 import { ROUTES_API_MONEY_EXCHANGES } from 'constants/routesApiKeys';
 import { NavigateFunction } from 'react-router-dom';
 import { setMessageError, setMessageSuccess } from 'redux/auth/authSlice';
-import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
-import { getAllMoneyExchange } from './moneyExchangeSlice';
 import { getCashierReportShift } from 'redux/cashier/cashierSlice';
+import { appendData, getErrorMessage, handleResponseMessage } from 'utils';
+import { getAllMoneyExchangeWithdraw } from './moneyExchangeSlice';
 
 export const getAllMoneyExchangeThunk = async (params: ListParams, thunkAPI: any) => {
   const { navigate, optionParams } = params;
-
   try {
     const response: ListResponse<MoneyExchange> = await axiosClient.get(
       ROUTES_API_MONEY_EXCHANGES.GET_ALL_MONEY_EXCHANGES(optionParams)
@@ -54,7 +53,7 @@ export const createPaymentForStoreThunk = async (params: Params<PaymentForStores
         optionParams: optionParams ? optionParams : {},
         navigate,
       };
-      await thunkAPI.dispatch(getAllMoneyExchange(paramsCallback));
+      await thunkAPI.dispatch(getAllMoneyExchangeWithdraw(paramsCallback));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

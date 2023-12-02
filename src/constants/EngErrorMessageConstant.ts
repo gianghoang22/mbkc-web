@@ -214,4 +214,5 @@ export const EngErrorMessageConstant = {
   //Validations
   imageIsNotNull: 'Image is not null.',
   logoIsNotNull: 'Logo is not null.',
+  avatarIsNotNull: 'Avatar is not null.',
 };

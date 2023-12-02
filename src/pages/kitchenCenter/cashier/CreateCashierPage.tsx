@@ -47,7 +47,7 @@ function CreateCashierPage() {
     if (cashier !== null && isEditing === true) {
       setValue('email', cashier?.email as string);
       setValue('fullName', cashier?.fullName as string);
-      setValue('gender', cashier?.gender === Gender.MALE ? Gender.MALE : Gender.FEMALE);
+      setValue('gender', cashier?.gender.toLowerCase() === Gender.MALE ? Gender.MALE : Gender.FEMALE);
       setValue('avatar', cashier?.avatar);
       setValue('citizenNumber', cashier?.citizenNumber as string);
       setValue('dateOfBirth', cashier?.dateOfBirth);

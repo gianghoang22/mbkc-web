@@ -62,26 +62,6 @@ export const confirmOrderToCompletedThunk = async (params: Params<CompletedOrder
   }
 };
 
-export const changeOrderToReadyThunk = async (params: any, thunkAPI: any) => {
-  const { orderId, navigate } = params;
-  try {
-    const response: MessageResponse = await axiosClient.put(
-      ROUTES_API_ORDERS.CHANGE_ORDER_TO_READY(orderId ? orderId : 0)
-    );
-    if (response) {
-      await thunkAPI.dispatch(getOrderDetail(orderId));
-      const message = handleResponseMessage(response.message);
-      thunkAPI.dispatch(setMessageSuccess(message));
-    }
-    return response;
-  } catch (error: any) {
-    const errorResponse = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
-    thunkAPI.dispatch(setMessageError(messageMultiLang));
-    return thunkAPI.rejectWithValue(error);
-  }
-};
-
 export const changeOrderToReadyDeliveryThunk = async (params: any, thunkAPI: any) => {
   const { orderId, navigate } = params;
 
@@ -91,27 +71,6 @@ export const changeOrderToReadyDeliveryThunk = async (params: any, thunkAPI: any
     );
     if (response) {
       await thunkAPI.dispatch(getOrderDetail({ orderId }));
-      const message = handleResponseMessage(response.message);
-      thunkAPI.dispatch(setMessageSuccess(message));
-    }
-    return response;
-  } catch (error: any) {
-    const errorResponse = getErrorMessage(error, navigate);
-    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
-    thunkAPI.dispatch(setMessageError(messageMultiLang));
-    return thunkAPI.rejectWithValue(error);
-  }
-};
-
-export const cancelOrderThunk = async (params: any, thunkAPI: any) => {
-  const { idParams, navigate } = params;
-
-  try {
-    const response: MessageResponse = await axiosClient.put(
-      ROUTES_API_ORDERS.CANCEL_ORDER(idParams?.orderId ? idParams?.orderId : 0)
-    );
-    if (response) {
-      await thunkAPI.dispatch(getOrderDetail(idParams?.orderId));
       const message = handleResponseMessage(response.message);
       thunkAPI.dispatch(setMessageSuccess(message));
     }

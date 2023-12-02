@@ -496,6 +496,8 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.StoreBalanceIsInvalid
         : response === EngErrorMessageConstant.NoOneOutOfStock
         ? EngErrorMessageConstant.NoOneOutOfStock
+        : response === EngErrorMessageConstant.avatarIsNotNull
+        ? EngErrorMessageConstant.avatarIsNotNull
         : response
       : currentLanguage === Language.VIETNAMESE
       ? response === EngMessageConstant.LoginSuccessfully
@@ -984,6 +986,8 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.StoreBalanceIsInvalid
         : response === EngErrorMessageConstant.NoOneOutOfStock
         ? VieErrorMessageConstant.NoOneOutOfStock
+        : response === EngErrorMessageConstant.avatarIsNotNull
+        ? VieErrorMessageConstant.avatarIsNotNull
         : response
       : response;
 

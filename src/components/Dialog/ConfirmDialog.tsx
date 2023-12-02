@@ -65,10 +65,13 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
           <Typography>
             <>
               {isOrder ? (
-                <Typography component="span" variant="subtitle1">
-                  {model}
-                  <Typography component="span"> {subModel}</Typography>
-                  {description}?
+                <Typography>
+                  {description}
+                  <Typography component="span" variant="subtitle1">
+                    {' '}
+                    {model}{' '}
+                  </Typography>
+                  <Typography component="span">{subModel}</Typography>?
                 </Typography>
               ) : (
                 <Typography>

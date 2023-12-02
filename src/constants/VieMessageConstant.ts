@@ -52,7 +52,7 @@ export const VieMessageConstant = {
   UpdatedStorePartnerStatusSuccessfully: 'Cập nhật thông tin trạng thái đối tác cửa hàng thành công.',
 
   CreatedCashierSuccessfully: 'Tạo mới nhân viên thu ngân thành công.',
-  UpdatedCashierSuccessfully: 'Cập nhật thu ngân thành công.',
+  UpdatedCashierSuccessfully: 'Cập nhật nhân viên thu ngân thành công.',
   UpdatedCashierStatusSuccessfully: 'Cập nhật trạng thái nhân viên thu ngân thành công.',
   DeletedCashierSuccessfully: 'Đã xóa nhân viên thu ngân thành công.',
   UpdatedCashierProfileSuccessfully: 'Cập nhật hồ sơ nhân viên thu ngân thành công.',

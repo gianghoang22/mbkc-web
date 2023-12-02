@@ -46,12 +46,7 @@ function CashierForm() {
             <InputField fullWidth name="fullName" label={translate('table.fullName')} />
             <Stack direction="row" alignItems="start" gap={2}>
               <SelectField<Gender> fullWidth options={GENDER_OPTIONS} name="gender" label={translate('table.gender')} />
-              <DatePickerField
-                fullWidth
-                name="dateOfBirth"
-                label="Date of birth"
-                // defaultValue={isEditing ? cashier?.dateOfBirth : new Day}
-              />
+              <DatePickerField fullWidth name="dateOfBirth" label={translate('model.capitalizeOne.dateOfBirth')} />
             </Stack>
             <InputNumber fullWidth name="citizenNumber" label={translate('model.capitalizeOne.citizenNumber')} />
           </Stack>
