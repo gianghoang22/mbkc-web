@@ -224,4 +224,5 @@ export const VieErrorMessageConstant = {
 
   imageIsNotNull: 'Hình ảnh không được để trống.',
   logoIsNotNull: 'Logo không được để trống.',
+  avatarIsNotNull: 'Ảnh đại diện không được để trống.',
 };

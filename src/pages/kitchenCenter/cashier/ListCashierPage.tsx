@@ -15,6 +15,7 @@ import { CashierTable, ListParams, OrderSort, OrderSortBy } from 'common/@types'
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function ListCashierPage() {
   const navigate = useNavigate();
@@ -83,6 +84,7 @@ function ListCashierPage() {
             onClick={() => {
               navigate(PATH_KITCHEN_CENTER_APP.cashier.newCashier);
               dispatch(setAddCashier());
+              dispatch(setRoutesToBack(pathname));
             }}
           >
             {translate('button.add', { model: translate('model.lowercase.cashier') })}

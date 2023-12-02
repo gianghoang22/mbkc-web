@@ -62,7 +62,9 @@ function OrderDetailPage() {
 
   useEffect(() => {
     dispatch<any>(getOrderDetail(paramsDetails));
-    dispatch<any>(getCashierReportShift(navigate));
+    if (userAuth?.roleName === Role.CASHIER) {
+      dispatch<any>(getCashierReportShift(navigate));
+    }
   }, [paramsDetails]);
 
   const handleOrderReadyDelivery = () => {
@@ -140,7 +142,7 @@ function OrderDetailPage() {
                   )}
               </Stack>
 
-              {shiftReport?.isShiftEnded && (
+              {userAuth?.roleName === Role.CASHIER && shiftReport?.isShiftEnded && (
                 <Box pb={0}>
                   <Alert variant="standard" severity="info">
                     {translate('page.alert.transferMoneyNotChangeOrderStatus')}

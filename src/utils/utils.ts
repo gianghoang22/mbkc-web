@@ -194,20 +194,22 @@ export const hashPasswordMD5 = (password: string) => Md5.hashStr(password);
 export const getErrorMessage = (error: any, navigate: any) => {
   console.log('API_ERROR:', error);
 
-  const errorData: ActionPayloadErrorData = error?.data;
-  const errorMessage = errorData.Message[0].DescriptionError[0];
-  const fieldNameError = errorData.Message[0].FieldNameError;
-  const statusCode = errorData.StatusCode;
-
   if (error?.code === Error.SERVER_ERROR) {
     console.log(error);
     navigate(PATH_ERROR.serverError);
     return;
   }
 
-  if (error?.data.StatusCode === 403) {
+  if (error.data.StatusCode === 403 || error.status === 403) {
     navigate(PATH_ERROR.noPermission);
   }
+
+  console.log('status', error.status);
+
+  const errorData: ActionPayloadErrorData = error?.data;
+  const errorMessage = errorData.Message[0].DescriptionError[0];
+  const fieldNameError = errorData.Message[0].FieldNameError;
+  const statusCode = errorData.StatusCode;
 
   const errorResponse: ErrorResponse = {
     errorMessage: errorMessage,
