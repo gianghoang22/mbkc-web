@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import moment from 'moment';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
@@ -20,7 +21,6 @@ import {
   Typography,
 } from '@mui/material';
 // redux
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import {
   deletePartnerProduct,
@@ -28,18 +28,19 @@ import {
   setEditPartnerProduct,
 } from 'redux/partnerProduct/partnerProductSlice';
 import { deleteProduct, getProductDetail, setEditProduct } from 'redux/product/productSlice';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
 // section
+import { CreatePartnerProductModal } from 'sections/partnerProduct';
 import { ProductDetailPageSkeleton, ProductTableRow } from 'sections/product';
+// interface
+import { OrderSort, OrderSortBy, ProductTable } from 'common/@types';
+import { Color, Language, PopoverType, Role, Status } from 'common/enums';
+import { PartnerProductStatusEnum, ProductTypeEnum } from 'common/models';
 //
+import { CommonTableHead, ConfirmDialog, ContentLabel, ContentSpace, EmptyTable, Page, Popover } from 'components';
+import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
 import { fCurrencyVN, getComparator, stableSort } from 'utils';
-import { OrderSort, OrderSortBy, ProductTable } from 'common/@types';
-import { PartnerProductStatusEnum, ProductTypeEnum } from 'common/models';
-import { Color, Language, PopoverType, Role, Status } from 'common/enums';
-import { useConfigHeadTable, useLocales, useModal, usePagination, usePopover, useResponsive } from 'hooks';
-import { CommonTableHead, ConfirmDialog, ContentLabel, ContentSpace, EmptyTable, Page, Popover } from 'components';
-import moment from 'moment';
-import { CreatePartnerProductModal } from 'sections/partnerProduct';
 
 function ProductDetailPage() {
   const { id: productId } = useParams();
@@ -124,15 +125,17 @@ function ProductDetailPage() {
 
   const paramPartnerProduct = useMemo(() => {
     return {
-      productId: partnerProduct?.productId,
+      productId,
       partnerId: partnerProduct?.partnerId,
       storeId: partnerProduct?.storeId,
+      pathname: pathnameToBack,
       navigate,
     };
   }, [partnerProduct?.productId, partnerProduct?.partnerId, partnerProduct?.storeId]);
 
   useEffect(() => {
     if (pathnameToBack === PATH_BRAND_APP.partnerProduct.list) {
+      console.log('pathnameToBack', pathnameToBack);
       dispatch(getPartnerProductDetail(paramPartnerProduct));
     }
   }, [paramPartnerProduct]);
@@ -140,6 +143,7 @@ function ProductDetailPage() {
   const params = useMemo(() => {
     return {
       productId,
+      pathname: pathnameToBack,
       navigate,
     };
   }, [productId, navigate]);
@@ -496,6 +500,7 @@ function ProductDetailPage() {
                           <TableRow>
                             <TableCell>{translate('table.no')}</TableCell>
                             <TableCell>{translate('table.partner')}</TableCell>
+                            <TableCell>{translate('table.store')}</TableCell>
                             <TableCell>{translate('table.codeMapping')}</TableCell>
                           </TableRow>
                         </TableHead>
@@ -507,8 +512,9 @@ function ProductDetailPage() {
                                   <TableCell width={60} component="th" scope="row">
                                     {index + 1}
                                   </TableCell>
-                                  <TableCell>{partnerProducts.partnerName}</TableCell>
-                                  <TableCell width={600}> {partnerProducts.productCode}</TableCell>
+                                  <TableCell width={200}>{partnerProducts.partnerName}</TableCell>
+                                  <TableCell>{partnerProducts.storeName}</TableCell>
+                                  <TableCell width={500}> {partnerProducts.productCode}</TableCell>
                                 </TableRow>
                               );
                             })}

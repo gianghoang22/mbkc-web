@@ -316,11 +316,15 @@ function ProductDetailPageSkeleton({ lengthChildProducts }: { lengthChildProduct
                             </Stack>
                           </TableCell>
 
-                          <TableCell component="th" scope="row" padding="none" width={492}>
+                          <TableCell width={200}>
                             <Skeleton />
                           </TableCell>
 
-                          <TableCell align="left">
+                          <TableCell>
+                            <Skeleton />
+                          </TableCell>
+
+                          <TableCell width={500}>
                             <Skeleton />
                           </TableCell>
                         </TableRow>

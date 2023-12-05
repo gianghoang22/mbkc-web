@@ -103,6 +103,7 @@ function StoreDetailPage() {
         keySortName: orderBy === OrderSortBy.PARTNER_NAME ? order : '',
         keySortStatus: orderBy === OrderSortBy.STATUS ? order : '',
       },
+      pathname: pathnameToBack,
       navigate,
     };
   }, [storeId, orderBy, order]);

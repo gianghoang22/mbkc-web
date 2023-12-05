@@ -63,7 +63,7 @@ export const getCategoryDetailThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 400) {
+    if (errorResponse?.statusCode === 400 || errorResponse?.statusCode === 404) {
       navigate(categoryType === CategoryType.NORMAL ? PATH_BRAND_APP.category.list : PATH_BRAND_APP.category.extraList);
     }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');

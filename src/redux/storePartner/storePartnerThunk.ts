@@ -30,7 +30,7 @@ export const getAllStorePartnersThunk = async (params: ListParams, thunkAPI: any
 };
 
 export const getAllStorePartnersByStoreIdThunk = async (params: ListParams, thunkAPI: any) => {
-  const { optionParams, navigate } = params;
+  const { optionParams, pathname, navigate } = params;
 
   try {
     const response: ListResponse<StorePartner> = await axiosClient.get(
@@ -39,8 +39,10 @@ export const getAllStorePartnersByStoreIdThunk = async (params: ListParams, thun
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
-      navigate(PATH_BRAND_APP.storePartner.list);
+    if (pathname === PATH_BRAND_APP.storePartner.list) {
+      if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
+        navigate(PATH_BRAND_APP.storePartner.list);
+      }
     }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));
