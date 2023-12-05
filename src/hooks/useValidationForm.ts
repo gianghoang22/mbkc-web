@@ -327,7 +327,7 @@ function useValidationForm() {
           name: translate('table.lowercase.price'),
         })
       )
-      .min(1, translate('page.validation.priceGreaterThan0')),
+      .moreThan(1, translate('page.validation.pricePositiveNumber')),
   });
 
   const schemaStorePartner = yup.object().shape({

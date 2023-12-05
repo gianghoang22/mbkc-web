@@ -71,7 +71,7 @@ const ConfirmDialog: FC<Props & DialogProps> = ({
                     {' '}
                     {model}{' '}
                   </Typography>
-                  <Typography component="span">{subModel}</Typography>?
+                  <Typography component="span">{subModel}</Typography>
                 </Typography>
               ) : (
                 <Typography>
