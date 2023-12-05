@@ -29,7 +29,7 @@ export const getOrderDetailThunk = async (params: any, thunkAPI: any) => {
   } catch (error: any) {
     const getUserInStorage: UserAuth = getUserAuth();
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
+    if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
       navigate(
         getUserInStorage.roleName === Role.KITCHEN_CENTER_MANAGER
           ? PATH_KITCHEN_CENTER_APP.order.list

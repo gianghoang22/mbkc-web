@@ -59,7 +59,7 @@ export const getProductDetailThunk = async (params: any, thunkAPI: any) => {
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
+    if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
       navigate(PATH_BRAND_APP.product.list);
     }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');

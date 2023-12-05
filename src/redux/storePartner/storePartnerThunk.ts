@@ -39,7 +39,7 @@ export const getAllStorePartnersByStoreIdThunk = async (params: ListParams, thun
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
+    if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
       navigate(PATH_BRAND_APP.storePartner.list);
     }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');

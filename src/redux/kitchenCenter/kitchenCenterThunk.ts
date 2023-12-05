@@ -33,7 +33,7 @@ export const getKitchenCenterDetailThunk = async (params: any, thunkAPI: any) =>
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
+    if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
       navigate(PATH_ADMIN_APP.kitchenCenter.list);
     }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
