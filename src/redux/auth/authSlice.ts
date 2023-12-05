@@ -13,6 +13,7 @@ import {
   setRefreshToken,
 } from 'utils';
 import {
+  checkEmailThunk,
   forgotPasswordThunk,
   getUserInfoThunk,
   loginThunk,
@@ -21,6 +22,7 @@ import {
   updatePasswordThunk,
   verifyOtpThunk,
 } from './authThunk';
+import { EmailValidateResponse } from 'common/@types';
 
 interface AuthState {
   isLogout: boolean;
@@ -29,6 +31,7 @@ interface AuthState {
   isSuccess: boolean;
   isAuthenticated: boolean;
   message: string;
+  status: string;
   email: string;
   userAuth: UserAuth | null;
   userInfo: UserInfo | null;
@@ -46,6 +49,7 @@ const initialState: AuthState = {
   isSuccess: false,
   isAuthenticated: getIsAuthenticated,
   message: '',
+  status: '',
   email: getEmailInStorage,
   userAuth: getUserInStorage,
   userInfo: getUserInfoInStorage,
@@ -57,6 +61,7 @@ export const forgotPassword = createAsyncThunk('auth/forgot-password', forgotPas
 export const verifyOtp = createAsyncThunk('auth/verify-otp', verifyOtpThunk);
 export const resetPassword = createAsyncThunk('auth/reset-password', resetPasswordThunk);
 export const updatePassword = createAsyncThunk('auth/update-password', updatePasswordThunk);
+export const checkEmail = createAsyncThunk('auth/check-email', checkEmailThunk);
 export const logout = createAsyncThunk('auth/logout', logoutThunk);
 
 const authSlice = createSlice({
@@ -176,6 +181,21 @@ const authSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(updatePassword.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(checkEmail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(checkEmail.fulfilled, (state, action) => {
+        const payload: EmailValidateResponse = action.payload;
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.status = payload.status;
+      })
+      .addCase(checkEmail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

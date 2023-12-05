@@ -132,6 +132,7 @@
     "required": "Please enter {{name}}",
     "select": "Please select {{name}}",
     "emailFormat": "Email format is not correct",
+    "emailInvalid": "Email address does not exist",
     "otpAlLeast": "OTP Code is required 6 digits",
     "otpMax": "OTP code must not exceed 6 digits",
     "otpMatches": "OTP must contain only numbers",

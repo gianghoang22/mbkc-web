@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { axiosClient } from 'axiosClient/axiosClient';
 import {
   EmailForm,
+  EmailValidateResponse,
   LoginForm,
   LoginResponse,
   MessageResponse,
@@ -156,6 +158,32 @@ export const resetPasswordThunk = async (params: Params<Omit<ResetForm, 'confirm
     }
     return response;
   } catch (error: any) {
+    const errorResponse = getErrorMessage(error, navigate);
+    const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
+    thunkAPI.dispatch(setMessageError(messageMultiLang));
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
+export const checkEmailThunk = async (params: Params<EmailForm>, thunkAPI: any) => {
+  const { data, navigate } = params;
+  const options = {
+    method: 'GET',
+    url: 'https://email-checker.p.rapidapi.com/verify/v1',
+    params: {
+      email: data?.email,
+    },
+    headers: {
+      'X-RapidAPI-Key': '2a2a0e08aemsh5032db86f38f4bfp190d34jsn8d129a70f2a9',
+      'X-RapidAPI-Host': 'email-checker.p.rapidapi.com',
+    },
+  };
+  try {
+    const response = await axios.request(options);
+    const emailResponse: EmailValidateResponse = response.data;
+    return emailResponse;
+  } catch (error: any) {
+    console.log(error);
     const errorResponse = getErrorMessage(error, navigate);
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));

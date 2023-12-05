@@ -10,13 +10,14 @@ import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { createNewStore, getStoreDetail, updateStore } from 'redux/store/storeSlice';
 //
-import { ListParams, Params } from 'common/@types';
+import { EmailForm, ListParams, Params } from 'common/@types';
 import { Color, Status } from 'common/enums';
 import { StoreToCreate, StoreToUpdate } from 'common/models';
 import { LoadingScreen, Page } from 'components';
-import { useLocales, useValidationForm } from 'hooks';
+import { useDebounce, useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreForm } from 'sections/store';
+import { checkEmail } from 'redux/auth/authSlice';
 
 function CreateStorePage() {
   const { id: storeId } = useParams();
@@ -28,6 +29,7 @@ function CreateStorePage() {
   const { translate } = useLocales();
   const { schemaStore } = useValidationForm();
 
+  const { status } = useAppSelector((state) => state.auth);
   const { brandProfile } = useAppSelector((state) => state.profile);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { store, isEditing, isLoading } = useAppSelector((state) => state.store);
@@ -43,7 +45,7 @@ function CreateStorePage() {
     resolver: yupResolver(schemaStore),
   });
 
-  const { handleSubmit, reset } = createStoreForm;
+  const { handleSubmit, reset, watch, setError, clearErrors } = createStoreForm;
 
   const paramsKitchenCenter: ListParams = useMemo(() => {
     return {
@@ -83,6 +85,33 @@ function CreateStorePage() {
       dispatch(getStoreDetail(params));
     }
   }, [dispatch, navigate, params]);
+
+  const email = watch('storeManagerEmail');
+
+  const debounceValue = useDebounce(email?.trim(), 1000);
+
+  const validationEmail = () => {
+    const params: Params<EmailForm> = {
+      data: { email: email },
+      navigate,
+    };
+    dispatch(checkEmail(params));
+  };
+
+  useEffect(() => {
+    if (email !== undefined && email !== '' && email !== null) {
+      validationEmail();
+    }
+  }, [debounceValue]);
+
+  useEffect(() => {
+    if (status === Status.INVALID) {
+      setError('storeManagerEmail', { message: translate('page.validation.emailInvalid') });
+    }
+    if (status === Status.VALID) {
+      clearErrors();
+    }
+  }, [status]);
 
   const onSubmit = async (values: Omit<StoreToCreate, 'brandId'>) => {
     const data = { ...values };

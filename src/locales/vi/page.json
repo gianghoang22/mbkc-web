@@ -134,6 +134,7 @@
     "required": "Vui lòng nhập {{name}}",
     "select": "Vui lòng chọn {{name}}",
     "emailFormat": "Định dạng email không đúng",
+    "emailInvalid": "Địa chỉ email không tồn tại",
     "otpAlLeast": "Mã OTP bắt buộc phải có 6 chữ số",
     "otpMax": "Mã OTP không được vượt quá 6 chữ số",
     "otpMatches": "OTP chỉ bao gồm chứa số",

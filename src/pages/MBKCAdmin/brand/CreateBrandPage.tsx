@@ -8,15 +8,16 @@ import { Box, Button, Card, Stack } from '@mui/material';
 // redux
 import { createNewBrand, getBrandDetail, updateBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { checkEmail } from 'redux/auth/authSlice';
 // section
 import { BrandForm } from 'sections/brand';
 // interface
-import { AddressFormInterface, Params } from 'common/@types';
+import { AddressFormInterface, EmailForm, Params } from 'common/@types';
 import { Color, Status } from 'common/enums';
 import { BrandToCreate, BrandToUpdate } from 'common/models';
 //
 import { LoadingScreen, Page } from 'components';
-import { useLocales, useValidationForm } from 'hooks';
+import { useDebounce, useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 function CreateBrandPage() {
@@ -29,6 +30,7 @@ function CreateBrandPage() {
   const { translate } = useLocales();
   const { schemaCommonBrandKitchenCenter } = useValidationForm();
 
+  const { status } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state: any) => state.routes);
   const { provinces, districts, wards } = useAppSelector((state) => state.address);
   const { isEditing, isLoading, brand } = useAppSelector((state: any) => state.brand);
@@ -46,7 +48,7 @@ function CreateBrandPage() {
     resolver: yupResolver(schemaCommonBrandKitchenCenter),
   });
 
-  const { handleSubmit, watch, reset, setValue } = createBrandForm;
+  const { handleSubmit, watch, reset, setValue, setError, clearErrors } = createBrandForm;
 
   const provinceId = watch('provinceId');
   const districtId = watch('districtId');
@@ -95,6 +97,33 @@ function CreateBrandPage() {
   useEffect(() => {
     setValue('wardId', wardId !== undefined ? wardId : 0);
   }, [districtId]);
+
+  const email = watch('managerEmail');
+
+  const debounceValue = useDebounce(email?.trim(), 1000);
+
+  const validationEmail = () => {
+    const params: Params<EmailForm> = {
+      data: { email: email },
+      navigate,
+    };
+    dispatch(checkEmail(params));
+  };
+
+  useEffect(() => {
+    if (email !== undefined && email !== '' && email !== null) {
+      validationEmail();
+    }
+  }, [debounceValue]);
+
+  useEffect(() => {
+    if (status === Status.INVALID) {
+      setError('managerEmail', { message: translate('page.validation.emailInvalid') });
+    }
+    if (status === Status.VALID) {
+      clearErrors();
+    }
+  }, [status]);
 
   const onSubmit = (values: AddressFormInterface) => {
     const data = { ...values };

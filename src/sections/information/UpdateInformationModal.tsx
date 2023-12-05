@@ -2,12 +2,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { updateBrandProfile } from 'redux/profile/profileSlice';
+import { getAllDistrictByProvinceId, getAllProvinces, getAllWardByDistrictId } from 'redux/address/addressSlice';
 // interface
 import { Params } from 'common/@types';
 import { Color, Language } from 'common/enums';
@@ -15,8 +17,6 @@ import { UpdateBrandProfile, UpdateBrandProfileForm } from 'common/models';
 //
 import { AutoCompleteField, InputField, UploadImageField } from 'components';
 import { useLocales, useValidationForm } from 'hooks';
-import { useEffect } from 'react';
-import { getAllDistrictByProvinceId, getAllProvinces, getAllWardByDistrictId } from 'redux/address/addressSlice';
 
 interface UpdateInformationModalProps {
   isOpen: boolean;

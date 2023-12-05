@@ -7,15 +7,17 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Card, Stack } from '@mui/material';
 // redux
 import { createNewCashier, getCashierDetail, updateCashier } from 'redux/cashier/cashierSlice';
+import { checkEmail } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
-//
-import { Params } from 'common/@types';
+// interface
+import { EmailForm, Params } from 'common/@types';
 import { CashierToCreate, CashierToUpdate } from 'common/models';
 import { Color, Gender, Status } from 'common/enums';
-import { LoadingScreen, Page } from 'components';
-import { useLocales, useValidationForm } from 'hooks';
-import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
+// section
 import { CashierForm } from 'sections/cashier';
+import { LoadingScreen, Page } from 'components';
+import { useDebounce, useLocales, useValidationForm } from 'hooks';
+import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
 
 function CreateCashierPage() {
   const { id: cashierId } = useParams();
@@ -27,6 +29,7 @@ function CreateCashierPage() {
   const { translate } = useLocales();
   const { schemaCashier } = useValidationForm();
 
+  const { status } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { isEditing, isLoading, cashier } = useAppSelector((state) => state.cashier);
 
@@ -41,7 +44,7 @@ function CreateCashierPage() {
     resolver: yupResolver(schemaCashier),
   });
 
-  const { handleSubmit, setValue } = createCashierForm;
+  const { handleSubmit, setValue, watch, setError, clearErrors } = createCashierForm;
 
   useEffect(() => {
     if (cashier !== null && isEditing === true) {
@@ -53,6 +56,33 @@ function CreateCashierPage() {
       setValue('dateOfBirth', cashier?.dateOfBirth);
     }
   }, [cashier, isEditing, setValue]);
+
+  const email = watch('email');
+
+  const debounceValue = useDebounce(email?.trim(), 1000);
+
+  const validationEmail = () => {
+    const params: Params<EmailForm> = {
+      data: { email: email },
+      navigate,
+    };
+    dispatch(checkEmail(params));
+  };
+
+  useEffect(() => {
+    if (email !== undefined && email !== '' && email !== null) {
+      validationEmail();
+    }
+  }, [debounceValue]);
+
+  useEffect(() => {
+    if (status === Status.INVALID) {
+      setError('email', { message: translate('page.validation.emailInvalid') });
+    }
+    if (status === Status.VALID) {
+      clearErrors();
+    }
+  }, [status]);
 
   const onSubmit = async (values: CashierToCreate) => {
     const data = { ...values };

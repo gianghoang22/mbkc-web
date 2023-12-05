@@ -29,6 +29,7 @@ export interface OptionParams {
   paymentMethod?: string | null;
   confirmedBy?: boolean | null | string;
   isDetailList?: boolean | null;
+  email?: string | null;
 }
 
 export interface IdParams {
@@ -103,6 +104,15 @@ export interface ErrorResponse {
   errorMessage: string;
   fieldNameError: string;
   statusCode: number;
+}
+
+export interface EmailValidateResponse {
+  email: string;
+  user: string;
+  domain: string;
+  status: string;
+  reason: string;
+  disposable: boolean;
 }
 
 export interface ActionPayloadErrorData {

@@ -12,15 +12,16 @@ import {
   getKitchenCenterDetail,
   updateKitchenCenter,
 } from 'redux/kitchenCenter/kitchenCenterSlice';
+import { checkEmail } from 'redux/auth/authSlice';
 // section
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
 // interface
-import { AddressFormInterface, Params } from 'common/@types';
+import { AddressFormInterface, EmailForm, Params } from 'common/@types';
 import { Color, Status } from 'common/enums';
 import { KitchenCenterToAdd, KitchenCenterToUpdate } from 'common/models';
 //
 import { LoadingScreen, Page } from 'components';
-import { useLocales, useValidationForm } from 'hooks';
+import { useDebounce, useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 
 function CreateKitchenCenterPage() {
@@ -33,6 +34,7 @@ function CreateKitchenCenterPage() {
   const { translate } = useLocales();
   const { schemaCommonBrandKitchenCenter } = useValidationForm();
 
+  const { status } = useAppSelector((state) => state.auth);
   const { pathnameToBack } = useAppSelector((state) => state.routes);
   const { provinces, districts, wards } = useAppSelector((state) => state.address);
   const { isEditing, isLoading, kitchenCenter } = useAppSelector((state) => state.kitchenCenter);
@@ -50,7 +52,7 @@ function CreateKitchenCenterPage() {
     resolver: yupResolver(schemaCommonBrandKitchenCenter),
   });
 
-  const { handleSubmit, watch, reset, setValue } = createKitchenCenterForm;
+  const { handleSubmit, watch, reset, setValue, setError, clearErrors } = createKitchenCenterForm;
 
   const provinceId = watch('provinceId');
   const districtId = watch('districtId');
@@ -99,6 +101,33 @@ function CreateKitchenCenterPage() {
   useEffect(() => {
     setValue('wardId', wardId !== undefined ? wardId : 0);
   }, [districtId]);
+
+  const email = watch('managerEmail');
+
+  const debounceValue = useDebounce(email?.trim(), 1000);
+
+  const validationEmail = () => {
+    const params: Params<EmailForm> = {
+      data: { email: email },
+      navigate,
+    };
+    dispatch(checkEmail(params));
+  };
+
+  useEffect(() => {
+    if (email !== undefined && email !== '' && email !== null) {
+      validationEmail();
+    }
+  }, [debounceValue]);
+
+  useEffect(() => {
+    if (status === Status.INVALID) {
+      setError('managerEmail', { message: translate('page.validation.emailInvalid') });
+    }
+    if (status === Status.VALID) {
+      clearErrors();
+    }
+  }, [status]);
 
   const onSubmit = async (values: AddressFormInterface) => {
     const data = { ...values };

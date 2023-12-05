@@ -5,6 +5,8 @@ export enum Status {
   DEACTIVE = 'Disable',
   BE_CONFIRMING = 'Confirming',
   REJECTED = 'Rejected',
+  VALID = 'valid',
+  INVALID = 'invalid',
 }
 
 export enum SystemStatus {
