@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dayjs from 'dayjs';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 // @mui
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -12,15 +12,22 @@ import { TimeView } from '@mui/x-date-pickers';
 import { TimePickerField } from 'components';
 import { useLocales } from 'hooks';
 
-function ConfigurationMoneyExchangeToStore() {
+interface ConfigurationMoneyExchangeToStoreProps {
+  checkedStoreTime: boolean;
+  setCheckedStoreTime: Dispatch<SetStateAction<boolean>>;
+}
+
+function ConfigurationMoneyExchangeToStore({
+  checkedStoreTime,
+  setCheckedStoreTime,
+}: ConfigurationMoneyExchangeToStoreProps) {
   const { translate } = useLocales();
 
-  const [checked, setChecked] = useState(false);
   const [valueInput, setValueInput] = useState<string>('');
   const [view, setView] = useState<TimeView>('hours');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+    setCheckedStoreTime(event.target.checked);
   };
 
   const { watch } = useFormContext();
@@ -39,7 +46,9 @@ function ConfigurationMoneyExchangeToStore() {
     <Box>
       <Stack mb={2}>
         <FormControlLabel
-          control={<Switch checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />}
+          control={
+            <Switch checked={checkedStoreTime} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />
+          }
           label={translate('page.content.switchToConfiguration')}
           labelPlacement="start"
         />
@@ -74,7 +83,7 @@ function ConfigurationMoneyExchangeToStore() {
               <Stack direction="column" alignItems="left" justifyContent="left">
                 <Typography variant="body2">{translate('page.content.selectTimeStart')}</Typography>
                 <Box>
-                  <Button variant="outlined" size="small" onClick={() => setView('hours')} disabled={!checked}>
+                  <Button variant="outlined" size="small" onClick={() => setView('hours')} disabled={!checkedStoreTime}>
                     {translate('button.editHours')}
                   </Button>
                 </Box>
@@ -84,7 +93,7 @@ function ConfigurationMoneyExchangeToStore() {
             <TimePickerField
               name="scrawlingMoneyExchangeToStore"
               ampm={false}
-              disabled={!checked}
+              disabled={!checkedStoreTime}
               setView={setView}
               view={view}
             />

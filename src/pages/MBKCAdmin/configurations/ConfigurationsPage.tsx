@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dayjs from 'dayjs';
 import moment from 'moment';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
@@ -17,10 +17,11 @@ import {
   ConfigurationMoneyExchangeToStore,
   ConfigurationTimeBot,
 } from 'sections/configurations';
-//
+// interface
 import { Params } from 'common/@types';
-import { Configuration, ConfigurationToUpdate } from 'common/models';
 import { Color } from 'common/enums';
+import { Configuration, ConfigurationToUpdate } from 'common/models';
+//
 import { CollapseCard, LoadingScreen, Page } from 'components';
 import { useLocales } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
@@ -29,6 +30,10 @@ import { convertStrToTime } from 'utils';
 function ConfigurationsPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const [checkedBot, setCheckedBot] = useState<boolean>(false);
+  const [checkedKCTime, setCheckedKCTime] = useState<boolean>(false);
+  const [checkedStoreTime, setCheckedStoreTime] = useState<boolean>(false);
 
   const { translate } = useLocales();
   const { pathname } = useLocation();
@@ -64,7 +69,10 @@ function ConfigurationsPage() {
 
   const onSubmit = async (values: ConfigurationToUpdate) => {
     const data = { ...values };
-    console.log('data updated', data);
+
+    setCheckedBot(false);
+    setCheckedKCTime(false);
+    setCheckedStoreTime(false);
 
     const params: Params<Omit<Configuration, 'id'>> = {
       data: {
@@ -77,8 +85,6 @@ function ConfigurationsPage() {
       },
       navigate,
     };
-
-    console.log('params updated', params);
 
     dispatch(updateSystemConfiguration(params));
   };
@@ -107,7 +113,7 @@ function ConfigurationsPage() {
                   content={translate('page.content.mbkcTime')}
                   icon={<DeviceHubIcon sx={{ fontSize: '24px', color: (theme) => theme.palette.text.secondary }} />}
                 >
-                  <ConfigurationTimeBot />
+                  <ConfigurationTimeBot checkedBot={checkedBot} setCheckedBot={setCheckedBot} />
                 </CollapseCard>
               </Grid>
 
@@ -121,7 +127,10 @@ function ConfigurationsPage() {
                       <CurrencyExchangeIcon sx={{ fontSize: '24px', color: (theme) => theme.palette.text.secondary }} />
                     }
                   >
-                    <ConfigurationMoneyExchangeToKitchenCenter />
+                    <ConfigurationMoneyExchangeToKitchenCenter
+                      checkedKCTime={checkedKCTime}
+                      setCheckedKCTime={setCheckedKCTime}
+                    />
                   </CollapseCard>
 
                   {/* scrawlingMoneyExchangeToStore */}
@@ -132,7 +141,10 @@ function ConfigurationsPage() {
                       <CurrencyExchangeIcon sx={{ fontSize: '24px', color: (theme) => theme.palette.text.secondary }} />
                     }
                   >
-                    <ConfigurationMoneyExchangeToStore />
+                    <ConfigurationMoneyExchangeToStore
+                      checkedStoreTime={checkedStoreTime}
+                      setCheckedStoreTime={setCheckedStoreTime}
+                    />
                   </CollapseCard>
                 </Stack>
               </Grid>

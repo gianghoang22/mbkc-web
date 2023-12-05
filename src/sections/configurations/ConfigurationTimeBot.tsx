@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 // @mui
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -11,17 +11,21 @@ import { TimeView } from '@mui/x-date-pickers';
 import { TimePickerField } from 'components';
 import { useLocales } from 'hooks';
 
-function ConfigurationTimeBot() {
+interface ConfigurationTimeBotProps {
+  checkedBot: boolean;
+  setCheckedBot: Dispatch<SetStateAction<boolean>>;
+}
+
+function ConfigurationTimeBot({ checkedBot, setCheckedBot }: ConfigurationTimeBotProps) {
   const { translate } = useLocales();
 
-  const [checked, setChecked] = useState(false);
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
   const [viewStart, setViewStart] = useState<TimeView>('hours');
   const [viewEnd, setViewEnd] = useState<TimeView>('hours');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+    setCheckedBot(event.target.checked);
   };
 
   const { watch } = useFormContext();
@@ -41,7 +45,7 @@ function ConfigurationTimeBot() {
     <Box>
       <Stack mb={2}>
         <FormControlLabel
-          control={<Switch checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />}
+          control={<Switch checked={checkedBot} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />}
           label={translate('page.content.switchToConfiguration')}
           labelPlacement="start"
         />
@@ -74,7 +78,12 @@ function ConfigurationTimeBot() {
                 <Stack direction="column" alignItems="left" justifyContent="left">
                   <Typography variant="body2">{translate('page.content.selectTimeStart')}</Typography>
                   <Box>
-                    <Button variant="outlined" size="small" onClick={() => setViewStart('hours')} disabled={!checked}>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => setViewStart('hours')}
+                      disabled={!checkedBot}
+                    >
                       {translate('button.editHours')}
                     </Button>
                   </Box>
@@ -84,7 +93,7 @@ function ConfigurationTimeBot() {
               <TimePickerField
                 name="scrawlingOrderStartTime"
                 ampm={false}
-                disabled={!checked}
+                disabled={!checkedBot}
                 setView={setViewStart}
                 view={viewStart}
               />
@@ -116,7 +125,7 @@ function ConfigurationTimeBot() {
                 <Stack direction="column" alignItems="left" justifyContent="left">
                   <Typography variant="body2">{translate('page.content.selectTimeEnd')}</Typography>
                   <Box>
-                    <Button variant="outlined" size="small" onClick={() => setViewEnd('hours')} disabled={!checked}>
+                    <Button variant="outlined" size="small" onClick={() => setViewEnd('hours')} disabled={!checkedBot}>
                       {translate('button.editHours')}
                     </Button>
                   </Box>
@@ -126,7 +135,7 @@ function ConfigurationTimeBot() {
               <TimePickerField
                 name="scrawlingOrderEndTime"
                 ampm={false}
-                disabled={!checked}
+                disabled={!checkedBot}
                 setView={setViewEnd}
                 view={viewEnd}
               />
@@ -162,7 +171,12 @@ function ConfigurationTimeBot() {
                 <Stack direction="column" alignItems="left" justifyContent="left">
                   <Typography variant="body2">{translate('page.content.selectTimeStart')}</Typography>
                   <Box>
-                    <Button variant="outlined" size="small" onClick={() => setViewStart('hours')} disabled={!checked}>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => setViewStart('hours')}
+                      disabled={!checkedBot}
+                    >
                       {translate('button.editHours')}
                     </Button>
                   </Box>
@@ -172,7 +186,7 @@ function ConfigurationTimeBot() {
               <TimePickerField
                 name="scrawlingOrderStartTime"
                 ampm={false}
-                disabled={!checked}
+                disabled={!checkedBot}
                 setView={setViewStart}
                 view={viewStart}
               />
@@ -204,7 +218,7 @@ function ConfigurationTimeBot() {
                 <Stack direction="column" alignItems="left" justifyContent="left">
                   <Typography variant="body2">{translate('page.content.selectTimeEnd')}</Typography>
                   <Box>
-                    <Button variant="outlined" size="small" onClick={() => setViewEnd('hours')} disabled={!checked}>
+                    <Button variant="outlined" size="small" onClick={() => setViewEnd('hours')} disabled={!checkedBot}>
                       {translate('button.editHours')}
                     </Button>
                   </Box>
@@ -214,7 +228,7 @@ function ConfigurationTimeBot() {
               <TimePickerField
                 name="scrawlingOrderEndTime"
                 ampm={false}
-                disabled={!checked}
+                disabled={!checkedBot}
                 setView={setViewEnd}
                 view={viewEnd}
               />
