@@ -46,6 +46,7 @@ export interface IdParams {
 }
 
 export interface ListParams {
+  pathname?: string;
   optionParams: OptionParams;
   navigate: NavigateFunction;
 }

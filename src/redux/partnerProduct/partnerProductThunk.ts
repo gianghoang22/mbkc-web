@@ -24,7 +24,7 @@ export const getAllPartnerProductsThunk = async (params: ListParams, thunkAPI: a
 };
 
 export const getPartnerProductDetailThunk = async (params: any, thunkAPI: any) => {
-  const { productId, partnerId, storeId, navigate } = params;
+  const { productId, partnerId, storeId, pathname, navigate } = params;
 
   try {
     const response: PartnerProduct = await axiosClient.get(
@@ -33,8 +33,11 @@ export const getPartnerProductDetailThunk = async (params: any, thunkAPI: any) =
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
-      navigate(PATH_BRAND_APP.storePartner.list);
+    if (pathname === PATH_BRAND_APP.partnerProduct.list) {
+      console.log('pathname', pathname);
+      if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
+        navigate(PATH_BRAND_APP.partnerProduct.list);
+      }
     }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');
     thunkAPI.dispatch(setMessageError(messageMultiLang));

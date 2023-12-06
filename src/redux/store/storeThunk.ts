@@ -47,7 +47,7 @@ export const getStoreDetailThunk = async (params: any, thunkAPI: any) => {
   } catch (error: any) {
     const getUserInStorage: UserAuth = getUserAuth();
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
+    if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
       navigate(
         getUserInStorage.roleName === Role.BRAND_MANAGER
           ? PATH_BRAND_APP.store.list

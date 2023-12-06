@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dayjs from 'dayjs';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 // @mui
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -12,15 +12,22 @@ import { DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { TimePickerField } from 'components';
 import { useLocales } from 'hooks';
 
-function ConfigurationMoneyExchangeToKitchenCenter() {
+interface ConfigurationMoneyExchangeToKitchenCenterProps {
+  checkedKCTime: boolean;
+  setCheckedKCTime: Dispatch<SetStateAction<boolean>>;
+}
+
+function ConfigurationMoneyExchangeToKitchenCenter({
+  checkedKCTime,
+  setCheckedKCTime,
+}: ConfigurationMoneyExchangeToKitchenCenterProps) {
   const { translate } = useLocales();
 
-  const [checked, setChecked] = useState(false);
   const [valueInput, setValueInput] = useState<string>('');
   const [view, setView] = useState<TimeView>('hours');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+    setCheckedKCTime(event.target.checked);
   };
 
   const { watch } = useFormContext();
@@ -35,7 +42,9 @@ function ConfigurationMoneyExchangeToKitchenCenter() {
     <Box>
       <Stack mb={2}>
         <FormControlLabel
-          control={<Switch checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />}
+          control={
+            <Switch checked={checkedKCTime} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />
+          }
           label={translate('page.content.switchToConfiguration')}
           labelPlacement="start"
         />
@@ -69,7 +78,7 @@ function ConfigurationMoneyExchangeToKitchenCenter() {
               <Stack direction="column" alignItems="left" justifyContent="left">
                 <Typography variant="body2">{translate('page.content.selectTimeStart')}</Typography>
                 <Box>
-                  <Button variant="outlined" size="small" onClick={() => setView('hours')} disabled={!checked}>
+                  <Button variant="outlined" size="small" onClick={() => setView('hours')} disabled={!checkedKCTime}>
                     {translate('button.editHours')}
                   </Button>
                 </Box>
@@ -79,7 +88,7 @@ function ConfigurationMoneyExchangeToKitchenCenter() {
             <TimePickerField
               name="scrawlingMoneyExchangeToKitchenCenter"
               ampm={false}
-              disabled={!checked}
+              disabled={!checkedKCTime}
               setView={setView}
               view={view}
             />

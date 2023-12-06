@@ -33,7 +33,7 @@ export const getBankingAccountDetailThunk = async (params: any, thunkAPI: any) =
     return response;
   } catch (error: any) {
     const errorResponse = getErrorMessage(error, navigate);
-    if (errorResponse?.statusCode === 404) {
+    if (errorResponse?.statusCode === 404 || errorResponse?.statusCode === 400) {
       navigate(PATH_KITCHEN_CENTER_APP.bankingAccount.list);
     }
     const messageMultiLang = handleResponseMessage(errorResponse ? errorResponse?.errorMessage : '');

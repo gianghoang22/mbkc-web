@@ -498,6 +498,16 @@ export const handleResponseMessage = (response: string) => {
         ? EngErrorMessageConstant.NoOneOutOfStock
         : response === EngErrorMessageConstant.avatarIsNotNull
         ? EngErrorMessageConstant.avatarIsNotNull
+        : response === EngErrorMessageConstant.IdNotSuitable
+        ? EngErrorMessageConstant.IdNotSuitable
+        : response === EngErrorMessageConstant.KitchenCenterIdNotSuitable
+        ? EngErrorMessageConstant.KitchenCenterIdNotSuitable
+        : response === EngErrorMessageConstant.BrandIdNotSuitable
+        ? EngErrorMessageConstant.BrandIdNotSuitable
+        : response === EngErrorMessageConstant.CategoryIdNotSuitable
+        ? EngErrorMessageConstant.CategoryIdNotSuitable
+        : response === EngErrorMessageConstant.ProductIdNotSuitable
+        ? EngErrorMessageConstant.ProductIdNotSuitable
         : response
       : currentLanguage === Language.VIETNAMESE
       ? response === EngMessageConstant.LoginSuccessfully
@@ -988,6 +998,16 @@ export const handleResponseMessage = (response: string) => {
         ? VieErrorMessageConstant.NoOneOutOfStock
         : response === EngErrorMessageConstant.avatarIsNotNull
         ? VieErrorMessageConstant.avatarIsNotNull
+        : response === EngErrorMessageConstant.IdNotSuitable
+        ? VieErrorMessageConstant.IdNotSuitable
+        : response === EngErrorMessageConstant.KitchenCenterIdNotSuitable
+        ? VieErrorMessageConstant.KitchenCenterIdNotSuitable
+        : response === EngErrorMessageConstant.BrandIdNotSuitable
+        ? VieErrorMessageConstant.BrandIdNotSuitable
+        : response === EngErrorMessageConstant.CategoryIdNotSuitable
+        ? VieErrorMessageConstant.CategoryIdNotSuitable
+        : response === EngErrorMessageConstant.ProductIdNotSuitable
+        ? VieErrorMessageConstant.ProductIdNotSuitable
         : response
       : response;
 
