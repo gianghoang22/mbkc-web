@@ -13,21 +13,17 @@ function OrderTableRowSkeleton({ length }: { length: number }) {
             </TableCell>
 
             <TableCell padding="none">
-              <Stack alignItems="center" pr={3.5}>
+              <Stack alignItems="center" pr={3.7}>
                 <Skeleton width={60} />
               </Stack>
             </TableCell>
 
-            <TableCell padding="none" align="left">
-              <Skeleton width={100} />
+            <TableCell padding="none" align="left" width={250}>
+              <Skeleton width={200} />
             </TableCell>
 
             <TableCell align="left">
-              <Skeleton width={100} />
-            </TableCell>
-
-            <TableCell align="left">
-              <Skeleton width={100} />
+              <Skeleton width={90} />
             </TableCell>
 
             <TableCell align="left">
