@@ -115,7 +115,7 @@ function PartnerDetailModal({ partner, isOpen, handleOpen, filterName, sortBy }:
                 <Typography variant="subtitle1">
                   {translate('table.taxCommission')}:{' '}
                   <Typography component="span" variant="body1">
-                    {partner?.taxCommission} %
+                    {partner?.taxCommission}%
                   </Typography>
                 </Typography>
 
