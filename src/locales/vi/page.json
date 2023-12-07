@@ -76,8 +76,8 @@
     "deliveryFee": "Phí giao hàng",
     "orderFee": "Phí đơn hàng",
     "tax": "Thuế",
-    "discount": "Ưu đã từ cửa hàng",
-    "promotionPrice": "Ưu đã từ đối tác",
+    "discount": "Ưu đãi từ cửa hàng",
+    "promotionPrice": "Ưu đãi từ đối tác",
     "finalTotalPrice": "Tổng cộng",
     "collectedPrice": "Số tiền thu hộ",
     "mainBalance": "Số dư trong ví",
@@ -93,7 +93,7 @@
     "paymentMethodPartner": "Phương thức thanh toán của đối tác",
     "storeRevenue": "Số liệu thu nhập chi tiết của cửa hàng",
     "cancelReason": "Lý do hủy đơn hàng",
-    "storePartnerCommission": "Phần trăm hoa hồng của đối tác",
+    "storePartnerCommission": "Hoa hồng của đối tác",
     "partnerTaxCommission": "Thuế hoa hồng của đối tác"
   },
   "form": {
