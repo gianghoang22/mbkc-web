@@ -58,6 +58,7 @@
   "cashierCreated": "Nhân viên thu ngân",
   "orderId": "Id đơn hàng",
   "quantity": "Số lượng bán ra",
+  "taxCommission": "Thuế hoa hồng",
   "lowercase": {
     "address": "địa chỉ",
     "email": "email",

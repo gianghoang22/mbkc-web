@@ -15,11 +15,12 @@ export interface Order {
   paymentMethod: string;
   deliveryFee: number;
   subTotalPrice: number;
-  totalDiscount: number;
+  totalStoreDiscount: number;
   finalTotalPrice: number;
   collectedPrice: number;
   isPaid: boolean;
-  commission: number;
+  promotionPrice: number;
+  taxPartnerCommission: number;
   tax: number;
   systemStatus: string;
   displayId: string;
@@ -40,6 +41,7 @@ export interface Order {
 export interface OrderDetails {
   orderDetailId: number;
   sellingPrice: number;
+  discountPrice: number;
   quantity: number;
   note: string;
   orderId: number;

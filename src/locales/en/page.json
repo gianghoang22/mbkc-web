@@ -74,7 +74,8 @@
     "deliveryFee": "Delivery fee",
     "orderFee": "Order fee",
     "tax": "Tax",
-    "discount": "Discount",
+    "discount": "Store discount",
+    "promotionPrice": "Promotion price",
     "finalTotalPrice": "Total",
     "collectedPrice": "Collected price",
     "switchToConfiguration": "Switch to configuration",
@@ -90,7 +91,8 @@
     "paymentMethodPartner": "Payment method of partner",
     "storeRevenue": "Detailed store income figures",
     "cancelReason": "Reason for order cancellation",
-    "storePartnerCommission": "Store partner commission"
+    "storePartnerCommission": "Store partner commission",
+    "partnerTaxCommission": "Partner tã commission"
   },
   "form": {
     "email": "Email",
@@ -153,12 +155,15 @@
     "formatUrl": "The format of the url is not correct",
     "citizenNumberLimit12Number": "Citizen number must have 12 digits",
     "commissionLimit100": "The commission should not be more than 100%.",
+    "taxCommissionLimit100": "Tax commission should not be more than 100%.",
     "displayOrderMoreThan0": "Display order must be greater than 0",
     "sellingPriceGreaterThan0": "Selling price is required greater than or equal to 0.",
     "discountPriceGreaterThan0": "Discount price is required greater than or equal to 0.",
     "historicalPriceGreaterThan0": "Historical price is required greater than or equal to 0.",
     "priceGreaterThan0": "Price must be greater than 0.",
     "pricePositiveNumber": "Price is required greater than or equal to 0.",
+    "commisstionPositiveNumber": "Commission is required greater than or equal to 0.",
+    "taxCommisstionPositiveNumber": "Tax commission is required greater than or equal to 0.",
     "logoRequired": "Please select Logo",
     "imageRequired": "Please select Image"
   },

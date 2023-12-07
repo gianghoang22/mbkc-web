@@ -355,6 +355,7 @@ function useValidationForm() {
             .number()
             .typeError(translate('page.validation.required', { name: translate('page.form.commission') }))
             .required(translate('page.validation.required', { name: translate('page.form.commission') }))
+            .moreThan(-1, translate('page.validation.commisstionPositiveNumber'))
             .max(100, translate('page.validation.commissionLimit100')),
         })
       )
@@ -376,6 +377,12 @@ function useValidationForm() {
         })
       )
       .url(translate('page.validation.formatUrl')),
+    taxCommission: yup
+      .number()
+      .typeError(translate('page.validation.required', { name: translate('table.taxCommission') }))
+      .required(translate('page.validation.required', { name: translate('table.taxCommission') }))
+      .moreThan(-1, translate('page.validation.taxCommisstionPositiveNumber'))
+      .max(100, translate('page.validation.taxCommissionLimit100')),
   });
 
   const schemaCommonBrandKitchenCenter = yup.object({
@@ -562,7 +569,9 @@ function useValidationForm() {
     commission: yup
       .number()
       .typeError(translate('page.validation.required', { name: translate('page.form.commission') }))
-      .required(translate('page.validation.required', { name: translate('page.form.commission') })),
+      .required(translate('page.validation.required', { name: translate('page.form.commission') }))
+      .moreThan(-1, translate('page.validation.commisstionPositiveNumber'))
+      .max(100, translate('page.validation.commissionLimit100')),
   });
 
   return {

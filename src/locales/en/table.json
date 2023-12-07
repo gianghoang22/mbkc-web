@@ -57,6 +57,7 @@
   "cashierCreated": "Cashier created",
   "orderId": "Order id",
   "quantity": "Quantity sold",
+  "taxCommission": "Tax commission",
   "lowercase": {
     "address": "address",
     "email": "email",

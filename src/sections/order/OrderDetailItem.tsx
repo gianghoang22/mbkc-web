@@ -1,5 +1,7 @@
 // @mui
+import SellIcon from '@mui/icons-material/Sell';
 import { Avatar, Stack, Typography } from '@mui/material';
+//
 import { OrderDetails, Product } from 'common/models';
 //
 import { useLocales } from 'hooks';
@@ -30,15 +32,26 @@ function OrderDetailItem({
         <Stack direction="row" alignItems="center" gap={2}>
           <Avatar alt={productDetail.name} src={productDetail.image} />
           <Stack direction="column">
-            <Typography noWrap>{productDetail.name}</Typography>
+            <Typography variant="body2" noWrap>
+              {productDetail.name}
+            </Typography>
             <Typography variant="caption" sx={{ color: (theme) => theme.palette.grey[500] }} noWrap>
               {productDetail.categoryName}
             </Typography>
           </Stack>
         </Stack>
-        <Stack direction="row" justifyContent="space-between" width="17rem">
-          <Typography>x{quantity}</Typography>
-          <Typography>{formatCurrency(productDetail.sellingPrice)}</Typography>
+        <Stack direction="row" justifyContent="space-between" width="22rem">
+          <Typography variant="body2">{formatCurrency(productDetail.sellingPrice)}</Typography>
+          <Typography variant="body2">x{quantity}</Typography>
+          <Stack direction="column" gap={0.5}>
+            <Typography variant="body2">{formatCurrency(quantity * productDetail.sellingPrice)}</Typography>
+            {productDetail.discountPrice > 0 && (
+              <Stack direction="row" alignItems="center" gap={0.5}>
+                <SellIcon sx={{ fontSize: 15 }} color="success" />
+                <Typography variant="body2">-{formatCurrency(productDetail.discountPrice)}</Typography>
+              </Stack>
+            )}
+          </Stack>
         </Stack>
       </Stack>
 

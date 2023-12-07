@@ -504,6 +504,13 @@ function useConfigHeadTable() {
       disablePadding: true,
     },
     {
+      id: 'taxCommission',
+      label: translate('table.taxCommission') + " (%)",
+      numeric: false,
+      hideSortIcon: false,
+      disablePadding: true,
+    },
+    {
       id: 'status',
       label: translate('table.status'),
       numeric: false,
