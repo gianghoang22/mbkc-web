@@ -105,13 +105,17 @@ function PartnerTableRow({
           {index + 1}
         </TableCell>
         {selected.includes(OrderSortBy.LOGO) && (
-          <TableCell component="th" scope="row" padding="none" width={300} onClick={handleOpenDetail}>
+          <TableCell component="th" scope="row" padding="none" width={200} onClick={handleOpenDetail}>
             <Avatar alt={partner.name} src={partner.logo} />
           </TableCell>
         )}
-        <TableCell align="left" padding="none" width={350} onClick={handleOpenDetail}>
+        <TableCell align="left" padding="none" width={250} onClick={handleOpenDetail}>
           {partner.name}
         </TableCell>
+        {selected.includes(OrderSortBy.TAX_COMMISSION) && (
+        <TableCell align="left" padding="none" width={250} onClick={handleOpenDetail}>
+          {partner.taxCommission}
+        </TableCell>   )}
         <TableCell align="left" onClick={handleOpenDetail}>
           <Label
             color={

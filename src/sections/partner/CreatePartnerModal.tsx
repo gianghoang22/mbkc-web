@@ -3,7 +3,16 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, Dialog, DialogActions, DialogContent, IconButton, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
+  InputAdornment,
+  Stack,
+  Typography,
+} from '@mui/material';
 // redux
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { updatePartner } from 'redux/partner/partnerSlice';
@@ -36,6 +45,7 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen, filterName,
     defaultValues: {
       name: isEditing && partner ? partner?.name : '',
       logo: isEditing && partner ? partner?.logo : '',
+      taxCommission: isEditing && partner ? partner?.taxCommission : 0,
       webUrl: isEditing && partner ? (partner?.webUrl === 'null' ? '' : partner?.webUrl) : '',
     },
     resolver: yupResolver(schemaPartner),
@@ -52,6 +62,7 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen, filterName,
         status: partner?.status === Status.ACTIVE ? Status.ACTIVE : Status.INACTIVE,
         logo: typeof values.logo === 'string' ? '' : data.logo,
         webUrl: data.webUrl,
+        taxCommission: data.taxCommission,
       },
       optionParams: {
         searchValue: filterName,
@@ -118,6 +129,16 @@ function CreatePartnerModal({ page, rowsPerPage, isOpen, handleOpen, filterName,
                   />
 
                   <InputField fullWidth name="webUrl" label={translate('page.form.webUrlLower')} />
+
+                  <InputField
+                    fullWidth
+                    type="number"
+                    name="taxCommission"
+                    label={translate('table.taxCommission')}
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                    }}
+                  />
                 </Stack>
               </Stack>
             </DialogContent>

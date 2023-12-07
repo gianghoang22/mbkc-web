@@ -12,13 +12,20 @@ function PartnerTableRowSkeleton({ length, selected }: { length: number; selecte
             </Stack>
           </TableCell>
           {selected.includes(OrderSortBy.LOGO) && (
-            <TableCell component="th" scope="row" padding="none" width={300}>
+            <TableCell component="th" scope="row" padding="none" width={200}>
               <Skeleton variant="circular" width={40} height={40} />
             </TableCell>
           )}
-          <TableCell align="left" padding="none" width={350} sx={{ pr: 2 }}>
+
+          <TableCell align="left" padding="none" width={250} sx={{ pr: 2 }}>
             <Skeleton width={120} />
           </TableCell>
+
+          {selected.includes(OrderSortBy.TAX_COMMISSION) && (
+            <TableCell component="th" scope="row" padding="none" width={250}>
+              <Skeleton width={50} />
+            </TableCell>
+          )}
 
           <TableCell align="left">
             <Skeleton variant="rounded" width={125} height={24} />

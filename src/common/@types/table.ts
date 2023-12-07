@@ -38,6 +38,7 @@ export enum OrderSortBy {
   CREATE_DATE = 'createDate',
   TRANSACTION_TIME = 'transactionTime',
   NUMBER_OF_PRODUCTS_SOLD = 'numberOfProductsSold',
+  TAX_COMMISSION = 'taxCommission',
 }
 
 export interface HeadCell<T> {
@@ -80,6 +81,7 @@ export interface BrandTable {
   status: string;
   brandManagerEmail: string;
 }
+
 export interface StoreTable {
   name: string;
   status: string;
@@ -92,6 +94,7 @@ export interface StoreTable {
 export interface PartnerTable {
   logo: string;
   name: string;
+  taxCommission: string;
   status: string;
 }
 

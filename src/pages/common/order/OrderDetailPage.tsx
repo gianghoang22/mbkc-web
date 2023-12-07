@@ -305,7 +305,16 @@ function OrderDetailPage() {
                               {translate('page.content.discount')}
                             </Typography>
                             <Typography width={150} variant="body2" color="red">
-                              {formatCurrency(order?.totalDiscount as number)}
+                              {formatCurrency(order?.totalStoreDiscount as number)}
+                            </Typography>
+                          </Stack>
+
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                              {translate('page.content.promotionPrice')}
+                            </Typography>
+                            <Typography width={150} variant="body2" color="red">
+                              {formatCurrency(order?.promotionPrice as number)}
                             </Typography>
                           </Stack>
 
@@ -315,15 +324,6 @@ function OrderDetailPage() {
                             </Typography>
                             <Typography width={150} variant="body2">
                               {formatCurrency(order?.deliveryFee as number)}
-                            </Typography>
-                          </Stack>
-
-                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
-                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                              {translate('page.content.orderFee')}
-                            </Typography>
-                            <Typography width={150} variant="body2">
-                              {formatCurrency(order?.commission as number)}
                             </Typography>
                           </Stack>
 
@@ -342,6 +342,15 @@ function OrderDetailPage() {
                             </Typography>
                             <Typography width={150} variant="body2">
                               {order?.storePartnerCommission}
+                            </Typography>
+                          </Stack>
+
+                          <Stack direction="row" justifyContent="flex-end" alignItems="center">
+                            <Typography variant="body2" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                              {translate('page.content.partnerTaxCommission')} (%)
+                            </Typography>
+                            <Typography width={150} variant="body2">
+                              {order?.taxPartnerCommission}
                             </Typography>
                           </Stack>
 

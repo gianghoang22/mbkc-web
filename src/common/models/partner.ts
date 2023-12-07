@@ -4,12 +4,14 @@ export interface Partner {
   logo: string;
   webUrl: string;
   status: string;
+  taxCommission: number;
 }
 
 export interface PartnerToCreate {
   name: string;
   webUrl: string;
   logo?: File | string;
+  taxCommission: number;
 }
 
 export interface PartnerToUpdate {
@@ -17,4 +19,5 @@ export interface PartnerToUpdate {
   logo?: File | string;
   webUrl: string;
   status: string;
+  taxCommission: number;
 }
