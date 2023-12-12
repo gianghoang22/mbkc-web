@@ -360,6 +360,7 @@ function TransferMoneyPage() {
           open={isOpenModalEndOfShift}
           onClose={handleOpenModalEndOfShift}
           onAction={handleEndOfShift}
+          isOrder
           color={Color.SUCCESS}
           title={translate('button.confirmTransferMoney')}
           description={translate('dialog.contentTransferMoneyToKC')}

@@ -9,12 +9,14 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
 import { getAllStores, setAddStore } from 'redux/store/storeSlice';
+import { setStatus } from 'redux/auth/authSlice';
 // section
 import { StoreTableRow, StoreTableRowSkeleton } from 'sections/store';
-//
+// interface
 import { ListParams, OptionSelect, OrderSort, OrderSortBy, StoreTable } from 'common/@types';
 import { Role } from 'common/enums';
 import { STATUS_OPTIONS } from 'common/models';
+//
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP, PATH_BRAND_APP } from 'routes/paths';
@@ -137,6 +139,7 @@ function ListStorePage() {
                       navigate(PATH_BRAND_APP.store.newStore);
                       dispatch(setRoutesToBack(pathname));
                       dispatch(setAddStore());
+                      dispatch(setStatus());
                     }}
                     startIcon={<AddRoundedIcon />}
                   >

@@ -2,6 +2,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { styled } from '@mui/material/styles';
+// redux
+import { useAppDispatch } from 'redux/configStore';
+import { setStatus } from 'redux/auth/authSlice';
 //
 import { NavItem as NavItemInterface } from 'common/@types';
 import { Breadcrumb } from 'common/enums';
@@ -25,6 +28,8 @@ function NavItem({ item }: NavItemProps) {
   const { title, path, icon } = item;
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { pathname: location } = useLocation();
 
   const pathItems = path.split('/').filter((x) => x);
@@ -78,6 +83,7 @@ function NavItem({ item }: NavItemProps) {
       })}
       onClick={() => {
         navigate(path);
+        dispatch(setStatus());
         removeLocalStorage(StorageKeys.PAGE);
         removeLocalStorage(StorageKeys.ROW_PER_PAGE);
       }}

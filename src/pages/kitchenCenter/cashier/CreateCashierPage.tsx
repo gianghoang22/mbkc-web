@@ -7,7 +7,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Card, Stack } from '@mui/material';
 // redux
 import { createNewCashier, getCashierDetail, updateCashier } from 'redux/cashier/cashierSlice';
-import { checkEmail } from 'redux/auth/authSlice';
+import { checkEmail, setStatus } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 // interface
 import { EmailForm, Params } from 'common/@types';
@@ -156,7 +156,14 @@ function CreateCashierPage() {
             <CashierForm />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
-            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={() => {
+                navigate(pathnameToBack);
+                dispatch(setStatus());
+              }}
+            >
               {translate('button.back')}
             </Button>
             <Stack direction="row" gap={2}>

@@ -8,6 +8,8 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { getAllBrands, setAddBrand } from 'redux/brand/brandSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { setStatus } from 'redux/auth/authSlice';
 // section
 import { BrandTableRow, BrandTableRowSkeleton } from 'sections/brand';
 //
@@ -15,7 +17,6 @@ import { BrandTable, ListParams, OrderSort, OrderSortBy } from 'common/@types';
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function ListBrandPage() {
   const navigate = useNavigate();
@@ -83,6 +84,7 @@ function ListBrandPage() {
             startIcon={<AddRoundedIcon />}
             onClick={() => {
               navigate(PATH_ADMIN_APP.brand.newBrand);
+              dispatch(setStatus());
               dispatch(setAddBrand());
               dispatch(setRoutesToBack(pathname));
             }}

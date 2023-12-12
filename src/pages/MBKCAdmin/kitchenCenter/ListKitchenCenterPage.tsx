@@ -9,6 +9,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllKitchenCenters, setAddKitchenCenter } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { setStatus } from 'redux/auth/authSlice';
 // section
 import { KitchenCenterTableRow, KitchenCenterTableRowSkeleton } from 'sections/kitchenCenter';
 //
@@ -82,6 +83,7 @@ function ListKitchenCenterPage() {
             startIcon={<AddRoundedIcon />}
             onClick={() => {
               navigate(PATH_ADMIN_APP.kitchenCenter.newKitchenCenter);
+              dispatch(setStatus());
               dispatch(setRoutesToBack(pathname));
               dispatch(setAddKitchenCenter());
             }}

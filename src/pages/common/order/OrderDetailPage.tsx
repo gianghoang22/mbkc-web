@@ -546,7 +546,7 @@ function OrderDetailPage() {
           onAction={handleOrderReadyDelivery}
           isOrder
           model={order?.orderPartnerId}
-          subModel={translate('model.lowercase.readyToDelivery')}
+          subModel={translate('model.lowercase.readyToDelivery') + '?'}
           color={Color.SUCCESS}
           title={translate('dialog.confirmOrderReadyDeliveryTitle', { model: translate('model.lowercase.order') })}
           description={translate('dialog.confirmOrderReadyDeliveryContent')}

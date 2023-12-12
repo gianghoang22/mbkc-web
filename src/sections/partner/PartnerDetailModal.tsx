@@ -113,6 +113,13 @@ function PartnerDetailModal({ partner, isOpen, handleOpen, filterName, sortBy }:
                 </Typography>
 
                 <Typography variant="subtitle1">
+                  {translate('table.taxCommission')}:{' '}
+                  <Typography component="span" variant="body1">
+                    {partner?.taxCommission}%
+                  </Typography>
+                </Typography>
+
+                <Typography variant="subtitle1">
                   {translate('page.form.webUrl')}:{' '}
                   <Typography component="span" variant="body1">
                     {partner?.webUrl}
