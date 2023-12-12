@@ -27,7 +27,7 @@ import {
   setRefreshToken,
   setUserAuth,
 } from 'utils';
-import { getUserInformation, setMessageError, setMessageSuccess } from './authSlice';
+import { getUserInformation, setMessageError, setMessageSuccess, setStatus } from './authSlice';
 
 export const loginThunk = async (params: Params<LoginForm>, thunkAPI: any) => {
   const { data, navigate } = params;
@@ -199,6 +199,7 @@ export const logoutThunk = async (navigate: any, thunkAPI: any) => {
     await navigate(PATH_AUTH.login);
     localStorage.clear();
     setLanguage(currentLanguage ? currentLanguage : '');
+    thunkAPI.dispatch(setStatus());
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error);
   }

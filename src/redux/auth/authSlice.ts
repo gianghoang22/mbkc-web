@@ -80,6 +80,9 @@ const authSlice = createSlice({
       state.message = action.payload;
       toast.error(state.message);
     },
+    setStatus: (state) => {
+      state.status = '';
+    },
     setEmail: (state, action) => {
       state.email = action.payload?.email;
       setEmailVerify(action.payload?.email);
@@ -225,6 +228,7 @@ export const {
   setIsLogout,
   updateLocalAccessToken,
   removeToken,
+  setStatus,
 } = authSlice.actions;
 const authReducer = authSlice.reducer;
 

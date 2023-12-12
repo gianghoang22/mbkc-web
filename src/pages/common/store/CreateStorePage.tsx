@@ -9,6 +9,7 @@ import { Box, Button, Card, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
 import { getAllKitchenCenters } from 'redux/kitchenCenter/kitchenCenterSlice';
 import { createNewStore, getStoreDetail, updateStore } from 'redux/store/storeSlice';
+import { checkEmail, setStatus } from 'redux/auth/authSlice';
 //
 import { EmailForm, ListParams, Params } from 'common/@types';
 import { Color, Status } from 'common/enums';
@@ -17,7 +18,6 @@ import { LoadingScreen, Page } from 'components';
 import { useDebounce, useLocales, useValidationForm } from 'hooks';
 import { PATH_ADMIN_APP } from 'routes/paths';
 import { StoreForm } from 'sections/store';
-import { checkEmail } from 'redux/auth/authSlice';
 
 function CreateStorePage() {
   const { id: storeId } = useParams();
@@ -185,7 +185,14 @@ function CreateStorePage() {
           </Card>
 
           <Stack direction="row" justifyContent="space-between" mt={12}>
-            <Button variant="outlined" color="inherit" onClick={() => navigate(pathnameToBack)}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={() => {
+                navigate(pathnameToBack);
+                dispatch(setStatus());
+              }}
+            >
               {translate('button.back')}
             </Button>
             <Stack direction="row" gap={1.5}>

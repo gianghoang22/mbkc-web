@@ -8,6 +8,8 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // redux
 import { getAllCashiers, setAddCashier } from 'redux/cashier/cashierSlice';
 import { useAppDispatch, useAppSelector } from 'redux/configStore';
+import { setRoutesToBack } from 'redux/routes/routesSlice';
+import { setStatus } from 'redux/auth/authSlice';
 // section
 import { CashierTableRow, CashierTableRowSkeleton } from 'sections/cashier';
 //
@@ -15,7 +17,6 @@ import { CashierTable, ListParams, OrderSort, OrderSortBy } from 'common/@types'
 import { CustomTableHead, CustomTableToolbar, EmptyTable, Page, SearchNotFound } from 'components';
 import { useConfigHeadTable, useDebounce, useLocales, usePagination } from 'hooks';
 import { PATH_KITCHEN_CENTER_APP } from 'routes/paths';
-import { setRoutesToBack } from 'redux/routes/routesSlice';
 
 function ListCashierPage() {
   const navigate = useNavigate();
@@ -83,6 +84,7 @@ function ListCashierPage() {
             startIcon={<AddRoundedIcon />}
             onClick={() => {
               navigate(PATH_KITCHEN_CENTER_APP.cashier.newCashier);
+              dispatch(setStatus());
               dispatch(setAddCashier());
               dispatch(setRoutesToBack(pathname));
             }}

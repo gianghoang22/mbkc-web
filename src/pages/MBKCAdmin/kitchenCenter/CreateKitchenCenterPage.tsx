@@ -12,7 +12,7 @@ import {
   getKitchenCenterDetail,
   updateKitchenCenter,
 } from 'redux/kitchenCenter/kitchenCenterSlice';
-import { checkEmail } from 'redux/auth/authSlice';
+import { checkEmail, setStatus } from 'redux/auth/authSlice';
 // section
 import KitchenCenterForm from 'sections/kitchenCenter/KitchenCenterForm';
 // interface
@@ -184,7 +184,14 @@ function CreateKitchenCenterPage() {
             <KitchenCenterForm />
           </Card>
           <Stack direction="row" justifyContent="space-between" mt={12}>
-            <Button variant="outlined" color="inherit" onClick={() => navigate(PATH_ADMIN_APP.kitchenCenter.list)}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={() => {
+                navigate(pathnameToBack);
+                dispatch(setStatus());
+              }}
+            >
               {translate('button.back')}
             </Button>
             <Stack direction="row" gap={2}>
