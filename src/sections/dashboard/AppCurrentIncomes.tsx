@@ -10,6 +10,7 @@ import { AutoCompleteField } from 'components';
 import { useChart } from 'components/chart';
 import { useLocales } from 'hooks';
 import { fCurrencyVN } from 'utils';
+import moment from 'moment';
 
 interface AppCurrentIncomesProps {
   title: string;
@@ -22,6 +23,8 @@ function AppCurrentIncomes({ title, subheader, chartLabels, chartData }: AppCurr
   const { translate } = useLocales();
 
   const { stores } = useAppSelector((state) => state.store);
+
+  console.log('chartLabels', chartLabels);
 
   const storeOptions = stores
     .filter((store) => store.status !== Status.BE_CONFIRMING && store.status !== Status.REJECTED)
@@ -39,7 +42,24 @@ function AppCurrentIncomes({ title, subheader, chartLabels, chartData }: AppCurr
   const chartOptions = useChart({
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartLabels,
-    xaxis: { type: 'datetime' },
+    stacked: false,
+    xaxis: {
+      type: 'datetime',
+      tickAmount: 6,
+      min: chartLabels[6],
+      max: chartLabels[0],
+      labels: {
+        rotate: -45,
+        rotateAlways: true,
+        formatter: function (val: any, timestamp: any) {
+          return moment(new Date(timestamp)).format('DD MMM YY');
+        },
+      },
+    },
+    legend: {
+      position: 'bottom',
+      show: true,
+    },
     tooltip: {
       shared: true,
       intersect: false,
@@ -83,7 +103,7 @@ function AppCurrentIncomes({ title, subheader, chartLabels, chartData }: AppCurr
       </Stack>
 
       <Box sx={{ mx: 3, mt: 3 }} dir="ltr">
-        <ReactApexChart type="area" series={chartData} options={chartOptions} height={364} />
+        <ReactApexChart type="area" series={chartData} options={chartOptions} height={400} />
       </Box>
     </Card>
   );
