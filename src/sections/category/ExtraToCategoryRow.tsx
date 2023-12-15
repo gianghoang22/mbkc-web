@@ -7,10 +7,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { setCategoryType, setEditCategory } from 'redux/category/categorySlice';
 import { useAppDispatch } from 'redux/configStore';
 import { setRoutesToBack } from 'redux/routes/routesSlice';
-//
+// interface
 import { OrderSortBy } from 'common/@types';
-import { Category, CategoryType } from 'common/models';
 import { Color, Status } from 'common/enums';
+import { Category, CategoryType } from 'common/models';
+//
 import { ConfirmDialog, Label, Popover } from 'components';
 import { useLocales, useModal, usePopover } from 'hooks';
 import { PATH_BRAND_APP } from 'routes/paths';
@@ -45,12 +46,6 @@ function ExtraToCategoryRow({
   const { handleOpen, isOpen } = useModal();
   const { open, handleOpenMenu, handleCloseMenu } = usePopover();
 
-  const handleNavigateDetail = () => {
-    navigate(PATH_BRAND_APP.category.root + `/${category.categoryId}`);
-    dispatch(setCategoryType(categoryType));
-    dispatch(setRoutesToBack(pathname));
-  };
-
   const handleEdit = () => {
     navigate(PATH_BRAND_APP.category.root + `/updation/${category.categoryId}`);
     dispatch(setCategoryType(categoryType));
@@ -67,6 +62,7 @@ function ExtraToCategoryRow({
         selected={isItemSelected}
         aria-checked={isItemSelected}
         sx={showAction ? { cursor: 'pointer', height: '72.89px' } : { cursor: 'pointer' }}
+        onClick={(event) => handleClick(event, category.categoryId)}
       >
         {checkbox ? (
           <TableCell padding="checkbox">
@@ -85,29 +81,25 @@ function ExtraToCategoryRow({
           </TableCell>
         )}
         {selected.includes(OrderSortBy.IMAGE_URL) && (
-          <TableCell scope="row" component="th" padding="none" width={80} onClick={handleNavigateDetail}>
+          <TableCell scope="row" component="th" padding="none" width={80}>
             <Avatar alt={category.name} src={category.imageUrl} />
           </TableCell>
         )}
-        <TableCell component="th" scope="row" onClick={handleNavigateDetail}>
+        <TableCell component="th" scope="row">
           <Typography variant="subtitle2" sx={{ width: 150 }} noWrap>
             {category.name}
           </Typography>
         </TableCell>
-        {selected.includes(OrderSortBy.CODE) && (
-          <TableCell align="left" onClick={handleNavigateDetail}>
-            {category.code}
-          </TableCell>
-        )}
+        {selected.includes(OrderSortBy.CODE) && <TableCell align="left">{category.code}</TableCell>}
         {selected.includes(OrderSortBy.DISPLAY_ORDER) && (
-          <TableCell align="left" onClick={handleNavigateDetail}>
+          <TableCell align="left">
             <Typography variant="body2" pl={2}>
               {category.displayOrder}
             </Typography>
           </TableCell>
         )}
 
-        <TableCell align="left" onClick={handleNavigateDetail}>
+        <TableCell align="left">
           <Label
             color={
               category?.status === Status.ACTIVE
