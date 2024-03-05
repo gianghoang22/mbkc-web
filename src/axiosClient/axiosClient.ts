@@ -2,9 +2,9 @@ import axios, { AxiosResponse } from 'axios';
 
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*';
-
+const url= "http://localhost:5001/api/v1";
 const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: url,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -18,7 +18,7 @@ const axiosServiceAddress = axios.create({
 });
 
 const axiosFormData = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: url,
   headers: {
     'Content-Type': 'multipart/form-data',
   },
