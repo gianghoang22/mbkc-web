@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*';
-const url= "http://localhost:5001/api/v1";
+const url= "http://143.198.83.220:5000/api/v1";
 const axiosClient = axios.create({
   baseURL: url,
   headers: {
